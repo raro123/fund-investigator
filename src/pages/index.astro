@@ -1,0 +1,231 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Fund Investigator - Comprehensive Mutual Fund Analysis" 
+  description="Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions."
+>
+  <!-- Hero Section -->
+  <section class="pt-32 pb-20 px-6 bg-gradient-to-br from-navy via-navy-light to-navy">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+        Comprehensive Mutual Fund Analysis
+      </h1>
+      <p class="text-xl text-gray-200 mb-8 max-w-3xl mx-auto" style="line-height: 1.7;">
+        Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+        <a 
+          href="/app" 
+          class="px-8 py-3 bg-gold hover:bg-gold-light text-navy font-semibold rounded-lg transition-colors"
+        >
+          Analyze a Fund
+        </a>
+      </div>
+      <div class="flex flex-wrap justify-center gap-8 text-sm text-gray-300">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Daily data from AMFI</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>15+ performance metrics</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Transparent methodology</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You'll Find Here -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-12 text-center">Analysis Tools and Reports</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Fund Analysis Tool -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-navy">Fund Analysis Tool</h3>
+          <p class="text-gray-700 leading-relaxed">
+            Analyze any mutual fund with detailed performance and risk metrics — from Sharpe ratios to drawdown analysis.
+          </p>
+          <div class="space-y-3 text-gray-700">
+            <p class="leading-relaxed">
+              The analysis covers risk-adjusted returns through Sharpe, Sortino, and Calmar ratios, along with drawdown patterns to understand downside behavior. Rolling returns across multiple timeframes reveal consistency, while statistical measures like beta, correlation, and R² show how the fund relates to its benchmark. SIP performance projections help visualize systematic investment outcomes.
+            </p>
+          </div>
+          <a 
+            href="/app" 
+            class="inline-flex items-center text-gold hover:text-gold-dark font-medium transition-colors group"
+          >
+            Try the analysis tool
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Analysis Reports -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-navy">Analysis Reports</h3>
+          <p class="text-gray-700 leading-relaxed">
+            In-depth fund analyses covering performance trends, portfolio changes, and risk characteristics.
+          </p>
+          <div class="space-y-3 text-gray-700">
+            <p class="leading-relaxed">
+              Recent reports examine specific funds and categories in detail. Examples include analysis of PPFAS Long Term Value Fund's performance through market cycles, comparisons across small cap fund strategies, and sector concentration trends that affect portfolio risk.
+            </p>
+          </div>
+          <a 
+            href="/reports" 
+            class="inline-flex items-center text-gold hover:text-gold-dark font-medium transition-colors group"
+          >
+            Read recent reports
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why This Matters -->
+  <section class="py-20 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-8">The Information Gap</h2>
+      
+      <div class="space-y-6 text-gray-700 text-lg" style="line-height: 1.7;">
+        <p>
+          Making informed mutual fund decisions requires more than looking at past returns. Understanding risk-adjusted performance, drawdown behavior, and consistency across market cycles provides crucial context.
+        </p>
+        <p>
+          This kind of analysis — standard in institutional investing — is often scattered across multiple sources or locked behind paywalls.
+        </p>
+        <p>
+          Fund Investigator brings together comprehensive metrics in one place, with transparent calculations and accessible presentation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample Analysis -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-8 text-center">What an Analysis Includes</h2>
+      
+      <div class="bg-gray-100 rounded-lg p-8 mb-8">
+        <div class="aspect-[8.5/11] bg-white rounded shadow-lg overflow-hidden">
+          <img 
+            src="/sample-tearsheet.png" 
+            alt="Sample fund analysis tearsheet showing performance metrics and charts" 
+            class="w-full h-full object-cover object-top"
+          />
+        </div>
+      </div>
+      
+      <p class="text-center text-gray-700 text-lg max-w-2xl mx-auto leading-relaxed mb-6">
+        Each analysis provides performance metrics, risk measures, and visual comparisons to help you understand a fund's characteristics and historical behavior.
+      </p>
+      
+      <div class="text-center">
+        <a 
+          href="/app" 
+          class="inline-flex items-center text-gold hover:text-gold-dark font-medium transition-colors group"
+        >
+          See a full analysis
+          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methodology -->
+  <section class="py-20 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-8">Methodology</h2>
+      
+      <div class="space-y-6 text-gray-700 text-lg" style="line-height: 1.7;">
+        <p>
+          Data is sourced from AMFI and updated daily. The analysis uses standard financial metrics — Sharpe ratio, Sortino ratio, maximum drawdown, rolling returns, and others commonly used in portfolio analysis.
+        </p>
+        <p>
+          Definitions and calculation methods are available within the tool. There are no proprietary ratings or black-box scores, just comprehensive data and context to support your evaluation.
+        </p>
+        <p>
+          Questions about the methodology or suggestions for improvement are welcome.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Contact -->
+  <section id="about" class="py-20 px-6 bg-white scroll-mt-20">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-8">About This Project</h2>
+      
+      <div class="space-y-6 text-gray-700 text-lg mb-12" style="line-height: 1.7;">
+        <p>
+          Fund Investigator is maintained by Ishpreet Singh Modi, with a background in data analysis and statistics. The goal is to make thorough fund analysis accessible to individual investors.
+        </p>
+      </div>
+
+      <div id="contact" class="bg-gray-50 rounded-lg p-8 scroll-mt-20">
+        <h3 class="text-2xl font-semibold text-navy mb-6">Contact</h3>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-gold mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <div>
+              <div class="font-medium text-navy mb-1">Email</div>
+              <a href="mailto:contact@fundinvestigator.com" class="text-gold hover:text-gold-dark">
+                contact@fundinvestigator.com
+              </a>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-gold mt-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+            <div>
+              <div class="font-medium text-navy mb-1">LinkedIn</div>
+              <a href="https://linkedin.com/in/ishpreetmodi" target="_blank" rel="noopener noreferrer" class="text-gold hover:text-gold-dark">
+                linkedin.com/in/ishpreetmodi
+              </a>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-gold mt-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+            <div>
+              <div class="font-medium text-navy mb-1">Twitter</div>
+              <a href="https://twitter.com/fundinvestigat" target="_blank" rel="noopener noreferrer" class="text-gold hover:text-gold-dark">
+                @fundinvestigat
+              </a>
+              <div class="text-sm text-gray-600 mt-1">For fund analysis updates</div>
+            </div>
+          </div>
+        </div>
+        
+        <p class="mt-8 text-gray-700 leading-relaxed">
+          Questions about the analysis? Suggestions for improvement? Feel free to reach out.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,24 @@
+---
+import Logo from './Logo.astro';
+---
+
+<header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <a href="/" class="flex items-center">
+        <Logo width={160} />
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="/app" class="text-navy hover:text-gold transition-colors font-medium">Analysis Tool</a>
+        <a href="/reports" class="text-navy hover:text-gold transition-colors font-medium">Reports</a>
+        <a href="#about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
+        <a href="#contact" class="text-navy hover:text-gold transition-colors font-medium">Contact</a>
+      </nav>
+      <button class="md:hidden text-navy">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
