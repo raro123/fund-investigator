@@ -1,0 +1,129 @@
+---
+// Placeholder tearsheet mockup
+const colors = {
+  navy: "#1E3A5F",
+  gold: "#D4AF37",
+  gray: {
+    100: "#F3F4F6",
+    200: "#E5E7EB",
+    300: "#D1D5DB",
+    600: "#4B5563",
+    700: "#374151",
+  },
+  white: "#FFFFFF",
+};
+---
+
+<svg
+  viewBox="0 0 850 1100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class="w-full h-full"
+>
+  <!-- Background -->
+  <rect width="850" height="1100" fill={colors.white}/>
+
+  <!-- Header -->
+  <rect x="40" y="40" width="770" height="80" rx="8" fill={colors.gray[100]}/>
+  <text x="60" y="75" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill={colors.navy}>
+    Sample Fund Name
+  </text>
+  <text x="60" y="100" font-family="Inter, sans-serif" font-size="14" fill={colors.gray[600]}>
+    Equity | Large Cap | Analysis Date: Dec 2024
+  </text>
+
+  <!-- Metrics Grid -->
+  <!-- Row 1 -->
+  <rect x="40" y="150" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="60" y="185" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    SHARPE RATIO (3Y)
+  </text>
+  <text x="60" y="225" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    1.45
+  </text>
+
+  <rect x="305" y="150" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="325" y="185" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    RETURNS (3Y CAGR)
+  </text>
+  <text x="325" y="225" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    18.2%
+  </text>
+
+  <rect x="570" y="150" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="590" y="185" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    MAX DRAWDOWN
+  </text>
+  <text x="590" y="225" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    -12.8%
+  </text>
+
+  <!-- Row 2 -->
+  <rect x="40" y="295" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="60" y="330" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    SORTINO RATIO
+  </text>
+  <text x="60" y="370" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    2.18
+  </text>
+
+  <rect x="305" y="295" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="325" y="330" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    VOLATILITY (3Y)
+  </text>
+  <text x="325" y="370" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    14.3%
+  </text>
+
+  <rect x="570" y="295" width="240" height="120" rx="8" fill={colors.gray[100]}/>
+  <text x="590" y="330" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill={colors.gray[600]}>
+    BETA VS NIFTY 50
+  </text>
+  <text x="590" y="370" font-family="Inter, sans-serif" font-size="36" font-weight="700" fill={colors.navy}>
+    0.92
+  </text>
+
+  <!-- Chart 1: Line Chart (Cumulative Returns) -->
+  <rect x="40" y="450" width="770" height="280" rx="8" fill={colors.gray[100]}/>
+  <text x="60" y="485" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill={colors.navy}>
+    Cumulative Returns vs Benchmark
+  </text>
+
+  <!-- Simplified line chart visualization -->
+  <line x1="80" y1="690" x2="780" y2="690" stroke={colors.gray[300]} stroke-width="1"/>
+  <line x1="80" y1="510" x2="80" y2="690" stroke={colors.gray[300]} stroke-width="1"/>
+
+  <path
+    d="M 80 650 Q 200 600, 300 580 T 500 520 T 780 500"
+    stroke={colors.navy}
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M 80 660 Q 200 630, 300 620 T 500 580 T 780 560"
+    stroke={colors.gold}
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+    opacity="0.7"
+  />
+
+  <!-- Chart 2: Bar Chart (Rolling Returns) -->
+  <rect x="40" y="765" width="770" height="280" rx="8" fill={colors.gray[100]}/>
+  <text x="60" y="800" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill={colors.navy}>
+    Rolling Returns Distribution
+  </text>
+
+  <!-- Simplified bar chart -->
+  <line x1="80" y1="1005" x2="780" y2="1005" stroke={colors.gray[300]} stroke-width="1"/>
+
+  <rect x="120" y="920" width="60" height="85" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="210" y="880" width="60" height="125" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="300" y="850" width="60" height="155" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="390" y="900" width="60" height="105" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="480" y="940" width="60" height="65" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="570" y="960" width="60" height="45" rx="4" fill={colors.navy} opacity="0.8"/>
+  <rect x="660" y="980" width="60" height="25" rx="4" fill={colors.navy} opacity="0.8"/>
+
+</svg>

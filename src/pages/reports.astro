@@ -1,55 +1,167 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const reports = [
+  {
+    title: "PPFAS Long Term Value Fund: Performance Through Market Cycles",
+    excerpt: "A detailed look at how this concentrated portfolio approach has navigated various market conditions, examining drawdown patterns, sector allocation shifts, and risk-adjusted returns over the past 5 years.",
+    date: "December 15, 2024",
+    category: "Fund Analysis",
+    readTime: "8 min read",
+    tags: ["Large Cap", "Value Investing", "Risk Analysis"]
+  },
+  {
+    title: "Small Cap Fund Comparison: Risk vs Returns in 2024",
+    excerpt: "Comparing performance metrics across top small cap funds including Axis Small Cap, Nippon India Small Cap, and Quant Small Cap. Analysis of volatility patterns, Sharpe ratios, and portfolio concentration trends.",
+    date: "December 8, 2024",
+    category: "Category Comparison",
+    readTime: "12 min read",
+    tags: ["Small Cap", "Comparative Analysis", "2024 Review"]
+  },
+  {
+    title: "Understanding Drawdown Patterns in Multi-Cap Funds",
+    excerpt: "How do multi-cap funds behave during market corrections? This analysis examines maximum drawdown, recovery periods, and downside protection strategies across 15 prominent multi-cap funds during recent market volatility.",
+    date: "November 28, 2024",
+    category: "Methodology",
+    readTime: "10 min read",
+    tags: ["Multi Cap", "Risk Metrics", "Drawdown Analysis"]
+  },
+  {
+    title: "Sector Concentration Trends: IT and Banking Fund Allocation",
+    excerpt: "Tracking how leading equity funds have adjusted their IT and banking sector exposure over the past two years. Analysis of sector rotation strategies and their impact on fund performance and correlation with benchmarks.",
+    date: "November 20, 2024",
+    category: "Sector Analysis",
+    readTime: "7 min read",
+    tags: ["Sector Funds", "Portfolio Analysis", "Banking & IT"]
+  },
+  {
+    title: "SIP Performance Deep Dive: ELSS Funds 2019-2024",
+    excerpt: "A comprehensive analysis of systematic investment plan returns across ELSS tax-saving funds. Examining rolling returns, rupee cost averaging benefits, and volatility impact on long-term SIP investors.",
+    date: "November 10, 2024",
+    category: "SIP Analysis",
+    readTime: "9 min read",
+    tags: ["ELSS", "SIP Returns", "Tax Saving"]
+  },
+  {
+    title: "Flexi-Cap Fund Portfolio Shifts: Mid-Year 2024 Review",
+    excerpt: "How have flexi-cap fund managers repositioned their portfolios in response to market dynamics? Analysis of large-mid-small cap allocation changes, new entries, exits, and impact on risk-return profiles.",
+    date: "October 30, 2024",
+    category: "Fund Analysis",
+    readTime: "11 min read",
+    tags: ["Flexi Cap", "Portfolio Changes", "Mid-Year Review"]
+  }
+];
 ---
 
-<Layout 
-  title="Analysis Reports - Fund Investigator" 
+<Layout
+  title="Analysis Reports - Fund Investigator"
   description="In-depth mutual fund analysis reports covering performance trends, portfolio changes, and risk characteristics."
 >
-  <section class="pt-32 pb-20 px-6">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold text-navy mb-6">Analysis Reports</h1>
-      <p class="text-xl text-gray-700 mb-12 leading-relaxed">
-        In-depth fund analyses covering performance trends, portfolio changes, and risk characteristics.
+  <!-- Hero Section -->
+  <section class="pt-40 pb-20 px-6 bg-gradient-to-b from-white via-cream/30 to-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl md:text-6xl font-bold text-navy mb-6 leading-tight">
+        Analysis Reports
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+        In-depth research on mutual fund performance, risk patterns, and portfolio trends.
       </p>
-      
-      <div class="space-y-8">
-        <div class="bg-white border border-gray-200 rounded-lg p-8 hover:border-gold transition-colors">
-          <h2 class="text-2xl font-semibold text-navy mb-3">
-            <a href="#" class="hover:text-gold">Recent Fund Analysis Reports</a>
-          </h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">
-            Coming soon: Detailed analyses of specific mutual funds, examining performance through market cycles, portfolio characteristics, and risk metrics.
-          </p>
-          <div class="text-sm text-gray-500">
-            Reports will be published regularly
-          </div>
-        </div>
-        
-        <div class="bg-white border border-gray-200 rounded-lg p-8 hover:border-gold transition-colors">
-          <h2 class="text-2xl font-semibold text-navy mb-3">
-            <a href="#" class="hover:text-gold">Category Comparisons</a>
-          </h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">
-            Coming soon: Comparative analysis across fund categories, identifying patterns in returns, risk profiles, and portfolio strategies.
-          </p>
-          <div class="text-sm text-gray-500">
-            Updates planned monthly
-          </div>
-        </div>
+    </div>
+  </section>
+
+  <!-- Reports Grid -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Category filters -->
+      <div class="flex flex-wrap gap-3 mb-12 justify-center">
+        <button class="px-4 py-2 bg-navy text-white rounded-full text-sm font-medium">All Reports</button>
+        <button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors">Fund Analysis</button>
+        <button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors">Comparisons</button>
+        <button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors">Methodology</button>
       </div>
-      
-      <div class="mt-12 text-center">
-        <a 
-          href="/app" 
-          class="inline-flex items-center text-gold hover:text-gold-dark font-medium transition-colors group"
-        >
-          Try the analysis tool in the meantime
-          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
+
+      <!-- Reports cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {reports.map((report) => (
+          <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-gold transition-all duration-300 group">
+            <!-- Placeholder image area -->
+            <div class="h-48 bg-gradient-to-br from-navy/10 to-gold/10 flex items-center justify-center">
+              <svg class="w-16 h-16 text-navy/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+
+            <div class="p-6">
+              <!-- Category badge -->
+              <div class="mb-3">
+                <span class="inline-block px-3 py-1 bg-cream text-navy text-xs font-semibold rounded-full">
+                  {report.category}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <h2 class="text-xl font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">
+                <a href="#" class="hover:underline">
+                  {report.title}
+                </a>
+              </h2>
+
+              <!-- Excerpt -->
+              <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
+                {report.excerpt}
+              </p>
+
+              <!-- Meta info -->
+              <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                <time datetime={report.date}>{report.date}</time>
+                <span>{report.readTime}</span>
+              </div>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-2">
+                {report.tags.map((tag) => (
+                  <span class="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Load more / Newsletter -->
+      <div class="mt-16 text-center">
+        <div class="max-w-xl mx-auto bg-cream/50 rounded-2xl p-8 border border-gray-200">
+          <h3 class="text-2xl font-bold text-navy mb-3">Stay Updated</h3>
+          <p class="text-gray-700 mb-6">
+            New analysis reports published monthly. Subscribe to get notified.
+          </p>
+          <div class="flex gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email address"
+              class="flex-1 px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+            />
+            <button class="px-6 py-3 bg-navy hover:bg-navy-light text-white font-semibold rounded-full transition-colors whitespace-nowrap">
+              Subscribe
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-3">
+            No spam. Unsubscribe anytime.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -8,17 +8,139 @@ import Logo from './Logo.astro';
       <a href="/" class="flex items-center">
         <Logo width={160} />
       </a>
+
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-8">
         <a href="/app" class="text-navy hover:text-gold transition-colors font-medium">Analysis Tool</a>
         <a href="/reports" class="text-navy hover:text-gold transition-colors font-medium">Reports</a>
         <a href="#about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
         <a href="#contact" class="text-navy hover:text-gold transition-colors font-medium">Contact</a>
       </nav>
-      <button class="md:hidden text-navy">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-navy focus:outline-none focus:ring-2 focus:ring-gold rounded p-2 transition-colors hover:bg-gray-100"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
   </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 bg-navy/95 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
+  >
+    <nav class="flex flex-col items-center justify-center h-full gap-8 transform translate-y-4 transition-transform duration-300">
+      <a
+        href="/app"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
+      >
+        Analysis Tool
+      </a>
+      <a
+        href="/reports"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
+      >
+        Reports
+      </a>
+      <a
+        href="#about"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
+      >
+        About
+      </a>
+      <a
+        href="#contact"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
+      >
+        Contact
+      </a>
+    </nav>
+  </div>
 </header>
+
+<script>
+  // Mobile menu toggle
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const menuLinks = document.querySelectorAll('.mobile-menu-link');
+
+  let isOpen = false;
+
+  function toggleMenu() {
+    isOpen = !isOpen;
+
+    if (isOpen) {
+      // Open menu
+      mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu?.classList.add('opacity-100');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      menuButton?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+
+      // Stagger animation for links
+      menuLinks.forEach((link, index) => {
+        setTimeout(() => {
+          link.classList.add('animate-fade-in-up');
+        }, index * 50);
+      });
+    } else {
+      // Close menu
+      mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
+      mobileMenu?.classList.remove('opacity-100');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+
+      menuLinks.forEach(link => {
+        link.classList.remove('animate-fade-in-up');
+      });
+    }
+  }
+
+  menuButton?.addEventListener('click', toggleMenu);
+
+  // Close menu when clicking on a link
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (isOpen) toggleMenu();
+    });
+  });
+
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) {
+      toggleMenu();
+    }
+  });
+</script>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+</style>
