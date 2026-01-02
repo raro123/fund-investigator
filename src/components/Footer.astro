@@ -1,41 +1,91 @@
 ---
+import Logo from './Logo.astro';
 ---
 
-<footer class="bg-white border-t border-gray-200 py-12">
+<footer id="contact" class="bg-navy text-white py-12 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-6">
 
-    <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+    <!-- Main Footer Content: Horizontal Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-8">
 
-      <!-- Logo/Brand -->
-      <div class="text-xl font-bold text-navy">Fund Investigator</div>
+      <!-- Column 1: Logo & Tagline -->
+      <div class="flex flex-col gap-4">
+        <a href="/" class="inline-block">
+          <Logo width={160} />
+        </a>
+        <p class="text-gray-400 text-sm leading-relaxed">
+          Comprehensive mutual fund analysis for informed investment decisions.
+        </p>
+      </div>
 
-      <!-- Nav Links -->
-      <nav class="flex flex-wrap justify-center gap-6 text-sm">
-        <a href="/app" class="text-gray-600 hover:text-gold transition-colors">Tool</a>
-        <a href="/reports" class="text-gray-600 hover:text-gold transition-colors">Investigations</a>
-        <a href="#about" class="text-gray-600 hover:text-gold transition-colors">About</a>
-        <a href="#contact" class="text-gray-600 hover:text-gold transition-colors">Contact</a>
-      </nav>
+      <!-- Column 2: Navigation -->
+      <div>
+        <h3 class="text-white font-semibold mb-4 text-sm">Navigate</h3>
+        <nav class="flex flex-col gap-3">
+          <a href="/app" class="text-gray-400 hover:text-gold transition-colors text-sm">Tool</a>
+          <a href="/reports" class="text-gray-400 hover:text-gold transition-colors text-sm">Investigations</a>
+          <a href="#about" class="text-gray-400 hover:text-gold transition-colors text-sm">About</a>
+        </nav>
+      </div>
 
-      <!-- Data Source -->
-      <div class="text-sm text-gray-500">
-        Data: AMFI
+      <!-- Column 3: Legal -->
+      <div>
+        <h3 class="text-white font-semibold mb-4 text-sm">Legal</h3>
+        <div class="flex flex-col gap-3">
+          <a href="/terms" class="text-gray-400 hover:text-gold transition-colors text-sm">Terms of Service</a>
+          <a href="/privacy" class="text-gray-400 hover:text-gold transition-colors text-sm">Privacy Policy</a>
+          <p class="text-gray-500 text-xs mt-2">Data: AMFI</p>
+        </div>
+      </div>
+
+      <!-- Column 4: Connect -->
+      <div>
+        <h3 class="text-white font-semibold mb-4 text-sm">Connect</h3>
+        <div class="flex gap-3">
+          <a
+            href="mailto:contact@fundinvestigator.com"
+            class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            aria-label="Email"
+          >
+            <svg class="w-4 h-4 text-gray-300 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </a>
+          <a
+            href="https://linkedin.com/in/ishpreetmodi"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            aria-label="LinkedIn"
+          >
+            <svg class="w-4 h-4 text-gray-300 group-hover:text-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a
+            href="https://twitter.com/fundinvestigator"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            aria-label="X (Twitter)"
+          >
+            <svg class="w-4 h-4 text-gray-300 group-hover:text-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
     </div>
 
     <!-- Divider -->
-    <div class="h-px bg-gray-200 mb-6"></div>
+    <div class="h-px bg-white/10 mb-6"></div>
 
-    <!-- Bottom row: Copyright and Legal -->
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-      <div class="text-center md:text-left">
-        © 2026 Fund Investigator
-      </div>
-      <div class="flex gap-4">
-        <a href="/terms" class="hover:text-gold transition-colors">Terms of Service</a>
-        <a href="/privacy" class="hover:text-gold transition-colors">Privacy Policy</a>
-      </div>
+    <!-- Copyright -->
+    <div class="text-center">
+      <p class="text-gray-500 text-xs">
+        © 2026 Fund Investigator. Maintained by Ishpreet Singh Modi.
+      </p>
     </div>
 
   </div>

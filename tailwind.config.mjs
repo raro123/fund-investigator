@@ -19,6 +19,9 @@ export default {
           DEFAULT: '#fefce8',
           dark: '#fef9c3',
         },
+        // Neutral colors
+        'light-gray': '#94A3B8',
+        'secondary-gray': '#64748B',
         // New semantic colors
         success: {
           DEFAULT: '#10b981',
