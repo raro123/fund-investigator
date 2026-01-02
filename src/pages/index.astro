@@ -24,163 +24,215 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
         </p>
       </div>
 
-      <!-- CTA with more prominence -->
-      <div class="flex justify-center mb-20">
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20">
         <a
           href="/app"
           class="group px-10 py-4 bg-navy hover:bg-navy-light text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl text-lg"
         >
-          Analyze a Fund
+          Launch Tool
           <svg class="w-5 h-5 inline-block ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+        <a
+          href="/reports"
+          class="group px-10 py-4 text-navy hover:text-gold font-semibold transition-colors text-lg"
+        >
+          Browse Investigations
+          <svg class="w-5 h-5 inline-block ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Solution pillars -->
+      <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="text-center space-y-3">
+          <div class="flex justify-center">
+            <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy">All KPIs in One Place</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Comprehensive metrics without jumping between sources</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="flex justify-center">
+            <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy">Multi-Dimensional & Multi-Period Insights</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Performance across timeframes and angles</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="flex justify-center">
+            <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy">No Sales, No Commissions</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Just information</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Tool Showcase Section -->
+  <section class="py-32 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: Description -->
+        <div class="space-y-6">
+          <h2 class="text-4xl font-bold text-navy">Fund Analysis Tool</h2>
+          <p class="text-lg text-gray-600 leading-relaxed">
+            Search any AMFI-registered fund and access detailed performance metrics. Risk-adjusted returns, drawdown analysis, rolling returns, and benchmark correlation in a single view.
+          </p>
+          <a
+            href="/app"
+            class="inline-flex items-center text-navy hover:text-gold font-semibold transition-colors group text-lg"
+          >
+            Launch Tool
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Right: Screenshot placeholder -->
+        <div class="relative">
+          <div class="aspect-[4/3] bg-gradient-to-br from-navy/10 to-gold/20 rounded-xl shadow-2xl overflow-hidden border border-gray-200 flex items-center justify-center">
+            <div class="text-center space-y-4 p-8">
+              <svg class="w-20 h-20 mx-auto text-navy/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              <p class="text-navy/60 font-medium">Tool Screenshot</p>
+              <p class="text-sm text-gray-500">Placeholder for app interface screenshot</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Investigations Section -->
+  <section class="py-32 px-6 bg-cream/30">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-navy mb-4">Recent Investigations</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          In-depth analysis of fund performance, portfolio shifts, and risk patterns.
+        </p>
+      </div>
+
+      <!-- Top 3 reports -->
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-gold transition-all duration-300 group">
+          <div class="h-40 bg-gradient-to-br from-navy/10 to-gold/10 flex items-center justify-center">
+            <svg class="w-12 h-12 text-navy/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <span class="inline-block px-3 py-1 bg-cream text-navy text-xs font-semibold rounded-full mb-3">Fund Analysis</span>
+            <h3 class="text-lg font-bold text-navy mb-2 leading-snug group-hover:text-gold transition-colors">
+              PPFAS Long Term Value Fund: Performance Through Market Cycles
+            </h3>
+            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+              Analysis of drawdown patterns, sector allocation shifts, and risk-adjusted returns.
+            </p>
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <time>December 15, 2024</time>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-gold transition-all duration-300 group">
+          <div class="h-40 bg-gradient-to-br from-navy/10 to-gold/10 flex items-center justify-center">
+            <svg class="w-12 h-12 text-navy/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <span class="inline-block px-3 py-1 bg-cream text-navy text-xs font-semibold rounded-full mb-3">Category Comparison</span>
+            <h3 class="text-lg font-bold text-navy mb-2 leading-snug group-hover:text-gold transition-colors">
+              Small Cap Fund Comparison: Risk vs Returns in 2024
+            </h3>
+            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+              Comparing volatility patterns, Sharpe ratios, and concentration trends across top funds.
+            </p>
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <time>December 8, 2024</time>
+              <span>12 min read</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-gold transition-all duration-300 group">
+          <div class="h-40 bg-gradient-to-br from-navy/10 to-gold/10 flex items-center justify-center">
+            <svg class="w-12 h-12 text-navy/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <span class="inline-block px-3 py-1 bg-cream text-navy text-xs font-semibold rounded-full mb-3">Methodology</span>
+            <h3 class="text-lg font-bold text-navy mb-2 leading-snug group-hover:text-gold transition-colors">
+              Understanding Drawdown Patterns in Multi-Cap Funds
+            </h3>
+            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+              Examining maximum drawdown and recovery periods across 15 prominent funds.
+            </p>
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <time>November 28, 2024</time>
+              <span>10 min read</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- View all CTA -->
+      <div class="text-center">
+        <a
+          href="/reports"
+          class="inline-flex items-center text-navy hover:text-gold font-semibold transition-colors group text-lg"
+        >
+          View All Investigations
+          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>
         </a>
       </div>
 
-      <!-- Trust indicators - minimal, elegant -->
-      <div class="flex justify-center gap-12 text-sm text-gray-500">
-        <div class="flex items-center gap-2">
-          <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
-          <span>Daily AMFI data</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
-          <span>15+ metrics</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
-          <span>Transparent</span>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section class="py-40 px-6 bg-white">
-    <div class="max-w-7xl mx-auto">
-
-      <div class="grid lg:grid-cols-2 gap-20 items-center">
-
-        <!-- Left: Feature descriptions -->
-        <div class="space-y-16">
-
-          <div class="space-y-4">
-            <h3 class="text-3xl font-bold text-navy">Fund Analysis Tool</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
-              Detailed performance and risk metrics for any mutual fund.
-            </p>
-            <ul class="space-y-3 text-gray-700">
-              <li class="flex items-start gap-3">
-                <span class="text-gold text-lg">→</span>
-                <span>Risk-adjusted returns (Sharpe, Sortino, Calmar)</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-gold text-lg">→</span>
-                <span>Drawdown patterns and downside behavior</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-gold text-lg">→</span>
-                <span>Rolling returns across timeframes</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-gold text-lg">→</span>
-                <span>Benchmark correlation (beta, R²)</span>
-              </li>
-            </ul>
-            <a
-              href="/app"
-              class="inline-flex items-center text-navy hover:text-gold font-medium transition-colors group pt-4"
-            >
-              Try the tool
-              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </a>
-          </div>
-
-          <div class="space-y-4">
-            <h3 class="text-3xl font-bold text-navy">Analysis Reports</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
-              In-depth fund analyses covering performance trends and portfolio changes.
-            </p>
-            <a
-              href="/reports"
-              class="inline-flex items-center text-navy hover:text-gold font-medium transition-colors group pt-4"
-            >
-              Read reports
-              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Right: Visual sample -->
-        <div class="relative">
-          <div class="aspect-[8.5/11] bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-            <TearsheetMockup />
-          </div>
-          <!-- Floating accent -->
-          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-gold/10 rounded-full blur-3xl"></div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Why & How Section -->
-  <section class="py-40 px-6 bg-cream/30">
-    <div class="max-w-3xl mx-auto">
-
-      <!-- Visual separator -->
-      <div class="flex justify-center mb-16">
-        <div class="h-1 w-16 bg-gold rounded-full"></div>
-      </div>
-
-      <h2 class="text-4xl font-bold text-navy mb-12 text-center">
-        The Information Gap
-      </h2>
-
-      <div class="space-y-8 text-lg text-gray-700 mb-20">
-        <p class="leading-relaxed">
-          Making informed mutual fund decisions requires more than past returns. Understanding risk-adjusted performance, drawdown behavior, and consistency across market cycles provides crucial context.
-        </p>
-        <p class="leading-relaxed">
-          This analysis—standard in institutional investing—is often scattered across sources or locked behind paywalls.
-        </p>
-        <p class="leading-relaxed font-medium text-navy">
-          Fund Investigator brings comprehensive metrics together with transparent calculations and accessible presentation.
-        </p>
-      </div>
-
-      <!-- Methodology -->
-      <div class="border-t border-gray-300 pt-16">
-        <h3 class="text-2xl font-bold text-navy mb-8 text-center">Methodology</h3>
-        <div class="space-y-6 text-gray-700">
-          <p class="leading-relaxed">
-            Data is sourced from AMFI and updated daily. Analysis uses standard financial metrics—Sharpe ratio, Sortino ratio, maximum drawdown, rolling returns—commonly used in portfolio analysis.
-          </p>
-          <p class="leading-relaxed">
-            Definitions and calculation methods are available within the tool. No proprietary ratings or black-box scores.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- About & Contact Section -->
+  <!-- About & Vision Section -->
   <section id="about" class="py-32 px-6 bg-white scroll-mt-20">
     <div class="max-w-3xl mx-auto">
 
-      <h2 class="text-4xl font-bold text-navy mb-8 text-center">About</h2>
+      <div class="flex justify-center mb-12">
+        <div class="h-1 w-16 bg-gold rounded-full"></div>
+      </div>
 
-      <p class="text-lg text-gray-700 mb-16 text-center leading-relaxed">
-        Fund Investigator is maintained by Ishpreet Singh Modi, with a background in data analysis and statistics. The goal is to make thorough fund analysis accessible to individual investors.
-      </p>
+      <h2 class="text-4xl font-bold text-navy mb-12 text-center">About This Project</h2>
+
+      <div class="space-y-6 text-lg text-gray-700 leading-relaxed mb-16">
+        <p>
+          Informed fund decisions require more than past returns. Risk-adjusted performance, drawdown patterns, and consistency across market cycles provide essential context. This analysis—standard in institutional investing—is often scattered or paywalled.
+        </p>
+        <p>
+          Fund Investigator consolidates these metrics using data from AMFI, updated daily. Standard financial measures (Sharpe ratio, maximum drawdown, rolling returns) with transparent calculations. No proprietary ratings or black boxes.
+        </p>
+        <p>
+          The project is maintained by Ishpreet Singh Modi, with a background in data analysis and statistics. The goal is to make thorough fund analysis accessible to individual investors.
+        </p>
+      </div>
 
       <!-- Contact -->
       <div id="contact" class="scroll-mt-20">
@@ -216,9 +268,9 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             class="flex items-center gap-3 text-navy hover:text-gold transition-colors group"
           >
             <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
-            <span class="font-medium">Twitter</span>
+            <span class="font-medium">X</span>
           </a>
         </div>
 
