@@ -1,0 +1,91 @@
+---
+/**
+ * Button Component
+ *
+ * A flexible button component with multiple variants, sizes, and optional icons.
+ *
+ * @example
+ * <!-- Primary button with arrow icon -->
+ * <Button href="/app" icon="arrow-right">Launch Tool</Button>
+ *
+ * <!-- Secondary outlined button -->
+ * <Button variant="secondary" size="lg">Learn More</Button>
+ *
+ * <!-- Tertiary text-only link -->
+ * <Button variant="tertiary" href="/reports" icon="arrow-right">View All</Button>
+ */
+
+interface Props {
+  /** Button style variant */
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'outline';
+  /** Button size */
+  size?: 'sm' | 'md' | 'lg';
+  /** If provided, renders as an anchor tag */
+  href?: string;
+  /** Button type attribute (only for button elements) */
+  type?: 'button' | 'submit' | 'reset';
+  /** Disabled state */
+  disabled?: boolean;
+  /** Makes button full width */
+  fullWidth?: boolean;
+  /** Icon to display after text */
+  icon?: 'arrow-right' | 'external' | 'download' | 'none';
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'button',
+  disabled = false,
+  fullWidth = false,
+  icon = 'none',
+  class: className = '',
+} = Astro.props;
+
+// Variant styles
+const variantStyles = {
+  primary: 'bg-navy text-white hover:bg-navy-light hover:scale-105 hover:shadow-xl',
+  secondary: 'border-2 border-navy text-navy bg-transparent hover:bg-navy/5',
+  tertiary: 'text-navy hover:text-gold bg-transparent',
+  outline: 'border-2 border-gold text-gold bg-transparent hover:bg-gold hover:text-navy',
+};
+
+// Size styles
+const sizeStyles = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-6 py-3 text-base',
+  lg: 'px-10 py-4 text-lg',
+};
+
+// Base styles (common to all variants)
+const baseStyles = 'font-semibold rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2 group';
+
+// Disabled styles
+const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '';
+
+// Width styles
+const widthStyles = fullWidth ? 'w-full' : '';
+
+// Combined classes
+const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles} ${widthStyles} ${className}`.trim();
+
+// Determine element type
+const Element = href ? 'a' : 'button';
+const elementProps = href ? { href } : { type, disabled };
+
+// Icon SVGs
+const icons = {
+  'arrow-right': `<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`,
+  'external': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
+  'download': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>`,
+  'none': '',
+};
+---
+
+<Element class={classes} {...elementProps}>
+  <slot />
+  {icon !== 'none' && <Fragment set:html={icons[icon]} />}
+</Element>

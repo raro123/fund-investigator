@@ -1,0 +1,81 @@
+---
+/**
+ * Section Component
+ *
+ * A layout component for consistent section spacing and backgrounds.
+ *
+ * @example
+ * <!-- Default white section with large spacing -->
+ * <Section>
+ *   <h2>Section Content</h2>
+ * </Section>
+ *
+ * <!-- Cream background with custom max-width -->
+ * <Section background="cream" maxWidth="lg">
+ *   <p>Narrower content area</p>
+ * </Section>
+ *
+ * <!-- Navy section with small spacing -->
+ * <Section background="navy" spacing="sm">
+ *   <p>Dark section with less padding</p>
+ * </Section>
+ */
+
+interface Props {
+  /** Background color variant */
+  background?: 'white' | 'cream' | 'gradient' | 'navy';
+  /** Vertical padding (spacing) */
+  spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Maximum width of inner container */
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  /** Additional CSS classes for section */
+  class?: string;
+  /** Additional CSS classes for container */
+  containerClass?: string;
+}
+
+const {
+  background = 'white',
+  spacing = 'lg',
+  maxWidth = 'xl',
+  class: className = '',
+  containerClass = '',
+} = Astro.props;
+
+// Background styles
+const backgroundStyles = {
+  white: 'bg-white',
+  cream: 'bg-cream/30',
+  gradient: 'bg-gradient-to-b from-white via-cream/30 to-white',
+  navy: 'bg-navy text-white',
+};
+
+// Spacing styles (vertical padding)
+const spacingStyles = {
+  none: '',
+  sm: 'py-12 md:py-16',
+  md: 'py-16 md:py-24',
+  lg: 'py-20 md:py-32',
+  xl: 'py-32 md:py-40',
+};
+
+// Max width styles
+const maxWidthStyles = {
+  sm: 'max-w-3xl',
+  md: 'max-w-4xl',
+  lg: 'max-w-5xl',
+  xl: 'max-w-6xl',
+  '2xl': 'max-w-7xl',
+  'full': 'max-w-full',
+};
+
+// Combined classes
+const sectionClasses = `${backgroundStyles[background]} ${spacingStyles[spacing]} px-6 ${className}`.trim();
+const containerClasses = `${maxWidthStyles[maxWidth]} mx-auto ${containerClass}`.trim();
+---
+
+<section class={sectionClasses}>
+  <div class={containerClasses}>
+    <slot />
+  </div>
+</section>

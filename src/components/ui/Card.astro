@@ -1,0 +1,72 @@
+---
+/**
+ * Card Component
+ *
+ * A container component for content with multiple visual variants.
+ *
+ * @example
+ * <!-- Default card -->
+ * <Card>
+ *   <h3>Card Title</h3>
+ *   <p>Card content goes here</p>
+ * </Card>
+ *
+ * <!-- Elevated card with custom padding -->
+ * <Card variant="elevated" padding="lg">
+ *   <slot name="image" />
+ *   <slot name="content" />
+ * </Card>
+ *
+ * <!-- Card without hover effect -->
+ * <Card hover={false}>
+ *   <p>Static content</p>
+ * </Card>
+ */
+
+interface Props {
+  /** Card visual variant */
+  variant?: 'default' | 'elevated' | 'bordered' | 'glass';
+  /** Internal padding */
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  /** Enable hover effects */
+  hover?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  padding = 'md',
+  hover = true,
+  class: className = '',
+} = Astro.props;
+
+// Variant styles
+const variantStyles = {
+  default: 'bg-white border border-gray-200',
+  elevated: 'bg-white border border-gray-200 shadow-md',
+  bordered: 'bg-white border-2 border-gray-300',
+  glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
+};
+
+// Padding styles
+const paddingStyles = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+};
+
+// Hover styles
+const hoverStyles = hover ? 'hover:shadow-xl hover:border-gold transition-all duration-300 group' : '';
+
+// Base styles
+const baseStyles = 'rounded-2xl overflow-hidden';
+
+// Combined classes
+const classes = `${baseStyles} ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverStyles} ${className}`.trim();
+---
+
+<article class={classes}>
+  <slot />
+</article>

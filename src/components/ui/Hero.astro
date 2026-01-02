@@ -1,0 +1,74 @@
+---
+/**
+ * Hero Component
+ *
+ * A specialized section component for page headers and hero sections.
+ *
+ * @example
+ * <!-- Default centered hero -->
+ * <Hero>
+ *   <h1 class="text-display-md mb-4">Page Title</h1>
+ *   <p class="text-body-lg">Subtitle or description</p>
+ * </Hero>
+ *
+ * <!-- Small hero with cream background -->
+ * <Hero size="sm" background="cream">
+ *   <h1>Compact Header</h1>
+ * </Hero>
+ *
+ * <!-- Left-aligned hero -->
+ * <Hero centered={false}>
+ *   <h1>Left-Aligned Title</h1>
+ *   <p>Supporting text</p>
+ * </Hero>
+ */
+
+interface Props {
+  /** Hero height variant */
+  size?: 'sm' | 'md' | 'lg';
+  /** Center align content */
+  centered?: boolean;
+  /** Background color variant */
+  background?: 'white' | 'cream' | 'gradient' | 'navy';
+  /** Additional CSS classes for section */
+  class?: string;
+  /** Additional CSS classes for container */
+  containerClass?: string;
+}
+
+const {
+  size = 'lg',
+  centered = true,
+  background = 'gradient',
+  class: className = '',
+  containerClass = '',
+} = Astro.props;
+
+// Size styles (vertical padding)
+const sizeStyles = {
+  sm: 'pt-32 pb-16',
+  md: 'pt-36 pb-24',
+  lg: 'pt-40 pb-32',
+};
+
+// Background styles
+const backgroundStyles = {
+  white: 'bg-white',
+  cream: 'bg-cream/30',
+  gradient: 'bg-gradient-to-b from-white via-cream/30 to-white',
+  navy: 'bg-navy text-white',
+};
+
+// Alignment styles
+const alignStyles = centered ? 'text-center' : '';
+
+// Combined classes
+const sectionClasses = `${backgroundStyles[background]} ${sizeStyles[size]} px-6 ${className}`.trim();
+const containerClasses = `max-w-5xl mx-auto ${alignStyles} ${containerClass}`.trim();
+---
+
+<section class={sectionClasses}>
+  <div class={containerClasses}>
+    <slot />
+  </div>
+</section>

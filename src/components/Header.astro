@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import Button from './ui/Button.astro';
 ---
 
 <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
@@ -13,7 +14,7 @@ import Logo from './Logo.astro';
       <nav class="hidden md:flex items-center gap-8">
         <a href="/reports" class="text-navy hover:text-gold transition-colors font-medium">Investigations</a>
         <a href="#about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
-        <a href="/app" class="px-6 py-2 bg-navy hover:bg-navy-light text-white font-semibold rounded-full transition-all duration-300">Launch Tool</a>
+        <Button href="/app" size="sm">Launch Tool</Button>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -51,12 +52,9 @@ import Logo from './Logo.astro';
       >
         About
       </a>
-      <a
-        href="/app"
-        class="px-8 py-3 bg-gold hover:bg-gold/90 text-navy font-semibold rounded-full transition-colors text-xl mobile-menu-link"
-      >
-        Launch Tool
-      </a>
+      <div class="mobile-menu-link">
+        <Button href="/app" size="md">Launch Tool</Button>
+      </div>
     </nav>
   </div>
 </header>
