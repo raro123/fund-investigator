@@ -113,15 +113,17 @@ Output will be in `dist/` directory
 
 ## Routing Configuration
 
-The `public/_redirects` file routes `/app/*` requests to your Railway application:
+The `public/_redirects` file redirects `/app` requests to your Railway application:
 
 ```
-/app/* https://your-railway-app.railway.app/:splat 200
+/app https://your-railway-app.railway.app/ 302
 ```
 
 This allows:
 - Main site: `fundinvestigator.com` (Cloudflare Pages)
-- Analysis tool: `fundinvestigator.com/app` (Railway app)
+- Analysis tool: Clicking "Launch Tool" redirects to Railway app
+
+Note: Cloudflare Pages `_redirects` supports standard redirects (301/302) only. For URL proxying that keeps `fundinvestigator.com/app` in the address bar, a Cloudflare Worker would be needed.
 
 ## Content Guidelines
 
