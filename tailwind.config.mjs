@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import typography from '@tailwindcss/typography';
+
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
@@ -23,7 +24,7 @@ export default {
         // Neutral colors
         'light-gray': '#94A3B8',
         'secondary-gray': '#64748B',
-        // New semantic colors
+        // Semantic colors with light/dark variants
         success: {
           DEFAULT: '#10b981',
           light: '#34d399',
@@ -46,7 +47,12 @@ export default {
         },
       },
       fontFamily: {
+        // Primary sans-serif
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        // ADD: Monospace for tabular data and code
+        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        // OPTIONAL: Serif for editorial/display headlines (uncomment if desired)
+        // serif: ['Playfair Display', 'Georgia', 'serif'],
       },
       fontSize: {
         // Display sizes
@@ -100,13 +106,26 @@ export default {
         '2xl': '2rem',
         'full': '9999px',
       },
+      // ADD: Ring colors for focus states
+      ringColor: {
+        gold: '#D4AF37',
+        navy: '#1E3A5F',
+        error: '#ef4444',
+        success: '#10b981',
+      },
+      ringWidth: {
+        DEFAULT: '2px',
+        '3': '3px',
+      },
+      ringOffsetWidth: {
+        DEFAULT: '2px',
+      },
       transitionDuration: {
         'fast': '150ms',
         'DEFAULT': '200ms',
         'normal': '300ms',
         'slow': '400ms',
         'slower': '600ms',
-        // Keep existing
         '400': '400ms',
       },
       transitionTimingFunction: {
@@ -115,16 +134,17 @@ export default {
         'emphasized': 'cubic-bezier(0.4, 0, 0.6, 1)',
       },
       animation: {
-        // Existing animations
         'fade-in': 'fadeIn 0.6s ease-out',
         'fade-in-up': 'fadeInUp 0.8s ease-out',
         'scale-in': 'scaleIn 0.5s ease-out',
-        // New animations
         'slide-in-right': 'slideInRight 0.4s ease-out',
         'pulse-subtle': 'pulseSubtle 2s ease-in-out infinite',
+        // ADD: Spin for loaders
+        'spin': 'spin 0.8s linear infinite',
+        // ADD: Shimmer for skeletons
+        'shimmer': 'shimmer 1.5s ease-in-out infinite',
       },
       keyframes: {
-        // Existing keyframes
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -137,7 +157,6 @@ export default {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
-        // New keyframes
         slideInRight: {
           '0%': { opacity: '0', transform: 'translateX(-20px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
@@ -146,8 +165,38 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.8' },
         },
+        // ADD: Spin keyframe
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        // ADD: Shimmer keyframe
+        shimmer: {
+          '0%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+          '100%': { opacity: '1' },
+        },
       },
     },
   },
-  plugins: [typography],
+  plugins: [
+    typography,
+    // ADD: Custom utilities
+    function({ addUtilities }) {
+      addUtilities({
+        // Tabular numbers for aligned data
+        '.tabular-nums': {
+          'font-variant-numeric': 'tabular-nums',
+        },
+        // Slashed zero for clarity
+        '.slashed-zero': {
+          'font-variant-numeric': 'slashed-zero',
+        },
+        // Text balance for headings
+        '.text-balance': {
+          'text-wrap': 'balance',
+        },
+      });
+    },
+  ],
 };
