@@ -5,6 +5,7 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Button from '../components/ui/Button.astro';
+import SubscribeForm from '../components/ui/SubscribeForm.astro';
 
 // AUTOMATION: Fetch and sort reports
 const allReports = await Astro.glob('./reports/*.md');
@@ -22,9 +23,17 @@ const getCategoryColor = (category) => {
 ---
 
 <Layout title="Analysis Reports - Fund Investigator" description="In-depth mutual fund analysis reports.">
-  <Hero size="md">
+  <Hero size="sm">
     <h1 class="text-display-xl font-bold text-navy mb-6 leading-tight">Analysis Reports</h1>
-    <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto font-light leading-relaxed">In-depth research on mutual fund performance, risk patterns, and portfolio trends.</p>
+    <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto font-light leading-relaxed mb-8">In-depth research on mutual fund performance, risk patterns, and portfolio trends.</p>
+
+    <!-- Subtle Subscribe CTA -->
+    <div class="max-w-md mx-auto">
+      <SubscribeForm
+        placeholder="Get new investigations via email"
+        buttonText="Subscribe"
+      />
+    </div>
   </Hero>
 
   <Section background="white" spacing="lg" maxWidth="xl">
