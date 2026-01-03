@@ -117,11 +117,11 @@ const featuredReports = allReports
   <!-- Investigations Section -->
   <Section background="white" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
-        <div class="grid lg:grid-cols-[1fr,1.2fr] gap-12 items-start">
+      <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-16">
+        <div class="grid lg:grid-cols-[1fr,1.2fr] gap-8 lg:gap-12 items-start">
           <!-- Left: Description -->
           <div class="space-y-6 lg:sticky lg:top-32">
-            <h2 class="text-display-md font-bold text-navy">Featured Investigations</h2>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy break-words">Featured Investigations</h2>
             <p class="text-body-md text-secondary-gray leading-relaxed">
               In-depth analysis of fund performance, portfolio shifts, and risk patterns. New investigations published monthly.
             </p>
@@ -135,18 +135,18 @@ const featuredReports = allReports
             {featuredReports.length > 0 ? (
               featuredReports.map((report) => (
                 <a href={report.url} class="block group">
-                  <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                    <div class="flex items-start justify-between gap-4">
+                  <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                    <div class="flex items-start justify-between gap-3 sm:gap-4">
                       <div class="flex-1 min-w-0">
                         <Badge class="mb-2">Featured Investigation</Badge>
-                        <h3 class="text-heading-sm font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
+                        <h3 class="text-base sm:text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors break-words">
                           {report.frontmatter.title}
                         </h3>
-                        <p class="text-body-sm text-secondary-gray leading-relaxed line-clamp-2">
+                        <p class="text-sm sm:text-base text-secondary-gray leading-relaxed line-clamp-2">
                           {report.frontmatter.description}
                         </p>
                       </div>
-                      <svg class="w-5 h-5 text-navy group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4 sm:w-5 sm:h-5 text-navy group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                       </svg>
                     </div>
@@ -154,7 +154,7 @@ const featuredReports = allReports
                 </a>
               ))
             ) : (
-              <div class="bg-white rounded-2xl p-8 text-center border border-gray-100">
+              <div class="bg-white rounded-2xl p-6 sm:p-8 text-center border border-gray-100">
                 <p class="text-body-md text-secondary-gray">No featured investigations yet. Check back soon.</p>
               </div>
             )}
