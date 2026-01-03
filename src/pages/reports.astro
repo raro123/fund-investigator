@@ -20,8 +20,8 @@ const getCategoryColor = (category) => {
 
 <Layout title="Analysis Reports - Fund Investigator" description="In-depth mutual fund analysis reports.">
   <Hero size="md">
-    <h1 class="text-5xl md:text-6xl font-bold text-navy mb-6 leading-tight">Analysis Reports</h1>
-    <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">In-depth research on mutual fund performance, risk patterns, and portfolio trends.</p>
+    <h1 class="text-display-xl font-bold text-navy mb-6 leading-tight">Analysis Reports</h1>
+    <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto font-light leading-relaxed">In-depth research on mutual fund performance, risk patterns, and portfolio trends.</p>
   </Hero>
 
   <Section background="white" spacing="lg" maxWidth="xl">
@@ -42,8 +42,8 @@ const getCategoryColor = (category) => {
               </div>
               <div class="p-6">
                 <div class="mb-3"><Badge>{report.frontmatter.category}</Badge></div>
-                <h2 class="text-xl font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">{report.frontmatter.title}</h2>
-                <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">{report.frontmatter.description}</p>
+                <h2 class="text-heading-md font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">{report.frontmatter.title}</h2>
+                <p class="text-body-sm text-secondary-gray mb-4 leading-relaxed line-clamp-3">{report.frontmatter.description}</p>
                 <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
                   <time>{new Date(report.frontmatter.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
                   <span>{report.frontmatter.readTime}</span>

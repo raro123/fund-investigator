@@ -16,20 +16,20 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
   <Hero size="md">
     <!-- Oversized heading with breathing room -->
     <div class="mb-16">
-      <h1 class="text-6xl md:text-7xl font-bold text-navy mb-8 leading-[1.1] tracking-tight">
+      <h1 class="text-display-xl font-bold text-navy mb-8 leading-[1.1] tracking-tight">
         Mutual Fund Analysis,
         <span class="text-navy/60">Made Clear</span>
       </h1>
 
       <!-- Reduced subtitle - single line, essential info only -->
-      <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
-        Comprehensive metrics and risk analysis for AMFI-registered funds.
+      <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto font-light leading-relaxed">
+        Fund Investigator's <span class="text-gold font-semibold">Deepdive</span> app provides comprehensive metrics and risk analysis for Indian Mutual Funds at one place.
       </p>
     </div>
 
     <!-- CTAs -->
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20">
-      <Button href="/app" size="lg" icon="arrow-right">Launch Tool</Button>
+      <Button href="/app" size="lg" icon="arrow-right">Launch Deepdive</Button>
       <Button href="/reports" variant="secondary" size="lg" icon="arrow-right">Browse Investigations</Button>
     </div>
 
@@ -41,8 +41,8 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h3 class="font-semibold text-navy">All KPIs in One Place</h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Comprehensive metrics without jumping between sources</p>
+        <h3 class="text-heading-sm font-semibold text-navy">All KPIs in One Place</h3>
+        <p class="text-body-sm text-secondary-gray leading-relaxed">Comprehensive metrics without jumping between sources</p>
       </div>
       <div class="text-center space-y-3">
         <div class="flex justify-center">
@@ -50,8 +50,8 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"/>
           </svg>
         </div>
-        <h3 class="font-semibold text-navy">Multi-Dimensional & Multi-Period Insights</h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Performance across timeframes and angles</p>
+        <h3 class="text-heading-sm font-semibold text-navy">Multi-Dimensional & Multi-Period Insights</h3>
+        <p class="text-body-sm text-secondary-gray leading-relaxed">Performance across timeframes and angles</p>
       </div>
       <div class="text-center space-y-3">
         <div class="flex justify-center">
@@ -59,25 +59,28 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
-        <h3 class="font-semibold text-navy">No Sales, No Commissions</h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Just information</p>
+        <h3 class="text-heading-sm font-semibold text-navy">No Sales, No Commissions</h3>
+        <p class="text-body-sm text-secondary-gray leading-relaxed">Analysis only, no recommendations</p>
       </div>
     </div>
   </Hero>
 
-  <!-- Tool Showcase Section -->
+  <!-- Deepdive Showcase Section -->
   <Section background="white" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-6">
       <div class="bg-cream/50 rounded-3xl p-12 lg:p-16">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <!-- Left: Description -->
           <div class="space-y-6">
-            <h2 class="text-4xl font-bold text-navy">Fund Analysis Tool</h2>
-            <p class="text-lg text-gray-600 leading-relaxed">
+            <div>
+              <h2 class="text-display-md font-bold text-navy">Deepdive</h2>
+              <p class="text-body-sm text-secondary-gray mt-2">Comprehensive fund analysis app</p>
+            </div>
+            <p class="text-body-md text-secondary-gray leading-relaxed">
               Search any AMFI-registered fund and access detailed performance metrics. Risk-adjusted returns, drawdown analysis, rolling returns, and benchmark correlation in a single view.
             </p>
             <div>
-              <Button href="/app" variant="secondary" size="md">Launch Tool</Button>
+              <Button href="/app" variant="secondary" size="md">Launch Deepdive</Button>
             </div>
           </div>
 
@@ -86,7 +89,7 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             <div class="aspect-[4/3] bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
               <img
                 src="/app-screenshot.png"
-                alt="Fund Investigator analysis tool showing mutual fund performance metrics and charts"
+                alt="Deepdive app showing mutual fund performance metrics and charts"
                 class="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -104,8 +107,8 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
         <div class="grid lg:grid-cols-[1fr,1.2fr] gap-12 items-start">
           <!-- Left: Description -->
           <div class="space-y-6 lg:sticky lg:top-32">
-            <h2 class="text-4xl font-bold text-navy">Featured Investigations</h2>
-            <p class="text-lg text-gray-600 leading-relaxed">
+            <h2 class="text-display-md font-bold text-navy">Featured Investigations</h2>
+            <p class="text-body-md text-secondary-gray leading-relaxed">
               In-depth analysis of fund performance, portfolio shifts, and risk patterns. New investigations published monthly.
             </p>
             <div>
@@ -121,10 +124,10 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                 <div class="flex items-start justify-between gap-4">
                   <div class="flex-1 min-w-0">
                     <Badge class="mb-2">Featured Investigation</Badge>
-                    <h3 class="text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
+                    <h3 class="text-heading-sm font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
                       PPFAS Long Term Value Fund: Performance Through Market Cycles
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                    <p class="text-body-sm text-secondary-gray leading-relaxed line-clamp-2">
                       Analysis of drawdown patterns, sector allocation shifts, and risk-adjusted returns.
                     </p>
                   </div>
@@ -141,10 +144,10 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                 <div class="flex items-start justify-between gap-4">
                   <div class="flex-1 min-w-0">
                     <Badge class="mb-2">Featured Investigation</Badge>
-                    <h3 class="text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
+                    <h3 class="text-heading-sm font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
                       Small Cap Fund Comparison: Risk vs Returns in 2024
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                    <p class="text-body-sm text-secondary-gray leading-relaxed line-clamp-2">
                       Comparing volatility patterns, Sharpe ratios, and concentration trends across top funds.
                     </p>
                   </div>
@@ -161,10 +164,10 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                 <div class="flex items-start justify-between gap-4">
                   <div class="flex-1 min-w-0">
                     <Badge class="mb-2">Featured Investigation</Badge>
-                    <h3 class="text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
+                    <h3 class="text-heading-sm font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors">
                       Understanding Drawdown Patterns in Multi-Cap Funds
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                    <p class="text-body-sm text-secondary-gray leading-relaxed line-clamp-2">
                       Examining maximum drawdown and recovery periods across 15 prominent funds.
                     </p>
                   </div>
@@ -190,9 +193,9 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
             <div class="flex justify-center mb-6">
               <div class="h-1 w-16 bg-gold rounded-full"></div>
             </div>
-            <h2 class="text-4xl font-bold text-navy mb-6">About This Project</h2>
-            <p class="text-xl text-gray-600 leading-relaxed">
-              Making institutional-grade fund analysis accessible to individual investors
+            <h2 class="text-display-md font-bold text-navy mb-6">About This Project</h2>
+            <p class="text-body-lg text-secondary-gray leading-relaxed">
+              Institutional-grade fund analysis available to all investors
             </p>
           </div>
 
@@ -206,8 +209,8 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                   </svg>
                 </div>
               </div>
-              <h3 class="font-bold text-navy">Transparent Data</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
+              <h3 class="text-heading-sm font-bold text-navy">Transparent Data</h3>
+              <p class="text-body-sm text-secondary-gray leading-relaxed">
                 AMFI data updated daily. Standard financial measures with clear calculations—no black boxes.
               </p>
             </div>
@@ -220,8 +223,8 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                   </svg>
                 </div>
               </div>
-              <h3 class="font-bold text-navy">Beyond Returns</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
+              <h3 class="text-heading-sm font-bold text-navy">Beyond Returns</h3>
+              <p class="text-body-sm text-secondary-gray leading-relaxed">
                 Risk-adjusted performance, drawdown patterns, and consistency across market cycles.
               </p>
             </div>
@@ -234,11 +237,21 @@ import TearsheetMockup from '../components/TearsheetMockup.astro';
                   </svg>
                 </div>
               </div>
-              <h3 class="font-bold text-navy">Independent Analysis</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                No commissions, no fund partnerships. Just data-driven insights for informed decisions.
+              <h3 class="text-heading-sm font-bold text-navy">Independent Analysis</h3>
+              <p class="text-body-sm text-secondary-gray leading-relaxed">
+                No commissions, no fund partnerships. Data-driven insights presented without recommendations.
               </p>
             </div>
+          </div>
+
+          <!-- Subtle link to About page -->
+          <div class="text-center mt-12 pt-8 border-t border-gray-200">
+            <a href="/about" class="text-navy hover:text-gold transition-colors text-body-sm font-medium inline-flex items-center gap-2">
+              Why this project exists
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
           </div>
 
         </div>

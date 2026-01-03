@@ -1,0 +1,68 @@
+```astro
+---
+interface Props {
+  action?: string;
+  class?: string;
+}
+
+const { 
+  action = '/api/login',
+  class: className,
+} = Astro.props;
+---
+
+<form 
+  action={action} 
+  method="POST"
+  class:list={['flex flex-col gap-card-padding', className]}
+>
+  <div class="flex flex-col gap-tight-gap">
+    <label for="login-email" class="text-body-sm font-medium text-navy">
+      Email
+    </label>
+    <input
+      type="email"
+      id="login-email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="you@example.com"
+      class="w-full px-4 py-3 rounded-md border border-light-gray bg-white text-navy placeholder:text-secondary-gray transition-all duration-fast focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/50"
+    />
+  </div>
+  
+  <div class="flex flex-col gap-tight-gap">
+    <div class="flex justify-between items-center">
+      <label for="login-password" class="text-body-sm font-medium text-navy">
+        Password
+      </label>
+      <a href="/forgot-password" class="text-body-sm text-gold hover:text-gold-dark transition-colors">
+        Forgot password?
+      </a>
+    </div>
+    <input
+      type="password"
+      id="login-password"
+      name="password"
+      required
+      autocomplete="current-password"
+      placeholder="••••••••"
+      class="w-full px-4 py-3 rounded-md border border-light-gray bg-white text-navy placeholder:text-secondary-gray transition-all duration-fast focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/50"
+    />
+  </div>
+  
+  <button
+    type="submit"
+    class="w-full px-6 py-3 bg-navy text-white font-semibold rounded-md transition-all duration-fast hover:bg-navy-light hover:shadow-navy focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2 active:scale-[0.98]"
+  >
+    Sign in
+  </button>
+  
+  <p class="text-body-sm text-secondary-gray text-center">
+    Don't have an account? 
+    <a href="/signup" class="text-gold hover:text-gold-dark font-medium transition-colors">
+      Sign up
+    </a>
+  </p>
+</form>
+```

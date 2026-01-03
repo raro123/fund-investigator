@@ -1,0 +1,183 @@
+---
+interface Column {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  align?: 'left' | 'right' | 'center';
+  format?: 'text' | 'number' | 'percent' | 'currency';
+}
+
+interface Props {
+  columns: Column[];
+  data: Record<string, any>[];
+  defaultSort?: string;
+  defaultOrder?: 'asc' | 'desc';
+  class?: string;
+}
+
+const { 
+  columns,
+  data,
+  defaultSort,
+  defaultOrder = 'asc',
+  class: className,
+} = Astro.props;
+
+const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class:list={['overflow-x-auto rounded-lg border border-light-gray/30', className]}>
+  <table id={tableId} class="w-full text-left text-body-md" data-default-sort={defaultSort} data-default-order={defaultOrder}>
+    <thead class="bg-navy text-white">
+      <tr>
+        {columns.map(col => (
+          <th 
+            class:list={[
+              'px-4 py-3 font-semibold text-body-sm uppercase tracking-wide',
+              col.align === 'right' && 'text-right',
+              col.align === 'center' && 'text-center',
+              col.sortable && 'cursor-pointer hover:bg-navy-light transition-colors select-none',
+            ]}
+            data-sort-key={col.sortable ? col.key : undefined}
+            data-sort-type={col.format === 'number' || col.format === 'percent' || col.format === 'currency' ? 'number' : 'string'}
+          >
+            <span class="inline-flex items-center gap-1">
+              {col.label}
+              {col.sortable && (
+                <svg class="w-4 h-4 opacity-50 sort-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+                </svg>
+              )}
+            </span>
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-light-gray/20">
+      {data.map(row => (
+        <tr class="hover:bg-cream transition-colors duration-fast">
+          {columns.map(col => {
+            const value = row[col.key];
+            const displayValue = formatValue(value, col.format);
+            const colorClass = getColorClass(value, col.format);
+            return (
+              <td 
+                class:list={[
+                  'px-4 py-3',
+                  col.align === 'right' && 'text-right tabular-nums',
+                  col.align === 'center' && 'text-center',
+                  colorClass,
+                ]}
+                data-value={value}
+              >
+                {displayValue}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<script define:vars={{ tableId }}>
+  const table = document.getElementById(tableId);
+  if (table) {
+    const headers = table.querySelectorAll('th[data-sort-key]');
+    const tbody = table.querySelector('tbody');
+    let currentSort = table.dataset.defaultSort;
+    let currentOrder = table.dataset.defaultOrder || 'asc';
+    
+    // Apply default sort on load
+    if (currentSort) {
+      sortTable(currentSort, currentOrder);
+      updateSortIndicators();
+    }
+    
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const key = header.dataset.sortKey;
+        
+        if (currentSort === key) {
+          currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+          currentSort = key;
+          currentOrder = 'asc';
+        }
+        
+        sortTable(key, currentOrder);
+        updateSortIndicators();
+      });
+    });
+    
+    function sortTable(key, order) {
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const header = table.querySelector(`th[data-sort-key="${key}"]`);
+      const isNumeric = header?.dataset.sortType === 'number';
+      const colIndex = Array.from(header.parentNode.children).indexOf(header);
+      
+      rows.sort((a, b) => {
+        const aCell = a.children[colIndex];
+        const bCell = b.children[colIndex];
+        let aVal = aCell.dataset.value || aCell.textContent.trim();
+        let bVal = bCell.dataset.value || bCell.textContent.trim();
+        
+        if (isNumeric) {
+          aVal = parseFloat(aVal.replace(/[^0-9.-]/g, '')) || 0;
+          bVal = parseFloat(bVal.replace(/[^0-9.-]/g, '')) || 0;
+          return order === 'asc' ? aVal - bVal : bVal - aVal;
+        } else {
+          return order === 'asc' 
+            ? aVal.localeCompare(bVal) 
+            : bVal.localeCompare(aVal);
+        }
+      });
+      
+      rows.forEach(row => tbody.appendChild(row));
+    }
+    
+    function updateSortIndicators() {
+      headers.forEach(h => {
+        const icon = h.querySelector('.sort-icon');
+        if (h.dataset.sortKey === currentSort) {
+          icon.style.opacity = '1';
+          icon.innerHTML = currentOrder === 'asc'
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>'
+            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>';
+        } else {
+          icon.style.opacity = '0.5';
+          icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>';
+        }
+      });
+    }
+  }
+</script>
+
+<!-- Helper functions in frontmatter -->
+{(() => {
+  // These run at build time
+  globalThis.formatValue = (value, format) => {
+    if (value === null || value === undefined) return '-';
+    switch (format) {
+      case 'percent':
+        const num = parseFloat(value);
+        return (num >= 0 ? '+' : '') + num.toFixed(1) + '%';
+      case 'currency':
+        return '₹' + Number(value).toLocaleString('en-IN');
+      case 'number':
+        return Number(value).toLocaleString('en-IN');
+      default:
+        return value;
+    }
+  };
+  
+  globalThis.getColorClass = (value, format) => {
+    if (format !== 'percent') return '';
+    const num = parseFloat(value);
+    if (num > 0) return 'text-success font-medium';
+    if (num < 0) return 'text-error font-medium';
+    return 'text-secondary-gray';
+  };
+  
+  return null;
+})()}
