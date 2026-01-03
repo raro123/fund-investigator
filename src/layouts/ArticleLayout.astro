@@ -1,0 +1,72 @@
+---
+import Layout from './Layout.astro';
+import Badge from '../components/ui/Badge.astro';
+
+const { frontmatter } = Astro.props;
+const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <div class="fixed top-0 left-0 right-0 h-1 bg-cream z-50">
+    <div class="h-full bg-gold scroll-progress origin-left scale-x-0"></div>
+  </div>
+
+  <header class="bg-navy pt-32 pb-20 px-6 text-center">
+    <div class="max-w-3xl mx-auto space-y-6">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-400">
+        <time datetime={frontmatter.date}>{formattedDate}</time>
+        <span>•</span>
+        <span>{frontmatter.readTime}</span>
+        {frontmatter.category && (
+          <><span>•</span><span class="text-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
+        )}
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">{frontmatter.title}</h1>
+      <p class="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">{frontmatter.description}</p>
+      {frontmatter.tags && (
+        <div class="flex flex-wrap justify-center gap-2 pt-4">
+          {frontmatter.tags.map((tag) => (
+            <Badge variant="secondary" class="bg-white/10 text-white hover:bg-white/20 border-none">{tag}</Badge>
+          ))}
+        </div>
+      )}
+    </div>
+  </header>
+
+  <article class="relative bg-white px-6 py-16 md:py-24">
+    <div class="max-w-[65ch] mx-auto">
+      <div class="prose prose-lg prose-slate prose-headings:text-navy prose-headings:font-bold prose-p:text-gray-600 prose-p:leading-loose prose-a:text-navy prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-gold/30 hover:prose-a:border-gold hover:prose-a:text-gold prose-a:transition-colors prose-blockquote:border-l-gold prose-blockquote:bg-cream/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-lg prose-li:marker:text-gold">
+        <slot />
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-gray-100">
+        <div class="bg-cream rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-navy mb-2">Investigate this yourself</h3>
+            <p class="text-gray-600">Use our free tool to analyze the funds mentioned in this report.</p>
+          </div>
+          <a href="/app" class="bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-navy-light transition-colors">Launch Tool</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  body { animation: scroll-progress linear; animation-timeline: scroll(); }
+  @keyframes scroll-progress { from { --scroll: 0%; } to { --scroll: 100%; } }
+  .scroll-progress { width: 100%; transform: scaleX(var(--scroll)); }
+</style>
+
+<script>
+  // Safari fallback for scroll animation
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const bar = document.querySelector('.scroll-progress');
+    if (bar) bar.style.transform = `scaleX(${scrolled / 100})`;
+  });
+</script>
