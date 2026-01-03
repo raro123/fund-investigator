@@ -3,7 +3,7 @@ import Logo from './Logo.astro';
 import Button from './ui/Button.astro';
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50 transition-colors duration-300">
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-[10000] transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
       <a href="/" class="flex items-center" id="logo-link">
@@ -37,23 +37,24 @@ import Button from './ui/Button.astro';
   <!-- Mobile Menu Overlay -->
   <div
     id="mobile-menu"
-    class="fixed top-[73px] left-0 right-0 bottom-0 bg-navy backdrop-blur-sm z-[9999] md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
+    class="fixed top-[73px] left-0 right-0 bottom-0 bg-navy z-[9999] md:hidden transition-all duration-300 opacity-0 pointer-events-none"
+    style="will-change: opacity;"
   >
-    <nav class="flex flex-col items-center justify-center h-full gap-8 transform translate-y-4 transition-transform duration-300">
+    <nav class="flex flex-col items-center justify-center h-full gap-6 px-6">
       <a
         href="/reports"
-        class="text-white hover:text-gold transition-colors font-medium text-xl mobile-menu-link"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
       >
         Investigations
       </a>
       <a
         href="/about"
-        class="text-white hover:text-gold transition-colors font-medium text-xl mobile-menu-link"
+        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
       >
         About
       </a>
-      <div class="mobile-menu-link">
-        <Button href="/app" size="md">Launch Deepdive</Button>
+      <div class="mobile-menu-link mt-4">
+        <Button href="/app" size="lg">Launch Deepdive</Button>
       </div>
     </nav>
   </div>
@@ -75,7 +76,7 @@ import Button from './ui/Button.astro';
     isOpen = !isOpen;
 
     if (isOpen) {
-      // Open menu - change header to navy
+      // Open menu - change header to navy and show overlay
       mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.add('opacity-100');
       menuIcon?.classList.add('hidden');
@@ -84,18 +85,11 @@ import Button from './ui/Button.astro';
       menuButton?.classList.remove('text-navy', 'hover:bg-gray-100');
       menuButton?.classList.add('text-white', 'hover:bg-white/10');
       header?.classList.remove('bg-white/95', 'border-gray-200');
-      header?.classList.add('bg-navy/95', 'border-navy');
+      header?.classList.add('bg-navy', 'border-navy');
       logoLink?.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = 'hidden';
-
-      // Stagger animation for links
-      menuLinks.forEach((link, index) => {
-        setTimeout(() => {
-          link.classList.add('animate-fade-in-up');
-        }, index * 50);
-      });
     } else {
-      // Close menu - restore white header
+      // Close menu - restore white header and hide overlay
       mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.remove('opacity-100');
       menuIcon?.classList.remove('hidden');
@@ -104,13 +98,9 @@ import Button from './ui/Button.astro';
       menuButton?.classList.add('text-navy', 'hover:bg-gray-100');
       menuButton?.classList.remove('text-white', 'hover:bg-white/10');
       header?.classList.add('bg-white/95', 'border-gray-200');
-      header?.classList.remove('bg-navy/95', 'border-navy');
+      header?.classList.remove('bg-navy', 'border-navy');
       logoLink?.classList.remove('opacity-0', 'pointer-events-none');
       document.body.style.overflow = '';
-
-      menuLinks.forEach(link => {
-        link.classList.remove('animate-fade-in-up');
-      });
     }
   }
 
@@ -130,20 +120,3 @@ import Button from './ui/Button.astro';
     }
   });
 </script>
-
-<style>
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fadeInUp 0.4s ease-out forwards;
-  }
-</style>
