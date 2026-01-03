@@ -37,9 +37,20 @@ const getCategoryColor = (category) => {
         <div class="report-item" data-category={report.frontmatter.category}>
           <a href={report.url} class="block h-full">
             <Card padding="none" class="group h-full hover:shadow-lg transition-all duration-300">
-              <div class={`h-48 flex items-center justify-center transition-colors ${getCategoryColor(report.frontmatter.category)}`}>
-                <svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-              </div>
+              {report.frontmatter.coverImage ? (
+                <div class="h-48 overflow-hidden bg-gray-100">
+                  <img
+                    src={report.frontmatter.coverImage}
+                    alt={report.frontmatter.coverImageAlt || report.frontmatter.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <div class={`h-48 flex items-center justify-center transition-colors ${getCategoryColor(report.frontmatter.category)}`}>
+                  <svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+              )}
               <div class="p-6">
                 <div class="mb-3"><Badge>{report.frontmatter.category}</Badge></div>
                 <h2 class="text-heading-md font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">{report.frontmatter.title}</h2>

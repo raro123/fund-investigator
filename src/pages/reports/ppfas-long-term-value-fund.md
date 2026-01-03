@@ -6,6 +6,9 @@ date: "2024-12-15"
 readTime: "8 min read"
 category: "Fund Analysis"
 tags: ["Large Cap", "Value Investing", "Risk Analysis"]
+featured: true
+# coverImage: "/images/reports/ppfas-analysis.png"
+# coverImageAlt: "PPFAS Long Term Value Fund performance metrics and drawdown analysis"
 ---
 
 ## The Core Philosophy
