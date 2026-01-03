@@ -24,7 +24,7 @@ const featuredReports = allReports
   <Hero size="md">
     <!-- Oversized heading with breathing room -->
     <div class="mb-16">
-      <h1 class="text-display-xl font-bold text-navy mb-8 leading-[1.1] tracking-tight">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl font-bold text-navy mb-8 leading-[1.1] tracking-tight break-words">
         Mutual Fund Analysis,
         <span class="text-navy/60">Made Clear</span>
       </h1>
@@ -36,9 +36,15 @@ const featuredReports = allReports
     </div>
 
     <!-- CTAs -->
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20">
-      <Button href="/app" size="lg" icon="arrow-right">Launch Deepdive</Button>
-      <Button href="/reports" variant="secondary" size="lg" icon="arrow-right">Browse Investigations</Button>
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20 px-4">
+      <Button href="/app" size="lg" icon="arrow-right" class="w-full sm:w-auto">
+        <span class="hidden sm:inline">Launch Deepdive</span>
+        <span class="sm:hidden">Launch App</span>
+      </Button>
+      <Button href="/reports" variant="secondary" size="lg" icon="arrow-right" class="w-full sm:w-auto">
+        <span class="hidden sm:inline">Browse Investigations</span>
+        <span class="sm:hidden">View Reports</span>
+      </Button>
     </div>
 
     <!-- Solution pillars -->
@@ -58,7 +64,7 @@ const featuredReports = allReports
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"/>
           </svg>
         </div>
-        <h3 class="text-heading-sm font-semibold text-navy">Multi-Dimensional & Multi-Period Insights</h3>
+        <h3 class="text-heading-sm font-semibold text-navy break-words">Multi-Dimensional & Multi-Period Insights</h3>
         <p class="text-body-sm text-secondary-gray leading-relaxed">Performance across timeframes and angles</p>
       </div>
       <div class="text-center space-y-3">
@@ -75,8 +81,8 @@ const featuredReports = allReports
 
   <!-- Deepdive Showcase Section -->
   <Section background="white" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="bg-cream/50 rounded-3xl p-12 lg:p-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="bg-cream/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <!-- Left: Description -->
           <div class="space-y-6">
@@ -110,8 +116,8 @@ const featuredReports = allReports
 
   <!-- Investigations Section -->
   <Section background="white" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-12 lg:p-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
         <div class="grid lg:grid-cols-[1fr,1.2fr] gap-12 items-start">
           <!-- Left: Description -->
           <div class="space-y-6 lg:sticky lg:top-32">
@@ -160,8 +166,8 @@ const featuredReports = allReports
 
   <!-- About & Vision Section -->
   <Section id="about" background="white" spacing="md" maxWidth="full" class="scroll-mt-20">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="bg-gradient-to-br from-navy/5 to-gold/5 rounded-3xl p-12 lg:p-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="bg-gradient-to-br from-navy/5 to-gold/5 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
         <div class="max-w-4xl mx-auto">
           <!-- Section Header -->
           <div class="text-center mb-12">
