@@ -8,7 +8,10 @@ import Button from '../components/ui/Button.astro';
 
 // AUTOMATION: Fetch and sort reports
 const allReports = await Astro.glob('./reports/*.md');
-const sortedReports = allReports.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+// Filter out template files (starting with underscore)
+const sortedReports = allReports
+  .filter(report => !report.file.split('/').pop().startsWith('_'))
+  .sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
 
 const getCategoryColor = (category) => {
   if (category === 'Fund Analysis') return 'bg-navy/10 text-navy';
