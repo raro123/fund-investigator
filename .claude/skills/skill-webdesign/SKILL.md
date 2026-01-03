@@ -1,6 +1,6 @@
 ---
 name: skill-webdesign
-description: Expert web designer for responsive, mobile-first websites. Specializes in landing pages using Astro, Tailwind CSS, and Cloudflare Pages. Enforces design consistency through style guides, semantic HTML, and accessibility. Prioritizes automation for content management, CI/CD, and minimal manual maintenance. Trigger when working on website projects, landing pages, web components, or design system implementation.
+description: Expert web designer for responsive, mobile-first websites. Specializes in landing pages using Astro, Tailwind CSS, and Cloudflare Pages. Enforces design consistency through style guides, semantic HTML, and accessibility. Prioritizes data-driven content patterns to minimize hardcoding. Trigger when working on website projects, landing pages, web components, or design system implementation.
 ---
 
 # Web Designer Skill
@@ -113,33 +113,6 @@ export default defineConfig({
 });
 ```
 
-### Cloudflare Pages Deployment
-
-**GitHub Actions CI/CD:**
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=project-name
-```
-
 ## Landing Page Structure
 
 ### Essential Sections
@@ -172,7 +145,6 @@ jobs:
 3. **Styling**: Use existing design tokens; propose additions to styleguide if needed
 4. **Content**: Use content collections for repeated content types
 5. **Testing**: Verify mobile layout, accessibility, performance
-6. **Deployment**: Ensure CI/CD handles build and deploy
 
 ## References
 
