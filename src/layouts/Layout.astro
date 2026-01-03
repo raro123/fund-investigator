@@ -55,17 +55,13 @@ const { title, description } = Astro.props;
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
-    position: relative;
-  }
-
-  main {
-    overflow-x: hidden;
-    width: 100%;
+    min-height: 100vh;
   }
 
   /* Prevent horizontal overflow from long words */
