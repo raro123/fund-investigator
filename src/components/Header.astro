@@ -33,32 +33,33 @@ import Button from './ui/Button.astro';
       </button>
     </div>
   </div>
-
-  <!-- Mobile Menu Overlay -->
-  <div
-    id="mobile-menu"
-    class="fixed top-[73px] left-0 right-0 bottom-0 bg-navy z-[9999] md:hidden transition-all duration-300 opacity-0 pointer-events-none"
-    style="will-change: opacity;"
-  >
-    <nav class="flex flex-col items-center justify-center h-full gap-6 px-6">
-      <a
-        href="/reports"
-        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
-      >
-        Investigations
-      </a>
-      <a
-        href="/about"
-        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
-      >
-        About
-      </a>
-      <div class="mobile-menu-link mt-4">
-        <Button href="/app" size="lg">Launch Deepdive</Button>
-      </div>
-    </nav>
-  </div>
 </header>
+
+<!-- Mobile Menu Overlay - Outside header to ensure proper stacking -->
+<div
+  id="mobile-menu"
+  class="fixed top-[73px] left-0 right-0 z-[9999] md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
+  aria-hidden="true"
+>
+  <!-- Menu content with background -->
+  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-white shadow-lg">
+    <a
+      href="/reports"
+      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+    >
+      Investigations
+    </a>
+    <a
+      href="/about"
+      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+    >
+      About
+    </a>
+    <div class="mobile-menu-link mt-2">
+      <Button href="/app" size="md">Launch Deepdive</Button>
+    </div>
+  </nav>
+</div>
 
 <script>
   // Mobile menu toggle
@@ -67,8 +68,6 @@ import Button from './ui/Button.astro';
   const menuIcon = document.getElementById('menu-icon');
   const closeIcon = document.getElementById('close-icon');
   const menuLinks = document.querySelectorAll('.mobile-menu-link');
-  const header = document.getElementById('main-header');
-  const logoLink = document.getElementById('logo-link');
 
   let isOpen = false;
 
@@ -76,30 +75,22 @@ import Button from './ui/Button.astro';
     isOpen = !isOpen;
 
     if (isOpen) {
-      // Open menu - change header to navy and show overlay
+      // Open menu - show overlay
       mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.add('opacity-100');
+      mobileMenu?.setAttribute('aria-hidden', 'false');
       menuIcon?.classList.add('hidden');
       closeIcon?.classList.remove('hidden');
       menuButton?.setAttribute('aria-expanded', 'true');
-      menuButton?.classList.remove('text-navy', 'hover:bg-gray-100');
-      menuButton?.classList.add('text-white', 'hover:bg-white/10');
-      header?.classList.remove('bg-white/95', 'border-gray-200');
-      header?.classList.add('bg-navy', 'border-navy');
-      logoLink?.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = 'hidden';
     } else {
-      // Close menu - restore white header and hide overlay
+      // Close menu - hide overlay
       mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.remove('opacity-100');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
       menuButton?.setAttribute('aria-expanded', 'false');
-      menuButton?.classList.add('text-navy', 'hover:bg-gray-100');
-      menuButton?.classList.remove('text-white', 'hover:bg-white/10');
-      header?.classList.add('bg-white/95', 'border-gray-200');
-      header?.classList.remove('bg-navy', 'border-navy');
-      logoLink?.classList.remove('opacity-0', 'pointer-events-none');
       document.body.style.overflow = '';
     }
   }
