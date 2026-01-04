@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/ui/Section.astro';
+import Hero from '../components/ui/Hero.astro';
+
+const year = new Date().getFullYear();
+---
+
+<Layout
+  title="Disclaimer - Fund Investigator"
+  description="Important disclaimers and legal information about Fund Investigator's analysis and data."
+>
+  <Hero size="sm">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl font-bold text-navy mb-6 leading-tight">
+      Disclaimer
+    </h1>
+    <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto leading-relaxed">
+      Important information about the use of Fund Investigator
+    </p>
+  </Hero>
+
+  <Section background="white" spacing="lg" maxWidth="md">
+    <div class="prose prose-lg prose-slate mx-auto">
+
+      <h2 class="text-heading-lg text-navy font-bold">Not Financial Advice</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        Fund Investigator provides <strong>information and analysis only</strong>. Nothing on this platform constitutes financial advice, investment recommendations, or an offer to buy or sell securities. All investment decisions should be made in consultation with a qualified financial advisor who understands your specific financial situation, goals, and risk tolerance.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">No Investment Recommendations</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        Fund Investigator does not recommend, endorse, or promote any specific mutual fund, asset management company, or investment strategy. The analysis provided is objective, data-driven, and designed to help investors conduct their own research. We do not receive any commissions or payments from fund houses.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Data Accuracy and Timeliness</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        While we strive for accuracy, Fund Investigator makes <strong>no guarantees</strong> regarding the completeness, accuracy, or timeliness of the data presented. Data is sourced from publicly available sources including AMFI (Association of Mutual Funds in India) and fund house disclosures. Users should verify all information independently before making investment decisions.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Past Performance Disclaimer</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        <strong>Past performance is not indicative of future results.</strong> Historical returns, risk metrics, and portfolio characteristics may not reflect future fund performance. Market conditions, fund management, and investment strategies can change over time.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Limitation of Liability</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        Fund Investigator and its operators accept <strong>no liability</strong> for any losses, damages, or adverse outcomes resulting from the use of this platform or reliance on the information provided. Users assume all risk associated with their investment decisions.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Independent Platform</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        Fund Investigator is an independent platform with no affiliations to mutual fund houses, asset management companies, distributors, or financial advisors. We do not sell financial products or earn commissions from recommendations.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Use at Your Own Risk</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        By using Fund Investigator, you acknowledge that you are using the platform at your own risk. You understand that investment decisions are your sole responsibility and that Fund Investigator provides informational tools only.
+      </p>
+
+      <h2 class="text-heading-lg text-navy font-bold mt-8">Changes to This Disclaimer</h2>
+      <p class="text-body-md text-secondary-gray leading-relaxed">
+        This disclaimer may be updated from time to time. Continued use of Fund Investigator constitutes acceptance of any changes.
+      </p>
+
+      <div class="mt-12 p-6 bg-cream rounded-lg border-l-4 border-gold">
+        <p class="text-body-sm text-secondary-gray font-semibold mb-2">Last Updated: January {year}</p>
+        <p class="text-body-sm text-secondary-gray">
+          For questions about this disclaimer, contact us at <a href="mailto:contact@fundinvestigator.com" class="text-navy hover:text-gold underline">contact@fundinvestigator.com</a>
+        </p>
+      </div>
+
+    </div>
+  </Section>
+</Layout>
