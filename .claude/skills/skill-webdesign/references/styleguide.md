@@ -73,7 +73,7 @@ Import: `import Button from '../components/ui/Button.astro';`
 **Props:** `href`, `icon`, `iconPosition`, `fullWidth`, `disabled`
 
 ```astro
-<Button variant="primary" size="lg" href="/app" icon="rocket">
+<Button variant="primary" size="lg" href="https://deepdive.fundinvestigator.com" icon="rocket">
   Launch Tool
 </Button>
 ```

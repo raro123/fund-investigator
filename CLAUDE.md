@@ -54,14 +54,12 @@ All UI components use TypeScript interfaces and support variants:
 - `Logo.astro` - SVG-based "FIN" magnifying glass logo with brand colors
 - `TearsheetMockup.astro` - Sample fund analysis visualization
 
-**Routing Configuration** (`public/_redirects`)
-Cloudflare Pages routing rules:
-```
-/app/* https://your-railway-app.railway.app/:splat 200
-```
-This enables:
-- Landing site: `fundinvestigator.com` (Cloudflare Pages)
-- Analysis tool: `fundinvestigator.com/app` (proxied to Railway)
+**Deployment Architecture**
+This project uses a subdomain strategy for separation of concerns:
+- Landing site: `fundinvestigator.com` (Cloudflare Pages - Static Astro site)
+- Deepdive app: `deepdive.fundinvestigator.com` (Railway - Streamlit application)
+
+No routing proxy needed - each subdomain points directly to its respective service.
 
 ## Content & Tone Guidelines
 
@@ -135,7 +133,7 @@ import Section from '../components/ui/Section.astro';
 ```
 
 **Button usage:**
-- Primary CTAs: `<Button variant="primary" href="/app">Launch Tool</Button>`
+- Primary CTAs: `<Button variant="primary" href="https://deepdive.fundinvestigator.com">Launch Tool</Button>`
 - Navigation links: `<Button variant="tertiary">About</Button>`
 - Filter buttons: `<Button variant="secondary" size="sm">Category</Button>`
 
