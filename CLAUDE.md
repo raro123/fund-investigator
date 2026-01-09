@@ -63,7 +63,7 @@ No routing proxy needed - each subdomain points directly to its respective servi
 
 ## Content & Tone Guidelines
 
-**Critical:** Read `CONTENT-GUIDE.md` before editing any user-facing content.
+**Critical:** Read `docs/CONTENT-GUIDE.md` before editing any user-facing content.
 
 The site persona is an **investigator colleague** sharing insights and tools—not a teacher, salesperson, or guru.
 

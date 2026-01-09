@@ -44,7 +44,7 @@ coverImageAlt: "Chart showing performance metrics and drawdown analysis"
 <!--
 CONTENT GUIDELINES
 ==================
-See CONTENT-GUIDE.md for full tone and style requirements.
+See docs/CONTENT-GUIDE.md for full tone and style requirements.
 
 Key principles:
 - Informative, not instructional
