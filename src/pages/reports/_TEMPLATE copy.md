@@ -31,10 +31,13 @@ tags: ["Flexi Cap", "Performance Analyis"]
 # Only the 3 most recent featured articles appear on homepage
 featured: true
 
-# Cover image - optional, displays at top of article and in cards
+# Cover image - optional, used as thumbnail on /reports page cards
+# Also used for social sharing previews (og:image when implemented)
 # Place images in /public/images/reports/
 # Recommended size: 1200x630px (2:1 ratio) for optimal display
 # Use descriptive filenames: fund-name-chart-type.png
+# NOTE: This image does NOT auto-display in article body
+# To show images in your article, use markdown: ![Alt text](/path/to/image.png)
 coverImage: "/images/reports/your-article-cover.png"
 
 # Optional: Alt text for cover image (improves accessibility and SEO)
