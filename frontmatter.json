@@ -11,38 +11,106 @@
   ],
   "frontMatter.taxonomy.contentTypes": [
     {
-      "name": "default",
+      "name": "report",
       "pageBundle": false,
-      "previewPath": "'blog'",
-      "filePrefix": null,
-      "clearEmpty": true,
+      "previewPath": "/reports",
       "fields": [
+        {
+          "title": "Layout",
+          "name": "layout",
+          "type": "string",
+          "default": "../../layouts/ArticleLayout.astro",
+          "hidden": true
+        },
         {
           "title": "Title",
           "name": "title",
           "type": "string",
-          "single": true
+          "required": true
         },
         {
           "title": "Description",
           "name": "description",
-          "type": "string"
+          "type": "string",
+          "required": true,
+          "description": "Keep under 160 characters for SEO"
         },
         {
-          "title": "Publishing date",
-          "name": "pubDate",
+          "title": "Publication Date",
+          "name": "date",
           "type": "datetime",
-          "default": "{{now}}",
-          "isPublishDate": true
+          "required": true,
+          "isPublishDate": true,
+          "dateFormat": "yyyy-MM-dd",
+          "default": "{{now}}"
         },
         {
-          "title": "Content preview",
-          "name": "heroImage",
+          "title": "Read Time",
+          "name": "readTime",
+          "type": "string",
+          "default": "8 min read"
+        },
+        {
+          "title": "Category",
+          "name": "category",
+          "type": "choice",
+          "choices": [
+            "Fund Analysis",
+            "Category Comparison",
+            "Methodology"
+          ],
+          "required": true,
+          "default": "Fund Analysis"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags",
+          "taxonomyLimit": 4
+        },
+        {
+          "title": "Featured",
+          "name": "featured",
+          "type": "boolean",
+          "default": false,
+          "description": "Show on homepage (max 3 most recent)"
+        },
+        {
+          "title": "Cover Image",
+          "name": "coverImage",
           "type": "image",
-          "isPreviewImage": true
+          "isPreviewImage": true,
+          "description": "Optional. Place in /public/images/reports/"
+        },
+        {
+          "title": "Cover Image Alt Text",
+          "name": "coverImageAlt",
+          "type": "string",
+          "description": "Accessibility description for cover image"
+        },
+        {
+          "title": "fmContentType",
+          "name": "fmContentType",
+          "type": "string"
         }
       ]
     }
+  ],
+  "frontMatter.taxonomy.tags": [
+    "Large Cap",
+    "Mid Cap",
+    "Small Cap",
+    "Value Investing",
+    "Growth Investing",
+    "Risk Analysis",
+    "Performance Review",
+    "Sector Analysis",
+    "Fund Manager",
+    "Portfolio Construction",
+    "Diversification",
+    "Equity",
+    "Debt",
+    "Hybrid"
   ],
   "frontMatter.git.enabled": true
 }
