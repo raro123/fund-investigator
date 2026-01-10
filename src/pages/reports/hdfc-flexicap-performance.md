@@ -1,15 +1,18 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
-title: "HDFC Flexi Cap Performance Report"
-description: "Risk & Return Anlysis of HDFC Flexi Cap Fund"
+title: HDFC Flexi Cap Performance Report
+description: Risk & Return Anlysis of HDFC Flexi Cap Fund
 date: 2026-01-10
 readTime: 8 min read
 category: Fund Analysis
-tags: []
+tags:
+    - Performance Analyis
+    - Flexi Cap
 featured: true
 coverImage: ""
 coverImageAlt: ""
 fmContentType: report
+preview: /images/reports/hdfc-flexicap-metrics.jpg
 ---
 # HDFC Flexi Cap Fund Performance Review (2021-2025):
 **Analyzing Risk and SIP Returns vs Benchmark NIFTY 500 TRI**
