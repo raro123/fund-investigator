@@ -5,8 +5,8 @@
   "frontMatter.content.publicFolder": "public",
   "frontMatter.content.pageFolders": [
     {
-      "title": "blog",
-      "path": "[[workspace]]/src/content/blog"
+      "title": "reports",
+      "path": "[[workspace]]/src/pages/reports"
     }
   ],
   "frontMatter.taxonomy.contentTypes": [
@@ -43,5 +43,6 @@
         }
       ]
     }
-  ]
+  ],
+  "frontMatter.git.enabled": true
 }
