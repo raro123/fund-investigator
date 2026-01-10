@@ -1,23 +1,22 @@
 ---
-layout: ../../layouts/ArticleLayout.astro
-title: HDFC Flexi Cap Performance Report
-description: Risk & Return Anlysis of HDFC Flexi Cap Fund
-date: 2026-01-10
-readTime: 8 min read
-category: Fund Analysis
+layout: "../../layouts/ArticleLayout.astro"
+title: "HDFC Flexi Cap Performance Report"
+description: "5-year analysis of HDFC Flexi Cap Fund vs NIFTY 500 TRI. Risk-adjusted returns, volatility, drawdown patterns, and SIP performance (2021-2025)."
+date: "2026-01-10"
+readTime: "8 min read"
+category: "Fund Analysis"
 tags:
-    - Performance Analyis
-    - Flexi Cap
+    - "Performance Analysis"
+    - "Flexi Cap"
+    - "Risk Analysis"
+    - "Mutual Funds"
 featured: true
-coverImage: ""
-coverImageAlt: ""
-fmContentType: report
-preview: /images/reports/hdfc-flexicap-metrics.jpg
+coverImage: "/images/reports/hdfc-flexicap-sip.png"
+coverImageAlt: "HDFC Flexicap Performance KPIs"
+fmContentType: "report"
 ---
-# HDFC Flexi Cap Fund Performance Review (2021-2025):
-**Analyzing Risk and SIP Returns vs Benchmark NIFTY 500 TRI**
 
-When evaluating mutual funds, numbers tell a story. Here's what 5 years of data reveals about HDFC Flexi Cap Fund.
+When evaluating mutual funds, numbers tell a story. Here's what 5 years of data reveals about HDFC Flexi Cap Fund, analyzing risk and SIP returns versus the NIFTY 500 TRI benchmark.
 
 ## The Numbers That Matter
 
@@ -35,7 +34,7 @@ The maximum drawdown tells you about worst-case scenarios. When markets correct,
 
 More importantly, recovery was swift. The fund bounced back in just 0.17 years (roughly 2 months), while the benchmark remained in drawdown territory. This matters because time out of the market compounds into real opportunity costs.
 
-![Drawdown Comparison Chart](/images/reports/hdfc-flexicap-sip.png)
+![Drawdown Comparison Chart](/images/reports/hdfc-flexicap-drawdown.png)
 
 | Metric | Fund | Benchmark |
 |--------|------|-----------|
@@ -52,7 +51,7 @@ Consistency reveals whether outperformance is skill or luck.
 
 The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. Annually, the outperformance was steady: 2021 (+5%), 2022 (+7%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
 
-![Annual Returns Chart](/images/reports/hdfc-flexi-annual-returns.png)
+![Annual Returns Chart](/images/reports/hdfc-flexicap-annual-returns.png)
 
 On a monthly basis, the fund generated positive returns 63.3% of the time. This isn't about beating the benchmark every month—it's about maintaining a positive bias while allowing normal volatility.
 
@@ -80,15 +79,3 @@ But data is just one part of the story. Your investment goals, time horizon, ris
 - Analyze rolling returns to understand consistency
 - Download detailed charts and metrics
 - Examine monthly breakdowns and risk patterns
-
-Access the full analysis at [deepdive.fundinvestigator.com](https://deepdive.fundinvestigator.com)
-
----
-
-## Disclaimer
-
-This analysis is based on historical performance data from January 1, 2021 to December 31, 2025, sourced from Fund Investigator's Mutual Fund Deepdive platform. Past performance does not guarantee future results. This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell. 
-
-Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
-
-*Fund Data: HDFC Flexi Cap Fund - Direct | Analysis Period: 2021-2025 | Benchmark: NIFTY 500 (TRI)*
