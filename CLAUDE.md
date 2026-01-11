@@ -1,157 +1,82 @@
-# CLAUDE.md
+# Project Context & Goals
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## 1. Project Overview
+- **What:** FundInvestigator.com - A financial advisory brand platform.
+- **Why:** To showcase "investigations" (reports/tools) that establish credibility and attract high-value clients.
+- **How:** By maintaining a fast, content-driven static site (Astro) that links to specialized interactive apps (Streamlit) on subdomains.
 
-## Essential Commands
+## 2. Architecture & Tech Stack
 
-**Development:**
-```bash
-npm run dev       # Start dev server at http://localhost:4321
-npm run build     # Build for production (output: dist/)
-npm run preview   # Preview production build locally
-```
-
-## Architecture Overview
+### System Design
+- **Hub:** `fundinvestigator.com` (Marketing/Content) hosted on **Cloudflare Pages**.
+- **Spoke:** `deepdive.fundinvestigator.com` (App) hosted on **Railway**.
+- **Strategy:** Subdomains separate the static marketing layer (speed/SEO) from the compute-heavy application layer.
 
 ### Tech Stack
-- **Astro 4.16.18** - Static site generator with component-based architecture
-- **Tailwind CSS 3.4.17** - Utility-first CSS with extensive custom design tokens
-- **Deployment** - Cloudflare Pages (landing) + Railway (app routing via `public/_redirects`)
+- **Core:** Astro v4 (SSG mode). Zero-JS output by default.
+- **Style:** Tailwind CSS v3 (Utility-first) + Typography plugin.
+- **Content:** Standard Markdown (`.md`) + YAML Frontmatter.
+- **Images:**
+    - *Content:* `src/assets` (Auto-optimized by Astro).
+    - *Social/SEO:* `public/images` (Static URLs).
+- **Analytics:** Cloudflare RUM (Beacon script in `Layout.astro`).
 
-### 3-Layer Design System
+### Key File Locations
+- **Design Tokens:** `tailwind.config.mjs` (Source of Truth for colors/spacing).
+- **UI Components:** `src/components/ui/` (Button, Card, Badge, etc.).
+- **Report Content:** `src/pages/reports/` (Markdown files).
+- **Report Images:** `src/assets/images/reports/[slug]/` (Optimized charts).
+- **Cover Images:** `public/images/reports/` (Social card thumbnails).
 
-This project implements a comprehensive design system with strict consistency requirements:
+## 3. Design System (3-Layer)
 
-**Layer 1: Design Tokens** (`tailwind.config.mjs`)
-- Extended Tailwind theme with brand colors (navy/gold/cream) + semantic colors (success/warning/error/info)
-- Typography scale: display-xl to caption with defined line-height and letter-spacing
-- Spacing tokens: section-y, card-padding, element-gap, etc.
-- Shadow system including brand-specific shadows (shadow-gold, shadow-navy)
-- Custom animations and transitions
+### Layer 1: Design Tokens
+- **Source:** `tailwind.config.mjs`
+- **What:** Custom Tailwind theme extending the default palette.
+- **How:** **Never** use arbitrary values (e.g., `bg-[#1E3A5F]`). Always use tokens:
+    - *Colors:* `text-navy`, `bg-gold`, `border-cream`.
+    - *Semantic:* `text-success`, `bg-error`.
+    - *Shadows:* `shadow-gold`, `shadow-navy`.
 
-**Layer 2: UI Components** (`src/components/ui/`)
-All UI components use TypeScript interfaces and support variants:
-- `Button.astro` - 4 variants (primary/secondary/tertiary/outline), 3 sizes, icon support
-- `Card.astro` - 4 variants (default/elevated/bordered/glass), padding control, hover toggle
-- `Badge.astro` - 7 color variants, 3 sizes
-- `Section.astro` - Background variants (white/cream/gradient/navy), spacing levels, maxWidth
-- `Hero.astro` - Size variants (sm/md/lg), centered/left-aligned options
+### Layer 2: UI Components
+- **Source:** `src/components/ui/`
+- **What:** TypeScript-typed Astro components with strict variants.
+- **How:** **Never** build inline UI. Always import components.
+    ```astro
+    <Button variant="primary" icon="arrow-right">Launch Tool</Button>
+    <Card variant="elevated">...</Card>
+    ```
 
-**Layer 3: Documentation** (`src/pages/styleguide.astro`)
-- Living style guide showcasing all components, colors, typography, spacing
-- Accessible at `/styleguide` during development
+### Layer 3: Documentation
+- **Source:** `src/pages/styleguide.astro` (Live at `/styleguide`).
+- **Use:** Refer to this file to see available component props and variants.
 
-### Component Architecture
+## 4. Content & Tone Guidelines
 
-**Pages** (`src/pages/`)
-- Astro's file-based routing: `index.astro` → `/`, `reports.astro` → `/reports`
-- All pages use the `Layout.astro` wrapper
-- Pages should compose UI components from `src/components/ui/` rather than inline markup
+- **Source:** `docs/CONTENT-GUIDE.md`
+- **Core Philosophy:** **Fact-Based Storytelling**. Use data to create the narrative arc, not adjectives.
+- **Persona:** An **Investigator Colleague**. Professional, matter-of-fact, peer-to-peer and fact based storytelling.
+- **Rules:**
+    1.  **Evidence over Adjectives:** **Never** use "huge", "best", or "massive." Replace with specific metrics (e.g., "15% CAGR").
+    2.  **No Hype:** Let the data provide the drama.
+    3.  **Investigation Arc:** Structure reports logically: *Premise -> Evidence -> Analysis -> Verdict*.
+- **Tone Check:** Avoid exclamation mark per page. No urgency tactics ("act now").
 
-**Global Components** (`src/components/`)
-- `Header.astro` - Fixed navigation with mobile menu, uses Button component for CTAs
-- `Footer.astro` - Site footer with links to terms/privacy/methodology/disclaimer
-- `Logo.astro` - SVG-based "FIN" magnifying glass logo with brand colors
-- `TearsheetMockup.astro` - Sample fund analysis visualization
+## 5. Development Workflow
 
-**Deployment Architecture**
-This project uses a subdomain strategy for separation of concerns:
-- Landing site: `fundinvestigator.com` (Cloudflare Pages - Static Astro site)
-- Deepdive app: `deepdive.fundinvestigator.com` (Railway - Streamlit application)
+### Usage Rules
+1.  **Mobile First:** Use Tailwind breakpoints (`md:`, `lg:`) for responsive layouts.
+2.  **Strict Props:** Use Component Props over custom classes.
+3.  **Image Strategy:**
+    - *Charts/Graphs:* Save to `src/assets/...`. Link via relative path `../../assets/...`.
+    - *Social Covers:* Save to `public/...`. Link via string `"/images/..."`.
 
-No routing proxy needed - each subdomain points directly to its respective service.
+### Essential Commands
+- `npm run dev`: Start local server.
+- `npm run build`: Build for production (`dist/`).
+- `npm run preview`: Preview build locally.
 
-## Content & Tone Guidelines
-
-**Critical:** Read `docs/CONTENT-GUIDE.md` before editing any user-facing content.
-
-The site persona is an **investigator colleague** sharing insights and tools—not a teacher, salesperson, or guru.
-
-**Key principles:**
-- Informative and matter-of-fact, not instructional or pushy
-- Explains WHAT exists and WHY it matters, without preaching
-- Treats readers as intelligent professionals
-- Avoid: exclamation marks (max 1/page), superlatives, urgency tactics, imperatives
-- Aim for trust and credibility through professional restraint
-
-## Design System Usage
-
-**When creating/modifying pages:**
-
-1. **Always use UI components** - Never create inline buttons, cards, or badges
-2. **Consistent CTA styling** - Use `<Button variant="primary">` for main CTAs (resolves mobile/desktop consistency)
-3. **Component props over inline classes** - Prefer `<Card variant="elevated">` over custom Tailwind classes
-4. **Maintain backwards compatibility** - Design tokens extend Tailwind; existing classes still work
-
-**Example refactoring pattern:**
-```astro
-<!-- ❌ Old: Inline markup -->
-<button class="px-6 py-3 bg-navy hover:bg-navy-light text-white rounded-full">
-  Click me
-</button>
-
-<!-- ✅ New: UI component -->
-<Button variant="primary" size="md">Click me</Button>
-```
-
-## Brand Identity
-
-**Colors:**
-- Navy (#1E3A5F) - Primary brand color
-- Gold (#D4AF37) - Accent color for hover states and highlights
-- Cream (#fefce8) - Light backgrounds
-
-**Logo design:**
-- "FIN" text inside magnifying glass lens
-- Gold accent on the "I"
-- Navy as primary color
-
-**Typography:**
-- Inter font family throughout
-- Line height: 1.7 for body text (readability)
-- Use semantic font size tokens (e.g., `text-heading-lg`, `text-body-md`)
-
-## Common Patterns
-
-**Page structure:**
-```astro
----
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
-import Section from '../components/ui/Section.astro';
----
-
-<Layout title="Page Title" description="SEO description">
-  <Hero size="lg">
-    <h1>Page Heading</h1>
-  </Hero>
-
-  <Section background="white" spacing="lg">
-    <!-- Content -->
-  </Section>
-</Layout>
-```
-
-**Button usage:**
-- Primary CTAs: `<Button variant="primary" href="https://deepdive.fundinvestigator.com">Launch Tool</Button>`
-- Navigation links: `<Button variant="tertiary">About</Button>`
-- Filter buttons: `<Button variant="secondary" size="sm">Category</Button>`
-
-**Responsive design:**
-- Mobile-first approach with Tailwind breakpoints (sm/md/lg/xl)
-- Header includes mobile menu overlay (see `Header.astro` for implementation)
-- All UI components are responsive by default
-
-## Site Configuration
-
-**Deployment:**
-- Site URL: `https://fundinvestigator.com` (set in `astro.config.mjs`)
-- Platform: Cloudflare Pages
-- Build command: `npm run build`
-- Output directory: `dist`
-- Node version: 18+
-
-**SEO:**
-- Each page sets title/description via Layout props
-- Clean semantic HTML structure
-- Fast static generation (no runtime JS for content)
+## 6. Agent Behavior Guidelines
+- **Planning:** Plan before execution. Keep plans concise.
+- **Clarity:** If a requirement is unclear, ask clarifying questions and recommend a preference.
+- **Simplicity:** Prioritize simple, maintainable solutions over complex ones.
