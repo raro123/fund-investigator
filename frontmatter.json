@@ -96,21 +96,5 @@
       ]
     }
   ],
-  "frontMatter.taxonomy.tags": [
-    "Large Cap",
-    "Mid Cap",
-    "Small Cap",
-    "Value Investing",
-    "Growth Investing",
-    "Risk Analysis",
-    "Performance Review",
-    "Sector Analysis",
-    "Fund Manager",
-    "Portfolio Construction",
-    "Diversification",
-    "Equity",
-    "Debt",
-    "Hybrid"
-  ],
   "frontMatter.git.enabled": true
 }
