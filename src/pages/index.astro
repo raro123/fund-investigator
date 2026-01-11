@@ -6,6 +6,8 @@ import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
+import { Image } from 'astro:assets';
+import appScreenshot from '../assets/images/homepage/app-screenshot.png';
 
 // Fetch featured articles for homepage
 const allReports = await Astro.glob('./reports/*.md');
@@ -101,11 +103,13 @@ const featuredReports = allReports
           <!-- Right: App Screenshot -->
           <div class="relative">
             <div class="aspect-[4/3] bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-              <img
-                src="/app-screenshot.png"
+              <Image
+                src={appScreenshot}
                 alt="Deepdive app showing mutual fund performance metrics and charts"
                 class="w-full h-full object-cover"
-                loading="lazy"
+                loading="eager"
+                widths={[640, 1024, 1400]}
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>

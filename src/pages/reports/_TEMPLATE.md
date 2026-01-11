@@ -32,12 +32,11 @@ tags: ["Large Cap", "Value Investing", "Risk Analysis"]
 featured: true
 
 # Cover image - optional, used as thumbnail on /reports page cards
-# Also used for social sharing previews (og:image when implemented)
-# Place images in /public/images/reports/
+# Also used for social sharing previews (og:image)
+# NEW: Store images in /src/assets/images/reports/{article-slug}/cover.png
+# Example: /src/assets/images/reports/hdfc-flexicap/cover.png
 # Recommended size: 1200x630px (2:1 ratio) for optimal display
-# Use descriptive filenames: fund-name-chart-type.png
-# NOTE: This image does NOT auto-display in article body
-# To show images in your article, use markdown: ![Alt text](/path/to/image.png)
+# Legacy path still works: "/images/reports/your-article-cover.png"
 coverImage: "/images/reports/your-article-cover.png"
 
 # Optional: Alt text for cover image (improves accessibility and SEO)
@@ -55,6 +54,24 @@ Key principles:
 - Avoid urgency tactics and superlatives
 - Use headings (##, ###) for structure
 - Include charts/data where relevant
+
+IMAGE OPTIMIZATION WORKFLOW (SIMPLIFIED)
+=========================================
+1. Create article folder: src/assets/images/reports/{your-article-slug}/
+2. Add all images to this folder with simple names (cover.png, sip.png, drawdown.png)
+3. Use standard markdown syntax with relative paths (see Images section below)
+4. Astro automatically optimizes images to WebP/AVIF with responsive srcset
+5. No imports or special components needed - just write markdown!
+
+Example:
+![Chart description](../../assets/images/reports/your-article-slug/chart-name.png)
+
+Benefits:
+- Simple markdown syntax (no JSX knowledge needed)
+- 40-60% automatic file size reduction
+- Responsive images for mobile/tablet/desktop
+- Better Core Web Vitals (LCP, CLS)
+- Improved SEO and page speed
 -->
 
 ## Executive Summary
@@ -117,8 +134,18 @@ Summarize key insights without making recommendations. Let the data speak.
 <!-- Links -->
 [Link text](https://example.com)
 
-<!-- Images -->
-![Alt text for image](/images/reports/chart-name.png)
+<!-- Images - SIMPLE MARKDOWN APPROACH (Recommended) -->
+<!-- Store images in: src/assets/images/reports/{article-slug}/ -->
+<!-- Use relative paths from the article file location -->
+<!-- Example (uncomment and replace with your actual image path): -->
+<!-- ![Descriptive alt text](../../assets/images/reports/your-article-slug/chart-name.png) -->
+
+<!-- Astro automatically optimizes these images to WebP/AVIF -->
+<!-- Generates responsive srcset for mobile/tablet/desktop -->
+<!-- No imports or special syntax needed! -->
+
+<!-- Legacy approach (NOT optimized - avoid for new articles) -->
+<!-- ![Alt text](/images/reports/chart-name.png) -->
 
 <!-- Tables -->
 | Metric | 1 Year | 3 Year | 5 Year |

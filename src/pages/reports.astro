@@ -5,6 +5,16 @@ import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Button from '../components/ui/Button.astro';
+import { Image } from 'astro:assets';
+
+// Import cover images for optimized loading
+import hdcfFlexicapCover from '../assets/images/reports/hdfc-flexicap/cover.png';
+
+// Map article slugs to their cover images
+const coverImages = {
+  'hdfc-flexicap-performance': hdcfFlexicapCover,
+  // Add more mappings as articles are migrated
+};
 
 // AUTOMATION: Fetch and sort reports
 const allReports = await Astro.glob('./reports/*.md');
@@ -36,11 +46,27 @@ const getCategoryColor = (category) => {
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="reports-grid">
-      {sortedReports.map((report) => (
+      {sortedReports.map((report) => {
+        // Extract article slug from URL for cover image lookup
+        const articleSlug = report.url?.split('/').filter(Boolean).pop() || '';
+        const optimizedCover = coverImages[articleSlug];
+
+        return (
         <div class="report-item" data-category={report.frontmatter.category}>
           <a href={report.url} class="block h-full">
             <Card padding="none" class="group h-full hover:shadow-lg transition-all duration-300">
-              {report.frontmatter.coverImage ? (
+              {optimizedCover ? (
+                <div class="h-48 overflow-hidden bg-gray-100">
+                  <Image
+                    src={optimizedCover}
+                    alt={report.frontmatter.coverImageAlt || report.frontmatter.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    widths={[400, 600, 800]}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                  />
+                </div>
+              ) : report.frontmatter.coverImage ? (
                 <div class="h-48 overflow-hidden bg-gray-100">
                   <img
                     src={report.frontmatter.coverImage}
@@ -69,7 +95,8 @@ const getCategoryColor = (category) => {
             </Card>
           </a>
         </div>
-      ))}
+        );
+      })}
     </div>
     
     <div class="mt-16 text-center">

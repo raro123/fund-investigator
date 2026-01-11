@@ -24,7 +24,7 @@ Over the five-year period from January 2021 to December 2025, HDFC Flexi Cap Fun
 
 For someone investing ₹1,000 monthly through a SIP, the fund would have grown to ₹102,722 (with 21.6% IRR) versus ₹87,505 in the benchmark. That's ₹15,000+ more from the same disciplined investment approach.
 
-![Chart showing 5 Year SIP returns for HDFC Flexi Cap](/images/reports/hdfc-flexicap-sip.png)
+![Chart showing 5 Year SIP returns for HDFC Flexi Cap](../../assets/images/reports/hdfc-flexicap/sip.png)
 
 **But here's where it gets interesting:** The fund achieved these higher returns while actually taking *less* risk. With volatility of 13.4% versus the benchmark's 14.33%, the fund delivered superior returns with risk.
 
@@ -34,7 +34,7 @@ The maximum drawdown tells you about worst-case scenarios. When markets correct,
 
 More importantly, recovery was swift. The fund bounced back in just 0.17 years (roughly 2 months), while the benchmark remained in drawdown territory. This matters because time out of the market compounds into real opportunity costs.
 
-![Drawdown Comparison Chart](/images/reports/hdfc-flexicap-drawdown.png)
+![Drawdown Comparison Chart](../../assets/images/reports/hdfc-flexicap/drawdown.png)
 
 | Metric | Fund | Benchmark |
 |--------|------|-----------|
@@ -51,7 +51,7 @@ Consistency reveals whether outperformance is skill or luck.
 
 The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. Annually, the outperformance was steady: 2021 (+5%), 2022 (+7%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
 
-![Annual Returns Chart](/images/reports/hdfc-flexicap-annual-returns.png)
+![Annual Returns Chart](../../assets/images/reports/hdfc-flexicap/annual-returns.png)
 
 On a monthly basis, the fund generated positive returns 63.3% of the time. This isn't about beating the benchmark every month—it's about maintaining a positive bias while allowing normal volatility.
 
@@ -59,7 +59,7 @@ On a monthly basis, the fund generated positive returns 63.3% of the time. This 
 
 With a correlation of 0.9378 and beta of 0.8750, the fund tracks the benchmark direction closely but moves about 12% less. The R² of 0.8794 means the benchmark explains most but not all of the fund's movements—there's genuine active management happening underneath.
 
-![Monthly Returns Scatter Plot](/images/reports/hdfc-flexicap-scatter.png)
+![Monthly Returns Scatter Plot](../../assets/images/reports/hdfc-flexicap/scatter.png)
 
 This matters because it shows the fund isn't simply trying to replicate the benchmark. The active risk of 4.99% represents deliberate portfolio choices—stocks selected and sectors weighted differently—that have translated into measurable outperformance.
 
