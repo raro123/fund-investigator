@@ -8,7 +8,13 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 });
 ---
 
-<Layout title={frontmatter.title} description={frontmatter.description}>
+<Layout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  ogImage={frontmatter.coverImage}
+  ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
+  ogType="article"
+>
   <div class="fixed top-0 left-0 right-0 h-1 bg-cream z-50">
     <div class="h-full bg-gold scroll-progress origin-left scale-x-0"></div>
   </div>

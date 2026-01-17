@@ -5,9 +5,18 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  ogImage?: string;           // Optional: URL path to OG image
+  ogImageAlt?: string;        // Optional: Alt text for OG image
+  ogType?: 'website' | 'article';  // Optional: defaults to 'website'
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  ogImageAlt = title,  // Default alt text to title
+  ogType = 'website'   // Default to 'website'
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -26,10 +35,30 @@ const { title, description } = Astro.props;
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Fund Investigator" />
+
+    <!-- OG Image with fallback logic -->
+    {(() => {
+      // Use provided ogImage, or fallback to default
+      const finalOgImage = ogImage || '/images/fundinvestigator-og-default.jpg';
+      // Build absolute URL for social platforms
+      const absoluteOgImageUrl = new URL(finalOgImage, Astro.site).toString();
+
+      return (
+        <>
+          <meta property="og:image" content={absoluteOgImageUrl} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={ogImageAlt} />
+
+          <meta name="twitter:image" content={absoluteOgImageUrl} />
+          <meta name="twitter:image:alt" content={ogImageAlt} />
+        </>
+      );
+    })()}
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
