@@ -2,6 +2,24 @@
 
 This file tracks future enhancements and improvements identified during development.
 
+## ✅ Completed (2026-01-18)
+
+### SEO & Social Sharing
+- [x] **Add `og:image` meta tag to Layout.astro using `coverImage` frontmatter field**
+  - Added optional ogImage, ogImageAlt, and ogType props to Layout.astro
+  - Generates absolute URLs for social platforms using Astro.site
+  - Reports automatically use coverImage from frontmatter
+- [x] **Add Twitter card image support using `coverImage`**
+  - Added twitter:image and twitter:image:alt meta tags
+  - Works in tandem with existing twitter:card (summary_large_image)
+- [x] **Implement fallback og:image for pages without coverImage**
+  - Created default brand OG image (1200x630px, 57KB JPEG)
+  - Located at `/public/images/fundinvestigator-og-default.jpg`
+  - Automatic fallback for homepage, about, and other non-report pages
+- [x] **ArticleLayout.astro integration**
+  - Passes coverImage and coverImageAlt from frontmatter to Layout
+  - Sets ogType="article" for better SEO categorization
+
 ## ✅ Completed (2026-01-11)
 
 ### Image Optimization
@@ -25,10 +43,10 @@ This file tracks future enhancements and improvements identified during developm
 ## 🔜 Remaining TODOs
 
 ### High Priority - SEO & Social Sharing
-- [ ] Add `og:image` meta tag to Layout.astro using `coverImage` frontmatter field
-- [ ] Add Twitter card image support using `coverImage`
-- [ ] Implement fallback og:image for pages without coverImage
 - [ ] Test social media previews (Facebook Debugger, Twitter Card Validator)
+  - After deployment, validate with Facebook Sharing Debugger
+  - Test Twitter Card previews
+  - Verify LinkedIn Post Inspector shows correct images
 
 ### Medium Priority - Performance Enhancements
 - [ ] Eliminate 750ms render-blocking Google Fonts
@@ -71,6 +89,35 @@ This file tracks future enhancements and improvements identified during developm
 
 ---
 
+## 📊 OG Image Implementation Results (Completed)
+
+**Implementation Details:**
+- Modified: `src/layouts/Layout.astro` - Added OG image meta tags with fallback
+- Modified: `src/layouts/ArticleLayout.astro` - Pass coverImage from frontmatter
+- Created: `public/images/fundinvestigator-og-default.jpg` - Default brand image
+
+**Meta Tags Added:**
+- `og:image` - Absolute URL to image (article-specific or default)
+- `og:image:width` - 1200px (optimal for social platforms)
+- `og:image:height` - 630px (1.91:1 aspect ratio)
+- `og:image:alt` - Descriptive alt text
+- `og:type` - "article" for reports, "website" for other pages
+- `twitter:image` - Same image for Twitter Card previews
+- `twitter:image:alt` - Same alt text for Twitter
+
+**Coverage:**
+- ✅ Report pages use specific coverImage from frontmatter
+- ✅ Homepage/About/Other pages use default brand image
+- ✅ Automatic absolute URL generation for social platforms
+- ✅ Proper fallback logic when coverImage not defined
+
+**Testing URLs (post-deployment):**
+- Facebook: https://developers.facebook.com/tools/debug/
+- Twitter: https://cards-dev.twitter.com/validator
+- LinkedIn: https://www.linkedin.com/post-inspector/
+
+---
+
 ## 📊 Image Optimization Results (Completed)
 
 **HDFC Flexi Cap Article:**
@@ -92,4 +139,4 @@ This file tracks future enhancements and improvements identified during developm
 
 ---
 
-**Last Updated:** 2026-01-11
+**Last Updated:** 2026-01-18
