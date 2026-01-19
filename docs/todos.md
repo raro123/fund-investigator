@@ -49,10 +49,10 @@ This file tracks future enhancements and improvements identified during developm
   - Verify LinkedIn Post Inspector shows correct images
 
 ### Medium Priority - Performance Enhancements
-- [ ] Eliminate 750ms render-blocking Google Fonts
-  - Self-host Inter font via @fontsource-variable/inter
-  - Expected impact: 750ms → 0ms render-blocking, +10-15 PageSpeed score
-  - Detailed implementation plan available in project plans directory
+- [x] Eliminate 750ms render-blocking Google Fonts ✅ Completed 2026-01-20
+  - Self-hosted Inter font via @fontsource-variable/inter
+  - Removed external Google Fonts dependency
+  - Font files now bundled with build output
 - [ ] Implement image preloading for critical above-fold images
   - First image in articles could use eager loading
   - Consider preload hints in HTML head
@@ -139,4 +139,4 @@ This file tracks future enhancements and improvements identified during developm
 
 ---
 
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-20

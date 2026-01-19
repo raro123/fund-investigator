@@ -47,7 +47,7 @@ export default {
         },
       },
       fontFamily: {
-        // Primary sans-serif
+        // Primary sans-serif (self-hosted via @fontsource/inter)
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         // ADD: Monospace for tabular data and code
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
