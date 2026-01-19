@@ -11,7 +11,7 @@ tags:
     - "Risk Analysis"
     - "Mutual Funds"
 featured: true
-coverImage: "src/assets/images/reports/parag-parikh-flexicap/cover.png"
+coverImage: "/images/reports/ppfas-flexicap-scatter.png"
 coverImageAlt: "Parag Parikh Flexicap Performance KPIs"
 fmContentType: "report"
 ---
