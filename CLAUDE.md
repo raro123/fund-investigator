@@ -13,7 +13,7 @@
 - **Strategy:** Subdomains separate the static marketing layer (speed/SEO) from the compute-heavy application layer.
 
 ### Tech Stack
-- **Core:** Astro v4 (SSG mode). Zero-JS output by default.
+- **Core:** Astro v5 (SSG mode). Zero-JS output by default.
 - **Style:** Tailwind CSS v3 (Utility-first) + Typography plugin.
 - **Content:** Standard Markdown (`.md`) + YAML Frontmatter.
 - **Images:**
@@ -24,9 +24,10 @@
 ### Key File Locations
 - **Design Tokens:** `tailwind.config.mjs` (Source of Truth for colors/spacing).
 - **UI Components:** `src/components/ui/` (Button, Card, Badge, etc.).
-- **Report Content:** `src/pages/reports/` (Markdown files).
+- **Content Config:** `src/content.config.ts` (Schema definitions for reports).
+- **Report Content:** `src/content/reports/` (Markdown files with typed frontmatter).
 - **Report Images:** `src/assets/images/reports/[slug]/` (Optimized charts).
-- **Cover Images:** `public/images/reports/` (Social card thumbnails).
+- **Cover Images:** `src/assets/images/reports/[slug]/` (Auto-optimized via schema).
 
 ## 3. Design System (3-Layer)
 
@@ -69,7 +70,7 @@
 2.  **Strict Props:** Use Component Props over custom classes.
 3.  **Image Strategy:**
     - *Charts/Graphs:* Save to `src/assets/...`. Link via relative path `../../assets/...`.
-    - *Social Covers:* Save to `public/...`. Link via string `"/images/..."`.
+    - *Cover Images:* Save to `src/assets/images/reports/[slug]/`. Reference in frontmatter via relative path.
 
 ### Essential Commands
 - `npm run dev`: Start local server.
