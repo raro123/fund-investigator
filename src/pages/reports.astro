@@ -8,15 +8,6 @@ import Button from '../components/ui/Button.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
-// Import cover images for optimized loading
-import hdcfFlexicapCover from '../assets/images/reports/hdfc-flexicap/cover.png';
-
-// Map article slugs to their cover images
-const coverImages: Record<string, ImageMetadata> = {
-  'hdfc-flexicap-performance': hdcfFlexicapCover,
-  // Add more mappings as articles are migrated
-};
-
 // Fetch and sort reports using Content Collections
 const allReports = await getCollection('reports');
 // Filter out template files (starting with underscore)
@@ -47,33 +38,19 @@ const getCategoryColor = (category) => {
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="reports-grid">
-      {sortedReports.map((report) => {
-        // Use report.slug for cover image lookup
-        const articleSlug = report.slug;
-        const optimizedCover = coverImages[articleSlug];
-
-        return (
+      {sortedReports.map((report) => (
         <div class="report-item" data-category={report.data.category}>
           <a href={`/reports/${report.slug}`} class="block h-full">
             <Card padding="none" class="group h-full hover:shadow-lg transition-all duration-300">
-              {optimizedCover ? (
+              {report.data.coverImage ? (
                 <div class="h-48 overflow-hidden bg-gray-100">
                   <Image
-                    src={optimizedCover}
+                    src={report.data.coverImage}
                     alt={report.data.coverImageAlt || report.data.title}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                     widths={[400, 600, 800]}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                  />
-                </div>
-              ) : report.data.coverImage ? (
-                <div class="h-48 overflow-hidden bg-gray-100">
-                  <img
-                    src={report.data.coverImage}
-                    alt={report.data.coverImageAlt || report.data.title}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
                   />
                 </div>
               ) : (
@@ -96,8 +73,7 @@ const getCategoryColor = (category) => {
             </Card>
           </a>
         </div>
-        );
-      })}
+      ))}
     </div>
     
     <div class="mt-16 text-center">

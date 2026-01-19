@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 
 const reports = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.string(),
@@ -10,7 +10,7 @@ const reports = defineCollection({
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
     featured: z.boolean().optional().default(false),
-    coverImage: z.string().optional(),
+    coverImage: image().optional(),
     coverImageAlt: z.string().optional(),
     fmContentType: z.string().optional(),
   }),

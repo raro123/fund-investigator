@@ -10,7 +10,7 @@ tags:
     - "Risk Analysis"
     - "Mutual Funds"
 featured: true
-coverImage: "/images/reports/hdfc-flexicap-sip.png"
+coverImage: ../../assets/images/reports/hdfc-flexicap/metrics.jpg
 coverImageAlt: "HDFC Flexicap Performance KPIs"
 fmContentType: "report"
 ---

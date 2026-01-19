@@ -11,7 +11,7 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 <Layout
   title={frontmatter.title}
   description={frontmatter.description}
-  ogImage={frontmatter.coverImage}
+  ogImage={frontmatter.coverImage?.src}
   ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
   ogType="article"
 >
