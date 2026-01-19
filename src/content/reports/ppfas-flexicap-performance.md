@@ -1,5 +1,4 @@
 ---
-layout: "../../layouts/ArticleLayout.astro"
 title: "PPFAS Flexicap Fund Performance Report"
 description: "5-year analysis of Parag Parikh Flexicap Cap Fund vs NIFTY 500 TRI. Risk-adjusted returns, volatility, drawdown patterns, and SIP performance (2021-2025)."
 date: "2026-01-12"
