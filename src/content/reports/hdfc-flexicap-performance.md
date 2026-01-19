@@ -1,5 +1,4 @@
 ---
-layout: "../../layouts/ArticleLayout.astro"
 title: "HDFC Flexi Cap Performance Report"
 description: "5-year analysis of HDFC Flexi Cap Fund vs NIFTY 500 TRI. Risk-adjusted returns, volatility, drawdown patterns, and SIP performance (2021-2025)."
 date: "2026-01-10"
@@ -11,7 +10,7 @@ tags:
     - "Risk Analysis"
     - "Mutual Funds"
 featured: true
-coverImage: "/images/reports/hdfc-flexicap-sip.png"
+coverImage: ../../assets/images/reports/hdfc-flexicap/metrics.jpg
 coverImageAlt: "HDFC Flexicap Performance KPIs"
 fmContentType: "report"
 ---

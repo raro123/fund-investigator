@@ -8,13 +8,14 @@ import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
 import { Image } from 'astro:assets';
 import appScreenshot from '../assets/images/homepage/app-screenshot.png';
+import { getCollection } from 'astro:content';
 
 // Fetch featured articles for homepage
-const allReports = await Astro.glob('./reports/*.md');
+const allReports = await getCollection('reports');
 const featuredReports = allReports
-  .filter(report => !report.file.split('/').pop().startsWith('_')) // Exclude template files
-  .filter(report => report.frontmatter.featured === true)
-  .sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf())
+  .filter(report => !report.id.startsWith('_')) // Exclude template files
+  .filter(report => report.data.featured === true)
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
 ---
 
@@ -138,16 +139,16 @@ const featuredReports = allReports
           <div class="space-y-4">
             {featuredReports.length > 0 ? (
               featuredReports.map((report) => (
-                <a href={report.url} class="block group">
+                <a href={`/reports/${report.slug}`} class="block group">
                   <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
                     <div class="flex items-start justify-between gap-3 sm:gap-4">
                       <div class="flex-1 min-w-0">
                         <Badge class="mb-2">Featured Investigation</Badge>
                         <h3 class="text-base sm:text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors break-words">
-                          {report.frontmatter.title}
+                          {report.data.title}
                         </h3>
                         <p class="text-sm sm:text-base text-secondary-gray leading-relaxed line-clamp-2">
-                          {report.frontmatter.description}
+                          {report.data.description}
                         </p>
                       </div>
                       <svg class="w-4 h-4 sm:w-5 sm:h-5 text-navy group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

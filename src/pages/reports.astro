@@ -6,22 +6,14 @@ import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Button from '../components/ui/Button.astro';
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 
-// Import cover images for optimized loading
-import hdcfFlexicapCover from '../assets/images/reports/hdfc-flexicap/cover.png';
-
-// Map article slugs to their cover images
-const coverImages = {
-  'hdfc-flexicap-performance': hdcfFlexicapCover,
-  // Add more mappings as articles are migrated
-};
-
-// AUTOMATION: Fetch and sort reports
-const allReports = await Astro.glob('./reports/*.md');
+// Fetch and sort reports using Content Collections
+const allReports = await getCollection('reports');
 // Filter out template files (starting with underscore)
 const sortedReports = allReports
-  .filter(report => !report.file.split('/').pop().startsWith('_'))
-  .sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+  .filter(report => !report.id.startsWith('_'))
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
 const getCategoryColor = (category) => {
   if (category === 'Fund Analysis') return 'bg-navy/10 text-navy';
@@ -46,57 +38,42 @@ const getCategoryColor = (category) => {
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="reports-grid">
-      {sortedReports.map((report) => {
-        // Extract article slug from URL for cover image lookup
-        const articleSlug = report.url?.split('/').filter(Boolean).pop() || '';
-        const optimizedCover = coverImages[articleSlug];
-
-        return (
-        <div class="report-item" data-category={report.frontmatter.category}>
-          <a href={report.url} class="block h-full">
+      {sortedReports.map((report) => (
+        <div class="report-item" data-category={report.data.category}>
+          <a href={`/reports/${report.slug}`} class="block h-full">
             <Card padding="none" class="group h-full hover:shadow-lg transition-all duration-300">
-              {optimizedCover ? (
+              {report.data.coverImage ? (
                 <div class="h-48 overflow-hidden bg-gray-100">
                   <Image
-                    src={optimizedCover}
-                    alt={report.frontmatter.coverImageAlt || report.frontmatter.title}
+                    src={report.data.coverImage}
+                    alt={report.data.coverImageAlt || report.data.title}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                     widths={[400, 600, 800]}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                   />
                 </div>
-              ) : report.frontmatter.coverImage ? (
-                <div class="h-48 overflow-hidden bg-gray-100">
-                  <img
-                    src={report.frontmatter.coverImage}
-                    alt={report.frontmatter.coverImageAlt || report.frontmatter.title}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
               ) : (
-                <div class={`h-48 flex items-center justify-center transition-colors ${getCategoryColor(report.frontmatter.category)}`}>
+                <div class={`h-48 flex items-center justify-center transition-colors ${getCategoryColor(report.data.category)}`}>
                   <svg class="w-16 h-16 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                 </div>
               )}
               <div class="p-6">
-                <div class="mb-3"><Badge>{report.frontmatter.category}</Badge></div>
-                <h2 class="text-heading-md font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">{report.frontmatter.title}</h2>
-                <p class="text-body-sm text-secondary-gray mb-4 leading-relaxed line-clamp-3">{report.frontmatter.description}</p>
+                <div class="mb-3"><Badge>{report.data.category}</Badge></div>
+                <h2 class="text-heading-md font-bold text-navy mb-3 leading-snug group-hover:text-gold transition-colors">{report.data.title}</h2>
+                <p class="text-body-sm text-secondary-gray mb-4 leading-relaxed line-clamp-3">{report.data.description}</p>
                 <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
-                  <time>{new Date(report.frontmatter.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
-                  <span>{report.frontmatter.readTime}</span>
+                  <time>{new Date(report.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+                  <span>{report.data.readTime}</span>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                  {report.frontmatter.tags && report.frontmatter.tags.map((tag) => (<Badge variant="secondary" size="sm">{tag}</Badge>))}
+                  {report.data.tags && report.data.tags.map((tag) => (<Badge variant="secondary" size="sm">{tag}</Badge>))}
                 </div>
               </div>
             </Card>
           </a>
         </div>
-        );
-      })}
+      ))}
     </div>
     
     <div class="mt-16 text-center">
