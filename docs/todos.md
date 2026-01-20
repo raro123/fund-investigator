@@ -87,6 +87,82 @@ This file tracks future enhancements and improvements identified during developm
 - [ ] Monitor image load performance
 - [ ] Add error tracking for broken images
 
+### High Priority - Reports UI Enhancements
+- [ ] **Key Findings Box component**
+  - Summary callout at article top (executive brief style)
+  - Cream/gold styling to match brand
+  - Bullet points for 3-4 key takeaways
+  - Reinforces investigation arc structure
+- [ ] **Verdict Box component**
+  - Distinct conclusion component for article end
+  - Visual weight to signal final assessment
+  - Optional "confidence level" indicator
+  - Matches Premise → Evidence → Analysis → Verdict arc
+- [ ] **Evidence Callouts component**
+  - Styled blockquotes for data citations
+  - Source attribution styling
+  - Gold left border, cream background (extend existing blockquote)
+  - Differentiates data quotes from regular blockquotes
+
+### Medium Priority - Reports UI Enhancements
+- [ ] **Table of Contents (auto-generated)**
+  - Extract h2/h3 headings from article content
+  - Sticky sidebar on desktop, collapsible on mobile
+  - Scroll spy to highlight current section
+  - Fits "investigation dossier" aesthetic
+- [ ] **Anchor links on headings**
+  - Clickable # icon on hover for h2/h3
+  - Enables sharing specific report sections
+  - rehype-autolink-headings plugin or custom component
+- [ ] **Glossary tooltips for financial terms**
+  - Hover definitions for terms (expense ratio, alpha, Sharpe ratio)
+  - Could use data attribute + CSS or lightweight JS
+  - Establishes expertise without condescension
+
+### Low Priority - Reports UI Enhancements
+- [ ] **Stat Highlights component**
+  - Pull-quote style for key numbers
+  - Large typography, centered, branded styling
+  - Use sparingly for maximum impact
+- [ ] **Related Investigations section**
+  - Display 2-3 related reports at article end
+  - Based on shared tags or category
+  - Increases time on site, reinforces expertise
+- [ ] **Methodology Sidebar component**
+  - Collapsible aside explaining data sources
+  - Benchmark info, date ranges, metrics used
+  - Builds credibility for investigation claims
+- [ ] **Print/Export functionality**
+  - Print-friendly stylesheet
+  - Optional PDF download
+  - Fits professional advisory context
+
+### Existing UI Refinements
+- [ ] **Progress bar browser fallback**
+  - Current `animation-timeline: scroll()` has ~70% browser support
+  - Add JS fallback or graceful degradation for unsupported browsers
+  - Location: `src/layouts/ArticleLayout.astro`
+- [ ] **Filter URL state persistence**
+  - Category filter buttons don't update URL
+  - Users can't share filtered views or use back/forward
+  - Consider query params (`?category=fund-analysis`)
+- [ ] **Review report card information density**
+  - Cards show: image, badge, title, description, date, read time, tags
+  - Consider if all metadata is needed on listing cards
+  - Test reducing gap-8 to gap-6 for tighter grid
+- [ ] **Article header mobile spacing**
+  - Currently `pt-32 pb-20` - quite tall on mobile
+  - Consider reducing padding on smaller screens
+  - `pt-24 pb-12 md:pt-32 md:pb-20`
+- [ ] **Differentiate tag badges from category badges**
+  - Both use similar Badge styling on report cards
+  - Tags could use outline variant or different size
+  - Helps visual hierarchy
+- [ ] **Ensure all reports have cover images**
+  - Fallback placeholder works but inconsistent
+  - Stronger visual consistency with real images
+  - Check: `src/content/reports/` for missing coverImage fields
+
 ---
 
 ## 📊 OG Image Implementation Results (Completed)
@@ -139,4 +215,4 @@ This file tracks future enhancements and improvements identified during developm
 
 ---
 
-**Last Updated:** 2026-01-20
+**Last Updated:** 2026-01-20 (Added Reports UI Enhancements + Existing UI Refinements)
