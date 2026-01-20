@@ -4,7 +4,16 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  integrations: [tailwind(), sitemap(), mdx()],
+  integrations: [
+    tailwind(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/styleguide') &&
+        !page.includes('/404') &&
+        !page.includes('/_TEMPLATE')
+    }),
+    mdx()
+  ],
   site: 'https://fundinvestigator.com',
 
   // Image optimization settings

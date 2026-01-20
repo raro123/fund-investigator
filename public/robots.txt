@@ -1,8 +1,11 @@
-# Fund Investigator - Robots.txt
-# Allow all search engines to crawl the site
-
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Exclude internal/utility pages
+Disallow: /styleguide
+Disallow: /404
+
+# Exclude template files (if any remain)
+Disallow: /reports/_TEMPLATE
+
 Sitemap: https://fundinvestigator.com/sitemap-index.xml
