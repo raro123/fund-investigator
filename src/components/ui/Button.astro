@@ -22,6 +22,10 @@ interface Props {
   size?: 'sm' | 'md' | 'lg';
   /** If provided, renders as an anchor tag */
   href?: string;
+  /** Link target attribute (only for anchor elements) */
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  /** Link rel attribute (only for anchor elements) */
+  rel?: string;
   /** Button type attribute (only for button elements) */
   type?: 'button' | 'submit' | 'reset';
   /** Disabled state */
@@ -38,6 +42,8 @@ const {
   variant = 'primary',
   size = 'md',
   href,
+  target,
+  rel,
   type = 'button',
   disabled = false,
   fullWidth = false,
@@ -74,7 +80,7 @@ const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${d
 
 // Determine element type
 const Element = href ? 'a' : 'button';
-const elementProps = href ? { href } : { type, disabled };
+const elementProps = href ? { href, target, rel } : { type, disabled };
 
 // Icon SVGs
 const icons = {
