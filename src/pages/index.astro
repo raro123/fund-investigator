@@ -121,43 +121,6 @@ const featuredReports = allReports
     </div>
   </Section>
 
-  <!-- Deepdive Showcase Section -->
-  <Section background="white" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-cream/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <!-- Left: Description -->
-          <div class="space-y-6">
-            <div>
-              <h2 class="text-display-md font-bold text-navy">Deepdive</h2>
-              <p class="text-body-sm text-secondary-gray mt-2">Comprehensive fund analysis app</p>
-            </div>
-            <p class="text-body-md text-secondary-gray leading-relaxed">
-              Search any AMFI-registered fund and access detailed performance metrics. Risk-adjusted returns, drawdown analysis, rolling returns, and benchmark correlation in a single view.
-            </p>
-            <div>
-              <Button href="https://deepdive.fundinvestigator.com" variant="secondary" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
-            </div>
-          </div>
-
-          <!-- Right: App Screenshot -->
-          <div class="relative">
-            <div class="aspect-[4/3] bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-              <Image
-                src={appScreenshot}
-                alt="Deepdive app showing mutual fund performance metrics and charts"
-                class="w-full h-full object-cover"
-                loading="eager"
-                widths={[640, 1024, 1400]}
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </Section>
-
   <!-- Investigations Section -->
   <Section background="white" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -165,9 +128,10 @@ const featuredReports = allReports
         <div class="grid lg:grid-cols-[1fr,1.2fr] gap-8 lg:gap-12 items-start">
           <!-- Left: Description -->
           <div class="space-y-6 lg:sticky lg:top-32">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy break-words">Featured Investigations</h2>
+            <Badge class="mb-2">Investigations</Badge>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy break-words">What the Data Actually Says</h2>
             <p class="text-body-md text-secondary-gray leading-relaxed">
-              In-depth analysis of fund performance, portfolio shifts, and risk patterns. New investigations published monthly.
+              Every fund analysed through three lenses — returns, risk, and risk-adjusted performance — across multiple time periods, against its stated investment objective.
             </p>
             <div>
               <Button href="/reports" variant="secondary" size="md">See all investigations</Button>
@@ -202,6 +166,43 @@ const featuredReports = allReports
                 <p class="text-body-md text-secondary-gray">No featured investigations yet. Check back soon.</p>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Deepdive Showcase Section -->
+  <Section background="white" spacing="md" maxWidth="full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="bg-cream/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Description -->
+          <div class="space-y-6">
+            <div>
+              <h2 class="text-display-md font-bold text-navy">Deepdive</h2>
+              <p class="text-body-sm text-secondary-gray mt-2">Comprehensive fund analysis app</p>
+            </div>
+            <p class="text-body-md text-secondary-gray leading-relaxed">
+              Search any AMFI-registered fund and access detailed performance metrics. Risk-adjusted returns, drawdown analysis, rolling returns, and benchmark correlation in a single view.
+            </p>
+            <div>
+              <Button href="https://deepdive.fundinvestigator.com" variant="secondary" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+            </div>
+          </div>
+
+          <!-- Right: App Screenshot -->
+          <div class="relative">
+            <div class="aspect-[4/3] bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+              <Image
+                src={appScreenshot}
+                alt="Deepdive app showing mutual fund performance metrics and charts"
+                class="w-full h-full object-cover"
+                loading="eager"
+                widths={[640, 1024, 1400]}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </div>
         </div>
       </div>
