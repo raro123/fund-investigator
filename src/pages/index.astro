@@ -6,6 +6,7 @@ import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
+import SubscribeForm from '../components/ui/SubscribeForm.astro';
 import { Image } from 'astro:assets';
 import appScreenshot from '../assets/images/homepage/app-screenshot.png';
 import { getCollection } from 'astro:content';
@@ -267,50 +268,44 @@ const featuredReports = allReports
           </div>
 
           <!-- Key Points Grid -->
-          <div class="grid md:grid-cols-3 gap-8 mb-16">
-            <div class="text-center space-y-3">
-              <div class="flex justify-center">
-                <div class="w-14 h-14 bg-navy/10 rounded-2xl flex items-center justify-center">
-                  <!-- line-chart -->
-                  <svg class="w-7 h-7 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
-                  </svg>
-                </div>
+          <div class="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
+              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
+                <!-- line-chart -->
+                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
+                </svg>
               </div>
-              <h3 class="text-heading-sm font-bold text-navy">Analytics, Not Sales</h3>
+              <h3 class="text-heading-sm font-bold text-navy mb-3">Analytics, Not Sales</h3>
               <p class="text-body-sm text-secondary-gray leading-relaxed">
                 Every other mutual fund platform exists to complete a transaction. We exist to complete your analysis. No buy buttons, no portfolio nudges, no recommended funds.
               </p>
             </div>
 
-            <div class="text-center space-y-3">
-              <div class="flex justify-center">
-                <div class="w-14 h-14 bg-navy/10 rounded-2xl flex items-center justify-center">
-                  <!-- shield-check -->
-                  <svg class="w-7 h-7 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-                  </svg>
-                </div>
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
+              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
+                <!-- shield-check -->
+                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
+                </svg>
               </div>
-              <h3 class="text-heading-sm font-bold text-navy">Zero Conflicts of Interest</h3>
+              <h3 class="text-heading-sm font-bold text-navy mb-3">Zero Conflicts of Interest</h3>
               <p class="text-body-sm text-secondary-gray leading-relaxed">
                 No commissions, no fund partnerships, no trail fees. The reason we can be pure analytics is because we don't earn from your decisions.
               </p>
             </div>
 
-            <div class="text-center space-y-3">
-              <div class="flex justify-center">
-                <div class="w-14 h-14 bg-navy/10 rounded-2xl flex items-center justify-center">
-                  <!-- eye -->
-                  <svg class="w-7 h-7 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
+              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
+                <!-- eye -->
+                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
-              <h3 class="text-heading-sm font-bold text-navy">Transparent Methodology</h3>
+              <h3 class="text-heading-sm font-bold text-navy mb-3">Transparent Methodology</h3>
               <p class="text-body-sm text-secondary-gray leading-relaxed">
                 AMFI data, standard financial measures, clear calculations. No black boxes, no star ratings. Because some things shouldn't be simplified — they should be understood.
               </p>
@@ -330,6 +325,23 @@ const featuredReports = allReports
 
         </div>
       </div>
+    </div>
+  </Section>
+
+  <!-- Email Capture Section -->
+  <Section background="cream" spacing="md">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold text-navy mb-4">
+        Investigate Before You Invest.
+      </h2>
+      <p class="text-body-lg text-secondary-gray mb-8">
+        First, your Investor Welcome Kit — everything you need to start investigating.
+        Then every new investigation and tool update, as they ship. Nothing else.
+      </p>
+      <SubscribeForm
+        placeholder="your@email.com"
+        buttonText="Send Me Investigations →"
+      />
     </div>
   </Section>
 </Layout>
