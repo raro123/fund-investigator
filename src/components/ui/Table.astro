@@ -1,0 +1,67 @@
+---
+interface Props {
+  striped?: boolean;
+  compact?: boolean;
+  class?: string;
+}
+
+const { 
+  striped = false,
+  compact = false,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['overflow-x-auto rounded-lg border border-light-gray/30', className]}>
+  <table class:list={[
+    'w-full text-left',
+    compact ? 'text-body-sm' : 'text-body-md',
+    striped && 'table-striped',
+  ]}>
+    <slot />
+  </table>
+</div>
+
+<style>
+  table :global(thead) {
+    @apply bg-navy text-white;
+  }
+  
+  table :global(th) {
+    @apply px-4 py-3 font-semibold text-body-sm uppercase tracking-wide;
+  }
+  
+  table :global(td) {
+    @apply px-4 py-3 border-t border-light-gray/20;
+  }
+  
+  table :global(tbody tr) {
+    @apply transition-colors duration-fast;
+  }
+  
+  table :global(tbody tr:hover) {
+    @apply bg-cream;
+  }
+  
+  .table-striped :global(tbody tr:nth-child(even)) {
+    @apply bg-cream/50;
+  }
+  
+  /* Numeric alignment */
+  table :global(.num) {
+    @apply text-right tabular-nums;
+  }
+  
+  /* Return colors */
+  table :global(.positive) {
+    @apply text-success font-medium;
+  }
+  
+  table :global(.negative) {
+    @apply text-error font-medium;
+  }
+  
+  table :global(.neutral) {
+    @apply text-secondary-gray;
+  }
+</style>

@@ -3,24 +3,24 @@ import Logo from './Logo.astro';
 import Button from './ui/Button.astro';
 ---
 
-<header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-[10000] transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
-      <a href="/" class="flex items-center">
+      <a href="/" class="flex items-center" id="logo-link">
         <Logo width={160} />
       </a>
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-8">
         <a href="/reports" class="text-navy hover:text-gold transition-colors font-medium">Investigations</a>
-        <a href="#about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
-        <Button href="/app" size="sm">Launch Tool</Button>
+        <a href="/about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
+        <Button href="https://deepdive.fundinvestigator.com" size="sm" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
       </nav>
 
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden text-navy focus:outline-none focus:ring-2 focus:ring-gold rounded p-2 transition-colors hover:bg-gray-100"
+        class="md:hidden text-navy focus:outline-none focus:ring-2 focus:ring-gold rounded p-2 transition-all duration-300"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -33,31 +33,33 @@ import Button from './ui/Button.astro';
       </button>
     </div>
   </div>
-
-  <!-- Mobile Menu Overlay -->
-  <div
-    id="mobile-menu"
-    class="fixed inset-0 bg-navy/95 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
-  >
-    <nav class="flex flex-col items-center justify-center h-full gap-8 transform translate-y-4 transition-transform duration-300">
-      <a
-        href="/reports"
-        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
-      >
-        Investigations
-      </a>
-      <a
-        href="#about"
-        class="text-white hover:text-gold transition-colors font-medium text-2xl mobile-menu-link"
-      >
-        About
-      </a>
-      <div class="mobile-menu-link">
-        <Button href="/app" size="md">Launch Tool</Button>
-      </div>
-    </nav>
-  </div>
 </header>
+
+<!-- Mobile Menu Overlay - Outside header to ensure proper stacking -->
+<div
+  id="mobile-menu"
+  class="fixed top-[73px] left-0 right-0 z-[9999] md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
+  aria-hidden="true"
+>
+  <!-- Menu content with background -->
+  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-white shadow-lg">
+    <a
+      href="/reports"
+      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+    >
+      Investigations
+    </a>
+    <a
+      href="/about"
+      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+    >
+      About
+    </a>
+    <div class="mobile-menu-link mt-2">
+      <Button href="https://deepdive.fundinvestigator.com" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+    </div>
+  </nav>
+</div>
 
 <script>
   // Mobile menu toggle
@@ -73,32 +75,23 @@ import Button from './ui/Button.astro';
     isOpen = !isOpen;
 
     if (isOpen) {
-      // Open menu
+      // Open menu - show overlay
       mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.add('opacity-100');
+      mobileMenu?.setAttribute('aria-hidden', 'false');
       menuIcon?.classList.add('hidden');
       closeIcon?.classList.remove('hidden');
       menuButton?.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-
-      // Stagger animation for links
-      menuLinks.forEach((link, index) => {
-        setTimeout(() => {
-          link.classList.add('animate-fade-in-up');
-        }, index * 50);
-      });
     } else {
-      // Close menu
+      // Close menu - hide overlay
       mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.remove('opacity-100');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
       menuButton?.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-
-      menuLinks.forEach(link => {
-        link.classList.remove('animate-fade-in-up');
-      });
     }
   }
 
@@ -118,20 +111,3 @@ import Button from './ui/Button.astro';
     }
   });
 </script>
-
-<style>
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fadeInUp 0.4s ease-out forwards;
-  }
-</style>

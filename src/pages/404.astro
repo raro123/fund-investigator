@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<Layout
+  title="404 - Page Not Found | Fund Investigator"
+  description="The page you're looking for doesn't exist."
+>
+  <Hero size="md">
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="mb-8">
+        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-navy/10 mb-6">
+          <svg class="w-12 h-12 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h1 class="text-6xl font-bold text-navy mb-4">404</h1>
+        <h2 class="text-3xl font-bold text-navy mb-4">Page Not Found</h2>
+        <p class="text-body-lg text-secondary-gray leading-relaxed mb-8">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href="/" variant="primary" size="md">
+          Back to Home
+        </Button>
+        <Button href="/reports" variant="secondary" size="md">
+          Browse Investigations
+        </Button>
+      </div>
+    </div>
+  </Hero>
+</Layout>

@@ -2,12 +2,27 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
+// Self-hosted Inter font (matches Google Fonts weights)
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
 interface Props {
   title: string;
   description: string;
+  ogImage?: string;           // Optional: URL path to OG image
+  ogImageAlt?: string;        // Optional: Alt text for OG image
+  ogType?: 'website' | 'article';  // Optional: defaults to 'website'
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  ogImageAlt = title,  // Default alt text to title
+  ogType = 'website'   // Default to 'website'
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -17,25 +32,45 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Fund Investigator" />
+
+    <!-- OG Image with fallback logic -->
+    {(() => {
+      // Use provided ogImage, or fallback to default
+      const finalOgImage = ogImage || '/images/fundinvestigator-og-default.jpg';
+      // Build absolute URL for social platforms
+      const absoluteOgImageUrl = new URL(finalOgImage, Astro.site).toString();
+
+      return (
+        <>
+          <meta property="og:image" content={absoluteOgImageUrl} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={ogImageAlt} />
+
+          <meta name="twitter:image" content={absoluteOgImageUrl} />
+          <meta name="twitter:image:alt" content={ogImageAlt} />
+        </>
+      );
+    })()}
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body class="font-sans antialiased">
     <Header />
@@ -55,10 +90,19 @@ const { title, description } = Astro.props;
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  /* Prevent horizontal overflow from long words */
+  h1, h2, h3, h4, h5, h6, p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   /* Fade-in on scroll animation */
@@ -97,4 +141,78 @@ const { title, description } = Astro.props;
       observer.observe(section);
     });
   });
+
+  // Cloudflare Browser Error Tracking
+  (function() {
+    const accountId = import.meta.env.PUBLIC_CF_ACCOUNT_ID;
+    const projectName = import.meta.env.PUBLIC_CF_PROJECT_NAME;
+
+    // Only initialize if environment variables are set
+    if (!accountId || !projectName) {
+      return;
+    }
+
+    const endpoint = `https://cloudflare-analytics.com/cdn-cgi/rum`;
+
+    function sendErrorToCloudflare(errorData) {
+      // Use sendBeacon for reliability (survives page unload)
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(errorData)], {
+          type: 'application/json'
+        });
+        navigator.sendBeacon(endpoint, blob);
+      } else {
+        // Fallback to fetch for older browsers
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(errorData),
+          keepalive: true
+        }).catch(() => {
+          // Silently fail if error reporting fails
+        });
+      }
+    }
+
+    function formatError(message, source, lineno, colno, error) {
+      return {
+        accountId: accountId,
+        projectName: projectName,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        error: {
+          message: message,
+          source: source,
+          line: lineno,
+          column: colno,
+          stack: error ? error.stack : null
+        }
+      };
+    }
+
+    // Global error handler
+    window.addEventListener('error', function(event) {
+      const errorData = formatError(
+        event.message,
+        event.filename,
+        event.lineno,
+        event.colno,
+        event.error
+      );
+      sendErrorToCloudflare(errorData);
+    });
+
+    // Unhandled promise rejection handler
+    window.addEventListener('unhandledrejection', function(event) {
+      const errorData = formatError(
+        event.reason ? event.reason.message || event.reason : 'Unhandled Promise Rejection',
+        window.location.href,
+        0,
+        0,
+        event.reason
+      );
+      sendErrorToCloudflare(errorData);
+    });
+  })();
 </script>

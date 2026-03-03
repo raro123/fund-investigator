@@ -1,154 +1,233 @@
-# Fund Investigator - Landing Page
+# Fund Investigator
 
-Clean, professional landing page for Fund Investigator — a platform providing comprehensive mutual fund analysis for Indian investors.
+A financial advisory brand platform showcasing comprehensive mutual fund analysis for Indian investors. Built as a fast, content-driven static site with a systematic design approach.
 
-## Design Philosophy
+## Architecture
 
-This site embodies a "knowledgeable colleague" tone:
-- **Informative, not instructional** — explains what's available, not why you should learn it
-- **Helpful, not pushy** — provides options, not directives
-- **Professional restraint** — clean design without sales tactics
-- **Balanced emphasis** — equal weight to analysis tool and reports
+**Hub + Spoke Pattern:**
+- **Hub:** `fundinvestigator.com` (Marketing & Reports) - Static site on Cloudflare Pages
+- **Spoke:** `deepdive.fundinvestigator.com` (Analysis Tool) - Interactive app on Railway
+
+This architecture separates the fast, SEO-optimized content layer from the compute-heavy application layer.
 
 ## Tech Stack
 
-- **Astro** - Static site generator
-- **Tailwind CSS** - Styling with custom brand colors
-- **Cloudflare Pages** - Deployment platform
+- **Astro v4** - Static site generator (SSG mode, zero-JS output)
+- **Tailwind CSS v3** - Utility-first styling with custom design tokens
+- **TypeScript** - Type-safe components and props
+- **Cloudflare Pages** - Deployment and hosting
+- **Cloudflare RUM** - Analytics
 
-## Brand Identity
+## 3-Layer Design System
 
-- **Colors:**
-  - Navy Blue (#1E3A5F) - Primary
-  - Gold (#D4AF37) - Accent
-  - Cream (#fefce8) - Light backgrounds
+### Layer 1: Design Tokens
+**Source of Truth:** `tailwind.config.mjs`
 
-- **Typography:**
-  - Inter font family
-  - Line height: 1.7 for readability
-  - Clean hierarchy with generous whitespace
+All visual properties are defined as Tailwind tokens. Never use arbitrary values (e.g., `bg-[#1E3A5F]`).
 
-- **Logo:**
-  - "FIN" in magnifying glass lens
-  - Navy primary with gold accent on "I"
-  - Short handle design
+**Available Tokens:**
+- **Colors:** `navy`, `gold`, `cream` (with light/dark variants) + semantic colors (`success`, `error`, `warning`, `info`)
+- **Typography:** Display, Heading, Body, Caption sizes (each with line-height and letter-spacing)
+- **Spacing:** `section-y`, `card-padding`, `element-gap`, etc.
+- **Shadows:** Standard shadows + branded `shadow-gold`, `shadow-navy`
+- **Animations:** fade-in, scale-in, slide-in-right, shimmer, etc.
+
+### Layer 2: UI Components
+**Location:** `src/components/ui/`
+
+12 TypeScript-typed Astro components with strict variant-based architecture:
+- Button, Card, Badge, Hero, Section
+- Input, LoginForm, SearchInput, SubscribeForm
+- Table, SortableTable, OptimizedImage
+
+**Usage Pattern:**
+```astro
+import { Button } from '@/components/ui/Button.astro';
+import { Card } from '@/components/ui/Card.astro';
+
+<Button variant="primary" size="lg" icon="arrow-right">Launch Tool</Button>
+<Card variant="elevated" padding="lg">...</Card>
+```
+
+**Rules:**
+- Always use component props, never inline custom classes
+- All variants derive from design tokens
+- No ad-hoc styling
+
+### Layer 3: Documentation
+**Live Reference:** Visit `/styleguide` to see all available components, variants, and usage examples.
 
 ## Project Structure
 
 ```
 fund-investigator/
 ├── src/
+│   ├── assets/images/          # Auto-optimized images (WebP/AVIF)
+│   │   └── reports/            # Per-article image folders
 │   ├── components/
-│   │   ├── Header.astro        # Navigation header
-│   │   ├── Footer.astro        # Site footer
-│   │   └── Logo.astro          # Brand logo component
+│   │   ├── ui/                 # 12 UI components
+│   │   │   ├── Button.astro
+│   │   │   ├── Card.astro
+│   │   │   ├── Badge.astro
+│   │   │   └── [9 more...]
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   └── Logo.astro
 │   ├── layouts/
-│   │   └── Layout.astro        # Main page layout
+│   │   ├── Layout.astro        # Global layout
+│   │   └── ArticleLayout.astro # Report pages
 │   └── pages/
 │       ├── index.astro         # Landing page
-│       └── reports.astro       # Reports listing page
+│       ├── reports.astro       # Report listing
+│       ├── reports/            # Markdown report files
+│       │   ├── _TEMPLATE.md    # Content template
+│       │   └── [articles].md
+│       ├── about.astro
+│       ├── styleguide.astro    # Component showcase
+│       ├── disclaimer.astro
+│       ├── privacy.astro
+│       └── terms.astro
 ├── public/
-│   ├── _redirects              # Cloudflare routing config
-│   └── sample-tearsheet.png    # Sample analysis image
+│   ├── images/reports/         # Static social card images
+│   └── _redirects              # Cloudflare routing config
+├── docs/
+│   ├── CONTENT-GUIDE.md        # Writing tone & style
+│   └── DEPLOYMENT.md           # Deploy procedures
+├── CLAUDE.md                   # Project context
+├── tailwind.config.mjs         # Design tokens (source of truth)
 ├── astro.config.mjs
-├── tailwind.config.mjs
 └── package.json
 ```
 
-## Setup
+## Quick Start
 
 1. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Add sample tearsheet:**
-   - Place a high-quality screenshot of your fund analysis at `public/sample-tearsheet.png`
-   - Recommended: 850px × 1100px (letter size aspect ratio)
+2. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+   Site available at `http://localhost:4321`
 
-3. **Update contact information:**
-   - Edit `src/pages/index.astro`
-   - Update email, LinkedIn, and Twitter links in the Contact section
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
-4. **Configure Railway redirect:**
-   - Edit `public/_redirects`
-   - Replace `https://your-railway-app.railway.app/` with your actual Railway app URL
+4. **Preview production build:**
+   ```bash
+   npm run preview
+   ```
+
+## Creating Content
+
+### New Report Workflow
+
+1. **Copy template:** Duplicate `src/pages/reports/_TEMPLATE.md`
+2. **Update frontmatter:**
+   ```yaml
+   ---
+   layout: ../../layouts/ArticleLayout.astro
+   title: "Report Title"
+   description: "SEO description (under 160 chars)"
+   date: 2025-01-11
+   readTime: "8 min read"
+   category: "Fund Analysis"
+   tags: ["Flexicap", "HDFC", "Long-term"]
+   featured: true
+   coverImage: "/images/reports/article-slug.png"
+   coverImageAlt: "Chart description"
+   ---
+   ```
+
+3. **Add images:**
+   - **Charts/graphs:** Save to `src/assets/images/reports/article-slug/` (auto-optimized)
+   - **Social cards:** Save to `public/images/reports/` (static URLs for OpenGraph)
+
+4. **Follow Investigation Arc:** Premise → Evidence → Analysis → Verdict
+
+### Image Strategy
+
+| Image Type | Location | Path Format | Processing |
+|------------|----------|-------------|------------|
+| Charts, graphs, content images | `src/assets/images/reports/{slug}/` | `../../assets/images/...` | Auto-optimized (WebP/AVIF) |
+| Social cards, OpenGraph | `public/images/reports/` | `"/images/reports/..."` | Static (no processing) |
 
 ## Development
 
-```bash
-npm run dev
+### Component Usage
+```astro
+---
+import Button from '@/components/ui/Button.astro';
+import Card from '@/components/ui/Card.astro';
+import Badge from '@/components/ui/Badge.astro';
+---
+
+<Card variant="elevated" padding="lg">
+  <Badge variant="success">High Conviction</Badge>
+  <h3>Fund Name</h3>
+  <p>Analysis summary...</p>
+  <Button variant="primary" href="/reports/article-slug">Read Report</Button>
+</Card>
 ```
 
-Site will be available at `http://localhost:4321`
-
-## Build
-
-```bash
-npm run build
+### Mobile-First Responsive Design
+Use Tailwind breakpoints for responsive layouts:
+```astro
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- Cards... -->
+</div>
 ```
 
-Output will be in `dist/` directory
+### Essential Commands
+- `npm run dev` - Start local development server
+- `npm run build` - Build for production (`dist/` directory)
+- `npm run preview` - Preview production build locally
+- `npm run astro check` - Type-check TypeScript
 
-## Deployment to Cloudflare Pages
+## Documentation
 
-1. **Connect repository:**
-   - Go to Cloudflare Pages dashboard
-   - Click "Create a project"
-   - Connect your Git repository
+- **[CLAUDE.md](CLAUDE.md)** - Project architecture, design system, and development workflow
+- **[docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md)** - Writing guidelines and tone reference
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures and troubleshooting
+- **Live Styleguide** - Visit `/styleguide` for component reference
 
-2. **Configure build settings:**
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** 18 or higher
+## Deployment
 
-3. **Deploy:**
-   - Cloudflare will automatically build and deploy
-   - Updates push automatically on git commits
+This project deploys automatically to Cloudflare Pages on pushes to `main`.
 
-4. **Custom domain:**
-   - Add `fundinvestigator.com` in Cloudflare Pages settings
-   - Configure DNS records as instructed
-
-## Routing Configuration
-
-The `public/_redirects` file redirects `/app` requests to your Railway application:
-
-```
-/app https://your-railway-app.railway.app/ 302
-```
-
-This allows:
-- Main site: `fundinvestigator.com` (Cloudflare Pages)
-- Analysis tool: Clicking "Launch Tool" redirects to Railway app
-
-Note: Cloudflare Pages `_redirects` supports standard redirects (301/302) only. For URL proxying that keeps `fundinvestigator.com/app` in the address bar, a Cloudflare Worker would be needed.
+For detailed deployment setup, custom domains, and troubleshooting, see **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
 
 ## Content Guidelines
 
-When updating content, maintain the established tone:
+**Persona:** Investigator Colleague - Professional, matter-of-fact, peer-to-peer communication.
 
-### ✅ Do:
-- Use complete sentences and paragraphs
-- State facts and capabilities clearly
-- Write in an informative, matter-of-fact style
-- Assume readers are intelligent and capable
+**Core Philosophy:** Fact-Based Storytelling - Use data to create the narrative arc, not adjectives.
 
-### ❌ Avoid:
+### Quick Checklist
+
+✅ **Do:**
+- Use specific metrics (e.g., "15% CAGR" not "huge returns")
+- Structure reports with Investigation Arc (Premise → Evidence → Analysis → Verdict)
+- Write complete sentences in paragraph form
+- Let data provide the drama
+
+❌ **Avoid:**
+- Superlatives ("best", "massive", "revolutionary")
 - Exclamation marks (max 1 per page)
-- Superlatives ("best", "ultimate", "revolutionary")
-- Sales-y language ("Get instant access!", "Join thousands!")
-- Teacher-like tone ("Learn how to...", "Master the...")
-- Bullet point lists (except in code/technical contexts)
+- Sales tactics ("act now", "limited time")
+- Bullet lists (except in technical/code contexts)
 
-## SEO Optimization
+**Full guidelines:** See [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md)
 
-- Clean semantic HTML structure
-- Descriptive meta tags
-- Fast loading (static generation)
-- Mobile responsive design
-- Proper heading hierarchy
+## Brand Identity
+
+- **Colors:** Navy (#1E3A5F), Gold (#D4AF37), Cream (#fefce8)
+- **Typography:** Inter font family with generous line-height (1.7)
+- **Logo:** "FIN" in magnifying glass lens (Navy primary, Gold accent on "I")
 
 ## License
 
@@ -156,4 +235,4 @@ When updating content, maintain the established tone:
 
 ---
 
-For questions or support, contact: contact@fundinvestigator.com
+For questions or support: contact@fundinvestigator.com
