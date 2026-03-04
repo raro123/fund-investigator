@@ -22,7 +22,7 @@ export default {
         // fi-light:  Problem · Deepdive · Email Capture sections
         'fi-dark':   '#020617',   // slate-950
         'fi-mid':    '#1E293B',   // slate-800 (dark card surfaces, label pill bg)
-        'fi-light':  '#F8FAFC',   // slate-50  (alternating light sections)
+        'fi-light':  '#E2E8F0',   // slate-200 (alternating light sections)
 
         // --- PRIMARY TEXT ---
         // fi-ink:      Primary text on light bg, primary text on dark bg (via opacity)

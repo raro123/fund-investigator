@@ -117,13 +117,13 @@ const featuredReports = allReports
   </Section>
 
   <!-- Investigations Section -->
-  <Section background="white" spacing="md" maxWidth="full">
+  <Section background="dark" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <!-- Centered header -->
       <div class="text-center mb-10 lg:mb-12">
-        <Badge class="mb-6">Investigations</Badge>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-fi-ink mb-6 break-words">What the Data Actually Says</h2>
-        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
+        <Badge variant="dark" class="mb-6">Investigations</Badge>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-fi-ink-inv mb-6 break-words">What the Data Actually Says</h2>
+        <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
           Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
         </p>
       </div>
@@ -134,28 +134,35 @@ const featuredReports = allReports
           <div class="grid sm:grid-cols-2 gap-5">
             {featuredReports.slice(0, 2).map((report) => (
               <a href={`/reports/${report.slug}`} class="block group">
-                <div class="bg-white rounded-2xl p-6 border border-fi-border hover:border-slate-300 hover:shadow-[0_16px_44px_rgba(2,6,23,0.09)] hover:-translate-y-1 transition-all duration-200 h-full">
-                  <div class="flex items-start justify-between gap-4">
-                    <div class="flex-1 min-w-0">
-                      <Badge class="mb-3">Featured Investigation</Badge>
-                      <h3 class="text-heading-sm font-bold text-fi-ink mb-2 leading-tight group-hover:text-fi-gold transition-colors break-words">
-                        {report.data.title}
-                      </h3>
-                      <p class="text-body-sm text-fi-muted leading-relaxed line-clamp-2">
-                        {report.data.description}
-                      </p>
+                <div class="bg-fi-mid rounded-2xl overflow-hidden border border-fi-border-dark hover:border-fi-gold/40 hover:shadow-[0_16px_44px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-200 h-full">
+                  {report.data.coverImage && (
+                    <div class="h-44 overflow-hidden">
+                      <Image
+                        src={report.data.coverImage}
+                        alt={report.data.coverImageAlt ?? report.data.title}
+                        class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                      />
                     </div>
-                    <svg class="w-5 h-5 text-fi-muted group-hover:text-fi-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25" d="M9 5l7 7-7 7"/>
-                    </svg>
+                  )}
+                  <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                      <Badge variant="dark">{report.data.category}</Badge>
+                      <span class="text-caption text-fi-muted-inv/60">{report.data.readTime}</span>
+                    </div>
+                    <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-2 leading-tight group-hover:text-fi-gold transition-colors break-words">
+                      {report.data.title}
+                    </h3>
+                    <p class="text-body-sm text-fi-muted-inv leading-relaxed line-clamp-2">
+                      {report.data.description}
+                    </p>
                   </div>
                 </div>
               </a>
             ))}
           </div>
         ) : (
-          <div class="bg-white rounded-2xl p-6 sm:p-8 text-center border border-fi-border">
-            <p class="text-body-md text-fi-muted">No featured investigations yet. Check back soon.</p>
+          <div class="bg-fi-mid rounded-2xl p-6 sm:p-8 text-center border border-fi-border-dark">
+            <p class="text-body-md text-fi-muted-inv">No featured investigations yet. Check back soon.</p>
           </div>
         )}
 
