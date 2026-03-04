@@ -2,8 +2,8 @@
 import Logo from './Logo.astro';
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-[10000] transition-colors duration-300">
-  <div class="max-w-7xl mx-auto px-6 py-4">
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/97 backdrop-blur-[10px] border-b border-fi-border z-[10000] transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-10 py-4">
     <div class="flex items-center justify-between">
       <a href="/" class="flex items-center" id="logo-link">
         <Logo width={160} />
@@ -11,58 +11,58 @@ import Logo from './Logo.astro';
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-8">
-        <a href="/reports" class="text-navy hover:text-gold transition-colors font-medium">Investigations</a>
+        <a href="/reports" class="text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">Investigations</a>
         <!-- Tools Dropdown -->
         <div class="relative group">
-          <button class="flex items-center gap-1 text-navy hover:text-gold transition-colors font-medium">
+          <button class="flex items-center gap-1 text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">
             Tools
             <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
           <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200">
-            <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-2 w-64">
+            <div class="bg-white shadow-lg rounded-xl border border-fi-border p-2 min-w-[180px]">
               <a
                 href="https://deepdive.fundinvestigator.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-start gap-3 p-3 rounded-md hover:bg-cream transition-colors"
+                class="flex items-start gap-3 p-3 rounded-md hover:bg-fi-light transition-colors"
               >
-                <svg class="w-5 h-5 text-navy mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <svg class="w-5 h-5 text-fi-muted mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
                 <div>
-                  <div class="flex items-center gap-1.5 font-medium text-navy">
+                  <div class="flex items-center gap-1.5 font-medium text-fi-ink text-sm">
                     Deepdive
-                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <svg class="w-3.5 h-3.5 text-fi-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                     </svg>
                   </div>
-                  <p class="text-sm text-gray-500 mt-0.5">Interactive fund analysis tool</p>
+                  <p class="text-body-sm text-fi-muted mt-0.5">Interactive fund analysis tool</p>
                 </div>
               </a>
               <div class="flex items-start gap-3 p-3 rounded-md opacity-50 cursor-not-allowed">
-                <svg class="w-5 h-5 text-navy mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <svg class="w-5 h-5 text-fi-muted mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
                 <div>
-                  <div class="flex items-center gap-2 font-medium text-navy">
+                  <div class="flex items-center gap-2 font-medium text-fi-ink text-sm">
                     AUM Watch
-                    <span class="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">Coming Soon</span>
+                    <span class="text-xs bg-fi-icon-bg text-fi-muted px-1.5 py-0.5 rounded-full">Coming Soon</span>
                   </div>
-                  <p class="text-sm text-gray-500 mt-0.5">Track fund size changes over time</p>
+                  <p class="text-body-sm text-fi-muted mt-0.5">Track fund size changes over time</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <a href="/about" class="text-navy hover:text-gold transition-colors font-medium">About</a>
+        <a href="/about" class="text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">About</a>
       </nav>
 
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden text-navy focus:outline-none focus:ring-2 focus:ring-gold rounded p-2 transition-all duration-300"
+        class="md:hidden text-fi-ink focus:outline-none focus:ring-2 focus:ring-fi-gold rounded p-2 transition-all duration-300"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -84,10 +84,10 @@ import Logo from './Logo.astro';
   aria-hidden="true"
 >
   <!-- Menu content with background -->
-  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-white shadow-lg">
+  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-white shadow-lg border-t border-fi-border">
     <a
       href="/reports"
-      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+      class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
     >
       Investigations
     </a>
@@ -95,7 +95,7 @@ import Logo from './Logo.astro';
     <div class="w-full">
       <button
         id="mobile-tools-toggle"
-        class="flex items-center justify-between w-full text-navy hover:text-gold transition-colors font-medium text-lg"
+        class="flex items-center justify-between w-full text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg"
       >
         Tools
         <svg id="mobile-tools-chevron" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,38 +107,38 @@ import Logo from './Logo.astro';
           href="https://deepdive.fundinvestigator.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-start gap-3 p-3 rounded-md hover:bg-cream transition-colors mobile-menu-link"
+          class="flex items-start gap-3 p-3 rounded-md hover:bg-fi-light transition-colors mobile-menu-link"
         >
-          <svg class="w-5 h-5 text-navy mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <svg class="w-5 h-5 text-fi-muted mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <div>
-            <div class="flex items-center gap-1.5 font-medium text-navy">
+            <div class="flex items-center gap-1.5 font-medium text-fi-ink text-sm">
               Deepdive
-              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <svg class="w-3.5 h-3.5 text-fi-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
               </svg>
             </div>
-            <p class="text-sm text-gray-500 mt-0.5">Interactive fund analysis tool</p>
+            <p class="text-body-sm text-fi-muted mt-0.5">Interactive fund analysis tool</p>
           </div>
         </a>
         <div class="flex items-start gap-3 p-3 rounded-md opacity-50 cursor-not-allowed">
-          <svg class="w-5 h-5 text-navy mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <svg class="w-5 h-5 text-fi-muted mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
           <div>
-            <div class="flex items-center gap-2 font-medium text-navy">
+            <div class="flex items-center gap-2 font-medium text-fi-ink text-sm">
               AUM Watch
-              <span class="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">Coming Soon</span>
+              <span class="text-xs bg-fi-icon-bg text-fi-muted px-1.5 py-0.5 rounded-full">Coming Soon</span>
             </div>
-            <p class="text-sm text-gray-500 mt-0.5">Track fund size changes over time</p>
+            <p class="text-body-sm text-fi-muted mt-0.5">Track fund size changes over time</p>
           </div>
         </div>
       </div>
     </div>
     <a
       href="/about"
-      class="text-navy hover:text-gold transition-colors font-medium text-lg mobile-menu-link"
+      class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
     >
       About
     </a>
@@ -159,7 +159,6 @@ import Logo from './Logo.astro';
     isOpen = !isOpen;
 
     if (isOpen) {
-      // Open menu - show overlay
       mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.add('opacity-100');
       mobileMenu?.setAttribute('aria-hidden', 'false');
@@ -168,7 +167,6 @@ import Logo from './Logo.astro';
       menuButton?.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     } else {
-      // Close menu - hide overlay
       mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
       mobileMenu?.classList.remove('opacity-100');
       mobileMenu?.setAttribute('aria-hidden', 'true');
@@ -181,25 +179,21 @@ import Logo from './Logo.astro';
 
   menuButton?.addEventListener('click', toggleMenu);
 
-  // Close menu when clicking on a link
   menuLinks.forEach(link => {
     link.addEventListener('click', () => {
       if (isOpen) toggleMenu();
     });
   });
 
-  // Mobile Tools sub-menu toggle
   const toolsToggle = document.getElementById('mobile-tools-toggle');
   const toolsPanel = document.getElementById('mobile-tools-panel');
   const toolsChevron = document.getElementById('mobile-tools-chevron');
 
   toolsToggle?.addEventListener('click', () => {
-    const isExpanded = !toolsPanel?.classList.contains('hidden');
     toolsPanel?.classList.toggle('hidden');
     toolsChevron?.classList.toggle('rotate-180');
   });
 
-  // Close menu on escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen) {
       toggleMenu();

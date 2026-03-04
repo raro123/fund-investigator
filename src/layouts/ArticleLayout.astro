@@ -15,22 +15,22 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
   ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
   ogType="article"
 >
-  <div class="fixed top-0 left-0 right-0 h-1 bg-cream z-50">
-    <div class="h-full bg-gold scroll-progress origin-left scale-x-0"></div>
+  <div class="fixed top-0 left-0 right-0 h-1 bg-fi-border z-50">
+    <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header class="bg-navy pt-32 pb-20 px-6 text-center">
+  <header class="bg-fi-dark pt-32 pb-20 px-6 text-center">
     <div class="max-w-3xl mx-auto space-y-6">
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-400">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-fi-subtle">
         <time datetime={frontmatter.date}>{formattedDate}</time>
         <span>•</span>
         <span>{frontmatter.readTime}</span>
         {frontmatter.category && (
-          <><span>•</span><span class="text-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
+          <><span>•</span><span class="text-fi-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
         )}
       </div>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">{frontmatter.title}</h1>
-      <p class="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">{frontmatter.description}</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
+      <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.description}</p>
       {frontmatter.tags && (
         <div class="flex flex-wrap justify-center gap-2 pt-4">
           {frontmatter.tags.map((tag) => (
@@ -43,23 +43,23 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 
   <article class="relative bg-white px-6 py-16 md:py-24">
     <div class="max-w-[65ch] mx-auto">
-      <div class="prose prose-lg prose-slate prose-headings:text-navy prose-headings:font-bold prose-p:text-gray-600 prose-p:leading-loose prose-a:text-navy prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-gold/30 hover:prose-a:border-gold hover:prose-a:text-gold prose-a:transition-colors prose-blockquote:border-l-gold prose-blockquote:bg-cream/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-lg prose-li:marker:text-gold">
+      <div class="prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-lg prose-li:marker:text-fi-gold">
         <slot />
       </div>
 
-      <div class="mt-16 pt-8 border-t border-gray-100">
-        <div class="bg-cream rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+      <div class="mt-16 pt-8 border-t border-fi-border">
+        <div class="bg-fi-light rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
           <div class="flex-1">
-            <h3 class="text-xl font-bold text-navy mb-2">Investigate this yourself</h3>
-            <p class="text-gray-600">Use Deepdive to analyze the funds mentioned in this report.</p>
+            <h3 class="text-xl font-bold text-fi-ink mb-2">Investigate this yourself</h3>
+            <p class="text-fi-muted">Use Deepdive to analyze the funds mentioned in this report.</p>
           </div>
-          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-navy-light transition-colors">Launch Deepdive</a>
+          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="bg-fi-gold text-fi-ink px-[26px] py-[13px] rounded-[10px] font-bold text-sm hover:bg-fi-gold-hover hover:-translate-y-0.5 transition-all duration-200">Launch Deepdive</a>
         </div>
       </div>
 
-      <div class="mt-12 pt-8 border-t border-gray-200">
-        <div class="text-sm text-gray-500 leading-relaxed max-w-[60ch] mx-auto">
-          <h4 class="font-semibold text-gray-700 mb-3">Disclaimer</h4>
+      <div class="mt-12 pt-8 border-t border-fi-border">
+        <div class="text-sm text-fi-muted leading-relaxed max-w-[60ch] mx-auto">
+          <h4 class="font-semibold text-fi-ink mb-3">Disclaimer</h4>
           <p class="mb-3">
             This analysis is based on historical performance data, sourced from Fund Investigator's Mutual Fund Deepdive platform. Past performance does not guarantee future results. This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell.
           </p>

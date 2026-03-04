@@ -3,59 +3,59 @@ import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer id="contact" class="bg-gray-50 border-t border-gray-200 py-12 scroll-mt-20">
-  <div class="max-w-7xl mx-auto px-6">
+<footer id="contact" class="bg-fi-dark py-16 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-10">
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
 
       <div class="flex flex-col gap-4">
         <a href="/" class="inline-block">
           <Logo width={160} />
         </a>
-        <p class="text-secondary-gray text-sm leading-relaxed">
+        <p class="text-fi-gold italic text-body-sm leading-relaxed">
           Investigate Before You Invest
         </p>
       </div>
 
       <div>
-        <h3 class="text-navy font-semibold mb-4 text-sm">Navigate</h3>
+        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Navigate</h3>
         <nav class="flex flex-col gap-3">
-          <a href="/reports" class="text-secondary-gray hover:text-gold transition-colors text-sm">Investigations</a>
-          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-secondary-gray hover:text-gold transition-colors text-sm">Deepdive</a>
-          <a href="/about" class="text-secondary-gray hover:text-gold transition-colors text-sm">Why We Built This</a>
+          <a href="/reports" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
+          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
+          <a href="/about" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Why We Built This</a>
         </nav>
       </div>
 
       <div>
-        <h3 class="text-navy font-semibold mb-4 text-sm">Legal</h3>
+        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Legal</h3>
         <div class="flex flex-col gap-3">
-          <a href="/terms" class="text-secondary-gray hover:text-gold transition-colors text-sm">Terms of Service</a>
-          <a href="/privacy" class="text-secondary-gray hover:text-gold transition-colors text-sm">Privacy Policy</a>
-          <a href="/disclaimer" class="text-secondary-gray hover:text-gold transition-colors text-sm">Disclaimer</a>
+          <a href="/terms" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Terms of Service</a>
+          <a href="/privacy" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Privacy Policy</a>
+          <a href="/disclaimer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Disclaimer</a>
         </div>
       </div>
 
       <div>
-        <h3 class="text-navy font-semibold mb-4 text-sm">Connect</h3>
+        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Connect</h3>
         <div class="flex gap-3">
           <a
             href="mailto:contact@fundinvestigator.com"
-            class="w-9 h-9 rounded-full bg-navy/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            class="w-[34px] h-[34px] rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"
             aria-label="Email"
           >
-            <svg class="w-4 h-4 text-navy group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-fi-muted-inv group-hover:text-fi-ink-inv transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </a>
 
-<a
+          <a
             href="https://twitter.com/fundinvestigate"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-9 h-9 rounded-full bg-navy/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            class="w-[34px] h-[34px] rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"
             aria-label="X (Twitter)"
           >
-            <svg class="w-4 h-4 text-navy group-hover:text-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-fi-muted-inv group-hover:text-fi-ink-inv transition-colors" fill="currentColor" viewBox="0 0 24 24">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
@@ -64,10 +64,10 @@ const year = new Date().getFullYear();
             href="https://youtube.com/@fundinvestigator"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-9 h-9 rounded-full bg-navy/10 hover:bg-gold/20 flex items-center justify-center transition-all group"
+            class="w-[34px] h-[34px] rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"
             aria-label="YouTube"
           >
-            <svg class="w-4 h-4 text-navy group-hover:text-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-fi-muted-inv group-hover:text-fi-ink-inv transition-colors" fill="currentColor" viewBox="0 0 24 24">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
           </a>
@@ -76,11 +76,11 @@ const year = new Date().getFullYear();
 
     </div>
 
-    <div class="h-px bg-gray-200 mb-6"></div>
+    <div class="h-px bg-fi-border-dark mb-6"></div>
 
     <div class="text-center">
-      <p class="text-secondary-gray text-xs">
-        © 2026 Fund Investigator. All rights reserved.
+      <p class="text-fi-muted-inv text-[12px]">
+        © {year} Fund Investigator. All rights reserved.
       </p>
     </div>
 
