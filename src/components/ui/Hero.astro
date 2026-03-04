@@ -29,7 +29,7 @@ interface Props {
   /** Center align content */
   centered?: boolean;
   /** Background color variant */
-  background?: 'white' | 'cream' | 'gradient' | 'navy';
+  background?: 'white' | 'light' | 'dark';
   /** Additional CSS classes for section */
   class?: string;
   /** Additional CSS classes for container */
@@ -39,7 +39,7 @@ interface Props {
 const {
   size = 'lg',
   centered = true,
-  background = 'gradient',
+  background = 'white',
   class: className = '',
   containerClass = '',
 } = Astro.props;
@@ -54,9 +54,8 @@ const sizeStyles = {
 // Background styles
 const backgroundStyles = {
   white: 'bg-white',
-  cream: 'bg-cream/30',
-  gradient: 'bg-gradient-to-b from-white via-cream/30 to-white',
-  navy: 'bg-navy text-white',
+  light: 'bg-fi-light',
+  dark:  'bg-fi-dark text-fi-ink-inv',
 };
 
 // Alignment styles

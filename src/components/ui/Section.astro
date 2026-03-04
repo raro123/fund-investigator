@@ -23,7 +23,7 @@
 
 interface Props {
   /** Background color variant */
-  background?: 'white' | 'cream' | 'gradient' | 'navy';
+  background?: 'white' | 'light' | 'dark';
   /** Vertical padding (spacing) */
   spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   /** Maximum width of inner container */
@@ -45,9 +45,8 @@ const {
 // Background styles
 const backgroundStyles = {
   white: 'bg-white',
-  cream: 'bg-cream/30',
-  gradient: 'bg-gradient-to-b from-white via-cream/30 to-white',
-  navy: 'bg-navy text-white',
+  light: 'bg-fi-light',
+  dark:  'bg-fi-dark text-fi-ink-inv',
 };
 
 // Spacing styles (vertical padding)

@@ -25,16 +25,16 @@ const featuredReports = allReports
   description="Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions."
 >
   <!-- Hero Section -->
-  <Hero size="md">
+  <Hero size="lg" background="dark">
     <!-- Oversized heading with breathing room -->
     <div class="mb-16">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl font-bold text-navy mb-8 leading-[1.1] tracking-tight break-words">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl font-bold text-fi-ink-inv mb-8 leading-[1.08] tracking-[-0.02em] break-words">
         Mutual Funds,
-        <span class="text-navy/60">Investigated</span>
+        <span class="text-fi-gold">Investigated</span>
       </h1>
 
       <!-- Reduced subtitle - single line, essential info only -->
-      <p class="text-body-lg text-secondary-gray max-w-2xl mx-auto font-light leading-relaxed">
+      <p class="text-body-lg text-fi-muted-inv max-w-2xl mx-auto font-light leading-relaxed">
         Mutual funds are sold on marketing stories. We judge their story with data.
       </p>
     </div>
@@ -52,68 +52,66 @@ const featuredReports = allReports
     </div>
 
     <!-- Beginner's guide link -->
-    <p class="text-body-sm text-secondary-gray text-center mb-0">
-      New to mutual funds? <a href="#" class="text-gold underline hover:text-navy transition-colors">Start with our beginner's guide &rarr;</a>
+    <p class="text-body-sm text-fi-muted-inv text-center mb-0">
+      New to mutual funds? <a href="#" class="text-fi-gold underline hover:opacity-80 transition-opacity">Start with our beginner's guide &rarr;</a>
     </p>
   </Hero>
 
   <!-- Problem Section: The Sales Trap -->
-  <Section background="white" spacing="md" maxWidth="full">
+  <Section background="light" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-gradient-to-br from-red-50/60 to-orange-50/40 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-16">
 
-        <!-- Section Header -->
-        <div class="text-center mb-12 lg:mb-16">
-          <Badge class="mb-6">The Sales Trap</Badge>
-          <h2 class="text-3xl sm:text-4xl lg:text-display-md font-bold text-navy mb-6 leading-tight tracking-tight">
-            Funds are marketed on their best returns.<br />
-            <span class="text-navy/60">Your SIP statement tells a different story.</span>
-          </h2>
+      <!-- Section Header -->
+      <div class="text-center mb-12 lg:mb-16">
+        <Badge class="mb-6">The Sales Trap</Badge>
+        <h2 class="text-3xl sm:text-4xl lg:text-display-md font-bold text-fi-ink mb-6 leading-tight tracking-tight">
+          Funds are marketed on their best returns.<br />
+          <span class="text-fi-muted">Your SIP statement tells a different story.</span>
+        </h2>
+      </div>
+
+      <!-- Problem Cards Grid -->
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+
+        <!-- Card 1: Returns are marketed -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Returns are marketed. Risk is footnoted.</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">
+            Past returns are marketed everywhere. Rolling returns and risk-adjusted metrics are hard to find. What you don't see is exactly what you need to make an informed decision.
+          </p>
         </div>
 
-        <!-- Problem Cards Grid -->
-        <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-
-          <!-- Card 1: Returns are marketed -->
-          <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-            <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-navy mb-3">Returns are marketed. Risk is footnoted.</h3>
-            <p class="text-body-sm text-secondary-gray leading-relaxed">
-              Past returns are marketed everywhere. Rolling returns and risk-adjusted metrics are hard to find. What you don't see is exactly what you need to make an informed decision.
-            </p>
+        <!-- Card 2: Today's winner -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
           </div>
-
-          <!-- Card 2: Today's winner -->
-          <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-            <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-navy mb-3">Today's winner is tomorrow's trap.</h3>
-            <p class="text-body-sm text-secondary-gray leading-relaxed">
-              Rankings reward recent performance. A fund that topped last year's charts may have simply caught a rising market. Past returns, without context, are a trap disguised as a signal.
-            </p>
-          </div>
-
-          <!-- Card 3: Transparency -->
-          <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-            <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-navy mb-3">Transparency doesn't earn commissions.</h3>
-            <p class="text-body-sm text-secondary-gray leading-relaxed">
-              Commissions create misselling incentives. The fund you're sold is rarely the one that deserves it. It's the one that pays the most to be recommended.
-            </p>
-          </div>
-
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Today's winner is tomorrow's trap.</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">
+            Rankings reward recent performance. A fund that topped last year's charts may have simply caught a rising market. Past returns, without context, are a trap disguised as a signal.
+          </p>
         </div>
+
+        <!-- Card 3: Transparency -->
+        <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
+            </svg>
+          </div>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Transparency doesn't earn commissions.</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">
+            Commissions create misselling incentives. The fund you're sold is rarely the one that deserves it. It's the one that pays the most to be recommended.
+          </p>
+        </div>
+
       </div>
     </div>
   </Section>
@@ -121,220 +119,211 @@ const featuredReports = allReports
   <!-- Investigations Section -->
   <Section background="white" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-16">
-        <!-- Centered header -->
-        <div class="text-center mb-10 lg:mb-12">
-          <Badge class="mb-6">Investigations</Badge>
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy mb-6 break-words">What the Data Actually Says</h2>
-          <p class="text-body-md text-secondary-gray leading-relaxed max-w-2xl mx-auto">
-            Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
-          </p>
-        </div>
+      <!-- Centered header -->
+      <div class="text-center mb-10 lg:mb-12">
+        <Badge class="mb-6">Investigations</Badge>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-fi-ink mb-6 break-words">What the Data Actually Says</h2>
+        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
+          Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
+        </p>
+      </div>
 
-        <!-- Featured investigation cards: 2-column grid -->
-        <div class="max-w-[980px] mx-auto">
-          {featuredReports.length > 0 ? (
-            <div class="grid sm:grid-cols-2 gap-4">
-              {featuredReports.slice(0, 2).map((report) => (
-                <a href={`/reports/${report.slug}`} class="block group">
-                  <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 h-full">
-                    <div class="flex items-start justify-between gap-3 sm:gap-4">
-                      <div class="flex-1 min-w-0">
-                        <Badge class="mb-2">Featured Investigation</Badge>
-                        <h3 class="text-base sm:text-lg font-bold text-navy mb-2 leading-tight group-hover:text-gold transition-colors break-words">
-                          {report.data.title}
-                        </h3>
-                        <p class="text-sm sm:text-base text-secondary-gray leading-relaxed line-clamp-2">
-                          {report.data.description}
-                        </p>
-                      </div>
-                      <svg class="w-4 h-4 sm:w-5 sm:h-5 text-navy group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                      </svg>
+      <!-- Featured investigation cards: 2-column grid -->
+      <div class="max-w-[980px] mx-auto">
+        {featuredReports.length > 0 ? (
+          <div class="grid sm:grid-cols-2 gap-5">
+            {featuredReports.slice(0, 2).map((report) => (
+              <a href={`/reports/${report.slug}`} class="block group">
+                <div class="bg-white rounded-2xl p-6 border border-fi-border hover:border-slate-300 hover:shadow-[0_16px_44px_rgba(2,6,23,0.09)] hover:-translate-y-1 transition-all duration-200 h-full">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1 min-w-0">
+                      <Badge class="mb-3">Featured Investigation</Badge>
+                      <h3 class="text-heading-sm font-bold text-fi-ink mb-2 leading-tight group-hover:text-fi-gold transition-colors break-words">
+                        {report.data.title}
+                      </h3>
+                      <p class="text-body-sm text-fi-muted leading-relaxed line-clamp-2">
+                        {report.data.description}
+                      </p>
                     </div>
+                    <svg class="w-5 h-5 text-fi-muted group-hover:text-fi-gold transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25" d="M9 5l7 7-7 7"/>
+                    </svg>
                   </div>
-                </a>
-              ))}
-            </div>
-          ) : (
-            <div class="bg-white rounded-2xl p-6 sm:p-8 text-center border border-gray-100">
-              <p class="text-body-md text-secondary-gray">No featured investigations yet. Check back soon.</p>
-            </div>
-          )}
-
-          <!-- CTA below cards -->
-          <div class="text-center mt-8">
-            <Button href="/reports" variant="secondary" size="md">See all investigations</Button>
+                </div>
+              </a>
+            ))}
           </div>
+        ) : (
+          <div class="bg-white rounded-2xl p-6 sm:p-8 text-center border border-fi-border">
+            <p class="text-body-md text-fi-muted">No featured investigations yet. Check back soon.</p>
+          </div>
+        )}
+
+        <!-- CTA below cards -->
+        <div class="text-center mt-8">
+          <Button href="/reports" variant="secondary" size="md">See all investigations</Button>
         </div>
       </div>
     </div>
   </Section>
 
   <!-- Deepdive Showcase Section -->
-  <Section background="white" spacing="md" maxWidth="full">
+  <Section background="light" spacing="md" maxWidth="full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-cream/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
 
-        <!-- Header -->
-        <div class="max-w-2xl mx-auto text-center mb-10">
-          <Badge class="mb-4">DEEPDIVE</Badge>
-          <h2 class="text-display-md font-bold text-navy mb-4">Your Own Fund Investigation</h2>
-          <p class="text-body-md text-secondary-gray leading-relaxed">
-            Your analysis and imagination on our platform. Choose the fund, the benchmark, the time period and be the investigator.
-          </p>
+      <!-- Header -->
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <Badge class="mb-4">Deepdive</Badge>
+        <h2 class="text-display-md font-bold text-fi-ink mb-4">Your Own Fund Investigation</h2>
+        <p class="text-body-md text-fi-muted leading-relaxed">
+          Your analysis and imagination on our platform. Choose the fund, the benchmark, the time period and be the investigator.
+        </p>
+      </div>
+
+      <!-- App Screenshot -->
+      <div class="mb-10">
+        <div class="bg-white rounded-2xl overflow-hidden border border-fi-border shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+          <Image
+            src={appScreenshot}
+            alt="Deepdive app showing mutual fund performance metrics and charts"
+            class="w-full h-auto"
+            loading="lazy"
+            widths={[640, 1024, 1400]}
+            sizes="100vw"
+          />
+        </div>
+      </div>
+
+      <!-- Three-column analytical lens cards -->
+      <div class="grid sm:grid-cols-3 gap-6 mb-10">
+
+        <!-- Card 1: Returns -->
+        <div class="bg-white rounded-2xl p-6 border border-fi-border">
+          <div class="w-10 h-10 mb-4 flex items-center justify-center">
+            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
+          <p class="text-heading-sm font-bold text-fi-ink mb-2">Did your fund actually outperform?</p>
+          <p class="text-body-sm text-fi-muted">Rolling and SIP returns reveal performance across multiple time periods.</p>
         </div>
 
-        <!-- App Screenshot -->
-        <div class="mb-10">
-          <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
-            <Image
-              src={appScreenshot}
-              alt="Deepdive app showing mutual fund performance metrics and charts"
-              class="w-full h-auto"
-              loading="lazy"
-              widths={[640, 1024, 1400]}
-              sizes="100vw"
-            />
+        <!-- Card 2: Risk -->
+        <div class="bg-white rounded-2xl p-6 border border-fi-border">
+          <div class="w-10 h-10 mb-4 flex items-center justify-center">
+            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
           </div>
+          <p class="text-heading-sm font-bold text-fi-ink mb-2">What happens when markets fall?</p>
+          <p class="text-body-sm text-fi-muted">Drawdown analysis and max loss scenarios across real market cycles.</p>
         </div>
 
-        <!-- Three-column analytical lens cards -->
-        <div class="grid sm:grid-cols-3 gap-6 mb-10">
-
-          <!-- Card 1: Returns -->
-          <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <div class="w-10 h-10 mb-4 flex items-center justify-center">
-              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
-                <polyline points="16 7 22 7 22 13"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-navy mb-2">Did your fund actually outperform?</p>
-            <p class="text-body-sm text-secondary-gray">Rolling and SIP returns reveal performance across multiple time periods.</p>
+        <!-- Card 3: Risk-Adjusted -->
+        <div class="bg-white rounded-2xl p-6 border border-fi-border">
+          <div class="w-10 h-10 mb-4 flex items-center justify-center">
+            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+              <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+              <path d="M7 21H17"/>
+              <path d="M12 3v18"/>
+              <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+            </svg>
           </div>
-
-          <!-- Card 2: Risk -->
-          <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <div class="w-10 h-10 mb-4 flex items-center justify-center">
-              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-navy mb-2">What happens when markets fall?</p>
-            <p class="text-body-sm text-secondary-gray">Drawdown analysis and max loss scenarios across real market cycles.</p>
-          </div>
-
-          <!-- Card 3: Risk-Adjusted -->
-          <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <div class="w-10 h-10 mb-4 flex items-center justify-center">
-              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                <path d="M7 21H17"/>
-                <path d="M12 3v18"/>
-                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-navy mb-2">Is the return worth the risk?</p>
-            <p class="text-body-sm text-secondary-gray">Sharpe, Sortino, and benchmark correlation tell you if the returns justify the ride.</p>
-          </div>
-
-        </div>
-
-        <!-- CTA -->
-        <div class="text-center">
-          <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive →</Button>
+          <p class="text-heading-sm font-bold text-fi-ink mb-2">Is the return worth the risk?</p>
+          <p class="text-body-sm text-fi-muted">Sharpe, Sortino, and benchmark correlation tell you if the returns justify the ride.</p>
         </div>
 
       </div>
+
+      <!-- CTA -->
+      <div class="text-center">
+        <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive →</Button>
+      </div>
+
     </div>
   </Section>
 
   <!-- Why Fund Investigator Section -->
-  <Section id="about" background="white" spacing="md" maxWidth="full" class="scroll-mt-20">
+  <Section id="about" background="dark" spacing="md" maxWidth="full" class="scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="bg-gradient-to-br from-navy/5 to-gold/5 rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-16">
-        <div class="max-w-4xl mx-auto">
-          <!-- Section Header -->
-          <div class="text-center mb-12">
-            <Badge class="mb-6">Why Fund Investigator</Badge>
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-navy mb-6 leading-tight tracking-tight">
-              Because Indian mutual fund investors deserve analysis that increases their returns.
-              <span class="text-navy/60">Not mis-selling that increases someone else's commission.</span>
-            </h2>
-          </div>
-
-          <!-- Key Points Grid -->
-          <div class="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
-            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-                <!-- line-chart -->
-                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
-                </svg>
-              </div>
-              <h3 class="text-heading-sm font-bold text-navy mb-3">Analytics, Not Sales</h3>
-              <p class="text-body-sm text-secondary-gray leading-relaxed">
-                Every other mutual fund platform exists to complete a transaction. We exist to complete your analysis. No buy buttons, no portfolio nudges, no recommended funds.
-              </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-                <!-- shield-check -->
-                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-                </svg>
-              </div>
-              <h3 class="text-heading-sm font-bold text-navy mb-3">Zero Conflicts of Interest</h3>
-              <p class="text-body-sm text-secondary-gray leading-relaxed">
-                No commissions, no fund partnerships, no trail fees. The reason we can be pure analytics is because we don't earn from your decisions.
-              </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-              <div class="w-12 h-12 bg-navy/10 rounded-xl flex items-center justify-center mb-5">
-                <!-- eye -->
-                <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                  <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <h3 class="text-heading-sm font-bold text-navy mb-3">Transparent Methodology</h3>
-              <p class="text-body-sm text-secondary-gray leading-relaxed">
-                AMFI data, standard financial measures, clear calculations. No black boxes, no star ratings. Because some things shouldn't be simplified — they should be understood.
-              </p>
-            </div>
-          </div>
-
-          <!-- Link to About page -->
-          <div class="text-center mt-12 pt-8 border-t border-gray-200">
-            <a href="/about" class="text-navy hover:text-gold transition-colors text-body-sm font-medium inline-flex items-center gap-2">
-              Read why we built this
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-
+      <div class="max-w-4xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+          <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight">
+            Because Indian mutual fund investors deserve analysis that increases their returns.
+            <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
+          </h2>
         </div>
+
+        <!-- Key Points Grid -->
+        <div class="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+          <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
+            <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
+              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
+              </svg>
+            </div>
+            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Analytics, Not Sales</h3>
+            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
+              Every other mutual fund platform exists to complete a transaction. We exist to complete your analysis. No buy buttons, no portfolio nudges, no recommended funds.
+            </p>
+          </div>
+
+          <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
+            <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
+              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Zero Conflicts of Interest</h3>
+            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
+              No commissions, no fund partnerships, no trail fees. The reason we can be pure analytics is because we don't earn from your decisions.
+            </p>
+          </div>
+
+          <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
+            <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
+              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Transparent Methodology</h3>
+            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
+              AMFI data, standard financial measures, clear calculations. No black boxes, no star ratings. Because some things shouldn't be simplified — they should be understood.
+            </p>
+          </div>
+        </div>
+
+        <!-- Link to About page -->
+        <div class="text-center mt-12 pt-8 border-t border-fi-border-dark">
+          <a href="/about" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm font-medium inline-flex items-center gap-2">
+            Read why we built this
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
       </div>
     </div>
   </Section>
 
   <!-- Email Capture Section -->
-  <Section background="cream" spacing="md">
+  <Section background="light" spacing="md">
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold text-navy mb-4">
+      <h2 class="text-3xl sm:text-4xl font-bold text-fi-ink mb-4">
         Investigate Before You Invest.
       </h2>
-      <p class="text-body-lg text-secondary-gray mb-8">
+      <p class="text-body-lg text-fi-muted mb-8">
         First, your Investor Welcome Kit — everything you need to start investigating.
         Then every new investigation and tool update, as they ship. Nothing else.
       </p>

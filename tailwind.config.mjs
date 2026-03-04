@@ -5,197 +5,116 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+
+      // ─────────────────────────────────────────
+      // SEMANTIC COLOR TOKENS
+      //
+      // Single source of truth. Change a value here once,
+      // every component using that token updates automatically.
+      //
+      // Usage in components: bg-fi-dark, text-fi-gold, border-fi-border
+      // ─────────────────────────────────────────
       colors: {
-        // Existing brand colors
-        navy: {
-          DEFAULT: '#1E3A5F',
-          light: '#2d5278',
-          dark: '#152a45',
-        },
-        gold: {
-          DEFAULT: '#D4AF37',
-          light: '#e0c160',
-          dark: '#b8962e',
-        },
-        cream: {
-          DEFAULT: '#fefce8',
-          dark: '#fef9c3',
-        },
-        // Neutral colors
-        'light-gray': '#94A3B8',
-        'secondary-gray': '#64748B',
-        // Semantic colors with light/dark variants
-        success: {
-          DEFAULT: '#10b981',
-          light: '#34d399',
-          dark: '#059669',
-        },
-        warning: {
-          DEFAULT: '#f59e0b',
-          light: '#fbbf24',
-          dark: '#d97706',
-        },
-        error: {
-          DEFAULT: '#ef4444',
-          light: '#f87171',
-          dark: '#dc2626',
-        },
-        info: {
-          DEFAULT: '#3b82f6',
-          light: '#60a5fa',
-          dark: '#2563eb',
-        },
+
+        // --- STRUCTURAL BACKGROUNDS ---
+        // fi-dark:   Hero · Why FI · Footer sections
+        // fi-mid:    Unused for now — available for cards on dark bg
+        // fi-light:  Problem · Deepdive · Email Capture sections
+        'fi-dark':   '#020617',   // slate-950
+        'fi-mid':    '#1E293B',   // slate-800 (dark card surfaces, label pill bg)
+        'fi-light':  '#F8FAFC',   // slate-50  (alternating light sections)
+
+        // --- PRIMARY TEXT ---
+        // fi-ink:      Primary text on light bg, primary text on dark bg (via opacity)
+        // fi-muted:    Secondary body copy on light bg
+        // fi-subtle:   Tertiary / placeholder text
+        'fi-ink':    '#020617',   // slate-950
+        'fi-muted':  '#64748B',   // slate-500
+        'fi-subtle': '#94A3B8',   // slate-400
+
+        // --- INVERSE TEXT (on dark sections) ---
+        // fi-ink-inv:   Primary text on dark bg
+        // fi-muted-inv: Secondary text on dark bg (col headings, footer links)
+        'fi-ink-inv':   '#F8FAFC',  // slate-50
+        'fi-muted-inv': '#CBD5E1',  // slate-300
+
+        // --- ACCENT ---
+        // fi-gold:       Buttons (all bg), H1 emphasis word on dark bg
+        // fi-gold-hover: Button hover only
+        'fi-gold':       '#FBBF24',  // amber-400
+        'fi-gold-hover': '#FCD34D',  // amber-300
+
+        // --- UI CHROME ---
+        // fi-border:      Card borders on light · section dividers
+        // fi-border-dark: Borders on dark sections
+        // fi-icon-bg:     Icon container bg on light
+        // fi-icon-bg-inv: Icon container bg on dark
+        'fi-border':      '#E2E8F0',  // slate-200
+        'fi-border-dark': '#334155',  // slate-700
+        'fi-icon-bg':     '#F1F5F9',  // slate-100
+        'fi-icon-bg-inv': '#1E293B',  // slate-800
+
+        // --- SECTION LABEL PILL ---
+        // (two variants: light + dark section)
+        // Light: bg fi-icon-bg · border fi-border · text fi-muted
+        // Dark:  bg fi-mid     · border fi-border-dark · text fi-muted-inv
+
+        // --- SEMANTIC STATES ---
+        // For data tables: positive returns, negative returns
+        'fi-positive': '#10B981',  // emerald-500
+        'fi-negative': '#EF4444',  // red-500
+        'fi-neutral':  '#64748B',  // slate-500
       },
+
+      // ─────────────────────────────────────────
+      // TYPOGRAPHY
+      // Font: Inter only (loaded via @fontsource/inter in Layout.astro)
+      // Mono: for tabular financial data
+      // ─────────────────────────────────────────
       fontFamily: {
-        // Primary sans-serif (self-hosted via @fontsource/inter)
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        // ADD: Monospace for tabular data and code
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
-        // OPTIONAL: Serif for editorial/display headlines (uncomment if desired)
-        // serif: ['Playfair Display', 'Georgia', 'serif'],
       },
+
+      // Font scale — 1.250 ratio
+      // Weights loaded: 400 · 500 · 600 · 700 · 800
+      //
+      // NAMING NOTE:
+      // Codebase uses: text-display-xl/lg/md, text-heading-xl/lg/md/sm, text-body-lg/md/sm, text-caption
+      // Config maps those names exactly — do not rename without updating all components.
       fontSize: {
-        // Display sizes
-        'display-xl': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
-        'display-lg': ['3.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
-        'display-md': ['3rem', { lineHeight: '1.15', letterSpacing: '-0.01em', fontWeight: '700' }],
-        // Heading sizes
-        'heading-xl': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '700' }],
-        'heading-lg': ['1.875rem', { lineHeight: '1.3', fontWeight: '700' }],
-        'heading-md': ['1.5rem', { lineHeight: '1.3', fontWeight: '700' }],
-        'heading-sm': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }],
-        // Body sizes
-        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-md': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-sm': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
-        // Caption
-        'caption': ['0.75rem', { lineHeight: '1.4', fontWeight: '500' }],
+        // ── Display ── Hero H1 (use clamp() wrapper in component for fluid sizing)
+        'display-xl': ['4.5rem',   { lineHeight: '1.08', letterSpacing: '-0.02em', fontWeight: '800' }], // 72px
+        'display-lg': ['3.75rem',  { lineHeight: '1.1',  letterSpacing: '-0.02em', fontWeight: '800' }], // 60px — section headings (large)
+        'display-md': ['3rem',     { lineHeight: '1.15', letterSpacing: '-0.01em', fontWeight: '800' }], // 48px
+
+        // ── Headings ──
+        'heading-xl': ['2.25rem',  { lineHeight: '1.2',  letterSpacing: '-0.01em', fontWeight: '700' }], // 36px
+        'heading-lg': ['1.875rem', { lineHeight: '1.25', letterSpacing: '-0.01em', fontWeight: '700' }], // 30px
+        'heading-md': ['1.5rem',   { lineHeight: '1.3',  fontWeight: '700' }],                           // 24px
+        'heading-sm': ['1.25rem',  { lineHeight: '1.35', fontWeight: '700' }],                           // 20px
+
+        // ── Body ──
+        'body-lg':    ['1.125rem', { lineHeight: '1.75', fontWeight: '400' }],  // 18px — lead paragraphs
+        'body-md':    ['1rem',     { lineHeight: '1.65', fontWeight: '400' }],  // 16px — standard body
+        'body-sm':    ['0.875rem', { lineHeight: '1.6',  fontWeight: '400' }],  // 14px — footer, meta
+
+        // ── Label ── Section label pills · metric tags
+        'caption':    ['0.75rem',  { lineHeight: '1.4',  letterSpacing: '0.13em', fontWeight: '700' }], // 12px
       },
-      spacing: {
-        // Component-specific spacing
-        'section-y': '8rem',
-        'section-y-sm': '5rem',
-        'section-gap': '4rem',
-        'card-padding': '1.5rem',
-        'card-gap': '2rem',
-        'element-gap': '1rem',
-        'tight-gap': '0.5rem',
-      },
-      boxShadow: {
-        // Standard shadows
-        'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'sm': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
-        'DEFAULT': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-        'md': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-        'lg': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-        'xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        '2xl': '0 30px 60px -15px rgba(0, 0, 0, 0.3)',
-        // Brand-specific shadows
-        'gold': '0 10px 25px -5px rgba(212, 175, 55, 0.3)',
-        'gold-lg': '0 20px 40px -10px rgba(212, 175, 55, 0.4)',
-        'navy': '0 10px 25px -5px rgba(30, 58, 95, 0.3)',
-        'navy-lg': '0 20px 40px -10px rgba(30, 58, 95, 0.4)',
-      },
-      borderRadius: {
-        'none': '0',
-        'sm': '0.25rem',
-        'DEFAULT': '0.5rem',
-        'md': '0.75rem',
-        'lg': '1rem',
-        'xl': '1.5rem',
-        '2xl': '2rem',
-        'full': '9999px',
-      },
-      // ADD: Ring colors for focus states
-      ringColor: {
-        gold: '#D4AF37',
-        navy: '#1E3A5F',
-        error: '#ef4444',
-        success: '#10b981',
-      },
-      ringWidth: {
-        DEFAULT: '2px',
-        '3': '3px',
-      },
-      ringOffsetWidth: {
-        DEFAULT: '2px',
-      },
-      transitionDuration: {
-        'fast': '150ms',
-        'DEFAULT': '200ms',
-        'normal': '300ms',
-        'slow': '400ms',
-        'slower': '600ms',
-        '400': '400ms',
-      },
-      transitionTimingFunction: {
-        'bounce-in': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'emphasized': 'cubic-bezier(0.4, 0, 0.6, 1)',
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.6s ease-out',
-        'fade-in-up': 'fadeInUp 0.8s ease-out',
-        'scale-in': 'scaleIn 0.5s ease-out',
-        'slide-in-right': 'slideInRight 0.4s ease-out',
-        'pulse-subtle': 'pulseSubtle 2s ease-in-out infinite',
-        // ADD: Spin for loaders
-        'spin': 'spin 0.8s linear infinite',
-        // ADD: Shimmer for skeletons
-        'shimmer': 'shimmer 1.5s ease-in-out infinite',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
-        },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(-20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        pulseSubtle: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
-        },
-        // ADD: Spin keyframe
-        spin: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-        // ADD: Shimmer keyframe
-        shimmer: {
-          '0%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
-          '100%': { opacity: '1' },
-        },
-      },
+
     },
   },
   plugins: [
     typography,
-    // ADD: Custom utilities
     function({ addUtilities }) {
       addUtilities({
-        // Tabular numbers for aligned data
-        '.tabular-nums': {
-          'font-variant-numeric': 'tabular-nums',
-        },
-        // Slashed zero for clarity
-        '.slashed-zero': {
-          'font-variant-numeric': 'slashed-zero',
-        },
-        // Text balance for headings
-        '.text-balance': {
-          'text-wrap': 'balance',
-        },
+        // Aligned decimal points — financial data tables
+        '.tabular-nums': { 'font-variant-numeric': 'tabular-nums' },
+        // Distinguishes 0 from O
+        '.slashed-zero': { 'font-variant-numeric': 'slashed-zero' },
+        // Balanced line breaks for headings
+        '.text-balance': { 'text-wrap': 'balance' },
       });
     },
   ],

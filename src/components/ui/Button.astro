@@ -53,21 +53,21 @@ const {
 
 // Variant styles
 const variantStyles = {
-  primary: 'bg-navy text-white hover:bg-navy-light hover:scale-105 hover:shadow-xl',
-  secondary: 'border-2 border-navy text-navy bg-transparent hover:bg-navy/5',
-  tertiary: 'text-navy hover:text-gold bg-transparent',
-  outline: 'border-2 border-gold text-gold bg-transparent hover:bg-gold hover:text-navy',
+  primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
+  secondary: 'border-2 border-fi-gold text-fi-gold bg-transparent hover:bg-fi-gold/8',
+  tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
+  outline:   'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-white',
 };
 
-// Size styles
+// Size styles — font-size fixed at 14px per spec; sizes vary padding only
 const sizeStyles = {
-  sm: 'px-4 py-2 text-sm',
-  md: 'px-6 py-3 text-base',
-  lg: 'px-10 py-4 text-lg',
+  sm: 'px-[18px] py-2 text-sm',
+  md: 'px-[26px] py-[13px] text-sm',
+  lg: 'px-[26px] py-[13px] text-sm',
 };
 
 // Base styles (common to all variants)
-const baseStyles = 'font-semibold rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2 group text-center';
+const baseStyles = 'font-bold rounded-[10px] transition-all duration-200 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 group text-center';
 
 // Disabled styles
 const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '';
