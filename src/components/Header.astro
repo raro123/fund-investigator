@@ -2,7 +2,7 @@
 import Logo from './Logo.astro';
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 bg-white/97 backdrop-blur-[10px] border-b border-fi-border z-[10000] transition-colors duration-300">
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-fi-dark z-[10000]">
   <div class="max-w-7xl mx-auto px-10 py-4">
     <div class="flex items-center justify-between">
       <a href="/" class="flex items-center" id="logo-link">
@@ -11,10 +11,10 @@ import Logo from './Logo.astro';
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-8">
-        <a href="/reports" class="text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">Investigations</a>
+        <a href="/reports" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Investigations</a>
         <!-- Tools Dropdown -->
         <div class="relative group">
-          <button class="flex items-center gap-1 text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">
+          <button class="flex items-center gap-1 text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">
             Tools
             <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -56,13 +56,13 @@ import Logo from './Logo.astro';
             </div>
           </div>
         </div>
-        <a href="/about" class="text-fi-muted hover:text-fi-ink transition-colors font-medium text-sm">About</a>
+        <a href="/about" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">About</a>
       </nav>
 
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden text-fi-ink focus:outline-none focus:ring-2 focus:ring-fi-gold rounded p-2 transition-all duration-300"
+        class="md:hidden text-fi-ink-inv focus:outline-none focus:ring-2 focus:ring-fi-gold rounded p-2 transition-all duration-300"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -84,10 +84,10 @@ import Logo from './Logo.astro';
   aria-hidden="true"
 >
   <!-- Menu content with background -->
-  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-white shadow-lg border-t border-fi-border">
+  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-fi-dark shadow-lg border-t border-fi-border-dark">
     <a
       href="/reports"
-      class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
+      class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
     >
       Investigations
     </a>
@@ -95,7 +95,7 @@ import Logo from './Logo.astro';
     <div class="w-full">
       <button
         id="mobile-tools-toggle"
-        class="flex items-center justify-between w-full text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg"
+        class="flex items-center justify-between w-full text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg"
       >
         Tools
         <svg id="mobile-tools-chevron" class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +107,7 @@ import Logo from './Logo.astro';
           href="https://deepdive.fundinvestigator.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-start gap-3 p-3 rounded-md hover:bg-fi-light transition-colors mobile-menu-link"
+          class="flex items-start gap-3 p-3 rounded-md hover:bg-fi-mid transition-colors mobile-menu-link"
         >
           <svg class="w-5 h-5 text-fi-muted mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -138,7 +138,7 @@ import Logo from './Logo.astro';
     </div>
     <a
       href="/about"
-      class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
+      class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
     >
       About
     </a>
