@@ -41,11 +41,11 @@ const featuredReports = allReports
 
     <!-- CTAs -->
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 px-4">
-      <Button href="/reports" size="lg" icon="arrow-right" class="w-full sm:w-auto">
+      <Button href="/reports" size="lg" class="w-full sm:w-auto">
         <span class="hidden sm:inline">Browse Investigations</span>
         <span class="sm:hidden">Investigations</span>
       </Button>
-      <Button href="https://deepdive.fundinvestigator.com" variant="secondary" size="lg" icon="arrow-right" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
+      <Button href="https://deepdive.fundinvestigator.com" variant="secondary" size="lg" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
         <span class="hidden sm:inline">Investigate Your Fund</span>
         <span class="sm:hidden">Try Deepdive</span>
       </Button>
@@ -53,7 +53,7 @@ const featuredReports = allReports
 
     <!-- Beginner's guide link -->
     <p class="text-body-sm text-fi-muted-inv text-center mb-0">
-      New to mutual funds? <a href="#" class="text-fi-gold underline hover:opacity-80 transition-opacity">Start with our beginner's guide &rarr;</a>
+      New to mutual funds? <a href="#" class="text-fi-gold underline hover:opacity-80 transition-opacity">Read beginner's guide</a>
     </p>
   </Hero>
 
@@ -168,7 +168,7 @@ const featuredReports = allReports
 
         <!-- CTA below cards -->
         <div class="text-center mt-8">
-          <Button href="/reports" variant="secondary" size="md">See all investigations</Button>
+          <Button href="/reports" variant="primary" size="md">Browse Investigations</Button>
         </div>
       </div>
     </div>
@@ -187,68 +187,71 @@ const featuredReports = allReports
         </p>
       </div>
 
-      <!-- App Screenshot -->
-      <div class="mb-10">
-        <div class="bg-white rounded-2xl overflow-hidden border border-fi-border shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+      <!-- 2-col layout: image left (3/5 width), cards right -->
+      <div class="grid lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
+
+        <!-- Left: App Screenshot (3/5 width, matches card column height) -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-fi-border shadow-[0_4px_24px_rgba(0,0,0,0.08)] h-full">
           <Image
             src={appScreenshot}
             alt="Deepdive app showing mutual fund performance metrics and charts"
-            class="w-full h-auto"
+            class="w-full h-full object-cover object-top"
             loading="lazy"
             widths={[640, 1024, 1400]}
-            sizes="100vw"
+            sizes="(min-width: 1024px) 60vw, 100vw"
           />
         </div>
-      </div>
 
-      <!-- Three-column analytical lens cards -->
-      <div class="grid sm:grid-cols-3 gap-6 mb-10">
+        <!-- Right: Analytical lens cards + CTA -->
+        <div class="flex flex-col gap-4">
 
-        <!-- Card 1: Returns -->
-        <div class="bg-white rounded-2xl p-6 border border-fi-border">
-          <div class="w-10 h-10 mb-4 flex items-center justify-center">
-            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
-              <polyline points="16 7 22 7 22 13"/>
-            </svg>
+          <!-- Card 1: Returns -->
+          <div class="bg-white rounded-2xl p-6 border border-fi-border">
+            <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
+              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                <polyline points="16 7 22 7 22 13"/>
+              </svg>
+            </div>
+            <p class="text-heading-sm font-bold text-fi-ink mb-2">Did your fund actually outperform?</p>
+            <p class="text-body-sm text-fi-muted">Rolling and SIP returns reveal performance across multiple time periods.</p>
           </div>
-          <p class="text-heading-sm font-bold text-fi-ink mb-2">Did your fund actually outperform?</p>
-          <p class="text-body-sm text-fi-muted">Rolling and SIP returns reveal performance across multiple time periods.</p>
-        </div>
 
-        <!-- Card 2: Risk -->
-        <div class="bg-white rounded-2xl p-6 border border-fi-border">
-          <div class="w-10 h-10 mb-4 flex items-center justify-center">
-            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
+          <!-- Card 2: Risk -->
+          <div class="bg-white rounded-2xl p-6 border border-fi-border">
+            <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
+              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <p class="text-heading-sm font-bold text-fi-ink mb-2">What happens when markets fall?</p>
+            <p class="text-body-sm text-fi-muted">Drawdown analysis and max loss scenarios across real market cycles.</p>
           </div>
-          <p class="text-heading-sm font-bold text-fi-ink mb-2">What happens when markets fall?</p>
-          <p class="text-body-sm text-fi-muted">Drawdown analysis and max loss scenarios across real market cycles.</p>
-        </div>
 
-        <!-- Card 3: Risk-Adjusted -->
-        <div class="bg-white rounded-2xl p-6 border border-fi-border">
-          <div class="w-10 h-10 mb-4 flex items-center justify-center">
-            <svg class="w-6 h-6 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-              <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-              <path d="M7 21H17"/>
-              <path d="M12 3v18"/>
-              <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
-            </svg>
+          <!-- Card 3: Risk-Adjusted -->
+          <div class="bg-white rounded-2xl p-6 border border-fi-border">
+            <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
+              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="M7 21H17"/>
+                <path d="M12 3v18"/>
+                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+              </svg>
+            </div>
+            <p class="text-heading-sm font-bold text-fi-ink mb-2">Is the return worth the risk?</p>
+            <p class="text-body-sm text-fi-muted">Sharpe, Sortino, and benchmark correlation tell you if the returns justify the ride.</p>
           </div>
-          <p class="text-heading-sm font-bold text-fi-ink mb-2">Is the return worth the risk?</p>
-          <p class="text-body-sm text-fi-muted">Sharpe, Sortino, and benchmark correlation tell you if the returns justify the ride.</p>
+
         </div>
 
       </div>
 
       <!-- CTA -->
-      <div class="text-center">
-        <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" target="_blank" rel="noopener noreferrer">Launch Deepdive →</Button>
+      <div class="text-center mt-8">
+        <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
       </div>
 
     </div>
@@ -311,8 +314,8 @@ const featuredReports = allReports
 
         <!-- Link to About page -->
         <div class="text-center mt-12 pt-8 border-t border-fi-border-dark">
-          <a href="/about" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm font-medium inline-flex items-center gap-2">
-            Read why we built this
+          <a href="/about" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium inline-flex items-center gap-2">
+            Why are we building this?
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5l7 7-7 7"/>
@@ -336,7 +339,7 @@ const featuredReports = allReports
       </p>
       <SubscribeForm
         placeholder="your@email.com"
-        buttonText="Send Me Investigations →"
+        buttonText="Send Me Investigations"
       />
     </div>
   </Section>
