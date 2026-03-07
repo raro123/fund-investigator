@@ -82,6 +82,52 @@ export default {
       // NAMING NOTE:
       // Codebase uses: text-display-xl/lg/md, text-heading-xl/lg/md/sm, text-body-lg/md/sm, text-caption
       // Config maps those names exactly — do not rename without updating all components.
+      // ─────────────────────────────────────────
+      // LAYOUT TOKENS
+      // Eliminates arbitrary values across components.
+      // ─────────────────────────────────────────
+
+      // Z-index scale — replaces z-[10000] etc.
+      zIndex: {
+        'fi-header':  '100',
+        'fi-menu':    '90',
+        'fi-overlay': '80',
+        'fi-modal':   '70',
+      },
+
+      // Shadow scale — replaces inline shadow-[...] values
+      boxShadow: {
+        'fi-card':      '0 4px 24px rgba(2, 6, 23, 0.08)',
+        'fi-card-dark': '0 16px 44px rgba(0, 0, 0, 0.30)',
+      },
+
+      // Button border radius
+      borderRadius: {
+        'fi-btn': '10px',
+      },
+
+      // Button + icon spacing tokens
+      spacing: {
+        'fi-btn-x':    '1.625rem',   // 26px
+        'fi-btn-x-sm': '1.125rem',   // 18px
+        'fi-btn-y':    '0.8125rem',  // 13px
+      },
+
+      // Icon sizing — replaces w-[22px] and w-[34px]
+      width: {
+        'fi-icon':    '1.375rem',   // 22px — card icons
+        'fi-icon-lg': '2.75rem',    // 44px — social icons (WCAG touch target)
+      },
+      height: {
+        'fi-icon':    '1.375rem',
+        'fi-icon-lg': '2.75rem',
+      },
+
+      // Max-width tokens
+      maxWidth: {
+        'fi-content': '65ch',       // article prose reading width
+      },
+
       fontSize: {
         // ── Display ── Hero H1 (use clamp() wrapper in component for fluid sizing)
         'display-xl': ['4.5rem',   { lineHeight: '1.08', letterSpacing: '-0.02em', fontWeight: '800' }], // 72px

@@ -10,6 +10,7 @@ import SubscribeForm from '../components/ui/SubscribeForm.astro';
 import { Image } from 'astro:assets';
 import appScreenshot from '../assets/images/homepage/app-screenshot.png';
 import { getCollection } from 'astro:content';
+import { responsive } from '../lib/responsive';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
@@ -28,7 +29,7 @@ const featuredReports = allReports
   <Hero size="lg" background="dark">
     <!-- Oversized heading with breathing room -->
     <div class="mb-16">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl font-bold text-fi-ink-inv mb-8 leading-[1.08] tracking-[-0.02em] break-words">
+      <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-[1.08] tracking-[-0.02em] break-words']}>
         Mutual Funds,
         <span class="text-fi-gold">Investigated</span>
       </h1>
@@ -42,12 +43,10 @@ const featuredReports = allReports
     <!-- CTAs -->
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 px-4">
       <Button href="/reports" size="lg" class="w-full sm:w-auto">
-        <span class="hidden sm:inline">Browse Investigations</span>
-        <span class="sm:hidden">Investigations</span>
+        Browse Investigations
       </Button>
       <Button href="https://deepdive.fundinvestigator.com" variant="secondary" size="lg" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
-        <span class="hidden sm:inline">Investigate Your Fund</span>
-        <span class="sm:hidden">Try Deepdive</span>
+        Investigate Your Fund
       </Button>
     </div>
 
@@ -58,25 +57,24 @@ const featuredReports = allReports
   </Hero>
 
   <!-- Problem Section: The Sales Trap -->
-  <Section background="light" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <Section background="light" spacing="md" maxWidth="2xl">
 
       <!-- Section Header -->
       <div class="text-center mb-12 lg:mb-16">
         <Badge class="mb-6">The Sales Trap</Badge>
-        <h2 class="text-3xl sm:text-4xl lg:text-display-md font-bold text-fi-ink mb-6 leading-tight tracking-tight">
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight']}>
           Funds are marketed on their best returns.<br />
           <span class="text-fi-muted">Your SIP statement tells a different story.</span>
         </h2>
       </div>
 
       <!-- Problem Cards Grid -->
-      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
 
         <!-- Card 1: Returns are marketed -->
         <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
           <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
-            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
             </svg>
           </div>
@@ -89,7 +87,7 @@ const featuredReports = allReports
         <!-- Card 2: Today's winner -->
         <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
           <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
-            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
               <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
             </svg>
           </div>
@@ -102,7 +100,7 @@ const featuredReports = allReports
         <!-- Card 3: Transparency -->
         <div class="bg-white rounded-2xl p-6 lg:p-8 border border-fi-border">
           <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-5">
-            <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
               <path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
             </svg>
           </div>
@@ -113,28 +111,26 @@ const featuredReports = allReports
         </div>
 
       </div>
-    </div>
   </Section>
 
   <!-- Investigations Section -->
-  <Section background="dark" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <Section background="dark" spacing="md" maxWidth="2xl">
       <!-- Centered header -->
       <div class="text-center mb-10 lg:mb-12">
         <Badge variant="dark" class="mb-6">Investigations</Badge>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-fi-ink-inv mb-6 break-words">What the Data Actually Says</h2>
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-6 break-words']}>What the Data Actually Says</h2>
         <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
           Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
         </p>
       </div>
 
       <!-- Featured investigation cards: 2-column grid -->
-      <div class="max-w-[980px] mx-auto">
+      <div class="max-w-4xl mx-auto">
         {featuredReports.length > 0 ? (
           <div class="grid sm:grid-cols-2 gap-5">
             {featuredReports.slice(0, 2).map((report) => (
               <a href={`/reports/${report.slug}`} class="block group">
-                <div class="bg-fi-mid rounded-2xl overflow-hidden border border-fi-border-dark hover:border-fi-gold/40 hover:shadow-[0_16px_44px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-200 h-full">
+                <div class="bg-fi-mid rounded-2xl overflow-hidden border border-fi-border-dark hover:border-fi-gold/40 hover:shadow-fi-card-dark hover:-translate-y-1 transition-all duration-200 h-full">
                   {report.data.coverImage && (
                     <div class="h-44 overflow-hidden">
                       <Image
@@ -171,27 +167,25 @@ const featuredReports = allReports
           <Button href="/reports" variant="primary" size="md">Browse Investigations</Button>
         </div>
       </div>
-    </div>
   </Section>
 
   <!-- Deepdive Showcase Section -->
-  <Section background="light" spacing="md" maxWidth="full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <Section background="light" spacing="md" maxWidth="2xl">
 
       <!-- Header -->
       <div class="max-w-2xl mx-auto text-center mb-10">
         <Badge class="mb-4">Deepdive</Badge>
-        <h2 class="text-display-md font-bold text-fi-ink mb-4">Your Own Fund Investigation</h2>
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-4']}>Your Own Fund Investigation</h2>
         <p class="text-body-md text-fi-muted leading-relaxed">
           Your analysis and imagination on our platform. Choose the fund, the benchmark, the time period and be the investigator.
         </p>
       </div>
 
       <!-- 2-col layout: image left (3/5 width), cards right -->
-      <div class="grid lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
+      <div class="grid md:grid-cols-2 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
 
         <!-- Left: App Screenshot (3/5 width, matches card column height) -->
-        <div class="bg-white rounded-2xl overflow-hidden border border-fi-border shadow-[0_4px_24px_rgba(0,0,0,0.08)] h-full">
+        <div class="bg-white rounded-2xl overflow-hidden border border-fi-border shadow-fi-card h-full">
           <Image
             src={appScreenshot}
             alt="Deepdive app showing mutual fund performance metrics and charts"
@@ -208,7 +202,7 @@ const featuredReports = allReports
           <!-- Card 1: Returns -->
           <div class="bg-white rounded-2xl p-6 border border-fi-border">
             <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
                 <polyline points="16 7 22 7 22 13"/>
               </svg>
@@ -220,7 +214,7 @@ const featuredReports = allReports
           <!-- Card 2: Risk -->
           <div class="bg-white rounded-2xl p-6 border border-fi-border">
             <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 <line x1="12" y1="8" x2="12" y2="12"/>
                 <line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -233,7 +227,7 @@ const featuredReports = allReports
           <!-- Card 3: Risk-Adjusted -->
           <div class="bg-white rounded-2xl p-6 border border-fi-border">
             <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-[22px] h-[22px] text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
                 <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
                 <path d="M7 21H17"/>
@@ -254,27 +248,25 @@ const featuredReports = allReports
         <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
       </div>
 
-    </div>
   </Section>
 
   <!-- Why Fund Investigator Section -->
-  <Section id="about" background="dark" spacing="md" maxWidth="full" class="scroll-mt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <Section id="about" background="dark" spacing="md" maxWidth="2xl" class="scroll-mt-20">
       <div class="max-w-4xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-12">
           <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight">
+          <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
             Because Indian mutual fund investors deserve analysis that increases their returns.
             <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
           </h2>
         </div>
 
         <!-- Key Points Grid -->
-        <div class="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 mb-16">
           <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
             <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
               </svg>
@@ -287,7 +279,7 @@ const featuredReports = allReports
 
           <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
             <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
               </svg>
@@ -300,7 +292,7 @@ const featuredReports = allReports
 
           <div class="bg-fi-mid rounded-2xl p-6 lg:p-8 border border-fi-border-dark">
             <div class="w-11 h-11 bg-fi-border-dark rounded-xl flex items-center justify-center mb-5">
-              <svg class="w-[22px] h-[22px] text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                 <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -320,13 +312,12 @@ const featuredReports = allReports
         </div>
 
       </div>
-    </div>
   </Section>
 
   <!-- Email Capture Section -->
   <Section background="light" spacing="md">
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold text-fi-ink mb-4">
+      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-4']}>
         Investigate Before You Invest.
       </h2>
       <p class="text-body-lg text-fi-muted mb-8">

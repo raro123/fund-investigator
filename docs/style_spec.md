@@ -310,9 +310,9 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 
 | Element | Decision |
 |---------|----------|
-| Custom shadows | Removed — use Tailwind defaults (`shadow-sm`, `shadow-lg`, etc.) |
-| Custom spacing tokens | Removed — use Tailwind's native 4px scale (`py-20`, `gap-5`, etc.) |
-| Custom border-radius | Removed — use Tailwind defaults |
+| Custom shadows | Tokenized as `shadow-fi-card` and `shadow-fi-card-dark` in `tailwind.config.mjs` |
+| Custom spacing tokens | Button-specific tokens (`fi-btn-x`, `fi-btn-y`) added; general spacing uses Tailwind's native 4px scale |
+| Custom border-radius | Button radius tokenized as `rounded-fi-btn` (10px); others use Tailwind defaults |
 | Custom transitions | Removed — use Tailwind defaults |
 | Custom animations | Removed — use Tailwind defaults |
 | Playfair Display | Removed — Inter only |
@@ -321,3 +321,64 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 | Freemium promises in UI | Removed — "free to use · no login required" deleted to avoid constraining business model |
 | Star ratings / scores | Never used — counter to the platform's analytical positioning |
 | Gradient backgrounds on content sections | Removed — blue/teal gradients replaced with flat `fi-light` |
+
+---
+
+## 15. Responsive Patterns
+
+### Breakpoints
+Standard Tailwind defaults. No custom breakpoints.
+- `sm:` 640px | `md:` 768px | `lg:` 1024px | `xl:` 1280px
+
+### Typography Presets
+Import from `src/lib/responsive.ts`. Never write breakpoint classes inline for headings.
+
+| Preset | Usage | Resolves to |
+|--------|-------|-------------|
+| `responsive.display` | Hero H1 | `text-4xl sm:text-5xl md:text-6xl lg:text-display-xl` |
+| `responsive.h2Large` | Section H2 (large) | `text-heading-lg sm:text-heading-xl lg:text-display-md` |
+| `responsive.h2` | Section H2 (standard) | `text-heading-md sm:text-heading-lg lg:text-heading-xl` |
+| `responsive.h3` | Subsection H3 | `text-heading-sm sm:text-heading-md` |
+| `responsive.subtitle` | Lead/subtitle | `text-body-md sm:text-body-lg` |
+
+Body text (`text-body-md`, `text-body-sm`) does NOT need responsive scaling.
+
+### Grid Progression
+Always provide an intermediate breakpoint. Never jump from 1 to 3 columns.
+
+| Target | Pattern |
+|--------|---------|
+| 2-col | `grid sm:grid-cols-2` |
+| 3-col | `grid sm:grid-cols-2 lg:grid-cols-3` |
+| 4-col | `grid grid-cols-2 md:grid-cols-4` |
+
+Gap pattern: `gap-5 lg:gap-8` (tighter mobile, wider desktop).
+
+### Containers
+Use `Section maxWidth` prop. Never create manual inner containers with `maxWidth="full"`.
+
+| Page type | `maxWidth` | Effective width |
+|-----------|-----------|-----------------|
+| Homepage sections | `2xl` | max-w-7xl (1280px) |
+| Content pages | `md` | max-w-4xl (896px) |
+| Report listing | `xl` | max-w-6xl (1152px) |
+| Article prose | `sm` | max-w-3xl (768px) |
+
+### Horizontal Padding
+Owned by `Section.astro` and `Hero.astro`: `px-4 sm:px-6 lg:px-10`.
+Pages should not add their own horizontal padding.
+
+### Layout Tokens
+Defined in `tailwind.config.mjs`:
+
+| Token | Value | Replaces |
+|-------|-------|----------|
+| `z-fi-header` | 100 | `z-[10000]` |
+| `z-fi-menu` | 90 | `z-[9999]` |
+| `shadow-fi-card` | light card shadow | `shadow-[0_4px_24px...]` |
+| `shadow-fi-card-dark` | dark card shadow | `shadow-[0_16px_44px...]` |
+| `rounded-fi-btn` | 10px | `rounded-[10px]` |
+| `w-fi-icon` / `h-fi-icon` | 22px | `w-[22px] h-[22px]` |
+| `w-fi-icon-lg` / `h-fi-icon-lg` | 44px | `w-[34px] h-[34px]` |
+| `max-w-fi-content` | 65ch | `max-w-[65ch]` |
+| `--fi-header-h` | 73px (CSS var) | `top-[73px]` |

@@ -2,8 +2,8 @@
 import Logo from './Logo.astro';
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 bg-fi-dark border-b border-fi-border-dark z-[10000]">
-  <div class="max-w-7xl mx-auto px-10 py-4">
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-fi-dark border-b border-fi-border-dark z-fi-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
     <div class="flex items-center justify-between">
       <a href="/" class="flex items-center" id="logo-link">
         <Logo width={160} variant="transparent" />
@@ -80,7 +80,7 @@ import Logo from './Logo.astro';
 <!-- Mobile Menu Overlay - Outside header to ensure proper stacking -->
 <div
   id="mobile-menu"
-  class="fixed top-[73px] left-0 right-0 z-[9999] md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
+  class="fixed top-[var(--fi-header-h)] left-0 right-0 z-fi-menu md:hidden transition-opacity duration-300 opacity-0 pointer-events-none"
   aria-hidden="true"
 >
   <!-- Menu content with background -->

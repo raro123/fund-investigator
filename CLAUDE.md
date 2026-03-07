@@ -35,9 +35,10 @@
 - **Source:** `tailwind.config.mjs`
 - **What:** Custom Tailwind theme extending the default palette.
 - **How:** **Never** use arbitrary values (e.g., `bg-[#1E3A5F]`). Always use tokens:
-    - *Colors:* `text-navy`, `bg-gold`, `border-cream`.
-    - *Semantic:* `text-success`, `bg-error`.
-    - *Shadows:* `shadow-gold`, `shadow-navy`.
+    - *Colors:* `text-fi-ink`, `bg-fi-gold`, `border-fi-border` (all `fi-*` prefixed).
+    - *Shadows:* `shadow-fi-card`, `shadow-fi-card-dark`.
+    - *Z-index:* `z-fi-header`, `z-fi-menu`, `z-fi-overlay`.
+    - *Sizing:* `w-fi-icon`, `h-fi-icon-lg`, `rounded-fi-btn`.
 
 ### Layer 2: UI Components
 - **Source:** `src/components/ui/`
@@ -47,6 +48,15 @@
     <Button variant="primary" icon="arrow-right">Launch Tool</Button>
     <Card variant="elevated">...</Card>
     ```
+- **Responsive behavior is owned by components, not pages.**
+    - `Section.astro` owns horizontal padding (`px-4 sm:px-6 lg:px-10`) and max-width. Never use `maxWidth="full"` with a manual inner container.
+    - `Hero.astro` owns responsive vertical padding via `size` prop.
+    - For responsive typography, import presets from `src/lib/responsive.ts`:
+    ```astro
+    import { responsive } from '../lib/responsive';
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink']}>Title</h1>
+    ```
+    - Never write responsive typography breakpoints inline — always use `responsive.*` presets.
 
 ### Layer 3: Documentation
 - **Source:** `src/pages/styleguide.astro` (Live at `/styleguide`).
@@ -66,8 +76,10 @@
 ## 5. Development Workflow
 
 ### Usage Rules
-1.  **Mobile First:** Use Tailwind breakpoints (`md:`, `lg:`) for responsive layouts.
+1.  **Mobile First:** Use Tailwind breakpoints (`sm:`, `md:`, `lg:`) for responsive layouts.
 2.  **Strict Props:** Use Component Props over custom classes.
+3.  **Responsive Patterns:** See `docs/style_spec.md` Section 15 for grid progression, typography presets, and container conventions.
+4.  **Grid Rule:** Never jump from 1-col to 3-col. Always use `sm:grid-cols-2 lg:grid-cols-3`.
 3.  **Image Strategy:**
     - *Charts/Graphs:* Save to `src/assets/...`. Link via relative path `../../assets/...`.
     - *Cover Images:* Save to `src/assets/images/reports/[slug]/`. Reference in frontmatter via relative path.

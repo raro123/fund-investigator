@@ -43,22 +43,22 @@ const {
 
 // Variant styles
 const variantStyles = {
-  default: 'bg-white border border-gray-200',
-  elevated: 'bg-white border border-gray-200 shadow-md',
-  bordered: 'bg-white border-2 border-gray-300',
+  default: 'bg-white border border-fi-border',
+  elevated: 'bg-white border border-fi-border shadow-md',
+  bordered: 'bg-white border-2 border-fi-border',
   glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
 };
 
-// Padding styles
+// Padding styles — responsive: slightly less on mobile, more on desktop
 const paddingStyles = {
   none: '',
   sm: 'p-4',
-  md: 'p-6',
-  lg: 'p-8',
+  md: 'p-5 lg:p-6',
+  lg: 'p-6 lg:p-8',
 };
 
 // Hover styles
-const hoverStyles = hover ? 'hover:shadow-xl hover:border-gold transition-all duration-300 group' : '';
+const hoverStyles = hover ? 'hover:shadow-xl hover:border-fi-gold transition-all duration-300 group' : '';
 
 // Base styles
 const baseStyles = 'rounded-2xl overflow-hidden';
