@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Section from '../components/ui/Section.astro';
-import Badge from '../components/ui/Badge.astro';
+import Hero from '../components/ui/Hero.astro';
 import ReportCard from '../components/ReportCard.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
@@ -10,42 +9,70 @@ const allReports = await getCollection('reports');
 const sortedReports = allReports
   .filter(report => !report.id.startsWith('_'))
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+// Category-only filter tabs (tags deferred until more reports exist)
+const filterTabs = [
+  { label: 'All Files', value: 'all' },
+  { label: 'Fund Analysis', value: 'Fund Analysis' },
+  { label: 'Comparisons', value: 'Category Comparison' },
+  { label: 'Methodology', value: 'Methodology' },
+];
 ---
 
-<Layout title="Investigation Reports - Fund Investigator" description="In-depth mutual fund analysis reports.">
+<Layout title="Investigation Reports - Fund Investigator" description="Fact-based analysis of mutual funds and investment categories.">
 
-  <!-- Section 1: Dark header -->
-  <Section background="dark" spacing="md" maxWidth="2xl">
-    <Badge variant="dark" class="mb-6">Investigations</Badge>
-    <h1 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-4 break-words']}>
-      Investigation Reports
-    </h1>
-    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-2xl font-light leading-relaxed']}>
-      In-depth research on mutual fund performance, risk patterns, and portfolio trends.
-    </p>
-  </Section>
+  <!-- Single Hero section: clears fixed header, owns all vertical rhythm -->
+  <Hero size="sm" background="dark" centered={false} containerClass="max-w-6xl mx-auto">
 
-  <!-- Section 2: Light card grid -->
-  <Section background="light" spacing="md" maxWidth="xl">
+    <!-- Title block: centered -->
+    <div class="text-center mb-10 md:mb-12">
+      <h1 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-6 break-words']}>
+        The Investigation Archive
+      </h1>
+      <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
+        Fact-based analysis of mutual funds and investment categories. Evidence before opinion. No marketing fluff, just the raw data and our verdict.
+      </p>
+    </div>
 
-    <!-- Filter buttons -->
-    <div class="flex flex-wrap gap-3 mb-10" id="filter-container">
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all bg-fi-ink text-white active" data-filter="all">All Reports</button>
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all bg-white border border-fi-border text-fi-muted hover:border-fi-ink hover:text-fi-ink" data-filter="Fund Analysis">Fund Analysis</button>
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all bg-white border border-fi-border text-fi-muted hover:border-fi-ink hover:text-fi-ink" data-filter="Category Comparison">Comparisons</button>
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all bg-white border border-fi-border text-fi-muted hover:border-fi-ink hover:text-fi-ink" data-filter="Methodology">Methodology</button>
+    <!-- Filter tab strip + results count -->
+    <div class="flex items-end gap-6 mb-10 overflow-x-auto pb-px">
+      {filterTabs.map((tab, i) => (
+        <button
+          class:list={[
+            'filter-btn whitespace-nowrap text-caption uppercase tracking-widest pb-2 border-b-2 transition-all duration-200 flex-shrink-0',
+            i === 0
+              ? 'text-fi-ink-inv border-fi-gold'
+              : 'text-fi-muted-inv/50 border-transparent hover:text-fi-ink-inv',
+          ]}
+          data-filter={tab.value}
+        >
+          {tab.label}
+        </button>
+      ))}
+      <span id="results-count" class="text-caption text-fi-muted-inv/50 uppercase tracking-widest ml-auto flex-shrink-0 pb-2">
+        {sortedReports.length} Records Found
+      </span>
     </div>
 
     <!-- Card grid -->
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="reports-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="reports-grid">
       {sortedReports.map((report) => (
-        <div class="report-item" data-category={report.data.category}>
+        <div
+          class="report-item"
+          data-category={report.data.category}
+        >
           <ReportCard report={report} href={`/reports/${report.slug}`} />
         </div>
       ))}
     </div>
 
-  </Section>
+    <!-- Empty state -->
+    <div id="empty-state" class="hidden py-16 text-center">
+      <p class="text-heading-sm font-semibold text-fi-ink-inv mb-2">No investigations in this category yet.</p>
+      <p class="text-body-md text-fi-muted-inv">Check back soon — more are in progress.</p>
+    </div>
+
+  </Hero>
 
 </Layout>
 
@@ -53,24 +80,36 @@ const sortedReports = allReports
   document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
     const items = document.querySelectorAll<HTMLElement>('.report-item');
+    const emptyState = document.getElementById('empty-state');
+    const resultsCount = document.getElementById('results-count');
+
+    function updateCount(visible: number) {
+      if (resultsCount) {
+        resultsCount.textContent = `${visible} Record${visible !== 1 ? 's' : ''} Found`;
+      }
+    }
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
+        // Update active tab underline
         buttons.forEach(b => {
-          b.classList.remove('bg-fi-ink', 'text-white');
-          b.classList.add('bg-white', 'border', 'border-fi-border', 'text-fi-muted');
+          b.classList.remove('text-fi-ink-inv', 'border-fi-gold');
+          b.classList.add('text-fi-muted-inv/50', 'border-transparent');
         });
-        btn.classList.remove('bg-white', 'border', 'border-fi-border', 'text-fi-muted');
-        btn.classList.add('bg-fi-ink', 'text-white');
+        btn.classList.remove('text-fi-muted-inv/50', 'border-transparent');
+        btn.classList.add('text-fi-ink-inv', 'border-fi-gold');
 
-        const filterValue = btn.getAttribute('data-filter');
+        const filter = btn.getAttribute('data-filter') ?? 'all';
+        let visible = 0;
+
         items.forEach(item => {
-          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-            item.classList.remove('hidden');
-          } else {
-            item.classList.add('hidden');
-          }
+          const match = filter === 'all' || item.getAttribute('data-category') === filter;
+          item.classList.toggle('hidden', !match);
+          if (match) visible++;
         });
+
+        if (emptyState) emptyState.classList.toggle('hidden', visible > 0);
+        updateCount(visible);
       });
     });
   });
