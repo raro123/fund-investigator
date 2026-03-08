@@ -1,5 +1,5 @@
 ---
-title: "HDFC Flexi Cap Performance Report"
+title: "HDFC Flexi Cap: 5 Years of Evidence"
 description: "5-year analysis of HDFC Flexi Cap Fund vs NIFTY 500 TRI. Risk-adjusted returns, volatility, drawdown patterns, and SIP performance (2021-2025)."
 date: "2026-01-10"
 readTime: "8 min read"
@@ -10,8 +10,14 @@ tags:
     - "Risk Analysis"
     - "Mutual Funds"
 featured: true
-coverImage: ../../assets/images/reports/hdfc-flexicap/metrics.jpg
-coverImageAlt: "HDFC Flexicap Performance KPIs"
+hook: "₹8 lakh more wealth than the benchmark from the same capital. Positive returns every single year from 2021–2025."
+keyMetrics:
+  - label: "CAGR"
+    value: "25.0%"
+  - label: "Sharpe"
+    value: "1.55"
+  - label: "Max DD"
+    value: "-12.9%"
 fmContentType: "report"
 ---
 

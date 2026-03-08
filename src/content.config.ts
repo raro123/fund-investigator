@@ -12,6 +12,8 @@ const reports = defineCollection({
     featured: z.boolean().optional().default(false),
     coverImage: image().optional(),
     coverImageAlt: z.string().optional(),
+    hook: z.string().optional(),
+    keyMetrics: z.array(z.object({ label: z.string(), value: z.string() })).max(3).optional(),
     fmContentType: z.string().optional(),
   }),
 });

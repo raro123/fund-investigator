@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
+import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
@@ -129,31 +130,7 @@ const featuredReports = allReports
         {featuredReports.length > 0 ? (
           <div class="grid sm:grid-cols-2 gap-5">
             {featuredReports.slice(0, 2).map((report) => (
-              <a href={`/reports/${report.slug}`} class="block group">
-                <div class="bg-fi-mid rounded-2xl overflow-hidden border border-fi-border-dark hover:border-fi-gold/40 hover:shadow-fi-card-dark hover:-translate-y-1 transition-all duration-200 h-full">
-                  {report.data.coverImage && (
-                    <div class="h-44 overflow-hidden">
-                      <Image
-                        src={report.data.coverImage}
-                        alt={report.data.coverImageAlt ?? report.data.title}
-                        class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div class="p-6">
-                    <div class="flex items-center gap-2 mb-3">
-                      <Badge variant="dark">{report.data.category}</Badge>
-                      <span class="text-caption text-fi-muted-inv/60">{report.data.readTime}</span>
-                    </div>
-                    <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-2 leading-tight group-hover:text-fi-gold transition-colors break-words">
-                      {report.data.title}
-                    </h3>
-                    <p class="text-body-sm text-fi-muted-inv leading-relaxed line-clamp-2">
-                      {report.data.description}
-                    </p>
-                  </div>
-                </div>
-              </a>
+              <ReportCard report={report} href={`/reports/${report.slug}`} />
             ))}
           </div>
         ) : (

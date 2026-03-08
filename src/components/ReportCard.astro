@@ -1,0 +1,84 @@
+---
+/**
+ * ReportCard Component
+ *
+ * Editorial dark card for investigation reports. Five content zones:
+ * meta (category + date), title, hook, metrics, footer (readTime + CTA).
+ *
+ * @example
+ * <ReportCard report={report} href={`/reports/${report.slug}`} />
+ *
+ * @param report - Astro content collection entry with data fields:
+ *   title, category, readTime, hook?, keyMetrics?, date
+ * @param href - URL to navigate to on click
+ */
+
+interface KeyMetric {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  report: {
+    data: {
+      title: string;
+      category: string;
+      readTime: string;
+      date: string;
+      hook?: string;
+      keyMetrics?: KeyMetric[];
+    };
+  };
+  href: string;
+}
+
+const { report, href } = Astro.props;
+const { title, category, readTime, date, hook, keyMetrics } = report.data;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+---
+
+<a href={href} class="block h-full group">
+  <article class="bg-fi-mid border border-fi-border-dark rounded-2xl p-6 h-full flex flex-col hover:-translate-y-1 hover:border-fi-gold/40 hover:shadow-fi-card-dark transition-all duration-200">
+
+    <!-- Zone 1: Meta row -->
+    <div class="flex justify-between items-center">
+      <span class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50">{readTime}</span>
+      <time class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 tabular-nums">{formattedDate}</time>
+    </div>
+
+    <!-- Zone 2: Title -->
+    <h2 class="text-heading-sm font-bold text-fi-gold leading-tight line-clamp-2 mt-4">
+      {title}
+    </h2>
+
+    <!-- Zone 3: Hook -->
+    {hook && (
+      <p class="text-body-sm text-fi-muted-inv leading-relaxed mt-3 flex-1">{hook}</p>
+    )}
+
+    <!-- Zone 4: Metrics -->
+    {keyMetrics && keyMetrics.length > 0 && (
+      <div class="border-t border-fi-border-dark mt-5 pt-5">
+        <div class="grid grid-cols-3">
+          {keyMetrics.map((metric, i) => (
+            <div class:list={['text-center', i > 0 && 'border-l border-fi-border-dark']}>
+              <p class="text-heading-md font-bold text-fi-ink-inv">{metric.value}</p>
+              <p class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 mt-2">{metric.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Footer -->
+    <div class="border-t border-fi-border-dark mt-5 pt-5 flex items-center justify-center">
+      <span class="text-caption text-fi-gold font-semibold">Read Investigation →</span>
+    </div>
+
+  </article>
+</a>

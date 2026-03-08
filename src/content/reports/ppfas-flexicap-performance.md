@@ -1,5 +1,5 @@
 ---
-title: "PPFAS Flexicap Fund Performance Report"
+title: "PPFAS Flexicap: 5 Years of Evidence"
 description: "5-year analysis of Parag Parikh Flexicap Cap Fund vs NIFTY 500 TRI. Risk-adjusted returns, volatility, drawdown patterns, and SIP performance (2021-2025)."
 date: "2026-01-12"
 readTime: "8 min read"
@@ -10,8 +10,14 @@ tags:
     - "Risk Analysis"
     - "Mutual Funds"
 featured: true
-coverImage: ../../assets/images/reports/parag-parikh-flexicap/cover.png
-coverImageAlt: "Parag Parikh Flexicap Performance KPIs"
+hook: "Outperformed NIFTY 500 TRI by 39.5 percentage points over 5 years — with lower volatility than the benchmark throughout."
+keyMetrics:
+  - label: "CAGR"
+    value: "22.1%"
+  - label: "Sharpe"
+    value: "1.52"
+  - label: "Max DD"
+    value: "-17.9%"
 fmContentType: "report"
 ---
 
