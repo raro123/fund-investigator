@@ -5,6 +5,7 @@ import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
+import { responsive } from '../lib/responsive';
 ---
 
 <Layout
@@ -13,175 +14,256 @@ import Hero from '../components/ui/Hero.astro';
 >
   <!-- Hero -->
   <Hero size="md">
-    <h1 class="text-display-md mb-4 text-navy">Design System</h1>
-    <p class="text-body-lg text-gray-600 max-w-2xl mx-auto">
-      Component library, design tokens, and usage guidelines for Fund Investigator
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-4']}>Design System</h1>
+    <p class="text-body-lg text-fi-muted-inv max-w-2xl mx-auto">
+      Component library, design tokens, and usage guidelines for Fund Investigator.
+      Homepage uses <code class="text-fi-gold font-mono text-sm">size="lg"</code>.
     </p>
   </Hero>
 
   <!-- Color Palette -->
-  <Section background="white" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Color Palette</h2>
+  <Section background="light" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-8']}>Color Palette</h2>
 
     <div class="space-y-12">
-      <!-- Brand Colors -->
+
+      <!-- Structural Backgrounds -->
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Brand Colors</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-          <!-- Navy -->
+        <h3 class="text-heading-md text-fi-ink mb-2">Structural Backgrounds</h3>
+        <p class="text-fi-muted text-body-sm mb-6">Section-level backgrounds — alternate dark/light across the page.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div class="space-y-2">
-            <div class="h-24 bg-navy-dark rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">navy-dark</p>
-            <p class="text-xs text-gray-500">#152a45</p>
+            <div class="h-24 bg-fi-dark rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">bg-fi-dark</p>
+            <p class="text-xs text-fi-muted">Hero · Investigations · Why FI · Footer</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-navy rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">navy</p>
-            <p class="text-xs text-gray-500">#1E3A5F</p>
+            <div class="h-24 bg-fi-mid rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">bg-fi-mid</p>
+            <p class="text-xs text-fi-muted">Card surfaces on dark · Label pill bg</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-navy-light rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">navy-light</p>
-            <p class="text-xs text-gray-500">#2d5278</p>
+            <div class="h-24 bg-fi-light rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">bg-fi-light</p>
+            <p class="text-xs text-fi-muted">Problem · Deepdive · Email Capture</p>
           </div>
+        </div>
+      </div>
 
-          <!-- Gold -->
+      <!-- Semantic Text & UI -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-2">Semantic Text &amp; UI</h3>
+        <p class="text-fi-muted text-body-sm mb-6">Never use raw hex or arbitrary values — always reference these tokens.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Light bg text -->
           <div class="space-y-2">
-            <div class="h-24 bg-gold-dark rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">gold-dark</p>
-            <p class="text-xs text-gray-500">#b8962e</p>
+            <div class="h-16 bg-fi-ink rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-ink</p>
+            <p class="text-xs text-fi-muted">Primary text on light bg</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-gold rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">gold</p>
-            <p class="text-xs text-gray-500">#D4AF37</p>
+            <div class="h-16 bg-fi-muted rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-muted</p>
+            <p class="text-xs text-fi-muted">Secondary text on light bg</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-gold-light rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">gold-light</p>
-            <p class="text-xs text-gray-500">#e0c160</p>
+            <div class="h-16 bg-fi-gold rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-gold / bg-fi-gold</p>
+            <p class="text-xs text-fi-muted">Brand accent · CTAs · H1 emphasis on dark</p>
           </div>
+          <!-- Dark bg text -->
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-ink-inv rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-ink-inv</p>
+            <p class="text-xs text-fi-muted">Primary text on dark bg</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-muted-inv rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-muted-inv</p>
+            <p class="text-xs text-fi-muted">Secondary text on dark bg</p>
+          </div>
+          <!-- Borders & Icon BGs -->
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-border rounded-lg border-2 border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">border-fi-border</p>
+            <p class="text-xs text-fi-muted">Borders on light sections</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-border-dark rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">border-fi-border-dark</p>
+            <p class="text-xs text-fi-muted">Borders on dark sections</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-icon-bg rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">bg-fi-icon-bg</p>
+            <p class="text-xs text-fi-muted">Icon container on light bg</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-icon-bg-inv rounded-lg border border-fi-border"></div>
+            <p class="text-sm font-mono text-fi-ink">bg-fi-icon-bg-inv</p>
+            <p class="text-xs text-fi-muted">Icon container on dark bg</p>
+          </div>
+        </div>
+      </div>
 
-          <!-- Cream -->
+      <!-- Data Visualization Colors -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-2">Data Visualization</h3>
+        <p class="text-fi-muted text-body-sm mb-6">For performance metrics, tables, and chart annotations.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div class="space-y-2">
-            <div class="h-24 bg-cream border border-gray-300 rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">cream</p>
-            <p class="text-xs text-gray-500">#fefce8</p>
+            <div class="h-16 bg-fi-positive rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-positive</p>
+            <p class="text-xs text-fi-muted">Positive performance · emerald-500</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-cream-dark border border-gray-300 rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">cream-dark</p>
-            <p class="text-xs text-gray-500">#fef9c3</p>
-          </div>
-
-          <!-- Neutrals -->
-          <div class="space-y-2">
-            <div class="h-24 bg-white border border-gray-300 rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">white</p>
-            <p class="text-xs text-gray-500">#FFFFFF</p>
+            <div class="h-16 bg-fi-negative rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-negative</p>
+            <p class="text-xs text-fi-muted">Negative performance · red-500</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-[#94A3B8] rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">light-gray</p>
-            <p class="text-xs text-gray-500">#94A3B8</p>
-          </div>
-          <div class="space-y-2">
-            <div class="h-24 bg-[#64748B] rounded-lg shadow-sm border border-gray-200"></div>
-            <p class="text-sm font-mono text-gray-700">gray (secondary)</p>
-            <p class="text-xs text-gray-500">#64748B</p>
+            <div class="h-16 bg-fi-neutral rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-neutral</p>
+            <p class="text-xs text-fi-muted">Neutral / unchanged · slate-500</p>
           </div>
         </div>
       </div>
 
       <!-- Semantic Colors -->
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Semantic Colors</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <h3 class="text-heading-md text-fi-ink mb-2">Semantic Colors</h3>
+        <p class="text-fi-muted text-body-sm mb-6">UI feedback states — forms, alerts, validation.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
           <div class="space-y-2">
-            <div class="h-24 bg-success rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">success</p>
-            <p class="text-xs text-gray-500">#10b981</p>
+            <div class="h-16 bg-success rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">success</p>
+            <p class="text-xs text-fi-muted">#10b981</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-warning rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">warning</p>
-            <p class="text-xs text-gray-500">#f59e0b</p>
+            <div class="h-16 bg-warning rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">warning</p>
+            <p class="text-xs text-fi-muted">#f59e0b</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-error rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">error</p>
-            <p class="text-xs text-gray-500">#ef4444</p>
+            <div class="h-16 bg-error rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">error</p>
+            <p class="text-xs text-fi-muted">#ef4444</p>
           </div>
           <div class="space-y-2">
-            <div class="h-24 bg-info rounded-lg shadow-sm"></div>
-            <p class="text-sm font-mono text-gray-700">info</p>
-            <p class="text-xs text-gray-500">#3b82f6</p>
+            <div class="h-16 bg-info rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">info</p>
+            <p class="text-xs text-fi-muted">#3b82f6</p>
           </div>
+        </div>
+      </div>
+
+    </div>
+  </Section>
+
+  <!-- Typography -->
+  <Section background="dark" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-2']}>Typography</h2>
+    <p class="text-fi-muted-inv text-body-sm mb-10">Use <code class="text-fi-gold font-mono">responsive.*</code> presets — never write breakpoint classes inline.</p>
+
+    <!-- Responsive Presets (recommended) -->
+    <div class="mb-12">
+      <h3 class="text-heading-md text-fi-ink-inv mb-2">Responsive Presets</h3>
+      <p class="text-fi-muted-inv text-body-sm mb-6">Import from <code class="text-fi-gold font-mono">src/lib/responsive.ts</code>. Each entry shows the class string it expands to.</p>
+
+      <div class="space-y-6">
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl p-6">
+          <p class="text-caption text-fi-muted-inv mb-1 font-mono">responsive.display — Hero H1</p>
+          <p class="text-caption text-fi-gold font-mono mb-4">'text-4xl sm:text-5xl md:text-6xl lg:text-display-xl'</p>
+          <p class:list={[responsive.display, 'font-bold text-fi-ink-inv leading-tight']}>The quick brown fox</p>
+        </div>
+
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl p-6">
+          <p class="text-caption text-fi-muted-inv mb-1 font-mono">responsive.h2Large — Section headings</p>
+          <p class="text-caption text-fi-gold font-mono mb-4">'text-heading-lg sm:text-heading-xl lg:text-display-md'</p>
+          <p class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv']}>The quick brown fox</p>
+        </div>
+
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl p-6">
+          <p class="text-caption text-fi-muted-inv mb-1 font-mono">responsive.h2 — Sub-section headings</p>
+          <p class="text-caption text-fi-gold font-mono mb-4">'text-heading-md sm:text-heading-lg lg:text-heading-xl'</p>
+          <p class:list={[responsive.h2, 'font-bold text-fi-ink-inv']}>The quick brown fox jumps</p>
+        </div>
+
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl p-6">
+          <p class="text-caption text-fi-muted-inv mb-1 font-mono">responsive.h3 — Subsection headings</p>
+          <p class="text-caption text-fi-gold font-mono mb-4">'text-heading-sm sm:text-heading-md'</p>
+          <p class:list={[responsive.h3, 'font-bold text-fi-ink-inv']}>The quick brown fox jumps over</p>
+        </div>
+
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl p-6">
+          <p class="text-caption text-fi-muted-inv mb-1 font-mono">responsive.subtitle — Lead / subtitle text</p>
+          <p class="text-caption text-fi-gold font-mono mb-4">'text-body-md sm:text-body-lg'</p>
+          <p class:list={[responsive.subtitle, 'text-fi-muted-inv']}>The quick brown fox jumps over the lazy dog.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Raw Scale -->
+    <div>
+      <h3 class="text-heading-md text-fi-ink-inv mb-2">Raw Scale</h3>
+      <p class="text-fi-muted-inv text-body-sm mb-6">Reference only — use <code class="text-fi-gold font-mono">responsive.*</code> presets in production.</p>
+
+      <div class="space-y-6 bg-fi-mid border border-fi-border-dark p-8 rounded-2xl">
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-display-xl</p>
+          <p class="text-display-xl text-fi-ink-inv">The quick brown fox</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-display-lg</p>
+          <p class="text-display-lg text-fi-ink-inv">The quick brown fox</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-display-md</p>
+          <p class="text-display-md text-fi-ink-inv">The quick brown fox</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-heading-xl</p>
+          <p class="text-heading-xl text-fi-ink-inv">The quick brown fox jumps</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-heading-lg</p>
+          <p class="text-heading-lg text-fi-ink-inv">The quick brown fox jumps over</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-heading-md</p>
+          <p class="text-heading-md text-fi-ink-inv">The quick brown fox jumps over the lazy</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-heading-sm</p>
+          <p class="text-heading-sm text-fi-ink-inv">The quick brown fox jumps over the lazy dog</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-body-lg</p>
+          <p class="text-body-lg text-fi-muted-inv">The quick brown fox jumps over the lazy dog. This is body large text used for introductory paragraphs and emphasis.</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-body-md</p>
+          <p class="text-body-md text-fi-muted-inv">The quick brown fox jumps over the lazy dog. This is body medium text used for standard paragraph content.</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-body-sm</p>
+          <p class="text-body-sm text-fi-muted-inv">The quick brown fox jumps over the lazy dog. Body small for secondary content, captions, and metadata.</p>
+        </div>
+        <div>
+          <p class="text-caption text-fi-muted-inv mb-2 font-mono">text-caption</p>
+          <p class="text-caption text-fi-muted-inv">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</p>
         </div>
       </div>
     </div>
   </Section>
 
-  <!-- Typography -->
-  <Section background="cream" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Typography</h2>
-
-    <div class="space-y-8 bg-white p-8 rounded-2xl">
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-display-xl</p>
-        <p class="text-display-xl text-navy">The quick brown fox</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-display-lg</p>
-        <p class="text-display-lg text-navy">The quick brown fox</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-display-md</p>
-        <p class="text-display-md text-navy">The quick brown fox</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-heading-xl</p>
-        <p class="text-heading-xl text-navy">The quick brown fox jumps</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-heading-lg</p>
-        <p class="text-heading-lg text-navy">The quick brown fox jumps over</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-heading-md</p>
-        <p class="text-heading-md text-navy">The quick brown fox jumps over the lazy</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-heading-sm</p>
-        <p class="text-heading-sm text-navy">The quick brown fox jumps over the lazy dog</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-body-lg</p>
-        <p class="text-body-lg text-gray-700">The quick brown fox jumps over the lazy dog. This is body large text used for introductory paragraphs and emphasis.</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-body-md</p>
-        <p class="text-body-md text-gray-700">The quick brown fox jumps over the lazy dog. This is body medium text used for standard paragraph content and general reading.</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-body-sm</p>
-        <p class="text-body-sm text-gray-600">The quick brown fox jumps over the lazy dog. This is body small text used for secondary content, captions, and metadata.</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-500 mb-2 font-mono">text-caption</p>
-        <p class="text-caption text-gray-500">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</p>
-      </div>
-    </div>
-  </Section>
-
   <!-- Buttons -->
-  <Section background="white" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Buttons</h2>
+  <Section background="light" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-8']}>Buttons</h2>
 
     <div class="space-y-12">
-      <!-- Variants -->
       <div>
-        <h3 class="text-heading-md text-navy mb-6">Variants</h3>
+        <h3 class="text-heading-md text-fi-ink mb-6">Variants</h3>
         <div class="flex flex-wrap gap-4">
           <Button variant="primary">Primary Button</Button>
           <Button variant="secondary">Secondary Button</Button>
@@ -190,9 +272,8 @@ import Hero from '../components/ui/Hero.astro';
         </div>
       </div>
 
-      <!-- Sizes -->
       <div>
-        <h3 class="text-heading-md text-navy mb-6">Sizes</h3>
+        <h3 class="text-heading-md text-fi-ink mb-6">Sizes</h3>
         <div class="flex flex-wrap items-center gap-4">
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
@@ -200,9 +281,8 @@ import Hero from '../components/ui/Hero.astro';
         </div>
       </div>
 
-      <!-- With Icons -->
       <div>
-        <h3 class="text-heading-md text-navy mb-6">With Icons</h3>
+        <h3 class="text-heading-md text-fi-ink mb-6">With Icons</h3>
         <div class="flex flex-wrap gap-4">
           <Button icon="arrow-right">Launch Tool</Button>
           <Button variant="secondary" icon="external">View Report</Button>
@@ -211,32 +291,30 @@ import Hero from '../components/ui/Hero.astro';
         </div>
       </div>
 
-      <!-- States -->
       <div>
-        <h3 class="text-heading-md text-navy mb-6">States</h3>
+        <h3 class="text-heading-md text-fi-ink mb-6">States</h3>
         <div class="flex flex-wrap gap-4">
           <Button>Normal</Button>
           <Button disabled>Disabled</Button>
         </div>
       </div>
 
-      <!-- Full Width -->
       <div>
-        <h3 class="text-heading-md text-navy mb-6">Full Width</h3>
+        <h3 class="text-heading-md text-fi-ink mb-6">Full Width</h3>
         <Button fullWidth>Full Width Button</Button>
       </div>
     </div>
   </Section>
 
   <!-- Badges -->
-  <Section background="cream" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Badges</h2>
+  <Section background="dark" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-8']}>Badges</h2>
 
     <div class="space-y-8">
-      <!-- Variants -->
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Variants</h3>
-        <div class="flex flex-wrap gap-3">
+        <h3 class="text-heading-md text-fi-ink-inv mb-2">Light Background Variants</h3>
+        <p class="text-fi-muted-inv text-body-sm mb-4">Use <code class="text-fi-gold font-mono">variant="default"</code> (or omit) on <code class="text-fi-gold font-mono">background="light"</code> sections.</p>
+        <div class="bg-fi-light rounded-xl p-6 flex flex-wrap gap-3">
           <Badge>Default</Badge>
           <Badge variant="primary">Primary</Badge>
           <Badge variant="secondary">Secondary</Badge>
@@ -247,199 +325,362 @@ import Hero from '../components/ui/Hero.astro';
         </div>
       </div>
 
-      <!-- Sizes -->
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Sizes</h3>
-        <div class="flex flex-wrap items-center gap-3">
-          <Badge size="sm">Small</Badge>
-          <Badge size="md">Medium</Badge>
-          <Badge size="lg">Large</Badge>
+        <h3 class="text-heading-md text-fi-ink-inv mb-2">Dark Background Variant</h3>
+        <p class="text-fi-muted-inv text-body-sm mb-4">Use <code class="text-fi-gold font-mono">variant="dark"</code> on <code class="text-fi-gold font-mono">background="dark"</code> sections — section labels on hero, investigations, why FI.</p>
+        <div class="bg-fi-dark border border-fi-border-dark rounded-xl p-6 flex flex-wrap gap-3">
+          <Badge variant="dark">Investigations</Badge>
+          <Badge variant="dark">Why FI</Badge>
+          <Badge variant="dark">Section Label</Badge>
         </div>
       </div>
 
-      <!-- Rounded -->
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Corner Styles</h3>
-        <div class="flex flex-wrap gap-3">
-          <Badge rounded={true}>Pill Shape</Badge>
-          <Badge rounded={false}>Rounded Corners</Badge>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Sizes</h3>
+        <div class="flex flex-wrap items-center gap-3">
+          <Badge variant="dark" size="sm">Small</Badge>
+          <Badge variant="dark" size="md">Medium</Badge>
+          <Badge variant="dark" size="lg">Large</Badge>
         </div>
+      </div>
+
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Corner Styles</h3>
+        <div class="flex flex-wrap gap-3">
+          <Badge variant="dark" rounded={true}>Pill Shape</Badge>
+          <Badge variant="dark" rounded={false}>Rounded Corners</Badge>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section Header Pattern -->
+  <Section background="light" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-2']}>Section Header Pattern</h2>
+    <p class="text-fi-muted text-body-sm mb-10">Standard composite used across homepage sections — Badge + H2 + subtitle.</p>
+
+    <div class="space-y-8">
+      <!-- On Light -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-4">On Light Background</h3>
+        <div class="bg-fi-light rounded-xl p-8">
+          <Badge>Section Label</Badge>
+          <h2 class:list={[responsive.h2Large, 'text-fi-ink mt-4 mb-4']}>Section Heading Goes Here</h2>
+          <p class="text-fi-muted text-body-lg max-w-2xl">Supporting subtitle that provides context. Keep to one or two sentences — let the content sections carry the detail.</p>
+        </div>
+        <pre class="mt-4 bg-fi-dark text-fi-muted-inv p-4 rounded-xl text-body-sm overflow-x-auto"><code>{`<Badge>Section Label</Badge>
+<h2 class:list={[responsive.h2Large, 'text-fi-ink mt-4 mb-4']}>Section Heading</h2>
+<p class="text-fi-muted text-body-lg max-w-2xl">Supporting subtitle text.</p>`}</code></pre>
+      </div>
+
+      <!-- On Dark -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-4">On Dark Background</h3>
+        <div class="bg-fi-dark rounded-xl p-8">
+          <Badge variant="dark">Section Label</Badge>
+          <h2 class:list={[responsive.h2Large, 'text-fi-ink-inv mt-4 mb-4']}>Section Heading Goes Here</h2>
+          <p class="text-fi-muted-inv text-body-lg max-w-2xl">Supporting subtitle that provides context. Keep to one or two sentences — let the content sections carry the detail.</p>
+        </div>
+        <pre class="mt-4 bg-fi-dark text-fi-muted-inv p-4 rounded-xl text-body-sm overflow-x-auto"><code>{`<Badge variant="dark">Section Label</Badge>
+<h2 class:list={[responsive.h2Large, 'text-fi-ink-inv mt-4 mb-4']}>Section Heading</h2>
+<p class="text-fi-muted-inv text-body-lg max-w-2xl">Supporting subtitle text.</p>`}</code></pre>
       </div>
     </div>
   </Section>
 
   <!-- Cards -->
-  <Section background="white" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Cards</h2>
+  <Section background="dark" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-8']}>Cards</h2>
 
     <div class="space-y-8">
-      <div class="grid md:grid-cols-2 gap-6">
-        <Card>
-          <h3 class="text-heading-md text-navy mb-2">Default Card</h3>
-          <p class="text-gray-600">Standard card with border and hover effect.</p>
-        </Card>
-
-        <Card variant="elevated">
-          <h3 class="text-heading-md text-navy mb-2">Elevated Card</h3>
-          <p class="text-gray-600">Card with permanent shadow and enhanced hover.</p>
-        </Card>
-
-        <Card variant="bordered">
-          <h3 class="text-heading-md text-navy mb-2">Bordered Card</h3>
-          <p class="text-gray-600">Prominent border with minimal shadow.</p>
-        </Card>
-
-        <Card variant="glass">
-          <h3 class="text-heading-md text-navy mb-2">Glass Card</h3>
-          <p class="text-gray-600">Semi-transparent with backdrop blur.</p>
-        </Card>
-      </div>
-
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Padding Variants</h3>
-        <div class="grid md:grid-cols-2 gap-6">
-          <Card padding="sm">
-            <h4 class="text-heading-sm text-navy mb-1">Small Padding</h4>
-            <p class="text-sm text-gray-600">Compact card content</p>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Variants</h3>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <Card>
+            <h3 class="text-heading-md text-fi-ink mb-2">Default Card</h3>
+            <p class="text-fi-muted">Standard card with border and hover effect.</p>
           </Card>
-          <Card padding="lg">
-            <h4 class="text-heading-sm text-navy mb-2">Large Padding</h4>
-            <p class="text-gray-600">More spacious card content</p>
+          <Card variant="elevated">
+            <h3 class="text-heading-md text-fi-ink mb-2">Elevated Card</h3>
+            <p class="text-fi-muted">Card with <code class="font-mono text-body-sm">shadow-fi-card</code> and enhanced hover.</p>
+          </Card>
+          <Card variant="bordered">
+            <h3 class="text-heading-md text-fi-ink mb-2">Bordered Card</h3>
+            <p class="text-fi-muted">Prominent border with minimal shadow.</p>
+          </Card>
+          <Card variant="glass">
+            <h3 class="text-heading-md text-fi-ink mb-2">Glass Card</h3>
+            <p class="text-fi-muted">Semi-transparent with backdrop blur.</p>
           </Card>
         </div>
       </div>
 
       <div>
-        <h3 class="text-heading-md text-navy mb-4">Without Hover</h3>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Padding Variants</h3>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <Card padding="sm">
+            <h4 class="text-heading-sm text-fi-ink mb-1">Small Padding</h4>
+            <p class="text-sm text-fi-muted">Compact card content</p>
+          </Card>
+          <Card padding="lg">
+            <h4 class="text-heading-sm text-fi-ink mb-2">Large Padding</h4>
+            <p class="text-fi-muted">More spacious card content</p>
+          </Card>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Without Hover</h3>
         <Card hover={false}>
-          <h4 class="text-heading-sm text-navy mb-2">Static Card</h4>
-          <p class="text-gray-600">This card does not have hover effects</p>
+          <h4 class="text-heading-sm text-fi-ink mb-2">Static Card</h4>
+          <p class="text-fi-muted">This card does not have hover effects.</p>
         </Card>
       </div>
     </div>
   </Section>
 
-  <!-- Spacing -->
-  <Section background="cream" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Spacing Scale</h2>
+  <!-- Icon Container Pattern -->
+  <Section background="light" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-2']}>Icon Container Pattern</h2>
+    <p class="text-fi-muted text-body-sm mb-10">Standard icon container used in feature cards and benefit lists. Use <code class="font-mono">fi-icon</code> (22px) for card icons, <code class="font-mono">fi-icon-lg</code> (44px) for touch targets (footer socials, etc.).</p>
 
-    <div class="space-y-4 bg-white p-8 rounded-2xl">
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">tight-gap</div>
-        <div class="h-4 bg-navy rounded" style="width: 0.5rem;"></div>
-        <div class="text-sm text-gray-500">0.5rem / 8px</div>
+    <div class="grid sm:grid-cols-2 gap-8">
+      <!-- On Light -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-4">On Light Background (<code class="font-mono text-body-sm">bg-fi-icon-bg</code>)</h3>
+        <div class="bg-fi-light rounded-xl p-8 flex gap-4">
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center shrink-0">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-heading-sm text-fi-ink">Feature Title</p>
+            <p class="text-fi-muted text-body-sm">Supporting description text.</p>
+          </div>
+        </div>
+        <pre class="mt-4 bg-fi-dark text-fi-muted-inv p-4 rounded-xl text-body-sm overflow-x-auto"><code>{`<div class="w-11 h-11 bg-fi-icon-bg rounded-xl
+     flex items-center justify-center">
+  <svg class="w-fi-icon h-fi-icon text-fi-muted" .../>
+</div>`}</code></pre>
       </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">element-gap</div>
-        <div class="h-4 bg-navy rounded" style="width: 1rem;"></div>
-        <div class="text-sm text-gray-500">1rem / 16px</div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">card-padding</div>
-        <div class="h-4 bg-navy rounded" style="width: 1.5rem;"></div>
-        <div class="text-sm text-gray-500">1.5rem / 24px</div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">card-gap</div>
-        <div class="h-4 bg-navy rounded" style="width: 2rem;"></div>
-        <div class="text-sm text-gray-500">2rem / 32px</div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">section-gap</div>
-        <div class="h-4 bg-navy rounded" style="width: 4rem;"></div>
-        <div class="text-sm text-gray-500">4rem / 64px</div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">section-y-sm</div>
-        <div class="h-4 bg-navy rounded" style="width: 5rem;"></div>
-        <div class="text-sm text-gray-500">5rem / 80px</div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="w-32 text-sm font-mono text-gray-700">section-y</div>
-        <div class="h-4 bg-navy rounded" style="width: 8rem;"></div>
-        <div class="text-sm text-gray-500">8rem / 128px</div>
+
+      <!-- On Dark -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink mb-4">On Dark Background (<code class="font-mono text-body-sm">bg-fi-icon-bg-inv</code>)</h3>
+        <div class="bg-fi-dark rounded-xl p-8 flex gap-4">
+          <div class="w-11 h-11 bg-fi-icon-bg-inv rounded-xl flex items-center justify-center shrink-0">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-heading-sm text-fi-ink-inv">Feature Title</p>
+            <p class="text-fi-muted-inv text-body-sm">Supporting description text.</p>
+          </div>
+        </div>
+        <pre class="mt-4 bg-fi-dark text-fi-muted-inv p-4 rounded-xl text-body-sm overflow-x-auto"><code>{`<div class="w-11 h-11 bg-fi-icon-bg-inv rounded-xl
+     flex items-center justify-center">
+  <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" .../>
+</div>`}</code></pre>
       </div>
     </div>
   </Section>
 
-  <!-- Shadows -->
-  <Section background="white" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8">Shadow System</h2>
+  <!-- Layout Tokens -->
+  <Section background="dark" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-2']}>Layout Tokens</h2>
+    <p class="text-fi-muted-inv text-body-sm mb-10">Non-color tokens — spacing, sizing, shadows, z-index. All defined in <code class="text-fi-gold font-mono">tailwind.config.mjs</code>.</p>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="p-6 bg-white shadow-xs rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-xs</p>
-        <p class="text-xs text-gray-500">Minimal shadow</p>
+    <div class="space-y-12">
+
+      <!-- Shadows -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Shadows</h3>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div class="bg-fi-light rounded-xl p-6 shadow-fi-card">
+            <p class="text-sm font-mono text-fi-ink mb-1">shadow-fi-card</p>
+            <p class="text-xs text-fi-muted">Card shadows on light sections — 0 4px 24px rgba(2,6,23,0.08)</p>
+          </div>
+          <div class="bg-fi-mid rounded-xl p-6 shadow-fi-card-dark">
+            <p class="text-sm font-mono text-fi-ink-inv mb-1">shadow-fi-card-dark</p>
+            <p class="text-xs text-fi-muted-inv">Card shadows on dark sections — 0 16px 44px rgba(0,0,0,0.30)</p>
+          </div>
+        </div>
       </div>
-      <div class="p-6 bg-white shadow-sm rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-sm</p>
-        <p class="text-xs text-gray-500">Subtle shadow</p>
+
+      <!-- Token Reference Table -->
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-4">Token Reference</h3>
+        <div class="bg-fi-mid border border-fi-border-dark rounded-xl overflow-hidden">
+          <table class="w-full text-body-sm">
+            <thead>
+              <tr class="border-b border-fi-border-dark">
+                <th class="text-left px-4 py-3 text-fi-muted-inv font-semibold">Category</th>
+                <th class="text-left px-4 py-3 text-fi-muted-inv font-semibold">Token</th>
+                <th class="text-left px-4 py-3 text-fi-muted-inv font-semibold">Value</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-fi-border-dark">
+              <tr>
+                <td class="px-4 py-3 text-fi-muted-inv" rowspan="3">Z-index</td>
+                <td class="px-4 py-3 font-mono text-fi-gold">z-fi-header</td>
+                <td class="px-4 py-3 text-fi-muted-inv">100 — sticky nav</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">z-fi-menu</td>
+                <td class="px-4 py-3 text-fi-muted-inv">90 — mobile menu</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">z-fi-overlay</td>
+                <td class="px-4 py-3 text-fi-muted-inv">80 — overlays</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-fi-muted-inv">Border radius</td>
+                <td class="px-4 py-3 font-mono text-fi-gold">rounded-fi-btn</td>
+                <td class="px-4 py-3 text-fi-muted-inv">10px — button corners</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-fi-muted-inv" rowspan="3">Spacing</td>
+                <td class="px-4 py-3 font-mono text-fi-gold">px-fi-btn-x</td>
+                <td class="px-4 py-3 text-fi-muted-inv">26px — button horizontal padding</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">px-fi-btn-x-sm</td>
+                <td class="px-4 py-3 text-fi-muted-inv">18px — small button horizontal padding</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">py-fi-btn-y</td>
+                <td class="px-4 py-3 text-fi-muted-inv">13px — button vertical padding</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-fi-muted-inv" rowspan="4">Sizing</td>
+                <td class="px-4 py-3 font-mono text-fi-gold">w-fi-icon / h-fi-icon</td>
+                <td class="px-4 py-3 text-fi-muted-inv">22px — card icons</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">w-fi-icon-lg / h-fi-icon-lg</td>
+                <td class="px-4 py-3 text-fi-muted-inv">44px — touch targets (WCAG)</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">max-w-fi-content</td>
+                <td class="px-4 py-3 text-fi-muted-inv">65ch — article prose reading width</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">--fi-header-h</td>
+                <td class="px-4 py-3 text-fi-muted-inv">73px — CSS var for header height offset</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="p-6 bg-white shadow rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow</p>
-        <p class="text-xs text-gray-500">Default shadow</p>
+
+    </div>
+  </Section>
+
+  <!-- Spacing -->
+  <Section background="light" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-8']}>Spacing Scale</h2>
+
+    <div class="space-y-4 bg-white p-8 rounded-2xl border border-fi-border">
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">tight-gap</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 0.5rem;"></div>
+        <div class="text-sm text-fi-muted">0.5rem / 8px</div>
       </div>
-      <div class="p-6 bg-white shadow-md rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-md</p>
-        <p class="text-xs text-gray-500">Medium shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">element-gap</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 1rem;"></div>
+        <div class="text-sm text-fi-muted">1rem / 16px</div>
       </div>
-      <div class="p-6 bg-white shadow-lg rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-lg</p>
-        <p class="text-xs text-gray-500">Large shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">card-padding</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 1.5rem;"></div>
+        <div class="text-sm text-fi-muted">1.5rem / 24px</div>
       </div>
-      <div class="p-6 bg-white shadow-xl rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-xl</p>
-        <p class="text-xs text-gray-500">Extra large shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">card-gap</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 2rem;"></div>
+        <div class="text-sm text-fi-muted">2rem / 32px</div>
       </div>
-      <div class="p-6 bg-white shadow-2xl rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-2xl</p>
-        <p class="text-xs text-gray-500">2XL shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">section-gap</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 4rem;"></div>
+        <div class="text-sm text-fi-muted">4rem / 64px</div>
       </div>
-      <div class="p-6 bg-white shadow-gold rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-gold</p>
-        <p class="text-xs text-gray-500">Brand gold shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">section-y-sm</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 5rem;"></div>
+        <div class="text-sm text-fi-muted">5rem / 80px</div>
       </div>
-      <div class="p-6 bg-white shadow-navy rounded-xl border border-gray-100">
-        <p class="text-sm font-mono text-gray-700 mb-2">shadow-navy</p>
-        <p class="text-xs text-gray-500">Brand navy shadow</p>
+      <div class="flex items-center gap-4">
+        <div class="w-32 text-sm font-mono text-fi-ink">section-y</div>
+        <div class="h-4 bg-fi-dark rounded" style="width: 8rem;"></div>
+        <div class="text-sm text-fi-muted">8rem / 128px</div>
       </div>
     </div>
   </Section>
 
   <!-- Usage Guidelines -->
-  <Section background="cream" spacing="lg">
-    <h2 class="text-heading-xl text-navy mb-8 text-center">Usage Guidelines</h2>
+  <Section background="dark" spacing="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-8']}>Usage Guidelines</h2>
 
-    <div class="max-w-3xl mx-auto space-y-8">
+    <div class="max-w-3xl mx-auto space-y-6">
       <Card>
-        <h3 class="text-heading-md text-navy mb-4">Component Import</h3>
-        <pre class="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm"><code>import Button from '../components/ui/Button.astro';
+        <h3 class="text-heading-md text-fi-ink mb-4">Component Import</h3>
+        <pre class="bg-gray-50 p-4 rounded-lg overflow-x-auto text-body-sm"><code>import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
-import Hero from '../components/ui/Hero.astro';</code></pre>
+import Hero from '../components/ui/Hero.astro';
+import &#123; responsive &#125; from '../lib/responsive';</code></pre>
       </Card>
 
       <Card>
-        <h3 class="text-heading-md text-navy mb-4">Color Usage</h3>
-        <ul class="space-y-2 text-gray-700">
-          <li><strong class="text-navy">Navy:</strong> Primary brand color, headers, main CTAs</li>
-          <li><strong class="text-gold">Gold:</strong> Accent color, hover states, highlights</li>
-          <li><strong class="text-cream-dark">Cream:</strong> Subtle backgrounds, badges</li>
-          <li><strong class="text-success">Success:</strong> Positive feedback, confirmations</li>
-          <li><strong class="text-warning">Warning:</strong> Cautionary messages</li>
-          <li><strong class="text-error">Error:</strong> Error states, destructive actions</li>
-          <li><strong class="text-info">Info:</strong> Informational messages</li>
+        <h3 class="text-heading-md text-fi-ink mb-4">Section Background Rhythm</h3>
+        <table class="w-full text-body-sm">
+          <thead>
+            <tr class="border-b border-fi-border">
+              <th class="text-left py-2 text-fi-ink font-semibold">Section</th>
+              <th class="text-left py-2 text-fi-ink font-semibold">Background Prop</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-fi-border">
+            <tr><td class="py-2 text-fi-muted">Hero</td><td class="py-2 font-mono text-body-sm">background="dark"</td></tr>
+            <tr><td class="py-2 text-fi-muted">Problem / Deepdive / Email Capture</td><td class="py-2 font-mono text-body-sm">background="light"</td></tr>
+            <tr><td class="py-2 text-fi-muted">Investigations / Why FI / Footer</td><td class="py-2 font-mono text-body-sm">background="dark"</td></tr>
+          </tbody>
+        </table>
+      </Card>
+
+      <Card>
+        <h3 class="text-heading-md text-fi-ink mb-4">Color Usage Rules</h3>
+        <ul class="space-y-2 text-fi-muted">
+          <li><strong class="text-fi-ink">fi-ink / fi-muted:</strong> Text on light sections</li>
+          <li><strong class="text-fi-ink">fi-ink-inv / fi-muted-inv:</strong> Text on dark sections</li>
+          <li><strong class="text-fi-ink">fi-gold:</strong> Brand accent, buttons, H1 emphasis word on dark</li>
+          <li><strong class="text-fi-ink">fi-positive / fi-negative / fi-neutral:</strong> Data visualization only</li>
+          <li><strong class="text-fi-ink">success / warning / error / info:</strong> UI feedback states only</li>
         </ul>
       </Card>
 
       <Card>
-        <h3 class="text-heading-md text-navy mb-4">Button Hierarchy</h3>
-        <ul class="space-y-2 text-gray-700">
-          <li><strong class="text-navy">Primary:</strong> Main action on a page (e.g., "Launch Tool")</li>
-          <li><strong class="text-navy">Secondary:</strong> Important but not primary (e.g., "Learn More")</li>
-          <li><strong class="text-navy">Tertiary:</strong> Low emphasis links (e.g., "View All")</li>
-          <li><strong class="text-navy">Outline:</strong> Special emphasis with gold accent</li>
+        <h3 class="text-heading-md text-fi-ink mb-4">Button Hierarchy</h3>
+        <ul class="space-y-2 text-fi-muted">
+          <li><strong class="text-fi-ink">Primary:</strong> Main action on a page (e.g., "Launch Tool")</li>
+          <li><strong class="text-fi-ink">Secondary:</strong> Important but not primary (e.g., "Learn More")</li>
+          <li><strong class="text-fi-ink">Tertiary:</strong> Low emphasis links (e.g., "View All")</li>
+          <li><strong class="text-fi-ink">Outline:</strong> Special emphasis with gold accent</li>
+        </ul>
+      </Card>
+
+      <Card>
+        <h3 class="text-heading-md text-fi-ink mb-4">Grid Rules</h3>
+        <ul class="space-y-2 text-fi-muted">
+          <li>Never jump from 1-col to 3-col — always use <code class="font-mono text-body-sm">sm:grid-cols-2 lg:grid-cols-3</code></li>
+          <li>Section horizontal padding owned by <strong class="text-fi-ink">Section.astro</strong> — never add manually</li>
+          <li>Use <code class="font-mono text-body-sm">maxWidth="2xl"</code> for standard homepage sections</li>
+          <li>Never combine <code class="font-mono text-body-sm">maxWidth="full"</code> with a manual inner container</li>
         </ul>
       </Card>
     </div>
