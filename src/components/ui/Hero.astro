@@ -62,8 +62,8 @@ const backgroundStyles = {
 const alignStyles = centered ? 'text-center' : '';
 
 // Combined classes
-const sectionClasses = `${backgroundStyles[background]} ${sizeStyles[size]} px-4 sm:px-6 lg:px-10 ${className}`.trim();
-const containerClasses = `max-w-5xl mx-auto ${alignStyles} ${containerClass}`.trim();
+const sectionClasses = `relative overflow-hidden ${backgroundStyles[background]} ${sizeStyles[size]} px-4 sm:px-6 lg:px-10 ${className}`.trim();
+const containerClasses = `relative z-10 max-w-5xl mx-auto min-w-0 max-w-full ${alignStyles} ${containerClass}`.trim();
 ---
 
 <section class={sectionClasses}>

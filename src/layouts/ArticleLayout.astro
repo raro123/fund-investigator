@@ -19,7 +19,7 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header class="bg-fi-dark pt-32 pb-20 px-6 text-center">
+  <header class="bg-fi-dark pt-32 pb-20 px-4 sm:px-6 text-center">
     <div class="max-w-3xl mx-auto space-y-6">
       <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-fi-subtle">
         <time datetime={frontmatter.date}>{formattedDate}</time>
@@ -41,14 +41,14 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
     </div>
   </header>
 
-  <article class="relative bg-white px-6 py-16 md:py-24">
+  <article class="relative bg-white px-4 sm:px-6 py-16 md:py-24">
     <div class="max-w-fi-content mx-auto">
-      <div class="prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-lg prose-li:marker:text-fi-gold">
+      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:marker:text-fi-gold">
         <slot />
       </div>
 
       <div class="mt-16 pt-8 border-t border-fi-border">
-        <div class="bg-fi-light rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+        <div class="bg-fi-light rounded-lg p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
           <div class="flex-1">
             <h3 class="text-xl font-bold text-fi-ink mb-2">Investigate this yourself</h3>
             <p class="text-fi-muted">Use Deepdive to analyze the funds mentioned in this report.</p>
@@ -76,6 +76,21 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
   body { animation: scroll-progress linear; animation-timeline: scroll(); }
   @keyframes scroll-progress { from { --scroll: 0%; } to { --scroll: 100%; } }
   .scroll-progress { width: 100%; transform: scaleX(var(--scroll)); }
+
+  .article-prose :global(img) {
+    display: block;
+    width: min(92vw, 56rem);
+    max-width: min(92vw, 56rem);
+    margin-inline: calc((100% - min(92vw, 56rem)) / 2);
+  }
+
+  @media (max-width: 640px) {
+    .article-prose :global(img) {
+      width: 100%;
+      max-width: 100%;
+      margin-inline: 0;
+    }
+  }
 </style>
 
 <script>
