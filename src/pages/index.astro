@@ -20,6 +20,18 @@ const featuredReports = allReports
   .filter(report => report.data.featured === true)
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
+
+const homepageEmailCaptureForm = {
+  action: '/api/subscribe',
+  method: 'POST' as const,
+  formName: undefined,
+  formId: undefined,
+  acceptCharset: undefined,
+  enctype: undefined,
+  formClass: undefined,
+  emailFieldName: 'email',
+  hiddenFields: {},
+};
 ---
 
 <Layout
@@ -309,6 +321,18 @@ const featuredReports = allReports
         Then every new investigation and tool update, as they ship. Nothing else.
       </p>
       <SubscribeForm
+        action={homepageEmailCaptureForm.action}
+        method={homepageEmailCaptureForm.method}
+        formName={homepageEmailCaptureForm.formName}
+        formId={homepageEmailCaptureForm.formId}
+        acceptCharset={homepageEmailCaptureForm.acceptCharset}
+        enctype={homepageEmailCaptureForm.enctype}
+        formClass={homepageEmailCaptureForm.formClass}
+        emailFieldName={homepageEmailCaptureForm.emailFieldName}
+        hiddenFields={homepageEmailCaptureForm.hiddenFields}
+        ajaxSubmit
+        successMessage="Thanks. You have joined the subscriber list."
+        errorMessage="We could not add that email. Please try again."
         placeholder="your@email.com"
         buttonText="Send Me Investigations"
       />

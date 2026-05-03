@@ -3,40 +3,85 @@ import Button from './Button.astro';
 
 interface Props {
   action?: string;
+  method?: 'GET' | 'POST';
+  formName?: string;
+  formId?: string;
+  acceptCharset?: string;
+  enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+  formClass?: string;
+  emailFieldName?: string;
+  hiddenFields?: Record<string, string>;
+  ajaxSubmit?: boolean;
+  successMessage?: string;
+  errorMessage?: string;
   buttonText?: string;
   placeholder?: string;
   class?: string;
 }
 
 const {
-  action = '/api/subscribe',
+  action = '#',
+  method = 'POST',
+  formName,
+  formId,
+  acceptCharset,
+  enctype,
+  formClass,
+  emailFieldName = 'email',
+  hiddenFields = {},
+  ajaxSubmit = false,
+  successMessage = 'Thanks. You have joined the list.',
+  errorMessage = 'Something went wrong. Please try again.',
   buttonText = 'Subscribe',
   placeholder = 'Enter your email',
   class: className,
 } = Astro.props;
+
+const hiddenFieldEntries = Object.entries(hiddenFields);
+const formClasses = [
+  'flex flex-col sm:flex-row gap-3',
+  formClass,
+  className,
+];
 ---
 
-<form
-  action={action}
-  method="POST"
-  class:list={['flex flex-col sm:flex-row gap-3', className]}
->
-  <div class="flex-1">
-    <label for="subscribe-email" class="sr-only">Email address</label>
-    <input
-      type="email"
-      id="subscribe-email"
-      name="email"
-      required
-      placeholder={placeholder}
-      class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-navy placeholder:text-gray-400 transition-all focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
-    />
-  </div>
+<div>
+  <form
+    action={action}
+    method={method}
+    name={formName}
+    id={formId}
+    accept-charset={acceptCharset}
+    enctype={enctype}
+    data-ajax-subscribe={ajaxSubmit ? 'true' : undefined}
+    class:list={formClasses}
+  >
+    {hiddenFieldEntries.map(([name, value]) => (
+      <input type="hidden" name={name} value={value} />
+    ))}
 
-  <Button type="submit" variant="primary">
-    {buttonText}
-  </Button>
-</form>
+    <div class="flex-1">
+      <label for="subscribe-email" class="sr-only">Email address</label>
+      <input
+        type="email"
+        id="subscribe-email"
+        name={emailFieldName}
+        required
+        placeholder={placeholder}
+        autocomplete="email"
+        aria-label="Email address"
+        class="w-full px-4 py-3 rounded-lg border border-fi-border bg-white text-fi-ink placeholder:text-fi-muted transition-all focus:outline-none focus:border-fi-gold focus:ring-2 focus:ring-fi-gold/20"
+      />
+    </div>
+
+    <Button type="submit" variant="primary">
+      {buttonText}
+    </Button>
+  </form>
+
+  <p class="mt-3 hidden text-body-sm text-fi-muted" data-subscribe-success>{successMessage}</p>
+  <p class="mt-3 hidden text-body-sm text-fi-negative" data-subscribe-error>{errorMessage}</p>
+</div>
 
 <style>
   form:has(input:invalid:not(:placeholder-shown)) button {
@@ -44,3 +89,44 @@ const {
     cursor: not-allowed;
   }
 </style>
+
+<script>
+  document.querySelectorAll('[data-ajax-subscribe]').forEach((form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const container = form.parentElement;
+      const successMessage = container?.querySelector('[data-subscribe-success]');
+      const errorMessage = container?.querySelector('[data-subscribe-error]');
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      successMessage?.classList.add('hidden');
+      errorMessage?.classList.add('hidden');
+      submitButton?.setAttribute('disabled', 'true');
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Subscription failed');
+        }
+
+        form.reset();
+        form.classList.add('hidden');
+        successMessage?.classList.remove('hidden');
+      } catch {
+        errorMessage?.classList.remove('hidden');
+      } finally {
+        submitButton?.removeAttribute('disabled');
+      }
+    });
+  });
+</script>
