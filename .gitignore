@@ -4,11 +4,13 @@ node_modules/
 # build output
 dist/
 .astro/
+.wrangler/
 
 # environment variables
 .env
 .env.*
 !.env.example
+.dev.vars
 
 # macOS
 .DS_Store
