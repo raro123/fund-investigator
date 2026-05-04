@@ -41,12 +41,6 @@ const homepageEmailCaptureForm = {
   <!-- Hero Section -->
   <Hero size="lg" background="dark" class="fi-investigation-hero">
     <div class="fi-hero-grid" aria-hidden="true"></div>
-    <div class="fi-hero-trace" aria-hidden="true">
-      <svg viewBox="0 0 920 220" fill="none" role="presentation" focusable="false">
-        <path class="fi-trace-muted" d="M0 160H120L185 118L260 132L340 78L430 96L520 42L620 68L710 30L800 50L920 18" />
-        <path class="fi-trace-gold" d="M70 174L150 150L225 156L310 108L400 120L490 84L585 98L675 62L780 76L880 44" />
-      </svg>
-    </div>
 
     <!-- Oversized heading with breathing room -->
     <div class="mb-12 md:mb-14">
@@ -246,67 +240,20 @@ const homepageEmailCaptureForm = {
 
   </Section>
 
-  <!-- Why Fund Investigator Section -->
-  <Section id="about" background="dark" spacing="md" maxWidth="2xl" class="scroll-mt-20">
-      <div class="max-w-4xl mx-auto">
-        <!-- Section Header -->
-        <div class="text-center mb-12">
-          <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
-          <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
-            Because Indian mutual fund investors deserve analysis that increases their returns.
-            <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
-          </h2>
-        </div>
-
-        <!-- Key Points Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 mb-16">
-          <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-            <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Analytics, Not Sales</h3>
-            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-              Every other mutual fund platform exists to complete a transaction. We exist to complete your analysis. No buy buttons, no portfolio nudges, no recommended funds.
-            </p>
-          </div>
-
-          <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-            <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Zero Conflicts of Interest</h3>
-            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-              No commissions, no fund partnerships, no trail fees. The reason we can be pure analytics is because we don't earn from your decisions.
-            </p>
-          </div>
-
-          <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-            <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-              <svg class="w-fi-icon h-fi-icon text-fi-muted-inv" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Transparent Methodology</h3>
-            <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-              AMFI data, standard financial measures, clear calculations. No black boxes, no star ratings. Because some things shouldn't be simplified — they should be understood.
-            </p>
-          </div>
-        </div>
-
-        <!-- Link to About page -->
-        <div class="text-center mt-12 pt-8 border-t border-fi-border-dark">
-          <a href="/about" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium">
-            Why are we building this?
-          </a>
-        </div>
-
+  <!-- About Teaser Section -->
+  <Section id="about" background="dark" spacing="md" maxWidth="lg" class="scroll-mt-20">
+      <div class="text-center">
+        <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
+          Because Indian mutual fund investors deserve analysis that improves their portfolio.
+          <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
+        </h2>
+        <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
+          Fund platforms often compress research into returns, ratings, and buy flows. We built Fund Investigator to inspect the evidence behind performance before forming a view.
+        </p>
+        <a href="/about" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium">
+          Read why Fund Investigator exists
+        </a>
       </div>
   </Section>
 
@@ -357,47 +304,10 @@ const homepageEmailCaptureForm = {
     mask-image: linear-gradient(to bottom, transparent, black 20%, black 58%, transparent 84%);
   }
 
-  .fi-hero-trace {
-    position: absolute;
-    inset-inline: max(1rem, calc((100vw - 72rem) / 2));
-    bottom: clamp(1rem, 3vw, 2.5rem);
-    z-index: 0;
-    opacity: 0.26;
-    pointer-events: none;
-  }
-
-  .fi-hero-trace svg {
-    width: 100%;
-    height: clamp(5rem, 10vw, 7rem);
-    overflow: visible;
-  }
-
-  .fi-hero-trace path {
-    vector-effect: non-scaling-stroke;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .fi-trace-muted {
-    stroke: rgba(203, 213, 225, 0.45);
-    stroke-width: 1.25;
-  }
-
-  .fi-trace-gold {
-    stroke: rgba(251, 191, 36, 0.72);
-    stroke-width: 2;
-  }
-
   @media (max-width: 640px) {
     .fi-hero-grid {
       background-size: 48px 48px;
       opacity: 0.14;
-    }
-
-    .fi-hero-trace {
-      inset-inline: 1rem;
-      bottom: 1rem;
-      opacity: 0.2;
     }
   }
 
