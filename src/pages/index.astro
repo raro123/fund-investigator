@@ -40,7 +40,7 @@ const homepageEmailCaptureForm = {
 >
   <!-- Hero Section -->
   <Hero size="lg" background="dark" class="fi-investigation-hero">
-    <div class="fi-hero-grid" aria-hidden="true"></div>
+    <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
     <!-- Oversized heading with breathing room -->
     <div class="mb-12 md:mb-14">
@@ -56,7 +56,7 @@ const homepageEmailCaptureForm = {
     </div>
 
     <!-- CTAs -->
-    <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mb-10 md:mb-11 w-full max-w-72 sm:max-w-none mx-auto">
+    <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mb-10 md:mb-11 w-full max-w-72 sm:max-w-none mx-auto">
       <Button href="/reports" size="lg" class="w-full sm:w-auto min-w-0">
         Browse Investigations
       </Button>
@@ -65,7 +65,7 @@ const homepageEmailCaptureForm = {
       </Button>
     </div>
 
-    <p class="text-body-sm text-fi-muted-inv text-center mb-0">
+    <p class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
       New to mutual funds? <a href="/guides/mutual-funds-basics" class="text-fi-gold underline hover:opacity-80 transition-opacity">Read beginner's guide</a>
     </p>
   </Hero>
