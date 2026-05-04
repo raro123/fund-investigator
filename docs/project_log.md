@@ -56,3 +56,43 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 - Whether to add a welcome kit delivery automation in MailerLite.
 - Whether to add spam protection or rate limiting to `/api/subscribe`.
 - Whether to add production monitoring for subscription failures.
+
+---
+
+## 2026-05-04
+
+### Planned
+
+- Reposition the About page so it matches the site’s evidence-led investigation voice.
+- Move the stronger “Why Fund Investigator” argument from the homepage into the About page.
+- Replace the homepage “Why Fund Investigator” section with a shorter teaser.
+- Refine the About page visual treatment without adding new components or design tokens.
+
+### Implemented
+
+- Reworked `src/pages/about.astro` from a mission-style page into an investigation-note style page.
+- Updated the About hero to use a dark investigative treatment with the existing grid texture.
+- Added a “Case Note” intro section that frames the core question behind Fund Investigator.
+- Moved the three-principle “Why Fund Investigator” argument into About:
+  - Analytics, Not Sales
+  - Zero Conflicts of Interest
+  - Transparent Methodology
+- Updated the punchline to: “Because Indian mutual fund investors deserve analysis that improves their portfolio. Not mis-selling that increases someone else’s commission.”
+- Replaced the homepage full “Why Fund Investigator” section with a compact teaser linking to `/about`.
+- Removed chart trace-line backgrounds from the homepage and About heroes, keeping only the subtle grid texture.
+- Verified the site with `npm run build`.
+- Committed the page work as `a2be391 refactor: reposition about page messaging`.
+
+### Decisions Taken
+
+- Keep the About page as an investigation note, not a founder story or broad mission manifesto.
+- Keep the homepage focused on product value, investigations, Deepdive, and email capture.
+- Use the punchline on both the homepage teaser and About principles section for stronger brand continuity.
+- Avoid the phrase “analysis that increases their returns” because it implies a return-improvement promise.
+- Keep the visual pass scoped to existing Astro components and Tailwind tokens.
+- Remove decorative chart traces because they competed with mobile hero CTAs.
+
+### Decisions Pending
+
+- Whether the homepage teaser should keep the same punchline long term or use a shorter variant after more content is added.
+- Whether to create a reusable “Why Fund Investigator” component if the same argument appears on more pages.
