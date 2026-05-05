@@ -8,6 +8,7 @@ import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
 import SubscribeForm from '../components/ui/SubscribeForm.astro';
+import GuideSignupModal from '../components/GuideSignupModal.astro';
 import { Image } from 'astro:assets';
 import appScreenshot from '../assets/images/homepage/app-screenshot.png';
 import { getCollection } from 'astro:content';
@@ -65,9 +66,14 @@ const homepageEmailCaptureForm = {
       </Button>
     </div>
 
-    <p class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
-      New to mutual funds? <a href="/guides/mutual-funds-basics" class="text-fi-gold underline hover:opacity-80 transition-opacity">Read beginner's guide</a>
-    </p>
+    <div class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
+      New to mutual funds? <GuideSignupModal
+        action={homepageEmailCaptureForm.action}
+        method={homepageEmailCaptureForm.method}
+        emailFieldName={homepageEmailCaptureForm.emailFieldName}
+        hiddenFields={homepageEmailCaptureForm.hiddenFields}
+      />
+    </div>
   </Hero>
 
   <!-- Problem Section: The Sales Trap -->
@@ -264,8 +270,7 @@ const homepageEmailCaptureForm = {
         Investigate Before You Invest.
       </h2>
       <p class="text-body-lg text-fi-muted mb-8">
-        First, your Investor Welcome Kit — everything you need to start investigating.
-        Then every new investigation and tool update, as they ship. Nothing else.
+        Join the list and we'll send the Investor Welcome Kit to your inbox.
       </p>
       <SubscribeForm
         action={homepageEmailCaptureForm.action}
@@ -276,6 +281,7 @@ const homepageEmailCaptureForm = {
         enctype={homepageEmailCaptureForm.enctype}
         formClass={homepageEmailCaptureForm.formClass}
         emailFieldName={homepageEmailCaptureForm.emailFieldName}
+        inputId="homepage-subscribe-email"
         hiddenFields={homepageEmailCaptureForm.hiddenFields}
         ajaxSubmit
         successMessage="Thanks. You have joined the subscriber list."

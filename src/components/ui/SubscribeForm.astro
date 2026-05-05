@@ -10,6 +10,7 @@ interface Props {
   enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
   formClass?: string;
   emailFieldName?: string;
+  inputId?: string;
   hiddenFields?: Record<string, string>;
   ajaxSubmit?: boolean;
   successMessage?: string;
@@ -28,6 +29,7 @@ const {
   enctype,
   formClass,
   emailFieldName = 'email',
+  inputId = 'subscribe-email',
   hiddenFields = {},
   ajaxSubmit = false,
   successMessage = 'Thanks. You have joined the list.',
@@ -61,10 +63,10 @@ const formClasses = [
     ))}
 
     <div class="flex-1">
-      <label for="subscribe-email" class="sr-only">Email address</label>
+      <label for={inputId} class="sr-only">Email address</label>
       <input
         type="email"
-        id="subscribe-email"
+        id={inputId}
         name={emailFieldName}
         required
         placeholder={placeholder}
@@ -106,6 +108,8 @@ const formClasses = [
       errorMessage?.classList.add('hidden');
       submitButton?.setAttribute('disabled', 'true');
 
+      const defaultErrorMessage = errorMessage?.textContent || 'Something went wrong. Please try again.';
+
       try {
         const response = await fetch(form.action, {
           method: form.method,
@@ -116,14 +120,28 @@ const formClasses = [
         });
 
         if (!response.ok) {
-          throw new Error('Subscription failed');
+          let message = defaultErrorMessage;
+
+          try {
+            const body = await response.json();
+            if (typeof body?.error === 'string' && body.error.trim()) {
+              message = body.error;
+            }
+          } catch {
+            message = defaultErrorMessage;
+          }
+
+          throw new Error(message);
         }
 
         form.reset();
         form.classList.add('hidden');
         successMessage?.classList.remove('hidden');
-      } catch {
-        errorMessage?.classList.remove('hidden');
+      } catch (error) {
+        if (errorMessage) {
+          errorMessage.textContent = error instanceof Error ? error.message : defaultErrorMessage;
+          errorMessage.classList.remove('hidden');
+        }
       } finally {
         submitButton?.removeAttribute('disabled');
       }

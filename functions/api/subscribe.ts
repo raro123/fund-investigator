@@ -26,14 +26,14 @@ export const onRequestPost = async ({ request, env }: PagesFunctionContext) => {
   const apiKey = env.MAILERLITE_API_KEY;
 
   if (!apiKey) {
-    return jsonResponse({ error: 'Subscription is not configured.' }, 500);
+    return jsonResponse({ error: 'Email signup is temporarily unavailable. Please try again later.' }, 500);
   }
 
   const formData = await request.formData();
   const email = String(formData.get('email') || '').trim().toLowerCase();
 
   if (!isValidEmail(email)) {
-    return jsonResponse({ error: 'Enter a valid email address.' }, 400);
+    return jsonResponse({ error: 'Please enter a valid email address.' }, 400);
   }
 
   const groups = env.MAILERLITE_GROUP_ID ? [env.MAILERLITE_GROUP_ID] : undefined;
@@ -56,10 +56,10 @@ export const onRequestPost = async ({ request, env }: PagesFunctionContext) => {
   }
 
   if (response.status === 422) {
-    return jsonResponse({ error: 'Enter a valid email address.' }, 400);
+    return jsonResponse({ error: 'Please check the email address and try again.' }, 400);
   }
 
-  return jsonResponse({ error: 'Subscription failed.' }, 502);
+  return jsonResponse({ error: 'We could not reach the email service. Please try again in a minute.' }, 502);
 };
 
 export const onRequestGet = () =>
