@@ -9,8 +9,6 @@ import Hero from '../components/ui/Hero.astro';
 import TearsheetMockup from '../components/TearsheetMockup.astro';
 import SubscribeForm from '../components/ui/SubscribeForm.astro';
 import GuideSignupModal from '../components/GuideSignupModal.astro';
-import { Image } from 'astro:assets';
-import appScreenshot from '../assets/images/homepage/app-screenshot.png';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 
@@ -180,15 +178,28 @@ const homepageEmailCaptureForm = {
       <!-- 2-col layout: image left (3/5 width), cards right -->
       <div class="grid md:grid-cols-2 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
 
-        <!-- Left: App Screenshot (3/5 width, matches card column height) -->
+        <!-- Left: App Showcase (3/5 width, matches card column height) -->
+        <!-- Autoplay loop reel of the live app; falls back to a static poster
+             for browsers/users that block motion (prefers-reduced-motion). -->
         <div class="bg-white rounded-lg overflow-hidden border border-fi-border shadow-fi-card h-full">
-          <Image
-            src={appScreenshot}
+          <video
+            class="showcase-video w-full h-full object-cover object-top"
+            poster="/videos/app-poster.png"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="Deepdive app showing mutual fund performance metrics and charts"
+          >
+            <source src="/videos/fund-investigator-showcase.webm" type="video/webm" />
+            <source src="/videos/fund-investigator-showcase.mp4" type="video/mp4" />
+          </video>
+          <img
+            class="showcase-poster w-full h-full object-cover object-top"
+            src="/videos/app-poster.png"
             alt="Deepdive app showing mutual fund performance metrics and charts"
-            class="w-full h-full object-cover object-top"
             loading="lazy"
-            widths={[640, 1024, 1400]}
-            sizes="(min-width: 1024px) 60vw, 100vw"
           />
         </div>
 
@@ -322,5 +333,28 @@ const homepageEmailCaptureForm = {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* App showcase: play the reel by default, swap to the static poster
+     image for users who prefer reduced motion. */
+  .showcase-poster {
+    display: none;
+  }
+
+  /* The source recording includes Streamlit's thin pink top decoration
+     bar. Over-scale the video slightly and bias it upward so that strip
+     is clipped by the frame's overflow-hidden. Poster is left untouched
+     (it has no bar and we want to keep its title fully visible). */
+  .showcase-video {
+    transform: scale(1.05) translateY(-2%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-video {
+      display: none;
+    }
+    .showcase-poster {
+      display: block;
+    }
   }
 </style>
