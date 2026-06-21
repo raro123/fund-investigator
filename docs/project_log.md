@@ -23,6 +23,42 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 
 ---
 
+## 2026-06-22
+
+### Planned
+
+- Get an outside-in critique of the homepage: what works, what doesn't, and how a prospective user would react.
+- Explore homepage layout improvements without touching the live Astro site.
+- Decide who the homepage should primarily speak to before committing to a redesign.
+
+### Implemented
+
+- Reviewed the live homepage and produced a UX/conversion critique (CTA hierarchy, missing trust signals, narrative order, unused TearsheetMockup import).
+- Built standalone HTML mockups (no impact on the live site) under `mockups/`, served locally for visual review:
+  - `mockups/hero-proposal.html` — hero before/after (CTA swap, trust strip, tearsheet glimpse).
+  - `mockups/homepage-proposal.html` — full homepage redesign with a "change notes" toggle (reordered sections, problem section trimmed to 2 cards + bridge, Deepdive tool moved up).
+  - `mockups/homepage-hybrid.html` — hybrid version tuned for the chosen audience, combining the narrative hook + voice with Codex's polish (asymmetric hero, serif headline, persistent header CTA, compliance line, plain-language verdict card).
+- Compared our proposal against an alternate full-page redesign suggested by Codex; noted what Codex did better (asymmetric data-panel hero, header CTA, metric badges on report cards, compliance touches) and where it regressed (dropped the problem hook, blander voice, 5-card grid).
+
+### Decisions Taken
+
+- Primary homepage audience = the **aware investor who needs hand-holding** (has SIPs/funds, knows basic terms but not risk metrics). Page should explain every metric in plain language and deliver a clear verdict, not act as a raw dashboard.
+- Preferred direction is the **hybrid** mockup, not the Codex version as-is: keep the "Sales Trap" problem hook and the sharper brand voice, but adopt Codex's polish moves.
+- Core hero changes validated (both our pass and Codex's converged): promote "Investigate Your Fund" to primary CTA, add a trust strip, and show a proof-of-output panel above the fold.
+
+### Decisions Pending
+
+- Whether to use an editorial serif headline (as in the hybrid mock) or keep the current sans.
+- Whether the hero verdict card should lead with a negative verdict or a neutral "here's the real picture" framing.
+- Whether to render real fund data in the verdict examples (and the compliance implications) vs. illustrative placeholders.
+- Whether to proceed to implementing the hybrid in actual Astro components/tokens, or iterate further on the mockups first.
+
+### Notes
+
+- This session produced mockups only — no changes to the live site (`src/`, `public/`). Mockups live in `mockups/` (outside the Astro build) and were viewed via a local `python3 -m http.server`. Picking this up later.
+
+---
+
 ## 2026-05-04
 
 ### Planned
