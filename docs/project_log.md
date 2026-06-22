@@ -76,6 +76,15 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 - **App verdict layer ("B soon"):** add a plain conclusion to Fund Deepdive so the
   "Investigate Your Fund" path delivers its own verdict; then a screenshot of *that* could replace
   or complement the hero case-file card.
+- **App branding (decided; to implement in the Deepdive/Streamlit repo):** rebrand the app header
+  from "Fund Investigator" to **"Deepdive by Fund Investigator"** (endorsed-brand model). Lead with
+  the **Deepdive** wordmark (large, primary) + the eye logo; "by Fund Investigator" sits beneath,
+  small and muted. Keep "Fund Deepdive" / "Category Deepdive" as internal mode names. Rationale:
+  Fund Investigator is the umbrella/authority brand (what gets monetized), Deepdive is one product
+  under it; "by" scales to future tools and beats the clunky possessive ("Fund Investigator's
+  Deepdive"); also fixes the site→app naming disconnect (site says "Deepdive", app currently says
+  "Fund Investigator"). Stacked layout on desktop, inline `(◉) Deepdive · by Fund Investigator`
+  if vertical space is tight.
 - Whether to drive the hero card dynamically from the featured report (single source of truth) once
   plain-labelled metrics exist in frontmatter — deferred; kept curated/qualitative for now.
 - Monetization/pricing, SEBI Research Analyst implications, paid-tier hosting (carried over).
