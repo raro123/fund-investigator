@@ -23,6 +23,27 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 
 ---
 
+## 2026-06-22 (cont.) — Email section copy finalised; Option C parked
+
+### Planned
+
+- Decide on the email capture section framing: method walkthrough (branch), simple notifications (main-style), or personalised fund suggestion.
+
+### Implemented
+
+- **Email section updated to Option B.** Headline changed to "New Investigation Published? We'll Tell You." with a single-line subhead and "Notify Me" button. Removes the welcome kit and method-walkthrough angle; positions the list as a clean notification subscription.
+
+### Decisions Taken
+
+- **Option B chosen for email capture.** Simple, honest value exchange — subscriber gets notified when a new investigation goes live. No overpromise, no deliverable to maintain.
+- **Option C parked (not discarded).** The "Suggest a Fund" model: collect email + a fund name the visitor wants investigated; frame as "you choose the next investigation" (not "get a custom report"). Crowdsources the research queue, creates strong personalization signal, differentiates the capture form. Deferred because each submission creates a manual fulfilment commitment — revisit once publish cadence is established or as a paid/waitlist tier.
+
+### Decisions Pending
+
+- Option C revisit trigger: once a regular publish cadence exists, or when a paid custom investigation tier is being designed.
+
+---
+
 ## 2026-06-22 (impl.) — Homepage restructure implemented
 
 ### Planned
