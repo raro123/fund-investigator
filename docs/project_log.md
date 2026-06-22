@@ -23,6 +23,70 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 
 ---
 
+## 2026-06-22 (impl.) — Homepage restructure implemented
+
+### Planned
+
+- Execute the homepage changes agreed in the funnel/strategy session, one step at a time.
+- Align section order with the Acquire → Activate → Nurture funnel and keep copy plain for the
+  primary mid-investor audience.
+
+### Implemented
+
+- **Deepdive lens cards — plain language.** Removed jargon (Sharpe, Sortino, benchmark
+  correlation, drawdown, rolling) from the three answer lines; kept the question headings.
+  Copy refined collaboratively (now "your fund" framing throughout).
+- **Section reorder.** Moved the Deepdive tool section above Investigations so the free tool is
+  the immediate resolution to the Problem section (activation-led). Swapped section backgrounds to
+  keep the dark/light rhythm: Hero(dark) → Problem(light) → Deepdive(dark) → Investigations(light)
+  → About(dark) → Email(light).
+- **Deepdive cards restyled as dark tiles.** White cards glared on the now-dark section; switched
+  to `bg-fi-mid` + `border-fi-border-dark`, inverted text, `bg-fi-dark` icon chips with gold icons.
+  Video frame given `border-fi-border-dark` + `shadow-fi-card-dark` so the light app screenshot
+  reads as the deliberate focal point.
+- **Hero trust strip.** Added `Independent · No commissions · Evidence-based` below the CTAs.
+  Deliberately dropped any "free" wording (see Decisions).
+- **Hero verdict card ("From our investigations").** Added a qualitative case-file card for the
+  HDFC Flexi Cap investigation — three directional findings (beat benchmark / positive every year
+  / steadier than market) + "Read the full investigation →" link. No figures (see Decisions).
+  Removed the dead `TearsheetMockup` import.
+- **Removed `mockups/`** (hero-proposal, homepage-proposal, homepage-hybrid) — superseded by the
+  live implementation.
+- Verified with `npm run build` after each structural change. Committed as `4b2784c` (docs) and
+  `f2fce51` (feat: restructure homepage).
+
+### Decisions Taken
+
+- **No "free" framing in the hero.** Access stays open, but advertising "free" attracts
+  price-insensitive users who won't pay — wrong anchor for the paid-research goal. Use a rigor
+  signal ("Evidence-based") instead.
+- **Verdict card is qualitative, not numeric.** Hard figures go stale (confirmed: the report's
+  CAGR 25.0% / 2021–2025 vs the live app's 19.0% / Jun'21–Jun'26 — a ~6pp drift in months from the
+  recent down market). Qualitative directional findings describe a dated published investigation and
+  don't expire; the numbers + methodology live in the report the card links to.
+- **Verdict card sourced from Investigations (option "C"), not the app.** The app shows metrics but
+  never concludes, so an app-style card would over-promise against the "Investigate Your Fund" CTA.
+  Reports already conclude, so the card uses real published output and feeds the reports funnel.
+- **Rejected using a raw app screenshot in the hero** — it is jargon-heavy (IRR/CAGR/Sharpe/vs BM),
+  has no verdict, bakes staleness into an image, and duplicates the existing Deepdive showcase video.
+- Deepdive lens-card icons use `text-fi-gold` (accent on the dark activation section).
+
+### Decisions Pending
+
+- **App verdict layer ("B soon"):** add a plain conclusion to Fund Deepdive so the
+  "Investigate Your Fund" path delivers its own verdict; then a screenshot of *that* could replace
+  or complement the hero case-file card.
+- Whether to drive the hero card dynamically from the featured report (single source of truth) once
+  plain-labelled metrics exist in frontmatter — deferred; kept curated/qualitative for now.
+- Monetization/pricing, SEBI Research Analyst implications, paid-tier hosting (carried over).
+
+### Notes
+
+- All changes scoped to `src/pages/index.astro`. Hero copy lock from the prior session was also
+  committed as part of `f2fce51`. See [[business-goal]] memory.
+
+---
+
 ## 2026-06-22 (cont.) — Funnel strategy, hero copy lock, Deepdive tool assessment
 
 ### Planned
