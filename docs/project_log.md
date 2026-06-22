@@ -23,6 +23,52 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 
 ---
 
+## 2026-06-22 (cont.) — Funnel strategy, hero copy lock, Deepdive tool assessment
+
+### Planned
+
+- Define the business model / funnel before doing more homepage layout (business model should set layout, not the reverse).
+- Finalise the hero copy for the redesign.
+- Assess whether the live Deepdive tool fits the chosen audience.
+
+### Implemented
+
+- **Hero copy locked** (for a later fresh implementation session in `src/pages/index.astro`, Hero ~lines 46–74):
+  - H1: **"Fund Performance, Investigated"**
+  - Sub-head: *"Your SIP returns rarely match the fund's headline number. We help you look past it and judge whether a fund beat a fair benchmark, stayed consistent, and was worth the risk."*
+  - Make **"Investigate Your Fund" the primary CTA** (swap so "Browse/Read Investigations" is secondary).
+  - Add a **trust strip** below CTAs: `Independent · No commissions · Free to read`.
+  - Decided NOT to add a line narrating the buttons ("use our app or read investigations") — redundant with the CTAs.
+- **Funnel / monetization model worked out** (see Decisions).
+- **Assessed the live Deepdive Streamlit app** via screenshots (couldn't inspect code — separate Railway spoke). Findings:
+  - Entry screen (two paths: Category Deepdive, Fund Deepdive) is a clean playground front door; mostly plain language.
+  - **Fund Deepdive** is closer to mid-investor-ready than expected: `vs BM` deltas with red/green arrows, `?` tooltips, intuitive SIP-growth chart.
+  - **Category Deepdive is the expert wall**: bar charts with error bars across 12 categories + spaghetti plots. Analyst-grade — good for the Pro/advisor tier and paid reports, wrong as a mid-investor entry.
+  - **Critical gap: the tool displays metrics but never concludes.** No plain-language verdict. The mid investor reaches the result and still can't tell if the fund is good. Example seen: ABSL Large & Mid Cap returned 9.7% vs 11.1% benchmark with worse drawdown (−28% vs −19%) — data clearly says "underperformed its risk", but the user must synthesise it.
+
+### Decisions Taken
+
+- **Audience confirmed:** primary = the **mid investor** (invested in MFs via SIPs, has money, not a finance expert — e.g. mid-level managers, young employees; confused in down markets, lost amid conflicting opinions). Secondary = financially-savvy/DIY investors (already have tools; FI complements their stack; good-to-have, not the early payer).
+- **Challenge accepted / nuance added:** "helped most ≠ pays most." Retail WTP for research is structurally low (free alternatives), they can't easily value rigor, and their need is episodic (spikes in drawdowns). So decouple "primary audience" from "first paid product."
+- **Two monetization motions, sequenced:**
+  1. **Freemium app utility (first paid bet, mid investor):** premium features that sell *ongoing peace of mind* — portfolio tracking, alerts when a fund's risk/consistency shifts, unlimited comparisons, deeper tear-sheets. Recurring, low-ticket, sells reassurance NOT advice (stays clear of SEBI RA / no-recommendation positioning).
+  2. **Paid research reports (credibility + higher-value, personalised):** aimed at savvy DIY + advisors/white-label, who have real WTP and recurring/professional/budgeted need. Establishes authority.
+- **Funnel:** Acquire (free investigations + free tool + down-market hooks) → Activate (run fund → plain verdict → email capture) → Nurture (plain-English email, especially during volatility — converts episodic pain into a recurring relationship) → Monetize (freemium utility; reports as parallel higher-WTP line).
+- **Tool direction (when app work resumes):** add a **verdict layer** to Fund Deepdive (plain conclusion first, metrics below — data already computed, low effort/high leverage); **lead with Fund Deepdive over Category**; homepage "Investigate Your Fund" CTA should land on Fund Deepdive; **plain-language the labels / replace `vs BM`** with "vs its benchmark" (keep `?` tooltips); **reposition Category Deepdive as a "Pro / Analyst view"** feeding paid reports.
+
+### Decisions Pending
+
+- First paid product confirmed as freemium app utility — but exact premium feature set + price point (and hosting/billing approach) still open.
+- Whether/when to actively pursue the advisor/white-label B2B line.
+- SEBI Research Analyst implications of charging for research — frame as education/analysis, not buy/sell calls; verify if RA registration applies before taking money.
+- Hosted paid tier (Substack/Ghost/Beehiiv/MailerLite paid) vs custom — keep infra near-zero until demand is proven.
+
+### Notes
+
+- Strategy + copy + assessment only — no code changes this session. Hero copy and tool changes are captured here for fresh implementation sessions. See [[business-goal]] memory for the authority→paid-research goal.
+
+---
+
 ## 2026-06-22
 
 ### Planned
