@@ -23,6 +23,44 @@ The current product target is a Cloudflare Pages-hosted Astro site that publishe
 
 ---
 
+## 2026-07-11 — Reports page category filter redesigned as scrolling pills
+
+### Planned
+
+- Fix the category filter on the reports page: the underline tabs exposed a raw native
+  scrollbar and, on overflow, hid extra tabs with no cue that more existed.
+- Do the work on a dedicated branch and review in the browser before merging.
+
+### Implemented
+
+- **Filter redesigned as horizontally-scrolling pill chips** (YouTube-style): single row,
+  hidden scrollbar, and a soft right-edge fade that signals "there's more here" without a
+  raw scrollbar. Active pill is gold-filled; the results count was removed.
+- **Categories now derive from published reports** instead of a hardcoded list — a
+  category pill only appears if a report actually uses it, so no more dead pills that
+  lead to an empty state. Custom labels/order are preserved via a value→label map.
+- **Filter strip hides entirely when only one category exists** (the current state, since
+  both live reports are "Fund Analysis"), so we don't show a filter with nothing to choose.
+- **Added a reusable `scrollbar-hide` utility** to the Tailwind config and drove the active
+  pill state via a single `data-active` attribute, removing duplicated class strings.
+- **Shipped alongside:** a new `/llms.txt` endpoint (site manifest for AI crawlers) and
+  trailing-slash normalisation on internal links (homepage + llms.txt).
+
+### Decisions Taken
+
+- **Kept the page title "The Investigation Archive"** (rejected "Investigation Hub"):
+  "Archive" fits the investigator persona and "Hub" is generic and collides with our
+  own hub/spoke architecture vocabulary.
+- **Chose horizontal-scroll pills over a wrap or dropdown pattern.** Handful of categories
+  today growing modestly — scrolling pills fix the bug without eating vertical space.
+  Revisit the wrap/dropdown pattern only if categories reach ~8+.
+
+### Decisions Pending
+
+- None.
+
+---
+
 ## 2026-06-22 (cont.) — Email section copy finalised; Option C parked
 
 ### Planned
