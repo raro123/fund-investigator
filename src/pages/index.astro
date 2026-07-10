@@ -281,7 +281,7 @@ const homepageEmailCaptureForm = {
         {featuredReports.length > 0 ? (
           <div class="grid sm:grid-cols-2 gap-5">
             {featuredReports.slice(0, 2).map((report) => (
-              <ReportCard report={report} href={`/reports/${report.slug}`} />
+              <ReportCard report={report} href={`/reports/${report.slug}/`} />
             ))}
           </div>
         ) : (
