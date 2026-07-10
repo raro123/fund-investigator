@@ -18,20 +18,20 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     '## About',
     '',
-    `- [About Fund Investigator](${base}/about): Why we built this and our approach to evidence-based fund analysis.`,
+    `- [About Fund Investigator](${base}/about/): Why we built this and our approach to evidence-based fund analysis.`,
     `- [Deepdive App](https://deepdive.fundinvestigator.com): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
     '',
     '## Investigations',
     '',
     ...sorted.map(
       (r) =>
-        `- [${r.data.title}](${base}/reports/${r.slug}): ${r.data.description}`
+        `- [${r.data.title}](${base}/reports/${r.slug}/): ${r.data.description}`
     ),
     '',
     '## Optional',
     '',
-    `- [All Investigations](${base}/reports): Index of all published fund investigations.`,
-    `- [Disclaimer](${base}/disclaimer): Data sources, methodology notes, and investment risk disclosures.`,
+    `- [All Investigations](${base}/reports/): Index of all published fund investigations.`,
+    `- [Disclaimer](${base}/disclaimer/): Data sources, methodology notes, and investment risk disclosures.`,
   ];
 
   return new Response(lines.join('\n'), {
