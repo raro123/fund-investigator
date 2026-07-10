@@ -161,6 +161,14 @@ export default {
         '.slashed-zero': { 'font-variant-numeric': 'slashed-zero' },
         // Balanced line breaks for headings
         '.text-balance': { 'text-wrap': 'balance' },
+        // Hide native scrollbar (horizontal pill/chip strips)
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none', // IE/Edge legacy
+          'scrollbar-width': 'none', // Firefox
+        },
+        '.scrollbar-hide::-webkit-scrollbar': {
+          display: 'none', // Chrome/Safari
+        },
       });
     },
   ],

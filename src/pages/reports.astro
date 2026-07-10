@@ -10,13 +10,24 @@ const sortedReports = allReports
   .filter(report => !report.id.startsWith('_'))
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
-// Category-only filter tabs (tags deferred until more reports exist)
+// value → display label, in display order (source of truth for labels/order)
+const categoryLabels: Record<string, string> = {
+  'Fund Analysis': 'Fund Analysis',
+  'Category Comparison': 'Comparisons',
+  'Methodology': 'Methodology',
+};
+
+// Only surface categories that actually have reports (no dead pills)
+const presentCategories = new Set(sortedReports.map(report => report.data.category));
 const filterTabs = [
   { label: 'All Files', value: 'all' },
-  { label: 'Fund Analysis', value: 'Fund Analysis' },
-  { label: 'Comparisons', value: 'Category Comparison' },
-  { label: 'Methodology', value: 'Methodology' },
+  ...Object.entries(categoryLabels)
+    .filter(([value]) => presentCategories.has(value))
+    .map(([value, label]) => ({ label, value })),
 ];
+
+// Hide the filter strip until there's more than one real category to choose between
+const showFilters = presentCategories.size > 1;
 ---
 
 <Layout title="Investigation Reports - Fund Investigator" description="Fact-based analysis of mutual funds and investment categories.">
@@ -34,25 +45,34 @@ const filterTabs = [
       </p>
     </div>
 
-    <!-- Filter tab strip + results count -->
-    <div class="flex items-end gap-6 mb-10 overflow-x-auto pb-px">
-      {filterTabs.map((tab, i) => (
-        <button
-          class:list={[
-            'filter-btn whitespace-nowrap text-caption uppercase tracking-widest pb-2 border-b-2 transition-all duration-200 flex-shrink-0',
-            i === 0
-              ? 'text-fi-ink-inv border-fi-gold'
-              : 'text-fi-muted-inv/50 border-transparent hover:text-fi-ink-inv',
-          ]}
-          data-filter={tab.value}
+    <!-- Category pill strip: single row, horizontal scroll, edge-fade cue -->
+    {showFilters && (
+      <div class="relative mb-10">
+        <div
+          class="flex gap-2 overflow-x-auto scrollbar-hide pb-1 pr-10"
+          role="group"
+          aria-label="Filter reports by category"
         >
-          {tab.label}
-        </button>
-      ))}
-      <span id="results-count" class="text-caption text-fi-muted-inv/50 uppercase tracking-widest ml-auto flex-shrink-0 pb-2">
-        {sortedReports.length} Records Found
-      </span>
-    </div>
+          {filterTabs.map((tab, i) => (
+            <button
+              class:list={[
+                'filter-btn flex-shrink-0 whitespace-nowrap rounded-full px-4 py-2',
+                'text-caption uppercase tracking-widest transition-all duration-200',
+                'bg-fi-icon-bg-inv text-fi-muted-inv hover:text-fi-ink-inv',
+                'data-[active=true]:bg-fi-gold data-[active=true]:text-fi-dark',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold',
+              ]}
+              data-filter={tab.value}
+              data-active={i === 0 ? 'true' : 'false'}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <!-- right-edge fade: signals more chips without a raw scrollbar -->
+        <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-fi-dark to-transparent"></div>
+      </div>
+    )}
 
     <!-- Card grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="reports-grid">
@@ -61,7 +81,7 @@ const filterTabs = [
           class="report-item"
           data-category={report.data.category}
         >
-          <ReportCard report={report} href={`/reports/${report.slug}`} />
+          <ReportCard report={report} href={`/reports/${report.slug}/`} />
         </div>
       ))}
     </div>
@@ -81,23 +101,11 @@ const filterTabs = [
     const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
     const items = document.querySelectorAll<HTMLElement>('.report-item');
     const emptyState = document.getElementById('empty-state');
-    const resultsCount = document.getElementById('results-count');
-
-    function updateCount(visible: number) {
-      if (resultsCount) {
-        resultsCount.textContent = `${visible} Record${visible !== 1 ? 's' : ''} Found`;
-      }
-    }
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Update active tab underline
-        buttons.forEach(b => {
-          b.classList.remove('text-fi-ink-inv', 'border-fi-gold');
-          b.classList.add('text-fi-muted-inv/50', 'border-transparent');
-        });
-        btn.classList.remove('text-fi-muted-inv/50', 'border-transparent');
-        btn.classList.add('text-fi-ink-inv', 'border-fi-gold');
+        buttons.forEach(b => (b.dataset.active = 'false'));
+        btn.dataset.active = 'true';
 
         const filter = btn.getAttribute('data-filter') ?? 'all';
         let visible = 0;
@@ -109,7 +117,6 @@ const filterTabs = [
         });
 
         if (emptyState) emptyState.classList.toggle('hidden', visible > 0);
-        updateCount(visible);
       });
     });
   });
