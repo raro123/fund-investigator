@@ -75,12 +75,3 @@ Higher returns, lower volatility, positive returns every year, and faster recove
 A ₹10 lakh investment at the start of 2021 would have become approximately ₹29.7 lakh in the fund versus ₹21.7 lakh in the benchmark. That's nearly ₹8 lakh in additional wealth from the same initial capital.
 
 But data is just one part of the story. Your investment goals, time horizon, risk tolerance, and life circumstances matter just as much. A fund that outperformed over these five years doesn't guarantee future results. Markets evolve, management can change, economic conditions shift.
-
-## The Complete Picture
-
-**Want to dig deeper?** The Fund Investigator - Mutual Fund Deepdive platform lets you:
-- Adjust time periods to see performance across different market cycles
-- Compare this fund against other options in the category
-- Analyze rolling returns to understand consistency
-- Download detailed charts and metrics
-- Examine monthly breakdowns and risk patterns

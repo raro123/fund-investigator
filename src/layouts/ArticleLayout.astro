@@ -1,6 +1,5 @@
 ---
 import Layout from './Layout.astro';
-import Badge from '../components/ui/Badge.astro';
 
 const { frontmatter } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
@@ -19,7 +18,7 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header class="bg-fi-dark pt-32 pb-20 px-4 sm:px-6 text-center">
+  <header class="bg-fi-dark pt-24 pb-14 sm:pt-32 sm:pb-20 px-4 sm:px-6 text-center">
     <div class="max-w-3xl mx-auto space-y-6">
       <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-fi-subtle">
         <time datetime={frontmatter.date}>{formattedDate}</time>
@@ -31,13 +30,6 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
       </div>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
       <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.description}</p>
-      {frontmatter.tags && (
-        <div class="flex flex-wrap justify-center gap-2 pt-4">
-          {frontmatter.tags.map((tag) => (
-            <Badge variant="secondary" class="bg-white/10 text-white hover:bg-white/20 border-none">{tag}</Badge>
-          ))}
-        </div>
-      )}
     </div>
   </header>
 

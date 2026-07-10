@@ -55,6 +55,12 @@ Key principles:
 - Use headings (##, ###) for structure
 - Include charts/data where relevant
 
+STRUCTURE RULES
+- NEVER add an H1 (#) — the layout renders the title from frontmatter as the
+  page's only H1. Start body content with intro copy or an H2 (##).
+- Do NOT add a manual Deepdive promo section at the end. ArticleLayout.astro
+  already renders the "Investigate this yourself" CTA and the disclaimer.
+
 IMAGE OPTIMIZATION WORKFLOW (SIMPLIFIED)
 =========================================
 1. Create article folder: src/assets/images/reports/{your-article-slug}/
