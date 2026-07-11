@@ -43,7 +43,7 @@ paid research.
 | 18 | Email-capture framing (method walkthrough vs notifications vs personalised) | 2026-06-22 | S4 | ✅ Resolved (S6 — Option B notifications) |
 | 19 | Welcome-kit delivery automation in MailerLite | 2026-05-04 | S2 | ✅ Resolved (S6 — dropped with Option B) |
 | 20 | Write "The First Five Checks" guide — the hero modal now promises it; blocks merge to prod | 2026-07-11 | S9 | 🔴 Blocking |
-| 21 | Guide delivery automation in MailerLite (re-opens #19, which assumed no lead magnet) | 2026-07-11 | S9 | 🟡 Open |
+| 21 | Guide delivery automation in MailerLite — email the link on signup (re-opens #19, which assumed no lead magnet) | 2026-07-11 | S9 | 🟡 Open |
 
 ---
 
@@ -84,6 +84,7 @@ before handing over an address. Verified with `npm run build`.
 - **The five checks, in order:** did it beat a fair benchmark → was it consistent or one lucky year → did the extra return justify the extra risk → how far did it fall when the market turned → how long did it take to recover. Ordered as return → is it real → was it efficient → what's the downside → how long it lasts.
 - **The SIP-vs-headline gap folds into check #1** rather than getting its own slot; "did it beat a fair benchmark" already forces the question of which return you are measuring.
 - Checks are worded so they work for a fund you own *or* one you are sizing up, so the guide serves both.
+- **The guide ships as a page on the site**, not a PDF or an email drip. It stays indexable for search, costs nothing extra to host, needs no design tooling, and can link straight into the HDFC investigation. Signup then only has to email the link.
 
 **Pending decisions:**
 - **The guide does not exist yet — the modal now promises it.** It must be written before this branch reaches production, or we collect emails we cannot service (Table #20, blocking).
