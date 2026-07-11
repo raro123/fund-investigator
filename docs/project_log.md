@@ -29,7 +29,7 @@ paid research.
 | 4 | Hosted paid tier (Substack/Ghost/Beehiiv/MailerLite) vs custom infra | 2026-06-22 | S4 | 🟡 Open |
 | 5 | Add a plain-language "verdict layer" to Fund Deepdive | 2026-06-22 | S5 | 🟡 Open |
 | 6 | Rebrand app to "Deepdive by Fund Investigator" (approved; implement in Deepdive repo) | 2026-06-22 | S5 | 🟢 Approved, pending impl |
-| 7 | Drive the hero verdict card dynamically from the featured report's frontmatter metrics | 2026-06-22 | S5 | 🟡 Open (deferred) |
+| 7 | Drive the hero verdict card dynamically from the featured report's frontmatter metrics | 2026-06-22 | S5 | ✅ Resolved (S9 — moot, hero card removed) |
 | 8 | Option C "Suggest a Fund" email capture — revisit trigger | 2026-06-22 | S6 | 🟡 Parked |
 | 9 | Assign subscribers to a dedicated MailerLite group when segmentation is needed | 2026-05-04 | S2 | 🟡 Open |
 | 10 | Add spam protection / rate limiting to `/api/subscribe` | 2026-05-04 | S2 | 🟡 Open |
@@ -42,12 +42,53 @@ paid research.
 | 17 | Implement the hybrid homepage vs iterate mockups further | 2026-06-22 | S3 | ✅ Resolved (S5 — implemented) |
 | 18 | Email-capture framing (method walkthrough vs notifications vs personalised) | 2026-06-22 | S4 | ✅ Resolved (S6 — Option B notifications) |
 | 19 | Welcome-kit delivery automation in MailerLite | 2026-05-04 | S2 | ✅ Resolved (S6 — dropped with Option B) |
+| 20 | Write "The First Five Checks" guide — the hero modal now promises it; blocks merge to prod | 2026-07-11 | S9 | 🔴 Blocking |
+| 21 | Guide delivery automation in MailerLite (re-opens #19, which assumed no lead magnet) | 2026-07-11 | S9 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-11 | Session: S9 — Hero slimmed; guide capture repositioned to existing investors
+
+**What was done:**
+Removed the "From our investigations" verdict card from the homepage hero, and rewrote the guide
+sign-up from a beginner's guide into "The First Five Checks". The hero now states the premise and
+routes visitors by intent — run your fund, read an investigation, or take the guide — with nothing
+duplicated further down the page. Work sits on branch `hero-lean-guide-capture` (commit `642abc9`),
+not yet merged.
+
+**Why:**
+Two problems. First, the hero card previewed the HDFC Flexi Cap investigation, but that same report
+already appears as a proper report card in the Investigations section below — so the hero was showing
+a weaker, number-free copy of a card the visitor meets again moments later. Second, the sign-up asked
+"New to mutual funds?", which repels the exact person we want: someone who already holds funds but was
+never taught how to judge them. They need the guide, but will not click anything labelled "beginner".
+
+**How:**
+Deleted the hero card outright (the Deepdive section already carries the app demo, and Investigations
+carries the reports — nothing was lost). Reframed the sign-up around the knowledge gap rather than
+skill level: "Already investing, but unsure how to evaluate a fund?" The modal now names the offer
+"The First Five Checks", positions it honestly as a quick filter that decides whether a fund deserves
+a deep-dive, and lists all five questions above the email field so the visitor sees what they get
+before handing over an address. Verified with `npm run build`.
+
+**Decisions made:**
+- **Hero card removed rather than fixed.** Reusing the standard report card would have made the duplication worse; a bespoke card was off-design-system. The slot had no job the page wasn't already doing.
+- **Framing by knowledge gap, not skill level.** "Beginner" is an identity repellent for an investor with running SIPs, regardless of what they actually know.
+- **The guide is a triage, not a masterclass** — five checks that decide if a fund is worth deeper analysis. This keeps the free tier honest and leaves room for the app and paid research above it.
+- **The five checks, in order:** did it beat a fair benchmark → was it consistent or one lucky year → did the extra return justify the extra risk → how far did it fall when the market turned → how long did it take to recover. Ordered as return → is it real → was it efficient → what's the downside → how long it lasts.
+- **The SIP-vs-headline gap folds into check #1** rather than getting its own slot; "did it beat a fair benchmark" already forces the question of which return you are measuring.
+- Checks are worded so they work for a fund you own *or* one you are sizing up, so the guide serves both.
+
+**Pending decisions:**
+- **The guide does not exist yet — the modal now promises it.** It must be written before this branch reaches production, or we collect emails we cannot service (Table #20, blocking).
+- Guide delivery automation in MailerLite needs revisiting — S6 closed that question on the assumption there was no lead magnet, and there now is one (Table #21).
+- Table #7 (drive the hero card from report frontmatter) is now moot; the card is gone.
 
 ---
 
