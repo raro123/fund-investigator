@@ -85,6 +85,7 @@ before handing over an address. Verified with `npm run build`.
 - **The SIP-vs-headline gap folds into check #1** rather than getting its own slot; "did it beat a fair benchmark" already forces the question of which return you are measuring.
 - Checks are worded so they work for a fund you own *or* one you are sizing up, so the guide serves both.
 - **The guide ships as a page on the site**, not a PDF or an email drip. It stays indexable for search, costs nothing extra to host, needs no design tooling, and can link straight into the HDFC investigation. Signup then only has to email the link.
+- **The guide page is open, not gated.** Gating it would kill the search traffic that was the main reason to choose a page over a PDF. The email capture stays a nudge on the page, not a wall — anyone who lands on it can read the method, which is itself the proof we are worth subscribing to.
 
 **Pending decisions:**
 - **The guide does not exist yet — the modal now promises it.** It must be written before this branch reaches production, or we collect emails we cannot service (Table #20, blocking).
