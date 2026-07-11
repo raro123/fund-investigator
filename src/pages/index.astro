@@ -71,46 +71,16 @@ const homepageEmailCaptureForm = {
       <span>Evidence-based</span>
     </div>
 
+    <!-- Third intent tier: readers not ready for the app or a report. Framed by
+         the knowledge gap, not skill level — investors who already hold funds
+         won't click anything labelled "beginner". -->
     <div class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
-      New to mutual funds? <GuideSignupModal
+      Already investing, but unsure how to evaluate a fund? <GuideSignupModal
         action={homepageEmailCaptureForm.action}
         method={homepageEmailCaptureForm.method}
         emailFieldName={homepageEmailCaptureForm.emailFieldName}
         hiddenFields={homepageEmailCaptureForm.hiddenFields}
       />
-    </div>
-
-    <!-- Verdict glimpse: a real published investigation, qualitative (no
-         volatile figures) — the numbers live in the full report.
-         Source: src/content/reports/hdfc-flexicap-performance.md -->
-    <div class="relative z-10 mt-12 md:mt-14 w-full max-w-xl mx-auto text-left bg-fi-mid border border-fi-border-dark rounded-lg shadow-fi-card-dark p-5 sm:p-6">
-
-      <!-- Header: source + fund -->
-      <div class="mb-5">
-        <p class="text-caption uppercase tracking-widest text-fi-muted-inv/60 mb-1">From our investigations</p>
-        <p class="text-heading-sm font-bold text-fi-ink-inv leading-tight">HDFC Flexi Cap vs NIFTY 500 TRI</p>
-      </div>
-
-      <!-- Qualitative verdict — directional findings that don't go stale -->
-      <ul class="space-y-2.5 mb-5">
-        <li class="flex items-start gap-2.5 text-body-sm text-fi-muted-inv">
-          <svg class="w-5 h-5 text-fi-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Beat its benchmark over five years
-        </li>
-        <li class="flex items-start gap-2.5 text-body-sm text-fi-muted-inv">
-          <svg class="w-5 h-5 text-fi-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Stayed positive every year from 2021–2025
-        </li>
-        <li class="flex items-start gap-2.5 text-body-sm text-fi-muted-inv">
-          <svg class="w-5 h-5 text-fi-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Held steadier than the market through the swings
-        </li>
-      </ul>
-
-      <!-- Nudge to the full report (where the figures and method live) -->
-      <a href="/reports/hdfc-flexicap-performance" class="block border-t border-fi-border-dark pt-4 text-body-sm font-medium text-fi-gold hover:text-fi-gold-hover">
-        Read the full investigation &rarr;
-      </a>
     </div>
   </Hero>
 

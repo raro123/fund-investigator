@@ -24,7 +24,7 @@ const {
   aria-haspopup="dialog"
   aria-controls="guide-signup-modal"
 >
-  Read beginner's guide
+  Start with our first five checks
 </button>
 
 <div
@@ -55,14 +55,33 @@ const {
     </button>
 
     <div class="mb-6 pr-10">
-      <p class="mb-3 text-caption font-bold uppercase tracking-widest text-fi-gold">Investor Welcome Kit</p>
+      <p class="mb-3 text-caption font-bold uppercase tracking-widest text-fi-gold">The First Five Checks</p>
       <h2 id="guide-signup-title" class:list={[responsive.h3, 'font-bold text-fi-ink']}>
-        Get the beginner's guide
+        Where every investigation starts
       </h2>
       <p class="mt-3 text-body-md leading-relaxed text-fi-muted">
-        Join the list and we'll send the Investor Welcome Kit to your inbox.
+        Before we deep-dive a fund, these five checks tell us if it's worth the time. The guide illustrates each with examples.
       </p>
     </div>
+
+    <!-- The checks are listed before the form: the reader sees what they are
+         getting before handing over an email. -->
+    <ol class="mb-6 space-y-2.5 border-t border-fi-border pt-5">
+      {[
+        'Did it beat a fair benchmark?',
+        'Was it consistent, or one lucky year?',
+        'Did the extra return justify the extra risk?',
+        'How far did it fall when the market turned?',
+        'How long did it take to recover?',
+      ].map((check, i) => (
+        <li class="flex items-start gap-3 text-body-sm text-fi-muted">
+          <span class="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-fi-icon-bg text-caption font-bold text-fi-ink tabular-nums">
+            {i + 1}
+          </span>
+          {check}
+        </li>
+      ))}
+    </ol>
 
     <SubscribeForm
       action={action}
@@ -71,10 +90,10 @@ const {
       inputId="guide-signup-email"
       hiddenFields={hiddenFields}
       ajaxSubmit
-      successMessage="Thanks. Check your inbox for the Investor Welcome Kit."
+      successMessage="Thanks. Check your inbox for the first five checks."
       errorMessage="We could not add that email. Please try again."
       placeholder="your@email.com"
-      buttonText="Send Me the Guide"
+      buttonText="Send Me the Five Checks"
       formClass="sm:flex-col"
     />
   </div>
