@@ -54,7 +54,7 @@ The Sharpe Ratio of 1.55 (versus 1.00) shows the fund generated 1.55 units of re
 
 Consistency reveals whether outperformance is skill or luck.
 
-The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. Annually, the outperformance was steady: 2021 (+5%), 2022 (+7%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
+The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. Annually, the outperformance was steady: 2021 (+5%), 2022 (+15%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
 
 ![Annual Returns Chart](../../assets/images/reports/hdfc-flexicap/annual-returns.png)
 
