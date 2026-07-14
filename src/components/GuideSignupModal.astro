@@ -55,7 +55,7 @@ const {
     </button>
 
     <div class="mb-6 pr-10">
-      <p class="mb-3 text-caption font-bold uppercase tracking-widest text-fi-gold">The First Five Checks</p>
+      <p class="mb-3 text-caption font-bold uppercase tracking-widest text-fi-gold">The Five Checks</p>
       <h2 id="guide-signup-title" class:list={[responsive.h3, 'font-bold text-fi-ink']}>
         Where every investigation starts
       </h2>
@@ -90,7 +90,9 @@ const {
       inputId="guide-signup-email"
       hiddenFields={hiddenFields}
       ajaxSubmit
-      successMessage="Thanks. Check your inbox for the first five checks."
+      successMessage="Thanks — the link is on its way to your inbox."
+      successHref="/reports/five-checks-mutual-fund/"
+      successLinkText="Or read it now"
       errorMessage="We could not add that email. Please try again."
       placeholder="your@email.com"
       buttonText="Send Me the Five Checks"
