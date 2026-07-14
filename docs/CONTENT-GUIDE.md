@@ -57,6 +57,22 @@ Every report should follow this logical flow to maintain the storytelling aspect
 3.  **The Analysis:** Connect the dots. Use facts to explain the "why." (e.g., "The volatility spiked because of Sector X exposure, but recovery was swift.")
 4.  **The Verdict:** A summary of findings, letting the user decide the final action.
 
+## Frontmatter: which field does what
+
+Three text fields, one job each. Getting these confused is the easiest mistake to make,
+because two of them look interchangeable and are not.
+
+| Field | Who reads it | Where it appears |
+|---|---|---|
+| `title` | Both | The `<h1>`, the browser tab, the Google result heading, the social card, JSON-LD |
+| `description` | **Machines only** | Google snippet, social blurb, JSON-LD, `llms.txt`. **Never rendered on the page.** ~155 chars, written in the words people search |
+| `hook` | **Humans only** | The subtitle under the `<h1>`, and the teaser on report cards. Written to read well |
+
+The filename is the URL, so settle it before publishing — renaming a live article breaks its link.
+
+**Full field-by-field reference, with every field annotated:** `docs/templates/report-template.md`.
+Copy that file to start a new report. The schema that enforces it is `src/content.config.ts`.
+
 ## When Unsure
 
 Ask yourself:

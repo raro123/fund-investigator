@@ -1,46 +1,80 @@
 ---
-# ARTICLE TEMPLATE - Copy this file to create new investigation reports
-# Filename convention: use-kebab-case-for-urls.md
-# Example: parag-parikh-flexi-cap-analysis.md → /reports/parag-parikh-flexi-cap-analysis
+# ARTICLE TEMPLATE - Copy this file to create new investigation reports.
+# This file is the reference for what every frontmatter field does. The schema that
+# enforces it lives in src/content.config.ts.
+#
+# Filename = URL. Use kebab-case, keep it short and searchable.
+#   five-checks-mutual-fund.md  ->  /reports/five-checks-mutual-fund/
+# Get the filename right BEFORE publishing. Renaming a live article breaks its URL.
 
-layout: ../../layouts/ArticleLayout.astro
+# ---------------------------------------------------------------------------
+# THE THREE TEXT FIELDS - each has one job. Do not make one do two.
+# ---------------------------------------------------------------------------
 
-# Article title - appears in browser tab, cards, and article header
+# TITLE -> the <h1>, the browser tab, the Google result heading, the social card,
+#          and the JSON-LD headline. All of these show the same string.
+#          Write it the way someone would search for the topic, not as a clever line.
 title: "Your Investigation Title Here"
 
-# Brief description - shown in article cards and used for SEO meta description
-# Keep it under 160 characters for optimal SEO
-description: "A concise summary of what this investigation covers and key findings."
+# DESCRIPTION -> MACHINES ONLY. Never rendered on the page.
+#          Goes to: the Google snippet, og/twitter description, JSON-LD, and llms.txt.
+#          ~155 characters. Use the words people actually type into a search box.
+#          If it reads a bit plain to you, it is probably doing its job.
+description: "How to <do the thing someone is searching for>: the key terms, named plainly."
 
-# Publication date - used for sorting (newest first)
-# Format: YYYY-MM-DD
-date: "2024-01-15"
+# HOOK -> HUMANS ONLY. The subtitle under the h1, and the teaser on report cards.
+#          Write it to read well and to give a reason to keep reading.
+#          Optional, but if you omit it the layout falls back to `description`,
+#          which will read like SEO copy on the page. Always write one.
+hook: "The line that makes a reader want the rest. Evidence-led, no hype."
 
-# Estimated reading time - helps set user expectations
+# ---------------------------------------------------------------------------
+# DATES, META
+# ---------------------------------------------------------------------------
+
+# Published date. Sorts the listings (newest first) and sets JSON-LD datePublished.
+date: "2026-01-15"
+
+# Optional. Set this when you materially edit an already-published report.
+# Feeds JSON-LD dateModified - a freshness signal. Leave it out on first publish.
+# updated: "2026-03-02"
+
+# Hand-estimated. Shown next to the date in the article header.
 readTime: "8 min read"
 
-# Category - determines filter button behavior on /reports page
-# Options: "Fund Analysis" | "Category Comparison" | "Methodology"
+# Drives the filter buttons on /reports and JSON-LD articleSection.
+# Must be one of: "Fund Analysis" | "Category Comparison" | "Methodology"
 category: "Fund Analysis"
 
-# Tags - shown as badges, used for related content (future feature)
-# Best practice: 2-4 tags, be specific
+# Feeds JSON-LD keywords. NOT shown to readers anywhere. 2-4, be specific.
 tags: ["Large Cap", "Value Investing", "Risk Analysis"]
 
-# Featured flag - set to true to appear on homepage
-# Only the 3 most recent featured articles appear on homepage
+# true -> eligible for the homepage. Only the 3 most recent featured reports appear.
 featured: true
 
-# Cover image - optional, used as thumbnail on /reports page cards
-# Also used for social sharing previews (og:image)
-# NEW: Store images in /src/assets/images/reports/{article-slug}/cover.png
-# Example: /src/assets/images/reports/hdfc-flexicap/cover.png
-# Recommended size: 1200x630px (2:1 ratio) for optimal display
-# Legacy path still works: "/images/reports/your-article-cover.png"
-coverImage: "/images/reports/your-article-cover.png"
+# ---------------------------------------------------------------------------
+# IMAGES AND METRICS
+# ---------------------------------------------------------------------------
 
-# Optional: Alt text for cover image (improves accessibility and SEO)
+# Cover image. Optional, but set it: it becomes the social-share card AND the
+# `image` in the article's JSON-LD. Omit it and both fall back to the generic
+# site image, so every share of every report looks identical.
+# Path is RELATIVE to this file, into src/assets (so Astro optimises it).
+# Recommended 1200x630 (2:1).
+coverImage: "../../assets/images/reports/your-article-slug/cover.png"
+
+# Alt text for the cover. Accessibility + it becomes og:image:alt.
 coverImageAlt: "Chart showing performance metrics and drawdown analysis"
+
+# Optional, max 3. The metric chips on the report card in the listings.
+# Fund reports use these; methodology guides usually do not.
+keyMetrics:
+  - label: "CAGR"
+    value: "25.0%"
+  - label: "Sharpe"
+    value: "1.55"
+  - label: "Max DD"
+    value: "-12.9%"
 ---
 
 <!--
@@ -60,6 +94,23 @@ STRUCTURE RULES
   page's only H1. Start body content with intro copy or an H2 (##).
 - Do NOT add a manual Deepdive promo section at the end. ArticleLayout.astro
   already renders the "Investigate this yourself" CTA and the disclaimer.
+
+WRITING FOR AI ANSWER ENGINES (this is where our traffic realistically comes from)
+- Search engines and LLMs do not read the page as a whole. They chop it into chunks
+  of roughly "one heading + the text under it", and THAT is the unit they quote.
+- So every heading must say something on its own. "Assessment" is a useless chunk
+  header. "Assessment: more return for the same risk" is a findable, quotable one.
+- And every passage must stand alone. "The fund beat the benchmark" is unquotable —
+  which fund, which benchmark, over what period? Name all three, every time, even
+  when it feels repetitive in the flow of the page. Assume the paragraph will be
+  lifted out and shown to someone who never saw the rest of the article.
+- Phrase section headings as the question a reader would actually ask.
+
+CITE YOUR SOURCES
+- Link the data source (AMFI), and any rule you invoke (SEBI categorisation).
+- Verifiability is the whole pitch: we make evidence-led claims, so show where the
+  evidence came from. AI answer engines strongly prefer sources they can trace.
+- Link to our own related reports where they genuinely help the reader.
 
 IMAGE OPTIMIZATION WORKFLOW (SIMPLIFIED)
 =========================================
