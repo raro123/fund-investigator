@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { absoluteImageUrl } from '../lib/schema';
 
 // Self-hosted Inter font (matches Google Fonts weights)
 import '@fontsource/inter/400.css';
@@ -15,6 +16,7 @@ interface Props {
   ogImage?: string;           // Optional: URL path to OG image
   ogImageAlt?: string;        // Optional: Alt text for OG image
   ogType?: 'website' | 'article';  // Optional: defaults to 'website'
+  jsonLd?: object[];          // Optional: schema.org entities, built via src/lib/schema.ts
 }
 
 const {
@@ -22,8 +24,11 @@ const {
   description,
   ogImage,
   ogImageAlt = title,  // Default alt text to title
-  ogType = 'website'   // Default to 'website'
+  ogType = 'website',  // Default to 'website'
+  jsonLd
 } = Astro.props;
+
+const ogImageUrl = absoluteImageUrl(ogImage, Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -47,31 +52,25 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Fund Investigator" />
 
-    <!-- OG Image with fallback logic -->
-    {(() => {
-      // Use provided ogImage, or fallback to default
-      const finalOgImage = ogImage || '/images/fundinvestigator-og-default.jpg';
-      // Build absolute URL for social platforms
-      const absoluteOgImageUrl = new URL(finalOgImage, Astro.site).toString();
+    <!-- OG Image (falls back to the site default) -->
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
-      return (
-        <>
-          <meta property="og:image" content={absoluteOgImageUrl} />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
-          <meta name="twitter:image" content={absoluteOgImageUrl} />
-          <meta name="twitter:image:alt" content={ogImageAlt} />
-        </>
-      );
-    })()}
-    
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    
+
+    <!-- Structured data. set:html is required: {} interpolation would escape the JSON. -->
+    {jsonLd && jsonLd.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
   </head>
   <body class="font-sans antialiased">
     <Header />

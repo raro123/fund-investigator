@@ -10,6 +10,7 @@ import SubscribeForm from '../components/ui/SubscribeForm.astro';
 import GuideSignupModal from '../components/GuideSignupModal.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
+import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
@@ -35,6 +36,11 @@ const homepageEmailCaptureForm = {
 <Layout
   title="Fund Investigator - Comprehensive Mutual Fund Analysis"
   description="Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions."
+  jsonLd={[
+    organizationSchema(Astro.site),
+    websiteSchema(Astro.site),
+    deepdiveSchema(Astro.site),
+  ]}
 >
   <!-- Hero Section -->
   <Hero size="lg" background="dark" class="fi-investigation-hero">

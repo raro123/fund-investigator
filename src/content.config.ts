@@ -6,6 +6,7 @@ const reports = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.string(),
+    updated: z.string().optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
