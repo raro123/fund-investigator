@@ -18,7 +18,6 @@ keyMetrics:
     value: "1.52"
   - label: "Max DD"
     value: "-17.9%"
-fmContentType: "report"
 ---
 
 When evaluating mutual funds, numbers tell a story. Here's what 5 years of data reveals about Parag Parikh Flexicap - Direct, analyzing risk and SIP returns versus the NIFTY 500 TRI benchmark.

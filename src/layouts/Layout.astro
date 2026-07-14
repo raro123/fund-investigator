@@ -29,6 +29,12 @@ const {
 } = Astro.props;
 
 const ogImageUrl = absoluteImageUrl(ogImage, Astro.site);
+
+// Brand suffix in the tab/SERP title, skipped where the title already carries the brand
+// (the homepage) so it never reads "Fund Investigator ... | Fund Investigator".
+const pageTitle = title.includes('Fund Investigator')
+  ? title
+  : `${title} | Fund Investigator`;
 ---
 
 <!DOCTYPE html>
@@ -37,7 +43,7 @@ const ogImageUrl = absoluteImageUrl(ogImage, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
 
     <!-- Canonical URL -->
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />

@@ -46,7 +46,7 @@ const jsonLd = [
         )}
       </div>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
-      <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.description}</p>
+      <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
     </div>
   </header>
 
