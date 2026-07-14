@@ -53,7 +53,9 @@ The Sharpe Ratio of 1.55 (versus 1.00) shows the fund generated 1.55 units of re
 
 Consistency reveals whether outperformance is skill or luck.
 
-The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. Annually, the outperformance was steady: 2021 (+5%), 2022 (+15%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
+The fund delivered positive returns in **all 5 calendar years**—no negative years during the analysis period. It also finished ahead of the benchmark in every one of them, but by margins that varied widely: 2021 (+5%), 2022 (+15%), 2023 (+4%), 2024 (+8%), and 2025 (+4%).
+
+The direction was consistent. The size was not. The 2022 margin is larger than 2021, 2023, and 2025 combined, and it came in a year when the benchmark nearly stalled—the NIFTY 500 TRI returned 4% while the fund returned 19%. A single year is doing a disproportionate share of the work in the five-year record, which is worth knowing before treating that record as a steady-state expectation. (This is [check 2 of our five-check screen](/reports/five-checks-mutual-fund/): whether a result is repeated, or carried by one year.)
 
 ![Annual Returns Chart](../../assets/images/reports/hdfc-flexicap/annual-returns.png)
 

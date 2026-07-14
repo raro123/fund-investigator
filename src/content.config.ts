@@ -11,6 +11,9 @@ const reports = defineCollection({
     date: z.string(),
     updated: z.string().optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
+    // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
+    //   1. this enum (the gate — an unlisted value fails the build)
+    //   2. `categoryLabels` in src/pages/reports.astro (display label + pill order)
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
     featured: z.boolean().optional().default(false),

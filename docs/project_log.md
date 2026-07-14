@@ -49,8 +49,8 @@ paid research.
 | 24 | Add JSON-LD `Article` structured data to `ArticleLayout` (SEO/AIO) — parked as its own commit; touches all report pages, so it should not ride inside a content branch | 2026-07-12 | S11 | ✅ Resolved (S12 — Article + Organization + WebApplication shipped in its own commit) |
 | 25 | Two parallel drafts of the five-checks guide now exist (this session's, and another agent's "Five Questions a Return Number Cannot Answer"). Both are published locally for review; decide which to keep or how to merge | 2026-07-12 | S11 | ✅ Resolved (S12 — kept "Five Questions"; the other draft and its assets deleted) |
 | 26 | Nothing on the site links to the guide — the modal only promises it by email. An open guide reachable solely through a signup form is an odd shape; consider a "read it now" link alongside the email field | 2026-07-12 | S11 | 🟡 Open |
-| 27 | No report sets `coverImage`, so all three fall back to the generic OG image — in social cards and now in the Article schema too. The guide also has zero internal links (nothing points to the HDFC report despite covering the same fund) | 2026-07-14 | S12 | 🟡 Open |
-| 28 | "The outperformance was steady" in the HDFC report is now contradicted by its own corrected data (+15% in 2022 vs +4–8% elsewhere). Needs rewording per the evidence-over-adjectives rule in `docs/CONTENT-GUIDE.md` | 2026-07-14 | S12 | 🟡 Open |
+| 27 | OG/cover images: no report sets `coverImage`, so every share of every report shows the same generic card, and the Article JSON-LD carries it as `image`. **Decided against** wiring up the existing `cover.png` files — they are raw chart exports, illegible at feed size (~500px), so they would be wrong in a new way rather than better. Proper fix = a templated 1200×630 card (dark brand bg, title in large type, one headline metric, small logo), ideally auto-generated at build (`astro-og-canvas`/Satori) so future reports get one for free. Parked as its own piece of work. Note: `Layout.astro` hardcodes `og:image:width/height` as 1200×630, which becomes a false claim the moment a differently-sized cover is set — fix alongside | 2026-07-14 | S12 | 🟡 Parked |
+| 28 | "The outperformance was steady" in the HDFC report is contradicted by its own corrected data (+15% in 2022 vs +4–8% elsewhere) | 2026-07-14 | S12 | ✅ Resolved (S13 — rewritten: consistent in direction, uneven in size) |
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it) | 2026-07-14 | S12 | 🟡 Parked |
 
 ---
@@ -58,6 +58,47 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-15 | Session: S13 — Article metadata untangled; a published claim corrected
+
+**What was done:**
+Sorted out which frontmatter field does what, because two of them had quietly been doing the same
+job. The article's public-facing wording (title, URL, search snippet, subtitle) was rewritten and the
+guide was retitled and moved to a shorter, more searchable URL while it was still safe to do so. A
+claim in the published HDFC report — that its outperformance was "steady" — was corrected, because
+its own corrected numbers say otherwise. Cover images were looked at and deliberately deferred.
+
+**Why:**
+The old title was memorable but nobody searches for it, and it matched neither the article's own
+wording nor its URL. Meanwhile one sentence was being asked to serve as both the Google snippet and
+the on-page subtitle, and was mediocre at both. The "steady" claim mattered more: a reader comparing
+the sentence to the chart directly beneath it would have caught us out.
+
+**How:**
+`description` is now machine-facing only (search snippet, social, JSON-LD, llms.txt) and `hook` is
+human-facing (the subtitle and the card teaser), with the layout falling back to `description` if a
+report has no hook. The guide's headings were rewritten so each states its finding, and each passage
+now names the fund, benchmark and period — because AI answer engines quote a heading plus its
+paragraph as a standalone unit, and an unattributed sentence is worse than useless when lifted out.
+AMFI and SEBI are now cited as sources rather than mentioned in passing.
+
+**Decisions made:**
+- Retitled to "The Five Checks to Investigate a Mutual Fund" at `/reports/five-checks-mutual-fund/`.
+  Done before deploy, so no redirects were needed — after deploy this costs real link equity.
+- `description` and `hook` split by audience. Documented once in `docs/templates/report-template.md`
+  (rewritten; it was stale and actively wrong) rather than commented into every article, where it
+  would drift.
+- Brand suffix added to `<title>`, skipped where the title already carries the brand.
+- Dropped `fmContentType` — it was in the schema and every article, and read by nothing.
+- Kept `tags`, knowingly: it only feeds JSON-LD `keywords`, which is a near-dead signal, and it is
+  shown to readers nowhere. It costs nothing and the data will be there if we ever build tag pages —
+  which should wait until ~15–20 articles, or they are thin-content pages.
+- Cover images parked, not bodged. See #27.
+
+**Pending decisions:**
+- #27 — OG/cover images, with the spec captured for whoever picks it up.
 
 ---
 
