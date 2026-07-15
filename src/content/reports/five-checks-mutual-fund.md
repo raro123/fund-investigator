@@ -36,7 +36,7 @@ Let's run these checks on a well-known flexi-cap fund using our [Deepdive](https
 
 ## Investigation Settings
 
-- Mutual Fund: HDFC Flexi Cap Fund – Direct (AUM ₹32,020 Cr). We have also published a [full investigation of this fund](/reports/hdfc-flexicap-performance/).
+- Mutual Fund: HDFC Flexi Cap Fund – Direct (AUM ₹32,020 Cr)
 - Data Period: 1 Jan 2020 to 10 July 2026
 - Data Sources: Daily NAV data published by [AMFI](https://www.amfiindia.com/), analysed in the [Deepdive](https://deepdive.fundinvestigator.com/) app
 
@@ -128,3 +128,5 @@ These five checks are a starting point for building a performance and risk profi
 They do not, on their own, explain which holdings produced the result, whether the same manager and process remain in place, or how the fund's costs compare with its peers. Those are separate investigations.
 
 Ultimately, past performance is evidence, not a forecast. The goal of these checks is to move beyond the headline return used in the sales pitch, and to work out which areas deserve a closer look.
+
+You can read the [full investigation of this fund](/reports/hdfc-flexicap-performance/).
