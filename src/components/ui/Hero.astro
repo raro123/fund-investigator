@@ -48,7 +48,9 @@ const {
 const sizeStyles = {
   sm: 'pt-24 pb-12 md:pt-28 md:pb-16',
   md: 'pt-28 pb-16 md:pt-36 md:pb-24',
-  lg: 'pt-28 pb-16 md:pt-36 md:pb-20 lg:pt-40 lg:pb-24',
+  // Bottom padding is intentionally tighter than top: the homepage hero (the
+  // only lg user) is followed immediately by the credibility strip.
+  lg: 'pt-28 pb-10 md:pt-36 md:pb-14 lg:pt-40',
 };
 
 // Background styles

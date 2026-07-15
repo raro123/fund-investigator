@@ -68,15 +68,6 @@ const homepageEmailCaptureForm = {
       </Button>
     </div>
 
-    <!-- Trust strip -->
-    <div class="relative z-10 flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-body-sm text-fi-muted-inv mb-8 md:mb-9">
-      <span>Independent</span>
-      <span class="text-fi-border-dark" aria-hidden="true">·</span>
-      <span>No commissions</span>
-      <span class="text-fi-border-dark" aria-hidden="true">·</span>
-      <span>Evidence-based</span>
-    </div>
-
     <!-- Third intent tier: readers not ready for the app or a report. Framed by
          the knowledge gap, not skill level — investors who already hold funds
          won't click anything labelled "beginner". -->
@@ -89,6 +80,20 @@ const homepageEmailCaptureForm = {
       />
     </div>
   </Hero>
+
+  <!-- Credibility strip: verifiable markers lifted out of the hero into their
+       own band. Concrete (data-backed, reproducible) over adjectives. -->
+  <Section background="dark" spacing="none" maxWidth="2xl" class="!bg-fi-mid border-t border-fi-border-dark">
+    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 py-5 text-caption font-semibold uppercase tracking-widest text-fi-muted-inv">
+      <span>Data-backed</span>
+      <span class="text-fi-border-dark" aria-hidden="true">·</span>
+      <span>Reproducible</span>
+      <span class="text-fi-border-dark" aria-hidden="true">·</span>
+      <span>Independent</span>
+      <span class="text-fi-border-dark" aria-hidden="true">·</span>
+      <span>Powered by <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-gold hover:text-fi-gold-hover transition-colors">Deepdive</a></span>
+    </div>
+  </Section>
 
   <!-- Problem Section: The Sales Trap -->
   <Section background="light" spacing="md" maxWidth="2xl">
