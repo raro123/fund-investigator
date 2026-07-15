@@ -1,4 +1,4 @@
-# Content Editing Guide
+# Content Philosophy
 
 **Remember:** The goal is to be helpful and informative, like a knowledgeable peer who has done the analysis and is making it available to others. The idea is to establish trust and credibility.
 
@@ -12,7 +12,7 @@ We prefer **storytelling based on facts** over fancy claims.
 
 **Rule:** Let the data provide the drama. Do not manufacture it with hype.
 
-## Checklist for New Content
+## Suggestions
 
 Before publishing any new content, verify:
 
@@ -21,7 +21,6 @@ Before publishing any new content, verify:
 - [ ] Avoid exclamation marks.
 - [ ] Avoid superlatives ("superior", "revolutionary").
 - [ ] Avoid urgency tactics ("now", "don't miss", "limited").
-- [ ] Avoid second-person imperatives ("you must", "you should").
 - [ ] Explains WHAT & WHY people should care - but in a non-preachy way.
 - [ ] Treats reader as intelligent and capable.
 
@@ -48,14 +47,10 @@ NOT as:
 | "Don't make this mistake!" | "Historical data shows a higher drawdown risk in this sector." | Focuses on evidence, not fear. |
 | "We discovered a secret strategy." | "Our analysis indicates a correlation between X and Y." | Professional restraint; implies process, not magic. |
 
-## Report Structure: The Investigation Arc
+## Report Example
 
-Every report should follow this logical flow to maintain the storytelling aspect:
+`src/content/reports/five-checks-mutual-fund.md`
 
-1.  **The Premise:** What is the mystery or question? (e.g., "Is HDFC Flexi Cap's volatility justified by its returns?")
-2.  **The Evidence:** Present the raw data/charts. (e.g., "Looking at the 5-year rolling returns...")
-3.  **The Analysis:** Connect the dots. Use facts to explain the "why." (e.g., "The volatility spiked because of Sector X exposure, but recovery was swift.")
-4.  **The Verdict:** A summary of findings, letting the user decide the final action.
 
 ## Frontmatter: which field does what
 
