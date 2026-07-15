@@ -1,7 +1,13 @@
 ---
 import Layout from './Layout.astro';
 import Button from '../components/ui/Button.astro';
-import { absoluteImageUrl, articleSchema, breadcrumbSchema } from '../lib/schema';
+import {
+  absoluteImageUrl,
+  articleSchema,
+  breadcrumbSchema,
+  organizationSchema,
+  websiteSchema,
+} from '../lib/schema';
 
 const { frontmatter } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
@@ -10,6 +16,10 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const jsonLd = [
+  // Article credits the Organization as author/publisher by @id, so the full
+  // Organization (and its WebSite) must be defined on this page for those refs to resolve.
+  organizationSchema(Astro.site),
+  websiteSchema(Astro.site),
   articleSchema(
     frontmatter,
     pageUrl,

@@ -50,7 +50,7 @@ paid research.
 | 24 | Add JSON-LD `Article` structured data to `ArticleLayout` (SEO/AIO) — parked as its own commit; touches all report pages, so it should not ride inside a content branch | 2026-07-12 | S11 | ✅ Resolved (S12 — Article + Organization + WebApplication shipped in its own commit) |
 | 25 | Two parallel drafts of the five-checks guide now exist (this session's, and another agent's "Five Questions a Return Number Cannot Answer"). Both are published locally for review; decide which to keep or how to merge | 2026-07-12 | S11 | ✅ Resolved (S12 — kept "Five Questions"; the other draft and its assets deleted) |
 | 26 | Nothing on the site links to the guide — the modal only promises it by email. An open guide reachable solely through a signup form is an odd shape; consider a "read it now" link alongside the email field | 2026-07-12 | S11 | ✅ Resolved (S13 — "Or read it now →" link in the modal's success state; the guide is also publicly listed on /reports, so it was never truly gated) |
-| 27 | OG/cover images: no report sets `coverImage`, so every share of every report shows the same generic card, and the Article JSON-LD carries it as `image`. **Decided against** wiring up the existing `cover.png` files — they are raw chart exports, illegible at feed size (~500px), so they would be wrong in a new way rather than better. Proper fix = a templated 1200×630 card (dark brand bg, title in large type, one headline metric, small logo), ideally auto-generated at build (`astro-og-canvas`/Satori) so future reports get one for free. Parked as its own piece of work. Note: `Layout.astro` hardcodes `og:image:width/height` as 1200×630, which becomes a false claim the moment a differently-sized cover is set — fix alongside | 2026-07-14 | S12 | 🟡 Parked |
+| 27 | OG/cover images: no report sets `coverImage`, so every share of every report shows the same generic card, and the Article JSON-LD carries it as `image`. **Decided against** wiring up the existing `cover.png` files — they are raw chart exports, illegible at feed size (~500px), so they would be wrong in a new way rather than better. Proper fix = a templated 1200×630 card (dark brand bg, title in large type, one headline metric, small logo), ideally auto-generated at build (`astro-og-canvas`/Satori) so future reports get one for free. Parked as its own piece of work. Note: `Layout.astro` hardcodes `og:image:width/height` as 1200×630, which becomes a false claim the moment a differently-sized cover is set — fix alongside. **S14 update:** manual wiring of the existing `cover.png` files was tried and reverted — they mis-declare the hardcoded 1200×630 dimensions (actual 1150×400 / 1805×875) and one even resolved to a broken URL, confirming #27's original call. Automation costed: **build-time only, ₹0 runtime/cloud** (static PNGs on Cloudflare Pages; ~50–150 ms/image in existing CI). Stack choice: **Satori + `@resvg/resvg-js`** (full flexbox control — can place the headline metric) over `astro-og-canvas` (config-only, can't). Card = dark `fi-dark` bg + title + `keyMetrics[0]` + logo, title-only fallback for reports without metrics. Still parked — "let it be for now" | 2026-07-14 | S12 | 🟡 Parked |
 | 28 | "The outperformance was steady" in the HDFC report is contradicted by its own corrected data (+15% in 2022 vs +4–8% elsewhere) | 2026-07-14 | S12 | ✅ Resolved (S13 — rewritten: consistent in direction, uneven in size) |
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it) | 2026-07-14 | S12 | 🟡 Parked |
 
@@ -59,6 +59,45 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-15 | Session: S14 — Report pages now carry their publisher; OG-card automation costed and re-parked
+
+**What was done:**
+Report pages were self-describing their author and publisher only by reference — pointing at a
+company record that was defined solely on the homepage — so the reference dangled on every article.
+The full company record (plus the site record) is now emitted on each report page too, so the
+references resolve for search and AI engines reading a single article in isolation. We then re-opened
+the parked question of giving each report its own share image, priced out the automatic-generation
+route end to end, and chose to leave it parked for now with the trade-off written down.
+
+**Why:**
+Structured data is only useful if it resolves: an article that credits a publisher which isn't
+present on the page is a loose thread a validator (and an AI answer engine) will drop. On the image
+question, the temptation was to wire up the existing chart exports as covers — but that repeats the
+mistake #27 already ruled out (they are illegible at feed size) and would have made the page's
+declared image dimensions a false claim, since the layout hardcodes 1200×630.
+
+**How:**
+The company and site records are added to the structured-data block in the article layout, so they
+sit alongside the article record the references point to. For the share images, the automatic route
+is a build-time image generator (Satori, the engine behind Vercel's OG cards): it renders a branded
+1200×630 card — dark background, title, one headline metric, small logo — into a static PNG at build,
+so every current and future report gets one for free with no per-report work.
+
+**Decisions made:**
+- Full company + site records now emitted on report pages, not just the homepage — author/publisher
+  references resolve everywhere. Shipped this session.
+- Manually wiring the existing `cover.png` chart exports as covers was tried and reverted — it
+  contradicts #27 and mis-declares image dimensions. See #27.
+- OG-card automation costed: **build-time only, zero runtime/cloud cost** (static PNGs served by
+  Cloudflare Pages like any asset; ~50–150 ms/image inside existing CI). Recommended stack is
+  Satori + `@resvg/resvg-js` over `astro-og-canvas`, because only Satori can place the headline
+  metric #27's card calls for. Deferred anyway — "let it be for now."
+
+**Pending decisions:**
+- #27 — OG/cover images. Now updated with the library/card trade-off and cost; still parked.
 
 ---
 
