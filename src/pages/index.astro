@@ -84,13 +84,17 @@ const homepageEmailCaptureForm = {
   <!-- Credibility strip: verifiable markers lifted out of the hero into their
        own band. Concrete (data-backed, reproducible) over adjectives. -->
   <Section background="dark" spacing="none" maxWidth="2xl" class="!bg-fi-mid border-t border-fi-border-dark">
-    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 py-5 text-caption font-semibold uppercase tracking-widest text-fi-muted-inv">
-      <span>Data-backed</span>
-      <span class="text-fi-border-dark" aria-hidden="true">·</span>
-      <span>Reproducible</span>
-      <span class="text-fi-border-dark" aria-hidden="true">·</span>
-      <span>Independent</span>
-      <span class="text-fi-border-dark" aria-hidden="true">·</span>
+    <!-- Two groups, not one flat list: the trust markers are peers (dotted),
+         while "Powered by Deepdive" is an attribution set apart by a wider gap.
+         On mobile the outer wrap drops the attribution to its own centred line. -->
+    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-5 text-caption font-semibold uppercase tracking-widest text-fi-muted-inv">
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+        <span>Data-backed</span>
+        <span class="text-fi-border-dark" aria-hidden="true">·</span>
+        <span>Reproducible</span>
+        <span class="text-fi-border-dark" aria-hidden="true">·</span>
+        <span>Independent</span>
+      </div>
       <span>Powered by <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-gold hover:text-fi-gold-hover transition-colors">Deepdive</a></span>
     </div>
   </Section>
