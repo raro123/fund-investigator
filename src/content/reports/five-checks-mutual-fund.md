@@ -11,6 +11,13 @@ tags:
     - "Flexi Cap"
     - "Risk Analysis"
 featured: false
+keyMetrics:
+  - label: "Returns"
+    value: "✓"
+  - label: "Risk"
+    value: "✓"
+  - label: "Consistency"
+    value: "✓"
 ---
 
 Avoiding bad investments is as important as, if not more important than, choosing a promising one. There are thousands of mutual funds in the Indian market. When someone pitches you a fund, it can become overwhelming to decide. While trying to pick the "best" fund is often futile, with a bit of investigative skill, you can assess whether a fund is suitable for you. This article demonstrates how five checks can reveal important aspects of a fund's performance and risk profile.
