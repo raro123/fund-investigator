@@ -1,5 +1,6 @@
 ---
 import Layout from './Layout.astro';
+import Button from '../components/ui/Button.astro';
 import { absoluteImageUrl, articleSchema, breadcrumbSchema } from '../lib/schema';
 
 const { frontmatter } = Astro.props;
@@ -62,7 +63,7 @@ const jsonLd = [
             <h3 class="text-xl font-bold text-fi-ink mb-2">Investigate this yourself</h3>
             <p class="text-fi-muted">Use Deepdive to analyze the funds mentioned in this report.</p>
           </div>
-          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="bg-fi-gold text-fi-ink px-fi-btn-x py-fi-btn-y rounded-fi-btn font-bold text-sm hover:bg-fi-gold-hover hover:-translate-y-0.5 transition-all duration-200">Launch Deepdive</a>
+          <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
         </div>
       </div>
 
