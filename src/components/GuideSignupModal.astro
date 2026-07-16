@@ -1,31 +1,21 @@
 ---
-import SubscribeForm from './ui/SubscribeForm.astro';
+import Button from './ui/Button.astro';
 import { responsive } from '../lib/responsive';
+import { substackWelcomeUrl } from '../lib/substack';
 
-interface Props {
-  action: string;
-  method?: 'GET' | 'POST';
-  emailFieldName?: string;
-  hiddenFields?: Record<string, string>;
-}
-
-const {
-  action,
-  method = 'POST',
-  emailFieldName = 'email',
-  hiddenFields = {},
-} = Astro.props;
+const subscribeHref = substackWelcomeUrl('hero_guide');
 ---
 
-<button
-  type="button"
+<a
+  href="/reports/five-checks-mutual-fund/"
   class="text-fi-gold underline decoration-fi-gold/50 transition-opacity hover:opacity-80"
   data-guide-signup-trigger
   aria-haspopup="dialog"
   aria-controls="guide-signup-modal"
+  aria-expanded="false"
 >
   Start with our first five checks
-</button>
+</a>
 
 <div
   id="guide-signup-modal"
@@ -33,14 +23,14 @@ const {
   role="dialog"
   aria-modal="true"
   aria-labelledby="guide-signup-title"
+  aria-describedby="guide-signup-description"
   data-guide-signup-modal
 >
-  <button
-    type="button"
+  <div
     class="absolute inset-0 cursor-default"
-    aria-label="Close beginner guide signup"
+    aria-hidden="true"
     data-guide-signup-backdrop
-  ></button>
+  ></div>
 
   <div class="relative z-10 w-full max-w-lg rounded-lg border border-fi-border bg-white p-6 shadow-fi-card sm:p-8">
     <button
@@ -59,13 +49,13 @@ const {
       <h2 id="guide-signup-title" class:list={[responsive.h3, 'font-bold text-fi-ink']}>
         Where every investigation starts
       </h2>
-      <p class="mt-3 text-body-md leading-relaxed text-fi-muted">
+      <p id="guide-signup-description" class="mt-3 text-body-md leading-relaxed text-fi-muted">
         Before we deep-dive a fund, these five checks tell us if it's worth the time. The guide illustrates each with examples.
       </p>
     </div>
 
-    <!-- The checks are listed before the form: the reader sees what they are
-         getting before handing over an email. -->
+    <!-- The checks are listed before the CTA: the reader sees what they are
+         getting before being asked to subscribe. -->
     <ol class="mb-6 space-y-2.5 border-t border-fi-border pt-5">
       {[
         'Did it beat a fair benchmark?',
@@ -83,21 +73,37 @@ const {
       ))}
     </ol>
 
-    <SubscribeForm
-      action={action}
-      method={method}
-      emailFieldName={emailFieldName}
-      inputId="guide-signup-email"
-      hiddenFields={hiddenFields}
-      ajaxSubmit
-      successMessage="Thanks — you're on the list. New investigations land in your inbox."
-      successHref="/reports/five-checks-mutual-fund/"
-      successLinkText="Read the five checks now"
-      errorMessage="We could not add that email. Please try again."
-      placeholder="your@email.com"
-      buttonText="Send Me the Five Checks"
-      formClass="sm:flex-col"
-    />
+    <!-- Honest framing: this is a subscription, not a one-off download
+         (project_log.md #21). Stated plainly before the button, not buried
+         in a footnote after signup. -->
+    <p class="mb-4 text-body-sm text-fi-muted">
+      This subscribes you to Fund Investigator on Substack — the guide link plus new investigation notes, not a one-off download.
+    </p>
+
+    <div data-guide-signup-subscribe>
+      <Button
+        href={subscribeHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="primary"
+        icon="external"
+        fullWidth
+      >
+        Continue to Subscribe
+      </Button>
+    </div>
+
+    <!-- Always visible, not gated behind a signup: the guide is public
+         (project_log.md #26), so anyone who doesn't want to subscribe right
+         now still gets a direct way to read it. -->
+    <p class="mt-4 text-center text-body-sm">
+      <a
+        href="/reports/five-checks-mutual-fund/"
+        class="font-semibold text-fi-gold underline-offset-4 hover:underline"
+      >
+        Or read the five checks now →
+      </a>
+    </p>
   </div>
 </div>
 
@@ -106,7 +112,6 @@ const {
   const modal = document.querySelector('[data-guide-signup-modal]');
   const closeButton = document.querySelector('[data-guide-signup-close]');
   const backdrop = document.querySelector('[data-guide-signup-backdrop]');
-  const emailInput = document.querySelector('#guide-signup-email');
 
   if (
     trigger instanceof HTMLElement &&
@@ -114,26 +119,36 @@ const {
     closeButton instanceof HTMLElement &&
     backdrop instanceof HTMLElement
   ) {
-    let lastFocusedElement = null;
+    let lastFocusedElement: HTMLElement | null = null;
+    const focusableSelector = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(',');
 
-    const openModal = () => {
+    const openModal = (event: MouseEvent) => {
+      // Preserve normal link behaviour for modified clicks. Without JavaScript,
+      // the trigger remains a direct link to the public guide.
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      event.preventDefault();
       lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+      trigger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-
-      window.setTimeout(() => {
-        if (emailInput instanceof HTMLInputElement) {
-          emailInput.focus();
-        } else {
-          closeButton.focus();
-        }
-      }, 0);
+      window.setTimeout(() => closeButton.focus(), 0);
     };
 
     const closeModal = () => {
       modal.classList.add('hidden');
       modal.classList.remove('flex');
+      trigger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       lastFocusedElement?.focus();
     };
@@ -141,10 +156,35 @@ const {
     trigger.addEventListener('click', openModal);
     closeButton.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+    modal.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeModal));
 
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+      if (modal.classList.contains('hidden')) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
         closeModal();
+        return;
+      }
+
+      if (event.key === 'Tab') {
+        const focusableElements = Array.from(
+          modal.querySelectorAll<HTMLElement>(focusableSelector),
+        ).filter((element) => element.tabIndex >= 0);
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements.at(-1);
+
+        if (!firstFocusable || !lastFocusable) {
+          event.preventDefault();
+          closeButton.focus();
+        } else if (event.shiftKey && document.activeElement === firstFocusable) {
+          event.preventDefault();
+          lastFocusable.focus();
+        } else if (!event.shiftKey && document.activeElement === lastFocusable) {
+          event.preventDefault();
+          firstFocusable.focus();
+        }
       }
     });
   }

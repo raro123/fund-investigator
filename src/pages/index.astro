@@ -6,11 +6,11 @@ import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
-import SubscribeForm from '../components/ui/SubscribeForm.astro';
 import GuideSignupModal from '../components/GuideSignupModal.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
+import { substackWelcomeUrl } from '../lib/substack';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
@@ -19,18 +19,6 @@ const featuredReports = allReports
   .filter(report => report.data.featured === true)
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
-
-const homepageEmailCaptureForm = {
-  action: '/api/subscribe',
-  method: 'POST' as const,
-  formName: undefined,
-  formId: undefined,
-  acceptCharset: undefined,
-  enctype: undefined,
-  formClass: undefined,
-  emailFieldName: 'email',
-  hiddenFields: {},
-};
 ---
 
 <Layout
@@ -72,12 +60,7 @@ const homepageEmailCaptureForm = {
          the knowledge gap, not skill level — investors who already hold funds
          won't click anything labelled "beginner". -->
     <div class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
-      Already investing, but unsure how to evaluate a fund? <GuideSignupModal
-        action={homepageEmailCaptureForm.action}
-        method={homepageEmailCaptureForm.method}
-        emailFieldName={homepageEmailCaptureForm.emailFieldName}
-        hiddenFields={homepageEmailCaptureForm.hiddenFields}
-      />
+      Already investing, but unsure how to evaluate a fund? <GuideSignupModal />
     </div>
   </Hero>
 
@@ -308,23 +291,16 @@ const homepageEmailCaptureForm = {
       <p class="text-body-lg text-fi-muted mb-8">
         Subscribe and get notified when a new fund investigation goes live.
       </p>
-      <SubscribeForm
-        action={homepageEmailCaptureForm.action}
-        method={homepageEmailCaptureForm.method}
-        formName={homepageEmailCaptureForm.formName}
-        formId={homepageEmailCaptureForm.formId}
-        acceptCharset={homepageEmailCaptureForm.acceptCharset}
-        enctype={homepageEmailCaptureForm.enctype}
-        formClass={homepageEmailCaptureForm.formClass}
-        emailFieldName={homepageEmailCaptureForm.emailFieldName}
-        inputId="homepage-subscribe-email"
-        hiddenFields={homepageEmailCaptureForm.hiddenFields}
-        ajaxSubmit
-        successMessage="Thanks. You have joined the subscriber list."
-        errorMessage="We could not add that email. Please try again."
-        placeholder="your@email.com"
-        buttonText="Notify Me"
-      />
+      <Button
+        href={substackWelcomeUrl('homepage_bottom')}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="primary"
+        size="lg"
+        icon="external"
+      >
+        Notify Me
+      </Button>
     </div>
   </Section>
 </Layout>
