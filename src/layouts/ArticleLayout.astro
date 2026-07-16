@@ -8,6 +8,7 @@ import {
   organizationSchema,
   websiteSchema,
 } from '../lib/schema';
+import { substackWelcomeUrl } from '../lib/substack';
 
 const { frontmatter } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
@@ -74,6 +75,17 @@ const jsonLd = [
             <p class="text-fi-muted">Use Deepdive to analyze the funds mentioned in this report.</p>
           </div>
           <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+        </div>
+
+        <!-- The parting ask: a reader who just finished an investigation is the
+             warmest subscriber the site gets. Dark band so the two stacked CTAs
+             don't read as visual repetition. -->
+        <div class="mt-6 bg-fi-dark rounded-lg p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Found this investigation helpful?</h3>
+            <p class="text-fi-muted-inv">Subscribe to get the next one in your inbox — free, delivered by Substack.</p>
+          </div>
+          <Button href={substackWelcomeUrl('article_end')} variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Subscribe to Fund Investigator</Button>
         </div>
       </div>
 

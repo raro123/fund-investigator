@@ -50,6 +50,8 @@ Let's run these checks on a well-known flexi-cap fund using our [Deepdive](https
 | **Market Drawdown** | Max drawdown (in 6.5 years): -40% vs -38% | Fund fell more than benchmark in COVID, but shows the risk profile of equity flexi cap funds |
 | **Recovery Time** | Days to recovery from max drawdown: 256 days vs 228 days | ~1 year in this instance; however, be aware that the market recovered rapidly after the COVID downturn due to economic policies. |
 
+*Stay updated with our latest investigations. [Get the next one in your inbox](/subscribe).*
+
 Let's look at these checks in detail. We used the Deepdive app for this analysis.
 
 ## Check 1: Did the fund beat a fair benchmark?

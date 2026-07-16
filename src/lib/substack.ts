@@ -15,7 +15,7 @@
 const SUBSTACK_BASE_URL = 'https://fundinvestigator.substack.com';
 const SUBSTACK_WELCOME_PATH = '/welcome';
 
-export type SubstackPlacement = 'hero_guide' | 'homepage_bottom';
+export type SubstackPlacement = 'homepage_bottom' | 'article_end' | 'article_takeaways';
 
 export function substackWelcomeUrl(utmContent: SubstackPlacement): string {
   const url = new URL(SUBSTACK_WELCOME_PATH, SUBSTACK_BASE_URL);

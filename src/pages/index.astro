@@ -6,7 +6,6 @@ import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
-import GuideSignupModal from '../components/GuideSignupModal.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
@@ -58,9 +57,17 @@ const featuredReports = allReports
 
     <!-- Third intent tier: readers not ready for the app or a report. Framed by
          the knowledge gap, not skill level — investors who already hold funds
-         won't click anything labelled "beginner". -->
+         won't click anything labelled "beginner". Links straight to the public
+         guide; the subscribe ask lives at the end of the article, after the
+         reader has seen the value. -->
     <div class="relative z-10 text-body-sm text-fi-muted-inv text-center mb-0">
-      Already investing, but unsure how to evaluate a fund? <GuideSignupModal />
+      Already investing, but unsure how to evaluate a fund?
+      <a
+        href="/reports/five-checks-mutual-fund/"
+        class="text-fi-gold underline decoration-fi-gold/50 transition-opacity hover:opacity-80"
+      >
+        Start with our first five checks
+      </a>
     </div>
   </Hero>
 
@@ -299,7 +306,7 @@ const featuredReports = allReports
         size="lg"
         icon="external"
       >
-        Notify Me
+        Subscribe to Fund Investigator
       </Button>
     </div>
   </Section>

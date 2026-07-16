@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import { substackWelcomeUrl } from './src/lib/substack';
 
 export default defineConfig({
   integrations: [
@@ -10,11 +11,19 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/styleguide') &&
         !page.includes('/404') &&
+        !page.includes('/subscribe') &&
         !page.includes('/_TEMPLATE')
     }),
     mdx()
   ],
   site: 'https://fundinvestigator.com',
+
+  // Stable on-site subscribe address for links inside markdown content, which
+  // can't import src/lib/substack.ts. If the Substack address ever changes,
+  // only substack.ts needs updating — published articles keep linking /subscribe.
+  redirects: {
+    '/subscribe': substackWelcomeUrl('article_takeaways')
+  },
 
   // Image optimization settings
   image: {

@@ -30,7 +30,7 @@ paid research.
 | 5 | Add a plain-language "verdict layer" to Fund Deepdive | 2026-06-22 | S5 | 🟡 Open |
 | 6 | Rebrand app to "Deepdive by Fund Investigator" (approved; implement in Deepdive repo) | 2026-06-22 | S5 | 🟢 Approved, pending impl |
 | 7 | Drive the hero verdict card dynamically from the featured report's frontmatter metrics | 2026-06-22 | S5 | ✅ Resolved (S9 — moot, hero card removed) |
-| 8 | Option C "Suggest a Fund" email capture — revisit trigger | 2026-06-22 | S6 | 🟡 Parked |
+| 8 | Option C "Suggest a Fund" email capture — revisit trigger. **S17 update:** resurfaced as a mid-article subscribe pitch — "Want your fund investigated? Subscribe and reply with its name." Copy drafted but not shipped; it is a real commitment (reader replies must feed the investigation queue), so it waits until we are ready to honor requests | 2026-06-22 | S6; revisited S17 | 🟡 Parked |
 | 9 | Preserve signup-source evidence (`hero_guide` vs `homepage_bottom`) through the Substack cutover. Substack's iframe may limit confirmed per-placement attribution, but first-party impressions and CTA interactions should still be recorded | 2026-05-04 | S2; expanded S15; moved to Substack S16 | 🟡 Open |
 | 10 | MailerLite endpoint abuse protection (double opt-in, rate limiting, honeypot/Turnstile) | 2026-05-04 | S2; expanded S15 | ⏸ Deferred S16 for the one-day Substack cutover; close when `/api/subscribe` is removed, but implement double opt-in first if the migration slips |
 | 11 | Add production monitoring and conversion telemetry for modal opens, attempts, successes/failures, and signup source. Provider-failure monitoring becomes moot when MailerLite is removed; placement evidence remains useful with Substack | 2026-05-04 | S2; expanded S15; revised S16 | 🟡 Partially carried into Substack cutover |
@@ -43,7 +43,7 @@ paid research.
 | 18 | Email-capture framing (method walkthrough vs notifications vs personalised) | 2026-06-22 | S4 | ✅ Resolved (S6 — Option B notifications) |
 | 19 | Welcome-kit delivery automation in MailerLite | 2026-05-04 | S2 | ✅ Resolved (S6 — dropped with Option B) |
 | 20 | Write "The First Five Checks" guide — the hero modal now promises it; blocks merge to prod | 2026-07-11 | S9 | ✅ Resolved (S11 — guide written and published as a Methodology report) |
-| 21 | Make the hero guide exchange match what it promises: explicitly disclose the ongoing subscription, expose the open guide before signup, and include the Five Checks link in the Substack welcome email | 2026-07-11 | S9; expanded S15 | 🟢 Approach approved S16; pending Substack/page implementation |
+| 21 | Make the hero guide exchange match what it promises: explicitly disclose the ongoing subscription, expose the open guide before signup, and include the Five Checks link in the Substack welcome email | 2026-07-11 | S9; expanded S15 | ✅ Resolved (S17 — moot: the signup modal was removed entirely; the hero links straight to the public guide and the subscribe ask moved to after the reader has seen the value) |
 | 30 | **Move email capture and distribution to Substack while keeping Astro as the canonical content home.** Substack will own capture, double opt-in, the welcome email, newsletters, and network distribution; FundInvestigator.com retains every full investigation. Substack carries teasers, summaries, Notes, and publication updates linking back—not duplicate full reports. Use a dedicated Fund Investigator brand-owned Substack account and add the personal account as an admin. Do not retain MailerLite in parallel after cutover. Existing trade-offs remain: uncustomizable iframe and weaker per-placement attribution; $50 custom subdomain with Substack sender; exportable subscriber data; standard paid fee of 10% plus Stripe subject to the current India exception, with #3 required before paid is enabled | 2026-07-15 | S13; reviewed S15; approved S16 | 🟢 Approved; implementation in progress |
 | 22 | Hero fund-search console — replace the primary CTA with a live fund lookup that deep-links into Deepdive (design agreed, build parked) | 2026-07-12 | S10 | 🟡 Parked |
 | 23 | Add `?fund=<scheme_code>` deep-link support to the Deepdive app — prerequisite for #22, and useful on its own for linking a report to the fund it investigates | 2026-07-12 | S10 | 🟡 Parked |
@@ -59,6 +59,44 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-17 | Session: S17 — Subscription flow reworked: convert after value, never intercept
+
+**What was done:**
+Reworked how the site asks readers to subscribe. The hero's guide-signup modal was removed — the
+"first five checks" link now goes straight to the public guide. The subscribe ask moved to the two
+moments where a reader has already received value: a one-line ask closing every report's "Key
+takeaways" table (for skimmers), and a subscribe band at the end of every report (for finishers).
+The homepage bottom button was relabelled "Subscribe to Fund Investigator", and a site-level
+`/subscribe` address was added so article content links to it instead of hardcoding the Substack
+URL. Dead signup components from the MailerLite era were deleted.
+
+**Why:**
+The old hero link promised content but delivered a signup pitch — an interception pattern at odds
+with the site's honesty positioning. Readers who skim only to the takeaways table also never saw
+any subscribe ask. Asking after value is delivered should produce fewer but better subscribers,
+which fits the authority-building goal better than raw list size.
+
+**How:**
+The article layout now renders the subscribe band on every report automatically; the takeaways
+ask is a standard line documented in the report template. `/subscribe` is a static redirect
+defined once in the site config, reusing the shared Substack URL helper, so the newsletter
+address lives in exactly one file. Placement markers (`article_takeaways`, `article_end`,
+`homepage_bottom`) replace the retired `hero_guide` for future attribution.
+
+**Decisions made:**
+- Convert-after-value is the standing rule for subscribe asks: no interception, and every ask sits
+  after delivered value (closes #21 — the modal it concerned no longer exists).
+- Buttons carry the Fund Investigator brand, not Substack's; the article band keeps a small
+  "delivered by Substack" cue and all subscribe buttons keep the external-link icon.
+- Mid-article copy: "Stay updated with our latest investigations. Get the next one in your inbox."
+- Funnel tracking deliberately deferred — build the audience first (#11 unchanged).
+
+**Pending decisions:**
+- #8 revisited: the "request an investigation of your fund" subscribe pitch is drafted but parked
+  until reader requests can actually be honored.
 
 ---
 
