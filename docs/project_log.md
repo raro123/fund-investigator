@@ -31,9 +31,9 @@ paid research.
 | 6 | Rebrand app to "Deepdive by Fund Investigator" (approved; implement in Deepdive repo) | 2026-06-22 | S5 | 🟢 Approved, pending impl |
 | 7 | Drive the hero verdict card dynamically from the featured report's frontmatter metrics | 2026-06-22 | S5 | ✅ Resolved (S9 — moot, hero card removed) |
 | 8 | Option C "Suggest a Fund" email capture — revisit trigger | 2026-06-22 | S6 | 🟡 Parked |
-| 9 | Assign subscribers to a dedicated MailerLite group when segmentation is needed | 2026-05-04 | S2 | 🟡 Open |
-| 10 | Add spam protection / rate limiting to `/api/subscribe` | 2026-05-04 | S2 | 🟡 Open |
-| 11 | Add production monitoring for subscription failures | 2026-05-04 | S2 | 🟡 Open |
+| 9 | Preserve signup-source evidence (`hero_guide` vs `homepage_bottom`) through the Substack cutover. Substack's iframe may limit confirmed per-placement attribution, but first-party impressions and CTA interactions should still be recorded | 2026-05-04 | S2; expanded S15; moved to Substack S16 | 🟡 Open |
+| 10 | MailerLite endpoint abuse protection (double opt-in, rate limiting, honeypot/Turnstile) | 2026-05-04 | S2; expanded S15 | ⏸ Deferred S16 for the one-day Substack cutover; close when `/api/subscribe` is removed, but implement double opt-in first if the migration slips |
+| 11 | Add production monitoring and conversion telemetry for modal opens, attempts, successes/failures, and signup source. Provider-failure monitoring becomes moot when MailerLite is removed; placement evidence remains useful with Substack | 2026-05-04 | S2; expanded S15; revised S16 | 🟡 Partially carried into Substack cutover |
 | 12 | Homepage teaser punchline — keep long-term vs shorter variant | 2026-05-04 | S1 | 🟡 Open |
 | 13 | Extract a reusable "Why Fund Investigator" component if reused on more pages | 2026-05-04 | S1 | 🟡 Open |
 | 14 | Editorial serif headline vs current sans for the hero | 2026-06-22 | S3 | 🟡 Open |
@@ -43,8 +43,8 @@ paid research.
 | 18 | Email-capture framing (method walkthrough vs notifications vs personalised) | 2026-06-22 | S4 | ✅ Resolved (S6 — Option B notifications) |
 | 19 | Welcome-kit delivery automation in MailerLite | 2026-05-04 | S2 | ✅ Resolved (S6 — dropped with Option B) |
 | 20 | Write "The First Five Checks" guide — the hero modal now promises it; blocks merge to prod | 2026-07-11 | S9 | ✅ Resolved (S11 — guide written and published as a Methodology report) |
-| 21 | Guide delivery automation in MailerLite — email the link on signup (re-opens #19, which assumed no lead magnet) | 2026-07-11 | S9 | 🟡 Open (S13 — no longer blocking: modal copy softened to promise only what happens, and the success state links to the guide directly. May be moot if #30 goes ahead) |
-| 30 | **Substack as the email + distribution layer** (replacing MailerLite). Upside: kills #21, #19, #9, #10, #11 and softens #1/#4 — deliverability, spam, welcome sequences and payments all become someone else's problem — plus a real discovery engine (recommendations, Notes) that a self-hosted list cannot replicate. **Constraint: do NOT cross-post full articles.** Substack's domain authority far exceeds ours, it does not allow `rel=canonical` back to our own site, so their copy would outrank ours for our own work and AI engines would cite them, not us — which would undo the whole structured-data/AIO bet. Substack should carry excerpts + a link back, or a distinct format (commentary/monthly notes); the site stays the canonical home for full investigations. Also weigh: Substack takes 10% of paid subs (Ghost = flat fee) — matters for #1; subscriber list is exportable so lock-in is limited; and it makes charging trivially easy, which makes #3 (SEBI RA) urgent rather than theoretical | 2026-07-15 | S13 | 🟡 Open |
+| 21 | Make the hero guide exchange match what it promises: explicitly disclose the ongoing subscription, expose the open guide before signup, and include the Five Checks link in the Substack welcome email | 2026-07-11 | S9; expanded S15 | 🟢 Approach approved S16; pending Substack/page implementation |
+| 30 | **Move email capture and distribution to Substack while keeping Astro as the canonical content home.** Substack will own capture, double opt-in, the welcome email, newsletters, and network distribution; FundInvestigator.com retains every full investigation. Substack carries teasers, summaries, Notes, and publication updates linking back—not duplicate full reports. Use a dedicated Fund Investigator brand-owned Substack account and add the personal account as an admin. Do not retain MailerLite in parallel after cutover. Existing trade-offs remain: uncustomizable iframe and weaker per-placement attribution; $50 custom subdomain with Substack sender; exportable subscriber data; standard paid fee of 10% plus Stripe subject to the current India exception, with #3 required before paid is enabled | 2026-07-15 | S13; reviewed S15; approved S16 | 🟢 Approved; implementation in progress |
 | 22 | Hero fund-search console — replace the primary CTA with a live fund lookup that deep-links into Deepdive (design agreed, build parked) | 2026-07-12 | S10 | 🟡 Parked |
 | 23 | Add `?fund=<scheme_code>` deep-link support to the Deepdive app — prerequisite for #22, and useful on its own for linking a report to the fund it investigates | 2026-07-12 | S10 | 🟡 Parked |
 | 24 | Add JSON-LD `Article` structured data to `ArticleLayout` (SEO/AIO) — parked as its own commit; touches all report pages, so it should not ride inside a content branch | 2026-07-12 | S11 | ✅ Resolved (S12 — Article + Organization + WebApplication shipped in its own commit) |
@@ -59,6 +59,83 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-15 | Session: S16 — Substack migration approved and started
+
+**What was done:**
+Approved the hybrid Substack model and began setting up the Fund Investigator publication. The
+website remains the home of full investigations; Substack will publish teasers, summaries and
+newsletter updates that bring readers back to those investigations. No site cutover or MailerLite
+removal was completed in this session.
+
+**Why:**
+Substack consolidates capture, confirmation, welcome delivery and newsletter distribution while
+adding a discovery network. Since the intended cutover is one day away, spending time hardening an
+endpoint that will immediately be removed would add temporary work without improving the final
+system.
+
+**How:**
+The publication is being created under a dedicated Fund Investigator brand account, with the personal
+Substack account added as an administrator for day-to-day work. After the Substack signup and welcome
+flow are ready, the two homepage captures will switch over, opted-in MailerLite subscribers will be
+migrated, and the MailerLite function, credentials and disclosures will be removed.
+
+**Decisions made:**
+- #30 approved: Substack is the sole email capture and distribution system after cutover; MailerLite
+  will not run in parallel.
+- Full investigations remain exclusively on FundInvestigator.com. Substack carries teasers,
+  summaries, Notes and update emails with links back.
+- Use a brand-owned Fund Investigator Substack account and give the personal account admin access.
+- Defer MailerLite double opt-in, rate limiting and Turnstile for the planned one-day transition. If
+  the migration slips and `/api/subscribe` remains live, double opt-in is the first interim safeguard.
+
+**Pending decisions:**
+- #30 — finish the Substack publication, choose/connect its public subdomain, configure double opt-in
+  and the welcome email, and verify the complete signup flow before switching the site.
+- #21 — put the Five Checks link in the welcome email and expose the open guide before signup.
+- #9/#11 — preserve as much placement evidence as the Substack embed permits.
+- Cutover cleanup — import only opted-in MailerLite subscribers, update the privacy policy and form
+  copy, then remove `/api/subscribe`, MailerLite environment variables and credentials.
+
+---
+
+### 📅 Date: 2026-07-15 | Session: S15 — Email capture reviewed; hybrid Substack migration recommended
+
+**What was done:**
+Reviewed both homepage email offers end to end: the Five Checks modal in the hero and the new-
+investigation form near the bottom. Both are functional and feed the same protected MailerLite
+integration, but they currently arrive as identical email records, carry no source or conversion
+measurement, and do not fully honour the guide offer. No form or infrastructure code was changed.
+
+**Why:**
+The two placements address different reader intentions, so list growth alone cannot say which one is
+working or what the subscriber expected. The operating-cost question also changed in June 2026:
+MailerLite's free tier is now capped at 250 active subscribers and 2,500 monthly sends, strengthening
+the case for a lower-ops distribution layer before the list grows.
+
+**How:**
+Traced each form from its page copy through the shared component and Cloudflare function, checked the
+success, failure, consent, abuse, no-JavaScript, and keyboard paths, and compared the current official
+MailerLite and Substack capabilities and pricing. Substack was assessed as an email/distribution
+spoke, not as a replacement for the Astro site.
+
+**Decisions made:**
+- Keep two capture placements only as two explicit offers: the hero is guide-led; the lower section
+  is a plain new-investigation alert. Both may join one publication, but their source must be recorded.
+- Recommend Substack for capture, welcome email, newsletter delivery, and network discovery, while
+  keeping full investigations exclusively on FundInvestigator.com. Substack carries excerpts or a
+  distinct editorial format that links back.
+- Treat the migration as a recommendation, not an implementation decision. No provider, page, or
+  subscriber data was changed in this session.
+
+**Pending decisions:**
+- #30 — approve or reject the hybrid Substack migration and choose the public newsletter subdomain.
+- #21 — fix the hero's guide-delivery and subscription-consent mismatch regardless of provider.
+- #9, #10, #11 — add source attribution, abuse protection/double opt-in, and conversion/failure
+  telemetry if MailerLite remains; preserve equivalent evidence if Substack is adopted.
+- #3 — resolve the SEBI Research Analyst implications before enabling paid subscriptions anywhere.
 
 ---
 
