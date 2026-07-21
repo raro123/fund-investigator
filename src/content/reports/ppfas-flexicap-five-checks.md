@@ -58,8 +58,6 @@ Together, these checks separate the size of the return from its repeatability, t
 | **Maximum drawdown** | -31.2% vs -38.1% | The fund's worst fall was 6.9 percentage points shallower than the benchmark's |
 | **Recovery time** | 105 days vs 228 days | The fund regained its previous peak 123 days sooner after the 2020 trough |
 
-*Stay updated with our latest investigations. [Get the next one in your inbox](/subscribe).*
-
 ## Check 1: Did Parag Parikh Flexi Cap beat a fair benchmark?
 
 [SEBI's scheme categorisation rules](https://www.sebi.gov.in/legal/circulars/feb-2026/categorization-and-rationalization-of-mutual-fund-schemes_99983.html) require a flexi-cap fund to invest at least 65% of its assets in equity and equity-related instruments, with the mandate spanning large-, mid- and small-cap stocks. The [Nifty 500](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-500) represents 500 companies selected from the eligible NSE universe, and PPFAS identifies the Nifty 500 TRI as the scheme's AMFI Tier I benchmark in its [June 2026 factsheet](https://amc.ppfas.com/downloads/factsheet/2026/ppfas-mf-factsheet-for-June-2026.pdf?08072026=).

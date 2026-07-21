@@ -1,9 +1,17 @@
 ---
 import { getCollection, render } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { validateCurrentReportTakeaways } from '../../lib/remark-investigation-brief-cta.mjs';
 
 export async function getStaticPaths() {
   const reports = await getCollection('reports');
+
+  for (const report of reports) {
+    if (!report.id.startsWith('_') && report.data.status !== 'archived') {
+      validateCurrentReportTakeaways(report.body, report.id);
+    }
+  }
+
   return reports
     .filter(report => !report.id.startsWith('_'))
     .map(report => ({

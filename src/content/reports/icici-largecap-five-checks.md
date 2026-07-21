@@ -56,8 +56,6 @@ Together, these checks separate the size of the return from its repeatability, t
 | **Maximum drawdown** | -37.3% vs -37.9% | The fund's worst fall was only 0.6 percentage points shallower than the benchmark's |
 | **Recovery time** | 232 days vs 228 days | Recovery from the 2020 trough took four days longer for the fund—effectively the same experience in this episode |
 
-*Stay updated with our latest investigations. [Get the next one in your inbox](/subscribe).*
-
 ## Check 1: Did ICICI Prudential Large Cap beat a fair benchmark?
 
 [SEBI's scheme categorisation rules](https://www.sebi.gov.in/legal/circulars/feb-2026/categorization-and-rationalization-of-mutual-fund-schemes_99983.html) require a large-cap fund to invest at least 80% of its assets in large-cap companies. The [Nifty 100](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-100) represents the 100 largest companies by full market capitalisation from the Nifty 500, and ICICI Prudential identifies the Nifty 100 TRI as the scheme's benchmark in its [June 2026 factsheet](https://www.icicipruamc.com/blob/knowledgecentre/factsheet-schemes/Schemes/1.%20Equity%20Schemes/ICICI%20Prudential%20Large%20Cap%20Fund.pdf).

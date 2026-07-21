@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import { substackWelcomeUrl } from './src/lib/substack';
+import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
 
 export default defineConfig({
   integrations: [
@@ -17,6 +18,10 @@ export default defineConfig({
     mdx()
   ],
   site: 'https://fundinvestigator.com',
+
+  markdown: {
+    remarkPlugins: [remarkInvestigationBriefCta]
+  },
 
   // Stable on-site subscribe address for links inside markdown content, which
   // can't import src/lib/substack.ts. If the Substack address ever changes,

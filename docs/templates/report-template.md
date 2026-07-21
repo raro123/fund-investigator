@@ -92,15 +92,14 @@ Key principles:
 STRUCTURE RULES
 - NEVER add an H1 (#) — the layout renders the title from frontmatter as the
   page's only H1. Start body content with intro copy or an H2 (##).
-- Do NOT add a manual Deepdive promo section at the end. ArticleLayout.astro
-  already renders the "Investigate this yourself" CTA, the subscribe band,
-  and the disclaimer.
-- DO close the "Key takeaways" section with the one-line subscribe ask.
-  Skimmers read the intro + takeaways table and leave — this is their only
-  exit point that has already delivered value. Use exactly:
-    *Stay updated with our latest investigations. [Get the next one in your inbox](/subscribe).*
-  /subscribe is a site redirect to Substack (defined in astro.config.mjs) so
-  content never hardcodes the newsletter URL.
+- Do NOT add a manual promo section at the end. ArticleLayout.astro already
+  renders the subscription band and disclaimer. Link Deepdive contextually in
+  the investigation settings and where its evidence is discussed.
+- DO include an `## Key takeaways` section. The Markdown build automatically
+  closes it with the Investigation Brief subscription prompt, so authors must
+  not add a manual `/subscribe` link. Current reports without this heading fail
+  the build. `/subscribe` remains a site redirect to Substack (defined in
+  astro.config.mjs), keeping published content independent of the provider URL.
 
 WRITING FOR AI ANSWER ENGINES (this is where our traffic realistically comes from)
 - Search engines and LLMs do not read the page as a whole. They chop it into chunks
@@ -146,7 +145,7 @@ Start with a brief overview of what this investigation covers and key findings. 
 
 Provide context about the fund(s) or category being analyzed. What makes this investigation relevant?
 
-## Key Findings
+## Key takeaways
 
 ### Performance Metrics
 

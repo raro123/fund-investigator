@@ -40,7 +40,7 @@ Let's run these checks on a well-known flexi-cap fund using our [Deepdive](https
 - Data Period: 1 Jan 2020 to 10 July 2026
 - Data Sources: Daily NAV data published by [AMFI](https://www.amfiindia.com/), analysed in the [Deepdive](https://deepdive.fundinvestigator.com/) app
 
-## Key Takeaways
+## Key takeaways
 
 | Check | HDFC Flexi Cap vs Nifty 500 TRI (benchmark) | What does it mean? |
 |---|---|---|
@@ -49,8 +49,6 @@ Let's run these checks on a well-known flexi-cap fund using our [Deepdive](https
 | **Return vs. Risk** | Sharpe: 0.77 vs 0.56<br>Volatility: ~17% — similar to benchmark | Volatility was similar to the benchmark, while the higher Sharpe ratio indicates better risk-adjusted returns during the period |
 | **Market Drawdown** | Max drawdown (in 6.5 years): -40% vs -38% | Fund fell more than benchmark in COVID, but shows the risk profile of equity flexi cap funds |
 | **Recovery Time** | Days to recovery from max drawdown: 256 days vs 228 days | ~1 year in this instance; however, be aware that the market recovered rapidly after the COVID downturn due to economic policies. |
-
-*Stay updated with our latest investigations. [Get the next one in your inbox](/subscribe).*
 
 Let's look at these checks in detail. We used the Deepdive app for this analysis.
 
