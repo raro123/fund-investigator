@@ -5,6 +5,7 @@ import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { responsive } from '../lib/responsive';
 ---
 
@@ -20,6 +21,30 @@ import { responsive } from '../lib/responsive';
       Homepage uses <code class="text-fi-gold font-mono text-sm">size="lg"</code>.
     </p>
   </Hero>
+
+  <!-- Credibility Strip -->
+  <Section background="dark" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Credibility Strip</h2>
+    <p class="text-body-sm text-fi-muted-inv mb-6">
+      Three concise, verifiable markers plus a separate product attribution. The component owns its responsive typography, spacing, and separators.
+    </p>
+
+    <div class="overflow-hidden rounded-lg border border-fi-border-dark bg-fi-mid">
+      <CredibilityStrip
+        markers={['Data-backed', 'Reproducible', 'No commissions']}
+        attributionPrefix="Analysis powered by"
+        attributionLabel="Deepdive"
+        attributionHref="https://deepdive.fundinvestigator.com"
+      />
+    </div>
+
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<CredibilityStrip
+  markers={['Data-backed', 'Reproducible', 'No commissions']}
+  attributionPrefix="Analysis powered by"
+  attributionLabel="Deepdive"
+  attributionHref="https://deepdive.fundinvestigator.com"
+/>`}</code></pre>
+  </Section>
 
   <!-- Color Palette -->
   <Section background="light" spacing="lg">
@@ -633,6 +658,7 @@ import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import &#123; responsive &#125; from '../lib/responsive';</code></pre>
       </Card>
 

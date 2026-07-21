@@ -62,6 +62,34 @@ paid research.
 
 ---
 
+### 📅 Date: 2026-07-21 | Session: S18 — Homepage credibility strip tightened across viewports
+
+**What was done:**
+Refined the credibility band below the homepage hero so its three trust markers stay together on
+small screens and read as one compact line on larger screens. The band now says "Data-backed",
+"Reproducible", and "No commissions", followed by a separate "Analysis powered by Deepdive"
+attribution. The live styleguide now documents the pattern.
+
+**Why:**
+The previous mobile layout could strand a separator at the end of one line and leave a marker alone
+on the next. "No commissions" is also a more specific, investor-relevant trust signal than the
+broader "Independent" claim.
+
+**How:**
+The band now uses a dedicated responsive component with structural dividers instead of wrapping dot
+characters. It uses a compact two-row treatment below tablet width and a single uppercase row from
+tablet upward; checks from 320px through 1440px confirmed no horizontal overflow.
+
+**Decisions made:**
+- Keep the short dev hero and full-width credibility band; do not restore the old HDFC proof card.
+- Use `Data-backed · Reproducible · No commissions` as the standing marker set.
+- Treat Deepdive as a separate product attribution, not a fourth trust marker.
+
+**Pending decisions:**
+- None.
+
+---
+
 ### 📅 Date: 2026-07-17 | Session: S17 — Subscription flow reworked: convert after value, never intercept
 
 **What was done:**

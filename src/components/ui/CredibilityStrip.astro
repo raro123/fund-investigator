@@ -1,0 +1,44 @@
+---
+interface Props {
+  /** Exactly three short credibility markers; the layout is tuned for this set. */
+  markers: readonly [string, string, string];
+  /** Introductory attribution copy shown before the linked product name. */
+  attributionPrefix: string;
+  /** Linked product or source name. */
+  attributionLabel: string;
+  /** External destination for the attribution. */
+  attributionHref: string;
+}
+
+const {
+  markers,
+  attributionPrefix,
+  attributionLabel,
+  attributionHref,
+} = Astro.props;
+---
+
+<div class="flex flex-col items-center justify-center gap-y-2 py-4 text-caption font-semibold tracking-normal text-fi-muted-inv md:flex-row md:gap-x-6 md:py-5 md:uppercase md:tracking-widest">
+  <ul
+    class="flex items-center justify-center whitespace-nowrap divide-x divide-fi-border-dark"
+    aria-label="Fund Investigator credibility markers"
+  >
+    {markers.map((marker) => (
+      <li class="px-1.5 first:pl-0 last:pr-0 md:px-4 md:first:pl-0 md:last:pr-0">
+        {marker}
+      </li>
+    ))}
+  </ul>
+
+  <p class="whitespace-nowrap">
+    {attributionPrefix}{' '}
+    <a
+      href={attributionHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-fi-gold transition-colors hover:text-fi-gold-hover"
+    >
+      {attributionLabel}
+    </a>
+  </p>
+</div>

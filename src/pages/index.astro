@@ -6,6 +6,7 @@ import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
@@ -71,22 +72,15 @@ const featuredReports = allReports
     </div>
   </Hero>
 
-  <!-- Credibility strip: verifiable markers lifted out of the hero into their
-       own band. Concrete (data-backed, reproducible) over adjectives. -->
+  <!-- Credibility markers close the hero without extending it into another
+       content panel. Responsive layout and separator behavior are component-owned. -->
   <Section background="dark" spacing="none" maxWidth="2xl" class="!bg-fi-mid border-t border-fi-border-dark">
-    <!-- Two groups, not one flat list: the trust markers are peers (dotted),
-         while "Powered by Deepdive" is an attribution set apart by a wider gap.
-         On mobile the outer wrap drops the attribution to its own centred line. -->
-    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-5 text-caption font-semibold uppercase tracking-widest text-fi-muted-inv">
-      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-        <span>Data-backed</span>
-        <span class="text-fi-border-dark" aria-hidden="true">·</span>
-        <span>Reproducible</span>
-        <span class="text-fi-border-dark" aria-hidden="true">·</span>
-        <span>Independent</span>
-      </div>
-      <span>Powered by <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-gold hover:text-fi-gold-hover transition-colors">Deepdive</a></span>
-    </div>
+    <CredibilityStrip
+      markers={['Data-backed', 'Reproducible', 'No commissions']}
+      attributionPrefix="Analysis powered by"
+      attributionLabel="Deepdive"
+      attributionHref="https://deepdive.fundinvestigator.com"
+    />
   </Section>
 
   <!-- Problem Section: The Sales Trap -->
