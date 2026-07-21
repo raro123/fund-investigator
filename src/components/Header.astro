@@ -1,5 +1,8 @@
 ---
 import Logo from './Logo.astro';
+import { substackWelcomeUrl } from '../lib/substack';
+
+const subscribeUrl = substackWelcomeUrl('header');
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-fi-dark border-b border-fi-border-dark z-fi-header">
@@ -14,6 +17,7 @@ import Logo from './Logo.astro';
         <a href="/reports" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Investigations</a>
         <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Deepdive</a>
         <a href="/about" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">About</a>
+        <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-sm">Subscribe</a>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -61,6 +65,12 @@ import Logo from './Logo.astro';
       class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
     >
       About
+    </a>
+    <a
+      href={subscribeUrl}
+      class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-lg mobile-menu-link"
+    >
+      Subscribe
     </a>
   </nav>
 </div>

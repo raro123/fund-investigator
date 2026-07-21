@@ -1,6 +1,9 @@
 ---
 import Logo from './Logo.astro';
+import { substackWelcomeUrl } from '../lib/substack';
+
 const year = new Date().getFullYear();
+const subscribeUrl = substackWelcomeUrl('footer');
 ---
 
 <footer id="contact" class="bg-fi-dark py-16 scroll-mt-20">
@@ -23,6 +26,7 @@ const year = new Date().getFullYear();
           <a href="/reports" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
           <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
           <a href="/about" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Why We Built This</a>
+          <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-body-sm">Subscribe</a>
         </nav>
       </div>
 

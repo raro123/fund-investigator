@@ -53,12 +53,97 @@ paid research.
 | 27 | OG/cover images: no report sets `coverImage`, so every share of every report shows the same generic card, and the Article JSON-LD carries it as `image`. **Decided against** wiring up the existing `cover.png` files — they are raw chart exports, illegible at feed size (~500px), so they would be wrong in a new way rather than better. Proper fix = a templated 1200×630 card (dark brand bg, title in large type, one headline metric, small logo), ideally auto-generated at build (`astro-og-canvas`/Satori) so future reports get one for free. Parked as its own piece of work. Note: `Layout.astro` hardcodes `og:image:width/height` as 1200×630, which becomes a false claim the moment a differently-sized cover is set — fix alongside. **S14 update:** manual wiring of the existing `cover.png` files was tried and reverted — they mis-declare the hardcoded 1200×630 dimensions (actual 1150×400 / 1805×875) and one even resolved to a broken URL, confirming #27's original call. Automation costed: **build-time only, ₹0 runtime/cloud** (static PNGs on Cloudflare Pages; ~50–150 ms/image in existing CI). Stack choice: **Satori + `@resvg/resvg-js`** (full flexbox control — can place the headline metric) over `astro-og-canvas` (config-only, can't). Card = dark `fi-dark` bg + title + `keyMetrics[0]` + logo, title-only fallback for reports without metrics. Still parked — "let it be for now" | 2026-07-14 | S12 | 🟡 Parked |
 | 28 | "The outperformance was steady" in the HDFC report is contradicted by its own corrected data (+15% in 2022 vs +4–8% elsewhere) | 2026-07-14 | S12 | ✅ Resolved (S13 — rewritten: consistent in direction, uneven in size) |
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it) | 2026-07-14 | S12 | 🟡 Parked |
+| 31 | **Launch the Substack Five Checks series as individual investigations of popular funds.** The intended reader already owns or is considering the named fund. Select funds for popularity and prospect relevance, then report whatever the five checks show; include a popular fund with weaker or mixed evidence early to establish editorial independence. Do not add fund comparisons or suitability conclusions until an explicit individual risk-profile layer and its editorial boundaries exist | 2026-07-21 | S19 | 🟢 Approved; editorial strategy documented |
+| 32 | **Article plan #4 — Add curated related investigations.** Show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice | 2026-07-22 | S20 | 🟡 Open |
+| 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-07-22 | Session: S20 — Article catalogue and subscription journey consolidated
+
+**What was done:**
+The current investigation catalogue was reduced to the Five Checks methodology, Parag Parikh Flexi
+Cap, and ICICI Prudential Large Cap, while the older HDFC and PPFAS reports remain public historical
+snapshots that are no longer listed on the site. The report ending now gives subscription one clear
+primary action, and the Key Takeaways subscription prompt is inserted automatically. Direct Subscribe
+links were also added locally to the desktop header, mobile menu, and footer with separate placement
+markers; the owned `/newsletter` page was deliberately deferred.
+
+**Why:**
+Keeping dated reports live preserves their URLs and history without confusing readers about which
+analysis is current. Asking for a subscription only after evidence has been delivered, while removing
+a competing end-of-article Deepdive panel, gives interested readers a clearer next step.
+
+**How:**
+Report lifecycle metadata and a reusable historical notice keep archived pages explicit and link them
+forward to current work, while catalogue filters keep them unlisted. A build-time Markdown transformer
+adds the approved inline Investigation Brief prompt after Key Takeaways, backed by report-aware build
+validation; Deepdive remains linked contextually inside the articles. Shared Substack URL generation
+now distinguishes article, header, footer, and homepage placements.
+
+**Decisions made:**
+- Keep the older HDFC and PPFAS reports published and indexable, but remove them from the homepage,
+  Investigation Reports page, and machine-readable investigation listing.
+- Use "Investigation Reports" as the catalogue heading. Feature only the Five Checks methodology and
+  current PPFAS investigation; keep the current ICICI investigation published but unfeatured.
+- Make subscription the sole prominent article-ending action. Keep Deepdive links contextual within
+  each investigation rather than presenting a competing closing panel.
+- Use "Subscribe for Investigation Briefs" with "Get notified when we publish new fund research or
+  update an existing investigation." The button label is "Subscribe" and subscription handoffs use
+  the same tab.
+- Automatically insert the quiet Key Takeaways subscription link at build time and reject missing
+  Key Takeaways sections or manually duplicated `/subscribe` links in current reports.
+- Add direct Subscribe discovery to the header, mobile menu, and footer. Defer an owned `/newsletter`
+  page until there are enough briefs to justify an explanatory or representative-issue page.
+- Leave the existing article masthead and individual narrative flow flexible. The analysis period
+  belongs in Investigation Settings, and the article pattern is guidance rather than a rigid sequence.
+
+**Pending decisions:**
+- #32 — Add curated related-investigation links after the conclusion, limited to current reports.
+- #33 — Complete the final internal-link, accessibility, responsive-layout, and production-build audit
+  after the related-investigation work is complete.
+
+---
+
+### 📅 Date: 2026-07-21 | Session: S19 — Substack Five Checks series formalised
+
+**What was done:**
+Formalised the editorial strategy for the Substack Five Checks series. The launch sequence now starts
+with the methodology and continues with concise investigations of individually selected popular funds.
+The Substack plan now defines the audience, fund-selection principles, brief length and structure,
+hook pattern, editorial boundaries, and the role of a deliberately mixed set of historical outcomes.
+
+**Why:**
+Popular fund names create a direct entry point for prospects who already own or are considering those
+funds. Applying the same method to both stronger and weaker historical records demonstrates that Fund
+Investigator reports evidence rather than promoting products.
+
+**How:**
+Each 650–900 word fund brief will summarise all five checks, expand the two or three findings that
+define the fund's story, use one supporting chart, state the limitations, and link to the complete
+investigation. Hooks will move from reader relevance to headline evidence, counter-evidence, and the
+question the investigation resolves.
+
+**Decisions made:**
+- Launch with the five-check methodology, followed by individual investigations of popular funds.
+- Write for prospects who own or are considering the named fund; the project owner retains fund
+  selection and publishing order.
+- Select funds for popularity and relevance before knowing or using the performance outcome.
+- Include a popular fund with weaker or mixed evidence early, described through specific metrics,
+  benchmark, and analysis period rather than a "bad fund" label.
+- Do not publish comparison or ranking briefs at this stage. Revisit comparisons only after an
+  individual risk-profile layer and its editorial boundaries exist.
+- Do not make suitability conclusions, recommendations, pass/fail assessments, or traffic-light
+  ratings in the briefs.
+
+**Pending decisions:**
+- None. The individual fund queue remains an ongoing editorial choice rather than a blocked decision.
 
 ---
 
