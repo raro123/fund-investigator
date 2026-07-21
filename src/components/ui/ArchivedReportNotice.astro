@@ -1,0 +1,31 @@
+---
+import Badge from './Badge.astro';
+
+interface Props {
+  /** Last date included in the historical analysis, formatted as YYYY-MM-DD. */
+  analysisThrough: string;
+  /** Route to the report that now carries the current analysis. */
+  supersededBy: string;
+}
+
+const { analysisThrough, supersededBy } = Astro.props;
+const formattedAnalysisThrough = new Date(`${analysisThrough}T00:00:00Z`).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<aside class="rounded-lg border border-fi-border bg-fi-light p-5 sm:p-6" aria-label="Historical analysis notice">
+  <Badge size="sm" class="mb-3">Historical analysis</Badge>
+  <p class="text-body-md leading-relaxed text-fi-muted">
+    This report covers data through {formattedAnalysisThrough} and is preserved as a dated snapshot.
+  </p>
+  <a
+    href={supersededBy}
+    class="mt-4 inline-flex border-b-2 border-fi-gold/40 text-body-sm font-semibold text-fi-ink transition-colors hover:border-fi-gold hover:text-fi-gold"
+  >
+    Read the current analysis →
+  </a>
+</aside>

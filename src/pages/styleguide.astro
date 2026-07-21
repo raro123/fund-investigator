@@ -6,6 +6,7 @@ import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import { responsive } from '../lib/responsive';
 ---
 
@@ -44,6 +45,20 @@ import { responsive } from '../lib/responsive';
   attributionLabel="Deepdive"
   attributionHref="https://deepdive.fundinvestigator.com"
 />`}</code></pre>
+  </Section>
+
+  <!-- Archived Report Notice -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Archived Report Notice</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Preserves a dated investigation while directing readers to the report that now carries the current analysis.
+    </p>
+    <div class="max-w-3xl">
+      <ArchivedReportNotice
+        analysisThrough="2025-12-31"
+        supersededBy="/reports/five-checks-mutual-fund/"
+      />
+    </div>
   </Section>
 
   <!-- Color Palette -->
@@ -659,6 +674,7 @@ import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import &#123; responsive &#125; from '../lib/responsive';</code></pre>
       </Card>
 

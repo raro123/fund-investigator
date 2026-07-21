@@ -17,6 +17,7 @@ const allReports = await getCollection('reports');
 const featuredReports = allReports
   .filter(report => !report.id.startsWith('_')) // Exclude template files
   .filter(report => report.data.featured === true)
+  .filter(report => report.data.status !== 'archived')
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
 ---

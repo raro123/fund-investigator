@@ -10,7 +10,7 @@ tags:
     - "Fund Evaluation"
     - "Flexi Cap"
     - "Risk Analysis"
-featured: false
+featured: true
 keyMetrics:
   - label: "Returns"
     value: "✓"
@@ -131,4 +131,4 @@ They do not, on their own, explain which holdings produced the result, whether t
 
 Ultimately, past performance is evidence, not a forecast. The goal of these checks is to move beyond the headline return used in the sales pitch, and to work out which areas deserve a closer look.
 
-You can read the [full investigation of this fund](/reports/hdfc-flexicap-performance/).
+Apply the same framework to our [Parag Parikh Flexi Cap](/reports/ppfas-flexicap-five-checks/) and [ICICI Prudential Large Cap](/reports/icici-largecap-five-checks/) investigations.

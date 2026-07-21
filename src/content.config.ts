@@ -17,9 +17,31 @@ const reports = defineCollection({
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
     featured: z.boolean().optional().default(false),
+    /** Lifecycle is separate from topical category: archived reports remain public historical snapshots. */
+    status: z.enum(['current', 'archived']).optional().default('current'),
+    /** Last observation included in an archived report, formatted as YYYY-MM-DD. */
+    analysisThrough: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+    /** Current report readers should visit from an archived snapshot. */
+    supersededBy: z.string().startsWith('/reports/').optional(),
     coverImage: image().optional(),
     coverImageAlt: z.string().optional(),
     keyMetrics: z.array(z.object({ label: z.string(), value: z.string() })).max(3).optional(),
+  }).superRefine((report, ctx) => {
+    if (report.status === 'archived' && !report.analysisThrough) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['analysisThrough'],
+        message: 'Archived reports must declare the last date included in the analysis.',
+      });
+    }
+
+    if (report.status === 'archived' && !report.supersededBy) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['supersededBy'],
+        message: 'Archived reports must link to the current analysis.',
+      });
+    }
   }),
 });
 

@@ -9,9 +9,11 @@
  * <ReportCard report={report} href={`/reports/${report.slug}`} />
  *
  * @param report - Astro content collection entry with data fields:
- *   title, category, readTime, hook?, keyMetrics?, date
+ *   title, category, readTime, hook?, keyMetrics?, date, status?
  * @param href - URL to navigate to on click
  */
+
+import Badge from './ui/Badge.astro';
 
 interface KeyMetric {
   label: string;
@@ -27,13 +29,14 @@ interface Props {
       date: string;
       hook?: string;
       keyMetrics?: KeyMetric[];
+      status?: 'current' | 'archived';
     };
   };
   href: string;
 }
 
 const { report, href } = Astro.props;
-const { title, readTime, date, hook, keyMetrics } = report.data;
+const { title, readTime, date, hook, keyMetrics, status = 'current' } = report.data;
 
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   month: 'short',
@@ -46,8 +49,11 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   <article class="bg-fi-mid border border-fi-border-dark rounded-lg p-6 h-full flex flex-col hover:-translate-y-1 hover:border-fi-muted hover:shadow-fi-card-dark transition-all duration-200">
 
     <!-- Zone 1: Meta row -->
-    <div class="flex justify-between items-center">
-      <span class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50">{readTime}</span>
+    <div class="flex justify-between items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50">{readTime}</span>
+        {status === 'archived' && <Badge variant="dark" size="sm">Historical</Badge>}
+      </div>
       <time class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 tabular-nums">{formattedDate}</time>
     </div>
 

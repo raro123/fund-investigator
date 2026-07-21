@@ -5,9 +5,11 @@ export const GET: APIRoute = async ({ site }) => {
   const reports = await getCollection('reports');
 
   // Sort by date descending
-  const sorted = reports.sort(
-    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-  );
+  const sorted = reports
+    .filter((report) => report.data.status !== 'archived')
+    .sort(
+      (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+    );
 
   const base = site?.toString().replace(/\/$/, '') ?? 'https://fundinvestigator.com';
 
@@ -30,7 +32,7 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     '## Optional',
     '',
-    `- [All Investigations](${base}/reports/): Index of all published fund investigations.`,
+    `- [All Investigations](${base}/reports/): Index of current published fund investigations.`,
     `- [Disclaimer](${base}/disclaimer/): Data sources, methodology notes, and investment risk disclosures.`,
   ];
 

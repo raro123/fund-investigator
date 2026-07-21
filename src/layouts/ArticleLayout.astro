@@ -1,6 +1,8 @@
 ---
 import Layout from './Layout.astro';
 import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import {
   absoluteImageUrl,
   articleSchema,
@@ -56,6 +58,9 @@ const jsonLd = [
         {frontmatter.category && (
           <><span>•</span><span class="text-fi-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
         )}
+        {frontmatter.status === 'archived' && (
+          <><span>•</span><Badge variant="dark" size="sm">Historical</Badge></>
+        )}
       </div>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
       <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
@@ -64,6 +69,15 @@ const jsonLd = [
 
   <article class="relative bg-white px-4 sm:px-6 py-16 md:py-24">
     <div class="max-w-fi-content mx-auto">
+      {frontmatter.status === 'archived' && frontmatter.analysisThrough && frontmatter.supersededBy && (
+        <div class="mb-12">
+          <ArchivedReportNotice
+            analysisThrough={frontmatter.analysisThrough}
+            supersededBy={frontmatter.supersededBy}
+          />
+        </div>
+      )}
+
       <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:marker:text-fi-gold">
         <slot />
       </div>

@@ -7,7 +7,7 @@ import { responsive } from '../lib/responsive';
 
 const allReports = await getCollection('reports');
 const sortedReports = allReports
-  .filter(report => !report.id.startsWith('_'))
+  .filter(report => !report.id.startsWith('_') && report.data.status !== 'archived')
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
 // value → display label, in display order (source of truth for labels/order)
@@ -38,7 +38,7 @@ const showFilters = presentCategories.size > 1;
     <!-- Title block: centered -->
     <div class="text-center mb-10 md:mb-12">
       <h1 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-6 break-words']}>
-        The Investigation Archive
+        Investigation Reports
       </h1>
       <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
         Fact-based analysis of mutual funds and investment categories. Evidence before opinion. No marketing fluff, just the raw data and our verdict.
