@@ -144,7 +144,7 @@ Manager continuity also requires separate examination. The scheme's June 2026 fa
 
 Past performance is evidence, not a forecast. These five checks establish what happened over the selected period and identify the next questions; they do not determine whether the fund is suitable for a particular portfolio.
 
-Read [The Five Checks to Investigate a Mutual Fund](/reports/five-checks-mutual-fund/) for the full method and its limitations.
+Read [How to Investigate a Mutual Fund: Five Checks](/reports/five-checks-mutual-fund/) for the full method and its limitations.
 
 ## Notes and sources
 

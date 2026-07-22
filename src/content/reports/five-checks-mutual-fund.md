@@ -1,7 +1,7 @@
 ---
-title: "The Five Checks to Investigate a Mutual Fund"
+title: "How to Investigate a Mutual Fund: Five Checks"
 description: "How to evaluate a mutual fund in five checks: benchmark, consistency, Sharpe ratio, drawdown and recovery time — worked through on HDFC Flexi Cap Direct."
-hook: "Own a fund, or been pitched a new one? These five checks show how it has actually performed."
+hook: "Whether you own a fund or are considering a new one, use these five checks to evaluate its historical performance and risk profile."
 date: "2026-07-12"
 updated: "2026-07-22"
 readTime: "7 min read"

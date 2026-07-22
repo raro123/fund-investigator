@@ -146,7 +146,7 @@ Manager continuity requires separate examination too. The June 2026 factsheet re
 
 Past performance is evidence, not a forecast. These checks establish what happened over the selected period; they do not determine whether the fund is suitable for a particular portfolio.
 
-Read [The Five Checks to Investigate a Mutual Fund](/reports/five-checks-mutual-fund/) for the full method and its limitations.
+Read [How to Investigate a Mutual Fund: Five Checks](/reports/five-checks-mutual-fund/) for the full method and its limitations.
 
 ## Notes and sources
 
