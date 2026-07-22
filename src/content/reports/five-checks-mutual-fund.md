@@ -3,6 +3,7 @@ title: "The Five Checks to Investigate a Mutual Fund"
 description: "How to evaluate a mutual fund in five checks: benchmark, consistency, Sharpe ratio, drawdown and recovery time — worked through on HDFC Flexi Cap Direct."
 hook: "Own a fund, or been pitched a new one? These five checks show how it has actually performed."
 date: "2026-07-12"
+updated: "2026-07-22"
 readTime: "7 min read"
 category: "Methodology"
 tags:
@@ -36,17 +37,17 @@ Let's run these checks on a well-known flexi-cap fund using our [Deepdive](https
 
 ## Investigation Settings
 
-- Mutual Fund: HDFC Flexi Cap Fund – Direct (AUM ₹32,020 Cr)
-- Data Period: 1 Jan 2020 to 10 July 2026
-- Data Sources: Daily NAV data published by [AMFI](https://www.amfiindia.com/), analysed in the [Deepdive](https://deepdive.fundinvestigator.com/) app
+- Mutual Fund: HDFC Flexi Cap Fund – Direct[^hdfc-fund]
+- Data Period: 1 Jan 2020 to 10 July 2026[^hdfc-data]
+- Benchmark: Nifty 500 TRI[^hdfc-benchmark]
 
 ## Key takeaways
 
 | Check | HDFC Flexi Cap vs Nifty 500 TRI (benchmark) | What does it mean? |
 |---|---|---|
-| **Returns vs. Benchmark** | CAGR: 19.7% vs 15.5%<br>IRR: 19.9% vs 14.2% | Both the lump-sum investment and the SIP would have outperformed the benchmark |
-| **Consistency** | Ahead in 5 of 6 years · 59% rolling win rate | Did better than the benchmark in most periods and also on rolling basis |
-| **Return vs. Risk** | Sharpe: 0.77 vs 0.56<br>Volatility: ~17% — similar to benchmark | Volatility was similar to the benchmark, while the higher Sharpe ratio indicates better risk-adjusted returns during the period |
+| **Returns vs. Benchmark** | CAGR: 19.7% vs 15.5%<br>IRR[^hdfc-sip]: 19.9% vs 14.2% | Both the lump-sum investment and the SIP would have outperformed the benchmark |
+| **Consistency** | Ahead in 5 of 6 years · 59% rolling win rate[^hdfc-rolling] | Did better than the benchmark in most periods and also on rolling basis |
+| **Return vs. Risk** | Sharpe[^hdfc-sharpe]: 0.77 vs 0.56<br>Volatility: ~17% — similar to benchmark | Volatility was similar to the benchmark, while the higher Sharpe ratio indicates better risk-adjusted returns during the period |
 | **Market Drawdown** | Max drawdown (in 6.5 years): -40% vs -38% | Fund fell more than benchmark in COVID, but shows the risk profile of equity flexi cap funds |
 | **Recovery Time** | Days to recovery from max drawdown: 256 days vs 228 days | ~1 year in this instance; however, be aware that the market recovered rapidly after the COVID downturn due to economic policies. |
 
@@ -130,3 +131,12 @@ They do not, on their own, explain which holdings produced the result, whether t
 Ultimately, past performance is evidence, not a forecast. The goal of these checks is to move beyond the headline return used in the sales pitch, and to work out which areas deserve a closer look.
 
 Apply the same framework to our [Parag Parikh Flexi Cap](/reports/ppfas-flexicap-five-checks/) and [ICICI Prudential Large Cap](/reports/icici-largecap-five-checks/) investigations.
+
+## Notes and sources
+
+[^hdfc-fund]: This worked example uses the Direct plan. AUM is not shown because it changes over time and is not an input to the return or risk calculations.
+[^hdfc-data]: Fund NAV data is from [AMFI](https://www.amfiindia.com/); Nifty 500 TRI data is from [NSE Indices](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-500). Calculations are produced in [Fund Investigator Deepdive](https://deepdive.fundinvestigator.com/). The end date is the latest common observation available for the fund and benchmark.
+[^hdfc-benchmark]: Nifty 500 TRI is the broad-market reference used for this flexi-cap example. The category rationale is discussed in Check 1.
+[^hdfc-sip]: SIP IRR assumes an equal amount invested at the beginning of each month.
+[^hdfc-rolling]: The rolling win rate is the share of overlapping three-year observations in which the fund's annualised return exceeded the benchmark's.
+[^hdfc-sharpe]: Sharpe ratios use a 6.0% annual risk-free rate, applied consistently to the fund and benchmark.

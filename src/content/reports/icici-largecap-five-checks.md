@@ -3,6 +3,7 @@ title: "ICICI Prudential Large Cap Fund vs Nifty 100 TRI"
 description: "ICICI Prudential Large Cap Fund – Direct delivered 15.8% CAGR vs 13.1% for Nifty 100 TRI, Jan 2020–Jul 2026. See consistency, risk and drawdown."
 hook: "It led the Nifty 100 in five of six completed years. Its maximum drawdown and recovery time, however, were almost identical to the index."
 date: "2026-07-15"
+updated: "2026-07-22"
 readTime: "7 min read"
 category: "Fund Analysis"
 tags:
@@ -36,23 +37,17 @@ Together, these checks separate the size of the return from its repeatability, t
 
 ## Investigation settings
 
-- Fund: ICICI Prudential Large Cap Fund (erstwhile Bluechip Fund) – Direct Plan Growth ([AMFI code 120586](https://portal.amfiindia.com/spages/SSD_3445.pdf))
-- Analysis period: 1 January 2020 to 13 July 2026
-- Benchmark: Nifty 100 TRI
-- SIP assumption: A fixed amount invested at the beginning of each month
-- Rolling-return period: Three years
-- Rolling win rate: The share of rolling 3-year observations in which the fund's annualised return exceeded the benchmark's
-- Fund NAV source: [AMFI NAV history](https://www.amfiindia.com/net-asset-value/nav-history)
-- Benchmark source: [NSE Indices — Nifty 100](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-100)
-- Analysis: [FundInvestigator Deepdive](https://deepdive.fundinvestigator.com/)
+- Mutual Fund: ICICI Prudential Large Cap Fund – Direct Plan Growth[^icici-fund]
+- Data Period: 1 January 2020 to 13 July 2026[^icici-data]
+- Benchmark: Nifty 100 TRI[^icici-benchmark]
 
 ## Key takeaways
 
 | Check | ICICI Prudential Large Cap vs Nifty 100 TRI | What the evidence shows |
 |---|---|---|
-| **Returns vs benchmark** | CAGR: 15.8% vs 13.1%<br>SIP IRR: 14.6% vs 11.8% | Both a lump-sum investment and a fixed monthly SIP finished ahead of the benchmark over this period |
-| **Consistency** | Ahead in 5 of 6 completed years<br>66% rolling win rate | Outperformance appeared across calendar years and a majority of rolling 3-year observations, rather than coming from one isolated year |
-| **Risk-adjusted return** | Sharpe: 0.60 vs 0.45<br>Volatility: 16.9% vs 17.8% | The fund produced the higher return with 0.9 percentage points less annualised volatility |
+| **Returns vs benchmark** | CAGR: 15.8% vs 13.1%<br>SIP IRR[^icici-sip]: 14.6% vs 11.8% | Both a lump-sum investment and a fixed monthly SIP finished ahead of the benchmark over this period |
+| **Consistency** | Ahead in 5 of 6 completed years<br>66% rolling win rate[^icici-rolling] | Outperformance appeared across calendar years and a majority of rolling 3-year observations, rather than coming from one isolated year |
+| **Risk-adjusted return** | Sharpe[^icici-sharpe]: 0.60 vs 0.45<br>Volatility: 16.9% vs 17.8% | The fund produced the higher return with 0.9 percentage points less annualised volatility |
 | **Maximum drawdown** | -37.3% vs -37.9% | The fund's worst fall was only 0.6 percentage points shallower than the benchmark's |
 | **Recovery time** | 232 days vs 228 days | Recovery from the 2020 trough took four days longer for the fund—effectively the same experience in this episode |
 
@@ -150,3 +145,12 @@ Manager continuity also requires separate examination. The scheme's June 2026 fa
 Past performance is evidence, not a forecast. These five checks establish what happened over the selected period and identify the next questions; they do not determine whether the fund is suitable for a particular portfolio.
 
 Read [The Five Checks to Investigate a Mutual Fund](/reports/five-checks-mutual-fund/) for the full method and its limitations.
+
+## Notes and sources
+
+[^icici-fund]: The scheme was formerly named ICICI Prudential Bluechip Fund. Its [AMFI scheme code is 120586](https://portal.amfiindia.com/spages/SSD_3445.pdf).
+[^icici-data]: Fund NAV data is from [AMFI NAV history](https://www.amfiindia.com/net-asset-value/nav-history); benchmark data is from [NSE Indices — Nifty 100](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-100). Calculations are produced in [Fund Investigator Deepdive](https://deepdive.fundinvestigator.com/).
+[^icici-benchmark]: ICICI Prudential identifies Nifty 100 TRI as the scheme benchmark in its [June 2026 factsheet](https://www.icicipruamc.com/blob/knowledgecentre/factsheet-schemes/Schemes/1.%20Equity%20Schemes/ICICI%20Prudential%20Large%20Cap%20Fund.pdf). The category rationale is discussed in Check 1.
+[^icici-sip]: SIP IRR assumes an equal amount invested at the beginning of each month.
+[^icici-rolling]: The rolling win rate is the share of overlapping three-year observations in which the fund's annualised return exceeded the benchmark's.
+[^icici-sharpe]: Sharpe ratios use a 6.0% annual risk-free rate, applied consistently to the fund and benchmark.

@@ -3,6 +3,7 @@ title: "Parag Parikh Flexi Cap Fund vs Nifty 500 TRI"
 description: "Parag Parikh Flexi Cap Fund Direct Growth review: 20.5% CAGR vs 15.5% for Nifty 500 TRI, Jan 2020–Jul 2026, with risk and drawdown data."
 hook: "It led in five of six completed years and 99% of rolling 3-year observations. Its 2020 drawdown was 6.9 points shallower and recovered 123 days sooner."
 date: "2026-07-15"
+updated: "2026-07-22"
 readTime: "8 min read"
 category: "Fund Analysis"
 tags:
@@ -36,25 +37,17 @@ Together, these checks separate the size of the return from its repeatability, t
 
 ## Investigation settings
 
-- Fund: Parag Parikh Flexi Cap Fund – Direct Plan – Growth (AMFI code 122639)
-- Analysis period: 1 January 2020 to 13 July 2026, the latest common date available for the fund and benchmark in Deepdive
-- Benchmark: Nifty 500 TRI, the scheme's AMFI Tier I benchmark
-- SIP assumption: A fixed amount invested at the beginning of each month
-- Rolling-return period: Three years; each plotted date measures the preceding three years, so the earliest observations use history before January 2020
-- Rolling win rate: The share of rolling 3-year observations in which the fund's annualised return exceeded the benchmark's
-- Sharpe-ratio assumption: 6.0% risk-free rate, applied consistently to the fund and benchmark
-- Fund NAV source: [AMFI NAV history](https://www.amfiindia.com/net-asset-value/nav-history)
-- Benchmark source: [NSE Indices — Nifty 500](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-500)
-- Scheme facts: [PPFAS Mutual Fund — June 2026 factsheet](https://amc.ppfas.com/downloads/factsheet/2026/ppfas-mf-factsheet-for-June-2026.pdf?08072026=)
-- Analysis: [FundInvestigator Deepdive](https://deepdive.fundinvestigator.com/)
+- Mutual Fund: Parag Parikh Flexi Cap Fund – Direct Plan – Growth[^ppfas-fund]
+- Data Period: 1 January 2020 to 13 July 2026[^ppfas-data]
+- Benchmark: Nifty 500 TRI[^ppfas-benchmark]
 
 ## Key takeaways
 
 | Check | Parag Parikh Flexi Cap vs Nifty 500 TRI | What the evidence shows |
 |---|---|---|
-| **Returns vs benchmark** | CAGR: 20.5% vs 15.5%<br>SIP IRR: 16.4% vs 14.1% | Both a lump-sum investment and a fixed monthly SIP finished ahead of the benchmark over this period |
-| **Consistency** | Ahead in 5 of 6 completed years<br>99% rolling win rate | The fund's lead appeared across most calendar years and almost every rolling 3-year observation, despite a clear setback in 2022 |
-| **Risk-adjusted return** | Sharpe: 0.99 vs 0.56<br>Volatility: 13.7% vs 17.8% | The fund produced the higher return with 4.1 percentage points less annualised volatility |
+| **Returns vs benchmark** | CAGR: 20.5% vs 15.5%<br>SIP IRR[^ppfas-sip]: 16.4% vs 14.1% | Both a lump-sum investment and a fixed monthly SIP finished ahead of the benchmark over this period |
+| **Consistency** | Ahead in 5 of 6 completed years<br>99% rolling win rate[^ppfas-rolling] | The fund's lead appeared across most calendar years and almost every rolling 3-year observation, despite a clear setback in 2022 |
+| **Risk-adjusted return** | Sharpe[^ppfas-sharpe]: 0.99 vs 0.56<br>Volatility: 13.7% vs 17.8% | The fund produced the higher return with 4.1 percentage points less annualised volatility |
 | **Maximum drawdown** | -31.2% vs -38.1% | The fund's worst fall was 6.9 percentage points shallower than the benchmark's |
 | **Recovery time** | 105 days vs 228 days | The fund regained its previous peak 123 days sooner after the 2020 trough |
 
@@ -154,3 +147,12 @@ Manager continuity requires separate examination too. The June 2026 factsheet re
 Past performance is evidence, not a forecast. These checks establish what happened over the selected period; they do not determine whether the fund is suitable for a particular portfolio.
 
 Read [The Five Checks to Investigate a Mutual Fund](/reports/five-checks-mutual-fund/) for the full method and its limitations.
+
+## Notes and sources
+
+[^ppfas-fund]: The plan's AMFI scheme code is 122639.
+[^ppfas-data]: Fund NAV data is from [AMFI NAV history](https://www.amfiindia.com/net-asset-value/nav-history); benchmark data is from [NSE Indices — Nifty 500](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-500). Calculations are produced in [Fund Investigator Deepdive](https://deepdive.fundinvestigator.com/). The end date is the latest common observation available for the fund and benchmark.
+[^ppfas-benchmark]: PPFAS identifies Nifty 500 TRI as the scheme's AMFI Tier I benchmark in its [June 2026 factsheet](https://amc.ppfas.com/downloads/factsheet/2026/ppfas-mf-factsheet-for-June-2026.pdf?08072026=). The benchmark rationale and portfolio differences are discussed in Check 1.
+[^ppfas-sip]: SIP IRR assumes an equal amount invested at the beginning of each month.
+[^ppfas-rolling]: The rolling return is measured over three years; the rolling win rate is the share of overlapping three-year observations in which the fund's annualised return exceeded the benchmark's. The earliest plotted observations therefore use history before January 2020.
+[^ppfas-sharpe]: Sharpe ratios use a 6.0% annual risk-free rate, applied consistently to the fund and benchmark.

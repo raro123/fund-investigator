@@ -100,6 +100,10 @@ STRUCTURE RULES
   not add a manual `/subscribe` link. Current reports without this heading fail
   the build. `/subscribe` remains a site redirect to Substack (defined in
   astro.config.mjs), keeping published content independent of the provider URL.
+- DO begin fund investigations with an `## Investigation settings` block containing
+  exactly `Mutual Fund`, `Data Period`, and `Benchmark`. Put source links and
+  calculation assumptions in numbered Markdown footnotes, and define recurring
+  measures at their first use rather than adding extra settings rows.
 
 WRITING FOR AI ANSWER ENGINES (this is where our traffic realistically comes from)
 - Search engines and LLMs do not read the page as a whole. They chop it into chunks
@@ -196,6 +200,11 @@ Summarize key insights without making recommendations. Let the data speak.
 
 <!-- Links -->
 [Link text](https://example.com)
+
+<!-- Footnotes -->
+Fund NAV data is published by AMFI.[^source]
+
+[^source]: [AMFI NAV history](https://www.amfiindia.com/net-asset-value/nav-history)
 
 <!-- Images - SIMPLE MARKDOWN APPROACH (Recommended) -->
 <!-- Store images in: src/assets/images/reports/{article-slug}/ -->

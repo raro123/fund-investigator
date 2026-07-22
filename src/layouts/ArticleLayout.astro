@@ -78,7 +78,7 @@ const jsonLd = [
         </div>
       )}
 
-      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:marker:text-fi-gold">
+      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:marker:text-fi-muted">
         <slot />
       </div>
 
@@ -127,6 +127,30 @@ const jsonLd = [
       max-width: 100%;
       margin-inline: 0;
     }
+  }
+
+  .article-prose :global(a[data-footnote-ref]) {
+    @apply border-b-0 font-bold text-fi-muted no-underline;
+  }
+
+  .article-prose :global(.footnotes) {
+    @apply mt-10 border-t border-fi-border pt-6 text-sm text-fi-muted;
+  }
+
+  .article-prose :global(.footnotes ol) {
+    @apply mt-4;
+  }
+
+  .article-prose :global(.footnotes li) {
+    @apply my-3 pl-1;
+  }
+
+  .article-prose :global(.data-footnote-backref) {
+    @apply border-b-0 font-bold text-fi-muted no-underline;
+  }
+
+  .article-prose :global(#investigation-settings + ul li) {
+    @apply marker:text-fi-muted;
   }
 </style>
 
