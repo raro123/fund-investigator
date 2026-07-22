@@ -78,6 +78,11 @@
     - *Cover Images:* Save to `src/assets/images/reports/[slug]/`. Reference in frontmatter via relative path.
 
 ### Essential Commands
+- Source Linux Node through nvm before running npm commands in WSL:
+  ```bash
+  source ~/.nvm/nvm.sh
+  ```
+- Do not use Windows npm from `/mnt/c/Program Files/nodejs` inside WSL.
 - `npm run dev`: Start local server.
 - `npm run build`: Build for production (`dist/`).
 - `npm run preview`: Preview build locally.

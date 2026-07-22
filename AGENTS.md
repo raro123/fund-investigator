@@ -1,9 +1,9 @@
 # Project Context & Goals
 
 ## 1. Project Overview
-- **What:** FundInvestigator.com - A financial advisory brand platform.
-- **Why:** To showcase "investigations" (reports/tools) that establish credibility and attract high-value clients.
-- **How:** By maintaining a fast, content-driven static site (Astro) that links to specialized interactive apps (Streamlit) on subdomains.
+- **What:** FundInvestigator.com - A content driven website focusing on Indian mutual funds analytics - beyond headline returns
+- **Why:** To establish credibility, data driven approach and attract clients.
+- **How:** By maintaining a fast, content-driven static site (Astro) that showcases articles and mutual fund analytics platform (streamlit app - on deepdive subdomain)
 
 ## 2. Architecture & Tech Stack
 
@@ -64,14 +64,7 @@
 
 ## 4. Content & Tone Guidelines
 
-- **Source:** `docs/CONTENT-GUIDE.md`
-- **Core Philosophy:** **Fact-Based Storytelling**. Use data to create the narrative arc, not adjectives.
-- **Persona:** An **Investigator Colleague**. Professional, matter-of-fact, peer-to-peer and fact based storytelling.
-- **Rules:**
-    1.  **Evidence over Adjectives:** **Never** use "huge", "best", or "massive." Replace with specific metrics (e.g., "15% CAGR").
-    2.  **No Hype:** Let the data provide the drama.
-    3.  **Investigation Arc:** Structure reports logically: *Premise -> Evidence -> Analysis -> Verdict*.
-- **Tone Check:** Avoid exclamation mark per page. No urgency tactics ("act now").
+- **Source:** `docs/content_philosophy.md`
 
 ## 5. Development Workflow
 
