@@ -242,8 +242,8 @@ Pin this post. It can be published to the web without being sent as the first ne
 Turn the existing investigation into a concise email containing:
 
 1. The question being examined.
-2. Three findings that matter.
-3. One chart or evidence point.
+2. A short explanation of each of the five checks.
+3. One worked example, chart, or evidence point.
 4. What the evidence does not establish.
 5. A call to read the complete investigation.
 
@@ -255,7 +255,79 @@ Suggested initial tags:
 
 Do not reproduce complete reports on Substack. Each Substack post should be a distinct summary with a clear link to the complete investigation.
 
-## 12. Website Integration
+## 12. Five Checks Editorial Series
+
+The Five Checks series uses popular individual mutual funds as the discovery entry point for prospects who already own, or are considering, those funds. Each brief delivers a concise, repeatable historical assessment while directing readers to FundInvestigator.com for the complete evidence, methodology, assumptions, and charts.
+
+### Audience and Scope
+
+- **Primary reader:** An Indian investor who owns, or is considering, a recognisable mutual fund.
+- **Series unit:** One fund examined independently through the same five-check framework.
+- **Fund selection:** Prioritise popular funds that are relevant to prospects; the project owner retains the final fund choice and publishing order.
+- **Canonical source:** The full investigation remains on FundInvestigator.com. Substack carries a useful but materially shorter Investigation Brief.
+- **Out of scope:** Fund rankings, fund-versus-fund comparisons, personalised suitability conclusions, and transaction recommendations.
+
+Comparisons are deferred until Fund Investigator has an explicit way to account for an individual's risk profile and the related editorial and legal boundaries have been reviewed. This does not block the individual-fund series.
+
+### Publishing Sequence
+
+1. Publish and pin **Start Here: What Fund Investigator Investigates**.
+2. Publish **Five Checks Before Judging a Mutual Fund** to establish the method.
+3. Apply the framework repeatedly to individually selected popular funds.
+4. Include a popular fund with weaker or mixed historical evidence early in the series to demonstrate that the method is investigative rather than promotional.
+5. Continue with individual popular funds instead of closing the sequence with a comparison.
+
+The fund with weaker or mixed evidence should still be selected because it is popular and relevant. Its historical outcome is reported after selection; the series should not manufacture a negative example or label a fund "bad".
+
+### Fund Selection Principles
+
+A candidate should meet most of these conditions:
+
+- Recognisable to the intended reader and commonly owned or considered by prospects.
+- Sufficient history for meaningful point-to-point, calendar-year, and rolling analysis.
+- A defensible benchmark that matches the scheme category or declared reference.
+- Current, reproducible data with a clearly stated analysis window.
+- A distinct evidence story, rather than another edition built only around a positive headline return.
+- A contribution to a balanced body of findings across the series.
+
+Popularity and prospect relevance determine which funds enter the queue. Performance outcomes do not determine eligibility; they determine the evidence story after the analysis is complete.
+
+### Brief Format and Length
+
+- **Five-check introduction:** 900–1,100 words.
+- **Individual-fund brief:** 650–900 words, targeting approximately four minutes of reading.
+- **Visual evidence:** One chart chosen because it supports the central finding or tension; it does not have to be the returns chart.
+
+Use this repeatable structure for an individual-fund brief:
+
+1. **Headline and opening tension — 70–100 words:** Establish reader relevance, the strongest finding, and its most important counterpoint.
+2. **Investigation settings — 40–60 words:** State the fund, plan, benchmark, analysis period, and data date.
+3. **Five-check scorecard — 150–220 words:** Give every check a concise result. Prefer a stacked format over a wide email table.
+4. **What stands out — 250–350 words:** Expand only the two or three checks that define the fund's historical story.
+5. **What the evidence does not establish — 70–100 words:** State material limits such as portfolio drivers, manager changes, costs, future performance, and personal suitability.
+6. **Evidence summary and call to action — 40–70 words:** Link to the complete investigation and, where relevant, the corresponding Deepdive analysis.
+
+The brief should mention all five checks without giving all five equal space. Detailed calculations, source notes, additional charts, and the complete limitations remain in the canonical report.
+
+### Hook Structure
+
+Use **relevance → headline evidence → counter-evidence → investigation promise**:
+
+> If you own or are considering [Fund], its headline return tells only part of the story. From [start date] to [end date], it delivered [fund CAGR] against [benchmark CAGR]. But it [material counter-finding]. Here is what the five checks reveal.
+
+For a fund with weaker historical evidence, describe the measured result rather than applying a general negative label:
+
+> [Fund] is widely held, but over [period] it lagged [benchmark] in [specific measure]. The next question is whether that gap was persistent, risk-related, or concentrated in one period. The five checks separate those possibilities.
+
+### Editorial Boundaries
+
+- Qualify every performance statement by metric, benchmark, and analysis period.
+- Use factual terms such as **ahead**, **behind**, **similar**, and **mixed**, followed by the supporting number.
+- Do not use pass/fail symbols, star ratings, traffic-light scores, or "good fund" / "bad fund" conclusions.
+- Do not state that a fund is suitable or unsuitable for a reader. The brief describes historical performance and risk; the reader or their advisor relates that evidence to individual circumstances.
+- Keep the standard historical-performance and non-advice disclaimer in every fund brief.
+
+## 13. Website Integration
 
 Use these calls to action for the two current homepage capture locations:
 
@@ -283,7 +355,7 @@ Consider adding `fundinvestigator.com/newsletter` as the permanent newsletter la
 
 At minimum, store the Substack destination in one shared website configuration value rather than repeating the URL across components.
 
-## 13. Cutover and Quality Assurance
+## 14. Cutover and Quality Assurance
 
 Before removing MailerLite:
 
@@ -300,7 +372,7 @@ Before removing MailerLite:
 11. Wait one day and review the complete workflow.
 12. Remove the MailerLite integration only after the Substack flow passes these checks.
 
-## 14. When to Reconsider the Custom Domain
+## 15. When to Reconsider the Custom Domain
 
 Revisit `dispatch.fundinvestigator.com` when one or more of the following is true:
 
