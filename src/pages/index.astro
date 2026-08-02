@@ -153,36 +153,82 @@ const featuredReports = allReports
         </p>
       </div>
 
-      <!-- 2-col layout: image left (3/5 width), cards right -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
+      <!-- Stacked layout: the reel takes a full-width row of its own, with the
+           analytical lens cards as a strip beneath it. The reel carries readable
+           captions, so it needs the width — in a side-by-side split the frame is
+           only ~370px wide from 768px down, which renders the captions unusably
+           small. -->
+      <div class="flex flex-col gap-8">
 
-        <!-- Left: App Showcase (3/5 width, matches card column height) -->
-        <!-- Autoplay loop reel of the live app; falls back to a static poster
-             for browsers/users that block motion (prefers-reduced-motion). -->
-        <div class="bg-white rounded-lg overflow-hidden border border-fi-border-dark shadow-fi-card-dark h-full">
+        <!-- App showcase reel. The captions sit in a lower third, so the frame's
+             aspect ratio is matched to each rendition (9:16 / 3:4 / 16:9) and
+             object-contain is used — any cover crop would cut off the text that
+             carries the message.
+             The frame's width is set in the style block below, where it is
+             bounded by viewport height as well as width while portrait. From md
+             the cap is 4xl: the landscape cut at the full 1280px container reads
+             as an embedded app rather than a showcase.
+             Playback is started lazily by the script at the foot of this file;
+             users who prefer reduced motion get the static poster and no video
+             bytes at all. -->
+        <div class="showcase-frame relative mx-auto md:max-w-4xl bg-white rounded-lg overflow-hidden border border-fi-border-dark shadow-fi-card-dark aspect-[9/16] sm:aspect-[3/4] md:aspect-video">
           <video
-            class="showcase-video w-full h-full object-cover object-top"
-            poster="/videos/app-poster.png"
-            autoplay
+            class="showcase-video absolute inset-0 w-full h-full object-contain"
             muted
             loop
             playsinline
-            preload="metadata"
-            aria-label="Deepdive app showing mutual fund performance metrics and charts"
+            preload="none"
+            aria-label="Silent walkthrough of the Deepdive app: starting from a fund, returns and risk at a glance, SIP performance against a fair benchmark, drawdowns in falling markets, year-by-year consistency, and rolling-period analysis."
           >
-            <source src="/videos/fund-investigator-showcase.webm" type="video/webm" />
-            <source src="/videos/fund-investigator-showcase.mp4" type="video/mp4" />
+            <!-- Ordered by breakpoint first, then by codec (smallest first).
+                 The browser takes the first source whose media query matches and
+                 whose codec it can decode. -->
+            <source media="(min-width: 768px)" src="/videos/promo-desktop.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
+            <source media="(min-width: 768px)" src="/videos/promo-desktop.webm" type='video/webm; codecs="vp9"' />
+            <source media="(min-width: 768px)" src="/videos/promo-desktop.mp4" type="video/mp4" />
+
+            <source media="(min-width: 640px)" src="/videos/promo-ipad.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
+            <source media="(min-width: 640px)" src="/videos/promo-ipad.webm" type='video/webm; codecs="vp9"' />
+            <source media="(min-width: 640px)" src="/videos/promo-ipad.mp4" type="video/mp4" />
+
+            <source src="/videos/promo-mobile.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
+            <source src="/videos/promo-mobile.webm" type='video/webm; codecs="vp9"' />
+            <source src="/videos/promo-mobile.mp4" type="video/mp4" />
           </video>
-          <img
-            class="showcase-poster w-full h-full object-cover object-top"
-            src="/videos/app-poster.png"
-            alt="Deepdive app showing mutual fund performance metrics and charts"
-            loading="lazy"
-          />
+
+          <!-- Shown until playback actually starts, and permanently under
+               prefers-reduced-motion. A <picture> is used rather than the video's
+               poster attribute because that attribute cannot vary by breakpoint. -->
+          <picture class="showcase-poster absolute inset-0">
+            <source media="(min-width: 768px)" srcset="/videos/promo-desktop-poster.webp" />
+            <source media="(min-width: 640px)" srcset="/videos/promo-ipad-poster.webp" />
+            <img
+              class="w-full h-full object-contain"
+              src="/videos/promo-mobile-poster.webp"
+              alt="The Deepdive app home screen, where an investigation starts by typing a fund name."
+              loading="lazy"
+            />
+          </picture>
+
+          <button
+            type="button"
+            class="showcase-toggle absolute bottom-3 right-3 w-fi-icon-lg h-fi-icon-lg flex items-center justify-center rounded-full bg-fi-dark/80 text-fi-ink-inv border border-fi-border-dark backdrop-blur-sm transition-opacity hover:bg-fi-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-gold"
+            aria-label="Pause the walkthrough"
+            aria-pressed="false"
+            hidden
+          >
+            <svg class="showcase-icon-pause w-fi-icon h-fi-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5h3v14H8zM13 5h3v14h-3z" />
+            </svg>
+            <svg class="showcase-icon-play w-fi-icon h-fi-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5l11 7-11 7z" />
+            </svg>
+          </button>
         </div>
 
-        <!-- Right: Analytical lens cards + CTA -->
-        <div class="flex flex-col gap-4">
+        <!-- Analytical lens cards. Card 3 spans both columns at sm so the row
+             never leaves a lone orphan card. -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
           <!-- Card 1: Returns -->
           <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark">
@@ -209,8 +255,8 @@ const featuredReports = allReports
             <p class="text-body-sm text-fi-muted-inv">See how your fund handles falling markets. Know what to expect, so a downturn doesn't catch you off guard.</p>
           </div>
 
-          <!-- Card 3: Risk-Adjusted -->
-          <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark">
+          <!-- Card 3: Risk-Adjusted (spans full width on the sm 2-col row) -->
+          <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark sm:col-span-2 lg:col-span-1">
             <div class="w-11 h-11 bg-fi-dark rounded-lg flex items-center justify-center mb-4">
               <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
@@ -338,26 +384,137 @@ const featuredReports = allReports
     overflow: hidden;
   }
 
-  /* App showcase: play the reel by default, swap to the static poster
-     image for users who prefer reduced motion. */
+  /* While the frame is portrait, bound it by viewport height as well as width.
+     A full-width 9:16 frame takes ~90% of the screen on a short handset
+     (343x610 on a 375x667 phone) while a tall phone sits nearer 75%. Deriving
+     the width from whichever constraint binds keeps the frame's aspect exact,
+     so object-contain never has to letterbox — capping height alone would
+     leave white bars down the sides. Tall phones are unaffected. */
+  .showcase-frame {
+    width: min(100%, 24rem, calc(80vh * 9 / 16));
+    width: min(100%, 24rem, calc(80svh * 9 / 16));
+  }
+
+  @media (min-width: 640px) {
+    .showcase-frame {
+      width: min(100%, 28rem, calc(80vh * 3 / 4));
+      width: min(100%, 28rem, calc(80svh * 3 / 4));
+    }
+  }
+
+  /* From md the cut is landscape and height is never the binding constraint. */
+  @media (min-width: 768px) {
+    .showcase-frame {
+      width: 100%;
+    }
+  }
+
+  /* App showcase: the poster covers the video until playback actually starts,
+     then fades out. Kept in the flow (rather than display:none) so the frame
+     never flashes empty while the first video frames decode. */
   .showcase-poster {
+    opacity: 1;
+    transition: opacity 400ms ease;
+  }
+
+  .showcase-frame.is-playing .showcase-poster {
+    opacity: 0;
+  }
+
+  /* The toggle swaps glyphs rather than nodes, so the button keeps focus. */
+  .showcase-toggle .showcase-icon-play {
     display: none;
   }
 
-  /* The source recording includes Streamlit's thin pink top decoration
-     bar. Over-scale the video slightly and bias it upward so that strip
-     is clipped by the frame's overflow-hidden. Poster is left untouched
-     (it has no bar and we want to keep its title fully visible). */
-  .showcase-video {
-    transform: scale(1.05) translateY(-2%);
+  .showcase-frame.is-paused .showcase-toggle .showcase-icon-play {
+    display: block;
   }
 
+  .showcase-frame.is-paused .showcase-toggle .showcase-icon-pause {
+    display: none;
+  }
+
+  /* No motion means no video element and no control to operate it — the
+     script also bails out early, so no video bytes are ever requested. */
   @media (prefers-reduced-motion: reduce) {
-    .showcase-video {
+    .showcase-video,
+    .showcase-toggle {
       display: none;
     }
     .showcase-poster {
-      display: block;
+      opacity: 1;
     }
   }
 </style>
+
+<script>
+  // Deepdive showcase reel. The section sits below the fold, so nothing is
+  // fetched until it scrolls into view — the video ships with preload="none"
+  // and no autoplay attribute, and this script is the only thing that starts it.
+  const frame = document.querySelector<HTMLElement>('.showcase-frame');
+  const video = frame?.querySelector<HTMLVideoElement>('.showcase-video');
+  const toggle = frame?.querySelector<HTMLButtonElement>('.showcase-toggle');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Bail out entirely when motion is unwanted: the poster is already visible and
+  // this keeps the video cost at exactly zero bytes.
+  if (frame && video && toggle && !reducedMotion.matches) {
+    let userPaused = false;
+
+    const play = () => {
+      // play() rejects when autoplay is blocked; surface the play glyph so the
+      // reel is still reachable by hand instead of sitting silently stalled.
+      video.play().then(
+        () => frame.classList.remove('is-paused'),
+        () => frame.classList.add('is-paused'),
+      );
+    };
+
+    video.addEventListener('playing', () => frame.classList.add('is-playing'));
+
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => {
+      userPaused = !video.paused;
+      if (userPaused) {
+        video.pause();
+        frame.classList.add('is-paused');
+      } else {
+        play();
+      }
+      toggle.setAttribute('aria-pressed', String(userPaused));
+      toggle.setAttribute(
+        'aria-label',
+        userPaused ? 'Play the walkthrough' : 'Pause the walkthrough',
+      );
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!userPaused) play();
+          } else if (!video.paused) {
+            // Pause off-screen without touching userPaused, so an explicit
+            // pause survives scrolling away and back.
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(frame);
+
+    // <source media> is evaluated once at load time and never re-evaluated, so a
+    // desktop window resized across a breakpoint would keep the wrong rendition.
+    // Reload only after something has already been fetched — reloading a
+    // preload="none" video would defeat the lazy start.
+    for (const query of ['(min-width: 640px)', '(min-width: 768px)']) {
+      window.matchMedia(query).addEventListener('change', () => {
+        if (video.currentSrc) {
+          video.load();
+          if (!userPaused) play();
+        }
+      });
+    }
+  }
+</script>
