@@ -56,12 +56,96 @@ paid research.
 | 31 | **Launch the Substack Five Checks series as individual investigations of popular funds.** The intended reader already owns or is considering the named fund. Select funds for popularity and prospect relevance, then report whatever the five checks show; include a popular fund with weaker or mixed evidence early to establish editorial independence. Do not add fund comparisons or suitability conclusions until an explicit individual risk-profile layer and its editorial boundaries exist | 2026-07-21 | S19 | 🟢 Approved; editorial strategy documented |
 | 32 | **Article plan #4 — Add curated related investigations.** Show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice | 2026-07-22 | S20 | 🟡 Open |
 | 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
+| 34 | Choose the first SEO/AIO implementation tranche: publisher accountability and methodology, discovery/indexing controls, or machine-readable report evidence | 2026-07-23 | S21 | 🟡 Open |
+| 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
+| 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S22 — Deepdive showcase rebuilt around the new promo reels
+
+**What was done:**
+The homepage's Deepdive showcase now plays the new walkthrough of the upgraded app instead of the
+outdated clip. Three device-specific cuts were prepared — a tall one for phones, a squarer one for
+small tablets, and a wide one for everything larger — and each visitor is served only the one that
+fits their screen. The section itself was rearranged: the walkthrough moved from a narrow column
+beside the explanation cards to a full-width row of its own, with the cards forming a strip beneath
+it. Playback now waits until the visitor scrolls to it, and a pause control was added.
+
+**Why:**
+The old clip showed a version of the app that no longer exists. The new walkthrough carries readable
+captions explaining each step, which the previous side-by-side layout made unusable — the video pane
+was only about a third of the screen width on tablets and below, shrinking the captions past
+legibility. Serving one heavy file to everyone would also have slowed the homepage, so the priority
+was making the walkthrough both readable and cheaper than what it replaced.
+
+**How:**
+The high-quality masters from the `brand_promo` project were re-encoded into web-sized versions
+through a new repeatable script kept in the repository. Each cut is produced in three formats so
+every browser gets the smallest one it understands, and the frame rate was halved — the walkthrough
+is a sequence of still screens rather than live motion, so this cut file sizes by roughly a third
+with no visible loss, which mattered because compressing harder would have blurred the caption text.
+Layout and playback behaviour were checked in an automated browser across nine screen sizes from a
+small phone to a wide laptop.
+
+**Decisions made:**
+- Rebuild the section as a stacked layout rather than keep the side-by-side split; the walkthrough
+  needs the width more than the cards do.
+- Ship all three device cuts rather than one shared file.
+- Reduce frame rate rather than compress harder, to protect caption legibility.
+- Cap the walkthrough's size on laptops — at full container width it read as an embedded live app
+  rather than a showcase — and limit its height on short phones, where it was otherwise taking about
+  90% of the screen.
+- Keep the encoding recipe in the repository but not the large source masters.
+- Visitors who have asked their device to reduce motion are shown a still image and download no
+  video at all.
+
+**Pending decisions:**
+- #35 — The walkthrough has only been confirmed in Chrome; the fallback format Safari would use is
+  unverified on a real device.
+- #36 — The reel closes on a `deepdive.fundinvestigator.com` watermark, which is redundant on our own
+  site. Removing it means re-rendering in the `brand_promo` project, not a change here.
+
+---
+
+### 📅 Date: 2026-07-23 | Session: S21 — SEO and AI-answer visibility audited
+
+**What was done:**
+Audited the live site and Astro implementation for AI-answer visibility and conventional search
+performance, with AI citation readiness treated as the first priority. The review covered crawler
+access, rendered content, metadata, structured data, sitemaps, article evidence, internal discovery,
+publisher trust, and current index visibility; the full findings and ordered recommendations are now
+recorded in `docs/seo_audit.md`.
+
+**Why:**
+Fund Investigator is a new financial publication, so its main visibility constraint is establishing
+trust and authority rather than adding speculative AI tags. A dated baseline makes it possible to
+improve discovery without weakening the evidence-led editorial model or mistaking early indexing delay
+for a technical failure.
+
+**How:**
+The repository and generated production output were inspected alongside the live crawler-facing files
+and responses. Findings were evaluated against current primary guidance from Google, OpenAI, Anthropic,
+Perplexity, Bing, and Cloudflare, with academic GEO research used cautiously for citation-oriented
+content guidance. The production build passed; no site implementation or content was changed.
+
+**Decisions made:**
+- Treat AIO as citation and grounding readiness built on crawlability, evidence, authority, and normal
+  search eligibility; do not treat `llms.txt` or special markup as the primary strategy.
+- Preserve the full audit as the dated baseline in `docs/seo_audit.md`.
+- No implementation recommendation was approved in this session.
+
+**Pending decisions:**
+- #34 — Prioritize the first implementation tranche from the audit: publisher accountability and methodology,
+  discovery/indexing controls, or machine-readable report evidence.
+- Existing #27 and #29 remain directly relevant: report-specific share images and the future named-author
+  path were reinforced by the audit but not reopened or resolved.
 
 ---
 
