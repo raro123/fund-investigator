@@ -36,7 +36,7 @@ paid research.
 | 11 | Add production monitoring and conversion telemetry for modal opens, attempts, successes/failures, and signup source. Provider-failure monitoring becomes moot when MailerLite is removed; placement evidence remains useful with Substack | 2026-05-04 | S2; expanded S15; revised S16 | 🟡 Partially carried into Substack cutover |
 | 12 | Homepage teaser punchline — keep long-term vs shorter variant | 2026-05-04 | S1 | 🟡 Open |
 | 13 | Extract a reusable "Why Fund Investigator" component if reused on more pages | 2026-05-04 | S1 | 🟡 Open |
-| 14 | Editorial serif headline vs current sans for the hero | 2026-06-22 | S3 | 🟡 Open |
+| 14 | Editorial serif headline vs current sans for the hero | 2026-06-22 | S3 | 🟡 Open — folded into the broader typography direction in #36 |
 | 15 | Hero verdict card framing (negative vs neutral) | 2026-06-22 | S3 | ✅ Resolved (S5 — qualitative directional findings) |
 | 16 | Real fund data vs placeholders in verdict examples | 2026-06-22 | S3 | ✅ Resolved (S5 — qualitative, no figures) |
 | 17 | Implement the hybrid homepage vs iterate mockups further | 2026-06-22 | S3 | ✅ Resolved (S5 — implemented) |
@@ -58,6 +58,7 @@ paid research.
 | 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
 | 34 | Choose the first SEO/AIO implementation tranche: publisher accountability and methodology, discovery/indexing controls, or machine-readable report evidence | 2026-07-23 | S21 | 🟡 Open |
 | 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
+| 36 | **Give reports a second typeface — a serif for the editorial layer, keeping Inter for everything analytical.** Direction agreed, implementation parked. The split is drawn by layer, not by heading level: serif for the report title, deck, section H2s and pull quotes; Inter for H3 and below, chart titles, table headers, captions, and every numeral. The layer boundary matters because report H2s and H3s sit right beside charts and tables, where a serif subhead reads as a mistake rather than a choice. Numerals stay in Inter unconditionally — the serif's figures will not align in a financial column, and the existing `tabular-nums` / `slashed-zero` utilities depend on that. Typeface still open: **Source Serif 4** is the safe pick (restrained, sturdy, won't overpower financial data) but is close to a default look on documentation and academic sites, which works against the goal of a memorable shared identity; **Literata** and **Newsreader** are equally restrained and read as more deliberately chosen. Open sub-question: whether the serif also takes report *body* copy. Serif titles over sans body is a half-commitment — it signals "publication" at the top of the page and then reads like documentation for the next 2,000 words — so body copy should be tested both ways on the Five Checks article before settling. Budget is net-neutral: drop the two unused Inter weights (500, 800) to pay for two serif weights, self-hosted via `@fontsource` so no new origin is added. Touch points: `tailwind.config.mjs` font family, the `ArticleLayout` H1, and the prose chain's blanket `prose-headings:font-bold`, which currently styles all heading levels alike. Supersedes the narrower #14 | 2026-08-03 | S23 | 🟡 Open |
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 
 ---
@@ -65,6 +66,40 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S23 — Promo reels merged to dev; report typography direction agreed
+
+**What was done:**
+The promo reel work from the previous session was merged into the `dev` branch. Separately, an
+outside recommendation to introduce a serif typeface for reports was reviewed and the direction was
+accepted, with changes to where the line between the two typefaces gets drawn. Nothing was built —
+the typography work is recorded as pending decision #36 for a later session.
+
+**Why:**
+The recommendation's underlying argument holds: the website behaves as a product interface, where a
+neutral, highly scannable typeface is the right tool, while the reports are a publication, where a
+serif signals that the analysis was considered rather than generated. The reports are also what gets
+shared externally, so they carry the brand further than any interface screen does.
+
+**How:**
+The proposed rule — serif for titles and major section headings — was replaced with a rule drawn by
+content layer instead of heading level, because report subheads sit directly against charts and
+tables where a serif would read as inconsistent. Two further constraints were added: numerals stay
+in the interface typeface so financial columns keep aligning, and the new weights are paid for by
+removing Inter weights the site never uses, so the page does not get heavier.
+
+**Decisions made:**
+- Merge `promo-video-refresh` into `dev` as a fast-forward; not yet pushed to the remote.
+- Adopt the two-typeface direction for reports, split by editorial versus evidence layer.
+- Keep all numerals in Inter regardless of context.
+- Self-host the serif alongside Inter rather than adding an external font request.
+
+**Pending decisions:**
+- #36 — Serif typeface choice (Source Serif 4 versus the more distinctive Literata or Newsreader),
+  and whether the serif extends to report body copy or stops at the editorial furniture. To be
+  settled by trying both on the Five Checks article. Supersedes the older, narrower #14.
 
 ---
 
