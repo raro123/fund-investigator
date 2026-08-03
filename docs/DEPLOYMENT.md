@@ -1,224 +1,78 @@
-# Deployment Guide - Fund Investigator
+# Deployment Guide — Fund Investigator
 
-## Pre-Deployment Checklist
+## Hosting
 
-### 1. Content Updates
-- [ ] Add your actual contact email in `src/pages/index.astro`
-- [ ] Update LinkedIn URL (currently: `linkedin.com/in/ishpreetmodi`)
-- [ ] Update Twitter handle (currently: `@fundinvestigat`)
-- [ ] Create and add sample tearsheet image to `public/sample-tearsheet.png`
+Cloudflare Pages, connected to this GitHub repo.
 
-### 2. Railway App Configuration
-- [ ] Note your Railway app URL (e.g., `your-app.up.railway.app`)
-- [ ] Update `public/_redirects` with your Railway URL:
-  ```
-  /app/* https://your-app.up.railway.app/:splat 200
-  ```
+- **Production branch:** `main` — every push deploys live to `fundinvestigator.com`
+- **Preview deploys:** other branches (e.g. `dev`) get their own preview URL on push, so changes can be checked before merging to `main`
+- **Framework preset:** Astro
+- **Build command:** `npm run build`
+- **Build output directory:** `dist`
 
-### 3. Testing Locally
+> **Verify in Cloudflare dashboard** (Pages project → Settings → Builds & deployments): confirm the above still matches, and check the Node version pinned there against what's used locally.
+
+## Environment Variables
+
+`src/layouts/Layout.astro` reads two at build/runtime for the client-side error-tracking beacon:
+
+- `PUBLIC_CF_ACCOUNT_ID`
+- `PUBLIC_CF_PROJECT_NAME`
+
+> **Verify in Cloudflare dashboard** (Pages project → Settings → Environment variables): confirm these are actually set for the production environment. See `docs/project_log.md` #37 — the beacon's target endpoint is under review and may not be delivering anywhere regardless.
+
+## Custom Domain & DNS
+
+`fundinvestigator.com` should be attached as a custom domain on the Pages project, with DNS/SSL managed through Cloudflare.
+
+> **Verify in Cloudflare dashboard**: custom domain status, DNS records, SSL/TLS mode (should be Full or Full strict).
+
+## Deepdive Subdomain
+
+`deepdive.fundinvestigator.com` is a **separate app and separate deploy** (Streamlit on Railway) — not part of this repo or this Pages project. This site only links out to it; there's no proxy, redirect, or shared build step to maintain here.
+
+## robots.txt & Sitemap
+
+- `public/robots.txt` disallows `/styleguide`, `/404`, `/reports/_TEMPLATE`, and points to the sitemap
+- `astro.config.mjs`'s `sitemap()` integration filter excludes the same set, plus `/subscribe`
+- If a new non-content route is added that shouldn't be indexed (e.g. another utility page), update **both** — the sitemap filter and `robots.txt` are independent and won't warn you if one is missed
+
+## Local Development & Testing
+
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
-npm run dev
-
-# Test build
-npm run build
-npm run preview
+npm run dev       # http://localhost:4321
+npm run build     # production build to dist/
+npm run preview   # serve the production build locally
+npm run astro check  # type-check
 ```
 
-## Cloudflare Pages Deployment
-
-### Step 1: Push to Git Repository
-
-1. Initialize git repository:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: Fund Investigator landing page"
-   ```
-
-2. Create repository on GitHub/GitLab
-3. Push code:
-   ```bash
-   git remote add origin YOUR_REPO_URL
-   git push -u origin main
-   ```
-
-### Step 2: Connect to Cloudflare Pages
-
-1. **Log in to Cloudflare Dashboard**
-   - Navigate to Pages section
-   - Click "Create a project"
-
-2. **Connect Git Provider**
-   - Choose GitHub or GitLab
-   - Authorize Cloudflare to access repositories
-   - Select your `fund-investigator` repository
-
-3. **Configure Build Settings**
-   ```
-   Project name: fund-investigator
-   Production branch: main
-   
-   Build settings:
-   Framework preset: Astro
-   Build command: npm run build
-   Build output directory: dist
-   Root directory: /
-   
-   Environment variables:
-   NODE_VERSION = 18
-   ```
-
-4. **Deploy**
-   - Click "Save and Deploy"
-   - Wait for build to complete (usually 2-3 minutes)
-   - Your site will be live at `fund-investigator.pages.dev`
-
-### Step 3: Configure Custom Domain
-
-1. **Add Custom Domain**
-   - In Cloudflare Pages, go to your project
-   - Navigate to "Custom domains"
-   - Click "Set up a custom domain"
-   - Enter `fundinvestigator.com`
-
-2. **DNS Configuration**
-   
-   If domain is already on Cloudflare:
-   - Cloudflare will automatically configure DNS
-   - CNAME record will be created
-
-   If domain is elsewhere:
-   - Update nameservers to Cloudflare's
-   - Or add CNAME record: `fundinvestigator.com` → `fund-investigator.pages.dev`
-
-3. **SSL/TLS**
-   - Cloudflare automatically provisions SSL certificate
-   - Usually takes 1-5 minutes
-   - Ensure SSL/TLS mode is set to "Full" or "Full (strict)"
-
-### Step 4: Verify Routing
-
-Test that routes work correctly:
-
-1. **Main site:** `https://fundinvestigator.com`
-   - Should show landing page
-
-2. **Analysis tool:** `https://fundinvestigator.com/app`
-   - Should redirect to Railway app
-   - Verify `_redirects` file is in `public/` folder
-
-3. **Reports page:** `https://fundinvestigator.com/reports`
-   - Should show reports listing
-
-## Railway App Integration
-
-Your Railway app needs to accept requests from the custom domain:
-
-1. **Configure CORS (if needed)**
-   - Allow origin: `https://fundinvestigator.com`
-
-2. **Session/Cookie Settings**
-   - Ensure cookies work across the redirect
-   - Set appropriate `SameSite` attributes
-
-3. **Test the Integration**
-   - Navigate to `/app` from the landing page
-   - Verify user experience is seamless
-   - Check that branding is consistent
-
-## Automatic Deployments
-
-Once connected, Cloudflare Pages will automatically:
-- Build and deploy on every push to `main` branch
-- Create preview deployments for pull requests
-- Invalidate CDN cache for new deployments
-
-## Performance Optimization
-
-### 1. Image Optimization
-- Compress `sample-tearsheet.png` before uploading
-- Use WebP format for better compression
-- Recommended tool: Squoosh or TinyPNG
-
-### 2. Font Loading
-- Inter font is loaded from Google Fonts
-- Uses `preconnect` for faster loading
-- Consider self-hosting for even better performance
-
-### 3. Caching
-- Static assets cached automatically by Cloudflare
-- Configure cache rules if needed in Cloudflare dashboard
-
-## Monitoring
-
-### Analytics (Optional)
-Add analytics to track visitors:
-
-1. **Cloudflare Web Analytics (Free)**
-   - No cookies, privacy-friendly
-   - Add beacon script to `Layout.astro`
-
-2. **Google Analytics**
-   - Add tracking code to `Layout.astro`
-   - Update privacy policy accordingly
-
-### Uptime Monitoring
-- Use Cloudflare's built-in analytics
-- Or external service like UptimeRobot
-
-## Troubleshooting
-
-### Build Fails
-- Check Node version is 18+
-- Verify all dependencies in `package.json`
-- Review build logs in Cloudflare dashboard
-
-### `/app` Redirect Not Working
-- Verify `_redirects` file is in `public/` folder
-- Check Railway URL is correct
-- Test Railway app is accessible directly
-
-### Styles Not Loading
-- Clear browser cache
-- Check build output includes CSS files
-- Verify Tailwind config is correct
-
-### SEO Issues
-- Check meta tags in `Layout.astro`
-- Submit sitemap to Google Search Console
-- Verify robots.txt allows crawling
-
-## Post-Deployment Tasks
-
-- [ ] Test all navigation links
-- [ ] Verify mobile responsiveness
-- [ ] Check page load speed (PageSpeed Insights)
-- [ ] Test contact form/links work
-- [ ] Submit to Google Search Console
-- [ ] Set up monitoring/analytics
-- [ ] Create sitemap.xml (optional)
+Run a build + preview locally before pushing to `main` if the change touches layout, routing, or the content schema.
 
 ## Updating Content
 
-To update the site:
+1. Edit locally, verify with `npm run dev`
+2. Commit and push
+3. Cloudflare Pages builds and deploys automatically (production on `main`, preview on other branches)
 
-1. Edit files locally
-2. Test changes: `npm run dev`
-3. Commit changes: `git commit -am "Update content"`
-4. Push: `git push`
-5. Cloudflare auto-deploys in 2-3 minutes
+## Troubleshooting
+
+**Build fails**
+- Check the build log in the Cloudflare dashboard first
+- Run `npm run build` locally to reproduce
+- Run `npm run astro check` to catch type/content-schema errors before they surface as a build failure
+
+**Styles not loading / look wrong**
+- Clear browser cache
+- Confirm Tailwind tokens used are defined in `tailwind.config.mjs` — arbitrary values (`bg-[#...]`) won't be caught by a successful build but indicate a token was skipped (see `CLAUDE.md`)
+
+**SEO / indexing issues**
+- Check meta tags in `Layout.astro`
+- Confirm the page isn't unintentionally excluded by `robots.txt` or the sitemap filter
+- Submit sitemap to Google Search Console
 
 ## Support
 
-For deployment issues:
-- Cloudflare Pages Docs: https://developers.cloudflare.com/pages
-- Astro Docs: https://docs.astro.build
+- Cloudflare Pages docs: https://developers.cloudflare.com/pages
+- Astro docs: https://docs.astro.build
 - Contact: contact@fundinvestigator.com
-
----
-
-Last updated: January 2025
