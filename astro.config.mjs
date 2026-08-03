@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import mdx from '@astrojs/mdx';
 import { substackWelcomeUrl } from './src/lib/substack';
 import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
 
@@ -14,8 +13,7 @@ export default defineConfig({
         !page.includes('/404') &&
         !page.includes('/subscribe') &&
         !page.includes('/_TEMPLATE')
-    }),
-    mdx()
+    })
   ],
   site: 'https://fundinvestigator.com',
 
