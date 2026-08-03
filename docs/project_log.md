@@ -76,6 +76,41 @@ paid research.
 
 ---
 
+### 📅 Date: 2026-08-03 | Session: S28 — Click-to-zoom lightbox added for report images
+
+**What was done:**
+Added a click-to-zoom lightbox to report images: clicking any image inside an article's body now
+opens it full-size over a dark overlay, dismissible by clicking the image again, clicking outside
+it, pressing Escape, or a close button.
+
+**Why:**
+The user recalled this had come up before and been set aside. Report images (charts, screenshots)
+are capped at roughly 56rem/92vw width in the article body, so fine detail — axis labels, data
+points — isn't always readable at that size.
+
+**How:**
+Implemented entirely in `ArticleLayout.astro`: one overlay element plus a small vanilla-JS script
+that attaches to every `<img>` inside `.article-prose`. This needs no per-article setup and applies
+automatically to every past and future report written with normal markdown image syntax. Reuses the
+already-optimized image `src` Astro emits at build time, so no extra asset processing. One fix
+needed along the way: the lightbox initially used the `z-fi-overlay` token, which sits below
+`z-fi-header` in the existing z-index scale — this let the fixed site header render on top of the
+full-screen overlay. Switched to reusing `z-fi-header` (the lightbox is later in DOM order, so it
+wins the stacking tie) rather than introducing a new token. Verified via a headless browser: all
+four dismiss paths work, the correct full-size image loads, body scroll locks while open, and the
+overlay now correctly covers the header, at both desktop and mobile viewport sizes.
+
+**Decisions made:**
+- Zoom applies automatically to every image inside `.article-prose` — no opt-in markup needed per
+  report.
+- Lightbox reuses the existing `z-fi-header` token rather than adding a new z-index token for this
+  one case.
+
+**Pending decisions:**
+- None new.
+
+---
+
 ### 📅 Date: 2026-08-03 | Session: S27 — Report typography resolved: Newsreader serif shipped
 
 **What was done:**
