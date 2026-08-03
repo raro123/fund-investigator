@@ -107,6 +107,29 @@ const jsonLd = [
       </div>
     </div>
   </article>
+
+  <div
+    id="image-lightbox"
+    class="fixed inset-0 z-fi-header hidden items-center justify-center bg-fi-dark/95 p-4 cursor-zoom-out"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Enlarged image"
+  >
+    <button
+      type="button"
+      id="image-lightbox-close"
+      class="absolute top-4 right-4 sm:top-6 sm:right-6 text-fi-ink-inv/80 hover:text-fi-ink-inv transition-colors cursor-pointer"
+      aria-label="Close enlarged image"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <img
+      id="image-lightbox-img"
+      src=""
+      alt=""
+      class="max-h-[90vh] max-w-[92vw] object-contain rounded-lg shadow-fi-card-dark cursor-zoom-out"
+    />
+  </div>
 </Layout>
 
 <style>
@@ -114,11 +137,14 @@ const jsonLd = [
   @keyframes scroll-progress { from { --scroll: 0%; } to { --scroll: 100%; } }
   .scroll-progress { width: 100%; transform: scaleX(var(--scroll)); }
 
+  #image-lightbox.flex { display: flex; }
+
   .article-prose :global(img) {
     display: block;
     width: min(92vw, 56rem);
     max-width: min(92vw, 56rem);
     margin-inline: calc((100% - min(92vw, 56rem)) / 2);
+    cursor: zoom-in;
   }
 
   @media (max-width: 640px) {
@@ -162,5 +188,36 @@ const jsonLd = [
     const scrolled = (winScroll / height) * 100;
     const bar = document.querySelector('.scroll-progress');
     if (bar) bar.style.transform = `scaleX(${scrolled / 100})`;
+  });
+
+  // Click-to-zoom lightbox for in-article images
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('image-lightbox-img');
+  const closeButton = document.getElementById('image-lightbox-close');
+
+  function openLightbox(img) {
+    if (!(lightbox instanceof HTMLElement) || !(lightboxImg instanceof HTMLImageElement)) return;
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!(lightbox instanceof HTMLElement)) return;
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.article-prose img').forEach((img) => {
+    img.addEventListener('click', () => openLightbox(img));
+  });
+
+  closeButton?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeLightbox();
   });
 </script>
