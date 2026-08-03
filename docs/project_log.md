@@ -58,7 +58,7 @@ paid research.
 | 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
 | 34 | Choose the first SEO/AIO implementation tranche: publisher accountability and methodology, discovery/indexing controls, or machine-readable report evidence | 2026-07-23 | S21 | 🟡 Open |
 | 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
-| 36 | **Give reports a second typeface — a serif for the editorial layer, keeping Inter for everything analytical.** Direction agreed, implementation parked. The split is drawn by layer, not by heading level: serif for the report title, deck, section H2s and pull quotes; Inter for H3 and below, chart titles, table headers, captions, and every numeral. The layer boundary matters because report H2s and H3s sit right beside charts and tables, where a serif subhead reads as a mistake rather than a choice. Numerals stay in Inter unconditionally — the serif's figures will not align in a financial column, and the existing `tabular-nums` / `slashed-zero` utilities depend on that. Typeface still open: **Source Serif 4** is the safe pick (restrained, sturdy, won't overpower financial data) but is close to a default look on documentation and academic sites, which works against the goal of a memorable shared identity; **Literata** and **Newsreader** are equally restrained and read as more deliberately chosen. Open sub-question: whether the serif also takes report *body* copy. Serif titles over sans body is a half-commitment — it signals "publication" at the top of the page and then reads like documentation for the next 2,000 words — so body copy should be tested both ways on the Five Checks article before settling. Budget is net-neutral: drop the two unused Inter weights (500, 800) to pay for two serif weights, self-hosted via `@fontsource` so no new origin is added. Touch points: `tailwind.config.mjs` font family, the `ArticleLayout` H1, and the prose chain's blanket `prose-headings:font-bold`, which currently styles all heading levels alike. Supersedes the narrower #14 | 2026-08-03 | S23 | 🟡 Open |
+| 36 | **Give reports a second typeface — a serif for the editorial layer, keeping Inter for everything analytical.** Supersedes the narrower #14 | 2026-08-03 | S23 | ✅ Resolved (S27 — Newsreader shipped across the full article: title, deck, every heading level, body copy, lists, pull-quotes, tables, and numerals; ReportCard previews stay Inter. Two of #36's original assumptions didn't survive testing: numerals are no longer Inter-only, and H3 wasn't kept separate from H2 — see S27 log entry) |
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 | 37 | The "Cloudflare RUM" script in `Layout.astro` (labelled `Cloudflare Browser Error Tracking` in the code) `sendBeacon`s to `cloudflare-analytics.com/cdn-cgi/rum` — not a real Cloudflare domain (their real endpoints are under `cloudflareinsights.com`). Failures are silently swallowed, so there is no way to tell from the app whether error reports have ever been delivered. Confirm whether `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` are set in Cloudflare Pages and whether this was ever a real endpoint or a placeholder that was never swapped in | 2026-08-03 | S24 | 🟡 Open |
 | 38 | `@astrojs/mdx` is installed and registered in `astro.config.mjs` but unused — the reports collection is `type: 'content'` (plain Markdown) and there are zero `.mdx` files in `src/`. Decide whether to keep it for planned future use or remove the dependency | 2026-08-03 | S24 | ✅ Resolved (S25 — removed; the one place JSX-like behavior was wanted, the Investigation Brief CTA insert, is already handled by a remark plugin on plain Markdown, which is safer for content authors than embedded JSX. Re-add via `astro add mdx` if a real need shows up) |
@@ -73,6 +73,59 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S27 — Report typography resolved: Newsreader serif shipped
+
+**What was done:**
+Resolved decision #36. Built a standalone comparison tool (`design-explorations/report-typography/index.html`)
+that renders real Five Checks article content with live toggles for typeface, body copy, table
+styling, and numerals, then used it to settle every question #36 had left open. Landed on
+Newsreader, applied wholesale to report articles — title, deck, every heading level, body copy,
+lists, pull-quotes, and tables including numerals — and shipped it into the real codebase.
+
+**Why:**
+#36 left the typeface choice and two sub-questions open (does serif reach body copy, can numerals
+ever be serif) and rested on assumptions that turned out to be wrong once actually measured, rather
+than just eyeballed.
+
+**How:**
+Pixel-measured tabular figure width across the three candidates instead of assuming: Source Serif 4
+and Newsreader both ship genuinely tabular, lining figures by default (no CSS needed); Literata's
+default figures are proportional, but `tabular-nums` fixes them completely. That directly overturned
+#36's premise that numerals must stay Inter. Chose Newsreader; the user opted for full commitment
+(serif tables with numerals included) after seeing that a mixed state — serif labels next to Inter
+numbers inline — looked busy rather than stylish. Implemented via `@fontsource/newsreader` (400/700
+only), a new `serif` key in `tailwind.config.mjs`, and extended `ArticleLayout.astro`'s prose classes
+(`prose-headings`, `prose-p`, `prose-li`, `prose-blockquote`, `prose-table`, `prose-td:tabular-nums`).
+
+**Decisions made:**
+- Typeface: **Newsreader**, weights 400 + 700 only, self-hosted via `@fontsource`.
+- Scope: the full article page only (`ArticleLayout.astro`). `ReportCard.astro` — reused on both
+  `/reports` and the homepage's featured Investigations section — explicitly stays Inter; serif
+  only applies once a reader is inside the article.
+- All heading levels go serif, not just H2. #36's original H3-stays-Inter carve-out (H3 sits right
+  beside evidence/figures) stopped holding once body copy and full tables — equally adjacent to the
+  same figures — went serif too; singling out H3 became arbitrary.
+- Corrected two stale assumptions baked into #36: (1) the "net-neutral font-weight budget" (drop
+  Inter 500/800 to pay for 2 serif weights) doesn't hold — weight 500 is used extensively sitewide
+  (nav, form labels, footer/inline links) and weight 800 is used via `responsive.ts`'s `display`/
+  `h2Large` presets (Homepage Hero H1, large section headings). Neither can be dropped without a
+  real regression, so this ships as a net addition of 2 font files, not a swap — a small, acceptable
+  cost for a self-hosted static font. (2) "Numerals stay Inter unconditionally" — superseded, see How.
+- Verified end-to-end: computed-style checks confirm serif lands on every intended element and Inter
+  holds on `ReportCard`/nav/disclaimer; screenshots at mobile (390px), tablet (768px), and desktop
+  (1280px) all render cleanly; `npm run build` confirms exactly 2 new `.woff2` files ship.
+- Incidental discovery, not a regression: figure captions in real markdown content are just
+  italicized paragraphs (`*Figure 1: ...*`), not distinct elements, so they inherited serif along
+  with body copy — there was no clean way to keep them Inter without extra tooling. Checked visually
+  against a real Deepdive screenshot; it reads as an intentional editorial caption style, not a
+  mistake, so left as-is.
+
+**Pending decisions:**
+- None new. Optional, non-blocking follow-up: add a Newsreader demo block to `styleguide.astro`'s
+  Typography section for documentation completeness.
 
 ---
 

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" data-serif="source-serif" data-body="sans" data-num="sans" data-table="sans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Typography — Font Options (decision #36)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fi-dark: #020617;
+    --fi-light: #E2E8F0;
+    --fi-ink: #020617;
+    --fi-muted: #64748B;
+    --fi-subtle: #94A3B8;
+    --fi-ink-inv: #F8FAFC;
+    --fi-muted-inv: #CBD5E1;
+    --fi-gold: #FBBF24;
+    --fi-gold-hover: #FCD34D;
+    --fi-border: #E2E8F0;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  html[data-serif="source-serif"] { --font-serif: 'Source Serif 4', serif; }
+  html[data-serif="literata"]     { --font-serif: 'Literata', serif; }
+  html[data-serif="newsreader"]   { --font-serif: 'Newsreader', serif; }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--fi-ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Control panel ───────────────────────────────── */
+  .control-panel {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(2, 6, 23, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--fi-ink-inv);
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 24px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--fi-border);
+  }
+  .control-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .control-label { color: var(--fi-subtle); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; }
+  .pill-btn {
+    font-family: var(--font-sans);
+    background: transparent;
+    border: 1px solid var(--fi-muted-inv);
+    color: var(--fi-ink-inv);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .pill-btn:hover { border-color: var(--fi-gold); }
+  .pill-btn[aria-pressed="true"] {
+    background: var(--fi-gold);
+    border-color: var(--fi-gold);
+    color: var(--fi-dark);
+    font-weight: 600;
+  }
+  .legend {
+    margin-left: auto;
+    color: var(--fi-subtle);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .legend strong { color: var(--fi-muted-inv); }
+
+  /* ── Hero ─────────────────────────────────────────── */
+  .hero {
+    background: var(--fi-dark);
+    padding: 64px 24px 56px;
+    text-align: center;
+  }
+  .hero-inner { max-width: 720px; margin: 0 auto; }
+  .meta {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--fi-subtle);
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .meta .cat { color: var(--fi-gold); text-transform: uppercase; letter-spacing: 0.1em; font-size: 12px; font-weight: 700; }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+    line-height: 1.12;
+    font-weight: 700;
+    color: var(--fi-ink-inv);
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .deck {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--fi-muted-inv);
+    max-width: 60ch;
+    margin: 0 auto;
+  }
+
+  /* ── Article body ─────────────────────────────────── */
+  article {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  .prose h2 {
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--fi-ink);
+    margin: 2.4em 0 0.7em;
+    letter-spacing: -0.01em;
+  }
+  .prose h2:first-child { margin-top: 0; }
+  .prose h3 {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--fi-ink);
+    margin: 2em 0 0.6em;
+  }
+  .prose p {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--fi-muted);
+    margin: 0 0 1.3em;
+  }
+  html[data-body="serif"] .prose p,
+  html[data-body="serif"] .prose li {
+    font-family: var(--font-serif);
+  }
+  .prose ul, .prose ol {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--fi-muted);
+    padding-left: 1.4em;
+    margin: 0 0 1.3em;
+  }
+  html[data-body="serif"] .prose ul,
+  html[data-body="serif"] .prose ol {
+    font-family: var(--font-serif);
+  }
+  .prose a { color: var(--fi-ink); font-weight: 600; text-decoration: none; border-bottom: 2px solid rgba(251,191,36,0.4); }
+
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.375rem;
+    line-height: 1.5;
+    color: var(--fi-ink);
+    background: var(--fi-light);
+    border-left: 4px solid var(--fi-gold);
+    padding: 20px 28px;
+    margin: 2em 0;
+  }
+
+  /* ── Table — toggleable, so the evidence-layer argument can be checked ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    margin: 1.6em 0;
+  }
+  html[data-table="sans"] table { font-family: var(--font-sans) !important; }
+  html[data-table="serif"] table { font-family: var(--font-serif) !important; }
+  th, td {
+    border: 1px solid var(--fi-border);
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  th {
+    background: var(--fi-light);
+    color: var(--fi-ink);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  td { color: var(--fi-muted); }
+  td strong { color: var(--fi-ink); }
+
+  /* Numerals: toggled below so the "why Inter" claim can be checked, not just asserted */
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  html[data-num="sans"] .num { font-family: var(--font-sans) !important; }
+  html[data-num="serif"] .num { font-family: var(--font-serif) !important; }
+
+  /* ── Numeral diagnostic ───────────────────────────── */
+  .numeral-lab {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    border-bottom: 1px solid var(--fi-border);
+  }
+  .numeral-lab h4 {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--fi-subtle);
+    margin: 0 0 16px;
+  }
+  .baseline-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .digit-sample {
+    font-size: 2.75rem;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--fi-ink);
+  }
+  .digit-sample.is-serif { font-family: var(--font-serif); }
+  .digit-sample.is-sans { font-family: var(--font-sans); }
+  .baseline-line { flex: 1; height: 2px; background: var(--fi-gold); }
+  .baseline-caption {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fi-muted);
+    margin: 0 0 28px;
+  }
+  .tab-col-label {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fi-subtle);
+    margin-bottom: 10px;
+  }
+  .tab-col-label code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    background: var(--fi-light);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+  .baseline-caption code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    background: var(--fi-light);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.8em;
+  }
+  .tab-test-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+  .numfont { font-size: 1.5rem; line-height: 1.4; }
+  html[data-num="sans"] .numfont { font-family: var(--font-sans) !important; }
+  html[data-num="serif"] .numfont { font-family: var(--font-serif) !important; }
+  .tab-num { font-variant-numeric: tabular-nums; }
+  .tab-num-prop { font-variant-numeric: normal; }
+  .tab-width {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fi-subtle);
+  }
+  .tab-width.mismatch { color: #DC2626; font-weight: 700; }
+
+  /* Figure placeholder + caption (caption always Inter) */
+  figure { margin: 2em 0; }
+  .figure-box {
+    background: var(--fi-light);
+    border: 1px dashed var(--fi-subtle);
+    border-radius: 8px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fi-subtle);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+  }
+  figcaption {
+    font-family: var(--font-sans) !important;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--fi-muted);
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .footnote {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fi-muted);
+    border-top: 1px solid var(--fi-border);
+    margin-top: 3em;
+    padding-top: 1.2em;
+  }
+
+  @media (max-width: 640px) {
+    .legend { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="control-panel">
+    <div class="control-group">
+      <span class="control-label">Typeface</span>
+      <button class="pill-btn" data-serif="source-serif" aria-pressed="true">Source Serif 4</button>
+      <button class="pill-btn" data-serif="literata" aria-pressed="false">Literata</button>
+      <button class="pill-btn" data-serif="newsreader" aria-pressed="false">Newsreader</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Body copy</span>
+      <button class="pill-btn" data-body="sans" aria-pressed="true">Inter</button>
+      <button class="pill-btn" data-body="serif" aria-pressed="false">Serif</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Numerals</span>
+      <button class="pill-btn" data-num="sans" aria-pressed="true">Inter</button>
+      <button class="pill-btn" data-num="serif" aria-pressed="false">Serif</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Table</span>
+      <button class="pill-btn" data-table="sans" aria-pressed="true">Inter</button>
+      <button class="pill-btn" data-table="serif" aria-pressed="false">Serif</button>
+    </div>
+    <div class="legend">
+      <strong>Serif always:</strong> title · deck · H2 · pull-quote &nbsp;|&nbsp;
+      <strong>Inter always:</strong> H3+ · captions
+    </div>
+  </div>
+
+  <div class="numeral-lab">
+    <h4>Numeral diagnostic — why the rule exists (or doesn't)</h4>
+
+    <div class="baseline-row">
+      <span class="digit-sample is-serif">xo 0123456789 xo</span>
+      <span class="baseline-line"></span>
+    </div>
+    <p class="baseline-caption">Current serif pick, at 44px. The gold line marks the text baseline — watch which digits sink below it or rise above the "x" height.</p>
+
+    <div class="baseline-row">
+      <span class="digit-sample is-sans">xo 0123456789 xo</span>
+      <span class="baseline-line"></span>
+    </div>
+    <p class="baseline-caption">Inter, same size, for comparison. Inter's figures are "lining" — all digits sit on the baseline at uniform cap height, like the rest of the UI.</p>
+
+    <div class="tab-col-label"><code>font-variant-numeric: tabular-nums</code> (the site's actual utility class)</div>
+    <div class="tab-test-row"><span class="numfont tab-num" data-measure>1111111111</span><span class="tab-width"></span></div>
+    <div class="tab-test-row"><span class="numfont tab-num" data-measure>8888888888</span><span class="tab-width"></span></div>
+    <div class="tab-test-row"><span class="numfont tab-num" data-measure>0000000000</span><span class="tab-width"></span></div>
+    <p class="baseline-caption" style="margin-top:12px;">If tabular figures are honored, all three rows measure the <strong>same pixel width</strong> — a "1" takes as much space as an "8". If the font falls back to proportional spacing, the "1" row measures visibly narrower.</p>
+
+    <div class="tab-col-label" style="margin-top:20px;"><code>font-variant-numeric: normal</code> (no tabular request — the font's raw default)</div>
+    <div class="tab-test-row"><span class="numfont tab-num-prop" data-measure-prop>1111111111</span><span class="tab-width"></span></div>
+    <div class="tab-test-row"><span class="numfont tab-num-prop" data-measure-prop>8888888888</span><span class="tab-width"></span></div>
+    <div class="tab-test-row"><span class="numfont tab-num-prop" data-measure-prop>0000000000</span><span class="tab-width"></span></div>
+    <p class="baseline-caption" style="margin-top:12px;">This shows whether the font's <em>default</em> figures are already uniform-width, or whether the tabular-nums CSS above is the thing actually doing the work.</p>
+
+    <div class="tab-col-label" style="margin-top:20px;"><code>font-variant-numeric: slashed-zero</code> — distinguishes 0 from O</div>
+    <div class="baseline-row">
+      <span class="numfont" style="font-size:2.75rem; font-variant-numeric: slashed-zero;">00 O0O 00</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="meta">
+        <span>July 12, 2026</span>
+        <span>•</span>
+        <span>7 min read</span>
+        <span>•</span>
+        <span class="cat">Methodology</span>
+      </div>
+      <h1>How to Investigate a Mutual Fund: Five Checks</h1>
+      <p class="deck">Whether you own a fund or are considering a new one, use these five checks to evaluate its historical performance and risk profile.</p>
+    </div>
+  </header>
+
+  <article>
+    <div class="prose">
+      <p>Avoiding bad investments is as important as, if not more important than, choosing a promising one. There are thousands of mutual funds in the Indian market. When someone pitches you a fund, it can become overwhelming to decide.</p>
+
+      <h2>The five checks</h2>
+      <ol>
+        <li>Did the fund beat a fair benchmark?</li>
+        <li>Was the fund's performance consistent, or just a lucky year?</li>
+        <li>Did the fund's return justify the fund's risk?</li>
+        <li>How far did the fund fall when the market turned?</li>
+        <li>How long did the fund take to recover from drawdown?</li>
+      </ol>
+      <p>The first two questions provide insights on a fund's returns and performance consistency. The third one highlights the fund's risk profile to achieve those returns. The combined picture will help you or your advisor assess the fund's suitability in your portfolio.</p>
+
+      <blockquote class="pull-quote">"The goal of these checks is to move beyond the headline return used in the sales pitch, and to work out which areas deserve a closer look."</blockquote>
+
+      <h2>Key takeaways</h2>
+      <table>
+        <thead>
+          <tr><th>Check</th><th>HDFC Flexi Cap vs Nifty 500 TRI</th><th>What does it mean?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Returns vs. Benchmark</strong></td>
+            <td>CAGR: <span class="num">19.7%</span> vs <span class="num">15.5%</span><br>IRR: <span class="num">19.9%</span> vs <span class="num">14.2%</span></td>
+            <td>Both the lump-sum investment and the SIP would have outperformed the benchmark</td>
+          </tr>
+          <tr>
+            <td><strong>Consistency</strong></td>
+            <td>Ahead in <span class="num">5</span> of <span class="num">6</span> years · <span class="num">59%</span> rolling win rate</td>
+            <td>Did better than the benchmark in most periods and also on rolling basis</td>
+          </tr>
+          <tr>
+            <td><strong>Return vs. Risk</strong></td>
+            <td>Sharpe: <span class="num">0.77</span> vs <span class="num">0.56</span></td>
+            <td>Higher Sharpe ratio indicates better risk-adjusted returns during the period</td>
+          </tr>
+          <tr>
+            <td><strong>Market Drawdown</strong></td>
+            <td>Max drawdown: <span class="num">-40%</span> vs <span class="num">-38%</span></td>
+            <td>Fund fell more than benchmark in COVID, showing the risk profile of flexi cap funds</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Check 1: Did the fund beat a fair benchmark?</h2>
+      <p>A flexi cap manager invests across large, mid, and small-cap companies. Under SEBI's scheme categorisation rules, the benchmark for this category is the Nifty 500 TRI, which covers the same broad opportunity set.</p>
+
+      <figure>
+        <div class="figure-box">[Figure — Deepdive KPI row screenshot]</div>
+        <figcaption>Figure 1: Comparison of the HDFC Flexi Cap Fund's IRR, CAGR, and total returns against the benchmark.</figcaption>
+      </figure>
+
+      <h3>Assessment: the fund beat the benchmark on both lumpsum and SIP returns</h3>
+      <p>Between <span class="num">1 Jan 2020</span> and <span class="num">10 July 2026</span>, the HDFC Flexi Cap Fund outperformed the Nifty 500 TRI on every return measure: <span class="num">19.7%</span> CAGR against the benchmark's <span class="num">15.5%</span>, and <span class="num">19.9%</span> IRR against <span class="num">14.2%</span>. Total return over the period was <span class="num">214.4%</span>, against <span class="num">152.4%</span> for the benchmark.</p>
+
+      <h2>Check 4 &amp; 5: How far did the fund fall, and how long to recover?</h2>
+      <p>Finally, we examine the worst drawdown during the period and the time taken to recover.</p>
+
+      <h3>Assessment: a 40% fall in COVID, recovered in about a year</h3>
+      <p>HDFC Flexi Cap fell further than the Nifty 500 TRI at the worst point of the period, <span class="num">-40.2%</span> against <span class="num">-38.1%</span>, both hitting their lows on <span class="num">23 March 2020</span>. Recovery to the previous peak took <span class="num">256</span> days for the fund and <span class="num">228</span> days for the benchmark — roughly a year in both cases.</p>
+
+      <div class="footnote">
+        Sharpe ratios use a <span class="num">6.0%</span> annual risk-free rate, applied consistently to the fund and benchmark.
+      </div>
+    </div>
+  </article>
+
+<script>
+  document.querySelectorAll('.pill-btn[data-serif]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.documentElement.dataset.serif = btn.dataset.serif;
+      document.querySelectorAll('.pill-btn[data-serif]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+      measureTabRows();
+    });
+  });
+  document.querySelectorAll('.pill-btn[data-body]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.documentElement.dataset.body = btn.dataset.body;
+      document.querySelectorAll('.pill-btn[data-body]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    });
+  });
+  document.querySelectorAll('.pill-btn[data-num]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.documentElement.dataset.num = btn.dataset.num;
+      document.querySelectorAll('.pill-btn[data-num]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+      measureTabRows();
+    });
+  });
+  document.querySelectorAll('.pill-btn[data-table]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.documentElement.dataset.table = btn.dataset.table;
+      document.querySelectorAll('.pill-btn[data-table]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    });
+  });
+
+  function measureGroup(selector) {
+    const rows = document.querySelectorAll(selector);
+    const widths = Array.from(rows).map(el => el.getBoundingClientRect().width);
+    const maxDiff = Math.max(...widths) - Math.min(...widths);
+    rows.forEach((el, i) => {
+      const badge = el.nextElementSibling;
+      badge.textContent = `${widths[i].toFixed(1)}px`;
+      badge.classList.toggle('mismatch', maxDiff > 1);
+    });
+  }
+  function measureTabRows() {
+    measureGroup('[data-measure]');
+    measureGroup('[data-measure-prop]');
+  }
+  document.fonts.ready.then(measureTabRows);
+  window.addEventListener('resize', measureTabRows);
+</script>
+
+</body>
+</html>

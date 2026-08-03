@@ -62,8 +62,8 @@ const jsonLd = [
           <><span>•</span><Badge variant="dark" size="sm">Historical</Badge></>
         )}
       </div>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
-      <p class="text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
+      <p class="font-serif text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
     </div>
   </header>
 
@@ -78,7 +78,7 @@ const jsonLd = [
         </div>
       )}
 
-      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:marker:text-fi-muted">
+      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums">
         <slot />
       </div>
 

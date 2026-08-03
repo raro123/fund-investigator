@@ -72,6 +72,14 @@ font-size: clamp(34px, 5.5vw, 58px)
 
 The emphasis word ("Investigated") is rendered in `fi-gold` using an `<em>` with `font-style: normal`.
 
+### Report Serif (Newsreader)
+
+Report article content only (`src/layouts/ArticleLayout.astro`) uses a second typeface, Newsreader
+(self-hosted via `@fontsource/newsreader`, weights 400/700), applied to: the H1, deck/hook, all
+heading levels, body copy (paragraphs + lists), pull-quotes, and markdown tables. Figure captions,
+the disclaimer block, and all site-wide UI chrome — nav, buttons, cards, footer, `ReportCard.astro`
+— remain Inter. Config: `tailwind.config.mjs` → `fontFamily.serif`.
+
 ---
 
 ## 3. Buttons
@@ -227,7 +235,7 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 | Custom border-radius | Button radius tokenized as `rounded-fi-btn` (10px); others use Tailwind defaults |
 | Custom transitions | Removed — use Tailwind defaults |
 | Custom animations | Removed — use Tailwind defaults |
-| Playfair Display | Removed — Inter only |
+| Playfair Display | Rejected as the report serif candidate — superseded by Newsreader, see `## 2. Typography` |
 | Stats Strip section | Removed from page — no traction metrics to justify it yet |
 | "Coming Soon" cards | Removed — honest about current content state |
 | Freemium promises in UI | Removed — "free to use · no login required" deleted to avoid constraining business model |

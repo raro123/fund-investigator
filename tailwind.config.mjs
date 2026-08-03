@@ -68,11 +68,15 @@ export default {
 
       // ─────────────────────────────────────────
       // TYPOGRAPHY
-      // Font: Inter only (loaded via @fontsource/inter in Layout.astro)
+      // Sans: Inter — site-wide UI chrome (nav, buttons, cards, body copy outside articles)
+      // Serif: Newsreader — report article content only: h1, deck, all heading levels, body
+      //   copy, lists, pull-quotes, and markdown tables (see src/layouts/ArticleLayout.astro).
+      //   Loaded via @fontsource/newsreader in Layout.astro. Weights: 400 · 700 only.
       // Mono: for tabular financial data
       // ─────────────────────────────────────────
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
 
