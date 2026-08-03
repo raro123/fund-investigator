@@ -1,100 +1,71 @@
 # Fund Investigator
 
-A financial advisory brand platform showcasing comprehensive mutual fund analysis for Indian investors. Built as a fast, content-driven static site with a systematic design approach.
+FundInvestigator.com — a content-driven website analyzing Indian mutual funds beyond headline
+returns, built to establish credibility and attract readers, Deepdive users, and prospective clients.
 
 ## Architecture
 
-**Hub + Spoke Pattern:**
-- **Hub:** `fundinvestigator.com` (Marketing & Reports) - Static site on Cloudflare Pages
-- **Spoke:** `deepdive.fundinvestigator.com` (Analysis Tool) - Interactive app on Railway
+**Hub + Spoke:**
+- **Hub:** `fundinvestigator.com` (Marketing/Content) — static Astro site on Cloudflare Pages.
+- **Spoke:** `deepdive.fundinvestigator.com` (Analytics tool) — Streamlit app on Railway, **separate codebase, not part of this repo**.
 
-This architecture separates the fast, SEO-optimized content layer from the compute-heavy application layer.
+Subdomains separate the fast, SEO-optimized content layer from the compute-heavy application layer.
 
 ## Tech Stack
 
-- **Astro v4** - Static site generator (SSG mode, zero-JS output)
-- **Tailwind CSS v3** - Utility-first styling with custom design tokens
-- **TypeScript** - Type-safe components and props
-- **Cloudflare Pages** - Deployment and hosting
-- **Cloudflare RUM** - Analytics
+- **Astro v5** (SSG mode, zero-JS output by default)
+- **Tailwind CSS v3.4** — utility-first, custom `fi-*` design tokens (see `docs/style_spec.md`)
+- **TypeScript** — typed components and content schema
+- **Content:** Markdown + YAML frontmatter, via Astro content collections (`src/content.config.ts`)
+- **Cloudflare Pages** — hosting/deployment
+- **Email/Newsletter:** Substack — subscription capture and distribution (`src/lib/substack.ts`). Full investigations stay on this site; Substack carries teasers, summaries, and newsletters.
+- **Error tracking:** custom client-side beacon in `Layout.astro` — description intentionally omitted, endpoint accuracy under review (see `docs/project_log.md` #37)
 
-## 3-Layer Design System
+### Key File Locations
+- **Design Tokens:** `tailwind.config.mjs` — see `docs/style_spec.md` for the full token reference
+- **UI Components:** `src/components/ui/`
+- **Content Config:** `src/content.config.ts`
+- **Report Content:** `src/content/reports/`
+- **Report Images:** `src/assets/images/reports/[slug]/` — charts/graphs embedded in the article body via markdown
+- **Cover Image:** `coverImage` frontmatter field, same folder today (see `docs/project_log.md` #27 for a possible future split)
 
-### Layer 1: Design Tokens
-**Source of Truth:** `tailwind.config.mjs`
+## Design System
 
-All visual properties are defined as Tailwind tokens. Never use arbitrary values (e.g., `bg-[#1E3A5F]`).
-
-**Available Tokens:**
-- **Colors:** `navy`, `gold`, `cream` (with light/dark variants) + semantic colors (`success`, `error`, `warning`, `info`)
-- **Typography:** Display, Heading, Body, Caption sizes (each with line-height and letter-spacing)
-- **Spacing:** `section-y`, `card-padding`, `element-gap`, etc.
-- **Shadows:** Standard shadows + branded `shadow-gold`, `shadow-navy`
-- **Animations:** fade-in, scale-in, slide-in-right, shimmer, etc.
-
-### Layer 2: UI Components
-**Location:** `src/components/ui/`
-
-12 TypeScript-typed Astro components with strict variant-based architecture:
-- Button, Card, Badge, Hero, Section
-- Input, LoginForm, SearchInput, SubscribeForm
-- Table, SortableTable, OptimizedImage
-
-**Usage Pattern:**
-```astro
-import { Button } from '@/components/ui/Button.astro';
-import { Card } from '@/components/ui/Card.astro';
-
-<Button variant="primary" size="lg" icon="arrow-right">Launch Tool</Button>
-<Card variant="elevated" padding="lg">...</Card>
-```
-
-**Rules:**
-- Always use component props, never inline custom classes
-- All variants derive from design tokens
-- No ad-hoc styling
-
-### Layer 3: Documentation
-**Live Reference:** Visit `/styleguide` to see all available components, variants, and usage examples.
+Design tokens, component rules, and responsive conventions are enforced in [CLAUDE.md](CLAUDE.md).
+Exact values and design rationale: `docs/style_spec.md`. Live component reference: `/styleguide`.
 
 ## Project Structure
 
 ```
 fund-investigator/
 ├── src/
-│   ├── assets/images/          # Auto-optimized images (WebP/AVIF)
-│   │   └── reports/            # Per-article image folders
+│   ├── assets/images/reports/[slug]/   # Chart images + cover image, auto-optimized (WebP/AVIF)
 │   ├── components/
-│   │   ├── ui/                 # 12 UI components
-│   │   │   ├── Button.astro
-│   │   │   ├── Card.astro
-│   │   │   ├── Badge.astro
-│   │   │   └── [9 more...]
-│   │   ├── Header.astro
-│   │   ├── Footer.astro
-│   │   └── Logo.astro
+│   │   ├── ui/                         # Button, Card, Badge, Hero, Section, Table, ... (see /styleguide)
+│   │   ├── Header.astro / Footer.astro / Logo.astro
+│   │   └── ReportCard.astro
+│   ├── content/
+│   │   └── reports/                    # Report markdown — the content collection
+│   ├── content.config.ts               # Schema for the reports collection
 │   ├── layouts/
-│   │   ├── Layout.astro        # Global layout
-│   │   └── ArticleLayout.astro # Report pages
+│   │   ├── Layout.astro                # Global layout
+│   │   └── ArticleLayout.astro         # Report page layout
+│   ├── lib/                            # responsive.ts, schema.ts (JSON-LD), substack.ts
 │   └── pages/
-│       ├── index.astro         # Landing page
-│       ├── reports.astro       # Report listing
-│       ├── reports/            # Markdown report files
-│       │   ├── _TEMPLATE.md    # Content template
-│       │   └── [articles].md
-│       ├── about.astro
-│       ├── styleguide.astro    # Component showcase
-│       ├── disclaimer.astro
-│       ├── privacy.astro
-│       └── terms.astro
+│       ├── index.astro
+│       ├── reports.astro               # Report listing
+│       ├── reports/[...slug].astro     # Report detail route
+│       ├── about.astro / disclaimer.astro / privacy.astro / terms.astro
+│       ├── styleguide.astro            # Live component reference — /styleguide
+│       └── llms.txt.ts                 # Machine-readable summary for AI crawlers
+├── functions/api/                      # Cloudflare Pages Functions
 ├── public/
-│   ├── images/reports/         # Static social card images
-│   └── _redirects              # Cloudflare routing config
-├── docs/
-│   ├── CONTENT-GUIDE.md        # Writing tone & style
-│   └── DEPLOYMENT.md           # Deploy procedures
-├── CLAUDE.md                   # Project context
-├── tailwind.config.mjs         # Design tokens (source of truth)
+│   ├── images/                         # Static social/OG images
+│   ├── videos/                         # Deepdive showcase promo reels
+│   └── robots.txt
+├── docs/                                # Design spec, content philosophy, deployment, project log
+├── CLAUDE.md                           # Agent instructions (AGENTS.md symlinks here)
+├── tailwind.config.mjs                  # Design tokens
 ├── astro.config.mjs
 └── package.json
 ```
@@ -121,78 +92,25 @@ fund-investigator/
    ```bash
    npm run preview
    ```
+5. **Type-check:**
+   ```bash
+   npm run astro check
+   ```
 
 ## Creating Content
 
-### New Report Workflow
-
-1. **Copy template:** Duplicate `src/pages/reports/_TEMPLATE.md`
-2. **Update frontmatter:**
-   ```yaml
-   ---
-   layout: ../../layouts/ArticleLayout.astro
-   title: "Report Title"
-   description: "SEO description (under 160 chars)"
-   date: 2025-01-11
-   readTime: "8 min read"
-   category: "Fund Analysis"
-   tags: ["Flexicap", "HDFC", "Long-term"]
-   featured: true
-   coverImage: "/images/reports/article-slug.png"
-   coverImageAlt: "Chart description"
-   ---
-   ```
-
-3. **Add images:**
-   - **Charts/graphs:** Save to `src/assets/images/reports/article-slug/` (auto-optimized)
-   - **Social cards:** Save to `public/images/reports/` (static URLs for OpenGraph)
-
-4. **Follow Investigation Arc:** Premise → Evidence → Analysis → Verdict
-
-### Image Strategy
-
-| Image Type | Location | Path Format | Processing |
-|------------|----------|-------------|------------|
-| Charts, graphs, content images | `src/assets/images/reports/{slug}/` | `../../assets/images/...` | Auto-optimized (WebP/AVIF) |
-| Social cards, OpenGraph | `public/images/reports/` | `"/images/reports/..."` | Static (no processing) |
-
-## Development
-
-### Component Usage
-```astro
----
-import Button from '@/components/ui/Button.astro';
-import Card from '@/components/ui/Card.astro';
-import Badge from '@/components/ui/Badge.astro';
----
-
-<Card variant="elevated" padding="lg">
-  <Badge variant="success">High Conviction</Badge>
-  <h3>Fund Name</h3>
-  <p>Analysis summary...</p>
-  <Button variant="primary" href="/reports/article-slug">Read Report</Button>
-</Card>
-```
-
-### Mobile-First Responsive Design
-Use Tailwind breakpoints for responsive layouts:
-```astro
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  <!-- Cards... -->
-</div>
-```
-
-### Essential Commands
-- `npm run dev` - Start local development server
-- `npm run build` - Build for production (`dist/` directory)
-- `npm run preview` - Preview production build locally
-- `npm run astro check` - Type-check TypeScript
+Copy `docs/templates/report-template.md` and follow the inline instructions — it's the maintained
+reference for frontmatter fields, image paths, and the Investigation Arc structure (Premise →
+Evidence → Analysis → Verdict), and stays in sync with the schema in `src/content.config.ts`.
 
 ## Documentation
 
-- **[CLAUDE.md](CLAUDE.md)** - Project architecture, design system, and development workflow
-- **[docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md)** - Writing guidelines and tone reference
+- **[CLAUDE.md](CLAUDE.md)** - Design system rules and development workflow
+- **[docs/content_philosophy.md](docs/content_philosophy.md)** - Writing guidelines and tone reference
+- **[docs/style_spec.md](docs/style_spec.md)** - Design token values and rationale
+- **[docs/templates/report-template.md](docs/templates/report-template.md)** - Report authoring reference
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures and troubleshooting
+- **[docs/project_log.md](docs/project_log.md)** - Session history and pending decisions
 - **Live Styleguide** - Visit `/styleguide` for component reference
 
 ## Deployment
@@ -201,37 +119,9 @@ This project deploys automatically to Cloudflare Pages on pushes to `main`.
 
 For detailed deployment setup, custom domains, and troubleshooting, see **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
 
-## Content Guidelines
-
-**Persona:** Investigator Colleague - Professional, matter-of-fact, peer-to-peer communication.
-
-**Core Philosophy:** Fact-Based Storytelling - Use data to create the narrative arc, not adjectives.
-
-### Quick Checklist
-
-✅ **Do:**
-- Use specific metrics (e.g., "15% CAGR" not "huge returns")
-- Structure reports with Investigation Arc (Premise → Evidence → Analysis → Verdict)
-- Write complete sentences in paragraph form
-- Let data provide the drama
-
-❌ **Avoid:**
-- Superlatives ("best", "massive", "revolutionary")
-- Exclamation marks (max 1 per page)
-- Sales tactics ("act now", "limited time")
-- Bullet lists (except in technical/code contexts)
-
-**Full guidelines:** See [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md)
-
-## Brand Identity
-
-- **Colors:** Navy (#1E3A5F), Gold (#D4AF37), Cream (#fefce8)
-- **Typography:** Inter font family with generous line-height (1.7)
-- **Logo:** "FIN" in magnifying glass lens (Navy primary, Gold accent on "I")
-
 ## License
 
-© 2025 Ishpreet Singh Modi
+© 2026 Fund Investigator
 
 ---
 

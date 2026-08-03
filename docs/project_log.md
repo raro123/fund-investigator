@@ -15,7 +15,7 @@ paid research.
 - MailerLite developer docs: https://developers.mailerlite.com/docs
 - Astro docs: https://docs.astro.build
 - Cloudflare Pages Functions docs: https://developers.cloudflare.com/pages/functions/
-- Design tokens: `tailwind.config.mjs` · Content guide: `docs/CONTENT-GUIDE.md` · Deployment: `docs/DEPLOYMENT.md`
+- Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy.md` · Deployment: `docs/DEPLOYMENT.md`
 
 ---
 
@@ -60,12 +60,69 @@ paid research.
 | 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
 | 36 | **Give reports a second typeface — a serif for the editorial layer, keeping Inter for everything analytical.** Direction agreed, implementation parked. The split is drawn by layer, not by heading level: serif for the report title, deck, section H2s and pull quotes; Inter for H3 and below, chart titles, table headers, captions, and every numeral. The layer boundary matters because report H2s and H3s sit right beside charts and tables, where a serif subhead reads as a mistake rather than a choice. Numerals stay in Inter unconditionally — the serif's figures will not align in a financial column, and the existing `tabular-nums` / `slashed-zero` utilities depend on that. Typeface still open: **Source Serif 4** is the safe pick (restrained, sturdy, won't overpower financial data) but is close to a default look on documentation and academic sites, which works against the goal of a memorable shared identity; **Literata** and **Newsreader** are equally restrained and read as more deliberately chosen. Open sub-question: whether the serif also takes report *body* copy. Serif titles over sans body is a half-commitment — it signals "publication" at the top of the page and then reads like documentation for the next 2,000 words — so body copy should be tested both ways on the Five Checks article before settling. Budget is net-neutral: drop the two unused Inter weights (500, 800) to pay for two serif weights, self-hosted via `@fontsource` so no new origin is added. Touch points: `tailwind.config.mjs` font family, the `ArticleLayout` H1, and the prose chain's blanket `prose-headings:font-bold`, which currently styles all heading levels alike. Supersedes the narrower #14 | 2026-08-03 | S23 | 🟡 Open |
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
+| 37 | The "Cloudflare RUM" script in `Layout.astro` (labelled `Cloudflare Browser Error Tracking` in the code) `sendBeacon`s to `cloudflare-analytics.com/cdn-cgi/rum` — not a real Cloudflare domain (their real endpoints are under `cloudflareinsights.com`). Failures are silently swallowed, so there is no way to tell from the app whether error reports have ever been delivered. Confirm whether `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` are set in Cloudflare Pages and whether this was ever a real endpoint or a placeholder that was never swapped in | 2026-08-03 | S24 | 🟡 Open |
+| 38 | `@astrojs/mdx` is installed and registered in `astro.config.mjs` but unused — the reports collection is `type: 'content'` (plain Markdown) and there are zero `.mdx` files in `src/`. Decide whether to keep it for planned future use or remove the dependency | 2026-08-03 | S24 | 🟡 Open |
+| 39 | `functions/api/subscribe.ts` still calls the MailerLite API, but nothing in `src/` links to `/api/subscribe` anymore — the site fully migrated to Substack under decision #30. Dead code left over from before the cutover; delete once confirmed nothing external still posts to it | 2026-08-03 | S24 | 🟡 Open — cleanup after current docs pass |
+| 40 | `src/components/TearsheetMockup.astro` has zero imports anywhere in `src/` — the same unused component flagged back in S3 and never removed | 2026-08-03 | S24 | 🟡 Open — cleanup after current docs pass |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S24 — CLAUDE.md audited and trimmed; two dormant issues surfaced
+
+**What was done:**
+Went through `CLAUDE.md` section by section, comparing every claim against the actual codebase, and
+decided what was still load-bearing versus what had drifted into duplication. While checking a claim
+about analytics, found that a script described as "Cloudflare RUM" is actually a custom JS error
+logger pointing at a domain Cloudflare doesn't own, and that an installed Markdown/MDX integration is
+currently unused. Both were logged as open follow-ups rather than fixed, since they need a decision
+first.
+
+**Why:**
+`CLAUDE.md` had grown into both a rules file and a reference/knowledge-base file, so the same facts
+(architecture, responsive padding values, image paths, category rules) ended up duplicated across
+`CLAUDE.md`, `README.md`, `docs/style_spec.md`, `docs/templates/report-template.md`, and the live
+`/styleguide` page, with no single source of truth. The goal was one home per kind of content, so
+future edits only have to happen in one place.
+
+**How:**
+Reviewed each section against the repo: confirmed `AGENTS.md` was byte-identical to `CLAUDE.md` (via
+`md5sum`) and replaced it with a symlink so they can't diverge again. Moved the Project Overview and
+Architecture/Tech Stack sections out of `CLAUDE.md` (destination: a rewritten `README.md`, not yet
+done) on the reasoning that they're reference material an agent can look up on demand, not a standing
+rule that needs to be force-loaded every session. Deleted the old "Agent Behavior Guidelines" section
+entirely — it was a verbatim duplicate of the user's global `~/.claude/CLAUDE.md` preferences. Trimmed
+a duplicated Tailwind class string and a numbering bug (1, 2, 3, 4, 3) out of the Development Workflow
+rules, and removed a "Grid Rule" and an "Image Strategy" bullet that restated rules already covered
+elsewhere (`docs/style_spec.md`, `docs/templates/report-template.md`). Added one new rule that wasn't
+surfaced anywhere before: adding a report `category` requires updating both the schema enum in
+`src/content.config.ts` and `categoryLabels` in `src/pages/reports.astro`, or the build still passes
+but the filter pill for that category silently never appears on `/reports`. Also found `docs/style_spec.md`
+has two different sections both numbered "## 15", which is what made `CLAUDE.md`'s own cross-reference
+to it ambiguous — fix agreed (renumber, and scope the file down to rationale/decisions only, since its
+value tables duplicate what `/styleguide` already shows live) but not yet executed. Also noticed the
+"Important Links" list above points at a `docs/CONTENT-GUIDE.md` that doesn't exist (the real file is
+`docs/content_philosophy.md`) — corrected in place.
+
+**Decisions made:**
+- `CLAUDE.md` = enforced behavioral rules only; `README.md` = architecture/tech-stack reference;
+  `docs/style_spec.md` = design rationale only; `/styleguide` = live exact values; `docs/templates/report-template.md`
+  = content-authoring how-to. One home per kind of content.
+- `AGENTS.md` is now a symlink to `CLAUDE.md`, not a separately maintained copy.
+- Report category additions must update both `src/content.config.ts` and `src/pages/reports.astro`;
+  now stated as a rule in `CLAUDE.md`, not just a code comment.
+
+**Pending decisions:**
+- #37 — is the "Cloudflare RUM" error-tracking beacon actually delivering anywhere, and was
+  `cloudflare-analytics.com` ever correct.
+- #38 — keep or remove the unused `@astrojs/mdx` integration.
+- README.md rewrite (absorbing the old Project Overview/Architecture sections) and the
+  `docs/style_spec.md` renumber/trim are agreed but not yet executed.
 
 ---
 
