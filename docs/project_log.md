@@ -62,8 +62,8 @@ paid research.
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 | 37 | The "Cloudflare RUM" script in `Layout.astro` (labelled `Cloudflare Browser Error Tracking` in the code) `sendBeacon`s to `cloudflare-analytics.com/cdn-cgi/rum` — not a real Cloudflare domain (their real endpoints are under `cloudflareinsights.com`). Failures are silently swallowed, so there is no way to tell from the app whether error reports have ever been delivered. Confirm whether `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` are set in Cloudflare Pages and whether this was ever a real endpoint or a placeholder that was never swapped in | 2026-08-03 | S24 | 🟡 Open |
 | 38 | `@astrojs/mdx` is installed and registered in `astro.config.mjs` but unused — the reports collection is `type: 'content'` (plain Markdown) and there are zero `.mdx` files in `src/`. Decide whether to keep it for planned future use or remove the dependency | 2026-08-03 | S24 | 🟡 Open |
-| 39 | `functions/api/subscribe.ts` still calls the MailerLite API, but nothing in `src/` links to `/api/subscribe` anymore — the site fully migrated to Substack under decision #30. Dead code left over from before the cutover; delete once confirmed nothing external still posts to it | 2026-08-03 | S24 | 🟡 Open — cleanup after current docs pass |
-| 40 | `src/components/TearsheetMockup.astro` has zero imports anywhere in `src/` — the same unused component flagged back in S3 and never removed | 2026-08-03 | S24 | 🟡 Open — cleanup after current docs pass |
+| 39 | `functions/api/subscribe.ts` still calls the MailerLite API, but nothing in `src/` links to `/api/subscribe` anymore — the site fully migrated to Substack under decision #30. Dead code left over from before the cutover; delete once confirmed nothing external still posts to it | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, no references) |
+| 40 | `src/components/TearsheetMockup.astro` has zero imports anywhere in `src/` — the same unused component flagged back in S3 and never removed | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, along with the leftover `public/sample-tearsheet-placeholder.md`) |
 | 41 | Extend `/styleguide` to visually cover page-composition patterns it currently doesn't show: Navigation, Footer, Background Accents (the hero/Why-FI radial gradient), and Section Labels. **Updated:** Deepdive App Mockup and Email Input dropped from this list — a fuller audit of `docs/style_spec.md` against the live site found both describe UI that no longer exists (replaced by the video walkthrough and Substack redirect buttons respectively), so there's nothing to render; both were moved into style_spec.md's "What Was Deliberately Excluded" log instead. That same audit also found Navigation, Footer, and Section Spacing had drifted from the live implementation (wrong colors/theme, wrong grid, wrong padding mechanism) — style_spec.md now points at the owning component file instead of restating values, which is the real fix; building live `/styleguide` sections for Nav/Footer/Background Accents would still be worthwhile so those specs are visually verifiable rather than just correctly delegated, but it's real UI/Astro work (new `styleguide.astro` sections + dev-server verification), not a doc edit — separate session | 2026-08-03 | S24 | 🟡 Open |
 
 ---
@@ -71,6 +71,49 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S25 — Doc cleanup completed; dead code from #39/#40 removed
+
+**What was done:**
+Finished the documentation cleanup started in S24: deleted six stale/superseded docs (Substack
+setup notes, an old subscription-pathways review, two draft content-strategy documents, personal
+scratch notes, and the outdated `todos.md` changelog/wishlist), and rewrote `docs/DEPLOYMENT.md`
+to match the site's actual Cloudflare Pages setup instead of its original pre-launch instructions.
+Then cleared the two confirmed-dead-code items from S24's follow-up list: the leftover MailerLite
+subscribe endpoint and the unused Tearsheet mockup component, plus a placeholder file that only
+existed to support the mockup.
+
+**Why:**
+The deleted docs described tooling, drafts, or setup steps that no longer reflect how the site
+works (Substack migration completed in S16, no Railway `/app` proxy exists anymore, no personal
+launch checklist is relevant post-launch). `todos.md` had become a historical changelog rather
+than a live task list, and its "Reports UI Enhancements" section was an aspirational wishlist with
+no confirmed intent — dropped as a whole rather than partially salvaged. The two dead-code items
+had zero references anywhere in `src/`, confirmed by grep before deletion, so keeping them around
+only risked someone assuming they were load-bearing.
+
+**How:**
+Doc deletions and the DEPLOYMENT.md rewrite were done directly. For the dead code, confirmed via
+`grep -rn` that nothing in `src/`, `functions/`, or `astro.config.mjs` referenced
+`functions/api/subscribe.ts`, `TearsheetMockup.astro`, or `sample-tearsheet-placeholder.md`, then
+deleted all three and verified with `npm run build` that the production build still completes
+cleanly.
+
+**Decisions made:**
+- Delete stale/superseded docs outright rather than archive them (confirmed preference).
+- Drop `todos.md` entirely rather than migrate surviving open items into `project_log.md` — none
+  were judged worth carrying forward.
+- `docs/DEPLOYMENT.md` now documents the live Cloudflare Pages setup (build settings, env vars,
+  robots.txt/sitemap dual-maintenance gotcha) with dashboard-only facts flagged as
+  verify-in-dashboard rather than asserted.
+
+**Pending decisions:**
+- #37 — is the "Cloudflare RUM" error-tracking beacon actually delivering anywhere.
+- #38 — keep or remove the unused `@astrojs/mdx` integration.
+- #41 — extend `/styleguide` to cover Navigation/Footer/Background Accents/Section Labels; real
+  UI work, needs its own session with a dev server.
 
 ---
 
