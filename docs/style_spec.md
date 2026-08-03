@@ -9,28 +9,17 @@
 
 All colors are defined as semantic `fi-*` tokens in `tailwind.config.mjs`. Never use raw hex or Tailwind palette names (e.g. `slate-950`) directly in components — always use the token.
 
-### Structural Backgrounds
-
-| Token | Hex | Tailwind base | Used on |
-|-------|-----|---------------|---------|
-| `fi-dark` | `#020617` | slate-950 | Hero · Why FI · Footer |
-| `fi-mid` | `#1E293B` | slate-800 | Cards on dark bg · label pill bg (dark) |
-| `fi-light` | `#F8FAFC` | slate-50 | Problem · Deepdive · Email Capture · alternating sections |
-
-White (`#FFFFFF`) is used for Nav and Investigations sections. Use Tailwind's native `white`.
+**Full palette with live swatches: `/styleguide` → Color Palette.** That page renders directly from the tokens and can't drift from them; this doc doesn't keep its own copy of the hex values.
 
 ### Section Background Rhythm
 
-| # | Section | Background |
-|---|---------|------------|
-| 1 | Nav | `white` (sticky) |
-| 2 | Hero | `fi-dark` |
-| 3 | The Problem | `fi-light` |
-| 4 | Investigations | `white` |
-| 5 | Deepdive | `fi-light` |
-| 6 | Why Fund Investigator | `fi-dark` |
-| 7 | Email Capture | `fi-light` |
-| 8 | Footer | `fi-dark` |
+**Principle:** homepage sections alternate `fi-dark` and `fi-light` backgrounds to create visual
+rhythm — no page should read as one flat block of color. The current section-by-section assignment
+is owned by the `background` prop passed to each `<Section>`/`<Hero>` call in `src/pages/index.astro`;
+treat that file as the source of truth rather than a table here, since homepage composition (section
+order, new sections, section count) changes as the page evolves and a static list goes stale
+immediately (this table previously listed 8 sections in an order that no longer matches the live
+page, and omitted the Credibility Strip section entirely).
 
 ### Text
 
@@ -70,32 +59,8 @@ White (`#FFFFFF`) is used for Nav and Investigations sections. Use Tailwind's na
 
 ## 2. Typography
 
-### Fonts
-
-| Role | Family | Load via |
-|------|--------|---------|
-| Primary (all UI) | Inter | `@fontsource/inter` in `Layout.astro` |
-| Monospace (financial data) | JetBrains Mono, Fira Code | CDN or system fallback |
-
-Weights loaded: **400 · 500 · 600 · 700 · 800**
-
-### Type Scale — 1.250 ratio
-
-| Token | Size | Line Height | Letter Spacing | Weight | Used for |
-|-------|------|-------------|----------------|--------|---------|
-| `display-xl` | 44px / 2.75rem | 1.08 | −0.02em | 800 | Hero H1 (with `clamp()` for fluid sizing) |
-| `display-lg` | 36px / 2.25rem | 1.10 | −0.02em | 800 | Large section headings |
-| `display-md` | 28px / 1.75rem | 1.15 | −0.01em | 800 | Medium section headings |
-| `heading-xl` | 36px / 2.25rem | 1.20 | −0.01em | 700 | — |
-| `heading-lg` | 28px / 1.75rem | 1.25 | −0.01em | 700 | Section headings |
-| `heading-md` | 22px / 1.375rem | 1.30 | — | 700 | Card headings |
-| `heading-sm` | 18px / 1.125rem | 1.35 | — | 700 | Sub-headings |
-| `body-lg` | 18px / 1.125rem | 1.75 | — | 400 | Lead paragraphs · hero subtitle |
-| `body-md` | 15px / 0.9375rem | 1.65 | — | 400 | Standard body · card copy |
-| `body-sm` | 13px / 0.8125rem | 1.60 | — | 400 | Footer links · meta · secondary UI |
-| `caption` | 11px / 0.6875rem | 1.40 | +0.13em | 700 | Section label pills · metric tags |
-
-Usage in components: `class="text-display-xl"`, `class="text-body-md"`, etc.
+Fonts and the full type scale are shown live at `/styleguide` → Typography, rendered from the actual
+`tailwind.config.mjs` tokens.
 
 ### Hero Headline
 
@@ -111,35 +76,22 @@ The emphasis word ("Investigated") is rendered in `fi-gold` using an `<em>` with
 
 ## 3. Buttons
 
-All buttons share: `border-radius: 10px` · `font-weight: 700` · `font-size: 14px` · `padding: 13px 26px` · `transition: all 0.2s` · `display: inline-flex; align-items: center; gap: 8px`
+All button variants (Primary, Secondary, Tertiary, Outline) and their exact specs are shown live at
+`/styleguide` → Buttons.
 
-Hover on all variants: `transform: translateY(-2px)`
-
-| Variant | Background | Border | Text | Hover bg |
-|---------|------------|--------|------|---------|
-| Primary | `fi-gold` | `fi-gold` (2px) | `fi-ink` | `fi-gold-hover` |
-| Secondary | transparent | `fi-gold` (2px) | `fi-gold` | `rgba(fi-gold, 0.08)` |
-| Tertiary | transparent | none | `fi-gold` | — (underline darkens) |
-| Outline | transparent | `fi-ink` (2px) | `fi-ink` | `fi-ink` bg · white text |
-
-Tertiary uses `text-decoration: underline` with `text-decoration-color: rgba(fi-gold, 0.4)`, full `fi-gold` on hover.
-
-Nav CTA (compact variant): `padding: 8px 18px` · `border-radius: 8px` · same primary colours.
-
-Arrow icon on all buttons: 15×15px · `stroke: currentColor` · `stroke-width: 2.25`.
+Nav CTA (compact variant): `padding: 8px 18px` · `border-radius: 8px` · same primary colours — not
+shown on `/styleguide` since it's a one-off usage in `Header.astro`, not a `Button` variant.
 
 ---
 
 ## 4. Navigation
 
-- Position: `sticky top-0` · `z-index: 100`
-- Background: `rgba(white, 0.97)` · `backdrop-filter: blur(10px)`
-- Border: `1px solid fi-border` (bottom only)
-- Height: `64px` · horizontal padding: `40px`
-- Logo: `fi-ink` text · `fi-dark` circle (34×34px, 50% radius) · icon 16×16px white stroke
-- Nav links: `fi-muted` (slate-600) · `font-size: 14px` · `font-weight: 500` · hover: `fi-ink`
-- Tools dropdown: white bg · `fi-border` border · `border-radius: 12px` · `box-shadow` · `min-width: 180px`
-- Chevron: rotates 180° on hover
+**Principle:** the nav is always pinned to the top of the viewport, above all content, using the
+`z-fi-header` layout token. Exact current theming (background color, height, padding, link styling)
+is owned by `src/components/Header.astro` — treat that file as the source of truth. It has changed
+design direction before (this doc previously described a white, translucent, blurred nav; the live
+header is currently solid `fi-dark`) and will likely change again, so specific values aren't
+duplicated here.
 
 ---
 
@@ -200,15 +152,11 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 
 ## 7. Section Spacing
 
-| Property | Value |
-|----------|-------|
-| Section vertical padding | `88px` top and bottom (desktop) |
-| Hero padding | `100px` top · `96px` bottom |
-| Why FI section padding | `96px` top and bottom |
-| Max content width | `960px` centered |
-| Horizontal section padding | `40px` (desktop) |
-| Card grid gap | `20px` |
-| Two-column layout gap | `64px` (Deepdive section) |
+**Principle:** vertical spacing is never a fixed pixel value — it comes from `Section.astro`'s named
+spacing scale (`none`/`sm`/`md`/`lg`/`xl`, each a responsive Tailwind pair, e.g. `py-16 md:py-24`) so
+it adapts per breakpoint instead of being set once for desktop. Current scale values live in
+`spacingStyles` in `src/components/ui/Section.astro`. Horizontal padding is owned by `Section.astro`
+and `Hero.astro` (`px-4 sm:px-6 lg:px-10` — see §14 Responsive Patterns), not set per-page.
 
 ---
 
@@ -226,53 +174,17 @@ No emoji anywhere on the site.
 
 ---
 
-## 9. Deepdive App Mockup
+## 9. Footer
 
-Decorative UI element in the Deepdive section.
-
-| Element | Value |
-|---------|-------|
-| Outer card bg | `fi-dark` (slate-950) |
-| Outer card radius | `18px` |
-| Outer card shadow | `0 28px 64px rgba(2,6,23,0.20)` |
-| Inner content bg | `fi-mid` (slate-800) |
-| Inner content radius | `12px` |
-| Window chrome dots | 10×10px · `fi-border-dark` · `border-radius: 50%` |
-| Metric tile bg | `fi-border-dark` (slate-700) |
-| Metric value | `fi-gold` · `font-size: 16px` · `font-weight: 700` |
-| Metric label | `fi-subtle` (slate-400) · `font-size: 9px` |
-| Chart bar bg | `fi-gold` · low opacity `0.45` · highlight bars `0.80` |
-| Tag pill | `rgba(fi-gold, 0.12)` bg · `fi-gold` text |
+**Principle:** dark-themed, collapses to fewer columns on mobile. Exact current grid, padding, and
+spacing values are owned by `src/components/Footer.astro` — treat that file as the source of truth
+(this doc previously specified a `2fr 1fr 1fr 1fr` desktop-only grid and fixed `60px 40px 32px`
+padding; the live footer uses a responsive `grid-cols-2 md:grid-cols-4` and responsive padding, from
+the mobile-footer fix logged in `project_log.md`).
 
 ---
 
-## 10. Email Input
-
-- Background: white
-- Border: `1.5px solid fi-border`
-- Border-radius: `10px`
-- Padding: `13px 16px`
-- Font-size: `15px`
-- Placeholder: `fi-subtle` (slate-400)
-- Focus: border → `fi-ink` (slate-950) · `box-shadow: 0 0 0 3px rgba(2,6,23,0.07)`
-
----
-
-## 11. Footer
-
-- Background: `fi-dark`
-- Padding: `60px 40px 32px`
-- Top grid: 4 columns (`2fr 1fr 1fr 1fr`) · gap `40px`
-- Section divider: `1px solid fi-border-dark` (between top grid and bottom bar)
-- Brand tagline: `fi-gold` · italic · display font · `font-size: 13px`
-- Column headings: `fi-muted` (slate-500) · `font-size: 11px` · `font-weight: 700` · `letter-spacing: 0.1em` · uppercase
-- Links: `fi-muted-inv` (slate-300) · `font-size: 13px` · hover: `fi-ink-inv`
-- Copyright: `fi-muted-inv` · `font-size: 12px`
-- Social icons: `34×34px` · `border-radius: 8px` · bg `rgba(white, 0.07)` · icon 16×16px `fi-muted-inv` · hover: bg `rgba(white, 0.14)` · icon `fi-ink-inv`
-
----
-
-## 12. Background Accents
+## 10. Background Accents
 
 ### Hero
 Subtle radial gradient overlay behind content:
@@ -286,7 +198,7 @@ Same radial gradient treatment as hero.
 
 ---
 
-## 13. Transitions
+## 11. Transitions
 
 All interactive elements: `transition: all 0.2s`
 
@@ -294,7 +206,7 @@ Hover lift: `transform: translateY(-2px)` — buttons, cards
 
 ---
 
-## 14. Custom Utilities (non-Tailwind)
+## 12. Custom Utilities (non-Tailwind)
 
 Defined in `tailwind.config.mjs` via `addUtilities`:
 
@@ -306,7 +218,7 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 
 ---
 
-## 15. What Was Deliberately Excluded
+## 13. What Was Deliberately Excluded
 
 | Element | Decision |
 |---------|----------|
@@ -321,10 +233,12 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 | Freemium promises in UI | Removed — "free to use · no login required" deleted to avoid constraining business model |
 | Star ratings / scores | Never used — counter to the platform's analytical positioning |
 | Gradient backgrounds on content sections | Removed — blue/teal gradients replaced with flat `fi-light` |
+| Deepdive App Mockup (decorative fake-UI: metric tiles, chart bars, window chrome) | Removed — the Deepdive section now shows a real video walkthrough of the app instead (`project_log.md` S22). Leftover code: `TearsheetMockup.astro`, unused (`project_log.md` #40) |
+| Inline homepage email-capture input | Removed — subscription moved entirely to Substack redirect buttons (`project_log.md` #30). No `type="email"` field remains on the homepage |
 
 ---
 
-## 15. Responsive Patterns
+## 14. Responsive Patterns
 
 ### Breakpoints
 Standard Tailwind defaults. No custom breakpoints.
@@ -369,16 +283,7 @@ Owned by `Section.astro` and `Hero.astro`: `px-4 sm:px-6 lg:px-10`.
 Pages should not add their own horizontal padding.
 
 ### Layout Tokens
-Defined in `tailwind.config.mjs`:
-
-| Token | Value | Replaces |
-|-------|-------|----------|
-| `z-fi-header` | 100 | `z-[10000]` |
-| `z-fi-menu` | 90 | `z-[9999]` |
-| `shadow-fi-card` | light card shadow | `shadow-[0_4px_24px...]` |
-| `shadow-fi-card-dark` | dark card shadow | `shadow-[0_16px_44px...]` |
-| `rounded-fi-btn` | 10px | `rounded-[10px]` |
-| `w-fi-icon` / `h-fi-icon` | 22px | `w-[22px] h-[22px]` |
-| `w-fi-icon-lg` / `h-fi-icon-lg` | 44px | `w-[34px] h-[34px]` |
-| `max-w-fi-content` | 65ch | `max-w-[65ch]` |
-| `--fi-header-h` | 73px (CSS var) | `top-[73px]` |
+Defined in `tailwind.config.mjs`, shown live at `/styleguide` → Layout Tokens
+(`z-fi-header`, `z-fi-menu`, `shadow-fi-card`, `shadow-fi-card-dark`, `rounded-fi-btn`, `w-fi-icon`/`h-fi-icon`,
+`w-fi-icon-lg`/`h-fi-icon-lg`, `max-w-fi-content`). The `--fi-header-h` CSS var (73px) isn't a Tailwind
+token so it doesn't appear there — it's set directly in `Layout.astro`.
