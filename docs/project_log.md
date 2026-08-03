@@ -65,12 +65,70 @@ paid research.
 | 39 | `functions/api/subscribe.ts` still calls the MailerLite API, but nothing in `src/` links to `/api/subscribe` anymore — the site fully migrated to Substack under decision #30. Dead code left over from before the cutover; delete once confirmed nothing external still posts to it | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, no references) |
 | 40 | `src/components/TearsheetMockup.astro` has zero imports anywhere in `src/` — the same unused component flagged back in S3 and never removed | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, along with the leftover `public/sample-tearsheet-placeholder.md`) |
 | 41 | Extend `/styleguide` to visually cover page-composition patterns it currently doesn't show: Navigation, Footer, Background Accents (the hero/Why-FI radial gradient), and Section Labels. **Updated:** Deepdive App Mockup and Email Input dropped from this list — a fuller audit of `docs/style_spec.md` against the live site found both describe UI that no longer exists (replaced by the video walkthrough and Substack redirect buttons respectively), so there's nothing to render; both were moved into style_spec.md's "What Was Deliberately Excluded" log instead. That same audit also found Navigation, Footer, and Section Spacing had drifted from the live implementation (wrong colors/theme, wrong grid, wrong padding mechanism) — style_spec.md now points at the owning component file instead of restating values, which is the real fix; building live `/styleguide` sections for Nav/Footer/Background Accents would still be worthwhile so those specs are visually verifiable rather than just correctly delegated, but it's real UI/Astro work (new `styleguide.astro` sections + dev-server verification), not a doc edit — separate session | 2026-08-03 | S24 | 🟡 Open |
+| 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`, built 2026-08-03 02:06 UTC) reads `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's S25 resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory (confirmed via glob), so this is most likely a stale preview build from a `dev` commit that predates the S25 deletion reaching that branch, not a regression. Confirm whether `dev` has merged past the S25 deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory, before treating #39 as fully closed | 2026-08-03 | S26 | 🟡 Open |
+| 43 | **Cloudflare's zone-level "Manage your robots.txt" setting was blocking AI training and hard-blocking ClaudeBot/GPTBot/etc. from crawling at all** — verified live at `https://fundinvestigator.com/robots.txt` (2026-08-03), conflicting with the AI-citation strategy behind `llms.txt`/JSON-LD (#12, #34, S21). **Switched to "Content Signals Policy" and re-verified live** — the per-bot `Disallow` blocks are gone; ClaudeBot, GPTBot, and the others can crawl and cite the site again. **Residual watch-item:** Cloudflare's docs describe this option as also adding a `Content-Signal: search=yes,ai-train=no,use=reference` line, which isn't showing up on the live fetch yet — likely propagation lag, but re-check in a few days; if still absent, may need a support ticket rather than assuming it's silently working | 2026-08-03 | S26 | ✅ Resolved (S26 — setting switched and change verified live; residual Content-Signal-line question left open) |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-03 | Session: S26 — Cloudflare dashboard cross-checked against DEPLOYMENT.md; AI-crawler robots.txt block fixed
+
+**What was done:**
+Went through the Cloudflare Pages dashboard directly to replace the "Verify in Cloudflare dashboard"
+placeholders left in `docs/DEPLOYMENT.md` (written in S25 without dashboard access) with actual,
+dated, confirmed values: build settings, environment-variable scoping (Production vs Preview),
+custom domain/SSL status, and the `dev` branch's stable preview alias. Picked up a few incidental
+findings along the way that weren't part of the original ask.
+
+**Why:**
+S25 had rewritten `DEPLOYMENT.md` to match reality but had to leave several facts as
+"verify in dashboard" rather than asserted, since that session had no dashboard access. This session
+did, so those standing checklist items could be resolved into real facts instead.
+
+**How:**
+Checked Pages → Settings → Build/Variables and secrets/Custom domains in the Cloudflare dashboard
+directly, plus the `fundinvestigator.com` zone's SSL/TLS and DNS records pages.
+
+**Findings / decisions made:**
+- Confirms half of #37: `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` **are** set in Cloudflare
+  Pages, but only on **Production** — Preview has neither. No live effect today since the beacon
+  endpoint itself is fake (per #37), but worth fixing alongside whenever #37 is actually resolved.
+- `docs/DEPLOYMENT.md` updated throughout with confirmed values, including the `dev` branch's stable
+  preview alias (`dev.fund-investigator.pages.dev`), which wasn't documented before.
+- Cloudflare's own DNS recommendations panel flagged three items unrelated to the Pages deploy itself:
+  no DNS record for `www.fundinvestigator.com` (doesn't resolve at all), a duplicate SPF TXT record,
+  and no DMARC record. Logged in `DEPLOYMENT.md`; not actioned.
+- While pulling a `dev` preview build log, spotted `Found Functions directory at /functions.
+  Uploading.` — apparently at odds with #39's claim that the dead subscribe function was deleted.
+  Repo checkout has no `functions/` directory, so this reads as a stale build predating that deletion
+  reaching `dev`, not a regression — logged as new item #42 rather than assumed resolved.
+- Went back for a second pass and found two more things worth surfacing. First, real Cloudflare Web
+  Analytics is already enabled and actively collecting data for this project — meaning fix option (a)
+  for #37 (the broken beacon) is already done; the custom beacon script is now fully redundant, not
+  half-finished, and can just be deleted. Second, and more significant: Cloudflare's zone-level
+  "Manage your robots.txt" setting was blocking AI training, and injected hard `Disallow: /`
+  rules for ClaudeBot, GPTBot, Google-Extended, and five other AI crawlers directly into the live
+  `robots.txt` — ahead of and invisible to the repo's own file. This actively undermined the
+  AI-citation strategy #12/#34/S21 were built around.
+- Decided, with the project owner, to switch that setting from "block AI training in robots.txt" to
+  Cloudflare's "Content Signals Policy" — the option that allows crawling (so citation still works)
+  while expressing a declarative no-training preference instead of hard-blocking. Switched it in the
+  dashboard and re-fetched the live `robots.txt` to confirm: the per-bot `Disallow` blocks are gone.
+  Logged as #43, resolved with one residual watch-item (see table).
+
+**Pending decisions:**
+- #42 (new) — confirm the stale-build explanation for the Functions-directory build log line before
+  treating #39 as fully closed.
+- #43 — residual watch-item only: confirm the expected `Content-Signal` preference line eventually
+  appears in the live `robots.txt` (not present yet at time of change; may be propagation lag).
+- www/SPF/DMARC DNS findings above — no owner or urgency assigned yet.
+- #37 — beacon fix is now clearly "delete the dead script," not "repoint it," since Web Analytics
+  already covers the need.
 
 ---
 
