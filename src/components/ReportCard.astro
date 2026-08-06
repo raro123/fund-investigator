@@ -14,10 +14,13 @@
  */
 
 import Badge from './ui/Badge.astro';
+import MetricIcon from './ui/MetricIcon.astro';
+import type { ReportMetricIconName } from '../lib/report-metrics';
 
 interface KeyMetric {
   label: string;
-  value: string;
+  value?: string;
+  icon?: ReportMetricIconName;
 }
 
 interface Props {
@@ -43,6 +46,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   day: 'numeric',
   year: 'numeric',
 });
+
 ---
 
 <a href={href} class="block h-full group">
@@ -58,7 +62,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     </div>
 
     <!-- Zone 2: Title -->
-    <h2 class="text-heading-sm font-bold text-fi-gold group-hover:text-fi-gold-hover leading-tight line-clamp-2 mt-4 transition-colors duration-200">
+    <h2 class="text-heading-sm font-bold text-fi-ink-inv group-hover:text-fi-gold leading-tight line-clamp-2 mt-4 transition-colors duration-200">
       {title}
     </h2>
 
@@ -73,7 +77,11 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
         <div class="grid grid-cols-3">
           {keyMetrics.map((metric, i) => (
             <div class:list={['text-center', i > 0 && 'border-l border-fi-border-dark']}>
-              <p class="text-heading-md font-bold text-fi-ink-inv">{metric.value}</p>
+              {metric.icon ? (
+                <MetricIcon name={metric.icon} />
+              ) : (
+                <p class="text-heading-md font-bold text-fi-ink-inv">{metric.value}</p>
+              )}
               <p class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 mt-2">{metric.label}</p>
             </div>
           ))}

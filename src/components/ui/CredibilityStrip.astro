@@ -2,12 +2,12 @@
 interface Props {
   /** Exactly three short credibility markers; the layout is tuned for this set. */
   markers: readonly [string, string, string];
-  /** Introductory attribution copy shown before the linked product name. */
-  attributionPrefix: string;
-  /** Linked product or source name. */
-  attributionLabel: string;
-  /** External destination for the attribution. */
-  attributionHref: string;
+  /** Optional introductory attribution copy shown before the linked product name. */
+  attributionPrefix?: string;
+  /** Optional linked product or source name. */
+  attributionLabel?: string;
+  /** Optional external destination for the attribution. */
+  attributionHref?: string;
 }
 
 const {
@@ -30,15 +30,17 @@ const {
     ))}
   </ul>
 
-  <p class="whitespace-nowrap">
-    {attributionPrefix}{' '}
-    <a
-      href={attributionHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-fi-gold transition-colors hover:text-fi-gold-hover"
-    >
-      {attributionLabel}
-    </a>
-  </p>
+  {attributionPrefix && attributionLabel && attributionHref && (
+    <p class="whitespace-nowrap">
+      {attributionPrefix}{' '}
+      <a
+        href={attributionHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-fi-gold transition-colors hover:text-fi-gold-hover"
+      >
+        {attributionLabel}
+      </a>
+    </p>
+  )}
 </div>

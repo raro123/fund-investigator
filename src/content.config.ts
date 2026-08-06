@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { reportMetricIconNames } from './lib/report-metrics';
 
 const reports = defineCollection({
   type: 'content',
@@ -25,7 +26,13 @@ const reports = defineCollection({
     supersededBy: z.string().startsWith('/reports/').optional(),
     coverImage: image().optional(),
     coverImageAlt: z.string().optional(),
-    keyMetrics: z.array(z.object({ label: z.string(), value: z.string() })).max(3).optional(),
+    keyMetrics: z.array(z.object({
+      label: z.string(),
+      value: z.string().optional(),
+      icon: z.enum(reportMetricIconNames).optional(),
+    }).refine((metric) => metric.value || metric.icon, {
+      message: 'A key metric must provide either a value or an icon.',
+    })).max(3).optional(),
   }).superRefine((report, ctx) => {
     if (report.status === 'archived' && !report.analysisThrough) {
       ctx.addIssue({

@@ -1,0 +1,55 @@
+---
+import type { ReportMetricIconName } from '../../lib/report-metrics';
+
+interface Props {
+  name: ReportMetricIconName;
+}
+
+const { name } = Astro.props;
+---
+
+<span class="inline-flex text-fi-ink-inv" aria-hidden="true">
+  {name === 'rulebook' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5V4.5Z" />
+      <path d="M5 4.5V21.5M9 6h6M9 10h6M9 14h4" />
+    </svg>
+  )}
+
+  {name === 'pie-chart' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a9 9 0 1 0 9 9h-9V3Z" />
+      <path d="M15 3.6A9 9 0 0 1 20.4 9H15V3.6Z" />
+    </svg>
+  )}
+
+  {name === 'compass' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z" />
+    </svg>
+  )}
+
+  {name === 'trending-up' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 17 9 11l4 4 8-8" />
+      <path d="M15 7h6v6" />
+    </svg>
+  )}
+
+  {name === 'shield' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z" />
+      <path d="m8.5 12 2.2 2.2 4.8-4.8" />
+    </svg>
+  )}
+
+  {name === 'repeat' && (
+    <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 2l4 4-4 4" />
+      <path d="M3 11V9a3 3 0 0 1 3-3h15" />
+      <path d="m7 22-4-4 4-4" />
+      <path d="M21 13v2a3 3 0 0 1-3 3H3" />
+    </svg>
+  )}
+</span>
