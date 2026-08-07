@@ -11,6 +11,7 @@ import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
+import { deepdiveUrl } from '../lib/deepdive';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
@@ -49,7 +50,7 @@ const featuredReports = allReports
 
     <!-- CTAs -->
     <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mb-6 w-full max-w-72 sm:max-w-none mx-auto">
-      <Button href="https://deepdive.fundinvestigator.com" size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
+      <Button href={deepdiveUrl('homepage_hero')} size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
         Investigate Your Fund
       </Button>
       <Button href="/reports" variant="secondary" size="lg" class="w-full sm:w-auto min-w-0">
@@ -273,7 +274,7 @@ const featuredReports = allReports
 
       <!-- CTA -->
       <div class="text-center mt-8">
-        <Button href="https://deepdive.fundinvestigator.com" variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
+        <Button href={deepdiveUrl('homepage_cta')} variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
       </div>
 
   </Section>

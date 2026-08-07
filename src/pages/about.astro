@@ -5,6 +5,8 @@ import Button from '../components/ui/Button.astro';
 import Hero from '../components/ui/Hero.astro';
 import Badge from '../components/ui/Badge.astro';
 import { responsive } from '../lib/responsive';
+import { deepdiveUrl } from '../lib/deepdive';
+import { TWITTER_URL } from '../lib/site-urls';
 ---
 
 <Layout
@@ -108,7 +110,7 @@ import { responsive } from '../lib/responsive';
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           Contact Us
         </a>
-        <a href="https://twitter.com/fundinvestigate" target="_blank" rel="noopener noreferrer" class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-body-sm flex items-center gap-2">
+        <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer" class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-body-sm flex items-center gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           Follow on X
         </a>
@@ -123,7 +125,7 @@ import { responsive } from '../lib/responsive';
       <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
         Use Deepdive to inspect returns, risk, drawdowns, and benchmark behavior on the same screen.
       </p>
-      <Button href="https://deepdive.fundinvestigator.com" size="lg" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+      <Button href={deepdiveUrl('about')} size="lg" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
     </div>
   </Section>
 </Layout>
