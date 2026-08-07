@@ -1,6 +1,6 @@
 ---
 title: "Mutual Fund Categories Explained"
-description: "Compare Flexi Cap, Multi Cap, Multi-Asset Allocation and Dynamic Asset Allocation (Balanced Advantage) funds by SEBI rules, asset allocation, benchmarks and investor use."
+description: "Compare Flexi Cap, Multi Cap, Multi-Asset Allocation and Balanced Advantage funds by SEBI rules, asset allocation, benchmarks, and investor use."
 hook: "Flexi Cap, Multi Cap, Multi Asset and Dynamic Asset, these categories can sound similar while imposing very different rules on equity, debt, market-cap exposure and residual assets."
 date: "2026-08-06"
 readTime: "10 min read"

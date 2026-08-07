@@ -1,5 +1,5 @@
 ---
-title: "ICICI Prudential Large Cap Fund vs Nifty 100 TRI"
+title: "ICICI Prudential Large Cap vs Nifty 100 TRI"
 description: "ICICI Prudential Large Cap Fund – Direct delivered 15.8% CAGR vs 13.1% for Nifty 100 TRI, Jan 2020–Jul 2026. See consistency, risk and drawdown."
 hook: "It led the Nifty 100 in five of six completed years. Its maximum drawdown and recovery time, however, were almost identical to the index."
 date: "2026-07-15"

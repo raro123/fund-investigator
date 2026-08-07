@@ -3,38 +3,17 @@ import Layout from './Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
-import {
-  absoluteImageUrl,
-  articleSchema,
-  breadcrumbSchema,
-  organizationSchema,
-  websiteSchema,
-} from '../lib/schema';
+import { absoluteImageUrl, reportSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
-const { frontmatter } = Astro.props;
+const { frontmatter, articleBody } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric'
 });
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
-const jsonLd = [
-  // Article credits the Organization as author/publisher by @id, so the full
-  // Organization (and its WebSite) must be defined on this page for those refs to resolve.
-  organizationSchema(Astro.site),
-  websiteSchema(Astro.site),
-  articleSchema(
-    frontmatter,
-    pageUrl,
-    absoluteImageUrl(frontmatter.coverImage?.src, Astro.site),
-    Astro.site
-  ),
-  breadcrumbSchema([
-    { name: 'Home', path: '/' },
-    { name: 'Investigations', path: '/reports/' },
-    { name: frontmatter.title, path: Astro.url.pathname },
-  ], Astro.site),
-];
+const imageUrl = absoluteImageUrl(frontmatter.coverImage?.src, Astro.site);
+const graph = reportSchemaGraph(frontmatter, pageUrl, imageUrl, Astro.site, articleBody);
 ---
 
 <Layout
@@ -43,7 +22,13 @@ const jsonLd = [
   ogImage={frontmatter.coverImage?.src}
   ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
   ogType="article"
-  jsonLd={jsonLd}
+  graph={graph}
+  article={{
+    publishedTime: frontmatter.date,
+    modifiedTime: frontmatter.updated || frontmatter.date,
+    section: frontmatter.category,
+    tags: frontmatter.tags,
+  }}
 >
   <div class="fixed top-0 left-0 right-0 h-1 bg-fi-border z-50">
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>

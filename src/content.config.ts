@@ -1,16 +1,17 @@
 import { defineCollection, z } from 'astro:content';
+import { seoSchema } from '@jdevalk/astro-seo-graph';
 import { reportMetricIconNames } from './lib/report-metrics';
 
 const reports = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
-    title: z.string(),
+    title: z.string().min(5).max(120),
     /** Machine-facing: meta description, og/twitter, JSON-LD, llms.txt. ~155 chars, query-shaped. */
-    description: z.string(),
+    description: z.string().min(15).max(160),
     /** Human-facing: the subtitle under the H1 and the teaser on report cards. */
     hook: z.string().optional(),
-    date: z.string(),
-    updated: z.string().optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
     //   1. this enum (the gate — an unlisted value fails the build)
@@ -26,6 +27,8 @@ const reports = defineCollection({
     supersededBy: z.string().startsWith('/reports/').optional(),
     coverImage: image().optional(),
     coverImageAlt: z.string().optional(),
+    /** Optional per-report overrides validated by astro-seo-graph. */
+    seo: seoSchema(image).optional(),
     keyMetrics: z.array(z.object({
       label: z.string(),
       value: z.string().optional(),

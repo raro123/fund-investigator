@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import { substackWelcomeUrl } from './src/lib/substack';
+import seoGraph from '@jdevalk/astro-seo-graph/integration';
 import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
 
 export default defineConfig({
@@ -13,19 +13,21 @@ export default defineConfig({
         !page.includes('/404') &&
         !page.includes('/subscribe') &&
         !page.includes('/_TEMPLATE')
+    }),
+    seoGraph({
+      validateH1: true,
+      validateUniqueMetadata: true,
+      validateImageAlt: true,
+      validateMetadataLength: true,
+      validateInternalLinks: {
+        skip: (href) => href.startsWith('/api/')
+      }
     })
   ],
   site: 'https://fundinvestigator.com',
 
   markdown: {
     remarkPlugins: [remarkInvestigationBriefCta]
-  },
-
-  // Stable on-site subscribe address for links inside markdown content, which
-  // can't import src/lib/substack.ts. If the Substack address ever changes,
-  // only substack.ts needs updating — published articles keep linking /subscribe.
-  redirects: {
-    '/subscribe': substackWelcomeUrl('article_takeaways')
   },
 
   // Image optimization settings
