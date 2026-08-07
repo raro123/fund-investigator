@@ -77,12 +77,63 @@ paid research.
 | 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29 | 🟡 Open |
 | 48 | **Set `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` in Cloudflare Pages** (both Production and Preview — see #37's history for why Preview can't be skipped). Confirmed live values via the PostHog MCP: key `phc_GdzruWcONrR6RtVMLf0ddtKd7GWEdfrWSdTPNs90mvn`, host `https://us.i.posthog.com` (US Cloud region — matches Deepdive's own `.env.example` default). Manual, on the site owner; the actual Cloudflare API write was intentionally not automated (blocked by the harness's own permission classifier as a live production-secret mutation, and the owner chose the manual-values-handoff option over an in-session automated write) | 2026-08-07 | S30 | ✅ Resolved (S30 — owner set both variables in Cloudflare Pages directly) |
 | 49 | **Deepdive-side PostHog config fix, in the separate `tearsheet` repo.** `src/fund_investigator/ui/analytics_bridge.py`'s `posthog.init()` call (around line 206) does not set `cross_subdomain_cookie: true`, so its browser cookie is currently scoped to `deepdive.fundinvestigator.com` only — cross-domain identity won't stitch with the website's PostHog init until this is added there too. Out of scope for this repo/session | 2026-08-07 | S30 | 🟡 Open |
+| 50 | **Cloudflare Web Analytics has two legitimate, non-duplicate registrations — investigated and resolved as "no action needed," not a bug.** The zone-level "Automatic setup" (token `317a6cb7...`) has a catch-all rule (`host: "*"`, confirmed via the RUM v2 rules API) but, despite that, only ever reports `deepdive.fundinvestigator.com` traffic — Cloudflare's automatic HTML-injection doesn't reliably reach Cloudflare Pages–hosted content (a documented category of Cloudflare issue, not specific to this project). The Pages-project-level "JS Snippet installation" (token `c704f39c...`, configured via the Pages project's `build_config.web_analytics_tag`/`web_analytics_token`) is what actually tracks the marketing site (`fundinvestigator.com` + `fund-investigator.pages.dev` + previews) — created a week after the first (2026-01-03 vs 2025-12-27), almost certainly added as the fix once the automatic one turned out not to cover the marketing site. Both are legitimate and should be kept. **This corrects an initial misdiagnosis within this same session**: first concluded the Pages-level one was an orphaned duplicate causing console 404s and attempted to delete it — once via a Cloudflare API `PATCH` that failed on an authentication/permission error, once via a Playwright agent that hit a login wall — before the owner's own dashboard investigation (comparing traffic counts, then the "Automatic setup" site's URL breakdown showing only `deepdive.fundinvestigator.com` even over 30 days) proved the opposite. A fresh read via the Cloudflare API afterward confirmed neither failed attempt actually changed anything — `build_config` and all 4 `rum/site_info` entries are unchanged from before the investigation started | 2026-08-07 | S31 | ✅ Resolved (S31 — documented; no Cloudflare config change needed or made) |
+| 51 | **Optional, low-priority cosmetic follow-up from #50**: the "JS Snippet installation" Web Analytics site's host allowlist (`(fund-investigator.pages.dev\|fundinvestigator.com)$`) doesn't cover preview-branch subdomains like `dev.fund-investigator.pages.dev`, so its beacon 404s there — browser console noise only on preview deploys, does not affect production. Widening the host pattern would fix it, but doing this via the API hits the same wall discovered in #50: the connected Cloudflare API token can read Pages/Web-Analytics config but cannot write it (confirmed via the failed `PATCH` in #50) — would need either a manual dashboard edit or a token-permission upgrade (Account → Cloudflare Pages → Edit) first | 2026-08-07 | S31 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-07 | Session: S31 — Cloudflare Web Analytics "duplicate" investigated; turned out to be two legitimate sites, not a bug
+
+**What was done:**
+Followed up on console errors spotted during S30's dev-preview testing (`404`/CORS on
+`cloudflareinsights.com/cdn-cgi/rum`). Found via the Cloudflare API that the account has two Web
+Analytics registrations for this project — one zone-level ("Automatic setup"), one Pages-level ("JS
+Snippet installation") — and initially concluded the Pages-level one was an orphaned duplicate,
+recommending it be deleted. Two attempts to apply that fix were made and both failed before changing
+anything: a Cloudflare API `PATCH` (blocked by a token-permission error) and a Playwright agent
+(blocked by a login wall). The owner then checked the dashboard directly and found the opposite of
+what was assumed — the "Automatic setup" site only ever shows `deepdive.fundinvestigator.com` in its
+traffic breakdown, even over a 30-day window, never the actual marketing site pages. Re-investigated
+from there: confirmed the zone-level rule is a catch-all (`host: "*"`), not intentionally scoped to
+Deepdive, and cross-checked Cloudflare's own Web Analytics FAQ, which distinguishes automatic setup
+(reports to the site's own `/cdn-cgi/rum`) from manual setup (reports to
+`cloudflareinsights.com/cdn-cgi/rum`, matching the original error exactly) — confirming the original
+error did come from the Pages-level site, but that site is the one actually tracking the marketing
+site, not a duplicate of it.
+
+**Why:**
+The two sites' dates (zone-level created 2025-12-27, Pages-level created 2026-01-03, a week later)
+plus the documented, known issue of Cloudflare's automatic HTML-injection not reliably reaching
+Cloudflare Pages–hosted content point to a specific real history: the automatic one was set up first
+assuming it would cover everything in the zone, was found not to cover the Pages-hosted marketing
+site, and the Pages-native integration was added shortly after as the actual fix. Both sites are
+doing real, non-overlapping jobs — deleting either would have created a real gap, not fixed one.
+
+**How:**
+Confirmed via `GET /accounts/{id}/rum/v2/{ruleset_id}/rules` that the zone-level rule has no
+host-specific scoping (`host: "*"`, priority 1000) — ruling out "intentional split by design" as the
+explanation. Cross-referenced Cloudflare's public Web Analytics FAQ via the docs-search tool for the
+automatic-vs-manual reporting-endpoint distinction, rather than continuing to reason from assumption.
+Re-verified via a fresh `GET` on the Pages project and the `rum/site_info` list that neither failed
+deletion attempt left any trace — `build_config` and all 4 site entries are byte-for-byte unchanged
+from before the investigation began.
+
+**Decisions made:**
+- Keep both Web Analytics registrations — neither is a duplicate, both track different things.
+- Do not attempt the "JS Snippet" deletion recommended earlier in this same session; that
+  recommendation is retracted.
+
+**Pending decisions:**
+- New: #50 (this investigation, resolved — documented so it isn't re-attempted), #51 (optional,
+  low-priority: widen the "JS Snippet" site's host allowlist to cover preview-branch subdomains and
+  silence the cosmetic console error there — blocked on the same Cloudflare API write-permission gap
+  discovered in #50).
 
 ---
 
