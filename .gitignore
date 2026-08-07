@@ -36,3 +36,6 @@ my_thoughts.md
 
 # Terminal Paste Image folder
 .cp-images/
+
+# Claude Code agent worktrees
+.claude/worktrees/
