@@ -1,6 +1,8 @@
 ---
 import Logo from './Logo.astro';
 import { substackWelcomeUrl } from '../lib/substack';
+import { deepdiveUrl } from '../lib/deepdive';
+import { TWITTER_URL, YOUTUBE_URL } from '../lib/site-urls';
 
 const year = new Date().getFullYear();
 const subscribeUrl = substackWelcomeUrl('footer');
@@ -24,7 +26,7 @@ const subscribeUrl = substackWelcomeUrl('footer');
         <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Navigate</h3>
         <nav class="flex flex-col gap-3">
           <a href="/reports" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
-          <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
+          <a href={deepdiveUrl('footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
           <a href="/about" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Why We Built This</a>
           <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-body-sm">Subscribe</a>
         </nav>
@@ -53,7 +55,7 @@ const subscribeUrl = substackWelcomeUrl('footer');
           </a>
 
           <a
-            href="https://twitter.com/fundinvestigate"
+            href={TWITTER_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="w-fi-icon-lg h-fi-icon-lg rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"
@@ -65,7 +67,7 @@ const subscribeUrl = substackWelcomeUrl('footer');
           </a>
 
           <a
-            href="https://youtube.com/@fundinvestigator"
+            href={YOUTUBE_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="w-fi-icon-lg h-fi-icon-lg rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"

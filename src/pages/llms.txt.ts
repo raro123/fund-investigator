@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { SITE_URL, DEEPDIVE_URL } from '../lib/site-urls';
 
 export const GET: APIRoute = async ({ site }) => {
   const reports = await getCollection('reports');
@@ -11,7 +12,7 @@ export const GET: APIRoute = async ({ site }) => {
       (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
     );
 
-  const base = site?.toString().replace(/\/$/, '') ?? 'https://fundinvestigator.com';
+  const base = site?.toString().replace(/\/$/, '') ?? SITE_URL;
 
   const lines: string[] = [
     '# Fund Investigator',
@@ -21,7 +22,7 @@ export const GET: APIRoute = async ({ site }) => {
     '## About',
     '',
     `- [About Fund Investigator](${base}/about/): Why we built this and our approach to evidence-based fund analysis.`,
-    `- [Deepdive App](https://deepdive.fundinvestigator.com): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
+    `- [Deepdive App](${DEEPDIVE_URL}): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
     '',
     '## Investigations',
     '',

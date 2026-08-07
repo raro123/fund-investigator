@@ -17,13 +17,16 @@ Cloudflare Pages, connected to this GitHub repo.
 
 | Variable | Environment | Purpose |
 |---|---|---|
-| `PUBLIC_CF_ACCOUNT_ID` | Production only | Read by `src/layouts/Layout.astro` for a custom error-tracking beacon |
+| `PUBLIC_CF_ACCOUNT_ID` | Production only | Dead — the error-tracking beacon that read this was deleted (#37); nothing in the repo reads it anymore |
 | `PUBLIC_CF_PROJECT_NAME` | Production only | Same as above |
 | `MAILERLITE_API_KEY` | Preview only (secret) | Leftover from the deleted MailerLite subscribe function |
+| `PUBLIC_POSTHOG_KEY` | **Set on both Production and Preview** | PostHog project API key, read by `src/layouts/Layout.astro`. No-ops (with a console warning) if set without `PUBLIC_POSTHOG_HOST` |
+| `PUBLIC_POSTHOG_HOST` | **Set on both Production and Preview** | PostHog Cloud region host (`https://us.i.posthog.com` or `https://eu.i.posthog.com`) — must match the region the existing Deepdive PostHog project uses. No silent fallback |
 
 **Needs addressing:**
-- The error-tracking beacon (`Layout.astro:131`) posts to `cloudflare-analytics.com/cdn-cgi/rum`, which isn't a real Cloudflare endpoint — it has never delivered anything. Cloudflare Web Analytics is already enabled and collecting real data for this project, so the beacon is redundant. Delete the script (`project_log.md` #37).
+- `PUBLIC_CF_ACCOUNT_ID` / `PUBLIC_CF_PROJECT_NAME` are now fully dead (the beacon that read them was deleted) — remove them from Cloudflare Pages.
 - `MAILERLITE_API_KEY` is almost certainly dead now that `functions/api/subscribe.ts` is deleted (#39) — confirm nothing reads it, then remove it from Preview.
+- A prior session found `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` had been set on Production only, silently breaking Preview. Don't repeat that mistake with the PostHog vars — set both on **Production and Preview**, or Preview deploys will silently have no analytics.
 
 ## Custom Domain & DNS
 

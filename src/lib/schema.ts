@@ -12,8 +12,8 @@
  * <Layout jsonLd={[organizationSchema(Astro.site), websiteSchema(Astro.site)]}>
  */
 
-const FALLBACK_SITE = 'https://fundinvestigator.com';
-const DEEPDIVE_URL = 'https://deepdive.fundinvestigator.com';
+import { SITE_URL, DEEPDIVE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
+
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
 /** Matches the entity description in llms.txt.ts so both machine-readable surfaces agree. */
@@ -40,7 +40,7 @@ interface BreadcrumbItem {
 
 /** Site origin without a trailing slash. Mirrors the idiom in llms.txt.ts. */
 const origin = (site?: URL): string =>
-  (site?.toString() ?? FALLBACK_SITE).replace(/\/$/, '');
+  (site?.toString() ?? SITE_URL).replace(/\/$/, '');
 
 const orgId = (site?: URL): string => `${origin(site)}/#organization`;
 const websiteId = (site?: URL): string => `${origin(site)}/#website`;
@@ -77,8 +77,8 @@ export const organizationSchema = (site?: URL): SchemaObject => ({
     height: 619,
   },
   sameAs: [
-    'https://twitter.com/fundinvestigate',
-    'https://youtube.com/@fundinvestigator',
+    TWITTER_URL,
+    YOUTUBE_URL,
   ],
   contactPoint: {
     '@type': 'ContactPoint',

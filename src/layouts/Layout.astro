@@ -88,6 +88,45 @@ const pageTitle = title.includes('Fund Investigator')
       <slot />
     </main>
     <Footer />
+
+    <script>
+      import posthog from 'posthog-js';
+
+      // PostHog product analytics — same project already used for the Deepdive
+      // app, extended here so a visitor's journey (homepage -> CTA click ->
+      // Deepdive usage) can be stitched into one funnel instead of two
+      // disconnected tools. No-ops cleanly if either env var is unset, so
+      // local dev and any environment without them configured doesn't break
+      // (mirrors the guard pattern the old Cloudflare beacon script used).
+      const posthogKey = import.meta.env.PUBLIC_POSTHOG_KEY;
+      const posthogHost = import.meta.env.PUBLIC_POSTHOG_HOST;
+
+      if (posthogKey && posthogHost) {
+        posthog.init(posthogKey, {
+          api_host: posthogHost,
+          person_profiles: 'identified_only',
+          // Cross-subdomain tracking: fundinvestigator.com and
+          // deepdive.fundinvestigator.com share a top-level domain, so
+          // identity carries across via a shared top-level cookie. The
+          // Deepdive app (separate repo) needs matching config for the
+          // stitching to actually work end-to-end — see project_log.md #44.
+          cross_subdomain_cookie: true,
+          persistence: 'localStorage+cookie',
+          // Autocapture (on by default) is intentionally left enabled and
+          // undisturbed: every Deepdive/Substack CTA link already carries a
+          // distinguishing utm_content in its href (see deepdive.ts,
+          // substack.ts), so autocapture's automatic click/pageview tracking
+          // already gives placement-level attribution without hand-written
+          // posthog.capture() calls per CTA.
+        });
+      } else if (posthogKey || posthogHost) {
+        // One var set without the other is almost certainly a misconfig —
+        // PostHog Cloud has separate US/EU regions, so we never guess a host.
+        console.warn(
+          'PostHog analytics disabled: both PUBLIC_POSTHOG_KEY and PUBLIC_POSTHOG_HOST must be set (e.g. PUBLIC_POSTHOG_HOST=https://us.i.posthog.com or https://eu.i.posthog.com for the matching region).'
+        );
+      }
+    </script>
   </body>
 </html>
 
@@ -119,80 +158,3 @@ const pageTitle = title.includes('Fund Investigator')
     word-wrap: break-word;
   }
 </style>
-
-<script>
-
-  // Cloudflare Browser Error Tracking
-  (function() {
-    const accountId = import.meta.env.PUBLIC_CF_ACCOUNT_ID;
-    const projectName = import.meta.env.PUBLIC_CF_PROJECT_NAME;
-
-    // Only initialize if environment variables are set
-    if (!accountId || !projectName) {
-      return;
-    }
-
-    const endpoint = `https://cloudflare-analytics.com/cdn-cgi/rum`;
-
-    function sendErrorToCloudflare(errorData) {
-      // Use sendBeacon for reliability (survives page unload)
-      if (navigator.sendBeacon) {
-        const blob = new Blob([JSON.stringify(errorData)], {
-          type: 'application/json'
-        });
-        navigator.sendBeacon(endpoint, blob);
-      } else {
-        // Fallback to fetch for older browsers
-        fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(errorData),
-          keepalive: true
-        }).catch(() => {
-          // Silently fail if error reporting fails
-        });
-      }
-    }
-
-    function formatError(message, source, lineno, colno, error) {
-      return {
-        accountId: accountId,
-        projectName: projectName,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-        error: {
-          message: message,
-          source: source,
-          line: lineno,
-          column: colno,
-          stack: error ? error.stack : null
-        }
-      };
-    }
-
-    // Global error handler
-    window.addEventListener('error', function(event) {
-      const errorData = formatError(
-        event.message,
-        event.filename,
-        event.lineno,
-        event.colno,
-        event.error
-      );
-      sendErrorToCloudflare(errorData);
-    });
-
-    // Unhandled promise rejection handler
-    window.addEventListener('unhandledrejection', function(event) {
-      const errorData = formatError(
-        event.reason ? event.reason.message || event.reason : 'Unhandled Promise Rejection',
-        window.location.href,
-        0,
-        0,
-        event.reason
-      );
-      sendErrorToCloudflare(errorData);
-    });
-  })();
-</script>

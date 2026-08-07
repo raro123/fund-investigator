@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import { substackWelcomeUrl } from '../lib/substack';
+import { deepdiveUrl } from '../lib/deepdive';
 
 const subscribeUrl = substackWelcomeUrl('header');
 ---
@@ -15,7 +16,7 @@ const subscribeUrl = substackWelcomeUrl('header');
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-8">
         <a href="/reports" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Investigations</a>
-        <a href="https://deepdive.fundinvestigator.com" target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Deepdive</a>
+        <a href={deepdiveUrl('header_nav')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Deepdive</a>
         <a href="/about" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">About</a>
         <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-sm">Subscribe</a>
       </nav>
@@ -53,7 +54,7 @@ const subscribeUrl = substackWelcomeUrl('header');
       Investigations
     </a>
     <a
-      href="https://deepdive.fundinvestigator.com"
+      href={deepdiveUrl('header_cta')}
       target="_blank"
       rel="noopener noreferrer"
       class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
