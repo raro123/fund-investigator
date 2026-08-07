@@ -71,16 +71,64 @@ paid research.
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 | 41 | Extend `/styleguide` to visually cover page-composition patterns it currently doesn't show: Navigation, Footer, Background Accents (the hero/Why-FI radial gradient), and Section Labels. **Updated:** Deepdive App Mockup and Email Input dropped from this list — both describe UI that no longer exists; moved into `style_spec.md`'s "What Was Deliberately Excluded" log instead. Navigation, Footer, and Section Spacing had also drifted from the live implementation — `style_spec.md` now points at the owning component file instead of restating values. Building live `/styleguide` sections for Nav/Footer/Background Accents is still real UI/Astro work, not a doc edit — separate session | 2026-08-03 | S24 | 🟡 Open |
 | 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`) read `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory, so this is most likely a stale preview build predating that deletion reaching `dev`, not a regression. Confirm whether `dev` has merged past the deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory | 2026-08-03 | S26 | 🟡 Open |
-| 44 | **Analytics Phase 2 — extend PostHog to the Astro site.** The owner already runs PostHog (free tier) for Deepdive analytics — supersedes the earlier self-hosted-Umami-on-Railway plan, which would have been pure ops overhead for a weaker result. Add `posthog-js` to `Layout.astro` using the same PostHog project, and configure cross-subdomain tracking (`fundinvestigator.com` ↔ `deepdive.fundinvestigator.com` share a top-level domain) so a single user journey — homepage → CTA click → Deepdive usage — is visible as one funnel instead of two disconnected tools | 2026-08-07 | S29 | 🟡 Open |
-| 45 | **Analytics Phase 2 — wire up event tracking once PostHog is live on the Astro site**: custom events for the 6 Deepdive CTA placements (`src/lib/deepdive.ts`) and Substack subscribe clicks (closes #9/#11); update `privacy.astro` to disclose PostHog/cookie use — owner has confirmed comfortable with cookies here, so this is a documentation update, not an open question | 2026-08-07 | S29 | 🟡 Open |
-| 46 | Merge `analytics/phase-0-1-cleanup` and `chore/consolidate-external-urls` (stacked on top, contains both) to `main` — both build clean, neither pushed yet, awaiting owner review | 2026-08-07 | S29 | 🟡 Open |
+| 44 | **Analytics Phase 2 — extend PostHog to the Astro site.** The owner already runs PostHog (free tier) for Deepdive analytics — supersedes the earlier self-hosted-Umami-on-Railway plan, which would have been pure ops overhead for a weaker result. Add `posthog-js` to `Layout.astro` using the same PostHog project, and configure cross-subdomain tracking (`fundinvestigator.com` ↔ `deepdive.fundinvestigator.com` share a top-level domain) so a single user journey — homepage → CTA click → Deepdive usage — is visible as one funnel instead of two disconnected tools | 2026-08-07 | S29 | ✅ Resolved (S30 — `posthog-js` initialized in `Layout.astro`, `cross_subdomain_cookie: true` set, merged to `dev`. Confirmed via the PostHog MCP that project 281630 "Default project" is the real, already-live Deepdive project — its known event names `investigation started`/`analysis viewed`/`analysis failed` are present in the schema) |
+| 45 | **Analytics Phase 2 — wire up event tracking once PostHog is live on the Astro site**: custom events for the 6 Deepdive CTA placements (`src/lib/deepdive.ts`) and Substack subscribe clicks (closes #9/#11); update `privacy.astro` to disclose PostHog/cookie use — owner has confirmed comfortable with cookies here, so this is a documentation update, not an open question | 2026-08-07 | S29 | ✅ Resolved (S30 — decided to rely on PostHog's default autocapture rather than hand-written per-CTA events, since every Deepdive/Substack link already carries a distinguishing `utm_content`; `privacy.astro` updated to disclose PostHog/cookies and drop the now-false "Cloudflare Browser Errors" claim) |
+| 46 | Merge `analytics/phase-0-1-cleanup` and `chore/consolidate-external-urls` (stacked on top, contains both) to `main` — both build clean, neither pushed yet, awaiting owner review | 2026-08-07 | S29 | 🟡 Open — **S30 update:** merged to `dev` instead (squashed, `eef6494`), plus the PostHog work on top (`99de3fe`). `dev` → `main` is still outstanding; `main` currently only has the unrelated `.claude/worktrees/` gitignore commit (`a5c8ef0`) that `dev` itself lacks |
 | 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29 | 🟡 Open |
+| 48 | **Set `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` in Cloudflare Pages** (both Production and Preview — see #37's history for why Preview can't be skipped). Confirmed live values via the PostHog MCP: key `phc_GdzruWcONrR6RtVMLf0ddtKd7GWEdfrWSdTPNs90mvn`, host `https://us.i.posthog.com` (US Cloud region — matches Deepdive's own `.env.example` default). Manual, on the site owner; the actual Cloudflare API write was intentionally not automated (blocked by the harness's own permission classifier as a live production-secret mutation, and the owner chose the manual-values-handoff option over an in-session automated write) | 2026-08-07 | S30 | 🟡 Open |
+| 49 | **Deepdive-side PostHog config fix, in the separate `tearsheet` repo.** `src/fund_investigator/ui/analytics_bridge.py`'s `posthog.init()` call (around line 206) does not set `cross_subdomain_cookie: true`, so its browser cookie is currently scoped to `deepdive.fundinvestigator.com` only — cross-domain identity won't stitch with the website's PostHog init until this is added there too. Out of scope for this repo/session | 2026-08-07 | S30 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-07 | Session: S30 — PostHog wired up and verified against the real project; merged to dev
+
+**What was done:**
+Picked up the Phase 2 handoff from S29. A PostHog MCP connection was added this session, which
+made it possible to verify — not just assume — that the PostHog project already used for the
+Deepdive app is the right one to reuse: its event schema shows `investigation started`,
+`analysis viewed`, and `analysis failed`, exactly matching Deepdive's own analytics code. Also
+read the Deepdive app's own analytics source directly (separate `tearsheet` repo, same machine) to
+understand its real architecture, correcting an earlier assumption — it's not purely server-side;
+it runs a real browser-side PostHog client for identity plus a Python client for semantic events,
+deliberately with autocapture and default pageview capture turned off. Merged the previously-built
+`feat/posthog-analytics` branch into `dev`, then set the real, confirmed PostHog project key and
+host as the values the owner needs to enter in Cloudflare Pages.
+
+**Why:**
+A background-agent attempt to both merge the branch and write live Cloudflare Pages environment
+variables was blocked by the harness's own permission classifier, since mutating production secrets
+autonomously in the background is exactly the kind of hard-to-reverse, shared-system action that
+should not happen unattended. The owner chose to keep the git merge and PostHog verification in this
+session (safe, reversible, foreground) and take the Cloudflare values away to set manually, rather
+than have an agent write to the live Cloudflare account.
+
+**How:**
+Used the new PostHog MCP's `read-data-schema` and `project-get` tools to confirm project `281630`
+("Default project", org "Fund Investigator") is real and already receiving Deepdive's events, and to
+pull its exact API token. Cross-checked the ingestion host against Deepdive's own `.env.example`
+default (`https://us.i.posthog.com`) rather than guessing. Merged `feat/posthog-analytics` into `dev`
+via `git merge --squash` (same pattern as the prior branch consolidation), ran `npm install` (the
+new `posthog-js` dependency wasn't yet present in this worktree) and `npm run build` — both
+succeeded. Also read the Deepdive app's `analytics_bridge.py` directly and found a real, specific gap:
+its `posthog.init()` never sets `cross_subdomain_cookie`, so identity won't stitch across the two
+domains until that repo adds it too.
+
+**Decisions made:**
+- Reuse the existing PostHog project confirmed via MCP, not a new one — key and host now known.
+- Autocapture stays on for the website (no hand-written per-CTA events) — confirmed final.
+- Merge to `dev`, not directly to `main`; `dev` → `main` remains a separate, still-open step (#46).
+- Do not attempt to fix the Deepdive-side `cross_subdomain_cookie` gap from this repo/session (#49).
+
+**Pending decisions:**
+- New: #48 (owner sets `PUBLIC_POSTHOG_KEY`/`PUBLIC_POSTHOG_HOST` in Cloudflare Pages, values now
+  confirmed and recorded above), #49 (Deepdive-side `cross_subdomain_cookie` fix, separate repo).
+  #44 and #45 resolved this session. #46 partially updated — merged to `dev`, `main` still pending.
 
 ---
 
