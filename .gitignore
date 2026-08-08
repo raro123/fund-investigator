@@ -39,3 +39,6 @@ my_thoughts.md
 
 # Claude Code agent worktrees
 .claude/worktrees/
+
+# Playwright MCP workspace artifacts
+.playwright-mcp/
