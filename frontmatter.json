@@ -76,19 +76,6 @@
           "description": "Show on homepage (max 3 most recent)"
         },
         {
-          "title": "Cover Image",
-          "name": "coverImage",
-          "type": "image",
-          "isPreviewImage": true,
-          "description": "Optional. Place in /public/images/reports/"
-        },
-        {
-          "title": "Cover Image Alt Text",
-          "name": "coverImageAlt",
-          "type": "string",
-          "description": "Accessibility description for cover image"
-        },
-        {
           "title": "fmContentType",
           "name": "fmContentType",
           "type": "string"

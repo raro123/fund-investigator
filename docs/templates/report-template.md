@@ -11,8 +11,8 @@
 # THE THREE TEXT FIELDS - each has one job. Do not make one do two.
 # ---------------------------------------------------------------------------
 
-# TITLE -> the <h1>, the browser tab, the Google result heading, the social card,
-#          and the JSON-LD headline. All of these show the same string.
+# TITLE -> the <h1> and the default browser, search, social-card, and JSON-LD title.
+#          The optional `seo.title` override below changes machine-facing copy only.
 #          Write it the way someone would search for the topic, not as a clever line.
 title: "Your Investigation Title Here"
 
@@ -53,18 +53,24 @@ tags: ["Large Cap", "Value Investing", "Risk Analysis"]
 featured: true
 
 # ---------------------------------------------------------------------------
-# IMAGES AND METRICS
+# OPTIONAL SEO OVERRIDES
 # ---------------------------------------------------------------------------
 
-# Cover image. Optional, but set it: it becomes the social-share card AND the
-# `image` in the article's JSON-LD. Omit it and both fall back to the generic
-# site image, so every share of every report looks identical.
-# Path is RELATIVE to this file, into src/assets (so Astro optimises it).
-# Recommended 1200x630 (2:1).
-coverImage: "../../assets/images/reports/your-article-slug/cover.png"
+# Most reports should omit this block. The build automatically generates a branded
+# 1200x675 social card from the report title and metrics. Use `seo` only when search
+# copy should differ from the visible heading or the report needs a custom share image.
+# The visible H1 and hook never change.
+#
+# seo:
+#   title: "Search-focused title that differs from the visible H1"
+#   description: "Search-focused description that differs from the default description."
+#   image:
+#     src: "../../assets/images/reports/your-article-slug/social-card.jpg"
+#     alt: "Describe the custom social card"
 
-# Alt text for the cover. Accessibility + it becomes og:image:alt.
-coverImageAlt: "Chart showing performance metrics and drawdown analysis"
+# ---------------------------------------------------------------------------
+# METRICS
+# ---------------------------------------------------------------------------
 
 # Optional, max 3. The metric chips on the report card in the listings.
 # Fund reports use these; methodology guides usually do not.

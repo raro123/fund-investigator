@@ -25,8 +25,6 @@ const reports = defineCollection({
     analysisThrough: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     /** Current report readers should visit from an archived snapshot. */
     supersededBy: z.string().startsWith('/reports/').optional(),
-    coverImage: image().optional(),
-    coverImageAlt: z.string().optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),
     keyMetrics: z.array(z.object({

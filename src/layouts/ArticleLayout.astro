@@ -27,7 +27,7 @@ const ogImage = explicitSeoImage || reportOgImagePath(reportSlug);
 const imageUrl = absoluteImageUrl(ogImage, Astro.site);
 const ogImageWidth = typeof seoImageMetadata === 'object' ? seoImageMetadata.width : 1200;
 const ogImageHeight = typeof seoImageMetadata === 'object' ? seoImageMetadata.height : 675;
-const ogImageAlt = seoImage?.alt || frontmatter.coverImageAlt || frontmatter.title;
+const ogImageAlt = seoImage?.alt || frontmatter.title;
 const graph = reportSchemaGraph(
   resolvedMetadata,
   pageUrl,
