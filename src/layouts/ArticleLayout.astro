@@ -172,18 +172,10 @@ const jsonLd = [
 
   .article-prose :global(img) {
     display: block;
-    width: min(92vw, 56rem);
-    max-width: min(92vw, 56rem);
-    margin-inline: calc((100% - min(92vw, 56rem)) / 2);
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
     cursor: zoom-in;
-  }
-
-  @media (max-width: 640px) {
-    .article-prose :global(img) {
-      width: 100%;
-      max-width: 100%;
-      margin-inline: 0;
-    }
   }
 
   .article-prose :global(a[data-footnote-ref]) {
