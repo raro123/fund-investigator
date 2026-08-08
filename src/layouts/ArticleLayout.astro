@@ -1,8 +1,12 @@
 ---
 import Layout from './Layout.astro';
+import type { MarkdownHeading } from 'astro';
+import type { CollectionEntry } from 'astro:content';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
+import ArticleBreadcrumbs from '../components/ui/ArticleBreadcrumbs.astro';
+import ArticleMetadata from '../components/ui/ArticleMetadata.astro';
+import ArticleTableOfContents from '../components/ui/ArticleTableOfContents.astro';
 import {
   absoluteImageUrl,
   articleSchema,
@@ -12,10 +16,16 @@ import {
 } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
-const { frontmatter } = Astro.props;
-const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
-  year: 'numeric', month: 'long', day: 'numeric'
-});
+interface Props {
+  frontmatter: CollectionEntry<'reports'>['data'];
+  headings: MarkdownHeading[];
+}
+
+const { frontmatter, headings } = Astro.props;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Investigations', href: '/reports/' },
+];
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const jsonLd = [
@@ -32,7 +42,6 @@ const jsonLd = [
   breadcrumbSchema([
     { name: 'Home', path: '/' },
     { name: 'Investigations', path: '/reports/' },
-    { name: frontmatter.title, path: Astro.url.pathname },
   ], Astro.site),
 ];
 ---
@@ -45,30 +54,30 @@ const jsonLd = [
   ogType="article"
   jsonLd={jsonLd}
 >
-  <div class="fixed top-0 left-0 right-0 h-1 bg-fi-border z-50">
+  <div class="fixed left-0 right-0 top-fi-header z-fi-progress h-1 bg-fi-border-dark" aria-hidden="true">
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header class="bg-fi-dark pt-24 pb-14 sm:pt-32 sm:pb-20 px-4 sm:px-6 text-center">
+  <header id="article-top" class="bg-fi-dark px-4 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-32">
     <div class="max-w-3xl mx-auto space-y-6">
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-fi-subtle">
-        <time datetime={frontmatter.date}>{formattedDate}</time>
-        <span>•</span>
-        <span>{frontmatter.readTime}</span>
-        {frontmatter.category && (
-          <><span>•</span><span class="text-fi-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
-        )}
-        {frontmatter.status === 'archived' && (
-          <><span>•</span><Badge variant="dark" size="sm">Historical</Badge></>
-        )}
-      </div>
+      <ArticleBreadcrumbs items={breadcrumbs} />
       <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
-      <p class="font-serif text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
+      <p class="max-w-2xl font-serif text-xl leading-relaxed text-fi-muted-inv">{frontmatter.hook ?? frontmatter.description}</p>
+      <ArticleMetadata
+        published={frontmatter.date}
+        updated={frontmatter.updated}
+        readTime={frontmatter.readTime}
+        category={frontmatter.category}
+        status={frontmatter.status}
+      />
     </div>
   </header>
 
-  <article class="relative bg-white px-4 sm:px-6 py-16 md:py-24">
-    <div class="max-w-fi-content mx-auto">
+  <article class="relative bg-white px-4 py-16 sm:px-6 lg:px-10 xl:py-24">
+    <div class="mx-auto max-w-7xl xl:grid xl:grid-cols-fi-article xl:gap-8">
+      <ArticleTableOfContents headings={headings} />
+
+      <div class="mx-auto w-full max-w-fi-content xl:col-start-2 xl:row-start-1">
       {frontmatter.status === 'archived' && frontmatter.analysisThrough && frontmatter.supersededBy && (
         <div class="mb-12">
           <ArchivedReportNotice
@@ -95,7 +104,7 @@ const jsonLd = [
       </div>
 
       <div class="mt-12 pt-8 border-t border-fi-border">
-        <div class="text-sm text-fi-muted leading-relaxed max-w-[60ch] mx-auto">
+        <div class="mx-auto max-w-fi-disclaimer text-sm leading-relaxed text-fi-muted">
           <h4 class="font-semibold text-fi-ink mb-3">Disclaimer</h4>
           <p class="mb-3">
             This analysis is based on historical performance data, sourced from Fund Investigator's Mutual Fund Deepdive platform. Past performance does not guarantee future results. This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell.
@@ -104,6 +113,7 @@ const jsonLd = [
             Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
           </p>
         </div>
+      </div>
       </div>
     </div>
   </article>

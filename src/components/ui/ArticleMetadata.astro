@@ -1,0 +1,75 @@
+---
+import {
+  reportCategoryLabel,
+  type ReportCategory,
+} from '../../lib/report-categories';
+
+interface Props {
+  published: string;
+  updated?: string;
+  readTime: string;
+  category?: ReportCategory;
+  status?: 'current' | 'archived';
+}
+
+const { published, updated, readTime, category, status = 'current' } = Astro.props;
+const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const showUpdated = Boolean(updated && updated !== published);
+const displayReadTime = readTime.replace(/\s+read$/i, '');
+---
+
+<div class="border-t border-fi-gold pt-5 text-sm lg:text-xs">
+  <div class="flex flex-col items-start gap-3 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-5 lg:gap-y-2">
+    <dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1 lg:gap-x-3" role="group" aria-label="Article dates">
+      <div class="inline-flex items-baseline gap-1.5">
+        <dt class="text-fi-subtle">Published</dt>
+        <dd class="font-semibold text-fi-muted-inv">
+          <time datetime={published}>{formatDate(published)}</time>
+        </dd>
+      </div>
+      {showUpdated && updated && (
+        <div class="inline-flex items-baseline gap-1.5">
+          <dt class="text-fi-subtle">Updated</dt>
+          <dd class="font-semibold text-fi-muted-inv">
+            <time datetime={updated}>{formatDate(updated)}</time>
+          </dd>
+        </div>
+      )}
+    </dl>
+
+    <dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1 lg:gap-x-3" role="group" aria-label="Article details">
+      <div class="inline-flex items-baseline gap-1.5">
+        <dt class="text-fi-subtle">Reading time</dt>
+        <dd class="font-semibold text-fi-muted-inv">{displayReadTime}</dd>
+      </div>
+      {category && (
+        <div class="inline-flex items-baseline gap-1.5">
+          <dt class="text-fi-subtle">Category</dt>
+          <dd class="font-semibold text-fi-muted-inv">{reportCategoryLabel(category)}</dd>
+        </div>
+      )}
+      {status === 'archived' && (
+        <div class="inline-flex items-baseline gap-1.5">
+          <dt class="text-fi-subtle">Status</dt>
+          <dd class="font-semibold text-fi-muted-inv">Historical</dd>
+        </div>
+      )}
+    </dl>
+
+    <dl role="group" aria-label="Article byline">
+      <div class="inline-flex items-baseline gap-1.5 whitespace-nowrap">
+        <dt class="text-fi-subtle">By</dt>
+        <dd>
+          <a
+            href="/about/"
+            class="rounded-sm font-semibold text-fi-muted-inv transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold focus-visible:ring-offset-2 focus-visible:ring-offset-fi-dark"
+          >Fund Investigator</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>

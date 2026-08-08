@@ -1,0 +1,220 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const sections = headings.filter(({ depth }) => depth === 2);
+const shouldRender = sections.length >= 3;
+const firstSection = sections[0];
+---
+
+{shouldRender && firstSection && (
+  <>
+    <div
+      class="sticky top-fi-article-nav z-fi-overlay mb-12 border-y border-fi-border bg-white shadow-fi-card xl:hidden"
+      data-article-toc
+    >
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 px-4 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold"
+        aria-expanded="false"
+        aria-controls="article-toc-mobile-panel"
+        data-toc-toggle
+      >
+        <span class="shrink-0 text-caption uppercase text-fi-muted">On this page</span>
+        <span class="min-w-0 flex-1 truncate text-sm font-semibold text-fi-ink" data-toc-current>
+          {firstSection.text}
+        </span>
+        <svg
+          class="h-5 w-5 shrink-0 text-fi-muted transition-transform"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          data-toc-chevron
+        >
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </button>
+
+      <nav
+        id="article-toc-mobile-panel"
+        class="absolute left-0 right-0 top-full max-h-96 overflow-y-auto border-b border-fi-border bg-white px-4 pb-4 shadow-fi-card"
+        aria-label="Table of contents"
+        hidden
+        data-toc-panel
+      >
+        <ol class="space-y-1 border-l border-fi-border py-2">
+          {sections.map((section) => (
+            <li>
+              <a
+                href={`#${section.slug}`}
+                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                data-toc-link
+                data-section-id={section.slug}
+              >
+                {section.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a
+          href="#article-top"
+          class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+          data-toc-close
+        >
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m18 15-6-6-6 6"></path>
+          </svg>
+          Back to top
+        </a>
+      </nav>
+    </div>
+
+    <aside class="col-start-1 row-start-1 hidden max-h-fi-article-toc w-full max-w-xs self-start justify-self-end overflow-y-auto pr-8 xl:sticky xl:top-fi-article xl:block">
+      <nav
+        class="w-full"
+        aria-label="Table of contents"
+        data-article-toc
+      >
+        <p class="mb-4 text-caption uppercase text-fi-muted">On this page</p>
+        <ol class="space-y-1 border-l border-fi-border">
+          {sections.map((section) => (
+            <li>
+              <a
+                href={`#${section.slug}`}
+                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                data-toc-link
+                data-section-id={section.slug}
+              >
+                {section.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a
+          href="#article-top"
+          class="mt-5 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+        >
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m18 15-6-6-6 6"></path>
+          </svg>
+          Back to top
+        </a>
+      </nav>
+    </aside>
+  </>
+)}
+
+<script>
+  const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+  const sectionIds = [...new Set(tocLinks.map((link) => link.dataset.sectionId).filter(Boolean))] as string[];
+  const sectionHeadings = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter((heading): heading is HTMLElement => heading instanceof HTMLElement);
+  const mobileToggle = document.querySelector<HTMLButtonElement>('[data-toc-toggle]');
+  const mobileToc = mobileToggle?.closest<HTMLElement>('[data-article-toc]');
+  const mobilePanel = mobileToc?.querySelector<HTMLElement>('[data-toc-panel]');
+  const mobileChevron = mobileToc?.querySelector<SVGElement>('[data-toc-chevron]');
+  const mobileCurrent = mobileToc?.querySelector<HTMLElement>('[data-toc-current]');
+
+  const closeMobileToc = (restoreFocus = false) => {
+    if (!mobileToggle || !mobilePanel) return;
+    mobileToggle.setAttribute('aria-expanded', 'false');
+    mobilePanel.hidden = true;
+    mobileChevron?.classList.remove('rotate-180');
+    if (restoreFocus) mobileToggle.focus();
+  };
+
+  mobileToggle?.addEventListener('click', () => {
+    const willOpen = mobileToggle.getAttribute('aria-expanded') !== 'true';
+    mobileToggle.setAttribute('aria-expanded', String(willOpen));
+    if (mobilePanel) mobilePanel.hidden = !willOpen;
+    mobileChevron?.classList.toggle('rotate-180', willOpen);
+  });
+
+  mobileToc?.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
+    link.addEventListener('click', () => closeMobileToc());
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (mobileToc && event.target instanceof Node && !mobileToc.contains(event.target)) {
+      closeMobileToc();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileToggle?.getAttribute('aria-expanded') === 'true') {
+      closeMobileToc(true);
+    }
+  });
+
+  const setActiveSection = (sectionId: string) => {
+    tocLinks.forEach((link) => {
+      const isActive = link.dataset.sectionId === sectionId;
+      link.classList.toggle('border-fi-gold', isActive);
+      link.classList.toggle('font-semibold', isActive);
+      link.classList.toggle('text-fi-ink', isActive);
+      link.classList.toggle('border-transparent', !isActive);
+      if (isActive) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+
+    const activeHeading = sectionHeadings.find(({ id }) => id === sectionId);
+    if (mobileCurrent && activeHeading) mobileCurrent.textContent = activeHeading.textContent?.trim() ?? '';
+  };
+
+  const initialSection = window.location.hash.slice(1);
+  setActiveSection(sectionIds.includes(initialSection) ? initialSection : sectionIds[0] ?? '');
+
+  if ('IntersectionObserver' in window && sectionHeadings.length > 0) {
+    const visibleHeadings = new Set<string>();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visibleHeadings.add(entry.target.id);
+        else visibleHeadings.delete(entry.target.id);
+      });
+
+      const activeId = sectionIds.find((id) => visibleHeadings.has(id));
+      if (activeId) setActiveSection(activeId);
+    }, { rootMargin: '-25% 0px -65% 0px' });
+
+    sectionHeadings.forEach((heading) => observer.observe(heading));
+  }
+</script>
+
+<style is:global>
+  .article-prose h2 {
+    scroll-margin-top: calc(var(--fi-header-h) + 5rem);
+  }
+
+  @media (min-width: 1280px) {
+    .article-prose h2 {
+      scroll-margin-top: calc(var(--fi-header-h) + 1.5rem);
+    }
+  }
+</style>

@@ -292,6 +292,6 @@ Pages should not add their own horizontal padding.
 
 ### Layout Tokens
 Defined in `tailwind.config.mjs`, shown live at `/styleguide` → Layout Tokens
-(`z-fi-header`, `z-fi-menu`, `shadow-fi-card`, `shadow-fi-card-dark`, `rounded-fi-btn`, `w-fi-icon`/`h-fi-icon`,
+(`z-fi-header`, `z-fi-menu`, `z-fi-progress`, `shadow-fi-card`, `shadow-fi-card-dark`, `rounded-fi-btn`, `w-fi-icon`/`h-fi-icon`,
 `w-fi-icon-lg`/`h-fi-icon-lg`, `max-w-fi-content`). The `--fi-header-h` CSS var (73px) isn't a Tailwind
 token so it doesn't appear there — it's set directly in `Layout.astro`.
