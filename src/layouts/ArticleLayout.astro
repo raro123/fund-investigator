@@ -3,24 +3,27 @@ import Layout from './Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
-import { absoluteImageUrl, reportSchemaGraph } from '../lib/schema';
+import { absoluteImageUrl, reportOgImagePath, reportSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
-const { frontmatter, articleBody } = Astro.props;
+const { frontmatter, articleBody, reportSlug } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric'
 });
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
-const imageUrl = absoluteImageUrl(frontmatter.coverImage?.src, Astro.site);
+const ogImage = reportOgImagePath(reportSlug);
+const imageUrl = absoluteImageUrl(ogImage, Astro.site);
 const graph = reportSchemaGraph(frontmatter, pageUrl, imageUrl, Astro.site, articleBody);
 ---
 
 <Layout
   title={frontmatter.title}
   description={frontmatter.description}
-  ogImage={frontmatter.coverImage?.src}
+  ogImage={ogImage}
   ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
+  ogImageWidth={1200}
+  ogImageHeight={675}
   ogType="article"
   graph={graph}
   article={{

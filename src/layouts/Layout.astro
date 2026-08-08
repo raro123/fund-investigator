@@ -22,6 +22,8 @@ interface Props {
   firstParagraph?: string;
   ogImage?: string;           // Optional: URL path to OG image
   ogImageAlt?: string;        // Optional: Alt text for OG image
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   ogType?: 'website' | 'article';  // Optional: defaults to 'website'
   jsonLd?: object[];          // Optional: schema.org entities, built via src/lib/schema.ts
   graph?: Record<string, unknown> | null;
@@ -42,6 +44,8 @@ const {
   firstParagraph,
   ogImage,
   ogImageAlt,
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
   ogType = 'website',  // Default to 'website'
   jsonLd,
   graph: suppliedGraph,
@@ -77,6 +81,7 @@ const graph = suppliedGraph ?? legacyGraph;
 const defaultLinks = [
   { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+  { rel: 'alternate', type: 'application/rss+xml', href: '/feed.xml', title: 'Fund Investigator RSS feed' },
 ];
 ---
 
@@ -91,8 +96,8 @@ const defaultLinks = [
       ogType={ogType}
       ogImage={ogImageUrl}
       ogImageAlt={ogImageAlt || resolvedTitle}
-      ogImageWidth={1200}
-      ogImageHeight={630}
+      ogImageWidth={ogImageWidth}
+      ogImageHeight={ogImageHeight}
       siteName="Fund Investigator"
       twitter={{ card: 'summary_large_image' }}
       article={article}

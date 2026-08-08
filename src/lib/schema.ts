@@ -22,6 +22,10 @@ import { SITE_URL, DEEPDIVE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
+/** Deterministic build-time social card path for a report. */
+export const reportOgImagePath = (slug: string): string =>
+  `/og/reports/${slug}.jpg`;
+
 /** Matches the entity description in llms.txt.ts so both machine-readable surfaces agree. */
 const ORG_DESCRIPTION =
   'Data-driven mutual fund analysis for Indian investors. We investigate fund performance using ' +
@@ -216,7 +220,7 @@ export const reportSchemaGraph = (
     pageUrl,
     url: imageUrl,
     width: 1200,
-    height: 630,
+    height: 675,
     caption: frontmatter.title,
     inLanguage: 'en',
   }, ids);
