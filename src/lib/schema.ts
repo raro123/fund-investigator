@@ -22,6 +22,10 @@ import { SITE_URL, DEEPDIVE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
+export const HOME_TITLE = 'Indian Mutual Fund Analysis | Fund Investigator';
+export const HOME_DESCRIPTION =
+  'Compare AMFI-registered mutual funds by benchmark returns, SIP IRR, Sharpe ratio, volatility, and drawdown—with no commissions.';
+
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
   `/og/reports/${slug}.jpg`;
@@ -34,13 +38,17 @@ const ORG_DESCRIPTION =
 
 type SchemaObject = Record<string, unknown>;
 
-interface ArticleFrontmatter {
+export interface ArticleFrontmatter {
   title: string;
   description: string;
   date: string;
   updated?: string;
   category?: string;
   tags?: string[];
+  seo?: {
+    title?: string;
+    description?: string;
+  };
 }
 
 interface BreadcrumbItem {
@@ -65,7 +73,7 @@ const assemble = (pieces: SchemaObject[]) =>
 
 const asDate = (value: string): Date => new Date(`${value}T00:00:00.000Z`);
 
-const stripMarkdown = (markdown: string): string =>
+const normalizeArticleBody = (markdown: string): string =>
   markdown
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
@@ -73,8 +81,16 @@ const stripMarkdown = (markdown: string): string =>
     .replace(/^\s{0,3}#{1,6}\s+/gm, '')
     .replace(/[>*_`~|-]/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 10000);
+    .trim();
+
+/** Resolve machine-facing report copy while retaining editorial frontmatter separately. */
+export const resolveArticleMetadata = (
+  frontmatter: ArticleFrontmatter,
+): ArticleFrontmatter => ({
+  ...frontmatter,
+  title: frontmatter.seo?.title?.trim() || frontmatter.title,
+  description: frontmatter.seo?.description?.trim() || frontmatter.description,
+});
 
 /**
  * Who is credited as author on reports.
@@ -159,6 +175,7 @@ export const articleSchema = (
   articleBody?: string,
 ): SchemaObject => {
   const ids = idsFor(site);
+  const normalizedArticleBody = articleBody ? normalizeArticleBody(articleBody) : '';
   return buildArticle({
     url: pageUrl,
     isPartOf: { '@id': ids.webPage(pageUrl) },
@@ -173,8 +190,11 @@ export const articleSchema = (
     isAccessibleForFree: true,
     author: authorRef(site),
     publisher: { '@id': orgId(site) },
-    ...(articleBody
-      ? { articleBody: stripMarkdown(articleBody), wordCount: stripMarkdown(articleBody).split(/\s+/).length }
+    ...(normalizedArticleBody
+      ? {
+          articleBody: normalizedArticleBody.slice(0, 10000),
+          wordCount: normalizedArticleBody.split(/\s+/).length,
+        }
       : {}),
   }, ids);
 };
@@ -200,8 +220,8 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
     deepdiveSchema(site),
     buildWebPage({
       url: pageUrl,
-      name: 'Fund Investigator - Comprehensive Mutual Fund Analysis',
-      description: 'Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions.',
+      name: HOME_TITLE,
+      description: HOME_DESCRIPTION,
       isPartOf: { '@id': websiteId(site) },
       inLanguage: 'en',
     }, ids),
@@ -214,14 +234,17 @@ export const reportSchemaGraph = (
   imageUrl: string,
   site?: URL,
   articleBody?: string,
+  imageWidth = 1200,
+  imageHeight = 675,
+  imageCaption = frontmatter.title,
 ): SchemaObject => {
   const ids = idsFor(site);
   const image = buildImageObject({
     pageUrl,
     url: imageUrl,
-    width: 1200,
-    height: 675,
-    caption: frontmatter.title,
+    width: imageWidth,
+    height: imageHeight,
+    caption: imageCaption,
     inLanguage: 'en',
   }, ids);
   const breadcrumb = breadcrumbSchema([

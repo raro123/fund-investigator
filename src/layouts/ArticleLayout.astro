@@ -3,7 +3,12 @@ import Layout from './Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
-import { absoluteImageUrl, reportOgImagePath, reportSchemaGraph } from '../lib/schema';
+import {
+  absoluteImageUrl,
+  reportOgImagePath,
+  reportSchemaGraph,
+  resolveArticleMetadata,
+} from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
 const { frontmatter, articleBody, reportSlug } = Astro.props;
@@ -12,18 +17,36 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 });
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
-const ogImage = reportOgImagePath(reportSlug);
+const resolvedMetadata = resolveArticleMetadata(frontmatter);
+const seoImage = frontmatter.seo?.image;
+const seoImageMetadata = seoImage?.src;
+const explicitSeoImage = typeof seoImageMetadata === 'string'
+  ? seoImageMetadata
+  : seoImageMetadata?.src;
+const ogImage = explicitSeoImage || reportOgImagePath(reportSlug);
 const imageUrl = absoluteImageUrl(ogImage, Astro.site);
-const graph = reportSchemaGraph(frontmatter, pageUrl, imageUrl, Astro.site, articleBody);
+const ogImageWidth = typeof seoImageMetadata === 'object' ? seoImageMetadata.width : 1200;
+const ogImageHeight = typeof seoImageMetadata === 'object' ? seoImageMetadata.height : 675;
+const ogImageAlt = seoImage?.alt || frontmatter.coverImageAlt || frontmatter.title;
+const graph = reportSchemaGraph(
+  resolvedMetadata,
+  pageUrl,
+  imageUrl,
+  Astro.site,
+  articleBody,
+  ogImageWidth,
+  ogImageHeight,
+  ogImageAlt,
+);
 ---
 
 <Layout
-  title={frontmatter.title}
-  description={frontmatter.description}
+  title={resolvedMetadata.title}
+  description={resolvedMetadata.description}
   ogImage={ogImage}
-  ogImageAlt={frontmatter.coverImageAlt || frontmatter.title}
-  ogImageWidth={1200}
-  ogImageHeight={675}
+  ogImageAlt={ogImageAlt}
+  ogImageWidth={ogImageWidth}
+  ogImageHeight={ogImageHeight}
   ogType="article"
   graph={graph}
   article={{

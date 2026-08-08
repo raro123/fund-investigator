@@ -11,13 +11,15 @@ Fund Investigator has a strong static Astro foundation: server-rendered report c
 metadata, canonical URLs, structured data, source notes, explicit analysis periods, and a coherent
 five-check investigation method.
 
-The initial Astro SEO baseline was **49/90**. Phases 0–3 have now closed the main technical gaps:
+The initial Astro SEO baseline was **49/90**. Phases 0–3 are now closed as source-code milestones;
+production-only checks remain explicit release gates. The completed implementation closes these technical gaps:
 
 - Shared head metadata now runs through `@jdevalk/astro-seo-graph`.
 - Reports emit linked Organization, WebSite, ImageObject, WebPage, Article, and BreadcrumbList graphs.
 - Content schemas enforce SEO title, description, and date formats at build time.
 - Reports have deterministic build-time JPEG social cards.
-- RSS, per-collection sitemaps, Git-derived `lastmod`, and production-gated IndexNow are implemented.
+- RSS with resolved absolute content URLs, per-collection sitemaps, Git-derived `lastmod`, and
+  production-gated IndexNow are implemented.
 - Build-time validation covers H1s, metadata uniqueness and length, image alt text, and internal links.
 
 The remaining high-impact work is publisher authority and reproducibility: visible authorship/review,
@@ -62,6 +64,8 @@ production deployment checks rather than treating local implementation as proof 
 - Robots metadata includes `max-snippet:-1`, `max-image-preview:large`, and `max-video-preview:-1`.
 - `/404/` and `/styleguide/` are marked noindex.
 - RSS discovery is emitted with `<link rel="alternate" type="application/rss+xml">`.
+- Homepage metadata now uses the specific title `Indian Mutual Fund Analysis | Fund Investigator` and
+  a matching comparison-focused description in both HTML and WebPage schema.
 
 **Status:** Complete in source; verify the deployed origin before release.
 
@@ -78,8 +82,11 @@ production deployment checks rather than treating local implementation as proof 
 - `src/lib/schema.ts` uses `@jdevalk/seo-graph-core` builders and `assembleGraph()`.
 - Report graphs include Organization, WebSite, ImageObject, WebPage, Article, and BreadcrumbList.
 - `assembleGraph(..., { warnOnDanglingReferences: true })` validates references during builds.
-- Markdown-stripped `articleBody` is included up to 10,000 characters.
+- Markdown-stripped `articleBody` is included up to 10,000 characters, while `wordCount` is calculated
+  once from the full normalized report body before truncation.
 - Report JSON-LD now references the generated 1200×675 social card.
+- Per-report SEO title, description, image URL, alt text, and image dimensions flow through head metadata
+  and the linked JSON-LD graph together.
 
 **Remaining**
 
@@ -99,7 +106,9 @@ production deployment checks rather than treating local implementation as proof 
 **Implemented**
 
 - `src/content.config.ts` enforces title length, description length, and `YYYY-MM-DD` dates.
-- Optional `seoSchema(image)` overrides are supported.
+- Optional `seoSchema(image)` overrides are validated and applied to head metadata, RSS copy, and JSON-LD.
+  The visible report H1 continues to use the editorial `title`; an explicit SEO image replaces the generated
+  report card in Open Graph and JSON-LD, otherwise the deterministic generated card remains the fallback.
 - Archived reports require `analysisThrough` and `supersededBy` values.
 - Article schema exposes stripped report body text and word count.
 
@@ -123,6 +132,8 @@ production deployment checks rather than treating local implementation as proof 
 - `src/pages/og/reports/[...slug].jpg.ts` generates deterministic cards with Satori and Sharp.
 - Six report cards are emitted as JPEG files at `1200×675`.
 - `ArticleLayout.astro` and report JSON-LD reference `/og/reports/<slug>.jpg`.
+- A valid `seo.image` override is honored consistently by Open Graph and JSON-LD, including its actual
+  dimensions and alt/caption; reports without one retain the generated card.
 - The generated card was visually inspected locally.
 
 **Remaining**
@@ -145,7 +156,9 @@ production deployment checks rather than treating local implementation as proof 
 
 - `astro.config.mjs` uses `gitLastmod()` to populate report `<lastmod>` values.
 - Sitemap output is split into `sitemap-reports-0.xml` and `sitemap-pages-0.xml`.
-- `src/pages/feed.xml.ts` publishes full HTML content for four current reports.
+- `src/pages/feed.xml.ts` publishes full HTML content for four current reports. Astro content-image
+  placeholders are resolved through the asset pipeline, and content image `src`/`srcset` values plus
+  internal links are made absolute for feed readers. The build throws if a placeholder cannot be resolved.
 - `src/pages/14a30902d8a12fd849ea16a55b53e034.txt.ts` serves the IndexNow verification key.
 - IndexNow submission is gated to Cloudflare Pages production builds on the `main` branch and requires
   a matching `INDEXNOW_KEY` environment variable.
@@ -263,7 +276,7 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 
 | Phase | Scope | Status |
 |---|---|---|
-| Phase 0 | Branch setup and source/live verification gate | Complete |
+| Phase 0 | Branch setup and source verification gate | Complete in source; live parity remains a release gate |
 | Phase 1 | Shared `<Seo>` metadata and canonical foundation | Complete |
 | Phase 2 | Linked JSON-LD graph and content schema validation | Complete |
 | Phase 3 | OG images, RSS, sitemap `lastmod`, IndexNow | Complete |
@@ -275,11 +288,17 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 - `npm run build`: passed with 14 pages built.
 - Astro SEO validators: H1, internal links, image alt, metadata length, and metadata uniqueness all passed.
 - Generated OG cards: six JPEGs, each 1200×675; one card visually inspected.
-- RSS: `/feed.xml` contains four current reports with full article HTML content.
+- RSS: `/feed.xml` contains four current reports with full article HTML content, 15 absolute optimized image
+  URLs, zero `__ASTRO_IMAGE_` placeholders, and no root-relative `href` or `src` attributes.
+- JSON-LD: the longest current report emits a 10,000-character `articleBody` and a `wordCount` derived from
+  its full normalized body rather than the truncated field.
+- Homepage: HTML title/description and WebPage schema name/description match the revised metadata exactly.
 - Sitemap: `sitemap-index.xml` references page and report chunks; report entries include Git-derived `lastmod`.
 - IndexNow: key route returns the committed key; production submission still requires Cloudflare configuration.
 - `git diff --check`: passed.
-- Local browser preview could not bind in the restricted environment, so deployed mobile and HTTP spot checks remain open.
+- Local build-artifact checks are complete. Deployed mobile, HTTP status, external structured-data validators,
+  webmaster registration, and production IndexNow submission remain open; this document does not treat them
+  as completed checks.
 
 ## Release gates and next actions
 

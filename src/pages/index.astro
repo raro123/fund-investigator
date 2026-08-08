@@ -9,7 +9,7 @@ import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
-import { homeSchemaGraph } from '../lib/schema';
+import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 
@@ -24,8 +24,8 @@ const featuredReports = allReports
 ---
 
 <Layout
-  title="Fund Investigator - Comprehensive Mutual Fund Analysis"
-  description="Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions."
+  title={HOME_TITLE}
+  description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
 >
   <!-- Hero Section -->
