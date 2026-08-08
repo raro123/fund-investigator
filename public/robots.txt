@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=no, use=reference
 
 # Exclude internal/utility pages
 Disallow: /styleguide
@@ -9,3 +10,4 @@ Disallow: /404
 Disallow: /reports/_TEMPLATE
 
 Sitemap: https://fundinvestigator.com/sitemap-index.xml
+Schemamap: https://fundinvestigator.com/schemamap.xml

@@ -4,10 +4,9 @@ import Button from '../components/ui/Button.astro';
 import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import {
-  absoluteImageUrl,
-  reportOgImagePath,
   reportSchemaGraph,
   resolveArticleMetadata,
+  resolveReportImage,
 } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
@@ -18,37 +17,33 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const resolvedMetadata = resolveArticleMetadata(frontmatter);
-const seoImage = frontmatter.seo?.image;
-const seoImageMetadata = seoImage?.src;
-const explicitSeoImage = typeof seoImageMetadata === 'string'
-  ? seoImageMetadata
-  : seoImageMetadata?.src;
-const ogImage = explicitSeoImage || reportOgImagePath(reportSlug);
-const imageUrl = absoluteImageUrl(ogImage, Astro.site);
-const ogImageWidth = typeof seoImageMetadata === 'object' ? seoImageMetadata.width : 1200;
-const ogImageHeight = typeof seoImageMetadata === 'object' ? seoImageMetadata.height : 675;
-const ogImageAlt = seoImage?.alt || frontmatter.title;
+const reportImage = resolveReportImage(frontmatter, reportSlug, Astro.site);
 const graph = reportSchemaGraph(
   resolvedMetadata,
   pageUrl,
-  imageUrl,
+  reportImage.url,
   Astro.site,
   articleBody,
-  ogImageWidth,
-  ogImageHeight,
-  ogImageAlt,
+  reportImage.width,
+  reportImage.height,
+  reportImage.alt,
 );
 ---
 
 <Layout
   title={resolvedMetadata.title}
   description={resolvedMetadata.description}
-  ogImage={ogImage}
-  ogImageAlt={ogImageAlt}
-  ogImageWidth={ogImageWidth}
-  ogImageHeight={ogImageHeight}
+  ogImage={reportImage.path}
+  ogImageAlt={reportImage.alt}
+  ogImageWidth={reportImage.width}
+  ogImageHeight={reportImage.height}
   ogType="article"
   graph={graph}
+  extraLinks={[{
+    rel: 'alternate',
+    type: 'text/markdown',
+    href: `/reports/${reportSlug}.md`,
+  }]}
   article={{
     publishedTime: frontmatter.date,
     modifiedTime: frontmatter.updated || frontmatter.date,

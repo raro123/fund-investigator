@@ -179,17 +179,21 @@ production deployment checks rather than treating local implementation as proof 
 
 - `llms.txt` exists and lists current investigations with descriptions.
 - Report pages are server-rendered and extractable without client-side JavaScript.
-- Robots policy allows search-oriented crawlers while separating training controls at the deployment layer.
+- `/schema/reports.json` exposes six linked report graphs as corpus-wide JSON-LD.
+- `/schemamap.xml` advertises the report schema endpoint, and `robots.txt` includes its `Schemamap:` directive.
+- Every report has a clean `/reports/<slug>.md` alternate and advertises it from the HTML head. Pages without
+  a Markdown representation do not emit a dangling discovery link.
+- `/.well-known/api-catalog` lists the report schema endpoint, schema map, and RSS feed.
+- `robots.txt` explicitly allows search and real-time AI input while reserving training rights and requesting
+  reference-style use.
+- Cloudflare `_headers` restores content types, `noindex`, cache policy, and per-report canonical headers for
+  the static machine-readable files.
+- `docs/DEPLOYMENT.md` documents the report-only `Accept: text/markdown` URL Rewrite Transform Rule.
 
-**Remaining Phase 4 work**
+**Remaining deployment and Phase 5 work**
 
-- Add corpus-wide schema endpoints and `/schemamap.xml`.
-- Add the `Schemamap:` robots directive.
-- Add markdown alternate endpoints and `markdownAlternate` discovery links.
-- Add `/.well-known/api-catalog`.
-- Add explicit Content Signals policy if the Cloudflare policy decision is approved.
-- Add Cloudflare Transform Rules for `Accept: text/markdown` negotiation.
-- Add `Link` response headers for discovery resources.
+- Create the documented Cloudflare Transform Rule and verify content negotiation over HTTPS.
+- Add the sitewide discovery `Link` response header alongside Phase 5 security and performance headers.
 
 **Authority gaps outside Astro code**
 
@@ -198,7 +202,8 @@ production deployment checks rather than treating local implementation as proof 
 - No canonical public methodology and calculation changelog.
 - Small topical corpus and no established AI-citation measurement baseline.
 
-**Status:** Basic discovery is present; advanced agent discovery and publisher authority remain open.
+**Status:** Phase 4 source work is complete; Cloudflare rule deployment, live verification, and publisher
+authority work remain open.
 
 ### 7. Performance
 
@@ -280,7 +285,7 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 | Phase 1 | Shared `<Seo>` metadata and canonical foundation | Complete |
 | Phase 2 | Linked JSON-LD graph and content schema validation | Complete |
 | Phase 3 | OG images, RSS, sitemap `lastmod`, IndexNow | Complete |
-| Phase 4 | Schema endpoints, schema map, markdown alternates, API catalog, Cloudflare negotiation | Pending |
+| Phase 4 | Schema endpoints, schema map, markdown alternates, API catalog, Cloudflare negotiation | Complete in source; dashboard rule and live verification pending |
 | Phase 5 | Headers, FuzzyRedirect, external-link CI, final metadata/live audit | Pending |
 
 ## Verification record
@@ -295,6 +300,15 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 - Homepage: HTML title/description and WebPage schema name/description match the revised metadata exactly.
 - Sitemap: `sitemap-index.xml` references page and report chunks; report entries include Git-derived `lastmod`.
 - IndexNow: key route returns the committed key; production submission still requires Cloudflare configuration.
+- Agent discovery: the corpus endpoint contains 26 deduplicated entities—six each of Article, WebPage,
+  ImageObject, and BreadcrumbList plus one Organization and one WebSite—with no dangling `@id` references.
+- Markdown alternates: six report files generated; local source-image paths are replaced with descriptive
+  figure text, report HTML contains the matching alternate link, and non-report HTML does not.
+- Schema map, API catalog, Content Signals, `Schemamap:`, and Cloudflare static header rules match the built
+  artifacts.
+- Local Cloudflare Pages verification: Markdown, report schema, schema map, and API catalog routes returned
+  HTTP 200 with the expected MIME type, cache policy, and `X-Robots-Tag`; the Markdown route also expanded
+  its per-report canonical `Link` header correctly.
 - `git diff --check`: passed.
 - Local build-artifact checks are complete. Deployed mobile, HTTP status, external structured-data validators,
   webmaster registration, and production IndexNow submission remain open; this document does not treat them
@@ -313,8 +327,8 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 
 ### Recommended next implementation
 
-Start Phase 4 with report schema endpoints, `/schemamap.xml`, markdown alternates, and the API catalog.
-Then complete Phase 5 and re-score the nine Astro categories.
+Complete Phase 5: sitewide headers, FuzzyRedirect, external-link CI, final metadata checks, and deployed-site
+verification. Then re-score the nine Astro categories.
 
 ## Primary references
 

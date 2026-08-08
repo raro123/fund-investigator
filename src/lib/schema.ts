@@ -48,7 +48,23 @@ export interface ArticleFrontmatter {
   seo?: {
     title?: string;
     description?: string;
+    image?: {
+      src?: string | {
+        src?: string;
+        width?: number;
+        height?: number;
+      };
+      alt: string;
+    };
   };
+}
+
+export interface ResolvedReportImage {
+  path: string;
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
 }
 
 interface BreadcrumbItem {
@@ -106,6 +122,26 @@ export const authorRef = (site?: URL): SchemaObject => ({ '@id': orgId(site) });
  */
 export const absoluteImageUrl = (src: string | undefined, site?: URL): string =>
   new URL(src || DEFAULT_OG_IMAGE, `${origin(site)}/`).toString();
+
+/** Resolve the report image once so HTML metadata and discovery endpoints stay aligned. */
+export const resolveReportImage = (
+  frontmatter: ArticleFrontmatter,
+  slug: string,
+  site?: URL,
+): ResolvedReportImage => {
+  const seoImage = frontmatter.seo?.image;
+  const source = seoImage?.src;
+  const explicitPath = typeof source === 'string' ? source : source?.src;
+  const path = explicitPath || reportOgImagePath(slug);
+
+  return {
+    path,
+    url: absoluteImageUrl(path, site),
+    width: typeof source === 'object' ? source.width ?? 1200 : 1200,
+    height: typeof source === 'object' ? source.height ?? 675 : 675,
+    alt: seoImage?.alt || frontmatter.title,
+  };
+};
 
 /** Publisher entity. Defined in every page graph so page-local validation is complete. */
 export const organizationSchema = (site?: URL): SchemaObject => buildPiece({
@@ -228,7 +264,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   ]);
 };
 
-export const reportSchemaGraph = (
+export const reportSchemaPieces = (
   frontmatter: ArticleFrontmatter,
   pageUrl: string,
   imageUrl: string,
@@ -237,7 +273,7 @@ export const reportSchemaGraph = (
   imageWidth = 1200,
   imageHeight = 675,
   imageCaption = frontmatter.title,
-): SchemaObject => {
+): GraphEntity[] => {
   const ids = idsFor(site);
   const image = buildImageObject({
     pageUrl,
@@ -264,12 +300,32 @@ export const reportSchemaGraph = (
     dateModified: asDate(frontmatter.updated ?? frontmatter.date),
   }, ids);
 
-  return assemble([
+  return [
     organizationSchema(site),
     websiteSchema(site),
     image,
     page,
     articleSchema(frontmatter, pageUrl, site, articleBody),
     breadcrumb,
-  ]);
+  ] as GraphEntity[];
 };
+
+export const reportSchemaGraph = (
+  frontmatter: ArticleFrontmatter,
+  pageUrl: string,
+  imageUrl: string,
+  site?: URL,
+  articleBody?: string,
+  imageWidth = 1200,
+  imageHeight = 675,
+  imageCaption = frontmatter.title,
+): SchemaObject => assemble(reportSchemaPieces(
+  frontmatter,
+  pageUrl,
+  imageUrl,
+  site,
+  articleBody,
+  imageWidth,
+  imageHeight,
+  imageCaption,
+));

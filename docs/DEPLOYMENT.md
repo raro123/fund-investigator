@@ -22,6 +22,7 @@ Cloudflare Pages, connected to this GitHub repo.
 | `MAILERLITE_API_KEY` | Preview only (secret) | Leftover from the deleted MailerLite subscribe function |
 | `PUBLIC_POSTHOG_KEY` | **Set on both Production and Preview** | PostHog project API key, read by `src/layouts/Layout.astro`. No-ops (with a console warning) if set without `PUBLIC_POSTHOG_HOST` |
 | `PUBLIC_POSTHOG_HOST` | **Set on both Production and Preview** | PostHog Cloud region host (`https://us.i.posthog.com` or `https://eu.i.posthog.com`) — must match the region the existing Deepdive PostHog project uses. No silent fallback |
+| `INDEXNOW_KEY` | Production only | Must equal `14a30902d8a12fd849ea16a55b53e034`. Enables IndexNow only on the `main` Cloudflare Pages build after the public key route has been deployed and verified |
 
 **Needs addressing:**
 - `PUBLIC_CF_ACCOUNT_ID` / `PUBLIC_CF_PROJECT_NAME` are now fully dead (the beacon that read them was deleted) — remove them from Cloudflare Pages.
@@ -49,9 +50,54 @@ DNS *is* shared: `deepdive.fundinvestigator.com` is a Proxied `CNAME` → `ug73t
 - `astro.config.mjs`'s `sitemap()` integration filter excludes the same set, plus `/subscribe`
 - If a new non-content route is added that shouldn't be indexed, update **both** — they're independent and won't warn you if one is missed
 
-Cloudflare's zone-level "Manage your robots.txt" setting (Overview → AI bot access) is set to **Content Signals Policy** — it lets AI crawlers (ClaudeBot, GPTBot, etc.) crawl and cite the site while expressing a no-training preference, instead of hard-blocking them. This matters because `llms.txt` and the JSON-LD structured data exist specifically so AI assistants can cite this content (`project_log.md` #12, #34). It's a **zone dashboard setting, not a repo file** — invisible to `git blame` on `public/robots.txt`.
+Cloudflare's zone-level "Manage your robots.txt" setting (Overview → AI bot access) is set to **Content Signals Policy**. The repository now owns the explicit usage preference in `public/robots.txt`:
 
-**Needs addressing:** Cloudflare's docs say this setting should also add a `Content-Signal: search=yes,ai-train=no,use=reference` line to the live `robots.txt`. That line isn't showing up yet — likely propagation lag, but if it's still missing after a few more days, follow up with Cloudflare support (#43).
+```text
+Content-Signal: search=yes, ai-input=yes, ai-train=no, use=reference
+```
+
+This allows ordinary search and real-time AI grounding/citation, reserves model-training rights, and asks consumers to excerpt and link back rather than reproduce the corpus. Cloudflare may prepend explanatory policy text at the edge; verify the live response after deployment and ensure it does not add contradictory directives.
+
+## Agent discovery and Markdown negotiation
+
+The static build publishes:
+
+- `/schema/reports.json` — corpus-wide report JSON-LD
+- `/schemamap.xml` — discovery map for schema endpoints
+- `/.well-known/api-catalog` — RFC 9727 API catalogue
+- `/reports/<slug>.md` — report Markdown alternates with HTML canonicals and `noindex, follow`
+
+Report HTML advertises its matching Markdown route with `<link rel="alternate" type="text/markdown">`. Other pages do not advertise Markdown because no alternate is generated for them.
+
+`public/_headers` restores the endpoint content types, `noindex` policy, cache policy, and per-report canonical `Link` header when Cloudflare serves the prerendered files. Astro's endpoint `Response` headers are not retained as metadata on static files. The token-count header produced during endpoint rendering is therefore not exposed after static deployment; adding a Worker only for that informational header is not worth the runtime complexity or cost.
+
+Cloudflare can negotiate Markdown without a Worker or paid service. Add one **URL Rewrite Transform Rule** in the zone dashboard. This uses the string functions available on the Free plan, so there is no additional service cost; it only consumes one Transform Rule from the plan quota.
+
+Match expression:
+
+```text
+http.host eq "fundinvestigator.com"
+and http.request.method in {"GET" "HEAD"}
+and http.request.headers["accept"][0] contains "text/markdown"
+and starts_with(http.request.uri.path, "/reports/")
+and http.request.uri.path ne "/reports/"
+and ends_with(http.request.uri.path, "/")
+```
+
+Dynamic path rewrite:
+
+```text
+wildcard_replace(http.request.uri.path, "*/", "${1}.md")
+```
+
+Preserve the query string. Do not add `Vary: Accept`: Cloudflare strips custom `Vary` values at the edge, and the rewritten URL already gives HTML and Markdown separate cache keys.
+
+After deployment, validate both representations:
+
+```bash
+curl -I https://fundinvestigator.com/reports/five-checks-mutual-fund/
+curl -I -H 'Accept: text/markdown' https://fundinvestigator.com/reports/five-checks-mutual-fund/
+```
 
 ## Local Development & Testing
 
@@ -74,7 +120,7 @@ Run a build + preview locally before pushing to `main` if the change touches lay
 ## Other Open Items
 
 - **Stale Functions-directory build log.** A `dev` preview build logged `Found Functions directory at /functions. Uploading.` even though `functions/` was deleted (#39) and doesn't exist in the current checkout. Likely a stale build predating the deletion reaching `dev` — confirm before treating #39 as fully closed (#42).
-- **No `public/_headers` file.** No security headers (CSP, `X-Frame-Options`, `Referrer-Policy`, etc.) or explicit cache-control are configured. May be a deliberate non-issue for a static brand site, but it's currently an absence, not a decision.
+- **Sitewide headers remain incomplete.** Phase 4 adds route-specific headers for Markdown and discovery files. Global security, asset caching, `No-Vary-Search`, and discovery `Link` headers remain Phase 5 work.
 - **Preview URLs (`*.pages.dev`) are public by default.** Not currently restricted with Cloudflare Access. Undecided whether that's acceptable.
 - **`wrangler` devDependency is likely vestigial.** It was only needed to locally test `functions/api/subscribe.ts` via `npx wrangler pages dev dist`. That function is gone (#39) and there are no Pages Functions left in this repo — remove it unless Functions work is planned again soon.
 - **No deploy-failure notifications configured.** A failed production build currently has no alerting; you'd only notice by checking the dashboard or the site going stale.
