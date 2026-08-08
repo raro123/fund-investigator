@@ -54,11 +54,22 @@ const jsonLd = [
   ogType="article"
   jsonLd={jsonLd}
 >
-  <div class="fixed left-0 right-0 top-fi-header z-fi-progress h-1 bg-fi-border-dark" aria-hidden="true">
+  <div
+    class="fixed left-0 right-0 top-fi-header z-fi-progress h-1 invisible bg-fi-border-dark opacity-0 transition-opacity duration-200 motion-reduce:transition-none"
+    aria-hidden="true"
+    data-article-progress
+    data-reading-active="false"
+  >
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header id="article-top" class="bg-fi-dark px-4 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-32">
+  <header
+    id="article-top"
+    class="bg-fi-dark px-4 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-32"
+    data-article-hero
+    data-reading-active="false"
+    tabindex="-1"
+  >
     <div class="max-w-3xl mx-auto space-y-6">
       <ArticleBreadcrumbs items={breadcrumbs} />
       <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
@@ -143,9 +154,19 @@ const jsonLd = [
 </Layout>
 
 <style>
-  body { animation: scroll-progress linear; animation-timeline: scroll(); }
-  @keyframes scroll-progress { from { --scroll: 0%; } to { --scroll: 100%; } }
-  .scroll-progress { width: 100%; transform: scaleX(var(--scroll)); }
+  .scroll-progress { width: 100%; }
+
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: scroll-progress linear;
+      animation-timeline: scroll();
+    }
+  }
+
+  @keyframes scroll-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
 
   #image-lightbox.flex { display: flex; }
 
@@ -191,13 +212,94 @@ const jsonLd = [
 </style>
 
 <script>
-  // Safari fallback for scroll animation
-  window.addEventListener('scroll', () => {
+  const articleHero = document.querySelector<HTMLElement>('[data-article-hero]');
+  const progressTrack = document.querySelector<HTMLElement>('[data-article-progress]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hasNativeScrollProgress = typeof CSS !== 'undefined'
+    && CSS.supports('animation-timeline: scroll()');
+
+  const setArticleReadingState = (active: boolean) => {
+    if (!articleHero) return;
+
+    articleHero.dataset.readingActive = String(active);
+
+    if (progressTrack) {
+      progressTrack.dataset.readingActive = String(active);
+
+      if (active) {
+        progressTrack.classList.remove('invisible');
+
+        const revealProgress = () => {
+          if (progressTrack.dataset.readingActive === 'true') {
+            progressTrack.classList.remove('opacity-0');
+          }
+        };
+
+        if (reducedMotion.matches) revealProgress();
+        else requestAnimationFrame(revealProgress);
+      } else {
+        progressTrack.classList.add('opacity-0');
+        if (reducedMotion.matches) progressTrack.classList.add('invisible');
+      }
+    }
+
+    // Shared article-reading contract. Consumers read the durable hero data
+    // attribute for initial state, then subscribe to this event for changes.
+    window.dispatchEvent(new CustomEvent('article-reading-statechange', {
+      detail: { active },
+    }));
+  };
+
+  const syncArticleReadingState = () => {
+    if (!articleHero) return;
+    const heroBounds = articleHero.getBoundingClientRect();
+    const heroIntersectsViewport = heroBounds.bottom > 0 && heroBounds.top < window.innerHeight;
+    setArticleReadingState(!heroIntersectsViewport);
+  };
+
+  progressTrack?.addEventListener('transitionend', (event) => {
+    if (
+      event.target === progressTrack
+      && event.propertyName === 'opacity'
+      && progressTrack.dataset.readingActive === 'false'
+    ) {
+      progressTrack.classList.add('invisible');
+    }
+  });
+
+  if (articleHero) {
+    if ('IntersectionObserver' in window) {
+      syncArticleReadingState();
+
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        if (entry) setArticleReadingState(!entry.isIntersecting);
+      }, { threshold: 0 });
+
+      heroObserver.observe(articleHero);
+    } else {
+      setArticleReadingState(true);
+    }
+  }
+
+  const updateScrollProgress = () => {
+    if (hasNativeScrollProgress) return;
+
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
+    const scrolled = height > 0 ? Math.min(Math.max(winScroll / height, 0), 1) : 0;
     const bar = document.querySelector('.scroll-progress');
-    if (bar) bar.style.transform = `scaleX(${scrolled / 100})`;
+    if (bar instanceof HTMLElement) bar.style.transform = `scaleX(${scrolled})`;
+  };
+
+  // Fallback for browsers without scroll-driven animations. The initial and
+  // load updates also cover restored scroll positions and deep links.
+  updateScrollProgress();
+  window.addEventListener('load', updateScrollProgress, { once: true });
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('pageshow', () => {
+    if ('IntersectionObserver' in window) syncArticleReadingState();
+    else setArticleReadingState(true);
+    updateScrollProgress();
   });
 
   // Click-to-zoom lightbox for in-article images

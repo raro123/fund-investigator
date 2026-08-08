@@ -292,6 +292,24 @@ Pages should not add their own horizontal padding.
 
 ### Layout Tokens
 Defined in `tailwind.config.mjs`, shown live at `/styleguide` → Layout Tokens
-(`z-fi-header`, `z-fi-menu`, `z-fi-progress`, `shadow-fi-card`, `shadow-fi-card-dark`, `rounded-fi-btn`, `w-fi-icon`/`h-fi-icon`,
-`w-fi-icon-lg`/`h-fi-icon-lg`, `max-w-fi-content`). The `--fi-header-h` CSS var (73px) isn't a Tailwind
-token so it doesn't appear there — it's set directly in `Layout.astro`.
+(`z-fi-header`, `z-fi-menu`, `z-fi-progress`, `shadow-fi-card`, `shadow-fi-card-dark`, `rounded-fi-btn`, `h-fi-header`,
+`h-fi-article-nav`/`-mb-fi-article-nav`,
+`w-fi-icon`/`h-fi-icon`, `w-fi-icon-lg`/`h-fi-icon-lg`, `max-w-fi-content`). `h-fi-header` and all fixed-header
+offset tokens resolve to the shared `--fi-header-h` CSS variable (84px), which is set in `Layout.astro`.
+
+### Article table of contents
+
+Below `xl`, the 48px compact TOC remains sticky and article-contained at `top-fi-article-nav`. It is
+hidden while any part of the article hero intersects the viewport and fades in after the hero fully
+leaves. Its equal negative margin removes the normal-flow footprint, so the initial article spacing
+does not reserve an empty navigation row. The hidden state is invisible, transparent, inert and
+pointer-disabled; reduced-motion users receive the same state change without a fade.
+
+If the hero re-enters while focus is inside the compact TOC, focus moves to the hero without
+scrolling before the panel closes and the control hides. Without JavaScript, a native
+`details`/`summary` TOC is available below `xl`. At `xl` and above, the sticky left rail is the only
+TOC in either mode.
+
+The 4px article reading-progress track uses the same shared hero/read-mode state at every viewport:
+it is hidden while the hero intersects, fades in at its current document-progress value after the
+hero exits, and hides again when the hero re-enters. The `xl` TOC rail remains independently visible.

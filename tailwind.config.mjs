@@ -113,9 +113,11 @@ export default {
 
       // Button + icon spacing tokens
       spacing: {
-        'fi-btn-x':    '1.625rem',   // 26px
-        'fi-btn-x-sm': '1.125rem',   // 18px
-        'fi-btn-y':    '0.8125rem',  // 13px
+        'fi-header':      'var(--fi-header-h)',
+        'fi-article-nav': '3rem',       // 48px — compact article TOC height/flow compensation
+        'fi-btn-x':       '1.625rem',   // 26px
+        'fi-btn-x-sm':    '1.125rem',   // 18px
+        'fi-btn-y':       '0.8125rem',  // 13px
       },
 
       // Icon sizing — replaces w-[22px] and w-[34px]

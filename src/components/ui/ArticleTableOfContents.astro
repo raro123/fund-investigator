@@ -14,12 +14,16 @@ const firstSection = sections[0];
 {shouldRender && firstSection && (
   <>
     <div
-      class="sticky top-fi-article-nav z-fi-overlay mb-12 border-y border-fi-border bg-white shadow-fi-card xl:hidden"
+      class="sticky top-fi-article-nav z-fi-overlay h-fi-article-nav -mb-fi-article-nav invisible pointer-events-none border-y border-fi-border bg-white opacity-0 shadow-fi-card transition-opacity duration-200 motion-reduce:transition-none xl:hidden"
       data-article-toc
+      data-toc-mobile
+      data-toc-visible="false"
+      aria-hidden="true"
+      inert
     >
       <button
         type="button"
-        class="flex w-full items-center gap-3 px-4 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold"
+        class="flex h-full w-full items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold"
         aria-expanded="false"
         aria-controls="article-toc-mobile-panel"
         data-toc-toggle
@@ -86,6 +90,47 @@ const firstSection = sections[0];
       </nav>
     </div>
 
+    <noscript>
+      <details class="sticky top-fi-article-nav z-fi-overlay mb-12 border-y border-fi-border bg-white shadow-fi-card xl:hidden">
+        <summary class="flex h-fi-article-nav w-full cursor-pointer items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold">
+          <span class="shrink-0 text-caption uppercase text-fi-muted">On this page</span>
+          <span class="min-w-0 flex-1 truncate text-sm font-semibold text-fi-ink">{firstSection.text}</span>
+        </summary>
+        <nav class="border-t border-fi-border bg-white px-4 pb-4" aria-label="Table of contents">
+          <ol class="space-y-1 border-l border-fi-border py-2">
+            {sections.map((section) => (
+              <li>
+                <a
+                  href={`#${section.slug}`}
+                  class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                >
+                  {section.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+          <a
+            href="#article-top"
+            class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+          >
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m18 15-6-6-6 6"></path>
+            </svg>
+            Back to top
+          </a>
+        </nav>
+      </details>
+    </noscript>
+
     <aside class="col-start-1 row-start-1 hidden max-h-fi-article-toc w-full max-w-xs self-start justify-self-end overflow-y-auto pr-8 xl:sticky xl:top-fi-article xl:block">
       <nav
         class="w-full"
@@ -141,6 +186,8 @@ const firstSection = sections[0];
   const mobilePanel = mobileToc?.querySelector<HTMLElement>('[data-toc-panel]');
   const mobileChevron = mobileToc?.querySelector<SVGElement>('[data-toc-chevron]');
   const mobileCurrent = mobileToc?.querySelector<HTMLElement>('[data-toc-current]');
+  const articleHero = document.querySelector<HTMLElement>('[data-article-hero]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const closeMobileToc = (restoreFocus = false) => {
     if (!mobileToggle || !mobilePanel) return;
@@ -149,6 +196,63 @@ const firstSection = sections[0];
     mobileChevron?.classList.remove('rotate-180');
     if (restoreFocus) mobileToggle.focus();
   };
+
+  const setMobileTocVisibility = (visible: boolean) => {
+    if (!mobileToc) return;
+
+    mobileToc.dataset.tocVisible = String(visible);
+
+    if (visible) {
+      mobileToc.classList.remove('invisible');
+
+      const revealMobileToc = () => {
+        if (mobileToc.dataset.tocVisible !== 'true') return;
+        mobileToc.inert = false;
+        mobileToc.setAttribute('aria-hidden', 'false');
+        mobileToc.classList.remove('pointer-events-none', 'opacity-0');
+      };
+
+      if (reducedMotion.matches) {
+        revealMobileToc();
+      } else {
+        requestAnimationFrame(revealMobileToc);
+      }
+      return;
+    }
+
+    // If scroll brings the hero back while the TOC owns focus, move focus to
+    // the now-visible hero before closing and hiding any focused controls.
+    if (articleHero && mobileToc.contains(document.activeElement)) {
+      articleHero.focus({ preventScroll: true });
+    }
+
+    closeMobileToc();
+    mobileToc.inert = true;
+    mobileToc.setAttribute('aria-hidden', 'true');
+    mobileToc.classList.add('pointer-events-none', 'opacity-0');
+    if (reducedMotion.matches) mobileToc.classList.add('invisible');
+  };
+
+  mobileToc?.addEventListener('transitionend', (event) => {
+    if (
+      event.target === mobileToc
+      && event.propertyName === 'opacity'
+      && mobileToc.dataset.tocVisible === 'false'
+    ) {
+      mobileToc.classList.add('invisible');
+    }
+  });
+
+  window.addEventListener('article-reading-statechange', (event) => {
+    if (event instanceof CustomEvent && typeof event.detail?.active === 'boolean') {
+      setMobileTocVisibility(event.detail.active);
+    }
+  });
+
+  // The durable hero state prevents a missed initial event if script execution
+  // order changes. ArticleLayout owns and updates this shared reading state.
+  if (articleHero?.dataset.readingActive === 'true') setMobileTocVisibility(true);
+  else if (!articleHero) setMobileTocVisibility(true);
 
   mobileToggle?.addEventListener('click', () => {
     const willOpen = mobileToggle.getAttribute('aria-expanded') !== 'true';
