@@ -95,6 +95,7 @@ export default {
       zIndex: {
         'fi-header':  '100',
         'fi-menu':    '90',
+        'fi-progress': '85',
         'fi-overlay': '80',
         'fi-modal':   '70',
       },
@@ -112,9 +113,11 @@ export default {
 
       // Button + icon spacing tokens
       spacing: {
-        'fi-btn-x':    '1.625rem',   // 26px
-        'fi-btn-x-sm': '1.125rem',   // 18px
-        'fi-btn-y':    '0.8125rem',  // 13px
+        'fi-header':      'var(--fi-header-h)',
+        'fi-article-nav': '3rem',       // 48px — compact article TOC height/flow compensation
+        'fi-btn-x':       '1.625rem',   // 26px
+        'fi-btn-x-sm':    '1.125rem',   // 18px
+        'fi-btn-y':       '0.8125rem',  // 13px
       },
 
       // Icon sizing — replaces w-[22px] and w-[34px]
@@ -130,6 +133,23 @@ export default {
       // Max-width tokens
       maxWidth: {
         'fi-content': '65ch',       // article prose reading width
+        'fi-disclaimer': '60ch',    // compact legal copy below reports
+      },
+
+      // Symmetrical side rails keep the 65ch article column optically centred
+      // while reserving the left rail for in-page navigation at xl widths.
+      gridTemplateColumns: {
+        'fi-article': 'minmax(12rem, 1fr) minmax(0, 65ch) minmax(12rem, 1fr)',
+      },
+
+      inset: {
+        'fi-header': 'var(--fi-header-h)',
+        'fi-article-nav': 'calc(var(--fi-header-h) + 0.25rem)',
+        'fi-article': 'calc(var(--fi-header-h) + 1.5rem)',
+      },
+
+      maxHeight: {
+        'fi-article-toc': 'calc(100vh - var(--fi-header-h) - 3rem)',
       },
 
       fontSize: {

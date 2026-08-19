@@ -3,19 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import ReportCard from '../components/ReportCard.astro';
 import { getCollection } from 'astro:content';
+import { categoryLabels } from '../lib/report-categories';
 import { responsive } from '../lib/responsive';
 
 const allReports = await getCollection('reports');
 const sortedReports = allReports
   .filter(report => !report.id.startsWith('_') && report.data.status !== 'archived')
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
-
-// value → display label, in display order (source of truth for labels/order)
-const categoryLabels: Record<string, string> = {
-  'Fund Analysis': 'Fund Analysis',
-  'Category Comparison': 'Comparisons',
-  'Methodology': 'Methodology',
-};
 
 // Only surface categories that actually have reports (no dead pills)
 const presentCategories = new Set(sortedReports.map(report => report.data.category));

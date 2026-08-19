@@ -15,7 +15,7 @@ const reports = defineCollection({
     readTime: z.string(),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
     //   1. this enum (the gate — an unlisted value fails the build)
-    //   2. `categoryLabels` in src/pages/reports.astro (display label + pill order)
+    //   2. `categoryLabels` in src/lib/report-categories.ts (display label + pill order)
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
     featured: z.boolean().optional().default(false),

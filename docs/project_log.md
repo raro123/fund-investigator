@@ -64,7 +64,7 @@ paid research.
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it) | 2026-07-14 | S12 | 🟡 Parked |
 | 30 | **Move email capture and distribution to Substack while keeping Astro as the canonical content home.** Substack will own capture, double opt-in, the welcome email, newsletters, and network distribution; FundInvestigator.com retains every full investigation. Substack carries teasers, summaries, Notes, and publication updates linking back — not duplicate full reports. Use a dedicated Fund Investigator brand-owned Substack account and add the personal account as an admin. Do not retain MailerLite in parallel after cutover. Existing trade-offs remain: uncustomizable iframe and weaker per-placement attribution; $50 custom subdomain with Substack sender; exportable subscriber data; standard paid fee of 10% plus Stripe subject to the current India exception, with #3 required before paid is enabled | 2026-07-15 | S13; reviewed S15; approved S16 | 🟢 Approved; implementation in progress |
 | 31 | **Launch the Substack Five Checks series as individual investigations of popular funds.** The intended reader already owns or is considering the named fund. Select funds for popularity and prospect relevance, then report whatever the five checks show; include a popular fund with weaker or mixed evidence early to establish editorial independence. Do not add fund comparisons or suitability conclusions until an explicit individual risk-profile layer and its editorial boundaries exist | 2026-07-21 | S19 | 🟢 Approved; editorial strategy documented |
-| 32 | **Article plan #4 — Add curated related investigations.** Show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice | 2026-07-22 | S20 | 🟡 Open |
+| 32 | **Article footer and discovery enhancements — curated related investigations, sharing controls, and filed-under tags.** For related content, show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice. If sharing is added, keep it restrained and audience-relevant (Copy link, WhatsApp, LinkedIn). If tags are exposed, use a quiet footer row rather than a second navigation rail. These remain separate decisions after the article navigation and metadata work; do not add them by default | 2026-07-22; expanded 2026-08-08 | S20; S34 | 🟡 Parked |
 | 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
 | 34 | Choose the first SEO/AIO implementation tranche: publisher accountability and methodology, discovery/indexing controls, or machine-readable report evidence | 2026-07-23 | S21 | 🟡 Open |
 | 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
@@ -85,6 +85,39 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-08 | Session: S34 — Article navigation and visible metadata implemented
+
+**What was done:**
+Added an H2-only table of contents to every investigation with at least three sections: a sticky
+left rail on wide screens and an expandable sticky bar below the fixed header on mobile/tablet.
+The navigation tracks the active section, exposes the current section on mobile, supports
+back-to-top, Escape/outside-click dismissal, and accessible state. Article heroes now show
+Home / Investigations breadcrumbs, published and conditional updated dates, read time, category,
+archive status, and an organizational “By Fund Investigator” link to `/about/`. The visible and
+JSON-LD breadcrumb trails now use the same two destinations.
+
+**Why:**
+Long evidence-led reports need orientation and freshness/ownership signals, but the article column
+should remain quiet, centred, and readable. Related content, sharing controls, and visible tags were
+useful ideas but not required for this first navigation pass.
+
+**How:**
+Passed Astro's rendered headings from the report route into the article layout, filtered to H2 in a
+typed component, and used a symmetrical named grid token to preserve the 65ch prose column. Added
+typed breadcrumb and metadata components without changing report frontmatter. The three deferred
+footer/discovery ideas were consolidated into decision #32.
+
+**Decisions made:**
+- Render the TOC automatically at three or more H2 headings; do not number headings or include H3.
+- Keep authorship organizational and link the visible byline to the existing About page.
+- Keep visible and structured breadcrumbs to Home / Investigations only.
+
+**Pending decisions:**
+- #32 expanded and parked: curated related investigations, restrained sharing controls, and
+  filed-under tags remain separate follow-up decisions.
 
 ---
 

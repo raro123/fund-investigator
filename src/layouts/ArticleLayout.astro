@@ -1,8 +1,12 @@
 ---
 import Layout from './Layout.astro';
+import type { MarkdownHeading } from 'astro';
+import type { CollectionEntry } from 'astro:content';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
+import ArticleBreadcrumbs from '../components/ui/ArticleBreadcrumbs.astro';
+import ArticleMetadata from '../components/ui/ArticleMetadata.astro';
+import ArticleTableOfContents from '../components/ui/ArticleTableOfContents.astro';
 import {
   reportSchemaGraph,
   resolveArticleMetadata,
@@ -10,7 +14,14 @@ import {
 } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 
-const { frontmatter, articleBody, reportSlug } = Astro.props;
+interface Props {
+  frontmatter: CollectionEntry<'reports'>['data'];
+  headings: MarkdownHeading[];
+  articleBody: string;
+  reportSlug: string;
+}
+
+const { frontmatter, headings, articleBody, reportSlug } = Astro.props;
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric'
 });
@@ -28,6 +39,10 @@ const graph = reportSchemaGraph(
   reportImage.height,
   reportImage.alt,
 );
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Investigations', href: '/reports/' },
+];
 ---
 
 <Layout
@@ -51,30 +66,41 @@ const graph = reportSchemaGraph(
     tags: frontmatter.tags,
   }}
 >
-  <div class="fixed top-0 left-0 right-0 h-1 bg-fi-border z-50">
+  <div
+    class="fixed left-0 right-0 top-fi-header z-fi-progress h-1 invisible bg-fi-border-dark opacity-0 transition-opacity duration-200 motion-reduce:transition-none"
+    aria-hidden="true"
+    data-article-progress
+    data-reading-active="false"
+  >
     <div class="h-full bg-fi-gold scroll-progress origin-left scale-x-0"></div>
   </div>
 
-  <header class="bg-fi-dark pt-24 pb-14 sm:pt-32 sm:pb-20 px-4 sm:px-6 text-center">
+  <header
+    id="article-top"
+    class="bg-fi-dark px-4 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-32"
+    data-article-hero
+    data-reading-active="false"
+    tabindex="-1"
+  >
     <div class="max-w-3xl mx-auto space-y-6">
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-fi-subtle">
-        <time datetime={frontmatter.date}>{formattedDate}</time>
-        <span>•</span>
-        <span>{frontmatter.readTime}</span>
-        {frontmatter.category && (
-          <><span>•</span><span class="text-fi-gold uppercase tracking-wider text-xs font-bold">{frontmatter.category}</span></>
-        )}
-        {frontmatter.status === 'archived' && (
-          <><span>•</span><Badge variant="dark" size="sm">Historical</Badge></>
-        )}
-      </div>
+      <ArticleBreadcrumbs items={breadcrumbs} />
       <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
-      <p class="font-serif text-xl text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">{frontmatter.hook ?? frontmatter.description}</p>
+      <p class="max-w-2xl font-serif text-xl leading-relaxed text-fi-muted-inv">{frontmatter.hook ?? frontmatter.description}</p>
+      <ArticleMetadata
+        published={frontmatter.date}
+        updated={frontmatter.updated}
+        readTime={frontmatter.readTime}
+        category={frontmatter.category}
+        status={frontmatter.status}
+      />
     </div>
   </header>
 
-  <article class="relative bg-white px-4 sm:px-6 py-16 md:py-24">
-    <div class="max-w-fi-content mx-auto">
+  <article class="relative bg-white px-4 py-16 sm:px-6 lg:px-10 xl:py-24">
+    <div class="mx-auto max-w-7xl xl:grid xl:grid-cols-fi-article xl:gap-8">
+      <ArticleTableOfContents headings={headings} />
+
+      <div class="mx-auto w-full max-w-fi-content xl:col-start-2 xl:row-start-1">
       {frontmatter.status === 'archived' && frontmatter.analysisThrough && frontmatter.supersededBy && (
         <div class="mb-12">
           <ArchivedReportNotice
@@ -101,7 +127,7 @@ const graph = reportSchemaGraph(
       </div>
 
       <div class="mt-12 pt-8 border-t border-fi-border">
-        <div class="text-sm text-fi-muted leading-relaxed max-w-[60ch] mx-auto">
+        <div class="mx-auto max-w-fi-disclaimer text-sm leading-relaxed text-fi-muted">
           <h4 class="font-semibold text-fi-ink mb-3">Disclaimer</h4>
           <p class="mb-3">
             This analysis is based on historical performance data, sourced from Fund Investigator's Mutual Fund Deepdive platform. Past performance does not guarantee future results. This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell.
@@ -110,6 +136,7 @@ const graph = reportSchemaGraph(
             Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
           </p>
         </div>
+      </div>
       </div>
     </div>
   </article>
@@ -139,26 +166,28 @@ const graph = reportSchemaGraph(
 </Layout>
 
 <style>
-  body { animation: scroll-progress linear; animation-timeline: scroll(); }
-  @keyframes scroll-progress { from { --scroll: 0%; } to { --scroll: 100%; } }
-  .scroll-progress { width: 100%; transform: scaleX(var(--scroll)); }
+  .scroll-progress { width: 100%; }
+
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: scroll-progress linear;
+      animation-timeline: scroll();
+    }
+  }
+
+  @keyframes scroll-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
 
   #image-lightbox.flex { display: flex; }
 
   .article-prose :global(img) {
     display: block;
-    width: min(92vw, 56rem);
-    max-width: min(92vw, 56rem);
-    margin-inline: calc((100% - min(92vw, 56rem)) / 2);
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
     cursor: zoom-in;
-  }
-
-  @media (max-width: 640px) {
-    .article-prose :global(img) {
-      width: 100%;
-      max-width: 100%;
-      margin-inline: 0;
-    }
   }
 
   .article-prose :global(a[data-footnote-ref]) {
@@ -187,13 +216,94 @@ const graph = reportSchemaGraph(
 </style>
 
 <script>
-  // Safari fallback for scroll animation
-  window.addEventListener('scroll', () => {
+  const articleHero = document.querySelector<HTMLElement>('[data-article-hero]');
+  const progressTrack = document.querySelector<HTMLElement>('[data-article-progress]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hasNativeScrollProgress = typeof CSS !== 'undefined'
+    && CSS.supports('animation-timeline: scroll()');
+
+  const setArticleReadingState = (active: boolean) => {
+    if (!articleHero) return;
+
+    articleHero.dataset.readingActive = String(active);
+
+    if (progressTrack) {
+      progressTrack.dataset.readingActive = String(active);
+
+      if (active) {
+        progressTrack.classList.remove('invisible');
+
+        const revealProgress = () => {
+          if (progressTrack.dataset.readingActive === 'true') {
+            progressTrack.classList.remove('opacity-0');
+          }
+        };
+
+        if (reducedMotion.matches) revealProgress();
+        else requestAnimationFrame(revealProgress);
+      } else {
+        progressTrack.classList.add('opacity-0');
+        if (reducedMotion.matches) progressTrack.classList.add('invisible');
+      }
+    }
+
+    // Shared article-reading contract. Consumers read the durable hero data
+    // attribute for initial state, then subscribe to this event for changes.
+    window.dispatchEvent(new CustomEvent('article-reading-statechange', {
+      detail: { active },
+    }));
+  };
+
+  const syncArticleReadingState = () => {
+    if (!articleHero) return;
+    const heroBounds = articleHero.getBoundingClientRect();
+    const heroIntersectsViewport = heroBounds.bottom > 0 && heroBounds.top < window.innerHeight;
+    setArticleReadingState(!heroIntersectsViewport);
+  };
+
+  progressTrack?.addEventListener('transitionend', (event) => {
+    if (
+      event.target === progressTrack
+      && event.propertyName === 'opacity'
+      && progressTrack.dataset.readingActive === 'false'
+    ) {
+      progressTrack.classList.add('invisible');
+    }
+  });
+
+  if (articleHero) {
+    if ('IntersectionObserver' in window) {
+      syncArticleReadingState();
+
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        if (entry) setArticleReadingState(!entry.isIntersecting);
+      }, { threshold: 0 });
+
+      heroObserver.observe(articleHero);
+    } else {
+      setArticleReadingState(true);
+    }
+  }
+
+  const updateScrollProgress = () => {
+    if (hasNativeScrollProgress) return;
+
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
+    const scrolled = height > 0 ? Math.min(Math.max(winScroll / height, 0), 1) : 0;
     const bar = document.querySelector('.scroll-progress');
-    if (bar) bar.style.transform = `scaleX(${scrolled / 100})`;
+    if (bar instanceof HTMLElement) bar.style.transform = `scaleX(${scrolled})`;
+  };
+
+  // Fallback for browsers without scroll-driven animations. The initial and
+  // load updates also cover restored scroll positions and deep links.
+  updateScrollProgress();
+  window.addEventListener('load', updateScrollProgress, { once: true });
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('pageshow', () => {
+    if ('IntersectionObserver' in window) syncArticleReadingState();
+    else setArticleReadingState(true);
+    updateScrollProgress();
   });
 
   // Click-to-zoom lightbox for in-article images
