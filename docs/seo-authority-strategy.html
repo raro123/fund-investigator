@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1117">
+  <meta name="description" content="Fund Investigator's 90-day multi-platform authority strategy: one research packet, four channels, measurable gains.">
+  <title>Authority System — Fund Investigator</title>
+  <style>
+    :root {
+      --ink: #0c1117;
+      --ink-2: #121a22;
+      --ink-3: #1b2731;
+      --paper: #f2eee5;
+      --paper-2: #e8e1d5;
+      --muted: #a9b3b5;
+      --muted-2: #728083;
+      --line: rgba(242, 238, 229, 0.14);
+      --coral: #e07d63;
+      --coral-soft: #f1ad94;
+      --mint: #a6c9b8;
+      --yellow: #e7da8d;
+      --blue: #9ac6d3;
+      --max: 1180px;
+      --radius: 20px;
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.23);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 86% 4%, rgba(224, 125, 99, 0.15), transparent 24rem),
+        radial-gradient(circle at 9% 22%, rgba(166, 201, 184, 0.08), transparent 22rem),
+        var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+
+    .shell { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(12, 17, 23, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--paper);
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--coral);
+      border-radius: 10px;
+      color: var(--coral-soft);
+      font-size: 0.82rem;
+      transform: rotate(-8deg);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .nav a { text-decoration: none; }
+    .nav a:hover { color: var(--paper); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(231, 218, 141, 0.36);
+      border-radius: 999px;
+      color: var(--yellow);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pill::before {
+      width: 6px;
+      height: 6px;
+      display: block;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 0 5px rgba(231, 218, 141, 0.08);
+      content: "";
+    }
+
+    .hero { padding: 88px 0 70px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      align-items: center;
+      gap: 70px;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--coral-soft);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 720px;
+      margin-bottom: 24px;
+      color: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.5rem, 7vw, 6.9rem);
+      font-weight: 400;
+      letter-spacing: -0.065em;
+      line-height: 0.93;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      color: #c3cbc7;
+      font-size: clamp(1.08rem, 1.6vw, 1.3rem);
+      line-height: 1.55;
+    }
+
+    .hero-copy strong { color: var(--paper); font-weight: 600; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 45px;
+      padding: 0 17px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--paper);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .button:hover { transform: translateY(-2px); background: #fffaf1; }
+
+    .button.secondary {
+      border-color: var(--line);
+      color: var(--paper);
+      background: transparent;
+    }
+
+    .button.secondary:hover { background: var(--ink-3); }
+
+    .flywheel {
+      position: relative;
+      min-height: 470px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .flywheel::before,
+    .flywheel::after {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border: 1px dashed rgba(231, 218, 141, 0.28);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .flywheel::after { width: 220px; height: 220px; border-color: rgba(166, 201, 184, 0.26); }
+
+    .core {
+      position: relative;
+      z-index: 2;
+      width: 134px;
+      height: 134px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      border: 1px solid var(--coral);
+      border-radius: 50%;
+      color: var(--paper);
+      background: #18212a;
+      box-shadow: 0 0 0 12px rgba(224, 125, 99, 0.07), 0 0 60px rgba(224, 125, 99, 0.13);
+      font-family: Georgia, serif;
+      font-size: 1.25rem;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .orbit-card {
+      position: absolute;
+      z-index: 3;
+      width: 148px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(18, 26, 34, 0.93);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .orbit-card small { display: block; margin-bottom: 4px; color: var(--muted-2); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .orbit-card strong { display: block; font-size: 0.88rem; line-height: 1.18; }
+    .orbit-card.one { top: 13%; left: 9%; border-color: rgba(154, 198, 211, 0.42); }
+    .orbit-card.two { top: 10%; right: 8%; border-color: rgba(231, 218, 141, 0.42); }
+    .orbit-card.three { right: 4%; bottom: 14%; border-color: rgba(166, 201, 184, 0.42); }
+    .orbit-card.four { bottom: 9%; left: 8%; border-color: rgba(224, 125, 99, 0.42); }
+
+    .section { padding: 76px 0; border-top: 1px solid var(--line); }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      max-width: 650px;
+      margin-bottom: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.3rem, 4vw, 4.1rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .section-heading p { max-width: 360px; margin-bottom: 3px; color: var(--muted); font-size: 0.95rem; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+    .kpi { min-height: 132px; padding: 24px; background: var(--ink-2); }
+    .kpi-value { display: block; margin-bottom: 8px; color: var(--paper); font-family: Georgia, serif; font-size: 2.55rem; line-height: 1; }
+    .kpi-label { color: var(--muted); font-size: 0.82rem; }
+
+    .platform-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+    .card {
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(18, 26, 34, 0.76);
+    }
+
+    .platform-card { min-height: 260px; display: flex; flex-direction: column; }
+    .platform-index { color: var(--muted-2); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; }
+    .platform-icon { width: 38px; height: 38px; display: grid; place-items: center; margin: 18px 0 22px; border-radius: 11px; color: var(--ink); font-weight: 900; }
+    .icon-site { background: var(--coral); }
+    .icon-substack { background: var(--yellow); }
+    .icon-x { background: var(--blue); }
+    .icon-youtube { background: var(--mint); }
+    .platform-card h3 { margin-bottom: 8px; font-size: 1.13rem; }
+    .platform-card p { margin-bottom: 22px; color: var(--muted); font-size: 0.87rem; }
+    .platform-card .tag { margin-top: auto; color: var(--paper); font-size: 0.75rem; font-weight: 750; }
+
+    .packet {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 14px;
+    }
+
+    .packet-intro { min-height: 390px; padding: 34px; border-radius: var(--radius); background: var(--paper); color: var(--ink); }
+    .packet-intro .eyebrow { color: #aa4f3e; }
+    .packet-intro h3 { max-width: 420px; margin-bottom: 18px; font-family: Georgia, serif; font-size: clamp(2.2rem, 4.2vw, 4.5rem); font-weight: 400; letter-spacing: -0.06em; line-height: 0.95; }
+    .packet-intro p { max-width: 430px; color: #536060; }
+    .packet-steps { display: grid; gap: 1px; background: var(--line); }
+    .packet-step { display: grid; grid-template-columns: 45px 1fr auto; align-items: center; gap: 15px; padding: 18px; background: var(--ink-2); }
+    .packet-step .number { color: var(--coral-soft); font-family: Georgia, serif; font-size: 1.55rem; }
+    .packet-step strong { display: block; margin-bottom: 3px; font-size: 0.92rem; }
+    .packet-step span { color: var(--muted); font-size: 0.78rem; }
+    .packet-step .output { color: var(--yellow); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .phase { min-height: 335px; position: relative; overflow: hidden; }
+    .phase::after { position: absolute; right: -28px; bottom: -48px; width: 140px; height: 140px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; content: ""; }
+    .phase:nth-child(1) { border-color: rgba(154,198,211,0.33); }
+    .phase:nth-child(2) { border-color: rgba(231,218,141,0.33); }
+    .phase:nth-child(3) { border-color: rgba(166,201,184,0.33); }
+    .phase-label { display: inline-block; margin-bottom: 22px; padding: 6px 9px; border-radius: 999px; background: var(--ink-3); color: var(--muted); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; }
+    .phase h3 { margin-bottom: 10px; font-size: 1.38rem; }
+    .phase p { color: var(--muted); font-size: 0.88rem; }
+    .phase ul { display: grid; gap: 10px; margin: 24px 0 0; padding: 0; list-style: none; color: #d5dbd6; font-size: 0.82rem; }
+    .phase li { position: relative; padding-left: 18px; }
+    .phase li::before { position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); content: ""; }
+
+    .cadence-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+    .day { min-height: 148px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--ink-2); }
+    .day:first-child, .day:last-child { background: rgba(224,125,99,0.12); border-color: rgba(224,125,99,0.32); }
+    .day-name { margin-bottom: 14px; color: var(--muted-2); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .day strong { display: block; margin-bottom: 8px; font-size: 0.84rem; line-height: 1.2; }
+    .day span { color: var(--muted); font-size: 0.74rem; }
+
+    .measure-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
+    .table-card { padding: 0; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 17px 19px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted-2); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    td { color: #cbd2ce; font-size: 0.82rem; }
+    td:first-child { color: var(--paper); font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .score-card { padding: 28px; }
+    .score-card h3 { margin-bottom: 10px; font-family: Georgia, serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.04em; }
+    .score-card p { color: var(--muted); font-size: 0.88rem; }
+    .score-bar { height: 8px; margin: 24px 0 20px; border-radius: 999px; background: var(--ink-3); overflow: hidden; }
+    .score-bar span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--coral), var(--yellow)); }
+    .score-stats { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 0.75rem; }
+    .score-stats strong { color: var(--paper); font-size: 1rem; }
+
+    .checklist { display: grid; gap: 10px; margin-top: 20px; }
+    .check-item { width: 100%; display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--paper); background: var(--ink-2); text-align: left; cursor: pointer; }
+    .check-item:hover { border-color: rgba(231,218,141,0.46); }
+    .check-item::before { width: 18px; height: 18px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid var(--muted-2); border-radius: 5px; color: var(--ink); font-size: 0.78rem; content: ""; }
+    .check-item.done { color: var(--muted); text-decoration: line-through; }
+    .check-item.done::before { border-color: var(--mint); background: var(--mint); content: "✓"; }
+    .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.76rem; }
+
+    .principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .principle { min-height: 174px; }
+    .principle-number { color: var(--coral-soft); font-family: Georgia, serif; font-size: 2rem; }
+    .principle h3 { margin: 18px 0 8px; font-size: 1rem; }
+    .principle p { margin-bottom: 0; color: var(--muted); font-size: 0.82rem; }
+
+    footer { padding: 34px 0 50px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .footer-inner strong { color: var(--paper); }
+
+    @media (max-width: 900px) {
+      .hero-grid, .packet, .measure-grid { grid-template-columns: 1fr; }
+      .platform-grid { grid-template-columns: repeat(2, 1fr); }
+      .roadmap, .principles { grid-template-columns: repeat(2, 1fr); }
+      .hero { padding-top: 60px; }
+    }
+
+    @media (max-width: 650px) {
+      .shell { width: min(var(--max), calc(100% - 30px)); }
+      .nav { display: none; }
+      .topbar-inner { min-height: 62px; }
+      h1 { font-size: clamp(3.3rem, 17vw, 5rem); }
+      .hero { padding-top: 48px; }
+      .flywheel { min-height: 390px; }
+      .flywheel::before { width: 270px; height: 270px; }
+      .flywheel::after { width: 176px; height: 176px; }
+      .core { width: 112px; height: 112px; font-size: 1.05rem; }
+      .orbit-card { width: 126px; padding: 10px 11px; }
+      .orbit-card strong { font-size: 0.78rem; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .kpi { min-height: 112px; padding: 18px; }
+      .kpi-value { font-size: 2rem; }
+      .platform-grid, .roadmap, .principles { grid-template-columns: 1fr; }
+      .section { padding: 56px 0; }
+      .section-heading { display: block; }
+      .section-heading p { margin-top: 15px; }
+      .cadence-grid { grid-template-columns: repeat(2, 1fr); }
+      .day:last-child { grid-column: span 2; }
+      .packet-intro { min-height: 300px; padding: 26px; }
+      .packet-step { grid-template-columns: 35px 1fr; }
+      .packet-step .output { grid-column: 2; }
+      .footer-inner { display: block; }
+      .footer-inner span { display: block; margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="https://fundinvestigator.com/" target="_blank" rel="noreferrer">
+        <span class="brand-mark">FI</span>
+        <span>FUND INVESTIGATOR<br><span style="color:var(--muted);font-weight:600;letter-spacing:.08em">AUTHORITY SYSTEM</span></span>
+      </a>
+      <nav class="nav" aria-label="Page navigation">
+        <a href="#stack">Platform stack</a>
+        <a href="#roadmap">90-day plan</a>
+        <a href="#measure">Measures</a>
+      </nav>
+      <span class="pill">90-day operating plan</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <div class="eyebrow">One investigation. Four distribution layers.</div>
+          <h1>Turn evidence into authority.</h1>
+          <p class="hero-copy">Build a recognisable research voice for Indian mutual-fund investors by turning every original analysis into a <strong>searchable source, a useful letter, a conversation and a visual explanation.</strong></p>
+          <div class="actions">
+            <a class="button" href="#roadmap">Start the 90-day plan <span style="margin-left:8px">↘</span></a>
+            <a class="button secondary" href="#packet">See one packet in action</a>
+          </div>
+        </div>
+
+        <div class="flywheel" aria-label="Content authority flywheel">
+          <div class="core">Original<br>research</div>
+          <div class="orbit-card one"><small>01 / source</small><strong>Website report</strong></div>
+          <div class="orbit-card two"><small>02 / retain</small><strong>Substack letter</strong></div>
+          <div class="orbit-card three"><small>03 / discover</small><strong>X conversation</strong></div>
+          <div class="orbit-card four"><small>04 / trust</small><strong>YouTube proof</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="goals">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>The goal is not more posts. It is more proof.</h2>
+          <p>Every channel should make the same promise clearer: independent analysis that looks past headline returns.</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><span class="kpi-value">06</span><span class="kpi-label">research packets in 90 days</span></div>
+          <div class="kpi"><span class="kpi-value">06</span><span class="kpi-label">long-form YouTube films</span></div>
+          <div class="kpi"><span class="kpi-value">+50%</span><span class="kpi-label">target for non-brand search impressions</span></div>
+          <div class="kpi"><span class="kpi-value">05</span><span class="kpi-label">relevant external mentions or links</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stack">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>Four platforms. Four jobs.</h2>
+          <p>Keep the website canonical. Let each platform express the research in its native language.</p>
+        </div>
+        <div class="platform-grid">
+          <article class="card platform-card">
+            <span class="platform-index">01 / SOURCE OF TRUTH</span>
+            <span class="platform-icon icon-site">↗</span>
+            <h3>Website</h3>
+            <p>Full investigations, methodology, source links, charts and stable URLs that can be searched and cited.</p>
+            <span class="tag">CTA → use Deepdive / subscribe</span>
+          </article>
+          <article class="card platform-card">
+            <span class="platform-index">02 / RETENTION</span>
+            <span class="platform-icon icon-substack">✎</span>
+            <h3>Substack</h3>
+            <p>The researcher’s letter: why the result matters, what surprised you, and what the data cannot prove.</p>
+            <span class="tag">CTA → subscribe / reply</span>
+          </article>
+          <article class="card platform-card">
+            <span class="platform-index">03 / DISCOVERY</span>
+            <span class="platform-icon icon-x">𝕏</span>
+            <h3>X / Twitter</h3>
+            <p>A public research lab for charts, strong claims, caveats, replies and conversations with credible voices.</p>
+            <span class="tag">CTA → read the report</span>
+          </article>
+          <article class="card platform-card">
+            <span class="platform-index">04 / TRUST</span>
+            <span class="platform-icon icon-youtube">▶</span>
+            <h3>YouTube</h3>
+            <p>Visual explanations that let people see the benchmark, drawdown and consistency story unfold.</p>
+            <span class="tag">CTA → subscribe / visit report</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="packet">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>One research packet. Five useful outputs.</h2>
+          <p>Start with one question, then adapt the answer instead of creating unrelated content from scratch.</p>
+        </div>
+        <div class="packet">
+          <div class="packet-intro">
+            <div class="eyebrow">Example / HDFC Flexi Cap</div>
+            <h3>What did the five-year return hide?</h3>
+            <p>One investigation can show outperformance, explain the risk taken, surface the caveat and invite the next question.</p>
+          </div>
+          <div class="packet-steps">
+            <div class="packet-step"><span class="number">01</span><div><strong>Website investigation</strong><span>Full evidence, source trail and verdict</span></div><span class="output">search</span></div>
+            <div class="packet-step"><span class="number">02</span><div><strong>Substack essay</strong><span>The year that carried the result</span></div><span class="output">retain</span></div>
+            <div class="packet-step"><span class="number">03</span><div><strong>X thread</strong><span>8–12 posts, one chart, one caveat</span></div><span class="output">discover</span></div>
+            <div class="packet-step"><span class="number">04</span><div><strong>YouTube film</strong><span>“What the five-year return hides”</span></div><span class="output">trust</span></div>
+            <div class="packet-step"><span class="number">05</span><div><strong>Short clips</strong><span>SIP return ≠ CAGR / maximum drawdown</span></div><span class="output">repeat</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>A cadence you can sustain.</h2>
+          <p>One flagship packet every two weeks is enough to build a recognisable body of work without diluting the research.</p>
+        </div>
+        <div class="roadmap">
+          <article class="card phase">
+            <span class="phase-label">Days 01–14 / foundation</span>
+            <h3>Make the system legible.</h3>
+            <p>Align the profiles, the promise, the links and the measurement before publishing at volume.</p>
+            <ul><li>Unify profile bios and visual identity</li><li>Set UTM links and conversion events</li><li>Define the five recurring series</li><li>Pin the best investigation on X</li></ul>
+          </article>
+          <article class="card phase">
+            <span class="phase-label">Days 15–60 / publish</span>
+            <h3>Prove the point of view.</h3>
+            <p>Ship three research packets. Let the audience see the same method applied across different funds.</p>
+            <ul><li>2 investigations per month</li><li>1 Substack essay per packet</li><li>1 X thread plus 3–5 posts weekly</li><li>2 YouTube films plus Shorts monthly</li></ul>
+          </article>
+          <article class="card phase">
+            <span class="phase-label">Days 61–90 / compound</span>
+            <h3>Turn attention into proof.</h3>
+            <p>Use the first signals to choose the next questions and create external reasons to cite the work.</p>
+            <ul><li>Publish a fund comparison</li><li>Invite one independent guest</li><li>Release an original data asset</li><li>Review Search, email and video metrics</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>The two-week production rhythm.</h2>
+          <p>Protect research time early in the cycle. Distribution follows the evidence.</p>
+        </div>
+        <div class="cadence-grid">
+          <div class="day"><div class="day-name">Mon</div><strong>Question</strong><span>Select the fund and define the benchmark.</span></div>
+          <div class="day"><div class="day-name">Tue</div><strong>Data</strong><span>Calculate returns, risk and consistency.</span></div>
+          <div class="day"><div class="day-name">Wed</div><strong>Draft</strong><span>Write the verdict and source trail.</span></div>
+          <div class="day"><div class="day-name">Thu</div><strong>Publish</strong><span>Release the website investigation.</span></div>
+          <div class="day"><div class="day-name">Fri</div><strong>Thread</strong><span>Turn the key findings into conversation.</span></div>
+          <div class="day"><div class="day-name">Sat</div><strong>Film</strong><span>Record the visual explanation.</span></div>
+          <div class="day"><div class="day-name">Next week</div><strong>Letter + clips</strong><span>Interpret, distribute and collect questions.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="measure">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>Measure authority as a funnel.</h2>
+          <p>Follower counts are useful context. The real signal is whether qualified people discover, trust and return to the work.</p>
+        </div>
+        <div class="measure-grid">
+          <div class="card table-card">
+            <table>
+              <thead><tr><th>Signal</th><th>What to track</th><th>90-day aim</th></tr></thead>
+              <tbody>
+                <tr><td>Discover</td><td>Non-brand Search impressions, X profile visits, YouTube reach</td><td>+50% non-brand Search impressions</td></tr>
+                <tr><td>Trust</td><td>Report CTR, video retention, qualified replies</td><td>Improve each channel from its first baseline</td></tr>
+                <tr><td>Retain</td><td>Substack subscribers, open rate, returning viewers</td><td>One repeatable series with returning audience</td></tr>
+                <tr><td>Proof</td><td>External mentions, citations and referring domains</td><td>Five relevant mentions or links</td></tr>
+                <tr><td>Action</td><td>Deepdive clicks and newsletter conversion</td><td>20% improvement after baseline tests</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card score-card">
+            <h3>This week’s operating checklist</h3>
+            <p>Use this small checklist to keep the system moving. Progress is saved in this browser.</p>
+            <div class="score-bar"><span id="progressBar"></span></div>
+            <div class="progress-meta"><span id="progressText">0 of 5 complete</span><strong id="progressPercent">0%</strong></div>
+            <div class="checklist">
+              <button class="check-item" type="button">Choose the next research question</button>
+              <button class="check-item" type="button">Publish the source-of-truth page</button>
+              <button class="check-item" type="button">Write the Substack interpretation</button>
+              <button class="check-item" type="button">Post the X thread and invite replies</button>
+              <button class="check-item" type="button">Record or schedule the video</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>Authority compounds through proof.</h2>
+          <p>Build assets that make the work easier to trust, reference and revisit.</p>
+        </div>
+        <div class="principles">
+          <article class="card principle"><span class="principle-number">01</span><h3>Originality</h3><p>Show calculations and first-hand interpretation, not generic market summaries.</p></article>
+          <article class="card principle"><span class="principle-number">02</span><h3>Transparency</h3><p>State the data date, sources, benchmark logic, limitations and corrections.</p></article>
+          <article class="card principle"><span class="principle-number">03</span><h3>Conversation</h3><p>Use questions and disagreement to choose the next investigation.</p></article>
+          <article class="card principle"><span class="principle-number">04</span><h3>Consistency</h3><p>Repeat the same method until the audience can recognise the work before seeing the logo.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <strong>Fund Investigator / Authority System</strong>
+      <span>Independent research. Evidence before opinion. Not investment advice.</span>
+    </div>
+  </footer>
+
+  <script>
+    const checkItems = [...document.querySelectorAll('.check-item')];
+    const progressBar = document.querySelector('#progressBar');
+    const progressText = document.querySelector('#progressText');
+    const progressPercent = document.querySelector('#progressPercent');
+    const storageKey = 'fund-investigator-authority-checklist';
+
+    function updateProgress() {
+      const complete = checkItems.filter((item) => item.classList.contains('done')).length;
+      const percent = Math.round((complete / checkItems.length) * 100);
+      progressBar.style.width = `${percent}%`;
+      progressText.textContent = `${complete} of ${checkItems.length} complete`;
+      progressPercent.textContent = `${percent}%`;
+      localStorage.setItem(storageKey, JSON.stringify(checkItems.map((item) => item.classList.contains('done'))));
+    }
+
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      checkItems.forEach((item, index) => item.classList.toggle('done', Boolean(saved[index])));
+    } catch (error) {
+      // The page remains fully usable if browser storage is unavailable.
+    }
+
+    checkItems.forEach((item) => item.addEventListener('click', () => {
+      item.classList.toggle('done');
+      updateProgress();
+    }));
+
+    updateProgress();
+  </script>
+</body>
+</html>

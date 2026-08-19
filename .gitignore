@@ -40,5 +40,8 @@ my_thoughts.md
 # Claude Code agent worktrees
 .claude/worktrees/
 
+# Codex workspace configuration
+.codex/
+
 # Playwright MCP workspace artifacts
 .playwright-mcp/
