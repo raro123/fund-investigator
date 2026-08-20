@@ -33,6 +33,12 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Verify static redirect rules
+        run: |
+          test -f dist/_redirects
+          grep -Fq '/subscribe ' dist/_redirects
+          grep -Fq '/subscribe/ ' dist/_redirects
+
       - name: Check internal links (blocking)
         uses: lycheeverse/lychee-action@v2
         with:
@@ -40,6 +46,7 @@ jobs:
             --no-progress
             --scheme file
             --root-dir "$GITHUB_WORKSPACE/dist"
+            --exclude '^file:.*/dist/subscribe/?$'
             './dist/**/*.html'
           fail: true
 

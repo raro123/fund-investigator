@@ -191,8 +191,9 @@ production deployment checks rather than treating local implementation as proof 
 - `public/_headers` adds sitewide discovery links, asset caching, query-parameter normalization guidance, and
   baseline security headers.
 - `docs/DEPLOYMENT.md` documents the report-only `Accept: text/markdown` URL Rewrite Transform Rule.
-- `.github/workflows/link-check.yml` builds the site and checks generated internal routes as a blocking gate;
-  the external-link scan is advisory because third-party sources can block automated requests or move pages.
+- `.github/workflows/link-check.yml` builds the site, verifies the static `/subscribe/` redirect, and checks
+  generated internal routes as a blocking gate; the external-link scan is advisory because third-party sources
+  can block automated requests or move pages.
 
 **Remaining deployment and Phase 5 work**
 
