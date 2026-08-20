@@ -1,21 +1,14 @@
-# Report Cover Images
+# Legacy Report Images
 
-Place cover images for investigation reports here.
+The existing files are retained for compatibility, but current report content does not reference
+this directory. Do not add new report images here.
 
-**Naming convention:** Use descriptive, kebab-case filenames
-- Example: ppfas-performance-analysis.png
-- Example: small-cap-comparison-2024.png
+Store new charts and custom social cards in:
 
-**Recommended specifications:**
-- Dimensions: 1200x630px (2:1 aspect ratio)
-- Format: PNG or JPG
-- File size: Under 500KB for optimal loading
-- Content: Charts, graphs, or visual summaries of the analysis
-
-**Usage in articles:**
-Add to frontmatter:
-```yaml
-coverImage: "/images/reports/your-image.png"
-coverImageAlt: "Descriptive text for accessibility"
+```text
+src/assets/images/reports/<report-slug>/
 ```
 
+Astro optimizes article images referenced with relative Markdown paths. Reports receive a generated
+1200x675 social card by default; use the optional `seo.image` frontmatter override documented in
+`docs/templates/report-template.md` only when a report needs a custom card.

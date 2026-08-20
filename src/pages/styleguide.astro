@@ -12,7 +12,8 @@ import { responsive } from '../lib/responsive';
 
 <Layout
   title="Design System - Fund Investigator"
-  description="Component library and design tokens for Fund Investigator"
+  description="Fund Investigator's component library, design tokens, and usage guidance for building consistent pages."
+  noindex
 >
   <!-- Hero -->
   <Hero size="md">
@@ -563,13 +564,17 @@ import { responsive } from '../lib/responsive';
             </thead>
             <tbody class="divide-y divide-fi-border-dark">
               <tr>
-                <td class="px-4 py-3 text-fi-muted-inv" rowspan="3">Z-index</td>
+                <td class="px-4 py-3 text-fi-muted-inv" rowspan="4">Z-index</td>
                 <td class="px-4 py-3 font-mono text-fi-gold">z-fi-header</td>
                 <td class="px-4 py-3 text-fi-muted-inv">100 — sticky nav</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-mono text-fi-gold">z-fi-menu</td>
                 <td class="px-4 py-3 text-fi-muted-inv">90 — mobile menu</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">z-fi-progress</td>
+                <td class="px-4 py-3 text-fi-muted-inv">85 — article reading progress</td>
               </tr>
               <tr>
                 <td class="px-4 py-3 font-mono text-fi-gold">z-fi-overlay</td>
@@ -594,7 +599,7 @@ import { responsive } from '../lib/responsive';
                 <td class="px-4 py-3 text-fi-muted-inv">13px — button vertical padding</td>
               </tr>
               <tr>
-                <td class="px-4 py-3 text-fi-muted-inv" rowspan="4">Sizing</td>
+                <td class="px-4 py-3 text-fi-muted-inv" rowspan="5">Sizing</td>
                 <td class="px-4 py-3 font-mono text-fi-gold">w-fi-icon / h-fi-icon</td>
                 <td class="px-4 py-3 text-fi-muted-inv">22px — card icons</td>
               </tr>
@@ -607,12 +612,19 @@ import { responsive } from '../lib/responsive';
                 <td class="px-4 py-3 text-fi-muted-inv">65ch — article prose reading width</td>
               </tr>
               <tr>
-                <td class="px-4 py-3 font-mono text-fi-gold">--fi-header-h</td>
-                <td class="px-4 py-3 text-fi-muted-inv">73px — CSS var for header height offset</td>
+                <td class="px-4 py-3 font-mono text-fi-gold">h-fi-header / --fi-header-h</td>
+                <td class="px-4 py-3 text-fi-muted-inv">84px — shared fixed-header height and offset</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-fi-gold">h-fi-article-nav / -mb-fi-article-nav</td>
+                <td class="px-4 py-3 text-fi-muted-inv">48px — compact article TOC height and flow compensation</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="mt-4 text-body-sm text-fi-muted-inv">
+          The article hero owns one shared reading state: the 4px progress track fades in at its current value after the hero leaves the viewport, while the compact TOC consumes the same state below <code class="font-mono text-fi-gold">xl</code>. The <code class="font-mono text-fi-gold">xl</code> sticky left rail remains visible independently. A native details control provides the no-JavaScript TOC fallback.
+        </p>
       </div>
 
     </div>

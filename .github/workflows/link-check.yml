@@ -1,0 +1,65 @@
+name: Link Check
+
+on:
+  push:
+    paths:
+      - '.github/workflows/link-check.yml'
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '*.md'
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Verify static redirect rules
+        run: |
+          test -f dist/_redirects
+          grep -Fq '/subscribe ' dist/_redirects
+          grep -Fq '/subscribe/ ' dist/_redirects
+
+      - name: Check internal links (blocking)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --scheme file
+            --root-dir "$GITHUB_WORKSPACE/dist"
+            --exclude '^file:.*/dist/subscribe/?$'
+            './dist/**/*.html'
+          fail: true
+
+      # External sources are useful editorial evidence, but their servers may
+      # reject automated requests or move pages without notice. Keep this scan
+      # visible without making deployment depend on third-party availability.
+      - name: Check external links (advisory)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --scheme http
+            --scheme https
+            --exclude 'https://(us|eu)\.i\.posthog\.com/'
+            './dist/**/*.html'
+          fail: false

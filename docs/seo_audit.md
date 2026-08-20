@@ -1,479 +1,350 @@
-# Fund Investigator SEO and AIO Audit
+# Fund Investigator Astro SEO Audit
 
-**Audit conducted:** 2026-07-22  
-**Documented:** 2026-07-23  
-**Last updated:** 2026-07-23 (homepage title and Google presentation review added)  
-**Site:** https://fundinvestigator.com  
-**Primary emphasis:** AI-answer visibility and citation readiness (AIO/GEO), followed by conventional SEO  
-**Site stage:** New publication with three current investigations and two public historical reports
+**Site:** https://fundinvestigator.com
+**Initial audit:** 2026-07-22
+**Document updated:** 2026-08-08
+**Audit scope:** Astro technical SEO, structured data, indexing, Open Graph, AIO/GEO readiness, and YMYL trust signals
 
-## Executive Summary
+## Executive summary
 
-Fund Investigator has a strong technical and editorial foundation for a new publication. The site is
-crawlable, statically rendered, well structured, evidence-led, and already more extractable than most
-financial-content sites. Canonicals, a sitemap, descriptive metadata, Article and Breadcrumb structured
-data, source footnotes, explicit analysis periods, limitations, and answer-first summaries are all in
-place.
+Fund Investigator has a strong static Astro foundation: server-rendered report content, descriptive
+metadata, canonical URLs, structured data, source notes, explicit analysis periods, and a coherent
+five-check investigation method.
 
-The largest constraint is not a missing AI tag or schema type. It is establishing enough visible
-authority, reproducibility, topical depth, and external recognition for search engines and AI answer
-systems to trust a new financial publisher. Mutual-fund analysis is a financial/YMYL topic, so the
-identity and credentials of the people producing and reviewing the work, the calculation method, and
-the underlying evidence need to be as visible as the conclusions.
+The initial Astro SEO baseline was **49/90**. Phases 0–3 are now closed as source-code milestones;
+production-only checks remain explicit release gates. The completed implementation closes these technical gaps:
 
-The recommended priority is:
+- Shared head metadata now runs through `@jdevalk/astro-seo-graph`.
+- Reports emit linked Organization, WebSite, ImageObject, WebPage, Article, and BreadcrumbList graphs.
+- Content schemas enforce SEO title, description, and date formats at build time.
+- Reports have deterministic build-time JPEG social cards.
+- RSS with resolved absolute content URLs, per-collection sitemaps, Git-derived `lastmod`, and
+  production-gated IndexNow are implemented.
+- Build-time validation covers H1s, metadata uniqueness and length, image alt text, and internal links.
 
-1. Make authorship, review, editorial controls, and calculation methodology explicit.
-2. Make chart evidence available as HTML data and/or downloadable files.
-3. Accelerate discovery through webmaster tools, accurate sitemap modification dates, and IndexNow.
-4. Build a focused body of original research around the existing five-check method.
-5. Measure AI citations and search discovery consistently instead of relying on one-off prompt tests.
+The remaining high-impact work is publisher authority and reproducibility: visible authorship/review,
+a public calculation methodology, chart data accessibility, editorial/corrections policies, and
+external measurement through Search Console and Bing Webmaster Tools. Cloudflare content negotiation
+and live verification remain planned for the deployment phase.
 
-## Scope and Method
+## Baseline Astro SEO score
 
-The audit reviewed:
+| Category | Baseline | Current status |
+|---|---:|---|
+| 1. `<Seo>` component and head metadata | 7/10 | Implemented; needs final production verification |
+| 2. Structured data / JSON-LD graph | 6/10 | Linked graph implemented; external validator checks pending |
+| 3. Content collections and SEO schema | 6/10 | Build-time schema and `articleBody` implemented |
+| 4. Open Graph images | 3/10 | Report cards implemented; generic non-report fallback remains |
+| 5. Sitemaps and indexing | 3/10 | RSS, Git `lastmod`, sitemap chunks, and IndexNow implemented |
+| 6. Agent discovery | 4/10 | `llms.txt` exists; schema endpoints and markdown alternates pending |
+| 7. Performance | 7/10 | Static output and optimized assets; field data still unavailable |
+| 8. Redirects and error handling | 6/10 | `_redirects` and FuzzyRedirect implemented; deployed 404 status pending |
+| 9. Build-time validation and content quality | 7/10 | Astro SEO validators and external-link CI are configured |
+| **Initial total** | **49/90** | **Technical remediation through Phase 3 complete** |
 
-- Astro layouts, content schemas, route generation, report frontmatter, article Markdown, internal
-  links, `robots.txt`, `llms.txt`, and structured-data builders.
-- A successful local production build and the generated HTML, sitemap, metadata, headings, and JSON-LD.
-- Live HTTP headers and the rendered report response.
-- Live `robots.txt`, `llms.txt`, `sitemap-index.xml`, and `sitemap-0.xml`.
-- HTTP responses presented to Googlebot, Bingbot, OAI-SearchBot, Claude-SearchBot, PerplexityBot, and
-  training-oriented crawler user agents.
-- A spot search for indexed Fund Investigator pages.
-- Current primary guidance from Google, OpenAI, Anthropic, Perplexity, Bing, Cloudflare, and relevant
-  academic GEO research.
+The baseline score is retained for comparison. A final score should be assigned after Phases 4–5 and
+production deployment checks rather than treating local implementation as proof of live SEO performance.
 
-The audit did not have access to Google Search Console, Bing Webmaster Tools, Cloudflare crawler logs,
-analytics, backlink indexes, or field Core Web Vitals. A Google PageSpeed API request could not be used
-because the public quota was unavailable. Index coverage, impressions, inbound links, citation counts,
-and real-user performance therefore remain measurement gaps rather than confirmed defects.
+## Astro-specific findings and remediation status
 
-## Overall Assessment
+### 1. Head metadata and canonical URLs
 
-| Area | Assessment | Main implication |
+**Initial findings**
+
+- Metadata was not consistently centralized.
+- Canonicals, robots directives, Open Graph, and Twitter metadata needed a single shared implementation.
+- Noindex utility pages needed canonical suppression.
+- The homepage and several legal/report descriptions needed sharper metadata copy.
+
+**Implemented**
+
+- `src/layouts/Layout.astro` now uses the package `<Seo>` component.
+- Fallbacks resolve title from the page title and description from description, excerpt, or first paragraph.
+- Canonicals and `og:url` derive from `Astro.site`.
+- Robots metadata includes `max-snippet:-1`, `max-image-preview:large`, and `max-video-preview:-1`.
+- `/404/` and `/styleguide/` are marked noindex.
+- RSS discovery is emitted with `<link rel="alternate" type="application/rss+xml">`.
+- Homepage metadata now uses the specific title `Indian Mutual Fund Analysis | Fund Investigator` and
+  a matching comparison-focused description in both HTML and WebPage schema.
+
+**Status:** Complete in source; verify the deployed origin before release.
+
+### 2. Structured data / JSON-LD
+
+**Initial findings**
+
+- Reports needed a linked graph rather than isolated flat entities.
+- Stable `@id` references were needed for the publisher, website, page, image, article, and breadcrumb.
+- Article body text was not consistently available to machine consumers.
+
+**Implemented**
+
+- `src/lib/schema.ts` uses `@jdevalk/seo-graph-core` builders and `assembleGraph()`.
+- Report graphs include Organization, WebSite, ImageObject, WebPage, Article, and BreadcrumbList.
+- `assembleGraph(..., { warnOnDanglingReferences: true })` validates references during builds.
+- Markdown-stripped `articleBody` is included up to 10,000 characters, while `wordCount` is calculated
+  once from the full normalized report body before truncation.
+- Report JSON-LD now references the generated 1200×675 social card.
+- Per-report SEO title, description, image URL, alt text, and image dimensions flow through head metadata
+  and the linked JSON-LD graph together.
+
+**Remaining**
+
+- Run the deployed homepage and report URLs through Google Rich Results Test and Schema Markup Validator.
+- Add visible authorship and reviewer entities when truthful publisher identity is available.
+
+**Status:** Strong technical foundation; trust and external validation remain open.
+
+### 3. Content collections and SEO schema
+
+**Initial findings**
+
+- Report metadata needed build-time length and date validation.
+- The content model needed a supported place for per-report SEO overrides.
+- Archived reports needed lifecycle checks and successor links.
+
+**Implemented**
+
+- `src/content.config.ts` enforces title length, description length, and `YYYY-MM-DD` dates.
+- Optional `seoSchema(image)` overrides are validated and applied to head metadata, RSS copy, and JSON-LD.
+  The visible report H1 continues to use the editorial `title`; an explicit SEO image replaces the generated
+  report card in Open Graph and JSON-LD, otherwise the deterministic generated card remains the fallback.
+- Archived reports require `analysisThrough` and `supersededBy` values.
+- Article schema exposes stripped report body text and word count.
+
+**Remaining**
+
+- Publish a canonical methodology hub documenting formulas, data alignment, risk-free rate, SIP timing,
+  rolling windows, drawdown definitions, source identifiers, and calculation versions.
+- Add accessible data tables or downloadable CSV files beside charts where licensing permits.
+
+**Status:** Build-time technical controls complete; reproducibility is still a high-priority content gap.
+
+### 4. Open Graph images
+
+**Initial findings**
+
+- Reports fell back to one generic image.
+- Report metadata used 1200×630 dimensions instead of the preferred 1200×675 report-card format.
+
+**Implemented**
+
+- `src/pages/og/reports/[...slug].jpg.ts` generates deterministic cards with Satori and Sharp.
+- Six report cards are emitted as JPEG files at `1200×675`.
+- `ArticleLayout.astro` and report JSON-LD reference `/og/reports/<slug>.jpg`.
+- A valid `seo.image` override is honored consistently by Open Graph and JSON-LD, including its actual
+  dimensions and alt/caption; reports without one retain the generated card.
+- The generated card was visually inspected locally.
+
+**Remaining**
+
+- Consider a 1200×675 branded fallback for non-report pages.
+- Recheck cards after major title or brand changes.
+
+**Status:** Report coverage complete; fallback-page coverage is partial.
+
+### 5. Sitemaps, RSS, and indexing
+
+**Initial findings**
+
+- Sitemap entries lacked trustworthy modification dates.
+- There was no RSS feed.
+- IndexNow was absent.
+- Sitemap entries were not separated by content type.
+
+**Implemented**
+
+- `astro.config.mjs` uses `gitLastmod()` to populate report `<lastmod>` values.
+- Sitemap output is split into `sitemap-reports-0.xml` and `sitemap-pages-0.xml`.
+- `src/pages/feed.xml.ts` publishes full HTML content for four current reports. Astro content-image
+  placeholders are resolved through the asset pipeline, and content image `src`/`srcset` values plus
+  internal links are made absolute for feed readers. The build throws if a placeholder cannot be resolved.
+- `src/pages/14a30902d8a12fd849ea16a55b53e034.txt.ts` serves the IndexNow verification key.
+- IndexNow submission is gated to Cloudflare Pages production builds on the `main` branch and requires
+  a matching `INDEXNOW_KEY` environment variable.
+
+**Deployment action required**
+
+1. Deploy once without `INDEXNOW_KEY`.
+2. Verify the public key URL returns the key.
+3. Add the matching `INDEXNOW_KEY` to the Cloudflare Pages Production environment.
+4. Deploy again to enable submissions.
+5. Register the site in Google Search Console and Bing Webmaster Tools and submit `sitemap-index.xml`.
+
+**Status:** Source and build artifacts complete; webmaster configuration and live verification pending.
+
+### 6. Agent discovery and AIO/GEO
+
+**Implemented**
+
+- `llms.txt` exists and lists current investigations with descriptions.
+- Report pages are server-rendered and extractable without client-side JavaScript.
+- `/schema/reports.json` exposes six linked report graphs as corpus-wide JSON-LD.
+- `/schemamap.xml` advertises the report schema endpoint, and `robots.txt` includes its `Schemamap:` directive.
+- Every report has a clean `/reports/<slug>.md` alternate and advertises it from the HTML head. Pages without
+  a Markdown representation do not emit a dangling discovery link.
+- `/.well-known/api-catalog` lists the report schema endpoint, schema map, and RSS feed.
+- `robots.txt` explicitly allows search and real-time AI input while reserving training rights and requesting
+  reference-style use.
+- Cloudflare `_headers` restores content types, `noindex`, cache policy, and per-report canonical headers for
+  the static machine-readable files.
+- `public/_headers` adds sitewide discovery links, asset caching, query-parameter normalization guidance, and
+  baseline security headers.
+- `docs/DEPLOYMENT.md` documents the report-only `Accept: text/markdown` URL Rewrite Transform Rule.
+- `.github/workflows/link-check.yml` builds the site, verifies the static `/subscribe/` redirect, and checks
+  generated internal routes as a blocking gate; the external-link scan is advisory because third-party sources
+  can block automated requests or move pages.
+
+**Remaining deployment and Phase 5 work**
+
+- Create the documented Cloudflare Transform Rule and verify content negotiation over HTTPS.
+- Verify the sitewide headers over HTTPS after the next deployment.
+
+**Authority gaps outside Astro code**
+
+- No visible author/reviewer identity or credentials.
+- No editorial policy or corrections policy.
+- No canonical public methodology and calculation changelog.
+- Small topical corpus and no established AI-citation measurement baseline.
+
+**Status:** Phase 4 source work is complete; Cloudflare rule deployment, live verification, and publisher
+authority work remain open.
+
+### 7. Performance
+
+**Strengths**
+
+- Static Astro output is the default.
+- Report images use Astro image optimization.
+- Client JavaScript is limited to existing interactive features.
+- Fonts are self-hosted.
+
+**Remaining**
+
+- Add production cache headers for `/_astro/*` assets.
+- Consider `No-Vary-Search` for tracking parameters.
+- Measure Core Web Vitals through Search Console or real-user analytics once traffic is available.
+- Complete mobile/accessibility browser checks against a deployed preview.
+
+**Status:** Good baseline; field performance is unmeasured.
+
+### 8. Redirects and error handling
+
+**Implemented**
+
+- `public/_redirects` contains permanent `/subscribe` and `/subscribe/` redirects.
+- Internal links use trailing-slash URLs.
+- Utility pages are excluded from the sitemap.
+
+**Remaining**
+
+- Confirm the deployed `/404/` response returns HTTP 404 rather than a soft 200.
+- Inventory historical URLs before adding further redirect rules.
+
+**Status:** Basic redirect coverage complete; deployed 404 verification pending.
+
+### 9. Build-time validation and content quality
+
+**Implemented**
+
+`seoGraph()` runs on every build with:
+
+- H1 validation
+- Metadata uniqueness validation
+- Metadata length validation
+- Image alt validation
+- Internal-link validation
+
+The latest production build passed all five validators across 14 pages.
+
+**Remaining**
+
+- Keep short metadata strings in the metadata-check workflow.
+- Use readability audits for individual long-form reports, not as a substitute for technical validation.
+
+**Status:** Technical build gate complete; external link monitoring is advisory and remains an editorial
+maintenance signal rather than a deployment blocker.
+
+**External-source policy:** Keep primary official links when they support a material claim. Prefer stable
+institutional or fund landing pages for general statements; use dated factsheets or PDFs when the date-specific
+source is the evidence, and record the relevant period in the article. A bot-blocked or moved external URL is a
+maintenance signal, not by itself a reason to remove a citation and weaken the article's provenance.
+
+## YMYL trust and AIO priorities
+
+These are the largest remaining SEO and AI-answer visibility gaps because the site covers financial
+decisions:
+
+1. Add truthful visible organizational authorship and reviewer accountability.
+2. Publish an editorial policy and corrections policy.
+3. Publish the complete calculation methodology and link to it from each report.
+4. Make chart values available as HTML tables or downloadable datasets.
+5. Show Published and Updated dates when they differ.
+6. Build a focused research cluster around benchmarks, rolling returns, Sharpe ratio, drawdowns, and SIP IRR.
+7. Establish a small repeated AI-citation and search-visibility measurement set.
+
+Do not fabricate credentials, add invisible schema claims, create thin query-variant pages, or expand
+`llms.txt` into a parallel content site.
+
+## Phase status
+
+| Phase | Scope | Status |
 |---|---|---|
-| Crawl access | Strong | Major search and AI-search crawlers can reach complete static HTML |
-| Answer extraction | Strong | Current reports lead with direct numerical answers, tables, and assessment headings |
-| Source quality | Strong | Reports cite SEBI, AMFI, NSE Indices, fund factsheets, and report assumptions |
-| Structured data | Strong foundation | Article, Organization, WebSite, WebApplication, and Breadcrumb entities are present |
-| Publisher trust | Needs substantial work | No visible human byline, reviewer, credentials, editorial policy, or corrections policy |
-| Reproducibility | Partial | Sources and some assumptions are shown, but the complete calculation method and data are not |
-| Topical authority | Early stage | The publication has a coherent method but only a small current research corpus |
-| Discovery/freshness | Early stage | New pages are only days old; the sitemap lacks modification dates and IndexNow is absent |
-| Measurement | Not established | AI citations, index coverage, backlinks, and field performance are not yet being measured |
-
----
-
-## AIO Audit
-
-Here, AIO means optimization for inclusion, grounding, and citation in AI-generated answers. It is
-also commonly described as Generative Engine Optimization (GEO). Current Google guidance is explicit
-that there is no special AI schema or required AI text file for AI Overviews or AI Mode: pages first
-need sound search eligibility, crawlability, helpful content, and visible textual evidence.
-
-### What Works Well
-
-#### 1. AI-search crawler access is healthy
-
-The live report returned HTTP 200 with the full HTML response to Googlebot, Bingbot, OAI-SearchBot,
-Claude-SearchBot, and PerplexityBot. The important article content is server-rendered and does not
-depend on client-side JavaScript.
-
-Cloudflare prepends managed directives to the repository's `public/robots.txt`. The resulting live
-policy currently declares `search=yes`, `ai-train=no`, and `use=reference`. It blocks training-oriented
-crawlers including GPTBot, ClaudeBot, and Google-Extended, while leaving their search-oriented
-counterparts accessible.
-
-This is broadly consistent with the desired policy of allowing search and citations while reserving
-training rights:
-
-- OpenAI identifies OAI-SearchBot as the crawler needed for ChatGPT search summaries and citations;
-  GPTBot is the separate potential-training control.
-- Anthropic distinguishes Claude-SearchBot from the training-oriented ClaudeBot.
-- PerplexityBot is intended to surface and link websites in Perplexity search and is not described as
-  a foundation-model training crawler.
-- Blocking Google-Extended does not affect inclusion or ranking in Google Search, including its normal
-  search crawl through Googlebot.
-
-The direct HTTP tests demonstrate CDN accessibility, not whether a crawler will choose to index or cite
-a page. Training bots receiving HTTP 200 when impersonated by `curl` does not override their obligation
-to follow the disallow rule in `robots.txt`.
-
-#### 2. Reports are highly extractable
-
-The current investigation format is well suited to answer engines:
-
-- The opening paragraph provides the fund, benchmark, period, and principal numerical findings.
-- The five questions are explicit.
-- A compact Key Takeaways table maps each check to evidence and interpretation.
-- Question-shaped headings are followed by clearly labelled Assessment sections.
-- Conclusions distinguish evidence from forecast and discuss contrary findings.
-- Definitions, analysis settings, assumptions, limitations, and source notes are in HTML text.
-
-`src/content/reports/ppfas-flexicap-five-checks.md` is the strongest current example. It gives a direct
-answer, includes counter-evidence from 2022 and 2026 year to date, and avoids turning historical
-outperformance into a recommendation.
-
-#### 3. The evidence base is credible
-
-Current reports cite first-party or authoritative sources including SEBI rules, AMFI NAV history, NSE
-Indices, AMFI scheme codes, and fund-house factsheets. They also identify important calculation
-assumptions such as rolling-window length, SIP timing, and the risk-free rate used for Sharpe ratios.
-
-This supports citation-worthiness and differentiates the publication from generic return summaries.
-
-#### 4. The machine-readable foundation is coherent
-
-`src/lib/schema.ts` defines stable Organization and WebSite identities, a WebApplication entity for
-Deepdive, Article markup, and breadcrumbs. Reports emit the full Organization and WebSite records next
-to the Article, so author and publisher references resolve when an article is read in isolation.
-
-`src/pages/llms.txt.ts` provides a concise publication description and links only to current
-investigations. That is a sensible supplementary discovery surface, but it should not be treated as a
-substitute for indexing or authority. Google specifically says separate AI text files are not required
-for its generative-search features.
-
-### AIO Gaps and Recommendations
-
-#### AIO-1 — Critical: visible authorship and review authority are missing
-
-**Finding:** Reports are credited to the Organization in JSON-LD, but the visible article has no author
-or reviewer byline. The About page describes the publication's values but not the people, relevant
-experience, review process, or accountability behind financial claims.
-
-**Why it matters:** Google treats subjects that can affect financial stability as YMYL and recommends
-clear answers to who created the content, how it was produced, and why it exists. AI answer systems also
-need stable, corroborated entities when deciding whether a source is safe to cite.
-
-**Recommendation:**
-
-- Add a visible author and, where appropriate, a reviewer to every investigation.
-- Create profile pages with truthful experience, areas of expertise, responsibilities, and relevant
-  public profiles. Do not invent or overstate credentials.
-- If publication under a named individual remains deferred until SEBI Research Analyst certification,
-  add a visible organizational byline now and an honest explanation of the research and review process.
-- Publish an editorial policy and corrections policy, with dated corrections attached to affected
-  reports.
-- Keep structured data aligned with the visible page. When a named author is introduced, add a `Person`
-  entity and profile URL rather than changing JSON-LD alone.
-
-This reinforces existing pending decision #29 in `docs/project_log.md`; it does not override that
-decision or imply certification.
-
-#### AIO-2 — Critical: the analysis is not yet fully reproducible
-
-**Finding:** Reports identify major sources and some assumptions, but there is no canonical methodology
-page documenting the complete calculation pipeline. The About page's claim of transparent methodology
-is stronger than the public evidence currently available.
-
-**Recommendation:** Publish a methodology hub covering:
-
-- Exact data sources, identifiers, data frequency, access dates, and update cadence.
-- NAV and total-return treatment, date alignment, holidays, missing observations, and rounding.
-- CAGR and total-return formulas.
-- SIP cash-flow timing and XIRR/IRR calculation.
-- Rolling-return window construction, overlap, pre-window history, and rolling win-rate definition.
-- Volatility annualisation and return frequency.
-- Sharpe formula, risk-free-rate source and rationale, and known limitations.
-- Maximum drawdown and recovery-time definitions.
-- Benchmark-selection rules and cases where the official benchmark is an imperfect portfolio match.
-- Tool/version information, known limitations, correction handling, and a methodology changelog.
-
-Each report should link to the relevant methodology anchors and state any report-specific deviation.
-
-#### AIO-3 — High: chart evidence is not fully available as text or data
-
-**Finding:** Charts have excellent alt text and surrounding interpretation, but not every plotted series
-or observation is available as an HTML table or download. An answer engine cannot reliably recover all
-values from a chart image.
-
-**Recommendation:**
-
-- Add an adjacent accessible HTML data table for each chart, optionally collapsed for visual readers.
-- Offer a small CSV download containing the displayed series when licensing permits.
-- Include scheme code, benchmark identifier, analysis start/end dates, source URLs, data access date,
-  calculation version, and units.
-- Add a concise source line to each figure caption.
-- Use Dataset structured data only when an actual visible/downloadable dataset is published; do not add
-  schema that overstates what is on the page.
-
-#### AIO-4 — High: topical authority is coherent but shallow
-
-**Finding:** The current corpus has one methodology investigation and two current fund investigations.
-This is a strong beginning but not enough evidence for broad authority across Indian mutual-fund
-analytics.
-
-**Recommendation:** Build a small, tightly connected research library around the existing method:
-
-- How to choose a fair mutual-fund benchmark.
-- Rolling returns and rolling win rate, including common misinterpretations.
-- Sharpe ratio for Indian mutual funds: assumptions and limitations.
-- Maximum drawdown and recovery time.
-- SIP IRR versus lump-sum CAGR.
-- Original category-level studies that apply the method consistently and disclose selection rules.
-
-Prioritize original analysis and meaningful additions. Do not create separate low-value pages for every
-query variation or mechanically scale thin fund summaries; Google warns that query-variant page
-generation can become scaled-content abuse.
-
-#### AIO-5 — High: AI visibility is not being measured
-
-**Recommendation:** Establish a modest baseline rather than buying a large GEO tool immediately:
-
-- Enable Bing Webmaster Tools and its AI Performance reporting.
-- Track ChatGPT referrals through `utm_source=chatgpt.com`.
-- Review Cloudflare AI Crawl Control for crawler requests, failures, and policy violations.
-- Maintain 20–30 representative questions across fund analysis, benchmarks, risk, and methodology.
-- Test the same prompts repeatedly across ChatGPT, Google, Bing/Copilot, Claude, and Perplexity.
-- Record citation presence, cited URL, answer accuracy, competing sources, and changes over time.
-
-AI answers are probabilistic. One prompt run should not be treated as evidence of visibility or absence.
-
-#### AIO-6 — Medium: `ai-input` is unspecified in Cloudflare's live policy
-
-**Finding:** The live Content Signal states `search=yes`, `ai-train=no`, and `use=reference`, but omits
-`ai-input`. Cloudflare defines an omitted value as neither an explicit grant nor restriction.
-
-**Recommendation:** If Fund Investigator wants to explicitly permit real-time grounding and citation,
-consider declaring `ai-input=yes` while retaining `ai-train=no`. Review and implement this in the
-Cloudflare dashboard rather than adding potentially conflicting duplicate directives blindly in the
-repository. Treat it as rights/policy clarity, not a ranking factor.
-
-#### AIO-7 — Medium: publication and modification information is inconsistent between visible text and markup
-
-**Finding:** `dateModified` is emitted in Article JSON-LD, but the masthead displays only the original
-publication date.
-
-**Recommendation:** Show both Published and Updated dates when they differ. Ensure visible values,
-frontmatter, JSON-LD, sitemap `lastmod`, and any report changelog agree.
-
-#### AIO-8 — Low: avoid overinvesting in `llms.txt` and speculative AI markup
-
-Keep `llms.txt` concise and current. Do not prioritize FAQ schema, keyword repetition, invented entity
-relationships, or unverified AIO checklists. There is no special Google schema for AI Overviews or AI
-Mode.
-
----
-
-## SEO Audit
-
-### What Works Well
-
-- The production build succeeds in Astro's static-output mode.
-- Key content is available in initial HTML.
-- Canonical URLs resolve from `Astro.site` and match the live URL pattern.
-- `robots.txt`, the sitemap index, and the child sitemap are live and accessible.
-- Each inspected indexable page has exactly one H1.
-- Report titles and descriptions are unique and query-specific.
-- Article and Breadcrumb JSON-LD is present on report pages.
-- Chart alt text is detailed and captions describe the evidence.
-- The current reports link to the five-check methodology.
-- Archived reports remain transparent historical snapshots, are excluded from current listings and
-  `llms.txt`, and point readers to successor content.
-- Astro image optimization, static rendering, and the mobile-first layout provide a sound performance
-  base, although field performance was not measured.
-
-### SEO Gaps and Recommendations
-
-#### SEO-1 — Critical for a new site: discovery and index coverage are immature
-
-**Finding:** A spot search surfaced the older archived PPFAS report but did not surface the newer current
-reports. This is not yet a failure: the current pages were published or updated only days before the
-audit, and spot search is not an authoritative index-coverage test.
-
-**Recommendation:**
-
-- Verify both Google Search Console and Bing Webmaster Tools.
-- Submit `sitemap-index.xml` in both products.
-- Inspect the three current report URLs and the reports index.
-- Request indexing for priority pages after confirming the rendered canonical and structured data.
-- Monitor discovered, crawled, indexed, excluded, and duplicate URL states weekly during launch.
-- Record the first crawl and index date for each investigation.
-
-#### SEO-2 — High: sitemap entries have no accurate modification dates
-
-**Finding:** `sitemap-0.xml` contains only `<loc>` elements. It does not expose report frontmatter
-`updated` dates.
-
-**Recommendation:** Add accurate `<lastmod>` values derived from `updated ?? date`. Use modification
-dates for legal and index pages only when their visible content materially changes. Google may use
-`lastmod` when it is consistently and verifiably accurate; do not update every URL on every build.
-
-#### SEO-3 — High: Bing and participating engines are not notified of new or changed reports
-
-**Recommendation:** Implement IndexNow for publication, material updates, archival, successor changes,
-and deletion. It should submit only changed URLs, not the unchanged catalogue on every deployment.
-
-#### SEO-4 — High: financial trust improvements are needed
-
-The authorship, review, methodology, editorial-policy, and corrections-policy work in AIO-1 and AIO-2
-is equally important for conventional SEO because the site covers financial decisions.
-
-#### SEO-5 — Medium: every report uses the same generic article/share image
-
-**Finding:** No report currently sets `coverImage`; Article JSON-LD and social metadata therefore use the
-generic Fund Investigator image. This is already recorded as pending decision #27.
-
-**Recommendation:** Generate a relevant branded 1200×630 report card and, where feasible, high-resolution
-16:9, 4:3, and 1:1 variants. The image should identify the fund, benchmark, analysis period, and one
-headline metric without becoming an unreadable chart thumbnail. Correct the hard-coded image dimensions
-in `src/layouts/Layout.astro` as part of the same change.
-
-#### SEO-6 — Medium: internal discovery can become stronger as the catalogue grows
-
-**Recommendation:**
-
-- Implement pending decision #32: up to two curated current related investigations after an article.
-- Add visible breadcrumbs that match the existing Breadcrumb JSON-LD.
-- Link methodology terms to stable definitions where helpful, without over-linking every occurrence.
-- Introduce category hubs only after each category has enough distinct content to justify a useful page.
-- Keep all important links as normal crawlable anchors in the server-rendered HTML.
-
-#### SEO-7 — Medium: archived and current reports need careful signal consolidation
-
-**Finding:** Historical and current reports can target similar fund queries. Keeping archives is valid
-because they are materially different time-bounded records, but it can split attention on a young site.
-
-**Recommendation:**
-
-- Preserve archives only while they provide distinct historical value.
-- Retain explicit Historical wording, analysis-through dates, and prominent successor links.
-- Keep self-canonicals while the historical page intentionally stands on its own.
-- Use a redirect only if an archive is retired and no longer intended as an independent record.
-- Do not canonicalize substantively different history to the current report merely to force consolidation.
-
-#### SEO-8 — Medium: the homepage title is valid but weakly differentiated
-
-**Finding:** The homepage currently emits:
-
-> Fund Investigator - Comprehensive Mutual Fund Analysis
-
-The title is unique, relevant, and a reasonable length, but "Comprehensive" is generic, the title does
-not identify the Indian market, and it does not express the publication's strongest distinction:
-investigating performance beyond headline returns. The visible H1, "Fund Performance, Investigated",
-is more memorable but gives Google a second, different framing of the page.
-
-The current search-crawler representation uses the supplied homepage title. A recent searchable
-snapshot still contained older homepage sections, indicating normal recrawl lag for a new publication
-rather than a title-specific defect. Google can nevertheless rewrite a title link from the `<title>`,
-visible H1 and other prominent text, `og:title`, or links pointing to the page. It can also choose a
-query-specific snippet from on-page text instead of using the meta description verbatim.
-
-**Recommendation:** Change the homepage title to:
-
-> Indian Mutual Fund Analysis Beyond Returns | Fund Investigator
-
-This leads with the market and topic before introducing a still-new brand, while "Beyond Returns"
-communicates the site's actual editorial proposition. A brand-first alternative is:
-
-> Fund Investigator | Indian Mutual Fund Analysis Beyond Returns
-
-Also replace the current generic meta description with a more specific summary:
-
-> Evidence-led analysis of Indian mutual funds using fair benchmarks, rolling returns, risk, drawdowns and SIP performance. No commissions or fund rankings.
-
-The WebSite structured data already provides the preferred site name, "Fund Investigator", separately
-from the per-page title. Keep that entity name unchanged. Treat this as a worthwhile click-through and
-positioning improvement, not a substitute for the higher-impact authority, methodology, and discovery
-work above.
-
-#### SEO-9 — Low: remaining metadata and publication-feed polish
-
-- Add `og:url` matching the canonical URL.
-- Improve the short reports-index meta description so it communicates the five-check approach and
-  Indian mutual-fund focus.
-- Add RSS/Atom output and `<link rel="alternate">` feed discovery for subscribers and aggregators.
-- Several report titles are 64–68 characters and may truncate, but the fund and benchmark terms are
-  already first, so this is not urgent.
-- Legal-page descriptions are short but have little commercial search importance.
-
-#### SEO-10 — Unmeasured: Core Web Vitals and real-user page experience
-
-The static HTML, modest generated page size, optimized report images, and limited client JavaScript are
-positive indicators. They are not substitutes for field data. Once Search Console has sufficient
-traffic, review LCP, INP, and CLS by template and device. Complete pending decision #33's responsive and
-accessibility verification before making speculative performance changes.
-
----
-
-## Prioritized Delivery Plan
-
-### Phase 1 — Trust and discovery foundation
-
-1. Verify Google Search Console and Bing Webmaster Tools; submit and inspect priority URLs.
-2. Add accurate sitemap `lastmod` and implement scoped IndexNow notification.
-3. Add visible organizational authorship/research accountability now, respecting the certification
-   constraint in pending decision #29.
-4. Publish editorial and corrections policies.
-5. Publish the canonical calculation methodology hub.
-6. Display accurate Published and Updated dates.
-
-### Phase 2 — Evidence and extraction
-
-1. Add HTML data tables and optional CSV downloads for report charts.
-2. Add calculation version, access date, identifiers, and source lines to report evidence.
-3. Add visible breadcrumbs and curated related investigations.
-4. Generate report-specific social and Article images through the already-considered build-time system.
-
-### Phase 3 — Authority and measurement
-
-1. Publish a focused methodology/explainer cluster and original category research.
-2. Build genuine external awareness around original datasets and analysis rather than generic link outreach.
-3. Begin repeated AI-citation monitoring and track referral/conversion quality.
-4. Review Search Console indexing, query coverage, and Core Web Vitals monthly during the publication's
-   first growth phase.
-
-## What Not to Prioritize
-
-- Expanding `llms.txt` into a parallel content site.
-- Adding unsupported or invisible structured-data claims.
-- FAQ schema solely for AI visibility.
-- Keyword stuffing or writing separate pages for every query variation.
-- Large batches of shallow fund summaries.
-- Replacing distinct historical pages with canonicals to current pages without a content-based reason.
-- Purchasing a complex GEO platform before establishing a small repeatable baseline.
-
-## Success Measures
-
-Track progress with a small scorecard:
-
-| Outcome | Initial measure |
-|---|---|
-| Discovery | Current investigations indexed; sitemap processed without material errors |
-| Freshness | Time from publish/update to crawl and index |
-| Search visibility | Non-brand impressions and clicks by investigation/methodology cluster |
-| AI visibility | Citation rate across a fixed repeated prompt set, by engine and cited URL |
-| Trust | All current reports have visible accountability, method link, sources, and update status |
-| Reproducibility | Every chart has accessible data and a traceable calculation/source record |
-| Engagement | Qualified visits, report completion proxies, and subscribe conversions by source |
-| Quality control | Corrections logged and structured data kept aligned with visible content |
-
-## Primary Sources
-
+| Phase 0 | Branch setup and source verification gate | Complete in source; live parity remains a release gate |
+| Phase 1 | Shared `<Seo>` metadata and canonical foundation | Complete |
+| Phase 2 | Linked JSON-LD graph and content schema validation | Complete |
+| Phase 3 | OG images, RSS, sitemap `lastmod`, IndexNow | Complete |
+| Phase 4 | Schema endpoints, schema map, markdown alternates, API catalog, Cloudflare negotiation | Complete in source; dashboard rule and live verification pending |
+| Phase 5 | Headers, FuzzyRedirect, external-link CI, final metadata/live audit | Source implementation mostly complete; live audit pending |
+
+## Verification record
+
+- `npm run build`: passed with 14 pages built.
+- Astro SEO validators: H1, internal links, image alt, metadata length, and metadata uniqueness all passed.
+- Generated OG cards: six JPEGs, each 1200×675; one card visually inspected.
+- RSS: `/feed.xml` contains four current reports with full article HTML content, 15 absolute optimized image
+  URLs, zero `__ASTRO_IMAGE_` placeholders, and no root-relative `href` or `src` attributes.
+- JSON-LD: the longest current report emits a 10,000-character `articleBody` and a `wordCount` derived from
+  its full normalized body rather than the truncated field.
+- Homepage: HTML title/description and WebPage schema name/description match the revised metadata exactly.
+- Sitemap: `sitemap-index.xml` references page and report chunks; report entries include Git-derived `lastmod`.
+- IndexNow: key route returns the committed key; production submission still requires Cloudflare configuration.
+- Agent discovery: the corpus endpoint contains 26 deduplicated entities—six each of Article, WebPage,
+  ImageObject, and BreadcrumbList plus one Organization and one WebSite—with no dangling `@id` references.
+- Markdown alternates: six report files generated; local source-image paths are replaced with descriptive
+  figure text, report HTML contains the matching alternate link, and non-report HTML does not.
+- Schema map, API catalog, Content Signals, `Schemamap:`, and Cloudflare static header rules match the built
+  artifacts.
+- Local Cloudflare Pages verification: Markdown, report schema, schema map, and API catalog routes returned
+  HTTP 200 with the expected MIME type, cache policy, and `X-Robots-Tag`; the Markdown route also expanded
+  its per-report canonical `Link` header correctly.
+- `git diff --check`: passed.
+- Local build-artifact checks are complete. Deployed mobile, HTTP status, external structured-data validators,
+  webmaster registration, and production IndexNow submission remain open; this document does not treat them
+  as completed checks.
+
+## Release gates and next actions
+
+### Required before production release
+
+- Confirm the deployed site matches this repository. The earlier audit observed possible source/live content
+  drift, so deployment verification is a release gate.
+- Verify canonical URLs, report OG images, JSON-LD, RSS, sitemap index, and the IndexNow key over HTTPS.
+- Configure Cloudflare Production `INDEXNOW_KEY` only after the key route is live.
+- Register Google Search Console and Bing Webmaster Tools; submit the sitemap index.
+- Confirm the deployed 404 status and review Cloudflare robots/content-signal policy.
+
+### Recommended next implementation
+
+Complete the remaining Phase 5 final metadata/live audit and deployed-site verification. Then re-score the
+nine Astro categories.
+
+## Primary references
+
+- [Astro SEO skill](https://github.com/jdevalk/seo-graph)
 - [Google: AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
-- [Google: Generative AI search optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
-- [Google: Helpful, reliable, people-first content and YMYL](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+- [Google: Helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 - [Google: Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
 - [Google: Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
-- [Google: Crawling controls and Google-Extended](https://developers.google.com/crawling/docs/about-crawling)
-- [Google: Influencing title links](https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets)
-- [Google: How search snippets are created](https://developers.google.com/search/docs/appearance/snippet)
-- [Google: Site names in Search](https://developers.google.com/search/docs/appearance/site-names)
-- [OpenAI: Publisher and developer FAQ](https://help.openai.com/en/articles/12627856-publishers-and-developers-faq)
-- [Anthropic: Web crawler controls](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
-- [Perplexity: Crawler documentation](https://docs.perplexity.ai/docs/resources/perplexity-crawlers)
-- [Bing: AI Performance in Webmaster Tools](https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview)
-- [Bing: IndexNow for changed content](https://blogs.bing.com/webmaster/September-2024/IndexNow-When-and-How-Websites-Should-Notify-Search-Engines)
+- [Bing: IndexNow](https://www.indexnow.org/)
 - [Cloudflare: Managed robots.txt and Content Signals](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
-- [Aggarwal et al.: GEO — Generative Engine Optimization](https://arxiv.org/abs/2311.09735)
-- [Martinez: Critical survey of GEO research, 2023–2026](https://arxiv.org/abs/2607.14035)
-- [Schulte, Bleeker, and Kaufmann: Measuring visibility in AI search](https://arxiv.org/abs/2604.07585)
-
-## Verification Record
-
-- Local production build: passed on 2026-07-22.
-- Live homepage and selected current report: HTTP 200.
-- Live `robots.txt`, `llms.txt`, sitemap index, and child sitemap: accessible.
-- Selected current report returned HTTP 200 to tested search and AI-search user-agent strings.
-- No application or content changes were made as part of the audit.

@@ -27,7 +27,7 @@ Subdomains separate the fast, SEO-optimized content layer from the compute-heavy
 - **Content Config:** `src/content.config.ts`
 - **Report Content:** `src/content/reports/`
 - **Report Images:** `src/assets/images/reports/[slug]/` — charts/graphs embedded in the article body via markdown
-- **Cover Image:** `coverImage` frontmatter field, same folder today (see `docs/project_log.md` #27 for a possible future split)
+- **Social Images:** generated at build time; use the optional `seo.image` report override only for a custom card
 
 ## Design System
 
@@ -39,7 +39,7 @@ Exact values and design rationale: `docs/style_spec.md`. Live component referenc
 ```
 fund-investigator/
 ├── src/
-│   ├── assets/images/reports/[slug]/   # Chart images + cover image, auto-optimized (WebP/AVIF)
+│   ├── assets/images/reports/[slug]/   # Report charts and optional custom social card
 │   ├── components/
 │   │   ├── ui/                         # Button, Card, Badge, Hero, Section, Table, ... (see /styleguide)
 │   │   ├── Header.astro / Footer.astro / Logo.astro

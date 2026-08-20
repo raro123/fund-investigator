@@ -9,7 +9,7 @@ import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
-import { deepdiveSchema, organizationSchema, websiteSchema } from '../lib/schema';
+import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 
@@ -24,13 +24,9 @@ const featuredReports = allReports
 ---
 
 <Layout
-  title="Fund Investigator - Comprehensive Mutual Fund Analysis"
-  description="Detailed performance metrics and risk analysis for AMFI-registered funds. Data-driven insights to support your investment decisions."
-  jsonLd={[
-    organizationSchema(Astro.site),
-    websiteSchema(Astro.site),
-    deepdiveSchema(Astro.site),
-  ]}
+  title={HOME_TITLE}
+  description={HOME_DESCRIPTION}
+  graph={homeSchemaGraph(Astro.site)}
 >
   <!-- Hero Section -->
   <Hero size="lg" background="dark" class="fi-investigation-hero">
@@ -53,7 +49,7 @@ const featuredReports = allReports
       <Button href={deepdiveUrl('homepage_hero')} size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
         Investigate Your Fund
       </Button>
-      <Button href="/reports" variant="secondary" size="lg" class="w-full sm:w-auto min-w-0">
+      <Button href="/reports/" variant="secondary" size="lg" class="w-full sm:w-auto min-w-0">
         Read our Investigations
       </Button>
     </div>
@@ -306,7 +302,7 @@ const featuredReports = allReports
 
         <!-- CTA below cards -->
         <div class="text-center mt-8">
-          <Button href="/reports" variant="primary" size="md">View all investigations</Button>
+          <Button href="/reports/" variant="primary" size="md">View all investigations</Button>
         </div>
       </div>
   </Section>
@@ -322,7 +318,7 @@ const featuredReports = allReports
         <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
           Fund platforms often compress research into returns, ratings, and buy flows. We built Fund Investigator to inspect the evidence behind performance before forming a view.
         </p>
-        <a href="/about" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium">
+        <a href="/about/" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium">
           Read why Fund Investigator exists
         </a>
       </div>

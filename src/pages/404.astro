@@ -3,11 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import Button from '../components/ui/Button.astro';
 import { responsive } from '../lib/responsive';
+import FuzzyRedirect from '@jdevalk/astro-seo-graph/FuzzyRedirect.astro';
 ---
 
 <Layout
   title="404 - Page Not Found | Fund Investigator"
-  description="The page you're looking for doesn't exist."
+  description="This page does not exist or has moved. Browse Fund Investigator's mutual fund research and investigation reports."
+  noindex
 >
   <Hero size="md">
     <div class="text-center max-w-2xl mx-auto">
@@ -22,13 +24,16 @@ import { responsive } from '../lib/responsive';
         <p class="text-body-lg text-fi-muted leading-relaxed mb-8">
           The page you're looking for doesn't exist or has been moved.
         </p>
+        <div class="text-body-lg text-fi-muted leading-relaxed mb-8">
+          <FuzzyRedirect />
+        </div>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <Button href="/" variant="primary" size="md">
           Back to Home
         </Button>
-        <Button href="/reports" variant="secondary" size="md">
+        <Button href="/reports/" variant="secondary" size="md">
           Browse Investigations
         </Button>
       </div>

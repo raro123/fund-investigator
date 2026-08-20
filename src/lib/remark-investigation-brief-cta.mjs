@@ -1,5 +1,6 @@
 const REPORTS_PATH = 'src/content/reports/';
 const TAKEAWAYS_HEADING = 'key takeaways';
+const SUBSCRIBE_PATH = '/subscribe/';
 
 function nodeText(node) {
   if (node.type === 'text' || node.type === 'inlineCode') return node.value ?? '';
@@ -8,7 +9,7 @@ function nodeText(node) {
 }
 
 function containsSubscribeLink(node) {
-  if (node.type === 'link' && node.url === '/subscribe') return true;
+  if (node.type === 'link' && (node.url === '/subscribe' || node.url === SUBSCRIBE_PATH)) return true;
   return Array.isArray(node.children) && node.children.some(containsSubscribeLink);
 }
 
@@ -25,7 +26,7 @@ function ctaNode() {
           },
           {
             type: 'link',
-            url: '/subscribe',
+            url: SUBSCRIBE_PATH,
             title: null,
             children: [{ type: 'text', value: 'Subscribe for Investigation Briefs' }],
           },
