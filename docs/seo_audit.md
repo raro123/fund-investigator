@@ -24,8 +24,8 @@ production-only checks remain explicit release gates. The completed implementati
 
 The remaining high-impact work is publisher authority and reproducibility: visible authorship/review,
 a public calculation methodology, chart data accessibility, editorial/corrections policies, and
-external measurement through Search Console and Bing Webmaster Tools. Agent-discovery endpoints and
-Cloudflare content negotiation remain planned for Phase 4.
+external measurement through Search Console and Bing Webmaster Tools. Cloudflare content negotiation
+and live verification remain planned for the deployment phase.
 
 ## Baseline Astro SEO score
 
@@ -38,8 +38,8 @@ Cloudflare content negotiation remain planned for Phase 4.
 | 5. Sitemaps and indexing | 3/10 | RSS, Git `lastmod`, sitemap chunks, and IndexNow implemented |
 | 6. Agent discovery | 4/10 | `llms.txt` exists; schema endpoints and markdown alternates pending |
 | 7. Performance | 7/10 | Static output and optimized assets; field data still unavailable |
-| 8. Redirects and error handling | 6/10 | `_redirects` exists; FuzzyRedirect and deployed 404 status pending |
-| 9. Build-time validation and content quality | 7/10 | Astro SEO validators pass; external-link CI pending |
+| 8. Redirects and error handling | 6/10 | `_redirects` and FuzzyRedirect implemented; deployed 404 status pending |
+| 9. Build-time validation and content quality | 7/10 | Astro SEO validators and external-link CI are configured |
 | **Initial total** | **49/90** | **Technical remediation through Phase 3 complete** |
 
 The baseline score is retained for comparison. A final score should be assigned after Phases 4–5 and
@@ -188,12 +188,14 @@ production deployment checks rather than treating local implementation as proof 
   reference-style use.
 - Cloudflare `_headers` restores content types, `noindex`, cache policy, and per-report canonical headers for
   the static machine-readable files.
+- `public/_headers` adds sitewide discovery links, asset caching, query-parameter normalization guidance, and
+  baseline security headers.
 - `docs/DEPLOYMENT.md` documents the report-only `Accept: text/markdown` URL Rewrite Transform Rule.
 
 **Remaining deployment and Phase 5 work**
 
 - Create the documented Cloudflare Transform Rule and verify content negotiation over HTTPS.
-- Add the sitewide discovery `Link` response header alongside Phase 5 security and performance headers.
+- Verify the sitewide headers over HTTPS after the next deployment.
 
 **Authority gaps outside Astro code**
 
@@ -233,7 +235,6 @@ authority work remain open.
 
 **Remaining**
 
-- Add `FuzzyRedirect` to the 404 page if the suggestion UX is desired.
 - Confirm the deployed `/404/` response returns HTTP 404 rather than a soft 200.
 - Inventory historical URLs before adding further redirect rules.
 
@@ -255,7 +256,6 @@ The latest production build passed all five validators across 14 pages.
 
 **Remaining**
 
-- Add external-link CI using Lychee.
 - Keep short metadata strings in the metadata-check workflow.
 - Use readability audits for individual long-form reports, not as a substitute for technical validation.
 
@@ -286,7 +286,7 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 | Phase 2 | Linked JSON-LD graph and content schema validation | Complete |
 | Phase 3 | OG images, RSS, sitemap `lastmod`, IndexNow | Complete |
 | Phase 4 | Schema endpoints, schema map, markdown alternates, API catalog, Cloudflare negotiation | Complete in source; dashboard rule and live verification pending |
-| Phase 5 | Headers, FuzzyRedirect, external-link CI, final metadata/live audit | Pending |
+| Phase 5 | Headers, FuzzyRedirect, external-link CI, final metadata/live audit | Source implementation mostly complete; live audit pending |
 
 ## Verification record
 
@@ -327,8 +327,8 @@ Do not fabricate credentials, add invisible schema claims, create thin query-var
 
 ### Recommended next implementation
 
-Complete Phase 5: sitewide headers, FuzzyRedirect, external-link CI, final metadata checks, and deployed-site
-verification. Then re-score the nine Astro categories.
+Complete the remaining Phase 5 final metadata/live audit and deployed-site verification. Then re-score the
+nine Astro categories.
 
 ## Primary references
 

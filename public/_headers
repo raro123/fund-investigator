@@ -1,5 +1,17 @@
-# Phase 4 machine-readable routes. Sitewide discovery, security, and
-# performance headers are added separately in Phase 5.
+# Sitewide discovery, security, and performance headers. Cloudflare Pages
+# applies these rules to static asset responses.
+/*
+  Link: </sitemap-index.xml>; rel="sitemap", </llms.txt>; rel="alternate"; type="text/plain", </.well-known/api-catalog>; rel="api-catalog", </schemamap.xml>; rel="schemamap"
+  No-Vary-Search: key-order, params=("utm_source" "utm_medium" "utm_campaign" "utm_content" "utm_term")
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Phase 4 machine-readable routes.
 /reports/*.md
   Content-Type: text/markdown; charset=utf-8
   X-Robots-Tag: noindex, follow

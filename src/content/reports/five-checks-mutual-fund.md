@@ -1,6 +1,8 @@
 ---
 title: "How to Investigate a Mutual Fund: Five Questions"
 description: "How to evaluate a mutual fund using five questions: benchmark, consistency, Sharpe ratio, drawdown and recovery time — worked through on HDFC Flexi Cap Direct."
+seo:
+  title: "Investigate a Mutual Fund: Five Questions"
 hook: "Whether you own a fund or are considering a new one, use these five questions to evaluate its historical performance and risk profile."
 date: "2026-07-12"
 updated: "2026-07-22"

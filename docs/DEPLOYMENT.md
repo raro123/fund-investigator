@@ -120,7 +120,7 @@ Run a build + preview locally before pushing to `main` if the change touches lay
 ## Other Open Items
 
 - **Stale Functions-directory build log.** A `dev` preview build logged `Found Functions directory at /functions. Uploading.` even though `functions/` was deleted (#39) and doesn't exist in the current checkout. Likely a stale build predating the deletion reaching `dev` — confirm before treating #39 as fully closed (#42).
-- **Sitewide headers remain incomplete.** Phase 4 adds route-specific headers for Markdown and discovery files. Global security, asset caching, `No-Vary-Search`, and discovery `Link` headers remain Phase 5 work.
+- **Sitewide headers need live verification.** `public/_headers` now includes global security, asset caching, `No-Vary-Search`, and discovery `Link` headers; verify them after the next deployment.
 - **Preview URLs (`*.pages.dev`) are public by default.** Not currently restricted with Cloudflare Access. Undecided whether that's acceptable.
 - **`wrangler` devDependency is likely vestigial.** It was only needed to locally test `functions/api/subscribe.ts` via `npx wrangler pages dev dist`. That function is gone (#39) and there are no Pages Functions left in this repo — remove it unless Functions work is planned again soon.
 - **No deploy-failure notifications configured.** A failed production build currently has no alerting; you'd only notice by checking the dashboard or the site going stale.
