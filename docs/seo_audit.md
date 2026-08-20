@@ -191,6 +191,8 @@ production deployment checks rather than treating local implementation as proof 
 - `public/_headers` adds sitewide discovery links, asset caching, query-parameter normalization guidance, and
   baseline security headers.
 - `docs/DEPLOYMENT.md` documents the report-only `Accept: text/markdown` URL Rewrite Transform Rule.
+- `.github/workflows/link-check.yml` builds the site and checks generated internal routes as a blocking gate;
+  the external-link scan is advisory because third-party sources can block automated requests or move pages.
 
 **Remaining deployment and Phase 5 work**
 
@@ -259,7 +261,13 @@ The latest production build passed all five validators across 14 pages.
 - Keep short metadata strings in the metadata-check workflow.
 - Use readability audits for individual long-form reports, not as a substitute for technical validation.
 
-**Status:** Technical build gate complete; external link monitoring pending.
+**Status:** Technical build gate complete; external link monitoring is advisory and remains an editorial
+maintenance signal rather than a deployment blocker.
+
+**External-source policy:** Keep primary official links when they support a material claim. Prefer stable
+institutional or fund landing pages for general statements; use dated factsheets or PDFs when the date-specific
+source is the evidence, and record the relevant period in the article. A bot-blocked or moved external URL is a
+maintenance signal, not by itself a reason to remove a citation and weaken the article's provenance.
 
 ## YMYL trust and AIO priorities
 
