@@ -3,8 +3,12 @@ name: Link Check
 on:
   push:
     paths:
-      - 'src/content/**'
-      - 'src/pages/**'
+      - '.github/workflows/link-check.yml'
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
       - '*.md'
   schedule:
     - cron: '0 9 * * 1'
