@@ -22,6 +22,23 @@ paid research.
 
 ## 🧭 Agent Verdicts
 
+### 2026-08-21 (S35 — production SEO deployment cross-check)
+
+- **What we achieved:** Cross-checked the production handoff against the remote `main` ref, the
+  GitHub Link Check action, a fresh local build, and live HTTPS responses. Merge commit `9b000f3`
+  is present on remote `main`; the live site serves the IndexNow key, Markdown alternate, sitemap,
+  redirects, discovery/security headers, canonical headers, and immutable asset caching as expected.
+- **What worked well:** The local build reproduced the reported 14-page output and passed H1,
+  internal-link, image-alt, metadata-length, and metadata-uniqueness validation. Link Check run #4
+  completed successfully, with external checks remaining advisory as designed.
+- **What needs to improve:** The live accessibility issue is real and reproducible from the current
+  source: both the header and footer logo links lack accessible names. The reported missing image was
+  not reproducible from the source/live HTML and remains classified as a browser-extension artifact.
+- **Follow-up:** Added `aria-label="Fund Investigator home"` to both logo links, merged the fix into
+  `main` as `bec20c5`, and verified both labels in the live production HTML after deployment.
+- **What to focus on next:** The reported logo-link accessibility defects are resolved. Bing submission
+  and the Markdown negotiation rule remain optional and intentionally unchanged.
+
 ### 2026-08-20 (after S34, at compaction)
 
 - **What we achieved:** Completed the article navigation and metadata pass, shipped the Astro SEO
@@ -77,12 +94,12 @@ paid research.
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it) | 2026-07-14 | S12 | 🟡 Parked |
 | 31 | **Launch the Substack Five Checks series as individual investigations of popular funds.** The intended reader already owns or is considering the named fund. Select funds for popularity and prospect relevance, then report whatever the five checks show; include a popular fund with weaker or mixed evidence early to establish editorial independence. Do not add fund comparisons or suitability conclusions until an explicit individual risk-profile layer and its editorial boundaries exist | 2026-07-21 | S19 | 🟢 Approved; editorial strategy documented |
 | 32 | **Article footer and discovery enhancements — curated related investigations, sharing controls, and filed-under tags.** For related content, show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice. If sharing is added, keep it restrained and audience-relevant (Copy link, WhatsApp, LinkedIn). If tags are exposed, use a quiet footer row rather than a second navigation rail. These remain separate decisions after the article navigation and metadata work; do not add them by default | 2026-07-22; expanded 2026-08-08 | S20; S34 | 🟡 Parked |
-| 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20 | 🟡 Open |
+| 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20; updated S35 | 🟢 Resolved (S35 — added accessible names to the header and footer logo links, passed PR and post-merge Link Check workflows, and confirmed both labels in the live production HTML after merge commit `bec20c5`.) |
 | 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | 🟡 Open |
 | 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | 🟡 Open |
 | 41 | Extend `/styleguide` to visually cover page-composition patterns it currently doesn't show: Navigation, Footer, Background Accents (the hero/Why-FI radial gradient), and Section Labels. **Updated:** Deepdive App Mockup and Email Input dropped from this list — both describe UI that no longer exists; moved into `style_spec.md`'s "What Was Deliberately Excluded" log instead. Navigation, Footer, and Section Spacing had also drifted from the live implementation — `style_spec.md` now points at the owning component file instead of restating values. Building live `/styleguide` sections for Nav/Footer/Background Accents is still real UI/Astro work, not a doc edit — separate session | 2026-08-03 | S24 | 🟡 Open |
-| 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`) read `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory, so this is most likely a stale preview build predating that deletion reaching `dev`, not a regression. Confirm whether `dev` has merged past the deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory | 2026-08-03 | S26; updated S34 | 🟡 Open — **S34 update:** current `dev` at `ccd1285` includes the deletion commit `cdd0f10`, and a fresh local `npm run build` produced a static `dist/` with no Functions directory. A new Cloudflare Pages preview or production deployment log still needs checking, so live confirmation remains open |
-| 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29 | 🟡 Open — **S33 update:** checked, most of it already done. A `google-site-verification` DNS TXT record has been live on the zone apex since 2026-01-06 (verified independently via the Cloudflare API) — domain ownership verification is already satisfied, just never confirmed inside the GSC dashboard itself. Sitemap confirmed live and correct in production (`sitemap-index.xml` → `sitemap-0.xml`, 12 URLs). Remaining: owner needs to log into `search.google.com/search-console`, confirm/complete the domain property's verify step (should be instant given the TXT record's age), and submit the sitemap under Settings → Sitemaps if not already listed — GSC dashboard state couldn't be checked without the owner's own Google login. Bing Webmaster Tools optional, same manual step. Unrelated finding surfaced in the same DNS check: two separate SPF TXT records exist on the zone (one from 2026-05-03, one from 2026-05-05) — invalid per spec, worth a separate look if there have been email deliverability issues |
+| 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`) read `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory, so this is most likely a stale preview build predating that deletion reaching `dev`, not a regression. Confirm whether `dev` has merged past the deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory | 2026-08-03 | S26; updated S34, S35 | 🟢 Resolved (S35 — remote `main` is at merge commit `9b000f3`; the current source and build contain no `functions/` directory, and the fresh Cloudflare Production log reports `No functions dir at /functions found. Skipping.`) |
+| 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29; updated S35 | 🟢 Resolved (S35 — the `sc-domain:fundinvestigator.com` property is confirmed and `https://fundinvestigator.com/sitemap-index.xml` is submitted with status Success and 12 discovered pages. Bing Webmaster Tools remains optional and was not submitted. The previously noted duplicate SPF records remain a separate DNS follow-up.) |
 | 51 | **Optional, low-priority cosmetic follow-up from #50**: the "JS Snippet installation" Web Analytics site's host allowlist (`(fund-investigator.pages.dev\|fundinvestigator.com)$`) doesn't cover preview-branch subdomains like `dev.fund-investigator.pages.dev`, so its beacon 404s there — browser console noise only on preview deploys, does not affect production. Widening the host pattern would fix it, but doing this via the API hits the same wall discovered in #50: the connected Cloudflare API token can read Pages/Web-Analytics config but cannot write it (confirmed via the failed `PATCH` in #50) — would need either a manual dashboard edit or a token-permission upgrade (Account → Cloudflare Pages → Edit) first | 2026-08-07 | S31 | 🟡 Open |
 
 ---
@@ -90,6 +107,49 @@ paid research.
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-08-21 | Session: S35 — Production SEO deployment cross-check and decision-log update
+
+**What was done:**
+Cross-checked the reported production handoff against the remote GitHub state, the completed Link
+Check action, a fresh local build, the current source tree, and live HTTPS responses. Remote `main`
+contains merge commit `9b000f3`; GitHub's Link Check run #4 completed successfully. The local build
+produced 14 pages and passed all five Astro SEO validators, with only the known sourcemap and stale
+Browserslist warnings. Live checks returned the expected IndexNow key, Markdown response and headers,
+sitemap, global discovery/security headers, immutable asset caching, 404 status, and Substack
+redirect behavior.
+
+**Why:**
+The deployment and webmaster claims needed to be checked against observable repository, CI, and
+production evidence before closing the related decisions. The accessibility result also needed to be
+separated from the completed SEO/deployment work so #33 would not be closed prematurely.
+
+**How:**
+Used the remote GitHub refs and Actions API for the production merge and Link Check status, ran
+`npm run build` locally, inspected the header/footer source and built route set, and made fresh HTTPS
+requests for the key, Markdown, sitemap, report, missing URL, asset, and subscribe routes. The
+header and footer logo links are still unlabeled in source and live HTML, confirming the remaining
+accessibility issue. The missing-image finding was not reproducible from the source/live HTML.
+
+**Decisions made:**
+- Close #42: the fresh production build confirms that no Pages Functions directory is uploaded.
+- Close #47: the Search Console domain property and sitemap submission are confirmed.
+- Close #33: the two logo links now have accessible names, and the live production HTML confirms both
+  labels after deployment.
+- Leave the optional Bing submission and Cloudflare Markdown negotiation rule unchanged.
+
+**Pending decisions:**
+- #33 is resolved; the reported logo-link accessibility defects are fixed and live.
+- #35, #36, #41, and #51 remain unchanged.
+
+**Follow-up (same session):**
+Added `aria-label="Fund Investigator home"` to the header and footer logo links in commit `e2f0698`.
+PR #2 passed its Link Check and Cloudflare preview checks, merged into `main` as `bec20c5`, and the
+post-merge main Link Check also passed. A live production HTML check returned HTTP 200 and found both
+accessible names. A full browser/axe scan was not available in this environment; the verification
+here targets the two defects identified by the prior desktop accessibility check.
 
 ---
 
