@@ -110,6 +110,36 @@ paid research.
 
 ---
 
+### 📅 Date: 2026-08-21 | Session: S36 — Homepage CTA hierarchy simplified
+
+**What was done:**
+Reduced the homepage hero from three calls to action to two: investigate a fund in Deepdive or
+browse published investigations. Moved the methodology-guide route into the Deepdive showcase as a
+secondary action and renamed it “See the Five-Question Method” to match the article’s current title.
+The existing revised hero description was preserved.
+
+**Why:**
+The hero was asking visitors to choose among three overlapping routes before the page had explained
+the product. The guide works better beside the Deepdive demonstration, where it offers a clear choice
+between using the tool immediately and first learning the investigation method.
+
+**How:**
+Removed the tertiary text link from the hero and used the existing typed Button component for a
+responsive primary/secondary CTA pair in the Deepdive section. Verified the change with the full
+Astro production build and its H1, internal-link, image-alt, metadata-length, and metadata-uniqueness
+checks.
+
+**Decisions made:**
+- Keep two destination choices in the hero: Deepdive and the investigation archive.
+- Surface the methodology guide only in the Deepdive section, avoiding duplicate promotion in the
+  Investigations section.
+- Use concise CTA copy rather than the article’s full title.
+
+**Pending decisions:**
+- None.
+
+---
+
 ### 📅 Date: 2026-08-21 | Session: S35 — Production SEO deployment cross-check and decision-log update
 
 **What was done:**
