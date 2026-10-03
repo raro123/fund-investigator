@@ -5,9 +5,10 @@
  * A flexible button component with multiple variants, sizes, and optional icons.
  *
  * Gold rule: one gold (primary) button per section. Supporting actions use
- * secondary (neutral outline) or tertiary (text link). Pass `surface` to match
- * the background the button sits on — secondary and tertiary colours differ
- * between light and dark surfaces so they stay readable on both.
+ * secondary (neutral outline) or tertiary (text link). Secondary and tertiary
+ * must pass `surface` to match the background they sit on — their colours
+ * differ between light and dark so they stay readable on both, and
+ * `npm run lint:design` fails when it is missing.
  *
  * @example
  * <!-- Primary button with arrow icon -->
@@ -17,13 +18,13 @@
  * <Button variant="secondary" surface="dark" size="lg">Learn More</Button>
  *
  * <!-- Tertiary text-only link on a light section -->
- * <Button variant="tertiary" href="/reports/" icon="arrow-right">View All</Button>
+ * <Button variant="tertiary" surface="light" href="/reports/" icon="arrow-right">View All</Button>
  */
 
 interface Props {
   /** Button style variant */
   variant?: 'primary' | 'secondary' | 'tertiary';
-  /** Background the button sits on — sets secondary/tertiary colours */
+  /** Background the button sits on — sets secondary/tertiary colours (required for those, lint-enforced) */
   surface?: 'light' | 'dark';
   /** Button size */
   size?: 'sm' | 'md' | 'lg';
@@ -62,14 +63,15 @@ const {
 // Variant styles, per surface. Primary is identical on both; gold is never
 // used for secondary actions, and gold text appears only on dark surfaces
 // (fi-link is the gold family on light — see tailwind.config.mjs).
+const primaryStyles = 'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover';
 const variantStyles = {
   light: {
-    primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
+    primary:   primaryStyles,
     secondary: 'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-fi-ink-inv',
     tertiary:  'text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link bg-transparent',
   },
   dark: {
-    primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
+    primary:   primaryStyles,
     secondary: 'border-2 border-fi-muted-inv/40 text-fi-ink-inv bg-transparent hover:border-fi-ink-inv',
     tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
   },

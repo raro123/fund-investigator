@@ -6,11 +6,16 @@
  *   arbitrary-value   Tailwind arbitrary values like text-[10px] or bg-[#1E3A5F].
  *                     Add a token to tailwind.config.mjs instead. Arbitrary
  *                     *variants* such as data-[active=true]: are allowed.
- *   palette-colour    Default Tailwind palette classes (gray-100, blue-700…).
+ *   palette-colour    Default Tailwind palette classes (gray-100, border-t-blue-700…).
  *                     Use an fi-* colour token. white/black are allowed.
- *   raw-hex           Hex colours in .astro markup. Use an fi-* colour token.
- *   date-format       toLocaleDateString / Intl.DateTimeFormat outside
- *                     src/lib/format.ts. Use formatDate() so every date is en-IN.
+ *   raw-hex           Hex colours anywhere in src/ (markup, scripts, content).
+ *                     Use an fi-* colour token.
+ *   date-format       toLocaleDateString / toLocaleString / Intl.DateTimeFormat
+ *                     outside src/lib/format.ts. Use formatDate() so every date
+ *                     is en-IN.
+ *   button-surface    <Button variant="secondary|tertiary"> without a surface
+ *                     prop. Their colours differ per surface, and the light
+ *                     default is invisible on dark sections.
  *
  * Escape hatch: add `design-lint-allow` in a comment on the same line, with a
  * reason. Prefer adding a token.
@@ -23,12 +28,13 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const srcDir = join(root, 'src');
-const extensions = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs']);
+const extensions = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs', '.md', '.mdx']);
 
 // Files whose raw values are intentional and documented.
 const allow = {
   'raw-hex': new Set([
     'src/components/Logo.astro', // brand SVG fills
+    'src/pages/og/reports/[...slug].jpg.ts', // satori social card — rendered outside Tailwind
   ]),
   'date-format': new Set([
     'src/lib/format.ts', // the one shared formatter
@@ -36,7 +42,7 @@ const allow = {
 };
 
 const palette = 'slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose';
-const utilities = 'bg|text|border|ring|ring-offset|divide|from|via|to|decoration|outline|fill|stroke|placeholder|shadow|accent|caret';
+const utilities = 'bg|text|border(?:-[trblxyse])?|ring|ring-offset|divide|from|via|to|decoration|outline|fill|stroke|placeholder|shadow|accent|caret';
 
 const rules = [
   {
@@ -52,16 +58,19 @@ const rules = [
   },
   {
     id: 'raw-hex',
-    only: ['.astro'],
     pattern: /(?<![&\w])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g,
     message: 'Raw hex colour — use an fi-* colour token',
   },
   {
     id: 'date-format',
-    pattern: /\btoLocaleDateString\(|\bIntl\.DateTimeFormat\(/g,
+    pattern: /\btoLocale(?:Date|Time)?String\s*\(|\bIntl\.DateTimeFormat\s*\(/g,
     message: 'Ad-hoc date formatting — use formatDate() from src/lib/format.ts',
   },
 ];
+
+// Whole-tag check: a <Button> may span several lines.
+const buttonTag = /<Button\b[^>]*>/g;
+const surfaceDependentVariant = /\bvariant=["'](?:secondary|tertiary)["']/;
 
 function* walk(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -75,19 +84,25 @@ const problems = [];
 
 for (const file of walk(srcDir)) {
   const rel = relative(root, file).split('\\').join('/');
-  const ext = extname(file);
-  const lines = readFileSync(file, 'utf8').split('\n');
+  const source = readFileSync(file, 'utf8');
+  const lines = source.split('\n');
 
   lines.forEach((line, index) => {
     if (line.includes('design-lint-allow')) return;
     for (const rule of rules) {
-      if (rule.only && !rule.only.includes(ext)) continue;
       if (allow[rule.id]?.has(rel)) continue;
       for (const match of line.matchAll(rule.pattern)) {
         problems.push(`${rel}:${index + 1}  ${rule.id}  ${match[0]}  — ${rule.message}`);
       }
     }
   });
+
+  for (const match of source.matchAll(buttonTag)) {
+    if (!surfaceDependentVariant.test(match[0]) || /\bsurface=/.test(match[0])) continue;
+    const lineNumber = source.slice(0, match.index).split('\n').length;
+    if (lines[lineNumber - 1].includes('design-lint-allow')) continue;
+    problems.push(`${rel}:${lineNumber}  button-surface  ${match[0].split('\n')[0]}  — pass surface="light" or surface="dark"`);
+  }
 }
 
 if (problems.length > 0) {

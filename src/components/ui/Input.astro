@@ -30,11 +30,11 @@ const inputId = `input-${name}`;
 const hasError = !!error;
 ---
 
-<div class:list={['flex flex-col gap-tight-gap', className]}>
+<div class:list={['flex flex-col gap-2', className]}>
   {label && (
-    <label for={inputId} class="text-body-sm font-medium text-navy">
+    <label for={inputId} class="text-body-sm font-medium text-fi-ink">
       {label}
-      {required && <span class="text-error ml-0.5">*</span>}
+      {required && <span class="text-fi-negative ml-0.5">*</span>}
     </label>
   )}
   
@@ -49,18 +49,18 @@ const hasError = !!error;
     aria-invalid={hasError}
     aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined}
     class:list={[
-      'w-full px-4 py-3 rounded-md border bg-white text-navy placeholder:text-secondary-gray',
-      'transition-all duration-fast',
+      'w-full px-4 py-3 rounded-md border bg-white text-fi-ink placeholder:text-fi-muted',
+      'transition-all duration-200',
       'focus:outline-none focus:ring-2 focus:ring-offset-0',
       hasError 
-        ? 'border-error focus:ring-error/50' 
-        : 'border-light-gray focus:border-gold focus:ring-gold/50',
-      disabled && 'bg-cream cursor-not-allowed opacity-60',
+        ? 'border-fi-negative focus:ring-fi-negative/50' 
+        : 'border-fi-border focus:border-fi-link focus:ring-fi-link/50',
+      disabled && 'bg-fi-light cursor-not-allowed opacity-60',
     ]}
   />
   
   {error && (
-    <p id={`${inputId}-error`} class="text-body-sm text-error flex items-center gap-1">
+    <p id={`${inputId}-error`} class="text-body-sm text-fi-negative flex items-center gap-1">
       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
       </svg>
@@ -69,7 +69,7 @@ const hasError = !!error;
   )}
   
   {hint && !error && (
-    <p id={`${inputId}-hint`} class="text-body-sm text-secondary-gray">
+    <p id={`${inputId}-hint`} class="text-body-sm text-fi-muted">
       {hint}
     </p>
   )}

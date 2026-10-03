@@ -141,7 +141,7 @@ const featuredReports = allReports
 
         <!-- CTA below cards: secondary — the cards carry this section's emphasis -->
         <div class="text-center mt-8">
-          <Button href="/reports/" variant="secondary" size="md">View all investigations</Button>
+          <Button href="/reports/" variant="secondary" surface="light" size="md">View all investigations</Button>
         </div>
       </div>
   </Section>
@@ -299,10 +299,10 @@ const featuredReports = allReports
         <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto mb-6">
           Fund platforms often compress research into returns, ratings, and buy flows. We built Fund Investigator to inspect the evidence behind performance before forming a view.
         </p>
-        <Button href="/about/" variant="tertiary" size="sm">Read why Fund Investigator exists</Button>
+        <Button href="/about/" variant="tertiary" surface="light" size="sm">Read why Fund Investigator exists</Button>
       </div>
 
-      <div class="max-w-2xl mx-auto mt-12 bg-white rounded-lg border border-fi-border shadow-fi-card px-4 py-6 sm:p-8 text-center">
+      <Card variant="elevated" padding="lg" hover={false} class="max-w-2xl mx-auto mt-12 text-center">
         <h3 class="text-heading-sm font-bold text-fi-ink mb-2">New investigation published? We'll tell you.</h3>
         <p class="text-body-md text-fi-muted mb-6">
           Subscribe and get notified when a new fund investigation goes live.
@@ -317,7 +317,7 @@ const featuredReports = allReports
         >
           Subscribe for new investigations
         </Button>
-      </div>
+      </Card>
   </Section>
 </Layout>
 

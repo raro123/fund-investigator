@@ -14,10 +14,10 @@ const {
 <form 
   action={action} 
   method="POST"
-  class:list={['flex flex-col gap-card-padding', className]}
+  class:list={['flex flex-col gap-6', className]}
 >
-  <div class="flex flex-col gap-tight-gap">
-    <label for="login-email" class="text-body-sm font-medium text-navy">
+  <div class="flex flex-col gap-2">
+    <label for="login-email" class="text-body-sm font-medium text-fi-ink">
       Email
     </label>
     <input
@@ -27,16 +27,16 @@ const {
       required
       autocomplete="email"
       placeholder="you@example.com"
-      class="w-full px-4 py-3 rounded-md border border-light-gray bg-white text-navy placeholder:text-secondary-gray transition-all duration-fast focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/50"
+      class="w-full px-4 py-3 rounded-md border border-fi-border bg-white text-fi-ink placeholder:text-fi-muted transition-all duration-200 focus:outline-none focus:border-fi-link focus:ring-2 focus:ring-fi-link/50"
     />
   </div>
   
-  <div class="flex flex-col gap-tight-gap">
+  <div class="flex flex-col gap-2">
     <div class="flex justify-between items-center">
-      <label for="login-password" class="text-body-sm font-medium text-navy">
+      <label for="login-password" class="text-body-sm font-medium text-fi-ink">
         Password
       </label>
-      <a href="/forgot-password" class="text-body-sm text-gold hover:text-gold-dark transition-colors">
+      <a href="/forgot-password" class="text-body-sm text-fi-link hover:text-fi-ink transition-colors">
         Forgot password?
       </a>
     </div>
@@ -47,20 +47,20 @@ const {
       required
       autocomplete="current-password"
       placeholder="••••••••"
-      class="w-full px-4 py-3 rounded-md border border-light-gray bg-white text-navy placeholder:text-secondary-gray transition-all duration-fast focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/50"
+      class="w-full px-4 py-3 rounded-md border border-fi-border bg-white text-fi-ink placeholder:text-fi-muted transition-all duration-200 focus:outline-none focus:border-fi-link focus:ring-2 focus:ring-fi-link/50"
     />
   </div>
   
   <button
     type="submit"
-    class="w-full px-6 py-3 bg-navy text-white font-semibold rounded-md transition-all duration-fast hover:bg-navy-light hover:shadow-navy focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2 active:scale-fi-press"
+    class="w-full px-6 py-3 bg-fi-ink text-fi-ink-inv font-semibold rounded-md transition-all duration-200 hover:bg-fi-mid hover:shadow-fi-card focus:outline-none focus:ring-2 focus:ring-fi-link focus:ring-offset-2 active:scale-fi-press"
   >
     Sign in
   </button>
   
-  <p class="text-body-sm text-secondary-gray text-center">
+  <p class="text-body-sm text-fi-muted text-center">
     Don't have an account? 
-    <a href="/signup" class="text-gold hover:text-gold-dark font-medium transition-colors">
+    <a href="/signup" class="text-fi-link hover:text-fi-ink font-medium transition-colors">
       Sign up
     </a>
   </p>

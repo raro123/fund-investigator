@@ -17,9 +17,9 @@ export default {
       colors: {
 
         // --- STRUCTURAL BACKGROUNDS ---
-        // fi-dark:   Hero · Why FI · Footer sections
-        // fi-mid:    Unused for now — available for cards on dark bg
-        // fi-light:  Alternating light sections (Problem · Email Capture)
+        // fi-dark:   Hero · Deepdive · Footer sections
+        // fi-mid:    Cards on dark bg (ReportCard, Deepdive lens cards, dark Badge)
+        // fi-light:  Alternating light sections (Problem · Why FI + Subscribe)
         'fi-dark':   '#020617',   // slate-950
         'fi-mid':    '#1E293B',   // slate-800 (dark card surfaces, label pill bg)
         'fi-light':  '#F1F5F9',   // slate-100 — was slate-200, which read grey and dropped fi-muted below 4.5:1
@@ -50,7 +50,8 @@ export default {
         // --- UI CHROME ---
         // fi-border:      Card borders on light · section dividers
         // fi-border-dark: Borders on dark sections
-        // fi-icon-bg:     Icon container bg on light
+        // fi-icon-bg:     Icon container bg inside white cards — same value as
+        //                 fi-light, so never place it directly on a light section
         // fi-icon-bg-inv: Icon container bg on dark
         'fi-border':      '#E2E8F0',  // slate-200
         'fi-border-dark': '#334155',  // slate-700
@@ -59,7 +60,7 @@ export default {
 
         // --- SECTION LABEL PILL ---
         // (two variants: light + dark section)
-        // Light: bg fi-icon-bg · border fi-border · text fi-muted
+        // Light: bg white       · border fi-border · text fi-muted
         // Dark:  bg fi-mid     · border fi-border-dark · text fi-muted-inv
 
         // --- SEMANTIC STATES ---

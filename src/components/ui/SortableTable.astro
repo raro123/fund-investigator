@@ -26,9 +26,9 @@ const {
 const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<div class:list={['overflow-x-auto rounded-lg border border-light-gray/30', className]}>
+<div class:list={['overflow-x-auto rounded-lg border border-fi-border', className]}>
   <table id={tableId} class="w-full text-left text-body-md" data-default-sort={defaultSort} data-default-order={defaultOrder}>
-    <thead class="bg-navy text-white">
+    <thead class="bg-fi-ink text-fi-ink-inv">
       <tr>
         {columns.map(col => (
           <th 
@@ -36,7 +36,7 @@ const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
               'px-4 py-3 font-semibold text-body-sm uppercase tracking-wide',
               col.align === 'right' && 'text-right',
               col.align === 'center' && 'text-center',
-              col.sortable && 'cursor-pointer hover:bg-navy-light transition-colors select-none',
+              col.sortable && 'cursor-pointer hover:bg-fi-mid transition-colors select-none',
             ]}
             data-sort-key={col.sortable ? col.key : undefined}
             data-sort-type={col.format === 'number' || col.format === 'percent' || col.format === 'currency' ? 'number' : 'string'}
@@ -53,9 +53,9 @@ const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
         ))}
       </tr>
     </thead>
-    <tbody class="divide-y divide-light-gray/20">
+    <tbody class="divide-y divide-fi-border">
       {data.map(row => (
-        <tr class="hover:bg-cream transition-colors duration-fast">
+        <tr class="hover:bg-fi-light transition-colors duration-200">
           {columns.map(col => {
             const value = row[col.key];
             const displayValue = formatValue(value, col.format);
@@ -163,9 +163,9 @@ const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
         const num = parseFloat(value);
         return (num >= 0 ? '+' : '') + num.toFixed(1) + '%';
       case 'currency':
-        return '₹' + Number(value).toLocaleString('en-IN');
+        return '₹' + Number(value).toLocaleString('en-IN'); // design-lint-allow: number, not a date
       case 'number':
-        return Number(value).toLocaleString('en-IN');
+        return Number(value).toLocaleString('en-IN'); // design-lint-allow: number, not a date
       default:
         return value;
     }
@@ -174,9 +174,9 @@ const tableId = `table-${Math.random().toString(36).slice(2, 9)}`;
   globalThis.getColorClass = (value, format) => {
     if (format !== 'percent') return '';
     const num = parseFloat(value);
-    if (num > 0) return 'text-success font-medium';
-    if (num < 0) return 'text-error font-medium';
-    return 'text-secondary-gray';
+    if (num > 0) return 'text-fi-positive font-medium';
+    if (num < 0) return 'text-fi-negative font-medium';
+    return 'text-fi-neutral';
   };
   
   return null;

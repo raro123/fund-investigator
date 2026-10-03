@@ -4,10 +4,11 @@
  * Indian English (en-IN) for an Indian readership: day before month. Formatted
  * in UTC so a YYYY-MM-DD frontmatter date never shifts by a day with the build
  * machine's timezone. `npm run lint:design` rejects toLocaleDateString /
- * Intl.DateTimeFormat anywhere else in src/.
+ * toLocaleString / Intl.DateTimeFormat anywhere else in src/.
  *
  * @example
  * formatDate('2026-07-15', 'short') // "15 Jul 2026"  — cards, compact meta
+ * formatDate('2026-09-15', 'short') // "15 Sep 2026"  — always three letters
  * formatDate('2026-07-15')          // "15 July 2026" — article metadata, notices
  * formatDate('2026-07-15', 'month') // "July 2026"    — social cards
  */
@@ -28,5 +29,11 @@ const formatters = Object.fromEntries(
 
 /** Format a YYYY-MM-DD content date for display. */
 export function formatDate(date: string, style: DateStyle = 'long'): string {
-  return formatters[style].format(new Date(`${date}T00:00:00Z`));
+  const parsed = new Date(`${date}T00:00:00Z`);
+  if (style !== 'short') return formatters[style].format(parsed);
+  // en-IN abbreviates September as "Sept"; keep every short month three letters.
+  return formatters.short
+    .formatToParts(parsed)
+    .map(({ type, value }) => (type === 'month' ? value.slice(0, 3) : value))
+    .join('');
 }

@@ -12,7 +12,7 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={['overflow-x-auto rounded-lg border border-light-gray/30', className]}>
+<div class:list={['overflow-x-auto rounded-lg border border-fi-border', className]}>
   <table class:list={[
     'w-full text-left',
     compact ? 'text-body-sm' : 'text-body-md',
@@ -24,7 +24,7 @@ const {
 
 <style>
   table :global(thead) {
-    @apply bg-navy text-white;
+    @apply bg-fi-ink text-fi-ink-inv;
   }
   
   table :global(th) {
@@ -32,19 +32,19 @@ const {
   }
   
   table :global(td) {
-    @apply px-4 py-3 border-t border-light-gray/20;
+    @apply px-4 py-3 border-t border-fi-border;
   }
   
   table :global(tbody tr) {
-    @apply transition-colors duration-fast;
+    @apply transition-colors duration-200;
   }
   
   table :global(tbody tr:hover) {
-    @apply bg-cream;
+    @apply bg-fi-light;
   }
   
   .table-striped :global(tbody tr:nth-child(even)) {
-    @apply bg-cream/50;
+    @apply bg-fi-light/50;
   }
   
   /* Numeric alignment */
@@ -54,14 +54,14 @@ const {
   
   /* Return colors */
   table :global(.positive) {
-    @apply text-success font-medium;
+    @apply text-fi-positive font-medium;
   }
   
   table :global(.negative) {
-    @apply text-error font-medium;
+    @apply text-fi-negative font-medium;
   }
   
   table :global(.neutral) {
-    @apply text-secondary-gray;
+    @apply text-fi-neutral;
   }
 </style>

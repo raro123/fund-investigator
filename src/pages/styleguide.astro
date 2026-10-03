@@ -309,11 +309,11 @@ import { responsive } from '../lib/responsive';
     <div class="space-y-12">
       <div>
         <h3 class="text-heading-md text-fi-ink mb-2">Variants</h3>
-        <p class="text-fi-muted text-body-sm mb-6">One gold primary per section. Pass <code class="font-mono text-fi-ink">surface="dark"</code> on dark sections so secondary and tertiary stay readable.</p>
+        <p class="text-fi-muted text-body-sm mb-6">One gold primary per section. Secondary and tertiary must pass <code class="font-mono text-fi-ink">surface="light"</code> or <code class="font-mono text-fi-ink">surface="dark"</code> so they stay readable — <code class="font-mono text-fi-ink">npm run lint:design</code> fails without it.</p>
         <div class="flex flex-wrap gap-4">
           <Button variant="primary">Primary Button</Button>
-          <Button variant="secondary">Secondary Button</Button>
-          <Button variant="tertiary">Tertiary Button</Button>
+          <Button variant="secondary" surface="light">Secondary Button</Button>
+          <Button variant="tertiary" surface="light">Tertiary Button</Button>
         </div>
         <div class="mt-6 flex flex-wrap gap-4 rounded-xl bg-fi-dark p-6">
           <Button variant="primary" surface="dark">Primary Button</Button>
@@ -335,8 +335,8 @@ import { responsive } from '../lib/responsive';
         <h3 class="text-heading-md text-fi-ink mb-6">With Icons</h3>
         <div class="flex flex-wrap gap-4">
           <Button icon="arrow-right">Launch Tool</Button>
-          <Button variant="secondary" icon="external">View Report</Button>
-          <Button variant="tertiary" icon="arrow-right">Read More</Button>
+          <Button variant="secondary" surface="light" icon="external">View Report</Button>
+          <Button variant="tertiary" surface="light" icon="arrow-right">Read More</Button>
         </div>
       </div>
 
@@ -493,8 +493,9 @@ import { responsive } from '../lib/responsive';
     <div class="grid sm:grid-cols-2 gap-8">
       <!-- On Light -->
       <div>
-        <h3 class="text-heading-md text-fi-ink mb-4">On Light Background (<code class="font-mono text-body-sm">bg-fi-icon-bg</code>)</h3>
-        <div class="bg-fi-light rounded-xl p-8 flex gap-4">
+        <h3 class="text-heading-md text-fi-ink mb-4">In White Cards (<code class="font-mono text-body-sm">bg-fi-icon-bg</code>)</h3>
+        <p class="text-fi-muted text-body-sm mb-4">Same value as <code class="font-mono">fi-light</code>, so the tile only shows on white — never place it directly on a light section.</p>
+        <div class="bg-white border border-fi-border rounded-xl p-8 flex gap-4">
           <div class="w-11 h-11 bg-fi-icon-bg rounded-xl flex items-center justify-center shrink-0">
             <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />

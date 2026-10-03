@@ -64,7 +64,7 @@ tested against WCAG AA (4.5:1 text, 3:1 focus rings) by `npm run lint:design`. L
 |-------|-----|---------------|---------|
 | `fi-border` | `#E2E8F0` | slate-200 | Card borders · section dividers · nav bottom border |
 | `fi-border-dark` | `#334155` | slate-700 | Borders on dark sections · icon bg on dark cards |
-| `fi-icon-bg` | `#F1F5F9` | slate-100 | Icon container bg on light sections |
+| `fi-icon-bg` | `#F1F5F9` | slate-100 | Icon container bg inside white cards — same value as `fi-light`, so never directly on a light section |
 | `fi-icon-bg-inv` | `#1E293B` | slate-800 | Icon container bg on dark sections |
 
 ### Data / Semantic States
@@ -116,11 +116,12 @@ All button variants (Primary, Secondary, Tertiary) and their exact specs are sho
 | `secondary` | Ink outline, ink label | Muted-inv outline, white label |
 | `tertiary` | `fi-link` text link | `fi-gold` text link |
 
-Pass `surface="dark"` whenever a secondary or tertiary button sits on a dark section — without it
-the light-surface colours are used. See §1 Gold Usage Rules.
+Secondary and tertiary buttons must pass `surface="light"` or `surface="dark"` — the light default
+is invisible on dark sections, so `npm run lint:design` fails when it is missing. See §1 Gold Usage
+Rules.
 
-Nav Subscribe: a quiet outlined link (`border-fi-muted-inv/40`, white label) in `Header.astro`, not a
-gold CTA — the header should not compete with the page's primary action.
+Nav Subscribe: `<Button variant="secondary" surface="dark" size="sm">` in `Header.astro`, not a gold
+CTA — the header should not compete with the page's primary action.
 
 ---
 
@@ -172,7 +173,7 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Padding: `28px`
 - Top accent bar: `3px solid fi-border` (slate-200, not gold)
 - Hover: border → slate-300 · `box-shadow: 0 16px 44px rgba(2,6,23,0.09)` · `translateY(-4px)`
-- Tag pill: `fi-icon-bg` bg · `fi-border` border · `fi-muted` text · `font-size: 11px` · `font-weight: 700` · `letter-spacing: 0.07em` · `padding: 4px 10px` · `border-radius: 6px`
+- Tag pill: white bg · `fi-border` border · `fi-muted` text · `font-size: 11px` · `font-weight: 700` · `letter-spacing: 0.07em` · `padding: 4px 10px` · `border-radius: 6px`
 - Metric tags: `fi-light` bg · `fi-border` border · `fi-muted` text · `font-size: 11px` · `padding: 3px 10px` · `border-radius: 6px`
 - Arrow link: `fi-muted` (slate-600) · `font-weight: 700` · `font-size: 13px`
 - Grid: fixed 2-column · `gap: 20px` · `max-width: 960px`
@@ -357,12 +358,13 @@ Rules in this document are enforced in code wherever possible, because written r
 |-------|-----------|
 | Tokens | Role-named colours (`fi-link` vs `fi-gold`, `fi-muted` vs `fi-subtle`) so the right choice is the obvious one; values fixed once in `tailwind.config.mjs` |
 | Components | `Button` `surface` prop; `formatDate()` in `src/lib/format.ts` (en-IN, UTC) for every displayed date |
-| Lint | `scripts/lint-design.mjs` — fails on arbitrary Tailwind values, default palette colours, raw hex in `.astro`, and date formatting outside `format.ts` |
-| Contrast | `scripts/check-contrast.mjs` — every approved token pairing at WCAG AA, read from the live config |
-| CI | `.github/workflows/design-checks.yml` runs `npm run lint:design` on pushes and pull requests touching `src/`, the scripts, or the config |
+| Lint | `scripts/lint-design.mjs` — scans `src/` (components, scripts and `.md`/`.mdx` content); fails on arbitrary Tailwind values, default palette colours, raw hex, date formatting outside `format.ts`, and secondary/tertiary `<Button>`s without a `surface` |
+| Contrast | `scripts/check-contrast.mjs` — every approved token pairing at WCAG AA, read from the live config (tokens must be 6-digit `#RRGGBB`) |
+| CI | `.github/workflows/design-checks.yml` runs `npm run lint:design` on pull requests and on pushes to `main` touching `src/`, the scripts, or the config |
 
 Run `npm run lint:design` before committing. If a rule genuinely does not fit, add a token rather
 than an exception; the last resort is a same-line `design-lint-allow` comment with a reason.
 
-Not covered automatically: whether a given class actually sits on a light or dark surface (e.g. gold
-text placed on white). That is caught by the token naming, the `/styleguide` pairs, and review.
+Not covered automatically: whether a given class (or a `<Button>`'s declared `surface`) actually
+matches the light or dark surface it sits on (e.g. gold text placed on white). That is caught by the
+token naming, the `/styleguide` pairs, and review.

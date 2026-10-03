@@ -71,6 +71,15 @@ for (const [fg, bg, min, usage] of pairs) {
     failures += 1;
     continue;
   }
+  // luminance() reads #RRGGBB only; alpha or shorthand would give a wrong ratio.
+  const unsupported = [fg, bg].filter((token) => !/^#[0-9a-f]{6}$/i.test(colours[token]));
+  if (unsupported.length > 0) {
+    for (const token of unsupported) {
+      console.error(`  UNSUPPORTED  ${token} = ${colours[token]} — contrast-checked tokens must be 6-digit #RRGGBB`);
+    }
+    failures += 1;
+    continue;
+  }
   const value = ratio(colours[fg], colours[bg]);
   const pass = value >= min;
   if (!pass) failures += 1;

@@ -13,8 +13,8 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
     - *Z-index:* `z-fi-header`, `z-fi-menu`, `z-fi-overlay`.
     - *Sizing:* `w-fi-icon`, `h-fi-icon-lg`, `rounded-fi-btn`.
 - **Surface-specific colours:** `fi-muted`, `fi-link` are for light surfaces; `fi-subtle`, `fi-gold` text are for dark surfaces. Never put gold text, hovers or focus rings on white — use `fi-link`. Approved pairs: `docs/style_spec.md` §1.
-- **Gold rule:** one gold (`primary`) button per section; supporting actions are `secondary`/`tertiary`. Pass `surface="dark"` to `<Button>` on dark sections.
-- **Dates:** always `formatDate()` from `src/lib/format.ts` (en-IN). Never call `toLocaleDateString` directly.
+- **Gold rule:** one gold (`primary`) button per section; supporting actions are `secondary`/`tertiary`, which must pass `surface="light"` or `surface="dark"` (lint-enforced).
+- **Dates:** always `formatDate()` from `src/lib/format.ts` (en-IN). Never call `toLocaleDateString`/`toLocaleString` directly.
 
 ### Layer 2: UI Components
 - **Source:** `src/components/ui/`
