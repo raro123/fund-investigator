@@ -13,8 +13,9 @@ All colors are defined as semantic `fi-*` tokens in `tailwind.config.mjs`. Never
 
 ### Section Background Rhythm
 
-**Principle:** homepage sections alternate `fi-dark` and `fi-light` backgrounds to create visual
-rhythm — no page should read as one flat block of color. The current section-by-section assignment
+**Principle:** homepage sections alternate dark (`fi-dark`) and light (`fi-light` or white)
+backgrounds to create visual rhythm — no page should read as one flat block of color, and two dark
+bands should not sit back to back. The current section-by-section assignment
 is owned by the `background` prop passed to each `<Section>`/`<Hero>` call in `src/pages/index.astro`;
 treat that file as the source of truth rather than a table here, since homepage composition (section
 order, new sections, section count) changes as the page evolves and a static list goes stale
@@ -26,8 +27,8 @@ page, and omitted the Credibility Strip section entirely).
 | Token | Hex | Tailwind base | Used for |
 |-------|-----|---------------|---------|
 | `fi-ink` | `#020617` | slate-950 | Primary text on light bg |
-| `fi-muted` | `#64748B` | slate-500 | Body copy · section subtitles · card body |
-| `fi-subtle` | `#94A3B8` | slate-400 | Placeholder text · tertiary labels |
+| `fi-muted` | `#475569` | slate-600 | Body copy · section subtitles · card body — **light surfaces only** (2.6:1 on `fi-dark`) |
+| `fi-subtle` | `#94A3B8` | slate-400 | Labels and meta text on dark sections and dark cards — **dark surfaces only** |
 | `fi-ink-inv` | `#F8FAFC` | slate-50 | Primary text on dark bg |
 | `fi-muted-inv` | `#CBD5E1` | slate-300 | Secondary text on dark bg · footer links · hero subtitle |
 
@@ -35,8 +36,27 @@ page, and omitted the Credibility Strip section entirely).
 
 | Token | Hex | Tailwind base | Used for |
 |-------|-----|---------------|---------|
-| `fi-gold` | `#FBBF24` | amber-400 | All buttons · H1 emphasis word on dark · section label text (dark) |
+| `fi-gold` | `#FBBF24` | amber-400 | Primary button fill · H1 emphasis word · gold text, links and focus rings **on dark only** |
 | `fi-gold-hover` | `#FCD34D` | amber-300 | Button hover state only |
+| `fi-link` | `#B45309` | amber-700 | The gold family on light surfaces: text links, link hovers, focus rings |
+
+### Gold Usage Rules
+
+Gold is the brand's signal for "act here". It only works if it is scarce.
+
+1. **One gold action per section.** Use `<Button variant="primary">` once; supporting actions are
+   `secondary` (neutral outline) or `tertiary` (text link). Secondary buttons are never gold.
+2. **Never gold text on a light surface.** `fi-gold` is 1.7:1 on white — unreadable. Use `fi-link`
+   for links, hovers and focus rings on white or `fi-light`.
+3. **Gold accents are fine everywhere** when they are not text: primary button fills, the H1
+   emphasis word, icon strokes on dark cards, decorative borders and underlines.
+
+### Approved Text Pairs
+
+Every text/background combination the site uses is listed in `scripts/check-contrast.mjs` and
+tested against WCAG AA (4.5:1 text, 3:1 focus rings) by `npm run lint:design`. Light surfaces take
+`fi-ink`, `fi-muted`, `fi-link`; dark surfaces take `fi-ink-inv`, `fi-muted-inv`, `fi-subtle`,
+`fi-gold`. To use a new pairing, add it to that script first.
 
 ### UI Chrome
 
@@ -51,9 +71,12 @@ page, and omitted the Credibility Strip section entirely).
 
 | Token | Hex | Used for |
 |-------|-----|---------|
-| `fi-positive` | `#10B981` | Positive returns in data tables |
-| `fi-negative` | `#EF4444` | Negative returns in data tables |
-| `fi-neutral` | `#64748B` | Neutral / zero returns |
+| `fi-positive` | `#047857` | Positive returns in data tables (emerald-700) |
+| `fi-negative` | `#B91C1C` | Negative returns in data tables (red-700) |
+| `fi-neutral` | `#475569` | Neutral / zero returns (slate-600) |
+
+For use on light surfaces. Never rely on colour alone to show direction — always pair it with a
+sign (+/−) or an arrow, for colour-blind readers.
 
 ---
 
@@ -84,11 +107,20 @@ the disclaimer block, and all site-wide UI chrome — nav, buttons, cards, foote
 
 ## 3. Buttons
 
-All button variants (Primary, Secondary, Tertiary, Outline) and their exact specs are shown live at
+All button variants (Primary, Secondary, Tertiary) and their exact specs are shown live at
 `/styleguide` → Buttons.
 
-Nav CTA (compact variant): `padding: 8px 18px` · `border-radius: 8px` · same primary colours — not
-shown on `/styleguide` since it's a one-off usage in `Header.astro`, not a `Button` variant.
+| Variant | Light surface (default) | Dark surface (`surface="dark"`) |
+|---------|-------------------------|---------------------------------|
+| `primary` | Gold fill, ink label | Gold fill, ink label |
+| `secondary` | Ink outline, ink label | Muted-inv outline, white label |
+| `tertiary` | `fi-link` text link | `fi-gold` text link |
+
+Pass `surface="dark"` whenever a secondary or tertiary button sits on a dark section — without it
+the light-surface colours are used. See §1 Gold Usage Rules.
+
+Nav Subscribe: a quiet outlined link (`border-fi-muted-inv/40`, white label) in `Header.astro`, not a
+gold CTA — the header should not compete with the page's primary action.
 
 ---
 
@@ -108,7 +140,7 @@ duplicated here.
 Appear above section headings. Two variants based on section background.
 
 **Light sections (fi-light or white):**
-- Background: `fi-icon-bg` (slate-100)
+- Background: white
 - Border: `1px solid fi-border` (slate-200)
 - Text: `fi-muted` (slate-600)
 
@@ -313,3 +345,24 @@ TOC in either mode.
 The 4px article reading-progress track uses the same shared hero/read-mode state at every viewport:
 it is hidden while the hero intersects, fades in at its current document-progress value after the
 hero exits, and hides again when the hero re-enters. The `xl` TOC rail remains independently visible.
+
+---
+
+## 15. Enforcement
+
+Rules in this document are enforced in code wherever possible, because written rules alone drifted
+(the "no arbitrary values" rule was in `CLAUDE.md` while `text-[10px]` shipped in `ReportCard`).
+
+| Layer | Mechanism |
+|-------|-----------|
+| Tokens | Role-named colours (`fi-link` vs `fi-gold`, `fi-muted` vs `fi-subtle`) so the right choice is the obvious one; values fixed once in `tailwind.config.mjs` |
+| Components | `Button` `surface` prop; `formatDate()` in `src/lib/format.ts` (en-IN, UTC) for every displayed date |
+| Lint | `scripts/lint-design.mjs` — fails on arbitrary Tailwind values, default palette colours, raw hex in `.astro`, and date formatting outside `format.ts` |
+| Contrast | `scripts/check-contrast.mjs` — every approved token pairing at WCAG AA, read from the live config |
+| CI | `.github/workflows/design-checks.yml` runs `npm run lint:design` on pushes and pull requests touching `src/`, the scripts, or the config |
+
+Run `npm run lint:design` before committing. If a rule genuinely does not fit, add a token rather
+than an exception; the last resort is a same-line `design-lint-allow` comment with a reason.
+
+Not covered automatically: whether a given class actually sits on a light or dark surface (e.g. gold
+text placed on white). That is caught by the token naming, the `/styleguide` pairs, and review.

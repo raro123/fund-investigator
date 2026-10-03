@@ -101,12 +101,52 @@ paid research.
 | 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`) read `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory, so this is most likely a stale preview build predating that deletion reaching `dev`, not a regression. Confirm whether `dev` has merged past the deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory | 2026-08-03 | S26; updated S34, S35 | 🟢 Resolved (S35 — remote `main` is at merge commit `9b000f3`; the current source and build contain no `functions/` directory, and the fresh Cloudflare Production log reports `No functions dir at /functions found. Skipping.`) |
 | 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29; updated S35 | 🟢 Resolved (S35 — the `sc-domain:fundinvestigator.com` property is confirmed and `https://fundinvestigator.com/sitemap-index.xml` is submitted with status Success and 12 discovered pages. Bing Webmaster Tools remains optional and was not submitted. The previously noted duplicate SPF records remain a separate DNS follow-up.) |
 | 51 | **Optional, low-priority cosmetic follow-up from #50**: the "JS Snippet installation" Web Analytics site's host allowlist (`(fund-investigator.pages.dev\|fundinvestigator.com)$`) doesn't cover preview-branch subdomains like `dev.fund-investigator.pages.dev`, so its beacon 404s there — browser console noise only on preview deploys, does not affect production. Widening the host pattern would fix it, but doing this via the API hits the same wall discovered in #50: the connected Cloudflare API token can read Pages/Web-Analytics config but cannot write it (confirmed via the failed `PATCH` in #50) — would need either a manual dashboard edit or a token-permission upgrade (Account → Cloudflare Pages → Edit) first | 2026-08-07 | S31 | 🟡 Open |
+| 52 | **Hero CTA order.** S37 made "Read our Investigations" the gold hero primary and Deepdive the secondary, revising the order kept in S36. It is an isolated commit on `design/contrast-and-accent-fixes`; confirm or drop it at review. Watch Deepdive click-through from `homepage_hero` after release | 2026-10-03 | S37 | 🟡 Open |
+| 53 | Replace one "Sales Trap" claim card with evidence — e.g. where last year's top-ranked funds in a category ranked the following year. Needs the data pull before any design work | 2026-10-03 | S37 | 🟡 Open |
+| 54 | Add a rendered-page accessibility scan (axe or pa11y against `dist/`) to CI. `lint:design` checks token pairings statically but cannot see which surface a class actually renders on | 2026-10-03 | S37 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-03 | Session: S37 — Design-system contrast, gold discipline, and enforcement
+
+**What was done:**
+Ran a design review of the live site and fixed its findings on branch
+`design/contrast-and-accent-fixes`. Tokens: `fi-light` slate-200 → slate-100; `fi-muted` and
+`fi-neutral` slate-500 → slate-600; new `fi-link` (amber-700) for the gold family on light surfaces;
+`fi-positive`/`fi-negative` darkened to 700s; layout tokens replacing every arbitrary value.
+Components: `Button` gained a `surface` prop with a neutral secondary (the `outline` variant was
+folded into it); Badge lost its raw-palette variants; ReportCard labels moved from 10px/50% opacity to
+`text-caption` in `fi-subtle`; a shared `formatDate()` (en-IN, UTC) replaced four ad-hoc formatters.
+Homepage: investigations lead the hero and sit directly after The Sales Trap; the credibility strip
+now states facts derived from content; Why FI and subscribe merged into one light section. Added
+`npm run lint:design` (design lint + WCAG contrast check) and a Design Checks CI workflow.
+
+**Why:**
+Muted copy on light sections was 3.9:1 (below WCAG AA), card labels were ~3.5:1 at 10px, gold was used
+for primary, secondary, nav and link treatments so it no longer signalled the main action, and dates
+used three formats including US style. `CLAUDE.md` already banned arbitrary values, yet `text-[10px]`
+shipped — written rules alone were not holding, so the fixes were encoded in tokens, components, and CI.
+
+**How:**
+Audited every token usage against its surface before changing values (`fi-muted` on the dark footer
+would have dropped to 2.6:1, so footer headings moved to `fi-subtle`). Verified with the production
+build, full-page headless screenshots at desktop and mobile widths, and by confirming both new checks
+exit non-zero on planted violations. On first run the checks caught three issues the manual audit
+missed (two raw palette classes, `fi-neutral` at 4.3:1 on `fi-light`).
+
+**Decisions made:**
+- Keep the dark theme; a light-mode migration was considered and rejected as low value for the cost.
+- Gold is reserved for one primary action per section and is never used as text on light surfaces.
+- Enforcement lives in code (tokens, components, lint, CI); docs explain the rules.
+
+**Pending decisions:**
+- #52, #53, #54.
 
 ---
 

@@ -12,6 +12,9 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
     - *Shadows:* `shadow-fi-card`, `shadow-fi-card-dark`.
     - *Z-index:* `z-fi-header`, `z-fi-menu`, `z-fi-overlay`.
     - *Sizing:* `w-fi-icon`, `h-fi-icon-lg`, `rounded-fi-btn`.
+- **Surface-specific colours:** `fi-muted`, `fi-link` are for light surfaces; `fi-subtle`, `fi-gold` text are for dark surfaces. Never put gold text, hovers or focus rings on white — use `fi-link`. Approved pairs: `docs/style_spec.md` §1.
+- **Gold rule:** one gold (`primary`) button per section; supporting actions are `secondary`/`tertiary`. Pass `surface="dark"` to `<Button>` on dark sections.
+- **Dates:** always `formatDate()` from `src/lib/format.ts` (en-IN). Never call `toLocaleDateString` directly.
 
 ### Layer 2: UI Components
 - **Source:** `src/components/ui/`
@@ -52,4 +55,5 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
 - Do not use Windows npm from `/mnt/c/Program Files/nodejs` inside WSL.
 - `npm run dev`: Start local server.
 - `npm run build`: Build for production (`dist/`).
+- `npm run lint:design`: Design-system lint + WCAG contrast check (also runs in CI). Run before committing UI changes; fix violations by adding/using tokens, not by suppressing.
 - `npm run preview`: Preview build locally.
