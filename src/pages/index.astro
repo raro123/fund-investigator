@@ -12,15 +12,29 @@ import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
+import { formatDate } from '../lib/format';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
-const featuredReports = allReports
+const currentReports = allReports
   .filter(report => !report.id.startsWith('_')) // Exclude template files
+  .filter(report => report.data.status !== 'archived');
+const featuredReports = currentReports
   .filter(report => report.data.featured === true)
-  .filter(report => report.data.status !== 'archived')
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
+
+// Credibility markers state facts derived from the content, not claims, so
+// they stay true as investigations are published or updated.
+const lastUpdated = currentReports
+  .map(report => report.data.updated ?? report.data.date)
+  .sort()
+  .at(-1);
+const credibilityMarkers = [
+  `${currentReports.length} investigations`,
+  lastUpdated ? `Updated ${formatDate(lastUpdated, 'monthShort')}` : 'Public methodology',
+  'No commissions',
+] as const;
 ---
 
 <Layout
@@ -44,13 +58,14 @@ const featuredReports = allReports
       </p>
     </div>
 
-    <!-- CTAs -->
+    <!-- CTAs: the on-site investigations lead (gold) — they build trust before
+         a first-time visitor is sent off-site to the Deepdive app. -->
     <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mb-6 w-full max-w-72 sm:max-w-none mx-auto">
-      <Button href={deepdiveUrl('homepage_hero')} size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
-        Investigate Your Fund
-      </Button>
-      <Button href="/reports/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
+      <Button href="/reports/" size="lg" class="w-full sm:w-auto min-w-0">
         Read our Investigations
+      </Button>
+      <Button href={deepdiveUrl('homepage_hero')} variant="secondary" surface="dark" size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
+        Investigate Your Fund
       </Button>
     </div>
 
@@ -60,7 +75,7 @@ const featuredReports = allReports
        content panel. Responsive layout and separator behavior are component-owned. -->
   <Section background="dark" spacing="none" maxWidth="2xl" class="!bg-fi-mid border-t border-fi-border-dark">
     <CredibilityStrip
-      markers={['Data-backed', 'Reproducible', 'No commissions']}
+      markers={credibilityMarkers}
     />
   </Section>
 
@@ -118,6 +133,39 @@ const featuredReports = allReports
           </p>
         </div>
 
+      </div>
+  </Section>
+
+  <!-- Investigations Section: placed straight after the problem it answers,
+       ahead of the off-site Deepdive app. -->
+  <Section background="white" spacing="md" maxWidth="2xl">
+      <!-- Centered header -->
+      <div class="text-center mb-10 lg:mb-12">
+        <Badge class="mb-6">Investigations</Badge>
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 break-words']}>What the Data Actually Says</h2>
+        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
+          Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
+        </p>
+      </div>
+
+      <!-- Featured investigation cards: 2-column grid -->
+      <div class="max-w-4xl mx-auto">
+        {featuredReports.length > 0 ? (
+          <div class="grid sm:grid-cols-2 gap-5">
+            {featuredReports.slice(0, 2).map((report) => (
+              <ReportCard report={report} href={`/reports/${report.slug}/`} />
+            ))}
+          </div>
+        ) : (
+          <div class="bg-fi-light rounded-lg p-6 sm:p-8 text-center border border-fi-border">
+            <p class="text-body-md text-fi-muted">No featured investigations yet. Check back soon.</p>
+          </div>
+        )}
+
+        <!-- CTA below cards: secondary — the cards carry this section's emphasis -->
+        <div class="text-center mt-8">
+          <Button href="/reports/" variant="secondary" size="md">View all investigations</Button>
+        </div>
       </div>
   </Section>
 
@@ -262,75 +310,37 @@ const featuredReports = allReports
 
   </Section>
 
-  <!-- Investigations Section -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-      <!-- Centered header -->
-      <div class="text-center mb-10 lg:mb-12">
-        <Badge class="mb-6">Investigations</Badge>
-        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 break-words']}>What the Data Actually Says</h2>
-        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
-          Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
-        </p>
-      </div>
-
-      <!-- Featured investigation cards: 2-column grid -->
-      <div class="max-w-4xl mx-auto">
-        {featuredReports.length > 0 ? (
-          <div class="grid sm:grid-cols-2 gap-5">
-            {featuredReports.slice(0, 2).map((report) => (
-              <ReportCard report={report} href={`/reports/${report.slug}/`} />
-            ))}
-          </div>
-        ) : (
-          <div class="bg-white rounded-lg p-6 sm:p-8 text-center border border-fi-border">
-            <p class="text-body-md text-fi-muted">No featured investigations yet. Check back soon.</p>
-          </div>
-        )}
-
-        <!-- CTA below cards -->
-        <div class="text-center mt-8">
-          <Button href="/reports/" variant="primary" size="md">View all investigations</Button>
-        </div>
-      </div>
-  </Section>
-
-  <!-- About Teaser Section -->
-  <Section id="about" background="dark" spacing="md" maxWidth="lg" class="scroll-mt-20">
+  <!-- About Teaser + Email Capture: merged into one closing section so the
+       page alternates light/dark without two dark bands back to back. -->
+  <Section id="about" background="light" spacing="md" maxWidth="lg" class="scroll-mt-20">
       <div class="text-center">
-        <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
+        <Badge class="mb-6">Why Fund Investigator</Badge>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight']}>
           Because Indian mutual fund investors deserve analysis that improves their portfolio.
-          <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
+          <span class="text-fi-muted">Not mis-selling that increases someone else's commission.</span>
         </h2>
-        <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
+        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto mb-6">
           Fund platforms often compress research into returns, ratings, and buy flows. We built Fund Investigator to inspect the evidence behind performance before forming a view.
         </p>
-        <a href="/about/" class="text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold transition-colors text-body-sm font-medium">
-          Read why Fund Investigator exists
-        </a>
+        <Button href="/about/" variant="tertiary" size="sm">Read why Fund Investigator exists</Button>
       </div>
-  </Section>
 
-  <!-- Email Capture Section -->
-  <Section background="light" spacing="md">
-    <div class="max-w-2xl mx-auto text-center">
-      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-4']}>
-        New Investigation Published? We'll Tell You.
-      </h2>
-      <p class="text-body-lg text-fi-muted mb-8">
-        Subscribe and get notified when a new fund investigation goes live.
-      </p>
-      <Button
-        href={substackWelcomeUrl('homepage_bottom')}
-        target="_blank"
-        rel="noopener noreferrer"
-        variant="primary"
-        size="lg"
-        icon="external"
-      >
-        Subscribe for new investigations
-      </Button>
-    </div>
+      <div class="max-w-2xl mx-auto mt-12 bg-white rounded-lg border border-fi-border shadow-fi-card p-6 sm:p-8 text-center">
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">New investigation published? We'll tell you.</h3>
+        <p class="text-body-md text-fi-muted mb-6">
+          Subscribe and get notified when a new fund investigation goes live.
+        </p>
+        <Button
+          href={substackWelcomeUrl('homepage_bottom')}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="primary"
+          size="lg"
+          icon="external"
+        >
+          Subscribe for new investigations
+        </Button>
+      </div>
   </Section>
 </Layout>
 

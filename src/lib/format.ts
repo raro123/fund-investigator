@@ -10,13 +10,15 @@
  * formatDate('2026-07-15', 'short') // "15 Jul 2026"  — cards, compact meta
  * formatDate('2026-07-15')          // "15 July 2026" — article metadata, notices
  * formatDate('2026-07-15', 'month') // "July 2026"    — social cards
+ * formatDate('2026-07-15', 'monthShort') // "Jul 2026" — compact labels
  */
-export type DateStyle = 'short' | 'long' | 'month';
+export type DateStyle = 'short' | 'long' | 'month' | 'monthShort';
 
 const styles: Record<DateStyle, Intl.DateTimeFormatOptions> = {
   short: { day: 'numeric', month: 'short', year: 'numeric' },
   long: { day: 'numeric', month: 'long', year: 'numeric' },
   month: { month: 'long', year: 'numeric' },
+  monthShort: { month: 'short', year: 'numeric' },
 };
 
 const formatters = Object.fromEntries(
