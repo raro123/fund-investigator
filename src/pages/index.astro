@@ -6,35 +6,20 @@ import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
-import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
-import { formatDate } from '../lib/format';
 
 // Fetch featured articles for homepage
 const allReports = await getCollection('reports');
-const currentReports = allReports
+const featuredReports = allReports
   .filter(report => !report.id.startsWith('_')) // Exclude template files
-  .filter(report => report.data.status !== 'archived');
-const featuredReports = currentReports
   .filter(report => report.data.featured === true)
+  .filter(report => report.data.status !== 'archived')
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
-
-// Credibility markers state facts derived from the content, not claims, so
-// they stay true as investigations are published or updated.
-const lastUpdated = currentReports
-  .map(report => report.data.updated ?? report.data.date)
-  .sort()
-  .at(-1);
-const credibilityMarkers = [
-  `${currentReports.length} investigations`,
-  lastUpdated ? `Updated ${formatDate(lastUpdated, 'monthShort')}` : 'Public methodology',
-  'No commissions',
-] as const;
 ---
 
 <Layout
@@ -70,14 +55,6 @@ const credibilityMarkers = [
     </div>
 
   </Hero>
-
-  <!-- Credibility markers close the hero without extending it into another
-       content panel. Responsive layout and separator behavior are component-owned. -->
-  <Section background="dark" spacing="none" maxWidth="2xl" class="!bg-fi-mid border-t border-fi-border-dark">
-    <CredibilityStrip
-      markers={credibilityMarkers}
-    />
-  </Section>
 
   <!-- Problem Section: The Sales Trap -->
   <Section background="light" spacing="md" maxWidth="2xl">

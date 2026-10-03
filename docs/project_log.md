@@ -113,6 +113,30 @@ paid research.
 
 ---
 
+### 📅 Date: 2026-10-03 | Session: S38 — Credibility strip removed from the homepage
+
+**What was done:**
+Removed the credibility strip below the homepage hero and rebalanced the `lg` Hero's bottom padding,
+which had been tightened only because the strip followed it. The `CredibilityStrip` component stays
+in `src/components/ui/` and on `/styleguide`, marked as currently unused.
+
+**Why:**
+Neither marker set held up. The original claims ("Data-backed", "Reproducible") were unverifiable;
+the S37 replacement facts were auto-updating but weak — "4 investigations" signals a small, new site
+and "Updated Aug 2026" says nothing about rigour. The hero subhead already carries the positioning.
+
+**Decisions made:**
+- Bring the strip back only with markers that are specific, true of every investigation, and linked
+  to proof (candidate set: TRI benchmarks · published five-check method · no commissions, no fund
+  picks). An investigation count returns only once it is large enough to help.
+- Method/independence points may work better in context (e.g. under the Investigations heading)
+  than as a strip — separate decision.
+
+**Pending decisions:**
+- None.
+
+---
+
 ### 📅 Date: 2026-10-03 | Session: S37 — Design-system contrast, gold discipline, and enforcement
 
 **What was done:**
