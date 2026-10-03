@@ -4,20 +4,27 @@
  *
  * A flexible button component with multiple variants, sizes, and optional icons.
  *
+ * Gold rule: one gold (primary) button per section. Supporting actions use
+ * secondary (neutral outline) or tertiary (text link). Pass `surface` to match
+ * the background the button sits on — secondary and tertiary colours differ
+ * between light and dark surfaces so they stay readable on both.
+ *
  * @example
  * <!-- Primary button with arrow icon -->
  * <Button href="/app" icon="arrow-right">Launch Tool</Button>
  *
- * <!-- Secondary outlined button -->
- * <Button variant="secondary" size="lg">Learn More</Button>
+ * <!-- Secondary outlined button on a dark section -->
+ * <Button variant="secondary" surface="dark" size="lg">Learn More</Button>
  *
- * <!-- Tertiary text-only link -->
+ * <!-- Tertiary text-only link on a light section -->
  * <Button variant="tertiary" href="/reports/" icon="arrow-right">View All</Button>
  */
 
 interface Props {
   /** Button style variant */
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  /** Background the button sits on — sets secondary/tertiary colours */
+  surface?: 'light' | 'dark';
   /** Button size */
   size?: 'sm' | 'md' | 'lg';
   /** If provided, renders as an anchor tag */
@@ -40,6 +47,7 @@ interface Props {
 
 const {
   variant = 'primary',
+  surface = 'light',
   size = 'md',
   href,
   target,
@@ -51,12 +59,20 @@ const {
   class: className = '',
 } = Astro.props;
 
-// Variant styles
+// Variant styles, per surface. Primary is identical on both; gold is never
+// used for secondary actions, and gold text appears only on dark surfaces
+// (fi-link is the gold family on light — see tailwind.config.mjs).
 const variantStyles = {
-  primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
-  secondary: 'border-2 border-fi-gold text-fi-gold bg-transparent hover:bg-fi-gold/8',
-  tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
-  outline:   'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-white',
+  light: {
+    primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
+    secondary: 'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-fi-ink-inv',
+    tertiary:  'text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link bg-transparent',
+  },
+  dark: {
+    primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
+    secondary: 'border-2 border-fi-muted-inv/40 text-fi-ink-inv bg-transparent hover:border-fi-ink-inv',
+    tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
+  },
 };
 
 // Size styles — font-size fixed at 14px per spec; sizes vary padding only
@@ -76,7 +92,7 @@ const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed pointer-events-
 const widthStyles = fullWidth ? 'w-full' : '';
 
 // Combined classes
-const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles} ${widthStyles} ${className}`.trim();
+const classes = `${baseStyles} ${variantStyles[surface][variant]} ${sizeStyles[size]} ${disabledStyles} ${widthStyles} ${className}`.trim();
 
 // Determine element type
 const Element = href ? 'a' : 'button';

@@ -16,6 +16,7 @@
 import Badge from './ui/Badge.astro';
 import MetricIcon from './ui/MetricIcon.astro';
 import type { ReportMetricIconName } from '../lib/report-metrics';
+import { formatDate } from '../lib/format';
 
 interface KeyMetric {
   label: string;
@@ -41,24 +42,20 @@ interface Props {
 const { report, href } = Astro.props;
 const { title, readTime, date, hook, keyMetrics, status = 'current' } = report.data;
 
-const formattedDate = new Date(date).toLocaleDateString('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-});
+const formattedDate = formatDate(date, 'short');
 
 ---
 
 <a href={href} class="block h-full group">
-  <article class="bg-fi-mid border border-fi-border-dark rounded-lg p-6 h-full flex flex-col hover:-translate-y-1 hover:border-fi-muted hover:shadow-fi-card-dark transition-all duration-200">
+  <article class="bg-fi-mid border border-fi-border-dark rounded-lg p-6 h-full flex flex-col hover:-translate-y-1 hover:border-fi-subtle hover:shadow-fi-card-dark transition-all duration-200">
 
     <!-- Zone 1: Meta row -->
     <div class="flex justify-between items-center gap-3">
       <div class="flex items-center gap-2">
-        <span class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50">{readTime}</span>
+        <span class="text-caption font-medium uppercase tracking-widest text-fi-subtle">{readTime}</span>
         {status === 'archived' && <Badge variant="dark" size="sm">Historical</Badge>}
       </div>
-      <time class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 tabular-nums">{formattedDate}</time>
+      <time class="text-caption font-medium uppercase tracking-widest text-fi-subtle tabular-nums">{formattedDate}</time>
     </div>
 
     <!-- Zone 2: Title -->
@@ -82,7 +79,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
               ) : (
                 <p class="text-heading-md font-bold text-fi-ink-inv">{metric.value}</p>
               )}
-              <p class="text-[10px] uppercase tracking-widest text-fi-muted-inv/50 mt-2">{metric.label}</p>
+              <p class="text-caption font-medium uppercase tracking-widest text-fi-subtle mt-2">{metric.label}</p>
             </div>
           ))}
         </div>

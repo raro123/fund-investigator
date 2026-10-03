@@ -76,7 +76,7 @@ import { responsive } from '../lib/responsive';
           <div class="space-y-2">
             <div class="h-24 bg-fi-dark rounded-lg border border-fi-border"></div>
             <p class="text-sm font-mono text-fi-ink">bg-fi-dark</p>
-            <p class="text-xs text-fi-muted">Hero · Investigations · Why FI · Footer</p>
+            <p class="text-xs text-fi-muted">Hero · Deepdive · Footer</p>
           </div>
           <div class="space-y-2">
             <div class="h-24 bg-fi-mid rounded-lg border border-fi-border"></div>
@@ -86,7 +86,7 @@ import { responsive } from '../lib/responsive';
           <div class="space-y-2">
             <div class="h-24 bg-fi-light rounded-lg border border-fi-border"></div>
             <p class="text-sm font-mono text-fi-ink">bg-fi-light</p>
-            <p class="text-xs text-fi-muted">Problem · Deepdive · Email Capture</p>
+            <p class="text-xs text-fi-muted">Problem · Why FI + Subscribe</p>
           </div>
         </div>
       </div>
@@ -105,12 +105,22 @@ import { responsive } from '../lib/responsive';
           <div class="space-y-2">
             <div class="h-16 bg-fi-muted rounded-lg"></div>
             <p class="text-sm font-mono text-fi-ink">text-fi-muted</p>
-            <p class="text-xs text-fi-muted">Secondary text on light bg</p>
+            <p class="text-xs text-fi-muted">Secondary text on light bg only (fails on dark)</p>
           </div>
           <div class="space-y-2">
             <div class="h-16 bg-fi-gold rounded-lg"></div>
             <p class="text-sm font-mono text-fi-ink">text-fi-gold / bg-fi-gold</p>
-            <p class="text-xs text-fi-muted">Brand accent · CTAs · H1 emphasis on dark</p>
+            <p class="text-xs text-fi-muted">Primary button bg · H1 emphasis · gold text on dark only</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-link rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-link</p>
+            <p class="text-xs text-fi-muted">Gold family on light: links, link hovers, focus rings</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-16 bg-fi-subtle rounded-lg"></div>
+            <p class="text-sm font-mono text-fi-ink">text-fi-subtle</p>
+            <p class="text-xs text-fi-muted">Labels and meta text on dark bg / dark cards</p>
           </div>
           <!-- Dark bg text -->
           <div class="space-y-2">
@@ -150,17 +160,17 @@ import { responsive } from '../lib/responsive';
       <!-- Data Visualization Colors -->
       <div>
         <h3 class="text-heading-md text-fi-ink mb-2">Data Visualization</h3>
-        <p class="text-fi-muted text-body-sm mb-6">For performance metrics, tables, and chart annotations.</p>
+        <p class="text-fi-muted text-body-sm mb-6">For performance metrics, tables, and chart annotations on light surfaces. Never rely on colour alone — always pair with a sign (+/−) or arrow.</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div class="space-y-2">
             <div class="h-16 bg-fi-positive rounded-lg"></div>
             <p class="text-sm font-mono text-fi-ink">text-fi-positive</p>
-            <p class="text-xs text-fi-muted">Positive performance · emerald-500</p>
+            <p class="text-xs text-fi-muted">Positive performance · emerald-700</p>
           </div>
           <div class="space-y-2">
             <div class="h-16 bg-fi-negative rounded-lg"></div>
             <p class="text-sm font-mono text-fi-ink">text-fi-negative</p>
-            <p class="text-xs text-fi-muted">Negative performance · red-500</p>
+            <p class="text-xs text-fi-muted">Negative performance · red-700</p>
           </div>
           <div class="space-y-2">
             <div class="h-16 bg-fi-neutral rounded-lg"></div>
@@ -170,30 +180,21 @@ import { responsive } from '../lib/responsive';
         </div>
       </div>
 
-      <!-- Semantic Colors -->
+      <!-- Approved text/background pairs -->
       <div>
-        <h3 class="text-heading-md text-fi-ink mb-2">Semantic Colors</h3>
-        <p class="text-fi-muted text-body-sm mb-6">UI feedback states — forms, alerts, validation.</p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          <div class="space-y-2">
-            <div class="h-16 bg-success rounded-lg"></div>
-            <p class="text-sm font-mono text-fi-ink">success</p>
-            <p class="text-xs text-fi-muted">#10b981</p>
+        <h3 class="text-heading-md text-fi-ink mb-2">Approved Text Pairs</h3>
+        <p class="text-fi-muted text-body-sm mb-6">Every combination here is contrast-tested by <code class="font-mono text-fi-ink">npm run lint:design</code>. Gold text never goes on a light surface — use <code class="font-mono text-fi-ink">fi-link</code>.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="rounded-lg border border-fi-border bg-white p-5 space-y-1">
+            <p class="text-fi-ink font-semibold">fi-ink on white / fi-light</p>
+            <p class="text-fi-muted">fi-muted on white / fi-light</p>
+            <p class="text-fi-link underline decoration-fi-link/40">fi-link on white / fi-light</p>
           </div>
-          <div class="space-y-2">
-            <div class="h-16 bg-warning rounded-lg"></div>
-            <p class="text-sm font-mono text-fi-ink">warning</p>
-            <p class="text-xs text-fi-muted">#f59e0b</p>
-          </div>
-          <div class="space-y-2">
-            <div class="h-16 bg-error rounded-lg"></div>
-            <p class="text-sm font-mono text-fi-ink">error</p>
-            <p class="text-xs text-fi-muted">#ef4444</p>
-          </div>
-          <div class="space-y-2">
-            <div class="h-16 bg-info rounded-lg"></div>
-            <p class="text-sm font-mono text-fi-ink">info</p>
-            <p class="text-xs text-fi-muted">#3b82f6</p>
+          <div class="rounded-lg border border-fi-border-dark bg-fi-dark p-5 space-y-1">
+            <p class="text-fi-ink-inv font-semibold">fi-ink-inv on fi-dark / fi-mid</p>
+            <p class="text-fi-muted-inv">fi-muted-inv on fi-dark / fi-mid</p>
+            <p class="text-fi-subtle">fi-subtle on fi-dark / fi-mid</p>
+            <p class="text-fi-gold">fi-gold on fi-dark / fi-mid</p>
           </div>
         </div>
       </div>
@@ -304,12 +305,17 @@ import { responsive } from '../lib/responsive';
 
     <div class="space-y-12">
       <div>
-        <h3 class="text-heading-md text-fi-ink mb-6">Variants</h3>
+        <h3 class="text-heading-md text-fi-ink mb-2">Variants</h3>
+        <p class="text-fi-muted text-body-sm mb-6">One gold primary per section. Pass <code class="font-mono text-fi-ink">surface="dark"</code> on dark sections so secondary and tertiary stay readable.</p>
         <div class="flex flex-wrap gap-4">
           <Button variant="primary">Primary Button</Button>
           <Button variant="secondary">Secondary Button</Button>
           <Button variant="tertiary">Tertiary Button</Button>
-          <Button variant="outline">Outline Button</Button>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-4 rounded-xl bg-fi-dark p-6">
+          <Button variant="primary" surface="dark">Primary Button</Button>
+          <Button variant="secondary" surface="dark">Secondary Button</Button>
+          <Button variant="tertiary" surface="dark">Tertiary Button</Button>
         </div>
       </div>
 
@@ -328,7 +334,6 @@ import { responsive } from '../lib/responsive';
           <Button icon="arrow-right">Launch Tool</Button>
           <Button variant="secondary" icon="external">View Report</Button>
           <Button variant="tertiary" icon="arrow-right">Read More</Button>
-          <Button variant="outline" icon="download">Download</Button>
         </div>
       </div>
 
@@ -358,11 +363,8 @@ import { responsive } from '../lib/responsive';
         <div class="bg-fi-light rounded-xl p-6 flex flex-wrap gap-3">
           <Badge>Default</Badge>
           <Badge variant="primary">Primary</Badge>
-          <Badge variant="secondary">Secondary</Badge>
           <Badge variant="success">Success</Badge>
-          <Badge variant="warning">Warning</Badge>
           <Badge variant="error">Error</Badge>
-          <Badge variant="info">Info</Badge>
         </div>
       </div>
 
@@ -701,8 +703,9 @@ import &#123; responsive &#125; from '../lib/responsive';</code></pre>
           </thead>
           <tbody class="divide-y divide-fi-border">
             <tr><td class="py-2 text-fi-muted">Hero</td><td class="py-2 font-mono text-body-sm">background="dark"</td></tr>
-            <tr><td class="py-2 text-fi-muted">Problem / Deepdive / Email Capture</td><td class="py-2 font-mono text-body-sm">background="light"</td></tr>
-            <tr><td class="py-2 text-fi-muted">Investigations / Why FI / Footer</td><td class="py-2 font-mono text-body-sm">background="dark"</td></tr>
+            <tr><td class="py-2 text-fi-muted">Problem / Why FI + Subscribe</td><td class="py-2 font-mono text-body-sm">background="light"</td></tr>
+            <tr><td class="py-2 text-fi-muted">Investigations</td><td class="py-2 font-mono text-body-sm">background="white"</td></tr>
+            <tr><td class="py-2 text-fi-muted">Deepdive / Footer</td><td class="py-2 font-mono text-body-sm">background="dark"</td></tr>
           </tbody>
         </table>
       </Card>
@@ -710,21 +713,20 @@ import &#123; responsive &#125; from '../lib/responsive';</code></pre>
       <Card>
         <h3 class="text-heading-md text-fi-ink mb-4">Color Usage Rules</h3>
         <ul class="space-y-2 text-fi-muted">
-          <li><strong class="text-fi-ink">fi-ink / fi-muted:</strong> Text on light sections</li>
-          <li><strong class="text-fi-ink">fi-ink-inv / fi-muted-inv:</strong> Text on dark sections</li>
-          <li><strong class="text-fi-ink">fi-gold:</strong> Brand accent, buttons, H1 emphasis word on dark</li>
-          <li><strong class="text-fi-ink">fi-positive / fi-negative / fi-neutral:</strong> Data visualization only</li>
-          <li><strong class="text-fi-ink">success / warning / error / info:</strong> UI feedback states only</li>
+          <li><strong class="text-fi-ink">fi-ink / fi-muted / fi-link:</strong> Text on light sections</li>
+          <li><strong class="text-fi-ink">fi-ink-inv / fi-muted-inv / fi-subtle:</strong> Text on dark sections and dark cards</li>
+          <li><strong class="text-fi-ink">fi-gold:</strong> Primary button bg, H1 emphasis word, gold text on dark only — one gold action per section</li>
+          <li><strong class="text-fi-ink">fi-positive / fi-negative / fi-neutral:</strong> Data on light surfaces, always paired with a sign or arrow</li>
         </ul>
       </Card>
 
       <Card>
         <h3 class="text-heading-md text-fi-ink mb-4">Button Hierarchy</h3>
         <ul class="space-y-2 text-fi-muted">
-          <li><strong class="text-fi-ink">Primary:</strong> Main action on a page (e.g., "Launch Tool")</li>
-          <li><strong class="text-fi-ink">Secondary:</strong> Important but not primary (e.g., "Learn More")</li>
-          <li><strong class="text-fi-ink">Tertiary:</strong> Low emphasis links (e.g., "View All")</li>
-          <li><strong class="text-fi-ink">Outline:</strong> Special emphasis with gold accent</li>
+          <li><strong class="text-fi-ink">Primary (gold):</strong> The one main action in a section (e.g., "Read our Investigations")</li>
+          <li><strong class="text-fi-ink">Secondary (neutral outline):</strong> Supporting action beside a primary (e.g., "Investigate Your Fund")</li>
+          <li><strong class="text-fi-ink">Tertiary (text link):</strong> Low emphasis links (e.g., "View All")</li>
+          <li><strong class="text-fi-ink">surface="dark":</strong> Required for secondary/tertiary on dark sections</li>
         </ul>
       </Card>
 

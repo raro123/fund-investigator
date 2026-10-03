@@ -34,7 +34,7 @@ const featuredReports = allReports
 
     <!-- Oversized heading with breathing room -->
     <div class="mb-12 md:mb-14">
-      <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-[1.08] tracking-[-0.02em] break-words']}>
+      <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
         Fund Performance,
         <span class="text-fi-gold">Investigated</span>
       </h1>
@@ -49,7 +49,7 @@ const featuredReports = allReports
       <Button href={deepdiveUrl('homepage_hero')} size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
         Investigate Your Fund
       </Button>
-      <Button href="/reports/" variant="secondary" size="lg" class="w-full sm:w-auto min-w-0">
+      <Button href="/reports/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
         Read our Investigations
       </Button>
     </div>
@@ -151,7 +151,7 @@ const featuredReports = allReports
              Playback is started lazily by the script at the foot of this file;
              users who prefer reduced motion get the static poster and no video
              bytes at all. -->
-        <div class="showcase-frame relative mx-auto md:max-w-4xl bg-white rounded-lg overflow-hidden border border-fi-border-dark shadow-fi-card-dark aspect-[9/16] sm:aspect-[3/4] md:aspect-video">
+        <div class="showcase-frame relative mx-auto md:max-w-4xl bg-white rounded-lg overflow-hidden border border-fi-border-dark shadow-fi-card-dark aspect-fi-portrait sm:aspect-fi-tablet md:aspect-video">
           <video
             class="showcase-video absolute inset-0 w-full h-full object-contain"
             muted
@@ -257,7 +257,7 @@ const featuredReports = allReports
       <!-- CTAs -->
       <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mt-8 w-full max-w-72 sm:max-w-none mx-auto">
         <Button href={deepdiveUrl('homepage_cta')} variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
-        <Button href="/reports/five-checks-mutual-fund/" variant="secondary" size="md">See the Five-Question Method</Button>
+        <Button href="/reports/five-checks-mutual-fund/" variant="secondary" surface="dark" size="md">See the Five-Question Method</Button>
       </div>
 
   </Section>
