@@ -67,7 +67,7 @@ export default {
         // Never rely on colour alone — always pair with a sign (+/−) or arrow.
         'fi-positive': '#047857',  // emerald-700 — was emerald-500 (2.5:1 on white)
         'fi-negative': '#B91C1C',  // red-700 — was red-500 (3.8:1 on white)
-        'fi-neutral':  '#64748B',  // slate-500
+        'fi-neutral':  '#475569',  // slate-600 — was slate-500 (4.3:1 on fi-light)
       },
 
       // Every approved text/background pairing above is contrast-tested by

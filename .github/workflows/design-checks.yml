@@ -1,0 +1,45 @@
+name: Design Checks
+
+# Enforces the design system: no arbitrary Tailwind values, default palette
+# colours, raw hex or ad-hoc date formatting in src/, and every approved
+# text/background token pairing at WCAG AA. See docs/style_spec.md §15.
+on:
+  push:
+    paths:
+      - '.github/workflows/design-checks.yml'
+      - 'src/**'
+      - 'scripts/lint-design.mjs'
+      - 'scripts/check-contrast.mjs'
+      - 'tailwind.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    paths:
+      - '.github/workflows/design-checks.yml'
+      - 'src/**'
+      - 'scripts/lint-design.mjs'
+      - 'scripts/check-contrast.mjs'
+      - 'tailwind.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      # The contrast check imports tailwind.config.mjs, which loads its plugins.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Design lint and contrast check
+        run: npm run lint:design
