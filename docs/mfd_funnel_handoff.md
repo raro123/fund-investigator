@@ -1,8 +1,8 @@
 # Handoff: Invest with Support funnel
 
-**Status (2026-10-11, S45):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`. S45 finalised the homepage copy (Who we help, How we help, How we are paid), trimmed Investigations, set the homepage hero to the `/invest/` height, and gave the `/about/` hero a new opening line. S45 is not committed yet. Next: commit S45, then the disclaimer section (#65) and the privacy section (#78), then push and PR.
+**Status (2026-10-11, S46):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`; S45 is committed (`bb7cff8`). S46 redesigned the homepage (sample brief hero, problem → answer cards, own dark band for "How we are paid", no section labels, subtle motion) and added a "Who we help" section to `/invest/` that keeps the finalised long copy. Next: the disclaimer section (#65), the privacy section (#78) and the Deepdive snapshot (#75), then push and PR.
 **Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
-**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
+**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. For the homepage layout, the S46 table in §2 wins over the v2 demo. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
 **Log:** open items are numbered as in `docs/project_log.md`.
 
 ## 1. Files
@@ -47,12 +47,21 @@
 
 ### Homepage
 
+Redesigned in S46 (demo: `claude.ai/artifact/Sfej4r5AwHbhh9JjiursbE`). No section labels on this page.
+
 | # | Section | Background | Content and actions |
 | --- | --- | --- | --- |
-| 1 | Hero | dark | Keep the current headline and subtitle. Gold "Book a portfolio review ↗" opens Zoho Bookings directly. Secondary "How support works" → `/invest/`. No extra offer or reassurance text in the hero. Hero `size="xl"` (S45), so its height matches the `/invest/` hero (about 760px on a phone, 733px on desktop). |
-| 2 | Who we help, How we help, How we are paid | light | Each block is a three-part heading over three items, and each "How we help" card answers the "Who we help" card above it. **Who we help:** "More choices. More clutter. More confusion." Cards: Looking to invest, but not sure how? · Many funds, little clarity? · Invested, but alone when markets move? **How we help:** "Clearer choices. Less clutter. More confidence." Cards: Evidence-backed fund selection · Portfolio first · Your investigator, from review to action, then the text link "Why Fund Investigator exists →" (to `/about/`, the only homepage link there). **How we are paid:** "So, what do you pay?" Points: No separate fee from you (commission built into the expense ratio) · 40+ fund houses · Transparency first (earnings shown in writing before you decide). "See the costs →", gold "Book a portfolio review" (Zoho, `homepage_pricing`), secondary "Ask a question on WhatsApp" (`homepage_pricing`), then the ARN line |
-| 3 | Investigations | white | "The basics, investigated." Two guide cards (Five Questions, Categories Explained; hook text names no fund). No intro paragraph. One button row: secondary "View all investigations" and gold "Get new guides by email ↗" (Substack, `homepage_bottom`). Decision guides replace the cards once published (#74) |
-| 4 | Deepdive | light | Snapshot + three features. Secondary "Open Deepdive ↗" straight to the app |
+| 1 | Hero | dark | Headline and subtitle unchanged, left-aligned from `xl` (1280px) with `SampleBrief` on the right; stacked and centred below `xl`. Gold "Book a portfolio review ↗" (Zoho, `homepage_hero`); secondary "How support works" → `/invest/`. Hero `size="lg"` |
+| 2 | Problem → answer | light | H2 "Clearer choices. Less clutter. More confidence." Three `ProblemAnswer` pairs, short copy: Too many choices → Curated choice · Little clarity → Portfolio first · Left alone → Ongoing support, each with one line. Links: "How support works →" (`/invest/#who`) and "Why Fund Investigator exists →" (`/about/`) |
+| 3 | How we are paid | dark | Split layout. "So, what do you pay?" + "We earn a commission from the fund house, which is part of the regular plan's cost. See the costs →" (`/invest/#costs`). Gold "Book a portfolio review ↗" and secondary "Ask a question on WhatsApp ↗" (both `homepage_pricing`), ARN line. Right: No separate fee from you · 40+ fund houses · Transparency first |
+| 4 | Investigations | white | "The basics, investigated." with "View all investigations →" in the heading row. Two guide cards (Five Questions, Categories Explained; no fund names). One gold "Get new guides by email ↗" (`homepage_bottom`). Decision guides replace the cards once published (#74) |
+| 5 | Deepdive | light | Snapshot + three features. Secondary "Open Deepdive ↗" straight to the app |
+
+**Homepage design rules (S46):**
+- **Sample brief (`SampleBrief`):** labelled "Sample", example profile (age 34, moderate risk, 5 funds), mix now vs target, then three figures: overlap %, funds that lag benchmark, average expense ratio %. No fund names, no returns or projections, no commission rates. Caption: "You get a brief like this after your review." Values are illustrative (#83).
+- **Copy source:** `src/lib/who-we-help.ts` holds both versions. Short lines on the homepage are drafts (#82); the long copy is the S45 finalised text.
+- **Motion: Subtle.** Reveal on scroll (`data-reveal`) and cross-page view transitions; both off under reduced motion. See `docs/style_spec.md` §11.
+- **Not used:** section labels, numbered labels, "Why Fund Investigator?" as a heading, parallax, counters, carousels.
 
 Removed: The Sales Trap, the dark Deepdive showcase (video), Why Fund Investigator.
 
@@ -61,6 +70,7 @@ Removed: The Sales Trap, the dark Deepdive showcase (video), Why Fund Investigat
 | # | Section | Background | Content |
 | --- | --- | --- | --- |
 | 1 | Hero | dark | Label "Invest with Support". "We do the investigation. *You make the call.*" Subtitle: "We help you choose your funds, and we explain their risk, suitability and costs. Then we review them with you at regular intervals." Gold "Book a portfolio review ↗" (Zoho); secondary "Message us on WhatsApp ↗" (`invest_hero`); fee line → `#costs`; email |
+| 1b | Who we help (`#who`, S46) | white | Label "Who we help". Two-line H2: "More choices. More clutter. More confusion." (grey) "Clearer choices. Less clutter. More confidence." `ProblemAnswer` long version: the S45 finalised headlines and body copy, with lead-in tags (Too many choices, Curated choice, Little clarity, Clear picture, Left alone, Ongoing support) |
 | 2 | Portfolio review (`#review`) | light | "Book a 30-minute review call. We look at your funds with you." "No separate fee from you, and no obligation to invest through us. On the call, we check four things." Cards: Overlap · Benchmark check · Costs · Fit to your risk profile. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_review`). Line: "Keep your fund app open during the call. You do not need to send us any documents." |
 | 3 | How it works (`#how-it-works`) | white | "Five steps. You approve every investment." Timeline, vertical below `lg`, horizontal from `lg`. Headings only. Then the "Not the right fit?" line |
 | 4 | Who we are | light | "Registered, and open about how we are paid." Cards: Our registration (name, AMFI MFD, ARN and validity, not an RIA) · How we earn (`#costs`, "No separate fee from you") · Our transparency. Link "Full disclosures…" → `/disclaimer/` |
@@ -170,7 +180,12 @@ Two PRs from this branch. PR 1 removes false claims and adds the distributor ide
 | 69 | Keep "every fund house" true when a new AMC launches | Owner |
 | 79 | Update `HOME_DESCRIPTION` to the new homepage message | Claude |
 | 80 | Check `/about/` and `/disclaimer/` for the general "regular plans cost more than direct plans" wording | Claude |
+| 82 | Approve the draft short card copy and the "Clear picture" lead-in | Owner |
+| 83 | Compliance check of the homepage sample brief; real anonymised values later | Owner |
+| 84 | Decide #71 for other pages, given the homepage's "How we are paid" dark band | Owner + Claude |
+| 85 | `ReportCard` footer: left-aligned "Read investigation →" (site-wide) | Claude |
+| 86 | Align the header logo with the section content at wide screens | Claude |
 
 ## 7. Next step
 
-Commit the S45 homepage, `/about/` and `/invest/` changes. Then draft the `/disclaimer/` distribution section (#65, no rate table) and the `/privacy/` enquiries section (#78), and fix the Deepdive snapshot (#75) before push and PR.
+S46 is committed. Next: draft the `/disclaimer/` distribution section (#65, no rate table) and the `/privacy/` enquiries section (#78), and fix the Deepdive snapshot (#75) before push and PR. The owner reviews #82 and #83 before launch.
