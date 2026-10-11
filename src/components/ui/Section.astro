@@ -22,6 +22,8 @@
  */
 
 interface Props {
+  /** Anchor id for in-page links (e.g. /invest/#review) */
+  id?: string;
   /** Background color variant */
   background?: 'white' | 'light' | 'dark';
   /** Vertical padding (spacing) */
@@ -35,6 +37,7 @@ interface Props {
 }
 
 const {
+  id,
   background = 'white',
   spacing = 'lg',
   maxWidth = 'xl',
@@ -73,7 +76,7 @@ const sectionClasses = `${backgroundStyles[background]} ${spacingStyles[spacing]
 const containerClasses = `${maxWidthStyles[maxWidth]} mx-auto ${containerClass}`.trim();
 ---
 
-<section class={sectionClasses}>
+<section id={id} class={sectionClasses}>
   <div class={containerClasses}>
     <slot />
   </div>

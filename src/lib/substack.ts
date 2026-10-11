@@ -19,7 +19,6 @@ export type SubstackPlacement =
   | 'homepage_bottom'
   | 'article_end'
   | 'article_takeaways'
-  | 'header'
   | 'footer';
 
 export function substackWelcomeUrl(utmContent: SubstackPlacement): string {

@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { absoluteImageUrl } from '../lib/schema';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
+import type { TrackView } from '../lib/analytics';
 
 // Self-hosted Inter font (matches Google Fonts weights) — site-wide UI chrome
 import '@fontsource/inter/400.css';
@@ -35,6 +36,7 @@ interface Props {
   };
   noindex?: boolean;
   extraLinks?: ReadonlyArray<Record<string, string>>;
+  trackView?: TrackView;      // Optional: PostHog page-view event sent on load
 }
 
 const {
@@ -52,6 +54,7 @@ const {
   article,
   noindex = false,
   extraLinks = [],
+  trackView,
 } = Astro.props;
 
 const resolvedTitle = title?.trim() || 'Fund Investigator';
@@ -107,7 +110,7 @@ const defaultLinks = [
     />
 
   </head>
-  <body class="font-sans antialiased">
+  <body class="font-sans antialiased" data-track-view={trackView}>
     <Header />
     <main>
       <slot />
@@ -144,6 +147,21 @@ const defaultLinks = [
           // already gives placement-level attribution without hand-written
           // posthog.capture() calls per CTA.
         });
+
+        // Funnel events (src/lib/analytics.ts). Booking and WhatsApp links
+        // carry no utm the destination can report back, so these named
+        // events are the record of which button started a conversation.
+        const view = document.body.dataset.trackView;
+        if (view) posthog.capture(view);
+
+        document.addEventListener('click', (event) => {
+          const tracked = (event.target as Element | null)?.closest<HTMLElement>('[data-track]');
+          if (!tracked?.dataset.track) return;
+          posthog.capture(tracked.dataset.track, {
+            placement: tracked.dataset.placement,
+            channel: tracked.dataset.channel,
+          });
+        });
       } else if (posthogKey || posthogHost) {
         // One var set without the other is almost certainly a misconfig —
         // PostHog Cloud has separate US/EU regions, so we never guess a host.
@@ -169,6 +187,8 @@ const defaultLinks = [
 
   html {
     scroll-behavior: smooth;
+    /* In-page anchors (e.g. /invest/#review) land below the fixed header. */
+    scroll-padding-top: var(--fi-header-h);
     overflow-x: clip;
   }
 

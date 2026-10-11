@@ -23,6 +23,7 @@ export const GET: APIRoute = async ({ site }) => {
     '## About',
     '',
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
+    `- [Invest with Support](${base}/invest/): 30-minute portfolio review call and help to choose and invest in suitable funds, from an ${TAGLINE}.`,
     `- [Deepdive App](${DEEPDIVE_URL}): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
     '',
     '## Investigations',

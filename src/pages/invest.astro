@@ -1,0 +1,213 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import Section from '../components/ui/Section.astro';
+import Badge from '../components/ui/Badge.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Timeline from '../components/ui/Timeline.astro';
+import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
+import { responsive } from '../lib/responsive';
+import { deepdiveUrl } from '../lib/deepdive';
+import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
+import { BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
+import { trackAttrs } from '../lib/analytics';
+
+// This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
+// Every contact button is tracked: Zoho and WhatsApp report no placement back.
+const booking = (placement: string) => ({
+  href: BOOKING_URL,
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  icon: 'external' as const,
+  track: { event: 'review_booking_click' as const, placement },
+});
+const whatsapp = (placement: WhatsappPlacement) => ({
+  href: whatsappUrl(placement),
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  icon: 'external' as const,
+  track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
+});
+
+const reviewChecks = [
+  { title: 'Overlap', body: 'Which of your funds hold the same stocks.' },
+  { title: 'Benchmark check', body: 'Which funds lag a fair benchmark, and for how long.' },
+  { title: 'Costs', body: 'What you pay each year in expense ratios, in rupees.' },
+  { title: 'Fit to your risk profile', body: 'If your mix still suits your goals and time frame.' },
+];
+
+const steps = [
+  {
+    title: 'Book a review call',
+    body: 'Pick a time, or message us on WhatsApp. We reply within 2 working days.',
+    icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+  },
+  {
+    title: 'First conversation',
+    body: 'We discuss your goals, your time frame, your existing funds and your risk profile.',
+    icon: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 20a4.5 4.5 0 0 1 6-4.2"/>',
+  },
+  {
+    title: 'Fund shortlisting and selection help',
+    body: 'We shortlist suitable funds and explain why each fits, with its costs and our commission.',
+    icon: '<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0z"/>',
+  },
+  {
+    title: 'We set it up, you approve',
+    body: 'We help from KYC to investment. You approve each one by OTP and pay the fund house directly.',
+    icon: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+  },
+  {
+    title: 'Reviews and service',
+    body: 'We review your funds at regular intervals. We help with SIP changes, switches and redemptions.',
+    icon: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
+  },
+];
+
+const iconBox = 'w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const darkLink = 'font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
+---
+
+<Layout
+  title="Invest with Support - Fund Investigator"
+  description="Book a 30-minute portfolio review. An AMFI-registered Mutual Fund Distributor helps you choose suitable funds, explains risk and costs, and reviews them with you."
+  trackView="invest_view"
+>
+  <!-- 1. Hero: the review call is the main action -->
+  <Hero size="md" background="dark">
+    <Badge variant="dark" class="mb-6">Invest with Support</Badge>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      We do the investigation.
+      <span class="block text-fi-gold">You make the call.</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed']}>
+      We help you choose your funds, and we explain their risk, suitability and costs. Then we review them with you at regular intervals.
+    </p>
+
+    <div class="flex flex-col items-center gap-4 mt-10">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-72 sm:max-w-none">
+        <Button {...booking('invest_hero')} size="lg">Book a portfolio review</Button>
+        <Button {...whatsapp('invest_hero')} variant="secondary" surface="dark" size="lg">Message us on WhatsApp</Button>
+      </div>
+      <p class="text-body-sm text-fi-muted-inv max-w-md">
+        No fee from you. We earn a commission from the fund house, which is part of the regular plan's cost.
+        <a href="#costs" class={darkLink}>See the costs</a>
+      </p>
+      <p class="text-body-sm text-fi-muted-inv">
+        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={darkLink}>{CONTACT_EMAIL}</a>
+      </p>
+    </div>
+  </Hero>
+
+  <!-- 2. Portfolio review: the concrete first offer -->
+  <Section id="review" background="light" spacing="md" maxWidth="xl">
+    <div class="text-center mb-12">
+      <Badge class="mb-6">Portfolio review</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight max-w-3xl mx-auto']}>
+        Book a 30-minute review call.
+        <span class="text-fi-muted">We look at your funds with you.</span>
+      </h2>
+      <p class="text-body-md text-fi-muted max-w-2xl mx-auto">
+        No fee from you, and no obligation to invest through us. On the call, we check four things.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {reviewChecks.map((check) => (
+        <Card padding="md" hover={false}>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{check.title}</h3>
+          <p class="text-body-sm text-fi-muted">{check.body}</p>
+        </Card>
+      ))}
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mt-10 w-full max-w-72 sm:max-w-none mx-auto">
+      <Button {...booking('invest_review')} size="lg">Book a portfolio review</Button>
+      <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Message us on WhatsApp</Button>
+    </div>
+    <p class="text-body-sm text-fi-muted text-center mt-4">
+      Keep your fund app open during the call. You do not need to send us any documents.
+    </p>
+  </Section>
+
+  <!-- 3. How it works -->
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <div class="text-center mb-12 lg:mb-16">
+      <Badge class="mb-6">How it works</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight']}>Five steps. You approve every investment.</h2>
+    </div>
+
+    <Timeline steps={steps} />
+
+    <p class="text-body-sm text-fi-muted leading-relaxed bg-fi-light border border-fi-border rounded-lg p-5 mt-12 lg:mt-16 max-w-3xl mx-auto">
+      <strong class="text-fi-ink">Not the right fit?</strong>
+      If you prefer to choose funds yourself, use
+      <a href={deepdiveUrl('invest_fallback')} target="_blank" rel="noopener noreferrer" {...trackAttrs('deepdive_click', 'invest_fallback')} class={lightLink}>Deepdive ↗</a>
+      and direct plans. If you need a full financial plan, tax or insurance advice, speak to a SEBI-registered investment adviser.
+    </p>
+  </Section>
+
+  <!-- 4. Who we are: compact cards; the full disclosure lives on /disclaimer/ -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <div class="text-center mb-12">
+      <Badge class="mb-6">Who we are</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight']}>Registered, and open about how we are paid.</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
+      <Card padding="lg" hover={false} class="w-full max-w-72 sm:max-w-none mx-auto">
+        <div class={iconBox}>
+          <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our registration</h3>
+        <DistributorIdentity variant="block" surface="light" />
+      </Card>
+
+      <div id="costs" class="w-full max-w-72 sm:max-w-none mx-auto">
+        <Card padding="lg" hover={false} class="h-full">
+          <div class={iconBox}>
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 11h6M13 11c0 2.5-2 4-4 4l4 3"/></svg>
+          </div>
+          <p class="text-caption uppercase tracking-fi-label text-fi-muted mb-1">How we earn</p>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">No fee from you</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">
+            The fund house pays us a commission from the regular plan's expense ratio. So a regular plan costs more each year than the direct plan of the same fund.
+          </p>
+        </Card>
+      </div>
+
+      <Card padding="lg" hover={false} class="w-full max-w-72 sm:max-w-none mx-auto sm:col-span-2 lg:col-span-1">
+        <div class={iconBox}>
+          <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our transparency</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">
+          We are empanelled with every fund house (AMC). Before you invest, we show our commission on each suggested fund and its alternatives. Our fund investigations never link to this service.
+        </p>
+      </Card>
+    </div>
+
+    <p class="text-center text-body-sm text-fi-muted mt-10">
+      <a href="/disclaimer/#distribution" class={lightLink}>Full disclosures: how we are paid →</a>
+    </p>
+  </Section>
+
+  <!-- 5. Ready to start? -->
+  <Section background="white" spacing="md" maxWidth="sm">
+    <div class="text-center">
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Ready to start?</h2>
+      <p class="text-body-md text-fi-muted leading-relaxed mb-8 max-w-2xl mx-auto">
+        Book a review call, or send us a message. We reply within 2 working days. We never ask for KYC documents, statements or passwords on WhatsApp.
+      </p>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
+        <Button {...booking('invest_cta')} size="lg">Book a portfolio review</Button>
+        <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Message us on WhatsApp</Button>
+      </div>
+      <p class="text-body-sm text-fi-muted mt-6">
+        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
+      </p>
+    </div>
+  </Section>
+</Layout>

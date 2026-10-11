@@ -4,6 +4,7 @@ import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
+import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import { getCollection } from 'astro:content';
@@ -12,14 +13,58 @@ import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 
-// Fetch featured articles for homepage
+// Featured by slug, not "latest": only guides whose card text names no fund may
+// sit on a page that promotes the service (handoff §2, Links). Replace these
+// with the decision guides once they are published (log #74).
+const featuredGuideSlugs = ['five-checks-mutual-fund', 'mutual-fund-categories-explained'];
 const allReports = await getCollection('reports');
-const featuredReports = allReports
-  .filter(report => !report.id.startsWith('_')) // Exclude template files
-  .filter(report => report.data.featured === true)
-  .filter(report => report.data.status !== 'archived')
-  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
-  .slice(0, 3);
+const featuredGuides = featuredGuideSlugs
+  .map((slug) => allReports.find((report) => report.slug === slug))
+  .filter((report) => report !== undefined);
+
+// Situations a ₹10 lakh+ investor recognises; copy to be reworked (handoff §4).
+const situations = [
+  {
+    title: 'Too many funds',
+    body: 'Ten or more funds, bought over the years from different apps and banks. Many of them hold the same stocks.',
+  },
+  {
+    title: 'A large sum to invest',
+    body: 'A bonus, ESOP sale or property sale. You want a plan for when and where to invest it, not a tip.',
+  },
+  {
+    title: 'No time to check',
+    body: 'You know some funds may lag their benchmark. You have not had the time to find out which ones.',
+  },
+];
+
+const services = [
+  {
+    title: 'Funds chosen through research',
+    body: 'We help you choose from funds that pass our research. We test each fund against a fair benchmark, and for risk and cost.',
+    icon: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M8 13l2-2 2 2 3-3"/>',
+  },
+  {
+    title: 'Matched to your risk profile',
+    body: 'We start with your goals, your time frame and your risk profile. We help you choose only funds that are suitable for you.',
+    icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  },
+  {
+    title: 'Support after you invest',
+    body: 'We review your funds at regular intervals. We help with SIP changes, switches and paperwork. When markets fall, we look at the evidence with you.',
+    icon: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/>',
+  },
+];
+
+const deepdiveFeatures = [
+  'Compare your fund against a fair benchmark',
+  'See how it held up when markets fell',
+  'Check if the return was worth the risk',
+];
+
+// The third card spans both columns at sm so the 2-column row leaves no orphan.
+const lastCardSpan = (index: number, length: number) =>
+  index === length - 1 ? 'sm:col-span-2 lg:col-span-1' : '';
 ---
 
 <Layout
@@ -27,297 +72,153 @@ const featuredReports = allReports
   description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
 >
-  <!-- Hero Section -->
+  <!-- 1. Hero: one promise, one concrete offer -->
   <Hero size="lg" background="dark" class="fi-investigation-hero">
     <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Oversized heading with breathing room -->
-    <div class="mb-12 md:mb-14">
+    <div class="relative z-10 mb-10">
       <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
-        Fund Performance,
-        <span class="text-fi-gold">Investigated</span>
+        We investigate, so you can
+        <span class="text-fi-gold">invest.</span>
       </h1>
 
-      <p class="text-body-md sm:text-body-lg text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed px-1">
-        We look beyond the sales pitch to examine whether a mutual fund beat a fair benchmark, how consistently it did so, and what risk it took to get there.
+      <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed px-1']}>
+        Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust.
       </p>
     </div>
 
-    <!-- CTAs: the on-site investigations lead (gold) — they build trust before
-         a first-time visitor is sent off-site to the Deepdive app. -->
-    <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mb-6 w-full max-w-72 sm:max-w-none mx-auto">
-      <Button href="/reports/" size="lg" class="w-full sm:w-auto min-w-0">
-        Read our Investigations
+    <!-- The review call is on-site (/invest/#review), so it gets an arrow, not ↗. -->
+    <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
+      <Button
+        href="/invest/#review"
+        size="lg"
+        icon="arrow-right"
+        track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
+        class="w-full sm:w-auto min-w-0"
+      >
+        Book a portfolio review
       </Button>
-      <Button href={deepdiveUrl('homepage_hero')} variant="secondary" surface="dark" size="lg" icon="external" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto min-w-0">
-        Investigate Your Fund
+      <Button href="/invest/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
+        How support works
       </Button>
     </div>
-
   </Hero>
 
-  <!-- Problem Section: The Sales Trap -->
+  <!-- 2. Who we help, then How we help -->
   <Section background="light" spacing="md" maxWidth="2xl">
-
-      <!-- Section Header -->
-      <div class="text-center mb-12 lg:mb-16">
-        <Badge class="mb-6">The Sales Trap</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight max-w-72 sm:max-w-5xl mx-auto']}>
-          Funds are marketed on their best returns.<br class="hidden sm:block" />
-          <span class="text-fi-muted">Your SIP statement tells a different story.</span>
+    <div class="mb-16 lg:mb-20">
+      <div class="text-center mb-10">
+        <Badge class="mb-6">Who we help</Badge>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
+          You have built real savings.
+          <span class="text-fi-muted">You do not have time to manage them.</span>
         </h2>
       </div>
-
-      <!-- Problem Cards Grid -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-
-        <!-- Card 1: Returns are marketed -->
-        <div class="bg-white rounded-lg p-6 lg:p-8 border border-fi-border w-full max-w-72 sm:max-w-none mx-auto">
-          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Returns are marketed. Risk is footnoted.</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">
-            Past returns are marketed everywhere. Rolling returns and risk-adjusted metrics are hard to find. What you don't see is exactly what you need to make an informed decision.
-          </p>
-        </div>
-
-        <!-- Card 2: Today's winner -->
-        <div class="bg-white rounded-lg p-6 lg:p-8 border border-fi-border w-full max-w-72 sm:max-w-none mx-auto">
-          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Today's winner is tomorrow's trap.</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">
-            Rankings reward recent performance. A fund that topped last year's charts may have simply caught a rising market. Past returns, without context, are a trap disguised as a signal.
-          </p>
-        </div>
-
-        <!-- Card 3: Transparency (spans full width on tablet 2-col, reverts to single span on desktop 3-col) -->
-        <div class="bg-white rounded-lg p-6 lg:p-8 border border-fi-border w-full max-w-72 sm:max-w-none mx-auto sm:col-span-2 lg:col-span-1">
-          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Commission should come with disclosure.</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">
-            Regular plans pay the distributor a commission every year. Any distributor, including us, should tell you how much, and what service you get for it.
-          </p>
-        </div>
-
+        {situations.map((situation, index) => (
+          <Card padding="lg" hover={false} class:list={['w-full max-w-72 sm:max-w-none mx-auto', lastCardSpan(index, situations.length)]}>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{situation.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{situation.body}</p>
+          </Card>
+        ))}
       </div>
+    </div>
+
+    <div class="text-center mb-12 lg:mb-16">
+      <Badge class="mb-6">How we help</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
+        Support from your first SIP to every review.<br class="hidden sm:block" />
+        <span class="text-fi-muted">Help to choose, to invest, and to stay on course.</span>
+      </h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
+      {services.map((service, index) => (
+        <Card padding="lg" hover={false} class:list={['w-full max-w-72 sm:max-w-none mx-auto', lastCardSpan(index, services.length)]}>
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={service.icon} />
+          </div>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{service.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{service.body}</p>
+        </Card>
+      ))}
+    </div>
+
+    <!-- The hero carries no disclosure, so the fee line sits next to the service. -->
+    <div class="text-center mt-10">
+      <p class="text-body-sm text-fi-muted max-w-2xl mx-auto mb-6">
+        You pay us no separate fee. We earn a commission from the fund house on regular plans, so regular plans cost more than direct plans.
+        <a href="/invest/#costs" class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">See the costs →</a>
+      </p>
+      <Button href="/invest/">See how support works</Button>
+    </div>
   </Section>
 
-  <!-- Investigations Section: placed straight after the problem it answers,
-       ahead of the off-site Deepdive app. -->
+  <!-- 3. Investigations, then Subscribe after the value -->
   <Section background="white" spacing="md" maxWidth="2xl">
-      <!-- Centered header -->
-      <div class="text-center mb-10 lg:mb-12">
-        <Badge class="mb-6">Investigations</Badge>
-        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 break-words']}>What the Data Actually Says</h2>
-        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
-          Every fund investigated through three lenses: returns, risk, and risk-adjusted performance. Measured against its benchmark across multiple time periods.
-        </p>
+    <div class="text-center mb-10 lg:mb-12">
+      <Badge class="mb-6">Investigations</Badge>
+      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 break-words']}>The basics, investigated.</h2>
+      <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
+        Guides and fund investigations that help you ask better questions before you invest.
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      <div class="grid sm:grid-cols-2 gap-5">
+        {featuredGuides.map((report) => (
+          <ReportCard report={report} href={`/reports/${report.slug}/`} />
+        ))}
       </div>
 
-      <!-- Featured investigation cards: 2-column grid -->
-      <div class="max-w-4xl mx-auto">
-        {featuredReports.length > 0 ? (
-          <div class="grid sm:grid-cols-2 gap-5">
-            {featuredReports.slice(0, 2).map((report) => (
-              <ReportCard report={report} href={`/reports/${report.slug}/`} />
-            ))}
-          </div>
-        ) : (
-          <div class="bg-fi-light rounded-lg p-6 sm:p-8 text-center border border-fi-border">
-            <p class="text-body-md text-fi-muted">No featured investigations yet. Check back soon.</p>
-          </div>
-        )}
-
-        <!-- CTA below cards: secondary — the cards carry this section's emphasis -->
-        <div class="text-center mt-8">
-          <Button href="/reports/" variant="secondary" surface="light" size="md">View all investigations</Button>
-        </div>
-      </div>
-  </Section>
-
-  <!-- Deepdive Showcase Section -->
-  <Section background="dark" spacing="md" maxWidth="2xl">
-
-      <!-- Header -->
-      <div class="max-w-2xl mx-auto text-center mb-10">
-        <Badge variant="dark" class="mb-4">Deepdive</Badge>
-        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-4']}>Analyze a Fund Like an Investigator</h2>
-        <p class="text-body-md text-fi-muted-inv leading-relaxed">
-          Select your fund on our app and judge the performance yourself.
-        </p>
-      </div>
-
-      <!-- Stacked layout: the reel takes a full-width row of its own, with the
-           analytical lens cards as a strip beneath it. The reel carries readable
-           captions, so it needs the width — in a side-by-side split the frame is
-           only ~370px wide from 768px down, which renders the captions unusably
-           small. -->
-      <div class="flex flex-col gap-8">
-
-        <!-- App showcase reel. The captions sit in a lower third, so the frame's
-             aspect ratio is matched to each rendition (9:16 / 3:4 / 16:9) and
-             object-contain is used — any cover crop would cut off the text that
-             carries the message.
-             The frame's width is set in the style block below, where it is
-             bounded by viewport height as well as width while portrait. From md
-             the cap is 4xl: the landscape cut at the full 1280px container reads
-             as an embedded app rather than a showcase.
-             Playback is started lazily by the script at the foot of this file;
-             users who prefer reduced motion get the static poster and no video
-             bytes at all. -->
-        <div class="showcase-frame relative mx-auto md:max-w-4xl bg-white rounded-lg overflow-hidden border border-fi-border-dark shadow-fi-card-dark aspect-fi-portrait sm:aspect-fi-tablet md:aspect-video">
-          <video
-            class="showcase-video absolute inset-0 w-full h-full object-contain"
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-label="Silent walkthrough of the Deepdive app: starting from a fund, returns and risk at a glance, SIP performance against a fair benchmark, drawdowns in falling markets, year-by-year consistency, and rolling-period analysis."
-          >
-            <!-- Ordered by breakpoint first, then by codec (smallest first).
-                 The browser takes the first source whose media query matches and
-                 whose codec it can decode. -->
-            <source media="(min-width: 768px)" src="/videos/promo-desktop.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
-            <source media="(min-width: 768px)" src="/videos/promo-desktop.webm" type='video/webm; codecs="vp9"' />
-            <source media="(min-width: 768px)" src="/videos/promo-desktop.mp4" type="video/mp4" />
-
-            <source media="(min-width: 640px)" src="/videos/promo-ipad.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
-            <source media="(min-width: 640px)" src="/videos/promo-ipad.webm" type='video/webm; codecs="vp9"' />
-            <source media="(min-width: 640px)" src="/videos/promo-ipad.mp4" type="video/mp4" />
-
-            <source src="/videos/promo-mobile.av1.webm" type='video/webm; codecs="av01.0.08M.08"' />
-            <source src="/videos/promo-mobile.webm" type='video/webm; codecs="vp9"' />
-            <source src="/videos/promo-mobile.mp4" type="video/mp4" />
-          </video>
-
-          <!-- Shown until playback actually starts, and permanently under
-               prefers-reduced-motion. A <picture> is used rather than the video's
-               poster attribute because that attribute cannot vary by breakpoint. -->
-          <picture class="showcase-poster absolute inset-0">
-            <source media="(min-width: 768px)" srcset="/videos/promo-desktop-poster.webp" />
-            <source media="(min-width: 640px)" srcset="/videos/promo-ipad-poster.webp" />
-            <img
-              class="w-full h-full object-contain"
-              src="/videos/promo-mobile-poster.webp"
-              alt="The Deepdive app home screen, where an investigation starts by typing a fund name."
-              loading="lazy"
-            />
-          </picture>
-
-          <button
-            type="button"
-            class="showcase-toggle absolute bottom-3 right-3 w-fi-icon-lg h-fi-icon-lg flex items-center justify-center rounded-full bg-fi-dark/80 text-fi-ink-inv border border-fi-border-dark backdrop-blur-sm transition-opacity hover:bg-fi-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-gold"
-            aria-label="Pause the walkthrough"
-            aria-pressed="false"
-            hidden
-          >
-            <svg class="showcase-icon-pause w-fi-icon h-fi-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M8 5h3v14H8zM13 5h3v14h-3z" />
-            </svg>
-            <svg class="showcase-icon-play w-fi-icon h-fi-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M8 5l11 7-11 7z" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Analytical lens cards. Card 3 spans both columns at sm so the row
-             never leaves a lone orphan card. -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-          <!-- Card 1: Returns -->
-          <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark">
-            <div class="w-11 h-11 bg-fi-dark rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
-                <polyline points="16 7 22 7 22 13"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-fi-ink-inv mb-2">Did your fund actually outperform?</p>
-            <p class="text-body-sm text-fi-muted-inv">Easily compare your fund's performance against the benchmark, and see how it holds up across time periods and recent trends.</p>
-          </div>
-
-          <!-- Card 2: Risk -->
-          <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark">
-            <div class="w-11 h-11 bg-fi-dark rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-fi-ink-inv mb-2">What happens when markets fall?</p>
-            <p class="text-body-sm text-fi-muted-inv">See how your fund handles falling markets. Know what to expect, so a downturn doesn't catch you off guard.</p>
-          </div>
-
-          <!-- Card 3: Risk-Adjusted (spans full width on the sm 2-col row) -->
-          <div class="bg-fi-mid rounded-lg p-6 border border-fi-border-dark sm:col-span-2 lg:col-span-1">
-            <div class="w-11 h-11 bg-fi-dark rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                <path d="M7 21H17"/>
-                <path d="M12 3v18"/>
-                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
-              </svg>
-            </div>
-            <p class="text-heading-sm font-bold text-fi-ink-inv mb-2">Is the return worth the risk?</p>
-            <p class="text-body-sm text-fi-muted-inv">Higher returns often come with higher risk. Know your fund's risk-return tradeoff and check if it suits your risk tolerance.</p>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mt-8 w-full max-w-72 sm:max-w-none mx-auto">
-        <Button href={deepdiveUrl('homepage_cta')} variant="primary" size="md" icon="external" target="_blank" rel="noopener noreferrer">Investigate Your Fund</Button>
-        <Button href="/reports/five-checks-mutual-fund/" variant="secondary" surface="dark" size="md">See the Five-Question Method</Button>
-      </div>
-
-  </Section>
-
-  <!-- About Teaser + Email Capture: merged into one closing section so the
-       page alternates light/dark without two dark bands back to back. -->
-  <Section id="about" background="light" spacing="md" maxWidth="lg" class="scroll-mt-20">
-      <div class="text-center">
-        <Badge class="mb-6">Why Fund Investigator</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight']}>
-          Because Indian mutual fund investors deserve to see the evidence.
-          <span class="text-fi-muted">Before any decision, with or without help.</span>
-        </h2>
-        <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto mb-6">
-          Fund platforms often compress research into returns, ratings, and buy flows. We built Fund Investigator to inspect the evidence behind performance before forming a view.
-        </p>
-        <Button href="/about/" variant="tertiary" surface="light" size="sm">Read why Fund Investigator exists</Button>
+      <div class="text-center mt-8">
+        <Button href="/reports/" variant="secondary" surface="light">View all investigations</Button>
       </div>
 
       <Card variant="elevated" padding="lg" hover={false} class="max-w-2xl mx-auto mt-12 text-center">
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">New investigation published? We'll tell you.</h3>
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">New guide published? We'll tell you.</h3>
         <p class="text-body-md text-fi-muted mb-6">
-          Subscribe and get notified when a new fund investigation goes live.
+          Subscribe and get each new guide and investigation by email.
         </p>
         <Button
           href={substackWelcomeUrl('homepage_bottom')}
           target="_blank"
           rel="noopener noreferrer"
-          variant="primary"
-          size="md"
           icon="external"
+          track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
         >
-          Subscribe for new investigations
+          Subscribe
         </Button>
       </Card>
+    </div>
+  </Section>
+
+  <!-- 4. Deepdive: the do-it-yourself route, so no gold button -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <DeepdiveSnapshot>
+      <Badge class="mb-6">Deepdive</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Prefer to invest on your own?</h2>
+      <p class="text-body-md text-fi-muted leading-relaxed mb-6">
+        Use Deepdive, our free fund analysis app, to check any fund yourself. Choose direct plans and keep every decision.
+      </p>
+      <ul class="space-y-3 text-left max-w-md mx-auto lg:mx-0 mb-8">
+        {deepdiveFeatures.map((feature) => (
+          <li class="flex gap-3 text-body-sm text-fi-ink">
+            <span class="text-fi-positive font-bold" aria-hidden="true">✓</span>{feature}
+          </li>
+        ))}
+      </ul>
+      <Button
+        href={deepdiveUrl('homepage_deepdive')}
+        variant="secondary"
+        surface="light"
+        icon="external"
+        target="_blank"
+        rel="noopener noreferrer"
+        track={{ event: 'deepdive_click', placement: 'homepage_deepdive' }}
+      >
+        Open Deepdive
+      </Button>
+    </DeepdiveSnapshot>
   </Section>
 </Layout>
 
@@ -344,145 +245,4 @@ const featuredReports = allReports
       opacity: 0.14;
     }
   }
-
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* While the frame is portrait, bound it by viewport height as well as width.
-     A full-width 9:16 frame takes ~90% of the screen on a short handset
-     (343x610 on a 375x667 phone) while a tall phone sits nearer 75%. Deriving
-     the width from whichever constraint binds keeps the frame's aspect exact,
-     so object-contain never has to letterbox — capping height alone would
-     leave white bars down the sides. Tall phones are unaffected. */
-  .showcase-frame {
-    width: min(100%, 24rem, calc(80vh * 9 / 16));
-    width: min(100%, 24rem, calc(80svh * 9 / 16));
-  }
-
-  @media (min-width: 640px) {
-    .showcase-frame {
-      width: min(100%, 28rem, calc(80vh * 3 / 4));
-      width: min(100%, 28rem, calc(80svh * 3 / 4));
-    }
-  }
-
-  /* From md the cut is landscape and height is never the binding constraint. */
-  @media (min-width: 768px) {
-    .showcase-frame {
-      width: 100%;
-    }
-  }
-
-  /* App showcase: the poster covers the video until playback actually starts,
-     then fades out. Kept in the flow (rather than display:none) so the frame
-     never flashes empty while the first video frames decode. */
-  .showcase-poster {
-    opacity: 1;
-    transition: opacity 400ms ease;
-  }
-
-  .showcase-frame.is-playing .showcase-poster {
-    opacity: 0;
-  }
-
-  /* The toggle swaps glyphs rather than nodes, so the button keeps focus. */
-  .showcase-toggle .showcase-icon-play {
-    display: none;
-  }
-
-  .showcase-frame.is-paused .showcase-toggle .showcase-icon-play {
-    display: block;
-  }
-
-  .showcase-frame.is-paused .showcase-toggle .showcase-icon-pause {
-    display: none;
-  }
-
-  /* No motion means no video element and no control to operate it — the
-     script also bails out early, so no video bytes are ever requested. */
-  @media (prefers-reduced-motion: reduce) {
-    .showcase-video,
-    .showcase-toggle {
-      display: none;
-    }
-    .showcase-poster {
-      opacity: 1;
-    }
-  }
 </style>
-
-<script>
-  // Deepdive showcase reel. The section sits below the fold, so nothing is
-  // fetched until it scrolls into view — the video ships with preload="none"
-  // and no autoplay attribute, and this script is the only thing that starts it.
-  const frame = document.querySelector<HTMLElement>('.showcase-frame');
-  const video = frame?.querySelector<HTMLVideoElement>('.showcase-video');
-  const toggle = frame?.querySelector<HTMLButtonElement>('.showcase-toggle');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  // Bail out entirely when motion is unwanted: the poster is already visible and
-  // this keeps the video cost at exactly zero bytes.
-  if (frame && video && toggle && !reducedMotion.matches) {
-    let userPaused = false;
-
-    const play = () => {
-      // play() rejects when autoplay is blocked; surface the play glyph so the
-      // reel is still reachable by hand instead of sitting silently stalled.
-      video.play().then(
-        () => frame.classList.remove('is-paused'),
-        () => frame.classList.add('is-paused'),
-      );
-    };
-
-    video.addEventListener('playing', () => frame.classList.add('is-playing'));
-
-    toggle.hidden = false;
-    toggle.addEventListener('click', () => {
-      userPaused = !video.paused;
-      if (userPaused) {
-        video.pause();
-        frame.classList.add('is-paused');
-      } else {
-        play();
-      }
-      toggle.setAttribute('aria-pressed', String(userPaused));
-      toggle.setAttribute(
-        'aria-label',
-        userPaused ? 'Play the walkthrough' : 'Pause the walkthrough',
-      );
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            if (!userPaused) play();
-          } else if (!video.paused) {
-            // Pause off-screen without touching userPaused, so an explicit
-            // pause survives scrolling away and back.
-            video.pause();
-          }
-        }
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(frame);
-
-    // <source media> is evaluated once at load time and never re-evaluated, so a
-    // desktop window resized across a breakpoint would keep the wrong rendition.
-    // Reload only after something has already been fetched — reloading a
-    // preload="none" video would defeat the lazy start.
-    for (const query of ['(min-width: 640px)', '(min-width: 768px)']) {
-      window.matchMedia(query).addEventListener('change', () => {
-        if (video.currentSrc) {
-          video.load();
-          if (!userPaused) play();
-        }
-      });
-    }
-  }
-</script>

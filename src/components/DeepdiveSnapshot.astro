@@ -1,0 +1,32 @@
+---
+/**
+ * DeepdiveSnapshot Component
+ *
+ * Two-column band: a static Deepdive app screenshot beside the slotted copy.
+ * Used on the homepage and /reports/. A still image replaces the old video
+ * reel: it costs one lazy request and needs no playback script.
+ *
+ * @example
+ * <DeepdiveSnapshot>
+ *   <h2>Check any fund yourself.</h2>
+ *   <Button href={deepdiveUrl('reports_deepdive')}>Open Deepdive</Button>
+ * </DeepdiveSnapshot>
+ */
+---
+
+<div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+  <div class="order-2 lg:order-1 rounded-lg overflow-hidden border border-fi-border shadow-fi-card bg-white aspect-video">
+    <img
+      src="/videos/promo-desktop-poster.webp"
+      width="1920"
+      height="1080"
+      alt="The Deepdive app home screen, where an investigation starts by typing a fund name."
+      class="w-full h-full object-contain"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="order-1 lg:order-2 text-center lg:text-left">
+    <slot />
+  </div>
+</div>

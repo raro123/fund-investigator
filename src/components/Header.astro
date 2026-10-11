@@ -1,10 +1,18 @@
 ---
 import Logo from './Logo.astro';
-import Button from './ui/Button.astro';
-import { substackWelcomeUrl } from '../lib/substack';
-import { deepdiveUrl } from '../lib/deepdive';
 
-const subscribeUrl = substackWelcomeUrl('header');
+// Three equal text links, no nav button: the service, the research, and who we are.
+// Deepdive and Subscribe live in the footer and in page sections (handoff §2, Navigation).
+const navLinks = [
+  { href: '/invest/', label: 'Invest' },
+  { href: '/reports/', label: 'Investigations' },
+  { href: '/about/', label: 'About' },
+];
+
+// A report page counts as Investigations, so the link stays lit while reading one.
+// The trailing slash is added so /invest and /invest/ both match.
+const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
+const isActive = (href: string) => currentPath.startsWith(href);
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 h-fi-header bg-fi-dark border-b border-fi-border-dark z-fi-header">
@@ -15,11 +23,19 @@ const subscribeUrl = substackWelcomeUrl('header');
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="/reports/" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Investigations</a>
-        <a href={deepdiveUrl('header_nav')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">Deepdive</a>
-        <a href="/about/" class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-sm">About</a>
-        <Button href={subscribeUrl} variant="secondary" surface="dark" size="sm">Subscribe</Button>
+      <nav class="hidden md:flex items-center gap-8" aria-label="Main">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            aria-current={isActive(href) ? 'page' : undefined}
+            class:list={[
+              'hover:text-fi-gold transition-colors font-medium text-sm',
+              isActive(href) ? 'text-fi-gold' : 'text-fi-muted-inv',
+            ]}
+          >
+            {label}
+          </a>
+        ))}
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -28,6 +44,7 @@ const subscribeUrl = substackWelcomeUrl('header');
         class="md:hidden text-fi-ink-inv focus:outline-none focus:ring-2 focus:ring-fi-gold rounded p-2 transition-all duration-300"
         aria-label="Toggle menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
       >
         <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -46,34 +63,19 @@ const subscribeUrl = substackWelcomeUrl('header');
   class="fixed left-0 right-0 top-fi-header z-fi-menu opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
   aria-hidden="true"
 >
-  <!-- Menu content with background -->
-  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-fi-dark shadow-lg border-t border-fi-border-dark">
-    <a
-      href="/reports/"
-      class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
-    >
-      Investigations
-    </a>
-    <a
-      href={deepdiveUrl('header_cta')}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
-    >
-      Deepdive
-    </a>
-    <a
-      href="/about/"
-      class="text-fi-muted-inv hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link"
-    >
-      About
-    </a>
-    <a
-      href={subscribeUrl}
-      class="text-fi-ink-inv hover:text-fi-gold transition-colors font-semibold text-lg mobile-menu-link"
-    >
-      Subscribe
-    </a>
+  <nav class="relative flex flex-col items-start pt-8 pb-8 px-6 gap-6 bg-fi-dark shadow-lg border-t border-fi-border-dark" aria-label="Main">
+    {navLinks.map(({ href, label }) => (
+      <a
+        href={href}
+        aria-current={isActive(href) ? 'page' : undefined}
+        class:list={[
+          'hover:text-fi-gold transition-colors font-medium text-lg mobile-menu-link',
+          isActive(href) ? 'text-fi-gold' : 'text-fi-ink-inv',
+        ]}
+      >
+        {label}
+      </a>
+    ))}
   </nav>
 </div>
 

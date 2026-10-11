@@ -7,10 +7,10 @@ import Badge from '../components/ui/Badge.astro';
 import Card from '../components/ui/Card.astro';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
-import { CONTACT_EMAIL } from '../lib/distributor';
+import { BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
 
-// Phase 1: the page states how we are paid but links to no service yet.
-// Phase 2 adds the Invest with Support card, the booking button and the #costs link.
+// /about/ names no fund, so it may link to /invest/ and the booking page (handoff §2, Links).
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 
 const rules = [
   {
@@ -26,6 +26,7 @@ const rules = [
   {
     title: 'Open about how we are paid',
     body: "When you invest through us, the fund house pays us a commission from the regular plan's expense ratio. We show it on each fund before you invest.",
+    link: { href: '/invest/#costs', label: 'See the costs →' },
     icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   },
 ];
@@ -83,27 +84,71 @@ const rules = [
             <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={rule.icon} />
           </div>
           <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{rule.title}</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">{rule.body}</p>
+          <p class="text-body-sm text-fi-muted leading-relaxed">
+            {rule.body}
+            {rule.link && <>{' '}<a href={rule.link.href} class={lightLink}>{rule.link.label}</a></>}
+          </p>
         </Card>
       ))}
     </div>
   </Section>
 
-  <Section background="white" spacing="md" maxWidth="md">
-    <div class="text-center">
-      <Badge class="mb-6">Investigate on Your Own</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Check any fund yourself.</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto mb-8">
-        Read our investigations, or use Deepdive to check any fund against a fair benchmark, through market falls, and for return against risk.
-      </p>
-      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <Button href={deepdiveUrl('about')} icon="external" target="_blank" rel="noopener noreferrer">Open Deepdive</Button>
-        <Button href="/reports/" variant="tertiary" surface="light" icon="arrow-right">Read our investigations</Button>
-      </div>
-      <p class="text-body-sm text-fi-muted mt-10">
-        Questions? <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{CONTACT_EMAIL}</a>
-      </p>
+  <!-- Two ways we help: both routes side by side, one gold action -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <div class="text-center mb-12">
+      <Badge class="mb-6">Two ways we help</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight max-w-72 sm:max-w-3xl mx-auto']}>
+        Invest with our support, or investigate on your own.
+      </h2>
     </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 lg:gap-8">
+      <Card variant="elevated" padding="lg" hover={false} class="flex flex-col">
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Invest with Support</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed mb-6 flex-1">
+          We look at your funds with you, help you choose suitable ones, and review them at regular intervals. Start with a 30-minute portfolio review call.
+        </p>
+        <div class="flex flex-col items-start gap-3">
+          <Button
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            icon="external"
+            track={{ event: 'review_booking_click', placement: 'about' }}
+            class="w-full sm:w-auto"
+          >
+            Book a portfolio review
+          </Button>
+          <a href="/invest/" class:list={[lightLink, 'text-body-sm']}>How support works →</a>
+        </div>
+      </Card>
+
+      <Card padding="lg" hover={false} class="flex flex-col">
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Investigate on your own</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed mb-6 flex-1">
+          Read our investigations, or use Deepdive to check any fund against a fair benchmark. Choose direct plans and keep every decision.
+        </p>
+        <div class="flex flex-col items-start gap-3">
+          <Button
+            href={deepdiveUrl('about')}
+            variant="secondary"
+            surface="light"
+            target="_blank"
+            rel="noopener noreferrer"
+            icon="external"
+            track={{ event: 'deepdive_click', placement: 'about' }}
+            class="w-full sm:w-auto"
+          >
+            Open Deepdive
+          </Button>
+          <a href="/reports/" class:list={[lightLink, 'text-body-sm']}>Read our investigations →</a>
+        </div>
+      </Card>
+    </div>
+
+    <p class="text-center text-body-sm text-fi-muted mt-10">
+      Questions? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
+    </p>
   </Section>
 </Layout>
 

@@ -19,7 +19,11 @@
  *
  * <!-- Tertiary text-only link on a light section -->
  * <Button variant="tertiary" surface="light" href="/reports/" icon="arrow-right">View All</Button>
+ *
+ * <!-- Tracked click: sends a PostHog event with the placement (src/lib/analytics.ts) -->
+ * <Button href={BOOKING_URL} track={{ event: 'review_booking_click', placement: 'invest_hero' }}>Book</Button>
  */
+import { trackAttrs, type TrackEvent } from '../../lib/analytics';
 
 interface Props {
   /** Button style variant */
@@ -42,6 +46,8 @@ interface Props {
   fullWidth?: boolean;
   /** Icon to display after text */
   icon?: 'arrow-right' | 'external' | 'download' | 'none';
+  /** PostHog click event for funnel tracking (src/lib/analytics.ts) */
+  track?: { event: TrackEvent; placement: string; channel?: string };
   /** Additional CSS classes */
   class?: string;
 }
@@ -57,6 +63,7 @@ const {
   disabled = false,
   fullWidth = false,
   icon = 'none',
+  track,
   class: className = '',
 } = Astro.props;
 
@@ -98,7 +105,10 @@ const classes = `${baseStyles} ${variantStyles[surface][variant]} ${sizeStyles[s
 
 // Determine element type
 const Element = href ? 'a' : 'button';
-const elementProps = href ? { href, target, rel } : { type, disabled };
+const elementProps = {
+  ...(href ? { href, target, rel } : { type, disabled }),
+  ...(track ? trackAttrs(track.event, track.placement, track.channel) : {}),
+};
 
 // Icon SVGs
 const icons = {
