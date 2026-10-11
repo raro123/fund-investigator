@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import DistributorIdentity from './ui/DistributorIdentity.astro';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 import { TWITTER_URL, YOUTUBE_URL } from '../lib/site-urls';
@@ -26,9 +27,9 @@ const subscribeUrl = substackWelcomeUrl('footer');
         <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Navigate</h3>
         <nav class="flex flex-col gap-3">
         <a href="/reports/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
-          <a href={deepdiveUrl('footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
-        <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Why We Built This</a>
-          <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-body-sm">Subscribe</a>
+          <a href={deepdiveUrl('footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive ↗</a>
+        <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">About</a>
+          <a href={subscribeUrl} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Subscribe ↗</a>
         </nav>
       </div>
 
@@ -84,10 +85,11 @@ const subscribeUrl = substackWelcomeUrl('footer');
 
     <div class="h-px bg-fi-border-dark mb-6"></div>
 
-    <div class="text-center">
+    <div class="text-center space-y-3">
       <p class="text-fi-muted-inv text-caption">
         © {year} Fund Investigator. All rights reserved.
       </p>
+      <DistributorIdentity variant="inline" surface="dark" />
     </div>
 
   </div>

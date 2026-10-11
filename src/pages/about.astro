@@ -4,14 +4,36 @@ import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import Hero from '../components/ui/Hero.astro';
 import Badge from '../components/ui/Badge.astro';
+import Card from '../components/ui/Card.astro';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
-import { TWITTER_URL } from '../lib/site-urls';
+import { CONTACT_EMAIL } from '../lib/distributor';
+
+// Phase 1: the page states how we are paid but links to no service yet.
+// Phase 2 adds the Invest with Support card, the booking button and the #costs link.
+
+const rules = [
+  {
+    title: 'Evidence before opinion',
+    body: 'Public data, standard measures and clear calculations. No star ratings and no black boxes. Our method is public, so you can check our work.',
+    icon: '<path d="M3 3v18h18"/><path d="M7 16l4-8 4 5 5-6"/>',
+  },
+  {
+    title: 'Research kept apart from selling',
+    body: 'Our fund investigations and Deepdive have no buy buttons and never link to our service. They show the evidence, and you keep the decision.',
+    icon: '<path d="M12 3v18"/><path d="M5 8h4M5 12h4M15 8h4M15 12h4"/>',
+  },
+  {
+    title: 'Open about how we are paid',
+    body: "When you invest through us, the fund house pays us a commission from the regular plan's expense ratio. We show it on each fund before you invest.",
+    icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  },
+];
 ---
 
 <Layout
   title="About Fund Investigator: Evidence-Based Fund Analysis"
-  description="Why Fund Investigator exists: mutual fund analysis that starts with evidence, not sales."
+  description="Why Fund Investigator exists: we investigate mutual funds with evidence, then help you choose and invest with the same checks and our costs shown first."
 >
   <Hero size="md" background="dark" class="fi-about-hero">
     <div class="fi-about-grid pointer-events-none" aria-hidden="true"></div>
@@ -23,109 +45,64 @@ import { TWITTER_URL } from '../lib/site-urls';
       <span class="text-fi-ink-inv">Exists</span>
     </h1>
     <p class="text-body-lg text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
-      Most fund platforms start with returns, ratings, or transactions. We start with the evidence behind performance.
+      We investigate mutual funds with evidence, not ratings. Then we help you choose and invest, with the same checks and our costs shown first.
     </p>
   </Hero>
 
   <Section background="white" spacing="md" maxWidth="md">
     <div class="border-l-4 border-fi-gold pl-6 md:pl-8">
-      <Badge class="mb-6">Case Note</Badge>
+      <Badge class="mb-6">Our Story</Badge>
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>The Question We Start With</h2>
+      <div class="space-y-4">
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Mutual fund research often gets compressed into one easy question: what returned the most?
+        Mutual fund research often shrinks to one question: what returned the most? That number matters, but it does not explain the path. A fund can lead because it took more risk, bet on a passing theme, or rode a market phase.
       </p>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        That number matters, but it does not explain the path. A fund can outperform because it took more risk, concentrated into a temporary theme, held up better in a drawdown, or simply benefited from a market phase.
+        We started Fund Investigator to separate the result from the reasons. We check risk, falls, benchmark behaviour and style drift before we form a view. We built Deepdive so anyone can run the same checks.
       </p>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator exists to separate the result from the reasons behind it. We look at risk, drawdowns, benchmark behavior, and style drift before forming a view.
+        The same problem appears when people invest. Too often, funds are sold, not chosen: on last year's returns, on a new fund launch, or on what pays the seller most. Fund distribution is usually run as sales, not as analysis. That is how mis-selling happens.
       </p>
+      <p class="text-body-md text-fi-muted leading-relaxed">
+        <strong class="text-fi-ink">So we offer distribution that starts with analysis.</strong> As an AMFI-registered Mutual Fund Distributor, we use the same evidence to help you choose suitable funds. We show what we earn on each one before you invest.
+      </p>
+      </div>
     </div>
   </Section>
 
-  <Section background="dark" spacing="md" maxWidth="2xl">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
-          Because Indian mutual fund investors deserve analysis that improves their portfolio.
-          <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
-        </h2>
-      </div>
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <div class="text-center mb-12 lg:mb-16">
+      <Badge class="mb-6">How We Work</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight']}>Three rules we keep.</h2>
+    </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
-            </svg>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
+      {rules.map((rule, index) => (
+        <Card padding="lg" hover={false} class={index === rules.length - 1 ? 'sm:col-span-2 lg:col-span-1' : ''}>
+          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
+            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={rule.icon} />
           </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Analytics, Not Sales</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            We do not rank funds to push a purchase. We show the evidence behind performance so the analysis can be checked before any decision is made.
-          </p>
-        </div>
-
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Zero Conflicts of Interest</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            No commissions, no fund partnerships, no trail fees. The reason we can stay analytical is because we do not earn from your investment decisions.
-          </p>
-        </div>
-
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Transparent Methodology</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            Public data sources, standard financial measures, and clear calculations. No black boxes, no star ratings, no shortcut pretending to be research.
-          </p>
-        </div>
-      </div>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{rule.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{rule.body}</p>
+        </Card>
+      ))}
     </div>
   </Section>
 
   <Section background="white" spacing="md" maxWidth="md">
-    <div class="border-t border-fi-border pt-10">
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Where We Draw the Line</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator provides analysis, not recommendations. We do not tell readers what to buy, sell, or hold. The work here is to make the evidence easier to inspect.
-      </p>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        That means no buy buttons, no portfolio nudges, and no recommended-fund lists. The reader keeps the decision. We provide the research trail.
-      </p>
-      <div class="flex justify-center gap-4 mt-8">
-        <a href="mailto:contact@fundinvestigator.com" class="text-fi-ink hover:text-fi-link transition-colors font-medium text-body-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          Contact Us
-        </a>
-        <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer" class="text-fi-ink hover:text-fi-link transition-colors font-medium text-body-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          Follow on X
-        </a>
-      </div>
-    </div>
-  </Section>
-
-  <Section background="dark" spacing="md" maxWidth="md">
     <div class="text-center">
-      <Badge variant="dark" class="mb-6">Open the File</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6']}>See the Analysis in Action</h2>
-      <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
-        Use Deepdive to inspect returns, risk, drawdowns, and benchmark behavior on the same screen.
+      <Badge class="mb-6">Investigate on Your Own</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Check any fund yourself.</h2>
+      <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto mb-8">
+        Read our investigations, or use Deepdive to check any fund against a fair benchmark, through market falls, and for return against risk.
       </p>
-      <Button href={deepdiveUrl('about')} size="lg" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <Button href={deepdiveUrl('about')} icon="external" target="_blank" rel="noopener noreferrer">Open Deepdive</Button>
+        <Button href="/reports/" variant="tertiary" surface="light" icon="arrow-right">Read our investigations</Button>
+      </div>
+      <p class="text-body-sm text-fi-muted mt-10">
+        Questions? <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{CONTACT_EMAIL}</a>
+      </p>
     </div>
   </Section>
 </Layout>

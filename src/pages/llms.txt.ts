@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { SITE_URL, DEEPDIVE_URL } from '../lib/site-urls';
+import { ARN, TAGLINE } from '../lib/distributor';
 
 export const GET: APIRoute = async ({ site }) => {
   const reports = await getCollection('reports');
@@ -17,11 +18,11 @@ export const GET: APIRoute = async ({ site }) => {
   const lines: string[] = [
     '# Fund Investigator',
     '',
-    '> Data-driven mutual fund analysis for Indian investors. We investigate fund performance using risk-adjusted metrics, rolling returns, and benchmark comparisons — with no commissions and no conflicts of interest.',
+    `> Data-driven mutual fund analysis for Indian investors. We investigate fund performance using risk-adjusted metrics, rolling returns, and benchmark comparisons. Fund Investigator is run by an ${TAGLINE} (${ARN}).`,
     '',
     '## About',
     '',
-    `- [About Fund Investigator](${base}/about/): Why we built this and our approach to evidence-based fund analysis.`,
+    `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
     `- [Deepdive App](${DEEPDIVE_URL}): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
     '',
     '## Investigations',
@@ -34,7 +35,7 @@ export const GET: APIRoute = async ({ site }) => {
     '## Optional',
     '',
     `- [All Investigations](${base}/reports/): Index of current published fund investigations.`,
-    `- [Disclaimer](${base}/disclaimer/): Data sources, methodology notes, and investment risk disclosures.`,
+    `- [Disclaimer](${base}/disclaimer/): Data sources, methodology notes, distributor disclosure, and investment risk disclosures.`,
   ];
 
   return new Response(lines.join('\n'), {

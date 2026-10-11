@@ -1,0 +1,55 @@
+---
+/**
+ * DistributorIdentity Component
+ *
+ * The AMFI distributor disclosure: registered name, ARN and the standard risk
+ * warning. Values come from `src/lib/distributor.ts` so every page shows the
+ * same, current details.
+ *
+ * @example
+ * <!-- Footer bottom bar: one line of identity plus the risk warning -->
+ * <DistributorIdentity variant="inline" surface="dark" />
+ *
+ * <!-- Card body on a light page: name, registration, ARN validity, RIA note -->
+ * <DistributorIdentity variant="block" surface="light" />
+ */
+import {
+  REGISTERED_NAME,
+  ARN,
+  ARN_VALID_UNTIL,
+  TAGLINE,
+  RISK_WARNING,
+} from '../../lib/distributor';
+import { formatDate } from '../../lib/format';
+
+interface Props {
+  /** inline: one identity line + risk warning (footer). block: stacked details (cards). */
+  variant?: 'inline' | 'block';
+  /** Background the component sits on; text colours differ per surface. */
+  surface: 'light' | 'dark';
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { variant = 'inline', surface, class: className = '' } = Astro.props;
+
+// Approved surface pairs (docs/style_spec.md §1): muted on light, muted-inv/subtle on dark.
+const tone = {
+  light: { primary: 'text-fi-ink', secondary: 'text-fi-muted' },
+  dark: { primary: 'text-fi-muted-inv', secondary: 'text-fi-subtle' },
+}[surface];
+---
+
+{variant === 'inline' ? (
+  <div class:list={['text-body-sm', className]}>
+    <p class={tone.primary}>{REGISTERED_NAME} · {TAGLINE} · {ARN}</p>
+    <p class:list={[tone.secondary, 'mt-1']}>{RISK_WARNING}</p>
+  </div>
+) : (
+  <div class:list={['text-body-sm', className]}>
+    <p class:list={[tone.primary, 'font-semibold']}>{REGISTERED_NAME}</p>
+    <p class={tone.primary}>{TAGLINE}</p>
+    <p class:list={[tone.secondary, 'mb-3']}>{ARN} · valid to {formatDate(ARN_VALID_UNTIL, 'short')}</p>
+    <p class:list={[tone.secondary, 'leading-relaxed']}>We are not a SEBI-registered investment adviser.</p>
+  </div>
+)}

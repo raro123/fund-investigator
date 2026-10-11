@@ -1,0 +1,175 @@
+# Handoff: Invest with Support funnel
+
+**Status (2026-10-11, S43):** Funnel revised for ₹10 lakh–₹1 crore clients: the portfolio review call is the main offer, booked through Zoho. Demo v2 approved (copy on "Who we help" to be reworked later). Next: PR 1, then the disclaimer section (#65), then PR 2.
+**Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
+**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
+**Log:** open items are numbered as in `docs/project_log.md`.
+
+## 1. Files
+
+| File | State | Use |
+| --- | --- | --- |
+| `docs/mfd_copy_demo_v2.html` | Untracked; **exact copy and layout** | Four pages: homepage, `/invest/`, `/reports/`, `/about/`. The demo bar switches pages and toggles change notes (orange = S43 proposal, now approved). Serve from the repo root (`docs-demo` in `.claude/launch.json`, port 8765) so the Deepdive snapshot loads from `public/videos/`. The WhatsApp and booking buttons open the real services |
+| `docs/mfd_copy_demo.html` | Untracked; superseded by v2 | Kept for comparison; delete after PR 2 |
+| `docs/mfd_whatsapp_kit.md` | Untracked; draft for owner approval | WhatsApp profile, greeting, away message, prefilled texts, privacy section draft |
+| `docs/mfd_distribution_transition_proposal.md` | Untracked | Background plan (see above) |
+| `docs/AMFI_Master_Cicular_for_MF_Ds_3c7f5ee44f.pdf` | Untracked | Code of conduct source (Chapter 4, clause 4) |
+| `docs/project_log.md`, `project_log_archive.md` | Modified | Keep out of MFD feature commits |
+
+## 2. Locked decisions
+
+### Strategy
+1. Distribution is the main focus and the only revenue today. Paid research is deferred.
+2. **Target client: ₹10 lakh to ₹1 crore** in mutual funds, usually busy professionals who want help, not more data. The website is the trust check after a referral; referrals and direct outreach find the clients.
+3. **Main offer: a 30-minute portfolio review call**, booked through Zoho Bookings (free plan): `https://fundinvestigator.zohobookings.in/488614000000029045`. The visitor prepares nothing and sends no documents; holdings are seen on the call. The review covers overlap, benchmark check, costs and fit to the risk profile. Keep it factual; fund choices belong to the distribution conversation.
+4. **Contact:** booking first, WhatsApp second (`wa.me/919625026859`, +91 96250 26859, prefilled text and a `ref` per placement). Email (contact@fundinvestigator.com) is the fallback.
+5. **Name only in the compliance identity.** The owner's name appears only next to the ARN (footer, `/invest/` "Our registration" card). No founder profile, photo, byline or LinkedIn link until SEBI RA certification (#29).
+6. **Launch without a platform.** Copy names none. We place transactions through MFU, an exchange platform or similar; the investor approves by OTP and pays the fund house directly. Add "Existing clients: log in to [Platform]" back once a platform exists.
+7. Empanelled with every AMC: copy says "every fund house", never an AMC list, name or logo (AMFI code 4(d), 4(k)).
+8. Reviews happen "at regular intervals" (no fixed frequency).
+9. ARN is SIF-enabled; check SIF promotion rules before SIFs appear in copy.
+10. **Academy is deferred.** Guides live under Investigations (`/reports/`). Decision guides that name no fund go there too (#74). Revisit a separate Academy at roughly 8–10 guides. There is no `/investigate/` hub.
+
+### Compliance rules for copy
+- **Commission rates (S44):** not published on the site, for confidentiality and competition reasons. Each client gets the actual commission for each recommended scheme, in writing, before investing. The site explains how commission works and says that we disclose the rates per client.
+- **Fees:** say "No fee from you" and explain the commission from the regular plan's expense ratio in the same place. Never "free" (for the service), "zero cost", "no cost to you" or "we don't charge anything".
+- **Words to avoid:** expertise, advice/adviser (in promotion), partner, independent, research (as a label), financial planning, wealth, anything that plays down risk. Use "help to choose", "suitable", "risk profile", "review".
+- **Other distributors:** describe practices (funds sold on returns, launches or commission), never name or run down a firm or person.
+- **Links:** fund analyses (they name a scheme) never link to `/invest/`, WhatsApp or the booking page. Generic guides may, once they name no fund (#68). `/reports/` carries no `/invest/` link. `/about/` names no fund and may link to both.
+- **WhatsApp:** no KYC documents, statements or passwords in chat; no fund names in greeting, away or broadcast messages.
+- **Booking form:** ask only for name, email, phone and a holdings range (under ₹10 lakh · ₹10–50 lakh · ₹50 lakh–1 crore · over ₹1 crore). No PAN, documents or account numbers.
+
+### Navigation
+- **Header:** Invest · Investigations · About. Three equal text links, no nav button (today's Subscribe button goes). Deepdive is not in the header.
+- **Footer Navigate column:** Invest · Investigations · Deepdive ↗ · About · Subscribe ↗. All plain links (Subscribe is not gold). The live footer label "Why We Built This" becomes "About".
+- Nav links say "Invest"; the `/invest/` page title says "Invest with Support". The main button label is "Book a portfolio review".
+- **Deepdive appears in:** homepage section 4, the new section on `/reports/`, links inside investigations, the `/invest/` "Not the right fit?" line, `/about/` section 4, and the footer.
+
+### Homepage
+
+| # | Section | Background | Content and actions |
+| --- | --- | --- | --- |
+| 1 | Hero | dark | "We investigate, so you can *invest.*" + subtitle. Gold "Book a portfolio review →" → `/invest/#review`. Secondary "How support works" → `/invest/` |
+| 2 | Who we help, then How we help | light | **Who we help** (copy to be reworked): "You have built real savings. You do not have time to manage them." Three cards: Too many funds · A large sum to invest · No time to check. **How we help:** three cards (funds chosen through research · matched to your risk profile · support after you invest), fee line with "See the costs →", gold "See how support works" |
+| 3 | Investigations | white | "The basics, investigated." Two guide cards (Five Questions, Categories Explained; hook text names no fund). Secondary "View all investigations". Subscribe box with gold "Subscribe ↗". Decision guides replace the cards once published (#74) |
+| 4 | Deepdive | light | Snapshot + three features. Secondary "Open Deepdive ↗" straight to the app |
+
+Removed: The Sales Trap, the dark Deepdive showcase (video), Why Fund Investigator.
+
+### `/invest/` page
+
+| # | Section | Background | Content |
+| --- | --- | --- | --- |
+| 1 | Hero | dark | Label "Invest with Support". "We do the investigation. *You make the call.*" Subtitle: "We help you choose your funds, and we explain their risk, suitability and costs. Then we review them with you at regular intervals." Gold "Book a portfolio review ↗" (Zoho); secondary "Message us on WhatsApp ↗" (`invest_hero`); fee line → `#costs`; email |
+| 2 | Portfolio review (`#review`) | light | "Book a 30-minute review call. We look at your funds with you." "No fee from you, and no obligation to invest through us. On the call, we check four things." Cards: Overlap · Benchmark check · Costs · Fit to your risk profile. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_review`). Line: "Keep your fund app open during the call. You do not need to send us any documents." |
+| 3 | How it works (`#how-it-works`) | white | "Five steps. You approve every investment." Timeline, vertical below `lg`, horizontal from `lg`. Headings only. Then the "Not the right fit?" line |
+| 4 | Who we are | light | "Registered, and open about how we are paid." Cards: Our registration (name, AMFI MFD, ARN and validity, not an RIA) · How we earn (`#costs`, "No fee from you") · Our transparency. Link "Full disclosures…" → `/disclaimer/` |
+| 5 | Ready to start? | white | Reply time and the no-KYC-on-WhatsApp line. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_cta`); email |
+
+Timeline steps:
+1. **Book a review call**: "Pick a time, or message us on WhatsApp. We reply within 2 working days."
+2. **First conversation**: "We discuss your goals, your time frame, your existing funds and your risk profile."
+3. **Fund shortlisting and selection help**: "We shortlist suitable funds and explain why each fits, with its costs and our commission."
+4. **We set it up, you approve**: "We help from KYC to investment. You approve each one by OTP and pay the fund house directly."
+5. **Reviews and service**: "We review your funds at regular intervals. We help with SIP changes, switches and redemptions."
+
+### `/about/` page (rewritten)
+
+| # | Section | Background | Content |
+| --- | --- | --- | --- |
+| 1 | Hero | dark | H1 kept ("Why Fund Investigator Exists"). Subtitle: "We investigate mutual funds with evidence, not ratings. Then we help you choose and invest, with the same checks and our costs shown first." |
+| 2 | Our story | white | "The question we start with": the returns question; why we separate the result from the reasons and built Deepdive; funds are sold, not chosen, and distribution is run as sales, not analysis, which is how mis-selling happens; "So we offer distribution that starts with analysis." |
+| 3 | How we work | light | "Three rules we keep." Evidence before opinion · Research kept apart from selling (investigations and Deepdive have no buy buttons and never link to the service) · Open about how we are paid (→ `#costs`) |
+| 4 | Two ways we help | white | Two cards: Invest with Support (gold "Book a portfolio review ↗", link "How support works →") · Investigate on your own (secondary "Open Deepdive ↗", source `about`; link to investigations). Contact email |
+
+No founder section and no "What Changed" note (the earlier positioning was never promoted). The X link moves to the footer only.
+
+### `/reports/` page
+Unchanged (hero, filters, cards), plus one new section after the list: Deepdive snapshot, "Check any fund yourself.", "Open Deepdive ↗" (`reports_deepdive`). Gold for now; owner may switch it to secondary.
+
+### Tracking placements
+- Booking: `homepage_hero` (to `/invest/#review`), `invest_hero`, `invest_review`, `invest_cta`, `about` — Zoho takes no `ref`, so track the click event in PostHog.
+- WhatsApp `ref`: `invest_hero`, `invest_review`, `invest_cta`.
+- Deepdive: `homepage_deepdive`, `reports_deepdive`, `about`, `footer`.
+- Substack: `homepage_bottom` (existing), `footer`, plus the existing article placements.
+
+## 3. Evidence
+
+PostHog, 90 days to 2026-10-04: 152 sessions. Reports are the main entry (85 sessions, 91% single-page). Homepage 58 sessions, 6 Deepdive clicks, 2 Subscribe clicks. Owner visits not filtered. Traffic is the main limit: at 2% conversion this is about 3 conversations a quarter, so referrals and outreach must supply most clients.
+
+## 4. Owner inputs (block launch)
+
+| # | Input |
+| --- | --- |
+| 60 | Approve `docs/mfd_whatsapp_kit.md` and set it up in the WhatsApp Business app. Confirm the 2-working-day reply time, that the email is monitored, and the chat retention period |
+| 60 | Choose the transaction route for the first clients before replying to enquiries |
+| — | Zoho booking form: 30-minute duration, holdings-range question, minimum fields, meeting link and reminders on |
+| — | Compliance: how far the review call can go before it becomes investment advice |
+| — | Rework the "Who we help" copy |
+| — | Add the WhatsApp number to the Phase 0 AMFI channel check |
+
+## 5. Execution tasklist: demo to main site
+
+Two PRs from this branch. PR 1 removes false claims and adds the distributor identity, and links to no service. PR 2 launches the funnel. They may ship together if the owner inputs are in. Work in WSL (`source ~/.nvm/nvm.sh`). Follow `CLAUDE.md`: tokens only, UI components only, responsive presets from `src/lib/responsive.ts`.
+
+### PR 1: Disclosure and foundations (Phase 1)
+- [ ] `src/lib/distributor.ts`: name, ARN, ARN validity, tagline, risk warning, contact email, WhatsApp number, booking URL (proposal §14.1)
+- [ ] `src/components/ui/DistributorIdentity.astro`: `variant` inline/block, `surface` light/dark; add to `/styleguide`
+- [ ] Footer: identity and risk warning in the bottom bar (§14.2). Navigate column: Investigations · Deepdive ↗ · About · Subscribe ↗ (plain; no Invest link yet). "Why We Built This" → "About"
+- [ ] `/about/`: the §2 rewrite **without** the service links: hero, Our story, How we work (rule 3 without the `#costs` link), and section 4 with the Deepdive card only (or keep today's Deepdive section). PR 2 adds the Invest card and links
+- [ ] Copy fixes from proposal §6 and §14: disclaimer (remove "independent platform" and "no commissions"), report disclaimer paragraph 3 in `ArticleLayout.astro`, `schema.ts`, `llms.txt`
+- [ ] Check: `grep -rniE "no commission|conflicts? of interest|trail fees|no affiliations|independent platform|mis-selling that" src` returns nothing that is false
+
+### PR 2: Funnel launch (Phase 2)
+**Foundations**
+- [ ] `src/lib/whatsapp.ts`: `whatsappUrl(placement)` builds `wa.me` with the prefilled text and `ref`; mirrors `deepdive.ts`. Number from `distributor.ts`
+- [ ] Booking URL from `distributor.ts`; one helper or constant, used by every "Book a portfolio review" button
+- [ ] Add placements `homepage_deepdive`, `reports_deepdive` and `about` to `DeepdivePlacement` (check `about` exists). The homepage Subscribe reuses the existing `homepage_bottom` Substack placement
+- [ ] `src/components/ui/Timeline.astro` (#70): vertical below `lg`, horizontal from `lg`, as an ordered list; add to `/styleguide`
+
+**Pages**
+- [ ] `src/pages/invest.astro`: the five sections in §2, ids `review`, `how-it-works` and `costs`
+- [ ] Header: Invest · Investigations · About on desktop and mobile; remove the Deepdive link, the mobile Deepdive button and the Subscribe button (desktop and mobile); active state for the current page. Retire the `header_nav`, `header_cta` and `header` placements
+- [ ] Footer: add Invest as the first Navigate link
+- [ ] `src/pages/index.astro`: the four sections in §2; remove The Sales Trap, the Deepdive showcase and its video script, and Why Fund Investigator. Section 3 shows the two guides by slug, not "latest"
+- [ ] `src/pages/about.astro`: add the Invest card, the `#costs` link and the booking button
+- [ ] `src/pages/reports.astro`: the Deepdive section after the list
+- [ ] `src/pages/disclaimer.astro`: distribution section (#65): how commission works (trail from the regular plan's expense ratio), direct vs regular comparison, ₹10 lakh example with an illustrative rate, complaints. No published rate table (see Compliance rules)
+- [ ] `src/pages/privacy.astro`: enquiries section from the WhatsApp kit §5, plus booking-form data (Zoho)
+- [ ] `/invest/` in the sitemap and `llms.txt`; `schema.ts` description if needed
+
+**Analytics (#62)**
+- [ ] PostHog events: `invest_view`, `review_booking_click` (with placement), `conversation_request` (with `channel` and placement), `deepdive_click`, `subscribe_click`; internal-user filter
+
+**Checks before merge**
+- [ ] `npm run lint:design` and `npm run build` pass
+- [ ] At most one gold button per section; secondary and tertiary buttons pass `surface`
+- [ ] External links use `target="_blank" rel="noopener noreferrer"`; WhatsApp links open with the right text and `ref`; booking links open the Zoho page
+- [ ] No `/invest/`, WhatsApp or booking link on any fund analysis or on `/reports/`
+- [ ] The owner's name appears only in the distributor identity
+- [ ] Footer identity and risk warning on the homepage, a report, `/about/` and `/invest/`
+- [ ] Phone (375px) and desktop render match the demo; no sideways scroll; mobile menu closes on tap
+- [ ] Owner books a test call and sends a test WhatsApp message from each button
+
+### After launch
+- [ ] Deepdive repo changes (proposal §9): no named-fund quick picks, footer identity, data source and date
+- [ ] Pilot: track `/invest/` views → booking and WhatsApp clicks → calls → clients and AUM monthly for 3 months
+
+## 6. Tasks for later
+
+| # | Task | Owner |
+| --- | --- | --- |
+| 71 | Design: dark only for the hero and footer, light middle sections (white/`fi-light`); headings instead of pills. Changes `/reports/` (list out of the dark hero, light `ReportCard` and filter chips) and the article end card; `/about/` already follows it in v2. Rewrite the `style_spec.md` rules. Details in the log | Claude |
+| 72 | CAS upload that returns a branded portfolio report | Owner + Claude |
+| 73 | "Three ways to invest" comparison on `/invest/` (DIY · fee-only adviser · Invest with Support) | Owner |
+| 74 | Decision guides under Investigations (lump sum or STP, overlap, tax on redemption, falling markets); new category needs the enum and `categoryLabels` | Owner |
+| 61 | Write more guides that name no fund | Owner |
+| 68 | Rewrite the two guides without named funds, then allow an `/invest/` link | Owner |
+| — | Revisit a separate Academy at roughly 8–10 guides | Owner |
+| — | Check how much Deepdive traffic comes from the main site before ruling out a header link | Claude |
+| — | Add the "Existing clients: log in" line once a platform exists | Claude |
+| 69 | Keep "every fund house" true when a new AMC launches | Owner |
+
+## 7. Next step
+
+Commit the MFD docs, then start PR 1. Draft the `/disclaimer/` distribution section (#65), with no rate table, before PR 2, because `/invest/` links to it.

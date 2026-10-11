@@ -39,6 +39,7 @@ const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Investigations', href: '/reports/' },
 ];
+import { ARN, TAGLINE } from '../lib/distributor';
 ---
 
 <Layout
@@ -130,6 +131,9 @@ const breadcrumbs = [
           </p>
           <p>
             Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
+          </p>
+          <p class="mt-3">
+            Fund Investigator is run by an {TAGLINE} ({ARN}). This report is general information. It is not a recommendation to invest in any fund it describes.
           </p>
         </div>
       </div>
