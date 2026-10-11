@@ -87,7 +87,7 @@ that builds analytics authority and earns distribution revenue; paid research is
 | 6 | Rebrand app to "Deepdive by Fund Investigator" (approved; implement in Deepdive repo) | 2026-06-22 | S5 | 🟢 Approved, pending impl |
 | 8 | Option C "Suggest a Fund" email capture — resurfaced as a mid-article subscribe pitch ("Want your fund investigated? Subscribe and reply with its name"). Copy drafted but not shipped; it is a real commitment (reader replies must feed the investigation queue), so it waits until we are ready to honor requests | 2026-06-22 | S6; revisited S17 | 🟡 Parked |
 | 12 | Homepage teaser punchline — keep long-term vs shorter variant | 2026-05-04 | S1 | 🟡 Open |
-| 13 | Extract a reusable "Why Fund Investigator" component if reused on more pages | 2026-05-04 | S1 | 🟡 Open |
+| 13 | Extract a reusable "Why Fund Investigator" component if reused on more pages | 2026-05-04 | S1 | ⚪ Moot (S45 — the block is not restored on the homepage; its message moved into the `/about/` hero subtitle) |
 | 22 | Hero fund-search console — replace the primary CTA with a live fund lookup that deep-links into Deepdive (design agreed, build parked) | 2026-07-12 | S10 | 🟡 Parked |
 | 23 | Add `?fund=<scheme_code>` deep-link support to the Deepdive app — prerequisite for #22, and useful on its own for linking a report to the fund it investigates | 2026-07-12 | S10 | 🟡 Parked |
 | 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it). **S43:** extended to distribution pages: the name appears only in the ARN identity (footer, `/invest/` registration card); no founder profile or photo | 2026-07-14 | S12; updated S43 | 🟡 Parked |
@@ -127,12 +127,43 @@ that builds analytics authority and earns distribution revenue; paid research is
 | 76 | **Compliance — medium priority: the header and footer "Invest" link appears on report pages.** The handoff puts Invest in the global nav, but also says no `/invest/` link on fund analyses or `/reports/`. No booking or WhatsApp link appears there. Recommendation: keep the nav link, because the rule is about links in the content; confirm | 2026-10-11 | S44 | 🟡 Open |
 | 77 | **Website — low priority: delete the unused promo videos** in `public/videos/` (only `promo-desktop-poster.webp` is still used). They still deploy | 2026-10-11 | S44 | 🟡 Open |
 | 78 | **Compliance — high priority: add the enquiries section to `/privacy/`** (WhatsApp kit §5, plus Zoho booking-form data). Needs the chat retention period from the owner (#60) | 2026-10-11 | S44 | 🟡 Open |
+| 79 | **SEO — medium priority: update `HOME_DESCRIPTION`** to the new homepage message. Proposed: "Mutual fund investigations, and a portfolio review with an AMFI-registered Mutual Fund Distributor. See risks and costs before you invest." | 2026-10-11 | S45 | 🟡 Open |
+| 80 | **Compliance — medium priority: check `/about/` and `/disclaimer/` for the general "regular plans cost more than direct plans" wording.** It is not always true across funds (one fund's direct plan can cost more than another fund's regular plan). As an MFD we say only that our commission is built into the regular plan's expense ratio | 2026-10-11 | S45 | 🟡 Open |
+| 81 | **Commit — high priority: commit the S45 changes** (homepage copy and layout, `xl` hero size, `/about/` hero line, "No separate fee from you" on `/invest/`, WhatsApp `homepage_pricing` placement, handoff). One commit, with the owner's hero edit included | 2026-10-11 | S45 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-11 | Session: S45 — Homepage copy finalised and the funnel trimmed
+
+**What was done:**
+We wrote the final homepage copy for three blocks: Who we help, How we help and How we are paid. Each block has three items, and each "How we help" card answers the problem above it.
+The "How we are paid" block now asks for the booking, offers WhatsApp as a second action, and shows the ARN line.
+The Investigations block lost its intro paragraph and Subscribe card; one "Get new guides by email" button replaces them.
+The homepage hero now has the same height as the `/invest/` hero, and the `/about/` hero opens with "Because you deserve investments backed by analysis, that improve your portfolio."
+
+**Why:**
+Visitors at the end of the page ask "what do I pay?", so the answer and the booking button sit together.
+The old "Why Fund Investigator" block said "Not mis-selling that increases someone else's commission", which does not fit a distributor that earns commission.
+A shorter page keeps the route to the booking clear.
+
+**How:**
+We agreed the copy one item at a time, then applied it with the shared components and a new `xl` hero size.
+Lint and build pass (15 pages). Headless Chrome checks at 375px and 1440px show no sideways scroll; the phone page is 6,309px before the hero change (was 6,463px).
+
+**Decisions made:**
+- "No fee from you" becomes "No separate fee from you", always with the commission explained in the same place (also on `/invest/`).
+- Do not compare direct and regular plan costs on promotion pages; say only that our commission is built into the regular plan's expense ratio.
+- Do not restore the "Why Fund Investigator" block; add a "Why Fund Investigator exists →" link to `/about/` under the How we help cards (#13 moot). Badge stays "How we help".
+- Scroll depth comes from PostHog's default `$pageleave` event; no new code.
+
+**Pending decisions:**
+- #79 `HOME_DESCRIPTION`, #80 direct-plan wording on `/about/` and `/disclaimer/`, #81 commit S45. Still open: #65, #75, #76, #77, #78, #62.
 
 ---
 

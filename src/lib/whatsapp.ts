@@ -8,12 +8,13 @@
 
 import { WHATSAPP_NUMBER } from './distributor';
 
-export type WhatsappPlacement = 'invest_hero' | 'invest_review' | 'invest_cta';
+export type WhatsappPlacement = 'invest_hero' | 'invest_review' | 'invest_cta' | 'homepage_pricing';
 
 const prefilledText: Record<WhatsappPlacement, string> = {
   invest_hero: "Hi, I'd like to know more about Invest with Support.",
   invest_review: "Hi, I'd like a portfolio review.",
   invest_cta: "Hi, I'd like to know more about Invest with Support.",
+  homepage_pricing: "Hi, I have a question about Invest with Support.",
 };
 
 /**

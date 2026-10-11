@@ -12,6 +12,8 @@ import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
+import { ARN, BOOKING_URL, TAGLINE } from '../lib/distributor';
+import { whatsappUrl } from '../lib/whatsapp';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
@@ -22,37 +24,58 @@ const featuredGuides = featuredGuideSlugs
   .map((slug) => allReports.find((report) => report.slug === slug))
   .filter((report) => report !== undefined);
 
-// Situations a ₹10 lakh+ investor recognises; copy to be reworked (handoff §4).
+// Each "Who we help" card states one part of the heading, in order; the
+// matching "How we help" card answers it (handoff §4).
 const situations = [
   {
-    title: 'Too many funds',
-    body: 'Ten or more funds, bought over the years from different apps and banks. Many of them hold the same stocks.',
+    title: 'Looking to invest, but not sure how?',
+    body: 'You want to invest, but there are thousands of funds. You do not know which of them suit your goals and your risk profile, or how to start.',
   },
   {
-    title: 'A large sum to invest',
-    body: 'A bonus, ESOP sale or property sale. You want a plan for when and where to invest it, not a tip.',
+    title: 'Many funds, little clarity?',
+    body: 'Your funds may hold the same stocks. You cannot easily tell how they perform, or how your money is spread across equity, debt and gold.',
   },
   {
-    title: 'No time to check',
-    body: 'You know some funds may lag their benchmark. You have not had the time to find out which ones.',
+    title: 'Invested, but alone when markets move?',
+    body: 'No one follows up after you invest. When markets rise or fall, you have no one to look at the facts with before you act.',
   },
 ];
 
 const services = [
   {
-    title: 'Funds chosen through research',
-    body: 'We help you choose from funds that pass our research. We test each fund against a fair benchmark, and for risk and cost.',
+    title: 'Evidence-backed fund selection',
+    body: 'We curate a shortlist that fits your portfolio and your risk profile. Our investigations make the risk, returns and costs of each fund clear before you choose.',
     icon: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M8 13l2-2 2 2 3-3"/>',
   },
   {
-    title: 'Matched to your risk profile',
-    body: 'We start with your goals, your time frame and your risk profile. We help you choose only funds that are suitable for you.',
-    icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+    title: 'Portfolio first',
+    body: 'Before any new fund, we review the ones you hold. You see how diversified you really are, and how each fund performs against a fair benchmark. Then you decide what to keep.',
+    icon: '<path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/>',
   },
   {
-    title: 'Support after you invest',
-    body: 'We review your funds at regular intervals. We help with SIP changes, switches and paperwork. When markets fall, we look at the evidence with you.',
+    title: 'Your investigator, from review to action',
+    body: 'After you invest, we stay in touch and review your portfolio at regular intervals. When markets move or your plans change, we look at the facts together, and help you carry out what you decide.',
     icon: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/>',
+  },
+];
+
+// The fee sits next to the service: "No separate fee" is always explained in
+// the same place (handoff §2, Fees). Rates are disclosed per client only.
+const payPoints = [
+  {
+    title: 'No separate fee from you',
+    body: "Our commission is built into the regular plan's expense ratio, which the fund house deducts from the scheme's assets.",
+    icon: '<path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/>',
+  },
+  {
+    title: '40+ fund houses',
+    body: 'Our shortlist is not tied to any one of them.',
+    icon: '<path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7z"/>',
+  },
+  {
+    title: 'Transparency first',
+    body: 'Before you decide, we show you in writing what we earn on each suggested fund, and on the other funds we considered.',
+    icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
   },
 ];
 
@@ -73,7 +96,7 @@ const lastCardSpan = (index: number, length: number) =>
   graph={homeSchemaGraph(Astro.site)}
 >
   <!-- 1. Hero: one promise, one concrete offer -->
-  <Hero size="lg" background="dark" class="fi-investigation-hero">
+  <Hero size="xl" background="dark" class="fi-investigation-hero">
     <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 mb-10">
@@ -87,12 +110,14 @@ const lastCardSpan = (index: number, length: number) =>
       </p>
     </div>
 
-    <!-- The review call is on-site (/invest/#review), so it gets an arrow, not ↗. -->
+    <!-- Ready visitors book directly; the secondary action explains the service. -->
     <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
       <Button
-        href="/invest/#review"
+        href={BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         size="lg"
-        icon="arrow-right"
+        icon="external"
         track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
         class="w-full sm:w-auto min-w-0"
       >
@@ -110,8 +135,7 @@ const lastCardSpan = (index: number, length: number) =>
       <div class="text-center mb-10">
         <Badge class="mb-6">Who we help</Badge>
         <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
-          You have built real savings.
-          <span class="text-fi-muted">You do not have time to manage them.</span>
+          More choices. More clutter. More confusion.
         </h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
@@ -127,8 +151,7 @@ const lastCardSpan = (index: number, length: number) =>
     <div class="text-center mb-12 lg:mb-16">
       <Badge class="mb-6">How we help</Badge>
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
-        Support from your first SIP to every review.<br class="hidden sm:block" />
-        <span class="text-fi-muted">Help to choose, to invest, and to stay on course.</span>
+        Clearer choices. Less clutter. More confidence.
       </h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
@@ -142,14 +165,59 @@ const lastCardSpan = (index: number, length: number) =>
         </Card>
       ))}
     </div>
+    <!-- The homepage's only route to /about/: answers "who is behind this?" where the service is described. -->
+    <p class="text-center mt-10">
+      <a href="/about/" class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">Why Fund Investigator exists →</a>
+    </p>
 
-    <!-- The hero carries no disclosure, so the fee line sits next to the service. -->
-    <div class="text-center mt-10">
-      <p class="text-body-sm text-fi-muted max-w-2xl mx-auto mb-6">
-        You pay us no separate fee. We earn a commission from the fund house on regular plans, so regular plans cost more than direct plans.
-        <a href="/invest/#costs" class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">See the costs →</a>
-      </p>
-      <Button href="/invest/">See how support works</Button>
+    <!-- How we are paid: lighter than the service cards, so it does not compete. -->
+    <div class="mt-16 lg:mt-20 pt-12 lg:pt-16 border-t border-fi-border">
+      <div class="text-center mb-10">
+        <Badge class="mb-6">How we are paid</Badge>
+        <h2 class:list={[responsive.h3, 'font-bold text-fi-ink leading-tight tracking-tight']}>So, what do you pay?</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-72 sm:max-w-none mx-auto">
+        {payPoints.map((point, index) => (
+          <div class:list={['flex gap-4', lastCardSpan(index, payPoints.length)]}>
+            <svg class="shrink-0 w-fi-icon h-fi-icon text-fi-muted mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
+            <div>
+              <h3 class="text-body-md font-bold text-fi-ink mb-1">{point.title}</h3>
+              <p class="text-body-sm text-fi-muted leading-relaxed">{point.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <!-- The point of highest intent on the page, so it asks for the booking. -->
+      <div class="text-center mt-10">
+        <p class="mb-8">
+          <a href="/invest/#costs" class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">See the costs →</a>
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
+          <Button
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            icon="external"
+            track={{ event: 'review_booking_click', placement: 'homepage_pricing' }}
+            class="w-full sm:w-auto min-w-0"
+          >
+            Book a portfolio review
+          </Button>
+          <Button
+            href={whatsappUrl('homepage_pricing')}
+            variant="secondary"
+            surface="light"
+            icon="external"
+            target="_blank"
+            rel="noopener noreferrer"
+            track={{ event: 'conversation_request', placement: 'homepage_pricing', channel: 'whatsapp' }}
+            class="w-full sm:w-auto min-w-0"
+          >
+            Ask a question on WhatsApp
+          </Button>
+        </div>
+        <p class="text-body-sm text-fi-muted mt-6">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+      </div>
     </div>
   </Section>
 
@@ -157,10 +225,7 @@ const lastCardSpan = (index: number, length: number) =>
   <Section background="white" spacing="md" maxWidth="2xl">
     <div class="text-center mb-10 lg:mb-12">
       <Badge class="mb-6">Investigations</Badge>
-      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink mb-6 break-words']}>The basics, investigated.</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed max-w-2xl mx-auto">
-        Guides and fund investigations that help you ask better questions before you invest.
-      </p>
+      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words']}>The basics, investigated.</h2>
     </div>
 
     <div class="max-w-4xl mx-auto">
@@ -170,25 +235,20 @@ const lastCardSpan = (index: number, length: number) =>
         ))}
       </div>
 
-      <div class="text-center mt-8">
-        <Button href="/reports/" variant="secondary" surface="light">View all investigations</Button>
-      </div>
-
-      <Card variant="elevated" padding="lg" hover={false} class="max-w-2xl mx-auto mt-12 text-center">
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">New guide published? We'll tell you.</h3>
-        <p class="text-body-md text-fi-muted mb-6">
-          Subscribe and get each new guide and investigation by email.
-        </p>
+      <!-- Subscribe follows the value, as one line, not a full card. -->
+      <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mt-8 w-full max-w-72 sm:max-w-none mx-auto">
+        <Button href="/reports/" variant="secondary" surface="light" class="w-full sm:w-auto min-w-0">View all investigations</Button>
         <Button
           href={substackWelcomeUrl('homepage_bottom')}
           target="_blank"
           rel="noopener noreferrer"
           icon="external"
           track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
+          class="w-full sm:w-auto min-w-0"
         >
-          Subscribe
+          Get new guides by email
         </Button>
-      </Card>
+      </div>
     </div>
   </Section>
 

@@ -1,6 +1,6 @@
 # Handoff: Invest with Support funnel
 
-**Status (2026-10-11, S43):** Funnel revised for ₹10 lakh–₹1 crore clients: the portfolio review call is the main offer, booked through Zoho. Demo v2 approved (copy on "Who we help" to be reworked later). Next: PR 1, then the disclaimer section (#65), then PR 2.
+**Status (2026-10-11, S45):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`. S45 finalised the homepage copy (Who we help, How we help, How we are paid), trimmed Investigations, set the homepage hero to the `/invest/` height, and gave the `/about/` hero a new opening line. S45 is not committed yet. Next: commit S45, then the disclaimer section (#65) and the privacy section (#78), then push and PR.
 **Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
 **Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
 **Log:** open items are numbered as in `docs/project_log.md`.
@@ -32,7 +32,7 @@
 
 ### Compliance rules for copy
 - **Commission rates (S44):** not published on the site, for confidentiality and competition reasons. Each client gets the actual commission for each recommended scheme, in writing, before investing. The site explains how commission works and says that we disclose the rates per client.
-- **Fees:** say "No fee from you" and explain the commission from the regular plan's expense ratio in the same place. Never "free" (for the service), "zero cost", "no cost to you" or "we don't charge anything".
+- **Fees:** say "No separate fee from you" and explain the commission from the regular plan's expense ratio in the same place. Never "free" (for the service), "zero cost", "no cost to you" or "we don't charge anything".
 - **Words to avoid:** expertise, advice/adviser (in promotion), partner, independent, research (as a label), financial planning, wealth, anything that plays down risk. Use "help to choose", "suitable", "risk profile", "review".
 - **Other distributors:** describe practices (funds sold on returns, launches or commission), never name or run down a firm or person.
 - **Links:** fund analyses (they name a scheme) never link to `/invest/`, WhatsApp or the booking page. Generic guides may, once they name no fund (#68). `/reports/` carries no `/invest/` link. `/about/` names no fund and may link to both.
@@ -49,9 +49,9 @@
 
 | # | Section | Background | Content and actions |
 | --- | --- | --- | --- |
-| 1 | Hero | dark | "We investigate, so you can *invest.*" + subtitle. Gold "Book a portfolio review →" → `/invest/#review`. Secondary "How support works" → `/invest/` |
-| 2 | Who we help, then How we help | light | **Who we help** (copy to be reworked): "You have built real savings. You do not have time to manage them." Three cards: Too many funds · A large sum to invest · No time to check. **How we help:** three cards (funds chosen through research · matched to your risk profile · support after you invest), fee line with "See the costs →", gold "See how support works" |
-| 3 | Investigations | white | "The basics, investigated." Two guide cards (Five Questions, Categories Explained; hook text names no fund). Secondary "View all investigations". Subscribe box with gold "Subscribe ↗". Decision guides replace the cards once published (#74) |
+| 1 | Hero | dark | Keep the current headline and subtitle. Gold "Book a portfolio review ↗" opens Zoho Bookings directly. Secondary "How support works" → `/invest/`. No extra offer or reassurance text in the hero. Hero `size="xl"` (S45), so its height matches the `/invest/` hero (about 760px on a phone, 733px on desktop). |
+| 2 | Who we help, How we help, How we are paid | light | Each block is a three-part heading over three items, and each "How we help" card answers the "Who we help" card above it. **Who we help:** "More choices. More clutter. More confusion." Cards: Looking to invest, but not sure how? · Many funds, little clarity? · Invested, but alone when markets move? **How we help:** "Clearer choices. Less clutter. More confidence." Cards: Evidence-backed fund selection · Portfolio first · Your investigator, from review to action, then the text link "Why Fund Investigator exists →" (to `/about/`, the only homepage link there). **How we are paid:** "So, what do you pay?" Points: No separate fee from you (commission built into the expense ratio) · 40+ fund houses · Transparency first (earnings shown in writing before you decide). "See the costs →", gold "Book a portfolio review" (Zoho, `homepage_pricing`), secondary "Ask a question on WhatsApp" (`homepage_pricing`), then the ARN line |
+| 3 | Investigations | white | "The basics, investigated." Two guide cards (Five Questions, Categories Explained; hook text names no fund). No intro paragraph. One button row: secondary "View all investigations" and gold "Get new guides by email ↗" (Substack, `homepage_bottom`). Decision guides replace the cards once published (#74) |
 | 4 | Deepdive | light | Snapshot + three features. Secondary "Open Deepdive ↗" straight to the app |
 
 Removed: The Sales Trap, the dark Deepdive showcase (video), Why Fund Investigator.
@@ -61,9 +61,9 @@ Removed: The Sales Trap, the dark Deepdive showcase (video), Why Fund Investigat
 | # | Section | Background | Content |
 | --- | --- | --- | --- |
 | 1 | Hero | dark | Label "Invest with Support". "We do the investigation. *You make the call.*" Subtitle: "We help you choose your funds, and we explain their risk, suitability and costs. Then we review them with you at regular intervals." Gold "Book a portfolio review ↗" (Zoho); secondary "Message us on WhatsApp ↗" (`invest_hero`); fee line → `#costs`; email |
-| 2 | Portfolio review (`#review`) | light | "Book a 30-minute review call. We look at your funds with you." "No fee from you, and no obligation to invest through us. On the call, we check four things." Cards: Overlap · Benchmark check · Costs · Fit to your risk profile. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_review`). Line: "Keep your fund app open during the call. You do not need to send us any documents." |
+| 2 | Portfolio review (`#review`) | light | "Book a 30-minute review call. We look at your funds with you." "No separate fee from you, and no obligation to invest through us. On the call, we check four things." Cards: Overlap · Benchmark check · Costs · Fit to your risk profile. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_review`). Line: "Keep your fund app open during the call. You do not need to send us any documents." |
 | 3 | How it works (`#how-it-works`) | white | "Five steps. You approve every investment." Timeline, vertical below `lg`, horizontal from `lg`. Headings only. Then the "Not the right fit?" line |
-| 4 | Who we are | light | "Registered, and open about how we are paid." Cards: Our registration (name, AMFI MFD, ARN and validity, not an RIA) · How we earn (`#costs`, "No fee from you") · Our transparency. Link "Full disclosures…" → `/disclaimer/` |
+| 4 | Who we are | light | "Registered, and open about how we are paid." Cards: Our registration (name, AMFI MFD, ARN and validity, not an RIA) · How we earn (`#costs`, "No separate fee from you") · Our transparency. Link "Full disclosures…" → `/disclaimer/` |
 | 5 | Ready to start? | white | Reply time and the no-KYC-on-WhatsApp line. Gold "Book a portfolio review ↗"; secondary WhatsApp (`invest_cta`); email |
 
 Timeline steps:
@@ -77,7 +77,7 @@ Timeline steps:
 
 | # | Section | Background | Content |
 | --- | --- | --- | --- |
-| 1 | Hero | dark | H1 kept ("Why Fund Investigator Exists"). Subtitle: "We investigate mutual funds with evidence, not ratings. Then we help you choose and invest, with the same checks and our costs shown first." |
+| 1 | Hero | dark | H1 kept ("Why Fund Investigator Exists"). Subtitle (S45): "Because you deserve investments backed by analysis, that improve your portfolio. We investigate funds with evidence, not ratings. Then we help you choose and invest, with our costs shown first." The line replaces the old homepage "Why Fund Investigator" block, which is not restored (its "Not mis-selling…" claim does not fit a commission-earning MFD). |
 | 2 | Our story | white | "The question we start with": the returns question; why we separate the result from the reasons and built Deepdive; funds are sold, not chosen, and distribution is run as sales, not analysis, which is how mis-selling happens; "So we offer distribution that starts with analysis." |
 | 3 | How we work | light | "Three rules we keep." Evidence before opinion · Research kept apart from selling (investigations and Deepdive have no buy buttons and never link to the service) · Open about how we are paid (→ `#costs`) |
 | 4 | Two ways we help | white | Two cards: Invest with Support (gold "Book a portfolio review ↗", link "How support works →") · Investigate on your own (secondary "Open Deepdive ↗", source `about`; link to investigations). Contact email |
@@ -88,7 +88,7 @@ No founder section and no "What Changed" note (the earlier positioning was never
 Unchanged (hero, filters, cards), plus one new section after the list: Deepdive snapshot, "Check any fund yourself.", "Open Deepdive ↗" (`reports_deepdive`). Gold for now; owner may switch it to secondary.
 
 ### Tracking placements
-- Booking: `homepage_hero` (to `/invest/#review`), `invest_hero`, `invest_review`, `invest_cta`, `about` — Zoho takes no `ref`, so track the click event in PostHog.
+- Booking: `homepage_hero`, `invest_hero`, `invest_review`, `invest_cta`, `about` all open Zoho directly — Zoho takes no `ref`, so track the click event in PostHog.
 - WhatsApp `ref`: `invest_hero`, `invest_review`, `invest_cta`.
 - Deepdive: `homepage_deepdive`, `reports_deepdive`, `about`, `footer`.
 - Substack: `homepage_bottom` (existing), `footer`, plus the existing article placements.
@@ -105,7 +105,6 @@ PostHog, 90 days to 2026-10-04: 152 sessions. Reports are the main entry (85 ses
 | 60 | Choose the transaction route for the first clients before replying to enquiries |
 | — | Zoho booking form: 30-minute duration, holdings-range question, minimum fields, meeting link and reminders on |
 | — | Compliance: how far the review call can go before it becomes investment advice |
-| — | Rework the "Who we help" copy |
 | — | Add the WhatsApp number to the Phase 0 AMFI channel check |
 
 ## 5. Execution tasklist: demo to main site
@@ -169,7 +168,9 @@ Two PRs from this branch. PR 1 removes false claims and adds the distributor ide
 | — | Check how much Deepdive traffic comes from the main site before ruling out a header link | Claude |
 | — | Add the "Existing clients: log in" line once a platform exists | Claude |
 | 69 | Keep "every fund house" true when a new AMC launches | Owner |
+| 79 | Update `HOME_DESCRIPTION` to the new homepage message | Claude |
+| 80 | Check `/about/` and `/disclaimer/` for the general "regular plans cost more than direct plans" wording | Claude |
 
 ## 7. Next step
 
-Commit the MFD docs, then start PR 1. Draft the `/disclaimer/` distribution section (#65), with no rate table, before PR 2, because `/invest/` links to it.
+Commit the S45 homepage, `/about/` and `/invest/` changes. Then draft the `/disclaimer/` distribution section (#65, no rate table) and the `/privacy/` enquiries section (#78), and fix the Deepdive snapshot (#75) before push and PR.

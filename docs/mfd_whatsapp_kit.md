@@ -41,6 +41,7 @@ Each button opens a chat with this text. The `ref` shows which button the person
 | --- | --- | --- |
 | `invest_hero` | `/invest/` hero | Hi, I'd like to know more about Invest with Support. (ref: invest_hero) |
 | `invest_cta` | `/invest/` "Ready to start?" | Hi, I'd like to know more about Invest with Support. (ref: invest_cta) |
+| `homepage_pricing` | Homepage "How we are paid" | Hi, I have a question about Invest with Support. (ref: homepage_pricing) |
 
 Link format: `https://wa.me/919625026859?text=<URL-encoded text>`. At build time this lives in `src/lib/whatsapp.ts` (`whatsappUrl(placement)`), mirroring `deepdive.ts`.
 

@@ -25,7 +25,7 @@
 
 interface Props {
   /** Hero height variant */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Center align content */
   centered?: boolean;
   /** Background color variant */
@@ -51,6 +51,9 @@ const sizeStyles = {
   // Top padding includes the fixed header's height, so bottom is smaller in
   // value but optically balanced against it.
   lg: 'pt-28 pb-12 md:pt-36 md:pb-16 lg:pt-44 lg:pb-20',
+  // For a hero with little content that must match the height of a fuller
+  // hero (the homepage against /invest/). Same header offset as lg.
+  xl: 'pt-52 pb-36 md:pt-52 md:pb-40 lg:pt-60 lg:pb-56',
 };
 
 // Background styles
