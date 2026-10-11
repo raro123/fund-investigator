@@ -4,7 +4,8 @@
  *
  * Rows of paired cards on a light surface: a flat problem card, an arrow, and a
  * raised white answer card. The answer always carries more weight than the
- * problem. Stacks vertically (arrow pointing down) below md.
+ * problem. Below md each pair merges into one compact card (arrow pointing
+ * down) to cut scrolling; from md the two sides are separate cards.
  *
  * Each side renders one of two densities:
  *   - short: no `title` → the tag is the heading, `body` is one line (homepage)
@@ -37,10 +38,11 @@ interface Props {
 
 const { pairs, reveal = false, class: className = '' } = Astro.props;
 
-const cardBase = 'rounded-lg border border-fi-border p-6 lg:p-8';
+const rowStyles = 'grid gap-2 rounded-lg border border-fi-border bg-white shadow-fi-card p-5 md:grid-cols-fi-pair md:gap-0 md:rounded-none md:border-0 md:bg-transparent md:shadow-none md:p-0';
+const cardBase = 'md:rounded-lg md:border md:border-fi-border md:p-6 lg:p-8';
 const cardStyles = {
-  problem: `${cardBase} bg-transparent`,
-  answer: `${cardBase} bg-white shadow-fi-card`,
+  problem: `${cardBase} md:bg-transparent`,
+  answer: `${cardBase} md:bg-white md:shadow-fi-card`,
 };
 const iconColour = { problem: 'text-fi-muted', answer: 'text-fi-link' };
 const shortHeading = {
@@ -51,7 +53,7 @@ const shortHeading = {
 
 <div class:list={['grid gap-5', className]}>
   {pairs.map((pair, rowIndex) => (
-    <div class="grid gap-2 md:grid-cols-fi-pair md:gap-0" data-reveal={reveal ? rowIndex : undefined}>
+    <div class={rowStyles} data-reveal={reveal ? rowIndex : undefined}>
       {(['problem', 'answer'] as const).map((role) => {
         const side = pair[role];
         const icon = (size: string) => (

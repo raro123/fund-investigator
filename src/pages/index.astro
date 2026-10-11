@@ -4,6 +4,7 @@ import Button from '../components/ui/Button.astro';
 import ReportCard from '../components/ReportCard.astro';
 import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
 import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
 import Hero from '../components/ui/Hero.astro';
 import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
@@ -30,7 +31,7 @@ const featuredGuides = featuredGuideSlugs
 const payPoints = [
   {
     title: 'No separate fee from you',
-    body: "Our commission is built into the regular plan's expense ratio, which the fund house deducts from the scheme's assets.",
+    body: "You pay through the regular plan's expense ratio, which is higher than the direct plan's. Our commission comes from that difference.",
     icon: '<path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/>',
   },
   {
@@ -52,7 +53,6 @@ const deepdiveFeatures = [
 ];
 
 const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
-const darkLink = 'font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none';
 ---
 
@@ -77,8 +77,8 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
           Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust.
         </p>
 
-        <!-- Ready visitors book directly; the secondary action explains the service. -->
-        <div class:list={[ctaRow, 'justify-center xl:justify-start mx-auto xl:mx-0']}>
+        <!-- One action: visitors who need more information reach section 2 directly below. -->
+        <div class:list={[ctaRow, 'justify-center xl:justify-start mx-auto xl:mx-0 mb-4']}>
           <Button
             href={BOOKING_URL}
             target="_blank"
@@ -90,38 +90,73 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
           >
             Book a portfolio review
           </Button>
-          <Button href="/invest/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
-            How support works
-          </Button>
         </div>
+        <!-- "No charge" is scoped to the call so the service never reads as free. -->
+        <p class="text-body-sm text-fi-subtle">
+          30-minute first call · No charge for the call · No obligation to invest through us
+        </p>
       </div>
 
       <SampleBrief />
     </div>
   </Hero>
 
-  <!-- 2. Problem → answer pairs. Short version here; the finalised long copy is on /invest/#who. -->
+  <!-- 2. Problem → answer pairs. Short version here; the long copy stays in who-we-help.ts. -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-10 lg:mb-12 leading-tight tracking-tight text-balance']}>
       Clearer choices. Less clutter. More confidence.
     </h2>
     <ProblemAnswer pairs={shortPairs} reveal />
-    <!-- The homepage's routes to the service detail and to /about/ ("who is behind this?"). -->
-    <p class="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-      <a href="/invest/#who" class={lightLink}>How support works →</a>
-      <a href="/about/" class={lightLink}>Why Fund Investigator exists →</a>
-    </p>
+    <!-- The pairs assume an existing portfolio, so first-time investors get their own invitation. -->
+    <Card hover={false} padding="lg" class="mt-10 lg:flex lg:items-center lg:justify-between lg:gap-10">
+      <div class="mb-6 lg:mb-0">
+        <h3 class="text-heading-sm text-fi-ink mb-2">Making your first mutual fund investment?</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">
+          We help you choose funds that fit your goals and explain their risks and costs.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-x-8 gap-y-4 shrink-0">
+        <Button
+          href={BOOKING_URL}
+          variant="secondary"
+          surface="light"
+          icon="external"
+          target="_blank"
+          rel="noopener noreferrer"
+          track={{ event: 'review_booking_click', placement: 'homepage_beginner' }}
+          class="w-full sm:w-auto min-w-0"
+        >
+          Discuss your first investment
+        </Button>
+        <a href="/invest/#how-it-works" class={lightLink}>How support works →</a>
+      </div>
+    </Card>
   </Section>
 
   <!-- 3. How we are paid: its own dark band, so the fee is never buried in the service copy -->
   <Section background="dark" spacing="md" maxWidth="2xl">
-    <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
-      <div data-reveal="0">
-        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>So, what do you pay?</h2>
-        <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-md mb-8">
-          We earn a commission from the fund house, which is part of the regular plan's cost.
-          <a href="/invest/#costs" class:list={[darkLink, 'whitespace-nowrap']}>See the costs →</a>
-        </p>
+    <!-- DOM order is the mobile reading order: costs before the decision. At lg the
+         points sit in the right column, beside the heading and the actions. -->
+    <div class="grid gap-x-20 gap-y-10 lg:grid-cols-2 lg:grid-rows-fi-lead">
+      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv leading-tight tracking-tight']} data-reveal="0">
+        What do you pay for our services?
+      </h2>
+
+      <ul class="border-t border-fi-border-dark lg:col-start-2 lg:row-start-1 lg:row-span-2">
+        {payPoints.map((point, index) => (
+          <li class="flex gap-5 py-6 border-b border-fi-border-dark" data-reveal={index}>
+            <div class="w-11 h-11 shrink-0 rounded-lg bg-fi-icon-bg-inv flex items-center justify-center">
+              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
+            </div>
+            <div>
+              <h3 class="text-body-lg font-bold text-fi-ink-inv leading-snug mb-1">{point.title}</h3>
+              <p class="text-body-sm text-fi-muted-inv leading-relaxed">{point.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="lg:col-start-1 lg:row-start-2">
         <!-- The point of highest intent on the page, so it asks for the booking. -->
         <div class:list={[ctaRow, 'mb-6']}>
           <Button
@@ -149,30 +184,13 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
         </div>
         <p class="text-body-sm text-fi-subtle">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
       </div>
-
-      <ul class="border-t border-fi-border-dark">
-        {payPoints.map((point, index) => (
-          <li class="flex gap-5 py-6 border-b border-fi-border-dark" data-reveal={index}>
-            <div class="w-11 h-11 shrink-0 rounded-lg bg-fi-icon-bg-inv flex items-center justify-center">
-              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
-            </div>
-            <div>
-              <h3 class="text-body-lg font-bold text-fi-ink-inv leading-snug mb-1">{point.title}</h3>
-              <p class="text-body-sm text-fi-muted-inv leading-relaxed">{point.body}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
     </div>
   </Section>
 
   <!-- 4. Investigations, then Subscribe after the value -->
   <Section background="white" spacing="md" maxWidth="2xl">
     <div class="max-w-4xl mx-auto">
-      <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 mb-10 lg:mb-12">
-        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words']}>The basics, investigated.</h2>
-        <a href="/reports/" class={lightLink}>View all investigations →</a>
-      </div>
+      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words mb-10 lg:mb-12']}>The basics, investigated.</h2>
 
       <div class="grid sm:grid-cols-2 gap-5">
         {featuredGuides.map((report, index) => (
@@ -182,10 +200,16 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
         ))}
       </div>
 
-      <!-- Subscribe follows the value, as one button, not a full card. -->
-      <div class="mt-8">
+      <p class="mt-8">
+        <a href="/reports/" class={lightLink}>View all investigations →</a>
+      </p>
+
+      <!-- Email serves visitors who want future contact, so it stays apart from browsing and booking. -->
+      <div class="mt-12 pt-8 border-t border-fi-border">
         <Button
           href={substackWelcomeUrl('homepage_bottom')}
+          variant="secondary"
+          surface="light"
           target="_blank"
           rel="noopener noreferrer"
           icon="external"
@@ -221,7 +245,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
         rel="noopener noreferrer"
         track={{ event: 'deepdive_click', placement: 'homepage_deepdive' }}
       >
-        Open Deepdive
+        Check a fund with Deepdive
       </Button>
     </DeepdiveSnapshot>
   </Section>

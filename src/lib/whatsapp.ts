@@ -1,5 +1,5 @@
 /**
- * WhatsApp chat link builder for the Invest with Support enquiry route.
+ * WhatsApp chat link builder for the Invest with support enquiry route.
  *
  * Mirrors `deepdive.ts`: each button placement has its own prefilled text and
  * a `ref` tag, so an incoming chat shows which button started it. The texts
@@ -11,10 +11,10 @@ import { WHATSAPP_NUMBER } from './distributor';
 export type WhatsappPlacement = 'invest_hero' | 'invest_review' | 'invest_cta' | 'homepage_pricing';
 
 const prefilledText: Record<WhatsappPlacement, string> = {
-  invest_hero: "Hi, I'd like to know more about Invest with Support.",
-  invest_review: "Hi, I'd like a portfolio review.",
-  invest_cta: "Hi, I'd like to know more about Invest with Support.",
-  homepage_pricing: "Hi, I have a question about Invest with Support.",
+  invest_hero: "Hi, I'd like to know more about Invest with support.",
+  invest_review: "Hi, I'd like to book a first call.",
+  invest_cta: "Hi, I'd like to know more about Invest with support.",
+  homepage_pricing: "Hi, I have a question about Invest with support.",
 };
 
 /**

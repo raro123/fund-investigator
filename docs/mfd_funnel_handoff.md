@@ -1,8 +1,8 @@
 # Handoff: Invest with Support funnel
 
-**Status (2026-10-11, S46):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`; S45 is committed (`bb7cff8`). S46 redesigned the homepage (sample brief hero, problem → answer cards, own dark band for "How we are paid", no section labels, subtle motion) and added a "Who we help" section to `/invest/` that keeps the finalised long copy. Next: the disclaimer section (#65), the privacy section (#78) and the Deepdive snapshot (#75), then push and PR.
+**Status (2026-10-12, S47):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`; S45 and S46 are committed. S47 restructured the homepage actions and `/invest/` for a distribution-led site (see `docs/homepage_funnel_recommendations.md`). Next: the first-call copy (#87) and the owner's Zoho update (#88), then the disclaimer section (#65), the privacy section (#78) and the Deepdive snapshot (#75), then push and PR.
 **Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
-**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. For the homepage layout, the S46 table in §2 wins over the v2 demo. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
+**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. For the homepage actions and the `/invest/` layout, `docs/homepage_funnel_recommendations.md` (S47) wins over §2 and the v2 demo. For the rest of the homepage layout, the S46 table in §2 wins over the v2 demo. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
 **Log:** open items are numbered as in `docs/project_log.md`.
 
 ## 1. Files

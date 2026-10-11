@@ -175,6 +175,11 @@ export default {
         // Homepage hero at xl: headline column takes the rest, SampleBrief gets 28rem
         'fi-hero': 'minmax(0, 1fr) 28rem',
       },
+      gridTemplateRows: {
+        // Heading row sized to content; the second row takes the rest, so a
+        // tall item spanning both rows never opens a gap below the heading
+        'fi-lead': 'auto 1fr',
+      },
       // Reveal on scroll: played once by the script in Layout.astro, only for
       // elements that start below the fold. "backwards" fill keeps hover
       // transforms working after the animation ends.
