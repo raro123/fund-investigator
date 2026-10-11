@@ -7,6 +7,8 @@ import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
+import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
+import { fullPairs } from '../lib/who-we-help';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
@@ -100,6 +102,18 @@ const darkLink = 'font-semibold text-fi-gold underline decoration-fi-gold/40 hov
       </p>
     </div>
   </Hero>
+
+  <!-- 1b. Who we help: the finalised long copy. The homepage shows the short version and links here. -->
+  <Section id="who" background="white" spacing="md" maxWidth="2xl">
+    <div class="text-center mb-12">
+      <Badge class="mb-6">Who we help</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight max-w-3xl mx-auto text-balance']}>
+        <span class="text-fi-muted">More choices. More clutter. More confusion.</span>
+        Clearer choices. Less clutter. More confidence.
+      </h2>
+    </div>
+    <ProblemAnswer pairs={fullPairs} />
+  </Section>
 
   <!-- 2. Portfolio review: the concrete first offer -->
   <Section id="review" background="light" spacing="md" maxWidth="xl">

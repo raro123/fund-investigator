@@ -140,6 +140,8 @@ duplicated here.
 
 Appear above section headings. Two variants based on section background.
 
+**Not on the homepage** (decided 2026-10-11). Every homepage H2 already says what its section is, so a label only repeated it. Section breaks come from the headings and the dark/light background rhythm. Other pages still use labels until they are reviewed.
+
 **Light sections (fi-light or white):**
 - Background: white
 - Border: `1px solid fi-border` (slate-200)
@@ -188,6 +190,17 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Icon container: `44×44px` · `border-radius: 12px` · bg: `fi-border-dark` (slate-700) · icon: 22×22px · stroke: `fi-muted-inv`
 - Title: `15px` · `font-weight: 700` · `fi-ink-inv`
 - Body: `13px` · `fi-muted-inv` · `line-height: 1.65`
+
+### Problem → Answer pairs (`ProblemAnswer.astro`)
+- Row: flat problem card (transparent, `fi-border`) · `fi-link` arrow · raised answer card (white, `shadow-fi-card`). Grid token `grid-cols-fi-pair` from `md`; stacked with a down arrow below.
+- The answer always outweighs the problem: ink 20px heading and `fi-link` icon, against a `fi-muted` 18px heading and icon.
+- Two densities from one copy source (`src/lib/who-we-help.ts`): short (tag as heading + one line) on the homepage; long (tag lead-in + finalised headline + body) on `/invest/#who`.
+
+### Sample Brief (`SampleBrief.astro`)
+- A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
+- Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.
+- Unlike the removed decorative Deepdive mockup (§13), it shows a real deliverable, so it earns its place.
+- Allocation bars: equity `fi-mid`, debt `fi-link`, gold `fi-gold`, white labels inside wide segments, plus a colour key (gold is too light to carry a label).
 
 ---
 
@@ -245,6 +258,12 @@ All interactive elements: `transition: all 0.2s`
 
 Hover lift: `transform: translateY(-2px)` — buttons, cards
 
+Motion level: **Subtle** (decided 2026-10-11). Two effects only, both off under `prefers-reduced-motion`:
+- **Reveal on scroll:** add `data-reveal="<index>"` to an element; the script in `Layout.astro` plays `animate-fi-rise` (fade + 16px rise, 90ms stagger per index) as it nears the viewport. Elements visible at load never animate, so the first frame is always complete.
+- **Page transitions:** `@view-transition { navigation: auto; }` in `Layout.astro`. Report card titles and article H1s share `view-transition-name: report-<slug>`, so the title moves into place. Unsupported browsers load pages normally.
+
+Not used: parallax, scroll-jacking, count-up numbers, carousels.
+
 ---
 
 ## 12. Custom Utilities (non-Tailwind)
@@ -267,7 +286,7 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 | Custom spacing tokens | Button-specific tokens (`fi-btn-x`, `fi-btn-y`) added; general spacing uses Tailwind's native 4px scale |
 | Custom border-radius | Button radius tokenized as `rounded-fi-btn` (10px); others use Tailwind defaults |
 | Custom transitions | Removed — use Tailwind defaults |
-| Custom animations | Removed — use Tailwind defaults |
+| Custom animations | One only: `fi-rise` for reveal on scroll (§11). Otherwise use Tailwind defaults |
 | Playfair Display | Rejected as the report serif candidate — superseded by Newsreader, see `## 2. Typography` |
 | Stats Strip section | Removed from page — no traction metrics to justify it yet |
 | "Coming Soon" cards | Removed — honest about current content state |

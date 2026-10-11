@@ -118,6 +118,32 @@ const defaultLinks = [
     <Footer />
 
     <script>
+      // Reveal on scroll for elements marked data-reveal="<stagger index>".
+      // Only elements that start below the fold animate, and only as they near
+      // the viewport, so the first frame (and any thumbnail) is always complete.
+      // Without JS, or with reduced motion, everything simply stays visible.
+      const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reduceMotion && revealItems.length > 0 && 'IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const item = entry.target as HTMLElement;
+            revealObserver.unobserve(item);
+            item.style.animationDelay = `${(Number(item.dataset.reveal) || 0) * 90}ms`;
+            item.classList.add('animate-fi-rise');
+          });
+        }, { rootMargin: '0px 0px 8% 0px' });
+
+        revealItems.forEach((item) => {
+          if (item.getBoundingClientRect().top < window.innerHeight) return;
+          revealObserver.observe(item);
+        });
+      }
+    </script>
+
+    <script>
       import posthog from 'posthog-js';
 
       // PostHog product analytics — same project already used for the Deepdive
@@ -183,6 +209,16 @@ const defaultLinks = [
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+
+  /* Cross-page transitions: the browser cross-fades between pages, and a report
+     card title moves into the article H1 (shared view-transition-name, see
+     ReportCard.astro and ArticleLayout.astro). Browsers without support load
+     pages as usual. */
+  @media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+      navigation: auto;
+    }
   }
 
   html {

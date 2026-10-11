@@ -42,6 +42,10 @@ const pairs = [
   ['fi-gold', 'fi-dark', TEXT, 'Gold text and links on dark sections'],
   ['fi-gold', 'fi-mid', TEXT, 'Gold CTA text on dark cards'],
 
+  // Data labels inside filled bars (SampleBrief allocation bars)
+  ['white', 'fi-mid', TEXT, 'Equity label inside its bar segment'],
+  ['white', 'fi-link', TEXT, 'Debt label inside its bar segment'],
+
   // Buttons
   ['fi-ink', 'fi-gold', TEXT, 'Primary button label'],
   ['fi-ink', 'fi-gold-hover', TEXT, 'Primary button label on hover'],

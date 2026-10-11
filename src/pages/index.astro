@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button.astro';
-import Card from '../components/ui/Card.astro';
-import Badge from '../components/ui/Badge.astro';
 import ReportCard from '../components/ReportCard.astro';
 import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
+import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
+import SampleBrief from '../components/ui/SampleBrief.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
@@ -14,6 +14,7 @@ import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 import { ARN, BOOKING_URL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl } from '../lib/whatsapp';
+import { shortPairs } from '../lib/who-we-help';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
@@ -23,41 +24,6 @@ const allReports = await getCollection('reports');
 const featuredGuides = featuredGuideSlugs
   .map((slug) => allReports.find((report) => report.slug === slug))
   .filter((report) => report !== undefined);
-
-// Each "Who we help" card states one part of the heading, in order; the
-// matching "How we help" card answers it (handoff §4).
-const situations = [
-  {
-    title: 'Looking to invest, but not sure how?',
-    body: 'You want to invest, but there are thousands of funds. You do not know which of them suit your goals and your risk profile, or how to start.',
-  },
-  {
-    title: 'Many funds, little clarity?',
-    body: 'Your funds may hold the same stocks. You cannot easily tell how they perform, or how your money is spread across equity, debt and gold.',
-  },
-  {
-    title: 'Invested, but alone when markets move?',
-    body: 'No one follows up after you invest. When markets rise or fall, you have no one to look at the facts with before you act.',
-  },
-];
-
-const services = [
-  {
-    title: 'Evidence-backed fund selection',
-    body: 'We curate a shortlist that fits your portfolio and your risk profile. Our investigations make the risk, returns and costs of each fund clear before you choose.',
-    icon: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M8 13l2-2 2 2 3-3"/>',
-  },
-  {
-    title: 'Portfolio first',
-    body: 'Before any new fund, we review the ones you hold. You see how diversified you really are, and how each fund performs against a fair benchmark. Then you decide what to keep.',
-    icon: '<path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/>',
-  },
-  {
-    title: 'Your investigator, from review to action',
-    body: 'After you invest, we stay in touch and review your portfolio at regular intervals. When markets move or your plans change, we look at the facts together, and help you carry out what you decide.',
-    icon: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/>',
-  },
-];
 
 // The fee sits next to the service: "No separate fee" is always explained in
 // the same place (handoff §2, Fees). Rates are disclosed per client only.
@@ -85,9 +51,9 @@ const deepdiveFeatures = [
   'Check if the return was worth the risk',
 ];
 
-// The third card spans both columns at sm so the 2-column row leaves no orphan.
-const lastCardSpan = (index: number, length: number) =>
-  index === length - 1 ? 'sm:col-span-2 lg:col-span-1' : '';
+const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const darkLink = 'font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
+const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none';
 ---
 
 <Layout
@@ -95,104 +61,69 @@ const lastCardSpan = (index: number, length: number) =>
   description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
 >
-  <!-- 1. Hero: one promise, one concrete offer -->
-  <Hero size="xl" background="dark" class="fi-investigation-hero">
+  <!-- 1. Hero: the promise on the left, a sample of the review brief on the right -->
+  <Hero size="lg" background="dark" centered={false} class="fi-investigation-hero">
     <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 mb-10">
-      <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
-        We investigate, so you can
-        <span class="text-fi-gold">invest.</span>
-      </h1>
+    <!-- Two columns only from xl: below that the 72px headline needs the full width. -->
+    <div class="relative z-10 grid max-w-7xl mx-auto items-center gap-14 xl:grid-cols-fi-hero xl:gap-16">
+      <div class="text-center xl:text-left">
+        <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words text-balance']}>
+          We investigate, so you can
+          <span class="text-fi-gold">invest.</span>
+        </h1>
 
-      <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed px-1']}>
-        Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust.
-      </p>
-    </div>
+        <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-xl mx-auto xl:mx-0 font-light leading-relaxed mb-10']}>
+          Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust.
+        </p>
 
-    <!-- Ready visitors book directly; the secondary action explains the service. -->
-    <div class="relative z-10 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
-      <Button
-        href={BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        size="lg"
-        icon="external"
-        track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
-        class="w-full sm:w-auto min-w-0"
-      >
-        Book a portfolio review
-      </Button>
-      <Button href="/invest/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
-        How support works
-      </Button>
+        <!-- Ready visitors book directly; the secondary action explains the service. -->
+        <div class:list={[ctaRow, 'justify-center xl:justify-start mx-auto xl:mx-0']}>
+          <Button
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="lg"
+            icon="external"
+            track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
+            class="w-full sm:w-auto min-w-0"
+          >
+            Book a portfolio review
+          </Button>
+          <Button href="/invest/" variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">
+            How support works
+          </Button>
+        </div>
+      </div>
+
+      <SampleBrief />
     </div>
   </Hero>
 
-  <!-- 2. Who we help, then How we help -->
+  <!-- 2. Problem → answer pairs. Short version here; the finalised long copy is on /invest/#who. -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <div class="mb-16 lg:mb-20">
-      <div class="text-center mb-10">
-        <Badge class="mb-6">Who we help</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
-          More choices. More clutter. More confusion.
-        </h2>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-        {situations.map((situation, index) => (
-          <Card padding="lg" hover={false} class:list={['w-full max-w-72 sm:max-w-none mx-auto', lastCardSpan(index, situations.length)]}>
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{situation.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{situation.body}</p>
-          </Card>
-        ))}
-      </div>
-    </div>
-
-    <div class="text-center mb-12 lg:mb-16">
-      <Badge class="mb-6">How we help</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6 leading-tight tracking-tight max-w-72 sm:max-w-4xl mx-auto']}>
-        Clearer choices. Less clutter. More confidence.
-      </h2>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-      {services.map((service, index) => (
-        <Card padding="lg" hover={false} class:list={['w-full max-w-72 sm:max-w-none mx-auto', lastCardSpan(index, services.length)]}>
-          <div class="w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={service.icon} />
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{service.title}</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">{service.body}</p>
-        </Card>
-      ))}
-    </div>
-    <!-- The homepage's only route to /about/: answers "who is behind this?" where the service is described. -->
-    <p class="text-center mt-10">
-      <a href="/about/" class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">Why Fund Investigator exists →</a>
+    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-10 lg:mb-12 leading-tight tracking-tight text-balance']}>
+      Clearer choices. Less clutter. More confidence.
+    </h2>
+    <ProblemAnswer pairs={shortPairs} reveal />
+    <!-- The homepage's routes to the service detail and to /about/ ("who is behind this?"). -->
+    <p class="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+      <a href="/invest/#who" class={lightLink}>How support works →</a>
+      <a href="/about/" class={lightLink}>Why Fund Investigator exists →</a>
     </p>
+  </Section>
 
-    <!-- How we are paid: lighter than the service cards, so it does not compete. -->
-    <div class="mt-16 lg:mt-20 pt-12 lg:pt-16 border-t border-fi-border">
-      <div class="text-center mb-10">
-        <Badge class="mb-6">How we are paid</Badge>
-        <h2 class:list={[responsive.h3, 'font-bold text-fi-ink leading-tight tracking-tight']}>So, what do you pay?</h2>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-72 sm:max-w-none mx-auto">
-        {payPoints.map((point, index) => (
-          <div class:list={['flex gap-4', lastCardSpan(index, payPoints.length)]}>
-            <svg class="shrink-0 w-fi-icon h-fi-icon text-fi-muted mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
-            <div>
-              <h3 class="text-body-md font-bold text-fi-ink mb-1">{point.title}</h3>
-              <p class="text-body-sm text-fi-muted leading-relaxed">{point.body}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <!-- The point of highest intent on the page, so it asks for the booking. -->
-      <div class="text-center mt-10">
-        <p class="mb-8">
-          <a href="/invest/#costs" class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">See the costs →</a>
+  <!-- 3. How we are paid: its own dark band, so the fee is never buried in the service copy -->
+  <Section background="dark" spacing="md" maxWidth="2xl">
+    <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal="0">
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>So, what do you pay?</h2>
+        <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-md mb-8">
+          We earn a commission from the fund house, which is part of the regular plan's cost.
+          <a href="/invest/#costs" class:list={[darkLink, 'whitespace-nowrap']}>See the costs →</a>
         </p>
-        <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none mx-auto">
+        <!-- The point of highest intent on the page, so it asks for the booking. -->
+        <div class:list={[ctaRow, 'mb-6']}>
           <Button
             href={BOOKING_URL}
             target="_blank"
@@ -206,7 +137,7 @@ const lastCardSpan = (index: number, length: number) =>
           <Button
             href={whatsappUrl('homepage_pricing')}
             variant="secondary"
-            surface="light"
+            surface="dark"
             icon="external"
             target="_blank"
             rel="noopener noreferrer"
@@ -216,28 +147,43 @@ const lastCardSpan = (index: number, length: number) =>
             Ask a question on WhatsApp
           </Button>
         </div>
-        <p class="text-body-sm text-fi-muted mt-6">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+        <p class="text-body-sm text-fi-subtle">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
       </div>
+
+      <ul class="border-t border-fi-border-dark">
+        {payPoints.map((point, index) => (
+          <li class="flex gap-5 py-6 border-b border-fi-border-dark" data-reveal={index}>
+            <div class="w-11 h-11 shrink-0 rounded-lg bg-fi-icon-bg-inv flex items-center justify-center">
+              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
+            </div>
+            <div>
+              <h3 class="text-body-lg font-bold text-fi-ink-inv leading-snug mb-1">{point.title}</h3>
+              <p class="text-body-sm text-fi-muted-inv leading-relaxed">{point.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   </Section>
 
-  <!-- 3. Investigations, then Subscribe after the value -->
+  <!-- 4. Investigations, then Subscribe after the value -->
   <Section background="white" spacing="md" maxWidth="2xl">
-    <div class="text-center mb-10 lg:mb-12">
-      <Badge class="mb-6">Investigations</Badge>
-      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words']}>The basics, investigated.</h2>
-    </div>
-
     <div class="max-w-4xl mx-auto">
+      <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 mb-10 lg:mb-12">
+        <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words']}>The basics, investigated.</h2>
+        <a href="/reports/" class={lightLink}>View all investigations →</a>
+      </div>
+
       <div class="grid sm:grid-cols-2 gap-5">
-        {featuredGuides.map((report) => (
-          <ReportCard report={report} href={`/reports/${report.slug}/`} />
+        {featuredGuides.map((report, index) => (
+          <div data-reveal={index}>
+            <ReportCard report={report} href={`/reports/${report.slug}/`} />
+          </div>
         ))}
       </div>
 
-      <!-- Subscribe follows the value, as one line, not a full card. -->
-      <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 mt-8 w-full max-w-72 sm:max-w-none mx-auto">
-        <Button href="/reports/" variant="secondary" surface="light" class="w-full sm:w-auto min-w-0">View all investigations</Button>
+      <!-- Subscribe follows the value, as one button, not a full card. -->
+      <div class="mt-8">
         <Button
           href={substackWelcomeUrl('homepage_bottom')}
           target="_blank"
@@ -252,10 +198,9 @@ const lastCardSpan = (index: number, length: number) =>
     </div>
   </Section>
 
-  <!-- 4. Deepdive: the do-it-yourself route, so no gold button -->
+  <!-- 5. Deepdive: the do-it-yourself route, so no gold button -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <DeepdiveSnapshot>
-      <Badge class="mb-6">Deepdive</Badge>
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Prefer to invest on your own?</h2>
       <p class="text-body-md text-fi-muted leading-relaxed mb-6">
         Use Deepdive, our free fund analysis app, to check any fund yourself. Choose direct plans and keep every decision.

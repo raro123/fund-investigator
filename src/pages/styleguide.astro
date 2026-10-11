@@ -9,6 +9,9 @@ import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
+import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
+import SampleBrief from '../components/ui/SampleBrief.astro';
+import { shortPairs, fullPairs } from '../lib/who-we-help';
 import { responsive } from '../lib/responsive';
 ---
 
@@ -97,6 +100,27 @@ import { responsive } from '../lib/responsive';
       { title: 'We set it up, you approve', body: 'You approve each one by OTP.', icon: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>' },
     ]} />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Timeline steps={[{ title, body, icon }, …]} />`}</code></pre>
+  </Section>
+
+  <!-- Problem → Answer -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Problem → Answer</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Paired cards on a light surface: a flat problem card, an arrow, and a raised white answer card. Stacks below <code class="font-mono">md</code>. Without a <code class="font-mono">title</code>, the tag is the heading (short, homepage). With a <code class="font-mono">title</code>, the tag is a lead-in (long, <code class="font-mono">/invest/</code>). Copy lives in <code class="font-mono">src/lib/who-we-help.ts</code>.
+    </p>
+    <ProblemAnswer pairs={shortPairs.slice(0, 1)} />
+    <ProblemAnswer pairs={fullPairs.slice(0, 1)} class="mt-5" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ProblemAnswer pairs={[{ problem: { icon, tag, title?, body }, answer: { … } }]} reveal />`}</code></pre>
+  </Section>
+
+  <!-- Sample Brief -->
+  <Section background="dark" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Sample Brief</h2>
+    <p class="text-body-sm text-fi-muted-inv mb-8">
+      The homepage hero's preview of a portfolio-review brief. Dark surfaces only. Names no fund and shows no returns; every value is an example.
+    </p>
+    <SampleBrief />
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />`}</code></pre>
   </Section>
 
   <!-- Color Palette -->

@@ -26,6 +26,8 @@ interface KeyMetric {
 
 interface Props {
   report: {
+    /** Content-collection slug; names the title for the card → article transition */
+    slug?: string;
     data: {
       title: string;
       category: string;
@@ -44,6 +46,10 @@ const { title, readTime, date, hook, keyMetrics, status = 'current' } = report.d
 
 const formattedDate = formatDate(date, 'short');
 
+// Same name as the article H1 (ArticleLayout.astro), so the title moves into
+// place on navigation. Slugs are unique, so names never clash on one page.
+const titleTransition = report.slug ? `view-transition-name: report-${report.slug}` : undefined;
+
 ---
 
 <a href={href} class="block h-full group">
@@ -59,7 +65,7 @@ const formattedDate = formatDate(date, 'short');
     </div>
 
     <!-- Zone 2: Title -->
-    <h2 class="text-heading-sm font-bold text-fi-ink-inv group-hover:text-fi-gold leading-tight line-clamp-2 mt-4 transition-colors duration-200">
+    <h2 class="text-heading-sm font-bold text-fi-ink-inv group-hover:text-fi-gold leading-tight line-clamp-2 mt-4 transition-colors duration-200" style={titleTransition}>
       {title}
     </h2>
 

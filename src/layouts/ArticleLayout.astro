@@ -81,7 +81,7 @@ import { ARN, TAGLINE } from '../lib/distributor';
   >
     <div class="max-w-3xl mx-auto space-y-6">
       <ArticleBreadcrumbs items={breadcrumbs} />
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight" style={`view-transition-name: report-${reportSlug}`}>{frontmatter.title}</h1>
       <p class="max-w-2xl font-serif text-xl leading-relaxed text-fi-muted-inv">{frontmatter.hook ?? frontmatter.description}</p>
       <ArticleMetadata
         published={frontmatter.date}
