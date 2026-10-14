@@ -19,12 +19,14 @@ const {
 ---
 
 <div class="flex flex-col items-center justify-center gap-y-2 py-4 text-caption font-semibold tracking-normal text-fi-muted-inv md:flex-row md:gap-x-6 md:py-5 md:uppercase md:tracking-widest">
+  <!-- A dot before each marker, not dividers between them: the list can wrap on narrow phones. -->
   <ul
-    class="flex items-center justify-center whitespace-nowrap divide-x divide-fi-border-dark"
+    class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:gap-x-6"
     aria-label="Fund Investigator credibility markers"
   >
     {markers.map((marker) => (
-      <li class="px-1.5 first:pl-0 last:pr-0 md:px-4 md:first:pl-0 md:last:pr-0">
+      <li class="inline-flex items-center gap-2 whitespace-nowrap">
+        <span class="h-1 w-1 rounded-full bg-fi-gold" aria-hidden="true"></span>
         {marker}
       </li>
     ))}

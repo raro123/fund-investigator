@@ -8,6 +8,7 @@ import Card from '../components/ui/Card.astro';
 import Hero from '../components/ui/Hero.astro';
 import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
@@ -65,16 +66,20 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
   <Hero size="lg" background="dark" centered={false} class="fi-investigation-hero">
     <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Two columns only from xl: below that the 72px headline needs the full width. -->
-    <div class="relative z-10 grid max-w-7xl mx-auto items-center gap-14 xl:grid-cols-fi-hero xl:gap-16">
+    <!-- Two columns only from xl: below that the 72px headline needs the full width.
+         DOM order is text → trust strip → brief, so on phones the strip sits next to the action
+         and the brief is a sneak peek before the problem cards. From xl the brief moves to the
+         right column and the strip becomes a full-width band under both columns. -->
+    <div class="relative z-10 grid max-w-7xl mx-auto items-center gap-8 xl:grid-cols-fi-hero xl:gap-16">
       <div class="text-center xl:text-left">
         <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words text-balance']}>
           We investigate, so you can
           <span class="text-fi-gold">invest.</span>
         </h1>
 
-        <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-xl mx-auto xl:mx-0 font-light leading-relaxed mb-10']}>
-          Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust.
+        <!-- Tagline says what the company does; "build" speaks to beginners, "improve" to existing investors. -->
+        <p class:list={['text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto xl:mx-0 leading-relaxed text-balance mb-10']}>
+          Build and improve your portfolio with our help and expertise in mutual funds and SIFs.
         </p>
 
         <!-- One action: visitors who need more information reach section 2 directly below. -->
@@ -88,16 +93,23 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
             track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
             class="w-full sm:w-auto min-w-0"
           >
-            Book a portfolio review
+            Book a first call
           </Button>
         </div>
         <!-- "No charge" is scoped to the call so the service never reads as free. -->
-        <p class="text-body-sm text-fi-subtle">
-          30-minute first call · No charge for the call · No obligation to invest through us
+        <p class="text-body-sm text-fi-subtle text-balance">
+          30-minute first call · No charge for the call · No obligation to invest
         </p>
       </div>
 
-      <SampleBrief />
+      <!-- "AMFI" sits with the ARN: AMFI registers the distributor, not the funds. -->
+      <div class="xl:col-span-2 xl:row-start-2 xl:border-t xl:border-fi-border-dark">
+        <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+      </div>
+
+      <div class="xl:col-start-2 xl:row-start-1">
+        <SampleBrief />
+      </div>
     </div>
   </Hero>
 

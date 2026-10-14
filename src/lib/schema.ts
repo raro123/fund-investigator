@@ -23,9 +23,9 @@ import { ARN, TAGLINE } from './distributor';
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
-export const HOME_TITLE = 'Indian Mutual Fund Analysis | Fund Investigator';
+export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
 export const HOME_DESCRIPTION =
-  'Compare AMFI-registered mutual funds by benchmark returns, SIP IRR, Sharpe ratio, volatility, and drawdown.';
+  `Expert-led, analysis-driven help to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
