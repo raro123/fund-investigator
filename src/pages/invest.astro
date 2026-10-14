@@ -13,7 +13,7 @@ import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
 import { formatDate } from '../lib/format';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
@@ -210,7 +210,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         </p>
         <p class="text-fi-muted">
           {TAGLINE} · <span class="whitespace-nowrap">{ARN}</span> · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
-          <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>About {FIRST_NAME} →</a>
+          <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>Read our story →</a>
         </p>
       </div>
     </div>
