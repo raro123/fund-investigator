@@ -8,7 +8,7 @@
  *
  * @example
  * <CheckList items={['Overlap', 'Costs']} />
- * <CheckList items={CREDENTIALS} layout="inline" />
+ * <CheckList items={CREDENTIALS.map((c) => c.text)} layout="inline" />
  *
  * @param items - list items (plain text)
  * @param surface - 'light' (default) or 'dark'

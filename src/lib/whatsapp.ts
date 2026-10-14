@@ -17,6 +17,7 @@ export type WhatsappPlacement =
   | 'invest_review'
   | 'invest_cta'
   | 'invest_faq'
+  | 'about'
   | 'footer';
 
 const prefilledText: Record<WhatsappPlacement, string> = {
@@ -27,6 +28,7 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   invest_review: `Hi ${FIRST_NAME}, I'd like to book a first call.`,
   invest_cta: `Hi ${FIRST_NAME}, I'd like to know more about Invest with support.`,
   invest_faq: `Hi ${FIRST_NAME}, I have a question about Invest with support.`,
+  about: `Hi ${FIRST_NAME}, I'd like to book a first call.`,
   footer: `Hi ${FIRST_NAME}, I have a question.`,
 };
 

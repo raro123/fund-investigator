@@ -10,6 +10,7 @@ import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
+import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import CheckList from '../components/ui/CheckList.astro';
@@ -123,6 +124,20 @@ import { responsive } from '../lib/responsive';
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SplitRows rows={[{ name, left, right }, …]} rowLabel columns={[{ label, short? }, { label, short? }]} numbered? emphasis="none|right" />`}</code></pre>
+  </Section>
+
+  <!-- Stat Row -->
+  <Section background="dark" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>StatRow</h2>
+    <p class="text-body-sm text-fi-muted-inv mb-6">
+      Short facts as a bold value over a label, with thin dividers. Two columns below <code class="font-mono">lg</code>, one row from <code class="font-mono">lg</code>. Gold values on dark, ink values on light. Used for the credential row on <code class="font-mono">/about/</code>.
+    </p>
+    <StatRow surface="dark" items={[
+      { value: '12 years', label: 'in financial services' },
+      { value: 'ARN-370951', label: 'AMFI Registered' },
+      { value: 'IIT Kanpur', label: 'Specialisation' },
+    ]} />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<StatRow surface="dark|light" items={[{ value, label }, …]} />`}</code></pre>
   </Section>
 
   <!-- Section Heading -->

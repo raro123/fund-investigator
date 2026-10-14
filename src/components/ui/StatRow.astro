@@ -1,0 +1,59 @@
+---
+/**
+ * StatRow Component
+ *
+ * A row of short facts, each a bold value over a one-line label: credentials,
+ * registration, years of experience. Thin dividers keep it light, so it reads
+ * as a ledger, not as a set of cards.
+ *
+ * Two columns below `lg` (the dividers run between rows), one row from `lg`.
+ * Values never wrap, so keep them short ('12 years', 'ARN-370951').
+ *
+ * @example
+ * <StatRow surface="dark" items={[
+ *   { value: '12 years', label: 'in financial services' },
+ *   { value: 'ARN-370951', label: 'AMFI Registered' },
+ * ]} />
+ *
+ * @param items - [{ value, label }], 2 to 4 items
+ * @param surface - 'dark' (gold values) or 'light' (ink values)
+ * @param class - extra classes for the wrapper
+ */
+
+import { responsive } from '../../lib/responsive';
+
+interface Stat {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  items: Stat[];
+  surface: 'light' | 'dark';
+  class?: string;
+}
+
+const { items, surface, class: className = '' } = Astro.props;
+
+// Approved surface pairs (docs/style_spec.md §1): gold text only on dark.
+const tone = {
+  dark: { value: 'text-fi-gold', label: 'text-fi-muted-inv', border: 'border-fi-border-dark' },
+  light: { value: 'text-fi-ink', label: 'text-fi-muted', border: 'border-fi-border' },
+}[surface];
+
+// The grid needs a literal class per item count so Tailwind can see it.
+const desktopColumns: Record<number, string> = {
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+};
+---
+
+<dl class:list={['grid grid-cols-2 border-t', tone.border, desktopColumns[items.length], className]}>
+  {items.map((item) => (
+    <div class:list={['px-4 py-5 text-left border-b lg:border-b-0 lg:border-l lg:first:border-l-0', tone.border]}>
+      <dt class:list={[responsive.h3, 'font-bold leading-tight whitespace-nowrap', tone.value]}>{item.value}</dt>
+      <dd class:list={['mt-1 text-body-sm leading-snug', tone.label]}>{item.label}</dd>
+    </div>
+  ))}
+</dl>

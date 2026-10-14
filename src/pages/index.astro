@@ -228,7 +228,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
         Start with a 30-minute call with {FIRST_NAME}.
       </h2>
       <p class="text-body-md text-fi-muted mb-4">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
-      {CREDENTIALS.length > 0 && <CheckList items={CREDENTIALS} layout="inline" class="mb-6" />}
+      {CREDENTIALS.length > 0 && <CheckList items={CREDENTIALS.map((credential) => credential.text)} layout="inline" class="mb-6" />}
       <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
         Tell me your goals. Show me your funds, or the amount you plan to invest. I reply to messages within 1 business day.
       </p>

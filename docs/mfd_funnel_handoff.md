@@ -40,7 +40,7 @@
 ### Navigation
 - **Header:** Invest with support · Investigations · About. Three equal text links, no nav button. Deepdive and Subscribe are not in the header.
 - **Footer Navigate column:** Invest with support · Investigations · Deepdive ↗ · About · Subscribe ↗. All plain links. The footer also has a WhatsApp icon (`footer`).
-- The main button label is "Book a first call" (homepage and `/invest/`); the homepage final section says "Book a call with Ishpreet". `/about/` still says "Book a portfolio review" (align when #87 is settled).
+- The main button label is "Book a first call" (homepage and `/invest/`); the homepage final section says "Book a call with Ishpreet". `/about/` says "Book a first call" (S51).
 - **Deepdive appears in:** the `/reports/` section, links inside investigations, `/about/` section 4, and the footer. The homepage mentions it only as "Access to Deepdive" in the subscribe strip. All open links move to the email access flow (#91).
 
 ### Homepage (2026-10-14, current)
@@ -82,16 +82,18 @@ Removed: the three-card "AMFI-registered, and open about how we are paid" sectio
 
 The owner holds the MFD and SIF distributor certifications. Existing MFDs can distribute GIFT City funds (owner, 2026-10-15).
 
-### `/about/` page (rewritten)
+### `/about/` page (S51, 2026-10-15)
+
+**Job:** why the brand exists and how it works, then the person behind it. The brand leads; the owner does not overshadow it. The owner's name, credentials and photo sit in "Know your distributor"; links *to* the page never use the owner's name ("About", "Read our story →").
 
 | # | Section | Background | Content |
 | --- | --- | --- | --- |
-| 1 | Hero | dark | H1 kept ("Why Fund Investigator Exists"). Subtitle (S45): "Because you deserve investments backed by analysis, that improve your portfolio. We investigate funds with evidence, not ratings. Then we help you choose and invest, with our costs shown first." The line replaces the old homepage "Why Fund Investigator" block, which is not restored (its "Not mis-selling…" claim does not fit a commission-earning MFD). |
-| 2 | Our story | white | "The question we start with": the returns question; why we separate the result from the reasons and built Deepdive; funds are sold, not chosen, and distribution is run as sales, not analysis, which is how mis-selling happens; "So we offer distribution that starts with analysis." |
-| 3 | How we work | light | "Three rules we keep." Evidence before opinion · Research kept apart from selling (investigations and Deepdive have no buy buttons and never link to the service) · Open about how we are paid (→ `#costs`) |
-| 4 | Two ways we help | white | Two cards: Invest with Support (gold "Book a portfolio review ↗", link "How support works →") · Investigate on your own (secondary "Open Deepdive ↗", source `about`; link to investigations). Contact email |
+| 1 | Hero | dark | H1 "Why *Fund Investigator* Exists" (brand). Subtitle (S45): "Because you deserve investments backed by analysis, that improve your portfolio. We investigate funds with evidence, not ratings. Then we help you choose and invest, with our costs shown first." No labels, no button |
+| 2 | Story | white | Pull quote "Separate the result from the reasons." beside "The question we start with" ("we" voice): the returns question, Deepdive, distribution that starts with analysis |
+| 3 | How we work | light | The homepage's three differences (Analysis and evidence · Portfolio first · Transparent and personal), each with its proof link: investigations and Deepdive (`about`) · `/invest/#how-it-works` · `/invest/#costs` |
+| 4 | Know your distributor | white | Photo (hidden while `OWNER_PHOTO` is null), name, tagline, a short first-person intro, `StatRow` credential row (12 years · Master's · IIT Kanpur · ARN). Book a call with Ishpreet (`about`) · Contact on WhatsApp (`about`) · "How support works →" `/invest/` |
 
-No founder section yet; the name rule changed (Strategy 5), so a founder section is now possible. No "What Changed" note. The X link is in the footer only.
+Removed: the "Two ways we help" section (it gave the DIY route equal weight), the "Three rules" section, the pill labels, the grid background and the "mis-selling" line.
 
 ### `/reports/` page
 Hero, filters, cards, plus one section after the list: Deepdive snapshot, "Check any fund yourself.", "Open Deepdive ↗" (`reports_deepdive`). No `/invest/` link (most cards name a fund). The snapshot still shows fund names (#75).
@@ -99,7 +101,7 @@ Hero, filters, cards, plus one section after the list: Deepdive snapshot, "Check
 ### Tracking placements
 Events (`src/lib/analytics.ts`): `review_booking_click`, `conversation_request` (channel), `deepdive_click`, `subscribe_click`, plus the `invest_view` page view. Zoho and WhatsApp report no placement back, so the click event is the only record.
 - Booking: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `about`.
-- WhatsApp `ref`: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `invest_faq`, `footer`.
+- WhatsApp `ref`: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `invest_faq`, `about`, `footer`.
 - Deepdive: `reports_deepdive`, `about`, `footer` (`invest_fallback` is defined but unused).
 - Substack: `homepage_bottom`, `article_end`, `article_takeaways`, `footer`.
 - Retired: `homepage_beginner`, `homepage_pricing`, `homepage_deepdive`, `header_*`.

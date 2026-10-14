@@ -17,11 +17,31 @@ export const REGISTERED_NAME = 'Ishpreet Singh Modi';
 /** First name for personal copy: "Book a call with …", WhatsApp greetings. */
 export const FIRST_NAME = 'Ishpreet';
 
+/** One credential: a short highlight for the /about/ credential row, and the
+ * full phrase for inline lists (the homepage final section). */
+export interface Credential {
+  /** Short, bold part, e.g. '12 years' */
+  value: string;
+  /** What the value means, e.g. 'in financial services' */
+  label: string;
+  /** The full phrase for inline lists */
+  text: string;
+}
+
 /**
- * Credentials shown under the name in the homepage final section, e.g.
- * 'NISM Series V-A certified'. The list is hidden while empty.
+ * Credentials shown on /about/ (credential row) and under the name in the
+ * homepage final section. The registration (TAGLINE, ARN) is shown separately.
+ * Owner-supplied, 2026-10-15.
  */
-export const CREDENTIALS: string[] = [];
+export const CREDENTIALS: Credential[] = [
+  { value: '12 years', label: 'in financial services', text: '12 years in financial services' },
+  { value: "Master's", label: 'in Economics', text: "Master's in Economics" },
+  {
+    value: 'IIT Kanpur',
+    label: 'Specialisation in Financial Technology and Management',
+    text: 'Financial Technology and Management, IIT Kanpur',
+  },
+];
 
 /**
  * Owner photo for the homepage final section; hidden while null. When the photo
