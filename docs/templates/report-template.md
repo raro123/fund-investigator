@@ -49,9 +49,6 @@ category: "Fund Analysis"
 # Feeds JSON-LD keywords. NOT shown to readers anywhere. 2-4, be specific.
 tags: ["Large Cap", "Value Investing", "Risk Analysis"]
 
-# true -> eligible for the homepage. Only the 3 most recent featured reports appear.
-featured: true
-
 # ---------------------------------------------------------------------------
 # OPTIONAL SEO OVERRIDES
 # ---------------------------------------------------------------------------

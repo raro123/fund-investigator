@@ -1,7 +1,8 @@
 # Fund Investigator
 
-FundInvestigator.com — a content-driven website analyzing Indian mutual funds beyond headline
-returns, built to establish credibility and attract readers, Deepdive users, and prospective clients.
+FundInvestigator.com — a distribution-led website for an AMFI-registered Mutual Fund Distributor.
+Its main goal is booked first calls for the "Invest with support" service. Free investigations of Indian
+mutual funds, and the Deepdive app for email subscribers, build authority.
 
 ## Architecture
 
@@ -19,7 +20,8 @@ Subdomains separate the fast, SEO-optimized content layer from the compute-heavy
 - **Content:** Markdown + YAML frontmatter, via Astro content collections (`src/content.config.ts`)
 - **Cloudflare Pages** — hosting/deployment
 - **Email/Newsletter:** Substack — subscription capture and distribution (`src/lib/substack.ts`). Full investigations stay on this site; Substack carries teasers, summaries, and newsletters.
-- **Error tracking:** custom client-side beacon in `Layout.astro` — description intentionally omitted, endpoint accuracy under review (see `docs/project_log.md` #37)
+- **Analytics:** PostHog funnel events (`src/lib/analytics.ts`)
+- **Error tracking:** custom client-side beacon in `Layout.astro`
 
 ### Key File Locations
 - **Design Tokens:** `tailwind.config.mjs` — see `docs/style_spec.md` for the full token reference
@@ -50,20 +52,21 @@ fund-investigator/
 │   ├── layouts/
 │   │   ├── Layout.astro                # Global layout
 │   │   └── ArticleLayout.astro         # Report page layout
-│   ├── lib/                            # responsive.ts, schema.ts (JSON-LD), substack.ts
+│   ├── lib/                            # responsive.ts, schema.ts (JSON-LD), services.ts, faq.ts,
+│   │                                   # distributor.ts, whatsapp.ts, substack.ts, analytics.ts
 │   └── pages/
 │       ├── index.astro
+│       ├── invest.astro                # "Invest with support" service page
 │       ├── reports.astro               # Report listing
 │       ├── reports/[...slug].astro     # Report detail route
 │       ├── about.astro / disclaimer.astro / privacy.astro / terms.astro
 │       ├── styleguide.astro            # Live component reference — /styleguide
 │       └── llms.txt.ts                 # Machine-readable summary for AI crawlers
-├── functions/api/                      # Cloudflare Pages Functions
 ├── public/
 │   ├── images/                         # Static social/OG images
-│   ├── videos/                         # Deepdive showcase promo reels
+│   ├── videos/                         # Deepdive snapshot poster
 │   └── robots.txt
-├── docs/                                # Design spec, content philosophy, deployment, project log
+├── docs/                                # Design spec, content, deployment, funnel handoff, project log
 ├── CLAUDE.md                           # Agent instructions (AGENTS.md symlinks here)
 ├── tailwind.config.mjs                  # Design tokens
 ├── astro.config.mjs
@@ -110,6 +113,9 @@ Evidence → Analysis → Verdict), and stays in sync with the schema in `src/co
 - **[docs/style_spec.md](docs/style_spec.md)** - Design token values and rationale
 - **[docs/templates/report-template.md](docs/templates/report-template.md)** - Report authoring reference
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures and troubleshooting
+- **[docs/mfd_funnel_handoff.md](docs/mfd_funnel_handoff.md)** - Distribution funnel rules, compliance wording, build status
+- **[docs/mfd_whatsapp_kit.md](docs/mfd_whatsapp_kit.md)** - WhatsApp Business texts
+- **[docs/seo_audit.md](docs/seo_audit.md)** - SEO audit and checks
 - **[docs/project_log.md](docs/project_log.md)** - Session history and pending decisions
 - **Live Styleguide** - Visit `/styleguide` for component reference
 

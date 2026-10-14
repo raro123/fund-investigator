@@ -45,3 +45,6 @@ my_thoughts.md
 
 # Playwright MCP workspace artifacts
 .playwright-mcp/
+
+# Reference PDFs (local only)
+docs/*.pdf

@@ -140,7 +140,7 @@ duplicated here.
 
 Appear above section headings. Two variants based on section background.
 
-**Not on the homepage** (decided 2026-10-11). Every homepage H2 already says what its section is, so a label only repeated it. Section breaks come from the headings and the dark/light background rhythm. Other pages still use labels until they are reviewed.
+**Not on the homepage or `/invest/`** (decided 2026-10-11, S46; `/invest/` S47). Every H2 already says what its section is, so a label only repeated it. Section breaks come from the headings and the dark/light background rhythm. `/about/` and `/reports/` still use labels until they are reviewed (`project_log.md` #84).
 
 **Light sections (fi-light or white):**
 - Background: white
@@ -306,7 +306,7 @@ Defined in `tailwind.config.mjs` via `addUtilities`:
 | Freemium promises in UI | Removed — "free to use · no login required" deleted to avoid constraining business model |
 | Star ratings / scores | Never used — counter to the platform's analytical positioning |
 | Gradient backgrounds on content sections | Removed — blue/teal gradients replaced with flat `fi-light` |
-| Deepdive App Mockup (decorative fake-UI: metric tiles, chart bars, window chrome) | Removed — the Deepdive section now shows a real video walkthrough of the app instead (`project_log.md` S22). Leftover code: `TearsheetMockup.astro`, unused (`project_log.md` #40) |
+| Deepdive App Mockup (decorative fake-UI: metric tiles, chart bars, window chrome) | Removed — the Deepdive section now shows a real video walkthrough of the app instead (`project_log.md` S22). |
 | Inline homepage email-capture input | Removed — subscription moved entirely to Substack redirect buttons (`project_log.md` #30). No `type="email"` field remains on the homepage |
 
 ---

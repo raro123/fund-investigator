@@ -1,22 +1,17 @@
 # Handoff: Invest with Support funnel
 
-**Status (2026-10-12, S47):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`; S45 and S46 are committed. S47 restructured the homepage actions and `/invest/` for a distribution-led site (see `docs/homepage_funnel_recommendations.md`). Next: the first-call copy (#87) and the owner's Zoho update (#88), then the disclaimer section (#65), the privacy section (#78) and the Deepdive snapshot (#75), then push and PR.
-**Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
-**Update (2026-10-14, branch `homepage-v2`):** the homepage and `/invest/` were rebuilt from the agreed demo (`claude.ai/artifact/F3YwEXP1V29kCMcEDRE4KK`, v19). The "Homepage (2026-10-14)" table in §2 replaces the S46 homepage table, the S47 action layout and the `/invest/` table below. The owner's name, credentials and the word "expertise" are now allowed (SEBI RA rule retired).
-
-**Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. For the homepage actions and the `/invest/` layout, `docs/homepage_funnel_recommendations.md` (S47) wins over §2 and the v2 demo. For the rest of the homepage layout, the S46 table in §2 wins over the v2 demo. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
+**Status (2026-10-14, S49):** All funnel work is merged into `dev` (20 commits ahead of `main`). Production has no `/invest/` yet. Next: the release blockers (#65, #75, #78, #87), then a PR from `dev` to `main` (#95).
+**Source of truth:** this file. The homepage and `/invest/` follow the agreed demo (`claude.ai/artifact/F3YwEXP1V29kCMcEDRE4KK`, v19); the "Homepage (2026-10-14)" table in §2 replaces older homepage and `/invest/` tables. The owner's name, credentials and the word "expertise" are allowed (SEBI RA rule retired).
+**Retired docs (2026-10-14):** the transition proposal, the copy demos (v1, v2) and the S47 funnel recommendations are deleted. Read them in git history (commit `18fcfda`) if you need the background, for example the proposal's Deepdive changes (§9).
 **Log:** open items are numbered as in `docs/project_log.md`.
 
 ## 1. Files
 
 | File | State | Use |
 | --- | --- | --- |
-| `docs/mfd_copy_demo_v2.html` | Untracked; **exact copy and layout** | Four pages: homepage, `/invest/`, `/reports/`, `/about/`. The demo bar switches pages and toggles change notes (orange = S43 proposal, now approved). Serve from the repo root (`docs-demo` in `.claude/launch.json`, port 8765) so the Deepdive snapshot loads from `public/videos/`. The WhatsApp and booking buttons open the real services |
-| `docs/mfd_copy_demo.html` | Untracked; superseded by v2 | Kept for comparison; delete after PR 2 |
-| `docs/mfd_whatsapp_kit.md` | Untracked; draft for owner approval | WhatsApp profile, greeting, away message, prefilled texts, privacy section draft |
-| `docs/mfd_distribution_transition_proposal.md` | Untracked | Background plan (see above) |
-| `docs/AMFI_Master_Cicular_for_MF_Ds_3c7f5ee44f.pdf` | Untracked | Code of conduct source (Chapter 4, clause 4) |
-| `docs/project_log.md`, `project_log_archive.md` | Modified | Keep out of MFD feature commits |
+| `docs/mfd_whatsapp_kit.md` | Draft for owner approval | WhatsApp profile, greeting, away message, prefilled texts, privacy section draft |
+| `docs/AMFI_Master_Cicular_for_MF_Ds_3c7f5ee44f.pdf` | Local only (not in git) | Code of conduct source (Chapter 4, clause 4) |
+| `docs/project_log.md`, `project_log_archive.md` | Tracked | Decisions and session history |
 
 ## 2. Locked decisions
 

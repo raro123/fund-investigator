@@ -10,7 +10,6 @@ tags:
     - "Flexi Cap"
     - "Risk Analysis"
     - "Mutual Funds"
-featured: false
 status: archived
 analysisThrough: "2025-12-31"
 supersededBy: "/reports/ppfas-flexicap-five-checks/"

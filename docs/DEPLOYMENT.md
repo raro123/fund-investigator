@@ -26,7 +26,7 @@ Cloudflare Pages, connected to this GitHub repo.
 
 **Needs addressing:**
 - `PUBLIC_CF_ACCOUNT_ID` / `PUBLIC_CF_PROJECT_NAME` are now fully dead (the beacon that read them was deleted) — remove them from Cloudflare Pages.
-- `MAILERLITE_API_KEY` is almost certainly dead now that `functions/api/subscribe.ts` is deleted (#39) — confirm nothing reads it, then remove it from Preview.
+- `MAILERLITE_API_KEY` is dead: no code reads it (checked 2026-10-14). Remove it from Preview.
 - A prior session found `PUBLIC_CF_ACCOUNT_ID`/`PUBLIC_CF_PROJECT_NAME` had been set on Production only, silently breaking Preview. Don't repeat that mistake with the PostHog vars — set both on **Production and Preview**, or Preview deploys will silently have no analytics.
 
 ## Custom Domain & DNS
@@ -119,10 +119,8 @@ Run a build + preview locally before pushing to `main` if the change touches lay
 
 ## Other Open Items
 
-- **Stale Functions-directory build log.** A `dev` preview build logged `Found Functions directory at /functions. Uploading.` even though `functions/` was deleted (#39) and doesn't exist in the current checkout. Likely a stale build predating the deletion reaching `dev` — confirm before treating #39 as fully closed (#42).
-- **Sitewide headers need live verification.** `public/_headers` now includes global security, asset caching, `No-Vary-Search`, and discovery `Link` headers; verify them after the next deployment.
+- **Sitewide headers.** `public/_headers` sets security, asset caching, `No-Vary-Search` and discovery `Link` headers. Verified live on 2026-08-21 (S35); recheck after changes to `_headers`.
 - **Preview URLs (`*.pages.dev`) are public by default.** Not currently restricted with Cloudflare Access. Undecided whether that's acceptable.
-- **`wrangler` devDependency is likely vestigial.** It was only needed to locally test `functions/api/subscribe.ts` via `npx wrangler pages dev dist`. That function is gone (#39) and there are no Pages Functions left in this repo — remove it unless Functions work is planned again soon.
 - **No deploy-failure notifications configured.** A failed production build currently has no alerting; you'd only notice by checking the dashboard or the site going stale.
 
 ## Troubleshooting
