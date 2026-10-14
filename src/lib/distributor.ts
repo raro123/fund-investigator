@@ -36,7 +36,12 @@ export const ARN = 'ARN-370951';
 /** ARN expiry as YYYY-MM-DD; display through formatDate(). */
 export const ARN_VALID_UNTIL = '2029-09-05';
 
-export const TAGLINE = 'AMFI-registered Mutual Fund Distributor';
+/**
+ * Mandatory tagline for distributors registered for SIFs: AMFI requires this
+ * exact wording, with the name and ARN, in all communication, including the
+ * website. Keep it verbatim.
+ */
+export const TAGLINE = 'AMFI Registered Mutual Fund Distributor & SIF Distributor';
 
 /** Standard AMFI risk warning — keep the wording exact. */
 export const RISK_WARNING =

@@ -158,8 +158,8 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
 
     <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-      <Button href="/about/" variant="secondary" surface="light" icon="arrow-right">Read our story</Button>
-      <a href="/invest/#faq" class={lightLink}>Full details and FAQ →</a>
+      <Button href="/invest/" variant="secondary" surface="light" icon="arrow-right">How support works</Button>
+      <a href="/about/" class={lightLink}>Read our story →</a>
     </div>
   </Section>
 
@@ -230,7 +230,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <p class="text-body-md text-fi-muted mb-4">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
       {CREDENTIALS.length > 0 && <CheckList items={CREDENTIALS} layout="inline" class="mb-6" />}
       <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
-        Tell me your goals. Show me your funds, or the amount you plan to invest. I reply to messages within 2 working days.
+        Tell me your goals. Show me your funds, or the amount you plan to invest. I reply to messages within 1 business day.
       </p>
       <div class={ctaRow}>
         <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a call with {FIRST_NAME}</Button>

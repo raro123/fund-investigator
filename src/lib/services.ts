@@ -1,11 +1,10 @@
 /**
  * The four Invest with support services: one source for the homepage cards
- * and the /invest/ "Our services" section.
+ * and the stage names in the /invest/ journey.
  *
  * The homepage shows each service with the problem it solves and three short
- * bullets (`ServiceCard`). /invest/ shows the same service with an intro line
- * and the full list of what it includes. Keeping both in one list stops the
- * pages drifting apart when a service is reworded.
+ * bullets (`ServiceCard`). /invest/ uses the titles as journey stage names,
+ * so both pages use the same word for the same service.
  *
  * @example
  * import { services } from '../lib/services';
@@ -22,10 +21,6 @@ export interface Service {
   problem: string;
   /** Three short bullets for the homepage card */
   bullets: string[];
-  /** One line for the /invest/ card */
-  intro: string;
-  /** Everything the service includes, for the /invest/ card */
-  details: string[];
 }
 
 export const services: Service[] = [
@@ -41,14 +36,6 @@ export const services: Service[] = [
       'Your existing funds, if any: suitability, performance, overlap and costs',
       'A short brief before you decide anything',
     ],
-    intro: 'We start with you, then look at what you hold.',
-    details: [
-      'Your goals, time frame and risk profile',
-      'Suitability: does each fund fit that profile',
-      'Performance against a fair benchmark, and for how long',
-      'Overlap: which funds hold the same stocks',
-      'Costs: your yearly expense ratios, in rupees',
-    ],
   },
   {
     number: '02',
@@ -59,13 +46,6 @@ export const services: Service[] = [
       'A shortlist that suits your goals and risk profile',
       'The reasons and costs for each fund, with our commission in writing',
       'For your first SIP or an existing portfolio',
-    ],
-    intro: 'A shortlist of suitable funds, from every fund house.',
-    details: [
-      'The reasons each fund fits you',
-      'Its costs, and our commission in writing',
-      'The alternatives we considered',
-      'SIFs, if you invest ₹10 lakh or more',
     ],
   },
   {
@@ -78,13 +58,6 @@ export const services: Service[] = [
       'You approve every transaction by OTP',
       'Your money goes directly to the fund house',
     ],
-    intro: 'We set it up. You approve every step.',
-    details: [
-      'KYC help',
-      'SIPs and lump sums',
-      'You approve each transaction by OTP',
-      'You pay the fund house directly',
-    ],
   },
   {
     number: '04',
@@ -95,13 +68,6 @@ export const services: Service[] = [
       'Reviews against benchmarks at regular intervals',
       'Help with rebalancing, SIP changes and redemptions',
       'Someone to talk to when markets move',
-    ],
-    intro: 'We stay in touch after you invest.',
-    details: [
-      'Reviews at regular intervals',
-      'A person to talk to when markets move',
-      'Rebalancing, SIP changes, switches and redemptions',
-      'Help when your plans change',
     ],
   },
 ];

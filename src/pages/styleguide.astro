@@ -9,6 +9,7 @@ import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
+import SplitRows from '../components/ui/SplitRows.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import CheckList from '../components/ui/CheckList.astro';
@@ -106,6 +107,24 @@ import { responsive } from '../lib/responsive';
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Timeline steps={[{ title, body, icon }, …]} />`}</code></pre>
   </Section>
 
+  <!-- Split Rows -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>SplitRows</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Two things side by side under a row label: the client journey (You beside We) and the direct vs regular comparison (<code class="font-mono">emphasis="right"</code>). Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Light surfaces only. Used on <code class="font-mono">/invest/</code>.
+    </p>
+    <SplitRows
+      rowLabel="Stage"
+      columns={[{ label: 'You' }, { label: 'We' }]}
+      numbered
+      rows={[
+        { name: 'Book a call', left: 'Pick a time, or message us.', right: 'Reply within 1 business day.' },
+        { name: 'Execution', left: 'Approve each transaction by OTP.', right: 'Handle KYC, SIPs and lump sums.' },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SplitRows rows={[{ name, left, right }, …]} rowLabel columns={[{ label, short? }, { label, short? }]} numbered? emphasis="none|right" />`}</code></pre>
+  </Section>
+
   <!-- Section Heading -->
   <Section background="white" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Section Heading</h2>
@@ -125,7 +144,7 @@ import { responsive } from '../lib/responsive';
     <div class="grid sm:grid-cols-2 gap-5">
       <ServiceCard {...services[0]} />
       <div class="rounded-lg border border-fi-border bg-white p-6">
-        <CheckList items={services[0].details} />
+        <CheckList items={services[0].bullets} />
         <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
       </div>
     </div>

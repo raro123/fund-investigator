@@ -4,28 +4,31 @@
  *
  * Questions and answers as native <details> rows: no script, keyboard
  * accessible, and every answer is in the page for search engines. The first
- * row starts open so the visitor sees how the list works. Light surfaces only.
+ * row starts open so the visitor sees how the list works; pass
+ * `openFirst={false}` for the later lists in a grouped FAQ. Light surfaces only.
  *
  * @example
  * import { investFaq } from '../lib/faq';
  * <FaqList items={investFaq} />
  *
  * @param items - [{ question, answer }]
+ * @param openFirst - open the first row (default true)
  * @param class - extra classes for the wrapper
  */
 import type { FaqItem } from '../../lib/faq';
 
 interface Props {
   items: FaqItem[];
+  openFirst?: boolean;
   class?: string;
 }
 
-const { items, class: className = '' } = Astro.props;
+const { items, openFirst = true, class: className = '' } = Astro.props;
 ---
 
 <div class:list={['max-w-3xl mx-auto border-b border-fi-border text-left', className]}>
   {items.map((item, index) => (
-    <details class="group border-t border-fi-border" open={index === 0}>
+    <details class="group border-t border-fi-border" open={openFirst && index === 0}>
       <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-5 text-body-md font-semibold text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link [&::-webkit-details-marker]:hidden">
         {item.question}
         <span class="text-heading-sm leading-none text-fi-link transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true">+</span>

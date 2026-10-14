@@ -10,28 +10,28 @@
 | --- | --- |
 | Business name | Fund Investigator |
 | Category | Financial service |
-| About (short line) | AMFI-registered Mutual Fund Distributor · ARN-370951 |
+| About (short line) | AMFI Registered Mutual Fund Distributor & SIF Distributor · ARN-370951 |
 | Website | https://fundinvestigator.com/invest/ |
 | Email | contact@fundinvestigator.com |
 | Hours | Owner to set, or leave as "Available by message" |
 
 **Business description:**
 
-> Ishpreet Singh Modi, AMFI-registered Mutual Fund Distributor (ARN-370951). We help you choose mutual funds that suit your goals and risk profile, explain their risk and costs, and review them with you at regular intervals. We are not a SEBI-registered investment adviser. Mutual Fund investments are subject to market risks, read all scheme related documents carefully.
+> Ishpreet Singh Modi, AMFI Registered Mutual Fund Distributor & SIF Distributor (ARN-370951). We help you choose mutual funds that suit your goals and risk profile, explain their risk and costs, and review them with you at regular intervals. We are not a SEBI-registered investment adviser. Mutual Fund investments are subject to market risks, read all scheme related documents carefully.
 
 ## 2. Greeting message (new contacts)
 
-> Hello, and thank you for getting in touch with Fund Investigator. I'm Ishpreet Singh Modi, an AMFI-registered Mutual Fund Distributor (ARN-370951).
+> Hello, and thank you for getting in touch with Fund Investigator. I'm Ishpreet Singh Modi, an AMFI Registered Mutual Fund Distributor & SIF Distributor (ARN-370951).
 >
 > How we earn: there is no fee from you. The fund house pays us a commission from the regular plan's expense ratio, so a regular plan costs more each year than the direct plan of the same fund. Details: https://fundinvestigator.com/invest/#costs
 >
-> Please don't send KYC documents, statements or passwords here. I reply within 2 working days.
+> Please don't send KYC documents, statements or passwords here. I reply within 1 business day.
 >
 > Mutual Fund investments are subject to market risks, read all scheme related documents carefully.
 
 ## 3. Away message (optional, outside hours)
 
-> Thanks for your message. I reply within 2 working days. Please don't send KYC documents, statements or passwords here.
+> Thanks for your message. I reply within 1 business day. Please don't send KYC documents, statements or passwords here.
 
 ## 4. Prefilled messages (website buttons)
 
@@ -53,7 +53,7 @@ Link format: `https://wa.me/919625026859?text=<URL-encoded text>`. At build time
 
 ## 6. Owner checklist
 
-- [ ] Confirm the reply time ("within 2 working days") or give the one you can keep
+- [ ] Reply time confirmed: "within 1 business day" (owner, 2026-10-15)
 - [ ] Confirm contact@fundinvestigator.com is live and monitored
 - [ ] Approve or edit sections 1–3, then set them up in the app
 - [ ] Set the retention period in section 5, and decide how you keep dated commission-disclosure records (e.g. chat export)

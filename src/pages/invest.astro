@@ -4,16 +4,17 @@ import Hero from '../components/ui/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
-import Timeline from '../components/ui/Timeline.astro';
+import SplitRows from '../components/ui/SplitRows.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import CheckList from '../components/ui/CheckList.astro';
 import FaqList from '../components/ui/FaqList.astro';
 import { services } from '../lib/services';
-import { investFaq } from '../lib/faq';
+import { products } from '../lib/products';
+import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
+import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
+import { BOOKING_URL, CONTACT_EMAIL, FIRST_NAME } from '../lib/distributor';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
 // Every contact button is tracked: Zoho and WhatsApp report no placement back.
@@ -32,67 +33,99 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// Everyone discusses the same basics; each group then adds its own part.
-const firstCallBasics = ['Your goals', 'Your time frame', 'Your risk profile'];
-const firstCallGroups = [
+// One client journey: what the client does beside what we do, at each stage.
+// Each cell continues its column label ("You" pick a time, "We" reply…), so no
+// cell repeats the label.
+// Stages 3–6 take the service names from src/lib/services.ts, so this page and
+// the homepage cards use the same words. Timings are agreed on the call.
+const [review, curation, execution, ongoing] = services;
+const journey = [
   {
-    title: 'If you already invest: a portfolio review',
-    points: [
-      'Suitability: does each fund fit your goals and risk profile',
-      'Performance against a fair benchmark, and for how long',
-      'Overlap: which of your funds hold the same stocks',
-      'Costs: what you pay each year in expense ratios, in rupees',
-    ],
+    name: 'Book a call',
+    left: 'Pick a time, or message us on WhatsApp.',
+    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
   },
   {
-    title: 'If this is your first investment',
-    points: [
-      'How the main fund categories differ',
-      'How to start: a monthly SIP or a lump sum',
-    ],
+    name: 'The first call',
+    left: 'Tell us your goals, your time frame and your risk profile.',
+    right: 'Look at the funds you hold. New to funds? Explain the main categories, and SIP or lump sum.',
+  },
+  {
+    name: review.title,
+    left: 'Share your Consolidated Account Statement (CAS) after the call.',
+    right: 'Help you download your CAS. Check suitability, benchmark, overlap and costs. Then send you a short brief.',
+  },
+  {
+    name: curation.title,
+    left: 'Decide what to keep and what to buy. Nothing moves without your approval.',
+    right: 'Shortlist suitable funds, with the reasons, the alternatives and our commission in writing.',
+  },
+  {
+    name: execution.title,
+    left: 'Approve each transaction by OTP. Pay the fund house directly.',
+    right: 'Handle KYC, SIPs and lump sums.',
+  },
+  {
+    name: ongoing.title,
+    left: 'Tell us when your plans change.',
+    right: 'Review your funds at regular intervals. Help with rebalancing, SIP changes, switches and redemptions.',
   },
 ];
 
-const steps = [
+// Direct vs regular: the same fund bought two ways. The right column promotes
+// what we do; the left stays fair fact (no fear). The cost row keeps "No
+// separate fee" with the commission explanation (legal limit).
+const routes = [
   {
-    title: 'Book a first call',
-    body: 'Pick a time, or message us on WhatsApp. We reply within 2 working days.',
-    icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+    name: 'Cost',
+    left: 'Lower yearly expense ratio. No commission.',
+    right: 'Higher yearly expense ratio. The fund house pays our commission from it. No separate fee from you.',
   },
   {
-    title: 'First conversation',
-    body: 'We discuss your goals, your time frame and your risk profile. We also look at your existing funds, or the amount you plan to invest.',
-    icon: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 20a4.5 4.5 0 0 1 6-4.2"/>',
+    name: 'Choosing funds',
+    left: 'You research and shortlist on your own.',
+    right: 'We shortlist funds that fit your goals, with the reasons and the alternatives. Our commission in writing.',
   },
   {
-    title: 'Fund shortlisting and selection help',
-    body: 'We shortlist suitable funds and explain why each fits, with its costs and our commission.',
-    icon: '<path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0z"/>',
+    name: 'Transactions',
+    left: 'You place each one on a platform.',
+    right: 'We do the setup, from KYC to each SIP. You approve each one by OTP.',
   },
   {
-    title: 'We set it up, you approve',
-    body: 'We help from KYC to investment. You approve each one by OTP and pay the fund house directly.',
-    icon: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+    name: 'Reviews',
+    left: 'You track benchmarks, overlap and costs yourself.',
+    right: 'We check your funds against fair benchmarks, for overlap and for costs, at regular intervals.',
   },
   {
-    title: 'Reviews and service',
-    body: 'We review your funds at regular intervals. We help with SIP changes, switches and redemptions.',
-    icon: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
+    name: 'When markets fall',
+    left: 'You decide on your own.',
+    right: 'You talk to a person before you act.',
+  },
+  {
+    name: 'Suits',
+    left: 'Investors with the time and interest to manage their own funds.',
+    right: 'Investors who want an expert to check and help, from a first SIP to a large portfolio.',
   },
 ];
+
+// Each product is shown by fit, not as a catalogue (src/lib/products.ts).
+const productFacts = [
+  { label: 'Suits', key: 'suits' },
+  { label: 'Minimum', key: 'minimum' },
+  { label: 'Main risk', key: 'mainRisk' },
+] as const;
 
 const callDetails = '30-minute first call · No charge for the call · No obligation';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
-const iconBox = 'w-11 h-11 bg-fi-icon-bg rounded-lg flex items-center justify-center mb-5';
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <Layout
   title="Invest with support - Fund Investigator"
-  description="Book a 30-minute portfolio review. An AMFI-registered Mutual Fund Distributor helps you choose suitable funds, explains risk and costs, and reviews them with you."
+  description="How investing with support works: a 30-minute first call, a portfolio review, and help to choose and invest in mutual funds, SIFs and GIFT City funds."
   trackView="invest_view"
 >
-  <!-- 1. Hero: the first call is the main action; costs are in section 5 -->
+  <!-- 1. Hero: short, because most visitors come from the homepage pitch; the header still brings cold visitors, so the main action stays here -->
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
       We do the investigation.
@@ -111,111 +144,69 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- 2. Services: the four homepage services in detail. No buttons: the reader is still learning. -->
-  <Section id="services" background="white" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Our services" lead="The same four services as on the homepage, with what each includes." />
-    <ol class="grid sm:grid-cols-2 gap-5 text-left">
-      {services.map((service) => (
-        <li>
-          <Card padding="lg" hover={false} class="h-full">
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">
-              <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{service.number}</span>{service.title}
-            </h3>
-            <p class="text-body-sm text-fi-muted mb-4">{service.intro}</p>
-            <CheckList items={service.details} />
-          </Card>
-        </li>
-      ))}
-    </ol>
-  </Section>
-
-  <!-- 3. How it works: the process, so visitors see they approve every investment -->
-  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Five steps. You approve every investment." class="lg:mb-16" />
-    <Timeline steps={steps} />
-  </Section>
-
-  <!-- 4. The first call: shared basics, one column per visitor group, then the booking.
+  <!-- 2. Client journey: You beside We at each stage, so every row repeats the hero promise.
        Placements keep the "invest_review" name so earlier analytics stay comparable. -->
-  <Section id="first-call" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="What happens in the first call" />
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="From the first call to every review." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={journey} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
 
-    <Card padding="lg" hover={false} class="mb-5">
-      <h3 class="text-heading-sm font-bold text-fi-ink mb-4">For everyone</h3>
-      <CheckList items={firstCallBasics} class="sm:grid sm:grid-cols-3 sm:gap-3 sm:space-y-0" />
-    </Card>
-
-    <div class="grid sm:grid-cols-2 gap-5 mb-10">
-      {firstCallGroups.map((group) => (
-        <Card padding="lg" hover={false}>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-4">{group.title}</h3>
-          <CheckList items={group.points} />
-        </Card>
-      ))}
-    </div>
-
-    <div class={ctaRow}>
+    <div class:list={[ctaRow, 'mt-12']}>
       <Button {...booking('invest_review')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
     </div>
   </Section>
 
-  <!-- 5. Who we are: compact cards; the full disclosure lives on /disclaimer/ -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="AMFI-registered, and open about how we are paid." />
+  <!-- 3. Products: what clients can invest in, each framed by fit. No buttons: the reader is still learning. -->
+  <Section id="products" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="What you can invest in." lead="Most clients start with mutual funds. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
+      {products.map((product) => (
+        <li>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{product.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed mb-5">{product.intro}</p>
+            <dl class="space-y-3 text-body-sm leading-relaxed">
+              {productFacts.map((fact) => (
+                <div>
+                  <dt class="font-semibold text-fi-ink">{fact.label}</dt>
+                  <dd class="text-fi-muted">{product[fact.key]}</dd>
+                </div>
+              ))}
+            </dl>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  </Section>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-      <Card padding="lg" hover={false} class="w-full max-w-72 sm:max-w-none mx-auto">
-        <div class={iconBox}>
-          <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our registration</h3>
-        <DistributorIdentity variant="block" surface="light" />
-      </Card>
-
-      <div id="costs" class="w-full max-w-72 sm:max-w-none mx-auto">
-        <Card padding="lg" hover={false} class="h-full">
-          <div class={iconBox}>
-            <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 11h6M13 11c0 2.5-2 4-4 4l4 3"/></svg>
-          </div>
-          <p class="text-caption uppercase tracking-fi-label text-fi-muted mb-1">How we earn</p>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">No separate fee from you</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">
-            The fund house pays us a commission from the regular plan's expense ratio. So a regular plan costs more each year than the direct plan of the same fund.
-          </p>
-        </Card>
-      </div>
-
-      <Card padding="lg" hover={false} class="w-full max-w-72 sm:max-w-none mx-auto sm:col-span-2 lg:col-span-1">
-        <div class={iconBox}>
-          <svg class="w-fi-icon h-fi-icon text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our transparency</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">
-          We are empanelled with every fund house (AMC). Before you invest, we show our commission on each suggested fund and its alternatives. Our fund investigations carry no buttons or links to this service in their content.
-        </p>
-      </Card>
-    </div>
-
-    <p class="text-center text-body-sm text-fi-muted mt-10">
-      <a href="/disclaimer/#distribution" class={lightLink}>Full disclosures: how we are paid →</a>
+  <!-- 4. Direct vs regular: the cost question, answered with what the client gets. Owns #costs
+       (the /about/ "See the costs" link lands here). -->
+  <Section id="costs" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here is what the regular plan gets you with us." />
+    <SplitRows
+      rows={routes}
+      rowLabel=""
+      columns={[{ label: 'Direct plan, on your own', short: 'Direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
+      emphasis="right"
+    />
+    <p class="max-w-3xl mx-auto text-center text-body-sm text-fi-muted leading-relaxed mt-8">
+      Already in direct plans? We review them on the first call. You keep them direct if you prefer. Nothing moves without your approval.
+      <a href="/disclaimer/#distribution" class={lightLink}>Full disclosures →</a>
     </p>
   </Section>
 
-  <!-- 6. FAQ: the homepage's "Full details and FAQ" link lands here -->
-  <Section id="faq" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Questions before your first call" />
-    <FaqList items={investFaq} />
-  </Section>
-
-  <!-- 7. Ready to start? -->
+  <!-- 5. Ready to start? The registration sits next to the buttons: the last check before a booking. -->
   <Section background="light" spacing="md" maxWidth="sm">
     <div class="text-center">
       <SectionHeading
         title="Ready to start?"
-        lead="Book a first call, or send us a message. We reply within 2 working days. We never ask for KYC documents, statements or passwords on WhatsApp."
+        lead="Booking confirms your time at once. On WhatsApp, we reply within 1 business day. We never ask for KYC documents, statements or passwords on WhatsApp."
         class="lg:mb-10"
       />
+      <Card padding="md" hover={false} class="max-w-md mx-auto text-left mb-10">
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our registration</h3>
+        <DistributorIdentity variant="block" surface="light" />
+      </Card>
       <div class={ctaRow}>
         <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
         <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
@@ -223,6 +214,27 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
       <p class="text-body-sm text-fi-muted mt-6">
         Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
       </p>
+      <p class="text-body-sm text-fi-muted mt-3">
+        You work with {FIRST_NAME}, from the first call to every review. <a href="/about/" class={lightLink}>About {FIRST_NAME} →</a>
+      </p>
     </div>
   </Section>
+
+  <!-- 6. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions before you start" />
+    <div class="space-y-10">
+      {investFaqGroups.map((group, index) => (
+        <div class="max-w-3xl mx-auto text-left">
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{group.title}</h3>
+          <FaqList items={group.items} openFirst={index === 0} />
+        </div>
+      ))}
+    </div>
+    <p class="text-center text-body-sm text-fi-muted mt-10">
+      Another question?
+      <a href={whatsappUrl('invest_faq')} target="_blank" rel="noopener noreferrer" class={lightLink} {...trackAttrs('conversation_request', 'invest_faq', 'whatsapp')}>Ask us on WhatsApp ↗</a>
+    </p>
+  </Section>
+
 </Layout>

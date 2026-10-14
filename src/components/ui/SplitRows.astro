@@ -1,0 +1,91 @@
+---
+/**
+ * SplitRows Component
+ *
+ * Rows that set two things side by side under one row label. On /invest/ it
+ * shows the client journey ("You" beside "We" at each stage) and the direct vs
+ * regular comparison. `emphasis="right"` makes the right column (our service)
+ * the strong side and mutes the left; the left text must still be fair fact.
+ * Light surfaces only.
+ *
+ * Below `lg` each row stacks (row label, then the two cells), and each cell
+ * starts with an inline label, so the stack stays short on phones. From `lg`
+ * the rows become three columns under one header, and the cell labels stay
+ * for screen readers only.
+ *
+ * @example
+ * <SplitRows
+ *   rowLabel="Stage"
+ *   columns={[{ label: 'You' }, { label: 'We' }]}
+ *   rows={[{ name: 'Book a call', left: 'Pick a time.', right: 'Reply within 1 business day.' }]}
+ *   numbered
+ * />
+ *
+ * @param rows - [{ name, left, right }] in display order
+ * @param rowLabel - header over the row names (desktop only)
+ * @param columns - the two value columns: `label` for the desktop header,
+ *   optional `short` for the inline label on phones
+ * @param numbered - show 01, 02… before each row name (for sequences)
+ * @param emphasis - 'none' (default) or 'right'
+ * @param class - extra classes for the wrapper
+ */
+
+interface Row {
+  name: string;
+  left: string;
+  right: string;
+}
+
+interface Column {
+  label: string;
+  /** Inline label below lg; defaults to `label` */
+  short?: string;
+}
+
+interface Props {
+  rows: Row[];
+  rowLabel: string;
+  columns: [Column, Column];
+  numbered?: boolean;
+  emphasis?: 'none' | 'right';
+  class?: string;
+}
+
+const { rows, rowLabel, columns, numbered = false, emphasis = 'none', class: className = '' } = Astro.props;
+
+// Label colour comes from the column tone, so each label gets exactly one colour.
+const label = 'text-caption uppercase tracking-fi-label';
+// The row-name column is narrower: names are short, the cell text is not.
+const spans = { name: 'lg:col-span-3', left: 'lg:col-span-4', right: 'lg:col-span-5' };
+const strong = { text: 'text-fi-ink font-medium', label: 'text-fi-ink' };
+const muted = { text: 'text-fi-muted', label: 'text-fi-muted' };
+const plain = { text: 'text-fi-ink', label: 'text-fi-muted' };
+// A sequence is an ordered list; a comparison is not.
+const List = numbered ? 'ol' : 'ul';
+const cells = [
+  { key: 'left', span: spans.left, column: columns[0], tone: emphasis === 'right' ? muted : plain },
+  { key: 'right', span: spans.right, column: columns[1], tone: emphasis === 'right' ? strong : plain },
+] as const;
+---
+
+<div class:list={['max-w-5xl mx-auto text-left', className]}>
+  <div class="hidden lg:grid grid-cols-12 gap-x-10 pb-3" aria-hidden="true">
+    <span class:list={[label, spans.name, 'text-fi-muted']}>{rowLabel}</span>
+    {cells.map((cell) => <span class:list={[label, cell.span, cell.tone.label]}>{cell.column.label}</span>)}
+  </div>
+
+  <List class="border-b border-fi-border">
+    {rows.map((row, index) => (
+      <li class="grid sm:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-2 py-5 lg:py-6 border-t border-fi-border">
+        <h3 class:list={['sm:col-span-2 text-heading-sm font-bold text-fi-ink', spans.name]}>
+          {numbered && <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{String(index + 1).padStart(2, '0')}</span>}{row.name}
+        </h3>
+        {cells.map((cell) => (
+          <p class:list={['text-body-sm leading-relaxed', cell.span, cell.tone.text]}>
+            <span class:list={[label, 'mr-2 lg:sr-only', cell.tone.label]}>{cell.column.short ?? cell.column.label}</span>{row[cell.key]}
+          </p>
+        ))}
+      </li>
+    ))}
+  </List>
+</div>
