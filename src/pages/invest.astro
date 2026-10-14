@@ -6,6 +6,11 @@ import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CheckList from '../components/ui/CheckList.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import { services } from '../lib/services';
+import { investFaq } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import { BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
@@ -33,10 +38,10 @@ const firstCallGroups = [
   {
     title: 'If you already invest: a portfolio review',
     points: [
+      'Suitability: does each fund fit your goals and risk profile',
+      'Performance against a fair benchmark, and for how long',
       'Overlap: which of your funds hold the same stocks',
-      'Benchmark check: which funds lag a fair benchmark, and for how long',
       'Costs: what you pay each year in expense ratios, in rupees',
-      'Fit: if your mix still suits your goals and risk profile',
     ],
   },
   {
@@ -87,7 +92,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
   description="Book a 30-minute portfolio review. An AMFI-registered Mutual Fund Distributor helps you choose suitable funds, explains risk and costs, and reviews them with you."
   trackView="invest_view"
 >
-  <!-- 1. Hero: the first call is the main action; costs are in section 4 -->
+  <!-- 1. Hero: the first call is the main action; costs are in section 5 -->
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
       We do the investigation.
@@ -99,61 +104,65 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
 
     <div class="flex flex-col items-center gap-4 mt-10">
       <div class={ctaRow}>
-        <Button {...booking('invest_hero')} size="lg">Book a portfolio review</Button>
-        <Button {...whatsapp('invest_hero')} variant="secondary" surface="dark" size="lg">Ask a question on WhatsApp</Button>
+        <Button {...booking('invest_hero')} size="lg">Book a first call</Button>
+        <Button {...whatsapp('invest_hero')} variant="secondary" surface="dark" size="lg">Contact on WhatsApp</Button>
       </div>
       <p class="text-body-sm text-fi-subtle">{callDetails}</p>
     </div>
   </Hero>
 
-  <!-- 2. How it works: the process first, so visitors see they approve every investment -->
-  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
-    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink text-center mb-12 lg:mb-16 leading-tight tracking-tight']}>Five steps. You approve every investment.</h2>
+  <!-- 2. Services: the four homepage services in detail. No buttons: the reader is still learning. -->
+  <Section id="services" background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Our services" lead="The same four services as on the homepage, with what each includes." />
+    <ol class="grid sm:grid-cols-2 gap-5 text-left">
+      {services.map((service) => (
+        <li>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">
+              <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{service.number}</span>{service.title}
+            </h3>
+            <p class="text-body-sm text-fi-muted mb-4">{service.intro}</p>
+            <CheckList items={service.details} />
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <!-- 3. How it works: the process, so visitors see they approve every investment -->
+  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Five steps. You approve every investment." class="lg:mb-16" />
     <Timeline steps={steps} />
   </Section>
 
-  <!-- 3. The first call: shared basics, one column per visitor group, then the booking.
+  <!-- 4. The first call: shared basics, one column per visitor group, then the booking.
        Placements keep the "invest_review" name so earlier analytics stay comparable. -->
-  <Section id="first-call" background="light" spacing="md" maxWidth="xl">
-    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink text-center mb-12 leading-tight tracking-tight max-w-3xl mx-auto']}>
-      What happens in the first call
-    </h2>
+  <Section id="first-call" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="What happens in the first call" />
 
     <Card padding="lg" hover={false} class="mb-5">
       <h3 class="text-heading-sm font-bold text-fi-ink mb-4">For everyone</h3>
-      <ul class="grid sm:grid-cols-3 gap-3">
-        {firstCallBasics.map((point) => (
-          <li class="flex gap-3 text-body-sm text-fi-muted leading-relaxed">
-            <span class="text-fi-link font-bold" aria-hidden="true">✓</span>{point}
-          </li>
-        ))}
-      </ul>
+      <CheckList items={firstCallBasics} class="sm:grid sm:grid-cols-3 sm:gap-3 sm:space-y-0" />
     </Card>
 
     <div class="grid sm:grid-cols-2 gap-5 mb-10">
       {firstCallGroups.map((group) => (
         <Card padding="lg" hover={false}>
           <h3 class="text-heading-sm font-bold text-fi-ink mb-4">{group.title}</h3>
-          <ul class="space-y-3">
-            {group.points.map((point) => (
-              <li class="flex gap-3 text-body-sm text-fi-muted leading-relaxed">
-                <span class="text-fi-link font-bold" aria-hidden="true">✓</span>{point}
-              </li>
-            ))}
-          </ul>
+          <CheckList items={group.points} />
         </Card>
       ))}
     </div>
 
     <div class={ctaRow}>
-      <Button {...booking('invest_review')} size="lg">Book your call</Button>
-      <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Ask a question on WhatsApp</Button>
+      <Button {...booking('invest_review')} size="lg">Book a first call</Button>
+      <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
     </div>
   </Section>
 
-  <!-- 4. Who we are: compact cards; the full disclosure lives on /disclaimer/ -->
-  <Section background="white" spacing="md" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink text-center mb-12 leading-tight tracking-tight']}>AMFI-registered, and open about how we are paid.</h2>
+  <!-- 5. Who we are: compact cards; the full disclosure lives on /disclaimer/ -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="AMFI-registered, and open about how we are paid." />
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
       <Card padding="lg" hover={false} class="w-full max-w-72 sm:max-w-none mx-auto">
@@ -183,7 +192,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         </div>
         <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our transparency</h3>
         <p class="text-body-sm text-fi-muted leading-relaxed">
-          We are empanelled with every fund house (AMC). Before you invest, we show our commission on each suggested fund and its alternatives. Our fund investigations never link to this service.
+          We are empanelled with every fund house (AMC). Before you invest, we show our commission on each suggested fund and its alternatives. Our fund investigations carry no buttons or links to this service in their content.
         </p>
       </Card>
     </div>
@@ -193,16 +202,23 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </p>
   </Section>
 
-  <!-- 5. Ready to start? -->
+  <!-- 6. FAQ: the homepage's "Full details and FAQ" link lands here -->
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions before your first call" />
+    <FaqList items={investFaq} />
+  </Section>
+
+  <!-- 7. Ready to start? -->
   <Section background="light" spacing="md" maxWidth="sm">
     <div class="text-center">
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Ready to start?</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed mb-8 max-w-2xl mx-auto">
-        Book a first call, or send us a message. We reply within 2 working days. We never ask for KYC documents, statements or passwords on WhatsApp.
-      </p>
+      <SectionHeading
+        title="Ready to start?"
+        lead="Book a first call, or send us a message. We reply within 2 working days. We never ask for KYC documents, statements or passwords on WhatsApp."
+        class="lg:mb-10"
+      />
       <div class={ctaRow}>
-        <Button {...booking('invest_cta')} size="lg">Book a portfolio review</Button>
-        <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Ask a question on WhatsApp</Button>
+        <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
+        <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
       </div>
       <p class="text-body-sm text-fi-muted mt-6">
         Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
