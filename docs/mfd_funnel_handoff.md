@@ -2,6 +2,8 @@
 
 **Status (2026-10-12, S47):** PR 1 (`2f0d0aa`) and PR 2 (`746eb04`) are built on `feat/mfd-distribution-pathway`; S45 and S46 are committed. S47 restructured the homepage actions and `/invest/` for a distribution-led site (see `docs/homepage_funnel_recommendations.md`). Next: the first-call copy (#87) and the owner's Zoho update (#88), then the disclaimer section (#65), the privacy section (#78) and the Deepdive snapshot (#75), then push and PR.
 **Branch:** `feat/mfd-distribution-pathway`. No commits yet; all MFD docs are untracked.
+**Update (2026-10-14, branch `homepage-v2`):** the homepage and `/invest/` were rebuilt from the agreed demo (`claude.ai/artifact/F3YwEXP1V29kCMcEDRE4KK`, v19). The "Homepage (2026-10-14)" table in §2 replaces the S46 homepage table, the S47 action layout and the `/invest/` table below. The owner's name, credentials and the word "expertise" are now allowed (SEBI RA rule retired).
+
 **Source of truth:** this file plus the demo `docs/mfd_copy_demo_v2.html`. For the homepage actions and the `/invest/` layout, `docs/homepage_funnel_recommendations.md` (S47) wins over §2 and the v2 demo. For the rest of the homepage layout, the S46 table in §2 wins over the v2 demo. Where `docs/mfd_distribution_transition_proposal.md` disagrees (Sections 4, 5, 14 and 15), this file wins. The proposal still holds the background: operating rules (§3), disclosures (§7), technical plan (§8), Deepdive changes (§9) and the rest of the Phase 1 copy (§14).
 **Log:** open items are numbered as in `docs/project_log.md`.
 
@@ -33,7 +35,7 @@
 ### Compliance rules for copy
 - **Commission rates (S44):** not published on the site, for confidentiality and competition reasons. Each client gets the actual commission for each recommended scheme, in writing, before investing. The site explains how commission works and says that we disclose the rates per client.
 - **Fees:** say "No separate fee from you" and explain the commission from the regular plan's expense ratio in the same place. Never "free" (for the service), "zero cost", "no cost to you" or "we don't charge anything".
-- **Words to avoid:** expertise, advice/adviser (in promotion), partner, independent, research (as a label), financial planning, wealth, anything that plays down risk. Use "help to choose", "suitable", "risk profile", "review".
+- **Words to avoid:** advice/adviser (in promotion), partner, independent, research (as a label), financial planning, wealth, anything that plays down risk. Use "help to choose", "suitable", "risk profile", "review".
 - **Other distributors:** describe practices (funds sold on returns, launches or commission), never name or run down a firm or person.
 - **Links:** fund analyses (they name a scheme) never link to `/invest/`, WhatsApp or the booking page. Generic guides may, once they name no fund (#68). `/reports/` carries no `/invest/` link. `/about/` names no fund and may link to both.
 - **WhatsApp:** no KYC documents, statements or passwords in chat; no fund names in greeting, away or broadcast messages.
@@ -45,7 +47,21 @@
 - Nav links say "Invest"; the `/invest/` page title says "Invest with Support". The main button label is "Book a portfolio review".
 - **Deepdive appears in:** homepage section 4, the new section on `/reports/`, links inside investigations, the `/invest/` "Not the right fit?" line, `/about/` section 4, and the footer.
 
-### Homepage
+### Homepage (2026-10-14, current)
+
+Five sections on one centre axis (headings, leads and buttons centred; card text left). Gold is for booking only. Copy sources: `src/lib/services.ts`, `src/lib/faq.ts`, `src/lib/distributor.ts`.
+
+| # | Section | Background | Actions (placement) |
+| --- | --- | --- | --- |
+| 1 | Hero, stacked: headline, subhead, call details, trust strip, sample brief | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
+| 2 | Problems → services: 4 `ServiceCard`s, fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
+| 3 | The Fund Investigator way: mission lead, 3 difference cards | white | Read our story → `/about/` · Full details and FAQ → `/invest/#faq` |
+| 4 | Our investigations and tools: 2 guides, subscribe strip (investigations + Deepdive access) | light | View all investigations · Subscribe (`homepage_bottom`) |
+| 5 | Final call: photo and credentials (config, hidden while empty), name | white | Book a call with Ishpreet · Contact on WhatsApp (`homepage_final`) |
+
+`/invest/` order: hero → Our services → How it works → First call → Registration and costs (`#costs`) → FAQ (`#faq`) → Ready to start. The direct vs regular comparison lives only in the FAQ.
+
+### Homepage (S46, superseded)
 
 Redesigned in S46 (demo: `claude.ai/artifact/Sfej4r5AwHbhh9JjiursbE`). No section labels on this page.
 

@@ -191,10 +191,23 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Title: `15px` · `font-weight: 700` · `fi-ink-inv`
 - Body: `13px` · `fi-muted-inv` · `line-height: 1.65`
 
-### Problem → Answer pairs (`ProblemAnswer.astro`)
-- Row: flat problem card (transparent, `fi-border`) · `fi-link` arrow · raised answer card (white, `shadow-fi-card`). Grid token `grid-cols-fi-pair` from `md`; stacked with a down arrow below.
-- The answer always outweighs the problem: ink 20px heading and `fi-link` icon, against a `fi-muted` 18px heading and icon.
-- Two densities from one copy source (`src/lib/who-we-help.ts`): short (tag as heading + one line) on the homepage; long (tag lead-in + finalised headline + body) on `/invest/#who`.
+### Service Cards (`ServiceCard.astro`, light section)
+- One card per Invest with support service, led by the client's problem. Copy source: `src/lib/services.ts` (homepage bullets and `/invest/` details in one list).
+- Grey problem strip on top (`fi-light`, dashed `fi-border` rule, `fi-muted` icon and text, `text-body-sm`), then the service: inline mono number in `fi-muted`, `text-heading-sm` title in `fi-ink`, three `CheckList` ticks.
+- The number sits on the title line, never on its own coloured row: the services are a sequence, but the title must lead.
+- Grid: `sm:grid-cols-2` (2×2 on desktop).
+
+### Difference Cards (homepage, white section)
+- `Card` with an `text-body-lg` bold title and a one- or two-line `text-body-sm` body. No icons: the titles carry the meaning, and the page already has icons in the service strips and ticks.
+- Short paragraphs, not bullets: each card explains a belief and its reason. Service cards use bullets because they list what the client gets.
+- Grid: `sm:grid-cols-2 lg:grid-cols-3`.
+
+### Report Cards on light surfaces (`ReportCard surface="light"`)
+- White card, `fi-border`, `shadow-fi-card`; meta and hook `fi-muted`, title `fi-ink`, hover and "Read Investigation" in `fi-link` (never gold on white). `/reports/` keeps the default dark surface.
+
+### Check List (`CheckList.astro`) and FAQ List (`FaqList.astro`)
+- `CheckList`: ticks in `fi-positive` (light) or `fi-gold` (dark); `layout="inline"` for a centred row, e.g. credentials.
+- `FaqList`: native `<details>` rows with `fi-border` rules, a `fi-link` plus that turns into a cross when open, and a `fi-link` focus ring. Copy source: `src/lib/faq.ts`.
 
 ### Sample Brief (`SampleBrief.astro`)
 - A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
@@ -341,6 +354,12 @@ Use `Section maxWidth` prop. Never create manual inner containers with `maxWidth
 ### Horizontal Padding
 Owned by `Section.astro` and `Hero.astro`: `px-4 sm:px-6 lg:px-10`.
 Pages should not add their own horizontal padding.
+
+### Centre Axis (homepage and `/invest/`)
+The homepage hero is stacked and centred at every width, so the sections below share its axis:
+- Centre section headings, lead lines and button rows. Use `SectionHeading.astro` for every section heading.
+- Keep card text, lists, the FAQ and two-column content left-aligned. Text longer than two or three lines is read from a fixed left edge.
+- The homepage ends on a white final section before the dark footer, so two dark bands never touch.
 
 ### Layout Tokens
 Defined in `tailwind.config.mjs`, shown live at `/styleguide` → Layout Tokens
