@@ -9,9 +9,13 @@ import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
-import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
-import { shortPairs, fullPairs } from '../lib/who-we-help';
+import ServiceCard from '../components/ui/ServiceCard.astro';
+import CheckList from '../components/ui/CheckList.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import { services } from '../lib/services';
+import { investFaq } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 ---
 
@@ -102,15 +106,41 @@ import { responsive } from '../lib/responsive';
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Timeline steps={[{ title, body, icon }, …]} />`}</code></pre>
   </Section>
 
-  <!-- Problem → Answer -->
-  <Section background="light" spacing="sm" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Problem → Answer</h2>
+  <!-- Section Heading -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Section Heading</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      Paired cards on a light surface: a flat problem card, an arrow, and a raised white answer card. Stacks below <code class="font-mono">md</code>. Without a <code class="font-mono">title</code>, the tag is the heading (short, homepage). With a <code class="font-mono">title</code>, the tag is a lead-in (long, <code class="font-mono">/invest/</code>). Copy lives in <code class="font-mono">src/lib/who-we-help.ts</code>.
+      Centred H2 and optional lead that open every homepage and <code class="font-mono">/invest/</code> section, on the stacked hero's centre axis. Card text below stays left-aligned. Pass <code class="font-mono">surface="dark"</code> on dark sections.
     </p>
-    <ProblemAnswer pairs={shortPairs.slice(0, 1)} />
-    <ProblemAnswer pairs={fullPairs.slice(0, 1)} class="mt-5" />
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ProblemAnswer pairs={[{ problem: { icon, tag, title?, body }, answer: { … } }]} reveal />`}</code></pre>
+    <SectionHeading title="The Fund Investigator way." lead="Because Indian fund investors deserve fund choices backed by evidence and a portfolio-first approach." />
+    <pre class="overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SectionHeading title="…" lead="…" surface="light" />`}</code></pre>
+  </Section>
+
+  <!-- Service Card + Check List -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Service Card and Check List</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      A service led by the client's problem: grey problem strip, inline mono number, title, three ticks. Light surfaces only. Copy lives in <code class="font-mono">src/lib/services.ts</code>. <code class="font-mono">CheckList</code> is the tick list on its own (<code class="font-mono">layout="inline"</code> for a centred row).
+    </p>
+    <div class="grid sm:grid-cols-2 gap-5">
+      <ServiceCard {...services[0]} />
+      <div class="rounded-lg border border-fi-border bg-white p-6">
+        <CheckList items={services[0].details} />
+        <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
+      </div>
+    </div>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ServiceCard number="01" title="…" icon="…" problem="…" bullets={[…]} />
+<CheckList items={[…]} surface="light" layout="stack" />`}</code></pre>
+  </Section>
+
+  <!-- FAQ List -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>FAQ List</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Native <code class="font-mono">&lt;details&gt;</code> rows; the first starts open. Light surfaces only. Copy lives in <code class="font-mono">src/lib/faq.ts</code>.
+    </p>
+    <FaqList items={investFaq.slice(0, 2)} />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FaqList items={investFaq} />`}</code></pre>
   </Section>
 
   <!-- Sample Brief -->

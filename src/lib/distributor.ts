@@ -7,12 +7,29 @@
  * here instead of repeating literals. When the ARN is renewed, update
  * ARN_VALID_UNTIL; when a contact route changes, this is the one file to edit.
  *
- * The owner's name appears only in this compliance identity — no byline or
- * founder profile until SEBI Research Analyst certification (log #29).
+ * The owner's name, photo and credentials also appear in the homepage's final
+ * section ("You speak with…"), read from here (owner decision 2026-10-14).
  */
 
 /** Name registered against the ARN with AMFI. */
 export const REGISTERED_NAME = 'Ishpreet Singh Modi';
+
+/** First name for personal copy: "Book a call with …", WhatsApp greetings. */
+export const FIRST_NAME = 'Ishpreet';
+
+/**
+ * Credentials shown under the name in the homepage final section, e.g.
+ * 'NISM Series V-A certified'. The list is hidden while empty.
+ */
+export const CREDENTIALS: string[] = [];
+
+/**
+ * Owner photo for the homepage final section; hidden while null. When the photo
+ * exists, add it to src/assets/ and assign the import here:
+ *   import ownerPhoto from '../assets/owner.jpg';
+ *   export const OWNER_PHOTO: ImageMetadata | null = ownerPhoto;
+ */
+export const OWNER_PHOTO: ImageMetadata | null = null;
 
 export const ARN = 'ARN-370951';
 

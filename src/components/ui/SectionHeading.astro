@@ -1,0 +1,38 @@
+---
+/**
+ * SectionHeading Component
+ *
+ * The centred H2 and optional lead line that open a section. Every homepage
+ * and /invest/ section uses it, so all headings share the stacked hero's
+ * centre axis (style_spec §14). Card text below stays left-aligned.
+ *
+ * @example
+ * <SectionHeading title="The Fund Investigator way." lead="Because Indian fund investors…" />
+ * <SectionHeading title="Ready to start?" surface="dark" />
+ *
+ * @param title - heading text
+ * @param lead - optional one- or two-line lead under the heading
+ * @param surface - 'light' (default; white or fi-light sections) or 'dark'
+ * @param class - extra classes for the wrapper
+ */
+import { responsive } from '../../lib/responsive';
+
+interface Props {
+  title: string;
+  lead?: string;
+  surface?: 'light' | 'dark';
+  class?: string;
+}
+
+const { title, lead, surface = 'light', class: className = '' } = Astro.props;
+
+const titleColour = { light: 'text-fi-ink', dark: 'text-fi-ink-inv' };
+const leadColour = { light: 'text-fi-muted', dark: 'text-fi-muted-inv' };
+---
+
+<div class:list={['text-center mb-10 lg:mb-12', className]}>
+  <h2 class:list={[responsive.h2, 'font-bold leading-tight tracking-tight text-balance', titleColour[surface]]}>{title}</h2>
+  {lead && (
+    <p class:list={[responsive.subtitle, 'mt-4 max-w-2xl mx-auto leading-relaxed text-balance', leadColour[surface]]}>{lead}</p>
+  )}
+</div>
