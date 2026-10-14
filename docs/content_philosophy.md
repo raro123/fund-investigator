@@ -1,6 +1,6 @@
 # Content Philosophy
 
-**Remember:** The goal is to be helpful and informative, like a knowledgeable peer who has done the analysis and is making it available to others. The idea is to establish trust and credibility.
+**Goal:** Establish authority with clients. Be informative, but also persuasive. Promote our services, our advantages and what makes us different. Every claim about us needs proof, such as data, our process or our registration.
 
 **The Persona:** An investigator sharing findings. Not a not a salesperson, not a guru.
 

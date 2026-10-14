@@ -109,7 +109,7 @@ Evidence → Analysis → Verdict), and stays in sync with the schema in `src/co
 ## Documentation
 
 - **[CLAUDE.md](CLAUDE.md)** - Design system rules and development workflow
-- **[docs/content_philosophy.md](docs/content_philosophy.md)** - Writing guidelines and tone reference
+- **[docs/content_philosophy_v2.md](docs/content_philosophy_v2.md)** - Writing guidelines and tone reference
 - **[docs/style_spec.md](docs/style_spec.md)** - Design token values and rationale
 - **[docs/templates/report-template.md](docs/templates/report-template.md)** - Report authoring reference
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures and troubleshooting

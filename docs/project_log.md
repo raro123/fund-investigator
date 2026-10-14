@@ -14,7 +14,7 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 - MailerLite developer docs: https://developers.mailerlite.com/docs
 - Astro docs: https://docs.astro.build
 - Cloudflare Pages Functions docs: https://developers.cloudflare.com/pages/functions/
-- Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy.md` · Deployment: `docs/DEPLOYMENT.md`
+- Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy_v2.md` (v1: `docs/content_philosophy.md`) · Deployment: `docs/DEPLOYMENT.md`
 - Archived sessions (S1–S44) and resolved/moot pending decisions: `docs/project_log_archive.md`
 
 ---
@@ -117,15 +117,38 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 90 | **Website — high priority (owner): add photo and 2–3 credentials** to `src/lib/distributor.ts` (`OWNER_PHOTO`, `CREDENTIALS`). The homepage final section shows them automatically; hidden while empty | 2026-10-14 | S49 | 🟡 Open |
 | 91 | **Deepdive — high priority (owner): email-based access before deploy.** The homepage subscribe strip promises "Access to Deepdive". Then point the remaining open Deepdive links (footer, `/reports/`, `/about/`, articles) at the access flow | 2026-10-14 | S49 | 🟡 Open |
 | 92 | **Copy — low priority: footer tagline.** "Investigate Before You Invest" is from the research positioning; draft option "Analysis first. Then we help you invest." | 2026-10-14 | S49 | 🟡 Open |
-| 93 | **Content — medium priority: update the content guidelines.** Split the handoff §2 word list into legal limits (advice/adviser, independent, anything that plays down risk) and old tone choices; add rules for promoting the service (claims, differences, proof) to `docs/content_philosophy.md` | 2026-10-14 | S49 | 🟡 Open |
+| 93 | **Content — medium priority: update the content guidelines.** Split the handoff §2 word list into legal limits (advice/adviser, independent, anything that plays down risk) and old tone choices; add rules for promoting the service (claims, differences, proof) to `docs/content_philosophy.md` | 2026-10-14 | S49 | ✅ Resolved (S50): `docs/content_philosophy_v2.md` |
 | 94 | **Compliance — medium priority: check the site copy against the AMFI MFD FAQ PDF** (`docs/FAQsonRoleofMFDsAdvts (1).pdf`), including the references an outside v4 draft cited (Q.1, Q.3, Q.8(c), Q.10, Q.12(c), Q.13, Q.14) | 2026-10-14 | S49 | 🟡 Open |
 | 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | 🟡 Open |
+| 96 | **Docs — medium priority: fix two stale rules in handoff §2.** Item 3 says the visitor "sends no documents" (wrong: the detailed review needs holding details after the first call); item 5 keeps the retired "name only next to the ARN" rule | 2026-10-14 | S50 | 🟡 Open |
+| 97 | **Content — low priority: v1 vs v2 content guide.** v1 has the new goal line but still says "not a salesperson" and "understate". Retire v1 (move to archive) or keep it as history | 2026-10-14 | S50 | 🟡 Open |
+| 98 | **Content — medium priority: confirm two v2 calls.** (a) "Partner" and "wealth" are tone choices, not legal limits; (b) owner byline on fund analyses that name a scheme: case by case | 2026-10-14 | S50 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-14 | Session: S50 — Content guide v2 for the distribution pivot
+
+**What was done:**
+We wrote a second version of the content guide for the MF distribution business. Its goal is to establish authority with clients: inform first, then persuade, and promote the service and its differences. The first version stays, with only its goal line updated. The project instructions and README now point to v2 as the latest guide.
+
+**Why:**
+The old guide said "not a salesperson" and "understate when unsure". That fit a research site, but not a distributor who must win trust and bookings from ₹10 lakh–1 crore clients.
+
+**How:**
+v2 adds: "claim, then prove"; three page modes (promote on service pages, teach then invite on generic guides, evidence only on fund analyses); the three differences with their proof; persuasion do's and don'ts; and the handoff word list split into fixed MFD legal limits and changed tone choices. Docs only, so no build or lint run.
+
+**Decisions made:**
+- v2 (`docs/content_philosophy_v2.md`) is the latest guide (2026-10-14); v1 kept unchanged except its goal line.
+- Fund analyses that name a scheme stay evidence-only and never link to the service.
+
+**Pending decisions:**
+- New: #96 stale handoff rules, #97 v1 vs v2, #98 confirm two v2 calls. Resolved: #93.
 
 ---
 
