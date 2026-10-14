@@ -88,7 +88,7 @@ The owner holds the MFD and SIF distributor certifications. Existing MFDs can di
 
 | # | Section | Background | Content |
 | --- | --- | --- | --- |
-| 1 | Hero | dark | H1 "Why *Fund Investigator* Exists" (brand). Subtitle (S45): "Because you deserve investments backed by analysis, that improve your portfolio. We investigate funds with evidence, not ratings. Then we help you choose and invest, with our costs shown first." No labels, no button |
+| 1 | Hero | dark | H1 "Why *Fund Investigator* Exists" (brand). Subtitle (S51): "Because fund choices deserve evidence and a portfolio-first approach. We investigate funds, then help you choose, invest and review them, transparently." No labels, no button |
 | 2 | Story | white | Pull quote "Separate the result from the reasons." beside "The question we start with" ("we" voice): the returns question, Deepdive, distribution that starts with analysis |
 | 3 | How we work | light | The homepage's three differences (Analysis and evidence · Portfolio first · Transparent and personal), each with its proof link: investigations and Deepdive (`about`) · `/invest/#how-it-works` · `/invest/#costs` |
 | 4 | Know your distributor | white | Photo (hidden while `OWNER_PHOTO` is null), name, tagline, a short first-person intro, `StatRow` credential row (12 years · Master's · IIT Kanpur · ARN). Book a call with Ishpreet (`about`) · Contact on WhatsApp (`about`) · "How support works →" `/invest/` |
