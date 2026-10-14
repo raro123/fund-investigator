@@ -5,7 +5,6 @@ import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
-import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
 import { services } from '../lib/services';
@@ -14,7 +13,8 @@ import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { BOOKING_URL, CONTACT_EMAIL, FIRST_NAME } from '../lib/distributor';
+import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { formatDate } from '../lib/format';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
 // Every contact button is tracked: Zoho and WhatsApp report no placement back.
@@ -179,8 +179,9 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </ul>
   </Section>
 
-  <!-- 4. Direct vs regular: the cost question, answered with what the client gets. Owns #costs
-       (the /about/ "See the costs" link lands here). -->
+  <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the
+       action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
+       buttons, the strip names the person, the email and the registration: credentials stay on /about/. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here is what the regular plan gets you with us." />
     <SplitRows
@@ -189,39 +190,34 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
       columns={[{ label: 'Direct plan, on your own', short: 'Direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
       emphasis="right"
     />
-    <p class="max-w-3xl mx-auto text-center text-body-sm text-fi-muted leading-relaxed mt-8">
-      Already in direct plans? We review them on the first call. You keep them direct if you prefer. Nothing moves without your approval.
-      <a href="/disclaimer/#distribution" class={lightLink}>Full disclosures →</a>
-    </p>
-  </Section>
+    <!-- The note for direct-plan holders is a callout: it is the main reassurance for this group. -->
+    <Card variant="subtle" padding="md" hover={false} class="max-w-3xl mx-auto mt-8 text-left">
+      <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans, but want an expert opinion?</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        We review them on the first call, and you can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
+      </p>
+    </Card>
 
-  <!-- 5. Ready to start? The registration sits next to the buttons: the last check before a booking. -->
-  <Section background="light" spacing="md" maxWidth="sm">
-    <div class="text-center">
-      <SectionHeading
-        title="Ready to start?"
-        lead="Booking confirms your time at once. On WhatsApp, we reply within 1 business day. We never ask for KYC documents, statements or passwords on WhatsApp."
-        class="lg:mb-10"
-      />
-      <Card padding="md" hover={false} class="max-w-md mx-auto text-left mb-10">
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-3">Our registration</h3>
-        <DistributorIdentity variant="block" surface="light" />
-      </Card>
+    <div class="text-center mt-14">
       <div class={ctaRow}>
         <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
         <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
       </div>
-      <p class="text-body-sm text-fi-muted mt-6">
-        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
-      </p>
-      <p class="text-body-sm text-fi-muted mt-3">
-        You work with {FIRST_NAME}, from the first call to every review. <a href="/about/" class={lightLink}>About {FIRST_NAME} →</a>
-      </p>
+      <div class="mt-8 text-body-sm leading-relaxed">
+        <p class="text-fi-ink">
+          You work with <strong>{REGISTERED_NAME}</strong> ·
+          <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'whitespace-nowrap']}>{CONTACT_EMAIL}</a>
+        </p>
+        <p class="text-fi-muted">
+          {TAGLINE} · <span class="whitespace-nowrap">{ARN}</span> · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
+          <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>About {FIRST_NAME} →</a>
+        </p>
+      </div>
     </div>
   </Section>
 
-  <!-- 6. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
-  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+  <!-- 5. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
+  <Section id="faq" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions before you start" />
     <div class="space-y-10">
       {investFaqGroups.map((group, index) => (

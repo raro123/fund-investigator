@@ -8,8 +8,9 @@
  * the strong side and mutes the left; the left text must still be fair fact.
  * Light surfaces only.
  *
- * Below `lg` each row stacks (row label, then the two cells), and each cell
- * starts with an inline label, so the stack stays short on phones. From `lg`
+ * Below `lg` each row stacks (row label, then the two cells). Each cell has a
+ * fixed-width label column, so the text hangs in one straight line and the
+ * stack stays short on phones. From `lg`
  * the rows become three columns under one header, and the cell labels stay
  * for screen readers only.
  *
@@ -81,8 +82,10 @@ const cells = [
           {numbered && <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{String(index + 1).padStart(2, '0')}</span>}{row.name}
         </h3>
         {cells.map((cell) => (
-          <p class:list={['text-body-sm leading-relaxed', cell.span, cell.tone.text]}>
-            <span class:list={[label, 'mr-2 lg:sr-only', cell.tone.label]}>{cell.column.short ?? cell.column.label}</span>{row[cell.key]}
+          <p class:list={['flex gap-3 text-body-sm leading-relaxed', cell.span, cell.tone.text]}>
+            <span class="sr-only">{cell.column.label}: </span>
+            <span class:list={[label, 'w-16 shrink-0 pt-0.5 lg:hidden', cell.tone.label]} aria-hidden="true">{cell.column.short ?? cell.column.label}</span>
+            <span>{row[cell.key]}</span>
           </p>
         ))}
       </li>
