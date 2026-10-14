@@ -14,7 +14,6 @@ import { DEEPDIVE_URL } from './site-urls';
 
 export type DeepdivePlacement =
   | 'footer'
-  | 'homepage_deepdive'
   | 'reports_deepdive'
   | 'invest_fallback'
   | 'about';

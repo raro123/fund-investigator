@@ -2,21 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button.astro';
 import ReportCard from '../components/ReportCard.astro';
-import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Hero from '../components/ui/Hero.astro';
-import ProblemAnswer from '../components/ui/ProblemAnswer.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import ServiceCard from '../components/ui/ServiceCard.astro';
+import CheckList from '../components/ui/CheckList.astro';
+import OptimizedImage from '../components/ui/OptimizedImage.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
-import { deepdiveUrl } from '../lib/deepdive';
-import { ARN, BOOKING_URL, TAGLINE } from '../lib/distributor';
-import { whatsappUrl } from '../lib/whatsapp';
-import { shortPairs } from '../lib/who-we-help';
+import { ARN, BOOKING_URL, CONTACT_EMAIL, CREDENTIALS, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
+import { services } from '../lib/services';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
@@ -27,34 +28,46 @@ const featuredGuides = featuredGuideSlugs
   .map((slug) => allReports.find((report) => report.slug === slug))
   .filter((report) => report !== undefined);
 
-// The fee sits next to the service: "No separate fee" is always explained in
-// the same place (handoff §2, Fees). Rates are disclosed per client only.
-const payPoints = [
+// Each section's buttons are tracked by placement: Zoho and WhatsApp report no
+// placement back, so the click event is the only record of which button worked.
+const booking = (placement: string) => ({
+  href: BOOKING_URL,
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  icon: 'external' as const,
+  track: { event: 'review_booking_click' as const, placement },
+});
+const whatsapp = (placement: WhatsappPlacement) => ({
+  href: whatsappUrl(placement),
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  icon: 'external' as const,
+  track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
+});
+
+// Three differences, in the order of the section's lead line (evidence, then portfolio first).
+const differences = [
   {
-    title: 'No separate fee from you',
-    body: "You pay through the regular plan's expense ratio, which is higher than the direct plan's. Our commission comes from that difference.",
-    icon: '<path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/>',
+    title: 'Analysis and evidence',
+    body: 'Every fund is checked against a fair benchmark, with the analysis tool we built.',
   },
   {
-    title: '40+ fund houses',
-    body: 'Our shortlist is not tied to any one of them.',
-    icon: '<path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7z"/>',
+    title: 'Portfolio first',
+    body: 'New or existing investor, we plan your whole mix first, then the funds. Fewer funds can be the right result.',
   },
   {
-    title: 'Transparency first',
-    body: 'Before you decide, we show you in writing what we earn on each suggested fund, and on the other funds we considered.',
-    icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+    title: 'Transparent and personal',
+    body: 'Our commission in writing before you choose, and one person from the first call to every review.',
   },
 ];
 
-const deepdiveFeatures = [
-  'Compare your fund against a fair benchmark',
-  'See how it held up when markets fell',
-  'Check if the return was worth the risk',
+const subscribeBenefits = [
+  { title: 'Every new investigation', body: 'Fund checks and guides, by email.', icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
+  { title: 'Access to Deepdive', body: 'Our fund analysis app.', icon: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>' },
 ];
 
 const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
-const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-72 sm:max-w-none';
+const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 ---
 
 <Layout
@@ -62,204 +75,171 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-
   description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
 >
-  <!-- 1. Hero: the promise on the left, a sample of the review brief on the right -->
-  <Hero size="lg" background="dark" centered={false} class="fi-investigation-hero">
+  <!-- 1. Hero: stacked and centred at every width — promise, actions, trust, then the sample brief -->
+  <Hero size="lg" background="dark" class="fi-investigation-hero">
     <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Two columns only from xl: below that the 72px headline needs the full width.
-         DOM order is text → trust strip → brief, so on phones the strip sits next to the action
-         and the brief is a sneak peek before the problem cards. From xl the brief moves to the
-         right column and the strip becomes a full-width band under both columns. -->
-    <div class="relative z-10 grid max-w-7xl mx-auto items-center gap-8 xl:grid-cols-fi-hero xl:gap-16">
-      <div class="text-center xl:text-left">
-        <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words text-balance']}>
-          We investigate, so you can
-          <span class="text-fi-gold">invest.</span>
-        </h1>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
+      We investigate,<br />
+      so you can <span class="text-fi-gold">invest.</span>
+    </h1>
 
-        <!-- Tagline says what the company does; "build" speaks to beginners, "improve" to existing investors. -->
-        <p class:list={['text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto xl:mx-0 leading-relaxed text-balance mb-10']}>
-          Build and improve your portfolio with our help and expertise in mutual funds and SIFs.
-        </p>
+    <!-- Tagline says what the company does; "build" speaks to beginners, "improve" to existing investors. -->
+    <p class="text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto leading-relaxed text-balance mb-10">
+      Build and improve your portfolio with our help and expertise in mutual funds and SIFs.
+    </p>
 
-        <!-- One action: visitors who need more information reach section 2 directly below. -->
-        <div class:list={[ctaRow, 'justify-center xl:justify-start mx-auto xl:mx-0 mb-4']}>
-          <Button
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            size="lg"
-            icon="external"
-            track={{ event: 'review_booking_click', placement: 'homepage_hero' }}
-            class="w-full sm:w-auto min-w-0"
-          >
-            Book a first call
-          </Button>
-        </div>
-        <!-- "No charge" is scoped to the call so the service never reads as free. -->
-        <p class="text-body-sm text-fi-subtle text-balance">
-          30-minute first call · No charge for the call · No obligation to invest
-        </p>
-      </div>
+    <div class:list={[ctaRow, 'mb-4']}>
+      <Button {...booking('homepage_hero')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
+      <Button {...whatsapp('homepage_hero')} variant="secondary" surface="dark" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
+    </div>
+    <!-- "No charge" is scoped to the call so the service never reads as free. -->
+    <p class="text-body-sm text-fi-subtle text-balance">
+      30-minute first call · No charge for the call · No obligation to invest
+    </p>
 
-      <!-- "AMFI" sits with the ARN: AMFI registers the distributor, not the funds. -->
-      <div class="xl:col-span-2 xl:row-start-2 xl:border-t xl:border-fi-border-dark">
-        <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
-      </div>
+    <!-- The ARN sits next to the decision, before the brief. -->
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+    </div>
 
-      <div class="xl:col-start-2 xl:row-start-1">
-        <SampleBrief />
-      </div>
+    <div class="mt-8">
+      <SampleBrief />
     </div>
   </Hero>
 
-  <!-- 2. Problem → answer pairs. Short version here; the long copy stays in who-we-help.ts. -->
+  <!-- 2. Problems → services: each problem leads to the service that solves it, then the fee -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-10 lg:mb-12 leading-tight tracking-tight text-balance']}>
-      Clearer choices. Less clutter. More confidence.
-    </h2>
-    <ProblemAnswer pairs={shortPairs} reveal />
-    <!-- The pairs assume an existing portfolio, so first-time investors get their own invitation. -->
-    <Card hover={false} padding="lg" class="mt-10 lg:flex lg:items-center lg:justify-between lg:gap-10">
-      <div class="mb-6 lg:mb-0">
-        <h3 class="text-heading-sm text-fi-ink mb-2">Making your first mutual fund investment?</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">
-          We help you choose funds that fit your goals and explain their risks and costs.
-        </p>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-x-8 gap-y-4 shrink-0">
-        <Button
-          href={BOOKING_URL}
-          variant="secondary"
-          surface="light"
-          icon="external"
-          target="_blank"
-          rel="noopener noreferrer"
-          track={{ event: 'review_booking_click', placement: 'homepage_beginner' }}
-          class="w-full sm:w-auto min-w-0"
-        >
-          Discuss your first investment
-        </Button>
-        <a href="/invest/#how-it-works" class={lightLink}>How support works →</a>
-      </div>
+    <SectionHeading
+      title="Clearer choices. Less clutter. More confidence."
+      lead="Four common problems, and the service that solves each one. You approve every transaction."
+    />
+
+    <ol class="grid sm:grid-cols-2 gap-5">
+      {services.map((service, index) => (
+        <li data-reveal={index}>
+          <ServiceCard {...service} />
+        </li>
+      ))}
+    </ol>
+
+    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees).
+         The direct vs regular comparison lives in the /invest/ FAQ. -->
+    <Card hover={false} padding="md" class="mt-5 flex items-start gap-3 text-left">
+      <svg class="w-fi-icon h-fi-icon shrink-0 text-fi-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/></svg>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        <strong class="text-fi-ink">No separate fee from you.</strong>
+        Our commission is part of the fund's yearly expense ratio, and we disclose it transparently before you select your funds.
+      </p>
     </Card>
-  </Section>
 
-  <!-- 3. How we are paid: its own dark band, so the fee is never buried in the service copy -->
-  <Section background="dark" spacing="md" maxWidth="2xl">
-    <!-- DOM order is the mobile reading order: costs before the decision. At lg the
-         points sit in the right column, beside the heading and the actions. -->
-    <div class="grid gap-x-20 gap-y-10 lg:grid-cols-2 lg:grid-rows-fi-lead">
-      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink-inv leading-tight tracking-tight']} data-reveal="0">
-        What do you pay for our services?
-      </h2>
-
-      <ul class="border-t border-fi-border-dark lg:col-start-2 lg:row-start-1 lg:row-span-2">
-        {payPoints.map((point, index) => (
-          <li class="flex gap-5 py-6 border-b border-fi-border-dark" data-reveal={index}>
-            <div class="w-11 h-11 shrink-0 rounded-lg bg-fi-icon-bg-inv flex items-center justify-center">
-              <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={point.icon} />
-            </div>
-            <div>
-              <h3 class="text-body-lg font-bold text-fi-ink-inv leading-snug mb-1">{point.title}</h3>
-              <p class="text-body-sm text-fi-muted-inv leading-relaxed">{point.body}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div class="lg:col-start-1 lg:row-start-2">
-        <!-- The point of highest intent on the page, so it asks for the booking. -->
-        <div class:list={[ctaRow, 'mb-6']}>
-          <Button
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            icon="external"
-            track={{ event: 'review_booking_click', placement: 'homepage_pricing' }}
-            class="w-full sm:w-auto min-w-0"
-          >
-            Book a portfolio review
-          </Button>
-          <Button
-            href={whatsappUrl('homepage_pricing')}
-            variant="secondary"
-            surface="dark"
-            icon="external"
-            target="_blank"
-            rel="noopener noreferrer"
-            track={{ event: 'conversation_request', placement: 'homepage_pricing', channel: 'whatsapp' }}
-            class="w-full sm:w-auto min-w-0"
-          >
-            Ask a question on WhatsApp
-          </Button>
-        </div>
-        <p class="text-body-sm text-fi-subtle">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
-      </div>
+    <div class:list={[ctaRow, 'mt-10']}>
+      <Button {...booking('homepage_services')} class="w-full sm:w-auto min-w-0">Book a first call</Button>
+      <Button {...whatsapp('homepage_services')} variant="secondary" surface="light" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
     </div>
   </Section>
 
-  <!-- 4. Investigations, then Subscribe after the value -->
+  <!-- 3. The Fund Investigator way: why us, without the person (the final section reveals them) -->
   <Section background="white" spacing="md" maxWidth="2xl">
-    <div class="max-w-4xl mx-auto">
-      <h2 class:list={[responsive.h2Large, 'font-bold text-fi-ink break-words mb-10 lg:mb-12']}>The basics, investigated.</h2>
+    <SectionHeading
+      title="The Fund Investigator way."
+      lead="Because Indian fund investors deserve fund choices backed by evidence and a portfolio-first approach."
+    />
 
-      <div class="grid sm:grid-cols-2 gap-5">
-        {featuredGuides.map((report, index) => (
-          <div data-reveal={index}>
-            <ReportCard report={report} href={`/reports/${report.slug}/`} />
-          </div>
-        ))}
-      </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {differences.map((difference, index) => (
+        <div data-reveal={index}>
+          <Card hover={false} padding="md" class="h-full text-left">
+            <h3 class="text-body-lg font-bold text-fi-ink mb-2">{difference.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{difference.body}</p>
+          </Card>
+        </div>
+      ))}
+    </div>
 
-      <p class="mt-8">
-        <a href="/reports/" class={lightLink}>View all investigations →</a>
-      </p>
-
-      <!-- Email serves visitors who want future contact, so it stays apart from browsing and booking. -->
-      <div class="mt-12 pt-8 border-t border-fi-border">
-        <Button
-          href={substackWelcomeUrl('homepage_bottom')}
-          variant="secondary"
-          surface="light"
-          target="_blank"
-          rel="noopener noreferrer"
-          icon="external"
-          track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
-          class="w-full sm:w-auto min-w-0"
-        >
-          Get new guides by email
-        </Button>
-      </div>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      <Button href="/about/" variant="secondary" surface="light" icon="arrow-right">Read our story</Button>
+      <a href="/invest/#faq" class={lightLink}>Full details and FAQ →</a>
     </div>
   </Section>
 
-  <!-- 5. Deepdive: the do-it-yourself route, so no gold button -->
+  <!-- 4. Investigations and tools: value first (guides), then the ask (subscribe) -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <DeepdiveSnapshot>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Prefer to invest on your own?</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed mb-6">
-        Use Deepdive, our free fund analysis app, to check any fund yourself. Choose direct plans and keep every decision.
-      </p>
-      <ul class="space-y-3 text-left max-w-md mx-auto lg:mx-0 mb-8">
-        {deepdiveFeatures.map((feature) => (
-          <li class="flex gap-3 text-body-sm text-fi-ink">
-            <span class="text-fi-positive font-bold" aria-hidden="true">✓</span>{feature}
+    <SectionHeading
+      title="Our investigations and tools."
+      lead="Read our analysis, see our methods and try our tools."
+    />
+
+    <div class="grid sm:grid-cols-2 gap-5 text-left">
+      {featuredGuides.map((report, index) => (
+        <div data-reveal={index}>
+          <ReportCard report={report} href={`/reports/${report.slug}/`} surface="light" />
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-center">
+      <a href="/reports/" class={lightLink}>View all investigations →</a>
+    </p>
+
+    <!-- Gold stays for booking; the subscription is this section's only button. -->
+    <Card variant="bordered" hover={false} padding="lg" class="mt-10 grid gap-6 text-left lg:grid-cols-fi-subscribe lg:items-center lg:gap-8">
+      <h3 class="text-heading-sm font-bold text-fi-ink">Subscribe for free</h3>
+      <ul class="grid sm:grid-cols-2 gap-5">
+        {subscribeBenefits.map((benefit) => (
+          <li class="flex gap-3">
+            <span class="w-10 h-10 shrink-0 rounded-lg bg-fi-icon-bg flex items-center justify-center">
+              <svg class="w-5 h-5 text-fi-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={benefit.icon} />
+            </span>
+            <span>
+              <strong class="block text-body-sm text-fi-ink">{benefit.title}</strong>
+              <span class="text-body-sm text-fi-muted">{benefit.body}</span>
+            </span>
           </li>
         ))}
       </ul>
       <Button
-        href={deepdiveUrl('homepage_deepdive')}
+        href={substackWelcomeUrl('homepage_bottom')}
         variant="secondary"
         surface="light"
-        icon="external"
         target="_blank"
         rel="noopener noreferrer"
-        track={{ event: 'deepdive_click', placement: 'homepage_deepdive' }}
+        icon="external"
+        track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
+        class="w-full sm:w-auto min-w-0 justify-self-start"
       >
-        Check a fund with Deepdive
+        Subscribe
       </Button>
-    </DeepdiveSnapshot>
+    </Card>
+  </Section>
+
+  <!-- 5. Final call: the reveal — who the visitor speaks with. Stacked and centred like the hero. -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <div class="text-center">
+      {OWNER_PHOTO && (
+        <OptimizedImage
+          src={OWNER_PHOTO}
+          alt={REGISTERED_NAME}
+          preset="inline"
+          class="w-40 h-40 lg:w-56 lg:h-56 mx-auto mb-8 rounded-full object-cover"
+        />
+      )}
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
+        Start with a 30-minute call with {FIRST_NAME}.
+      </h2>
+      <p class="text-body-md text-fi-muted mb-4">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+      {CREDENTIALS.length > 0 && <CheckList items={CREDENTIALS} layout="inline" class="mb-6" />}
+      <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
+        Tell me your goals. Show me your funds, or the amount you plan to invest. I reply to messages within 2 working days.
+      </p>
+      <div class={ctaRow}>
+        <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a call with {FIRST_NAME}</Button>
+        <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
+      </div>
+      <p class="mt-6 text-body-sm text-fi-muted">
+        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
+      </p>
+    </div>
   </Section>
 </Layout>
 

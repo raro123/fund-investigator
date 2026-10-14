@@ -170,15 +170,8 @@ export default {
       // while reserving the left rail for in-page navigation at xl widths.
       gridTemplateColumns: {
         'fi-article': 'minmax(12rem, 1fr) minmax(0, 65ch) minmax(12rem, 1fr)',
-        // ProblemAnswer row: problem card · arrow · answer card
-        'fi-pair': 'minmax(0, 1fr) 3rem minmax(0, 1fr)',
-        // Homepage hero at xl: headline column takes the rest, SampleBrief gets 28rem
-        'fi-hero': 'minmax(0, 1fr) 28rem',
-      },
-      gridTemplateRows: {
-        // Heading row sized to content; the second row takes the rest, so a
-        // tall item spanning both rows never opens a gap below the heading
-        'fi-lead': 'auto 1fr',
+        // Homepage subscribe strip at lg: title · benefits take the rest · button
+        'fi-subscribe': 'auto minmax(0, 1fr) auto',
       },
       // Reveal on scroll: played once by the script in Layout.astro, only for
       // elements that start below the fold. "backwards" fill keeps hover
