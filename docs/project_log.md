@@ -114,12 +114,12 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 87 | **Copy — high priority, before release: the first-call section on `/invest/`.** The column "If you already invest: a portfolio review" lists overlap, benchmark, costs and fit, which suggests they happen on the call. They need the client's holding details and come after the call as a written review. Agreed direction: the page shows the result and broad steps; the procedure (what to share, how, when) goes in the Zoho confirmation email. Rewrite the column and step 2 "First conversation"; the S47 draft was rejected as not persuasive enough. Inputs that help: what clients value most, one concrete example finding | 2026-10-12 | S47 | 🟡 Open (S49 — existing-investor points now follow the new review definition; the "after the call" procedure is in the FAQ, the column still reads as on-call) → ✅ Resolved (S51): the first-call section is replaced by the You/We journey; the review happens after the call, from the client's CAS |
 | 88 | **Distribution — high priority (owner): update Zoho Bookings for both visitor groups.** Title and description that welcome first-time and existing investors; host name "Fund Investigator" (no-byline rule, #29); required question "First investment / Existing portfolio"; check that no field requires existing holdings; confirmation email says what to share, how (never WhatsApp) and when the written review arrives. The homepage beginner button already links to booking | 2026-10-12 | S47 | 🟡 Open (S49 — host name should now be the owner's name, to match the homepage final section; S51 — the confirmation email also explains how we help the client get their CAS, and shows the new SIF tagline) |
 | 89 | **Compliance — high priority: direct vs regular wording on promotion pages.** S47 changed the homepage costs point to "You pay through the regular plan's expense ratio, which is higher than the direct plan's. Our commission comes from that difference." This conflicts with the S45 rule (do not compare direct and regular costs on promotion pages). `/invest/#costs` already says "a regular plan costs more each year than the direct plan of the same fund". Options: (1) allow a same-fund comparison only, which is always true, and update the S45 rule; (2) go back to the S45 wording on both pages. Linked to #80 | 2026-10-12 | S47 | 🟡 Open (S49 — homepage fee line no longer compares plans; the /invest/ FAQ compares direct and regular for the same fund (option 1) — owner to confirm) → ✅ Resolved (S51): option 1, same-fund comparison, in the `/invest/` comparison table |
-| 90 | **Website — high priority (owner): add photo and 2–3 credentials** to `src/lib/distributor.ts` (`OWNER_PHOTO`, `CREDENTIALS`). The homepage final section shows them automatically; hidden while empty | 2026-10-14 | S49 | 🟡 Open |
+| 90 | **Website — high priority (owner): add photo and 2–3 credentials** to `src/lib/distributor.ts` (`OWNER_PHOTO`, `CREDENTIALS`). The homepage final section shows them automatically; hidden while empty | 2026-10-14 | S49 | 🟡 Open (S53 — credentials done; `/about/` shows them as prose; photo still missing) |
 | 91 | **Deepdive — high priority (owner): email-based access before deploy.** The homepage subscribe strip promises "Access to Deepdive". Then point the remaining open Deepdive links (footer, `/reports/`, `/about/`, articles) at the access flow | 2026-10-14 | S49 | 🟡 Open |
 | 92 | **Copy — low priority: footer tagline.** "Investigate Before You Invest" is from the research positioning; draft option "Analysis first. Then we help you invest." | 2026-10-14 | S49 | 🟡 Open |
 | 93 | **Content — medium priority: update the content guidelines.** Split the handoff §2 word list into legal limits (advice/adviser, independent, anything that plays down risk) and old tone choices; add rules for promoting the service (claims, differences, proof) to `docs/content_philosophy.md` | 2026-10-14 | S49 | ✅ Resolved (S50): `docs/content_philosophy_v2.md` |
 | 94 | **Compliance — medium priority: check the site copy against the AMFI MFD FAQ PDF** (`docs/FAQsonRoleofMFDsAdvts (1).pdf`), including the references an outside v4 draft cited (Q.1, Q.3, Q.8(c), Q.10, Q.12(c), Q.13, Q.14) | 2026-10-14 | S49 | 🟡 Open |
-| 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). **S51:** `dev` pushed (`6a83d83`, 23 commits ahead of `main`). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | 🟡 Open |
+| 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). **S51:** `dev` pushed (`6a83d83`, 23 commits ahead of `main`). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | 🟡 Open (S53 — `dev` pushed with S52–S53) |
 | 96 | **Docs — medium priority: fix two stale rules in handoff §2.** Item 3 says the visitor "sends no documents" (wrong: the detailed review needs holding details after the first call); item 5 keeps the retired "name only next to the ARN" rule | 2026-10-14 | S50 | 🟡 Open |
 | 97 | **Content — low priority: v1 vs v2 content guide.** v1 has the new goal line but still says "not a salesperson" and "understate". Retire v1 (move to archive) or keep it as history | 2026-10-14 | S50 | 🟡 Open |
 | 98 | **Content — medium priority: confirm two v2 calls.** (a) "Partner" and "wealth" are tone choices, not legal limits; (b) owner byline on fund analyses that name a scheme: case by case | 2026-10-14 | S50 | 🟡 Open |
@@ -130,12 +130,37 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 103 | **Website — medium priority: show the `SampleBrief` on `/invest/`** next to journey stage 3, so the "short brief" is visible. Waits for #83; may need a light-surface variant | 2026-10-15 | S51 | 🟡 Parked |
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
+| 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-15 | Session: S53 — `/about/` mobile review and story rewrite: portfolio first
+
+**What was done:**
+We reviewed `/about/` on a phone, a tablet and a desktop. The layout already worked, so we fixed two small mobile issues: the avatar now sits beside the name, and small text links have taller tap areas. We replaced the S52 pull quote with a "Your portfolio first, then the product" story. We restructured the three principles into portfolio first, quantitative checks and qualitative checks. The profile card now has credentials as a paragraph, one ARN with a "Verify on AMFI" link, and copy about what the owner does with the investor.
+
+**Why:**
+The pull quote ("Separate the result from the reasons.") said nothing by itself. The new story states the brand reason: analytical rigour in fund distribution, so investors understand products, risks and fit, and are not surprised later. The profile card described the website ("I write our investigations"), not the service. The AMFI link lets a visitor check the ARN independently, which builds trust.
+
+**How:**
+Screenshots came from headless Chromium, because the Playwright MCP browser was not installed. The story uses `Section maxWidth="sm"` as one reading column. The qualitative checks list only what the owner confirmed: mandate and strategy, fund manager, fund house process. Published investigations stay quantitative. `AMFI_VERIFY_URL` is new in `src/lib/distributor.ts`; it opens AMFI's distributor search, not the ARN record. The build and the design lint pass. Commit `e491fd4` on `dev`.
+
+**Decisions made:**
+- Pull quote removed (reverses the S52 serif quote on `/about/`); story heading "Your portfolio first, then the product".
+- No "false promises" wording: say what to expect, including the bad years (truth, no fear; no remarks about other distributors).
+- Principles: portfolio first → quantitative → qualitative. Costs and fund size are not listed as qualitative checks.
+- Profile opens "I am the AMFI Registered distributor behind Fund Investigator."; the section lead is removed.
+- Booking button keeps the owner's name ("Book a call with {FIRST_NAME}") on `/about/` and the homepage.
+
+**Pending decisions:**
+- New: #106 reuse the AMFI verify link elsewhere (footer, `/invest/`).
+- Updated: #90 credentials exist (photo still missing); #100 `/about/` now uses the SIF tagline constant.
 
 ---
 
