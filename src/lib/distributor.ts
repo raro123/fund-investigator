@@ -56,6 +56,9 @@ export const ARN = 'ARN-370951';
 /** ARN expiry as YYYY-MM-DD; display through formatDate(). */
 export const ARN_VALID_UNTIL = '2029-09-05';
 
+/** AMFI's public distributor search; investors can look up the ARN there. */
+export const AMFI_VERIFY_URL = 'https://www.amfiindia.com/locate-distributor';
+
 /**
  * Mandatory tagline for distributors registered for SIFs: AMFI requires this
  * exact wording, with the name and ARN, in all communication, including the
