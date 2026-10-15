@@ -119,14 +119,14 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 92 | **Copy — low priority: footer tagline.** "Investigate Before You Invest" is from the research positioning; draft option "Analysis first. Then we help you invest." | 2026-10-14 | S49 | 🟡 Open |
 | 93 | **Content — medium priority: update the content guidelines.** Split the handoff §2 word list into legal limits (advice/adviser, independent, anything that plays down risk) and old tone choices; add rules for promoting the service (claims, differences, proof) to `docs/content_philosophy.md` | 2026-10-14 | S49 | ✅ Resolved (S50): `docs/content_philosophy_v2.md` |
 | 94 | **Compliance — medium priority: check the site copy against the AMFI MFD FAQ PDF** (`docs/FAQsonRoleofMFDsAdvts (1).pdf`), including the references an outside v4 draft cited (Q.1, Q.3, Q.8(c), Q.10, Q.12(c), Q.13, Q.14) | 2026-10-14 | S49 | 🟡 Open |
-| 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). **S51:** `dev` pushed (`6a83d83`, 23 commits ahead of `main`). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | 🟡 Open (S53 — `dev` pushed with S52–S53) |
+| 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). **S51:** `dev` pushed (`6a83d83`, 23 commits ahead of `main`). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | ✅ Resolved (S54): `dev` merged to `main` |
 | 96 | **Docs — medium priority: fix two stale rules in handoff §2.** Item 3 says the visitor "sends no documents" (wrong: the detailed review needs holding details after the first call); item 5 keeps the retired "name only next to the ARN" rule | 2026-10-14 | S50 | 🟡 Open |
 | 97 | **Content — low priority: v1 vs v2 content guide.** v1 has the new goal line but still says "not a salesperson" and "understate". Retire v1 (move to archive) or keep it as history | 2026-10-14 | S50 | 🟡 Open |
 | 98 | **Content — medium priority: confirm two v2 calls.** (a) "Partner" and "wealth" are tone choices, not legal limits; (b) owner byline on fund analyses that name a scheme: case by case | 2026-10-14 | S50 | 🟡 Open |
 | 99 | **Copy — high priority (owner): check the S51 draft copy on `/invest/`.** The comparison rows, the You/We journey text, the three product cards (`src/lib/products.ts`: SIP minimum, SIF ₹10 lakh rule, LRS, NRIs), and the new FAQ answers. Two approved answers changed: "Is there a minimum amount?" (was "No minimum for mutual funds", which is not correct) and "What happens after the call?" (now names the CAS) | 2026-10-15 | S51 | 🟡 Open |
 | 100 | **Compliance — high priority (owner): use the SIF tagline outside the site.** AMFI requires "AMFI Registered Mutual Fund Distributor & SIF Distributor", with name and ARN, in all communication. Update the WhatsApp Business profile, Zoho Bookings page and emails, and email signature. On the site, decide whether the `/about/` sentence "As an AMFI-registered Mutual Fund Distributor…" also changes | 2026-10-15 | S51 | 🟡 Open |
 | 101 | **Distribution — high priority (owner): choose how clients send their CAS** (email, Zoho upload or other; never WhatsApp). Then add it to the Zoho confirmation email (#88) and the privacy policy (#78) | 2026-10-15 | S51 | 🟡 Open |
-| 102 | **Compliance — medium priority: "No charge for the call"** in the call details on the homepage hero and `/invest/` hero. It is close to the banned "free" wording, and the commission explanation is not next to it. Options: keep, or "30-minute first call · No obligation to invest" | 2026-10-15 | S51 | ✅ Resolved (S51): keep. It describes the intro call only, not the service: the client pays nothing for the first call |
+| 102 | **Compliance — medium priority: "No charge for the call"** in the call details on the homepage hero and `/invest/` hero. It is close to the banned "free" wording, and the commission explanation is not next to it. Options: keep, or "30-minute first call · No obligation to invest" | 2026-10-15 | S51 | ✅ Resolved (S51): keep. It describes the intro call only, not the service: the client pays nothing for the first call. **S54:** shortened to "30-minute call · No charge · No obligation" |
 | 103 | **Website — medium priority: show the `SampleBrief` on `/invest/`** next to journey stage 3, so the "short brief" is visible. Waits for #83; may need a light-surface variant | 2026-10-15 | S51 | 🟡 Parked |
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
@@ -137,6 +137,31 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-16 | Session: S54 — Sample brief in plain words, brief on the first screen, WhatsApp logo
+
+**What was done:**
+The homepage sample brief now states its findings in plain words: a value, then one short sentence, with no metric names. We moved the brief up so it shows on the first screen of most phones and laptops. The call line is shorter: "30-minute call · No charge · No obligation". All WhatsApp buttons and the footer link now show the official WhatsApp logo.
+
+**Why:**
+Labels such as "Overlap" or "Lag benchmark" mean nothing to a retail investor; a sentence shows the problem at once. Before, the brief started at about 690px, so most visitors saw none of it without a scroll. The WhatsApp button had the same arrow as the booking button, so the two looked alike.
+
+**How:**
+`SampleBrief.astro` has a "What we found" list of three findings (overlap, market index over 5 years, fund costs). The hero uses `size="md"` with smaller gaps, and the trust strip moved below the brief (still in the hero). The brief now starts at about 535px. Button has a new `whatsapp` icon that leads the label; the glyph comes from Simple Icons 16.35.0 (CC0), is stored once in `src/lib/whatsapp.ts`, and uses `currentColor`. Lint and build pass; screenshots from headless Chromium. Commits `d570237`, `c61c4ec`, `cac24dc` on `dev`.
+
+**Decisions made:**
+- Findings in plain words, no metric names; "have not beaten their market index", not "benchmark".
+- Correlation stays out of the hero card: Indian equity funds normally move together (0.9+), and overlap already shows the cause. Use it in the full brief, next to a comparison.
+- The cost row stays (the review covers costs, handoff §2).
+- Hero order: headline, subhead, actions, call line, sample brief, trust strip.
+- Call line "30-minute call · No charge · No obligation" on the homepage and `/invest/`; `/about/` keeps its full sentence.
+- Buttons stay rounded rectangles (10px); pills only for filters and tags.
+- Official WhatsApp logo, one colour, before the label; arrows stay after the label.
+
+**Pending decisions:**
+- None new. #83 (real anonymised values) is still open. #102 updated: shorter wording, same meaning.
 
 ---
 
