@@ -159,6 +159,8 @@ Labels such as "Overlap" or "Lag benchmark" mean nothing to a retail investor; a
 - Call line "30-minute call · No charge · No obligation" on the homepage and `/invest/`; `/about/` keeps its full sentence.
 - Buttons stay rounded rectangles (10px); pills only for filters and tags.
 - Official WhatsApp logo, one colour, before the label; arrows stay after the label.
+- Homepage is for the brand (owner privacy): the final call has no owner name, photo or credentials; "Book a first call"; copy "Tell us your goals, or what worries you about your portfolio. We explain how we can help, and you decide what happens next." The person stays on `/about/`; the footer keeps the registered name with the ARN.
+- Footer has "Verify ARN-… on AMFI ↗" (#106). The standard risk warning stays in the footer for now (likely required by the SEBI/AMFI advertisement rules; not yet checked against the AMFI FAQ PDF).
 
 **Pending decisions:**
 - None new. #83 (real anonymised values) is still open. #102 updated: shorter wording, same meaning.
