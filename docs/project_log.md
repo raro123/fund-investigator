@@ -129,12 +129,36 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 102 | **Compliance — medium priority: "No charge for the call"** in the call details on the homepage hero and `/invest/` hero. It is close to the banned "free" wording, and the commission explanation is not next to it. Options: keep, or "30-minute first call · No obligation to invest" | 2026-10-15 | S51 | ✅ Resolved (S51): keep. It describes the intro call only, not the service: the client pays nothing for the first call |
 | 103 | **Website — medium priority: show the `SampleBrief` on `/invest/`** next to journey stage 3, so the "short brief" is visible. Waits for #83; may need a light-surface variant | 2026-10-15 | S51 | 🟡 Parked |
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
+| 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-15 | Session: S52 — Visual polish: warm hero glow, serif pull quote, hero grid removed
+
+**What was done:**
+We reviewed an outside list of seven visual changes against the code and the agreed rules. We kept two of them: a warm gold glow behind every dark hero (home, `/about/`, `/invest/`, `/reports/`) and the report serif (Newsreader) on the `/about/` pull quote. We also removed the faint grid from the homepage hero.
+
+**Why:**
+The site is an editorial, trust-led brand, so polish must look like a publication, not a software product. The glow gives the dark heroes warmth, and the serif quote links the brand story to the research voice. The grid showed at about 3% and only on the homepage, so it added code but no visible effect.
+
+**How:**
+`Hero.astro` now owns the glow for `background="dark"`, so pages do not add it. The glow is centred (the old spec put it at 85% for the split hero) at 0.08 opacity, chosen after headless Chrome screenshots at 0.05 and 0.08. `style_spec.md` §2 now allows serif for brand pull quotes (bold, no italic), and §10 records the glow. The build and the design lint pass. Commit `d1e654a` is on `dev`, not pushed.
+
+**Decisions made:**
+- Adopted: hero glow on all dark heroes (0.08, centred), owned by `Hero.astro`; serif pull quote on `/about/`; homepage grid removed.
+- Rejected: frosted (blurred) header: it does not remove the dark edge and costs GPU on low-end phones; the spec records a move away from it.
+- Rejected: card hover lift: the cards do not link anywhere, so a lift wrongly signals "click"; the proposed gold border also breaks the "no gold on white" rule.
+- Rejected: a "Book a call" header button: it breaks the "three text links, no nav button" decision and "convert after value".
+- Rejected: `SplitRows` mobile label change: the label already sits in a fixed column; the proposal was out of date.
+
+**Pending decisions:**
+- New: #105 section dividers (check on a phone first).
 
 ---
 
