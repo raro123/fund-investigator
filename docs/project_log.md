@@ -130,7 +130,7 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 103 | **Website — medium priority: show the `SampleBrief` on `/invest/`** next to journey stage 3, so the "short brief" is visible. Waits for #83; may need a light-surface variant | 2026-10-15 | S51 | 🟡 Parked |
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
-| 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | 🟡 Open |
+| 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | ✅ Resolved (S54): in the footer (`DistributorIdentity` inline), so every page has it; not in the hero or final call, to keep visitors on the booking buttons |
 
 ---
 

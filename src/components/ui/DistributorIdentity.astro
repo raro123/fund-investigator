@@ -2,8 +2,8 @@
 /**
  * DistributorIdentity Component
  *
- * The AMFI distributor disclosure: registered name, ARN and the standard risk
- * warning. Values come from `src/lib/distributor.ts` so every page shows the
+ * The AMFI distributor disclosure: registered name, ARN, a link to verify the
+ * ARN on AMFI's distributor search, and the standard risk warning. Values come from `src/lib/distributor.ts` so every page shows the
  * same, current details.
  *
  * @example
@@ -19,6 +19,7 @@ import {
   ARN_VALID_UNTIL,
   TAGLINE,
   RISK_WARNING,
+  AMFI_VERIFY_URL,
 } from '../../lib/distributor';
 import { formatDate } from '../../lib/format';
 
@@ -35,14 +36,18 @@ const { variant = 'inline', surface, class: className = '' } = Astro.props;
 
 // Approved surface pairs (docs/style_spec.md §1): muted on light, muted-inv/subtle on dark.
 const tone = {
-  light: { primary: 'text-fi-ink', secondary: 'text-fi-muted' },
-  dark: { primary: 'text-fi-muted-inv', secondary: 'text-fi-subtle' },
+  light: { primary: 'text-fi-ink', secondary: 'text-fi-muted', link: 'text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link' },
+  dark: { primary: 'text-fi-muted-inv', secondary: 'text-fi-subtle', link: 'text-fi-muted-inv underline decoration-fi-subtle hover:text-fi-ink-inv transition-colors' },
 }[surface];
 ---
 
 {variant === 'inline' ? (
   <div class:list={['text-body-sm', className]}>
-    <p class={tone.primary}>{REGISTERED_NAME} · {TAGLINE} · {ARN}</p>
+    <!-- AMFI's search opens empty, so the label names the ARN to type in. -->
+    <p class={tone.primary}>
+      {REGISTERED_NAME} · {TAGLINE} · {ARN} ·
+      <a href={AMFI_VERIFY_URL} target="_blank" rel="noopener noreferrer" class:list={[tone.link, 'whitespace-nowrap']}>Verify {ARN} on AMFI ↗</a>
+    </p>
     <p class:list={[tone.secondary, 'mt-1']}>{RISK_WARNING}</p>
   </div>
 ) : (
