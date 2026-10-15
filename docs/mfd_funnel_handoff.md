@@ -40,7 +40,7 @@
 ### Navigation
 - **Header:** Invest with support · Investigations · About. Three equal text links, no nav button. Deepdive and Subscribe are not in the header.
 - **Footer Navigate column:** Invest with support · Investigations · Deepdive ↗ · About · Subscribe ↗. All plain links. The footer also has a WhatsApp icon (`footer`).
-- The main button label is "Book a first call" (homepage and `/invest/`); the homepage final section says "Book a call with Ishpreet". `/about/` says "Book a first call" (S51).
+- The main button label is "Book a first call" (homepage and `/invest/`); the homepage final section also says "Book a first call" (S54: no owner name on the homepage). `/about/` says "Book a call with Ishpreet".
 - **Deepdive appears in:** the `/reports/` section, links inside investigations, `/about/` section 4, and the footer. The homepage mentions it only as "Access to Deepdive" in the subscribe strip. All open links move to the email access flow (#91).
 
 ### Homepage (2026-10-14, current)
@@ -53,7 +53,7 @@ Five sections on one centre axis (headings, leads and buttons centred; card text
 | 2 | Problems → services: 4 `ServiceCard`s, fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
 | 3 | The Fund Investigator way: mission lead, 3 difference cards | white | How support works (secondary button) → `/invest/` · Read our story → `/about/` |
 | 4 | Our investigations and tools: 2 guides, subscribe strip (investigations + Deepdive access) | light | View all investigations · Subscribe (`homepage_bottom`) |
-| 5 | Final call: photo and credentials (config, hidden while empty), name | white | Book a call with Ishpreet · Contact on WhatsApp (`homepage_final`) |
+| 5 | Final call, brand voice: "Start with a 30-minute call.", tagline · ARN, "we" copy. No owner name, photo or credentials (homepage privacy, S54; they are on `/about/`) | white | Book a first call · Contact on WhatsApp (`homepage_final`) |
 
 `/invest/` order: see the `/invest/` table below. The direct vs regular comparison lives only in the FAQ.
 

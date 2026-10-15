@@ -9,13 +9,11 @@ import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
-import CheckList from '../components/ui/CheckList.astro';
-import OptimizedImage from '../components/ui/OptimizedImage.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
-import { ARN, BOOKING_URL, CONTACT_EMAIL, CREDENTIALS, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import { services } from '../lib/services';
 
@@ -212,27 +210,19 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </Card>
   </Section>
 
-  <!-- 5. Final call: the reveal — who the visitor speaks with. Stacked and centred like the hero. -->
+  <!-- 5. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
+       The person behind the service is on /about/ (linked from the differences section). -->
   <Section background="white" spacing="md" maxWidth="lg">
     <div class="text-center">
-      {OWNER_PHOTO && (
-        <OptimizedImage
-          src={OWNER_PHOTO}
-          alt={REGISTERED_NAME}
-          preset="inline"
-          class="w-40 h-40 lg:w-56 lg:h-56 mx-auto mb-8 rounded-full object-cover"
-        />
-      )}
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
-        Start with a 30-minute call with {FIRST_NAME}.
+        Start with a 30-minute call.
       </h2>
-      <p class="text-body-md text-fi-muted mb-4">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
-      {CREDENTIALS.length > 0 && <CheckList items={CREDENTIALS.map((credential) => credential.text)} layout="inline" class="mb-6" />}
+      <p class="text-body-md text-fi-muted mb-6">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
       <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
-        Tell me your goals. Show me your funds, or the amount you plan to invest. I reply to messages within 1 business day.
+        Tell us your goals. Show us your funds, or the amount you plan to invest. We reply to messages within 1 business day.
       </p>
       <div class={ctaRow}>
-        <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a call with {FIRST_NAME}</Button>
+        <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
         <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
       </div>
       <p class="mt-6 text-body-sm text-fi-muted">
