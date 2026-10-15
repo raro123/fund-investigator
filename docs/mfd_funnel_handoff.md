@@ -49,7 +49,7 @@ Five sections on one centre axis (headings, leads and buttons centred; card text
 
 | # | Section | Background | Actions (placement) |
 | --- | --- | --- | --- |
-| 1 | Hero, stacked: headline, subhead, call details, trust strip, sample brief | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
+| 1 | Hero, stacked: headline, subhead, call details ("30-minute call · No charge · No obligation"), sample brief, trust strip (brief first so it shows on the first screen) | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
 | 2 | Problems → services: 4 `ServiceCard`s, fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
 | 3 | The Fund Investigator way: mission lead, 3 difference cards | white | How support works (secondary button) → `/invest/` · Read our story → `/about/` |
 | 4 | Our investigations and tools: 2 guides, subscribe strip (investigations + Deepdive access) | light | View all investigations · Subscribe (`homepage_bottom`) |

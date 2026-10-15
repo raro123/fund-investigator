@@ -75,15 +75,16 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
 >
-  <!-- 1. Hero: stacked and centred at every width — promise, actions, trust, then the sample brief -->
-  <Hero size="lg" background="dark">
-    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
+  <!-- 1. Hero: stacked and centred at every width — promise, actions, the sample brief, then trust.
+       The brief comes before the trust strip so its mix bars show on the first screen. -->
+  <Hero size="md" background="dark">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words']}>
       We investigate,<br />
       so you can <span class="text-fi-gold">invest.</span>
     </h1>
 
     <!-- Tagline says what the company does; "build" speaks to beginners, "improve" to existing investors. -->
-    <p class="text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto leading-relaxed text-balance mb-10">
+    <p class="text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto leading-relaxed text-balance mb-8">
       Build and improve your portfolio with our help and expertise in mutual funds and SIFs.
     </p>
 
@@ -93,16 +94,16 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
     <!-- "No charge" is scoped to the call so the service never reads as free. -->
     <p class="text-body-sm text-fi-subtle text-balance">
-      30-minute first call · No charge for the call · No obligation to invest
+      30-minute call · No charge · No obligation
     </p>
-
-    <!-- The ARN sits next to the decision, before the brief. -->
-    <div class="mt-10 border-t border-fi-border-dark">
-      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
-    </div>
 
     <div class="mt-8">
       <SampleBrief />
+    </div>
+
+    <!-- The ARN stays in the hero, directly after the proof. -->
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
     </div>
   </Hero>
 
