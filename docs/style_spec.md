@@ -103,6 +103,10 @@ heading levels, body copy (paragraphs + lists), pull-quotes, and markdown tables
 the disclaimer block, and all site-wide UI chrome — nav, buttons, cards, footer, `ReportCard.astro`
 — remain Inter. Config: `tailwind.config.mjs` → `fontFamily.serif`.
 
+One exception outside reports: brand pull quotes (e.g. "Separate the result from the reasons." on
+`/about/`) use `font-serif font-bold`, no italic, to link the brand story to the research voice.
+Headings, body copy and UI on brand pages stay Inter.
+
 ---
 
 ## 3. Buttons
@@ -254,11 +258,13 @@ the mobile-footer fix logged in `project_log.md`).
 ## 10. Background Accents
 
 ### Hero
-Subtle radial gradient overlay behind content:
+Subtle radial gradient overlay behind content, on every `background="dark"` hero:
 ```
-background: radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251,191,36,0.05) 0%, transparent 55%)
+background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(251,191,36,0.08) 0%, transparent 55%)
 ```
-Accent sits on a `position: absolute; inset: 0` layer. Very low opacity — atmosphere only, not decorative.
+Owned by `Hero.astro` (`.fi-hero-glow`, a `position: absolute; inset: 0` layer) — pages do not add it.
+Centred at 50% because heroes are stacked and centred (was 85% for the old split hero). Very low
+opacity — atmosphere only, not decorative.
 
 ### Why FI Section
 Same radial gradient treatment as hero.

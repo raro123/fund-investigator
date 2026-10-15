@@ -76,9 +76,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   graph={homeSchemaGraph(Astro.site)}
 >
   <!-- 1. Hero: stacked and centred at every width — promise, actions, trust, then the sample brief -->
-  <Hero size="lg" background="dark" class="fi-investigation-hero">
-    <div class="fi-hero-grid pointer-events-none" aria-hidden="true"></div>
-
+  <Hero size="lg" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-8 leading-fi-display tracking-fi-display break-words']}>
       We investigate,<br />
       so you can <span class="text-fi-gold">invest.</span>
@@ -242,28 +240,3 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Section>
 </Layout>
-
-<style>
-  .fi-investigation-hero {
-    isolation: isolate;
-  }
-
-  .fi-hero-grid {
-    position: absolute;
-    inset: var(--fi-header-h) 0 0;
-    z-index: 0;
-    opacity: 0.18;
-    background-image:
-      linear-gradient(rgba(203, 213, 225, 0.16) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(203, 213, 225, 0.16) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: linear-gradient(to bottom, transparent, black 20%, black 58%, transparent 84%);
-  }
-
-  @media (max-width: 640px) {
-    .fi-hero-grid {
-      background-size: 48px 48px;
-      opacity: 0.14;
-    }
-  }
-</style>
