@@ -5,56 +5,70 @@ import Button from '../components/ui/Button.astro';
 import Hero from '../components/ui/Hero.astro';
 import Card from '../components/ui/Card.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import StatRow from '../components/ui/StatRow.astro';
 import OptimizedImage from '../components/ui/OptimizedImage.astro';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl } from '../lib/whatsapp';
-import { ARN, BOOKING_URL, CREDENTIALS, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { formatDate } from '../lib/format';
+import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CREDENTIALS, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
 
-// /about/ answers "who am I trusting?": the brand's reason and method first, then
-// the person behind it ("Know your distributor"). The brand leads; the owner
-// does not overshadow it. It names no fund, so it may link to /invest/, the
-// booking page and WhatsApp (handoff §2, Links). Links *to* this page never use
-// the owner's name; the page itself does.
+// /about/ answers "who am I trusting?": the brand's reason and analytical method
+// first, then the person behind it ("Know your distributor"). The brand leads;
+// the owner does not overshadow it. It names no fund, so it may link to /invest/,
+// the booking page and WhatsApp (handoff §2, Links). Links *to* this page never
+// use the owner's name; the page itself does.
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 
-// The registration closes the credential row: it is the one fact a regulator requires.
-// The registration line already sits under the name, so the row shows the ARN alone.
-const credentialRow = [
-  ...CREDENTIALS.map(({ value, label }) => ({ value, label })),
-  { value: ARN, label: 'AMFI Registered' },
-];
-
-// The three differences use the homepage's titles, so the words stay the same;
-// here each one carries its proof.
-const promises = [
+// Three analytical principles: how we evaluate funds and portfolios, distinct
+// from the homepage's high-level service differences.
+const principles = [
   {
-    title: 'Analysis and evidence',
-    body: 'We check every fund against a fair benchmark, with Deepdive, the analysis tool we built. Our fund investigations show the method in public.',
+    title: 'Benchmark discipline',
+    body: 'We check every fund against its true Total Return Index (TRI) across complete bull and bear cycles, never an easy hurdle or a flattering short-term window. Our investigations show the method in public.',
     links: [
       { label: 'Read the investigations →', href: '/reports/' },
       { label: 'Open Deepdive ↗', href: deepdiveUrl('about'), external: true, track: trackAttrs('deepdive_click', 'about') },
     ],
   },
   {
-    title: 'Portfolio first',
-    body: 'We look at your whole mix before the funds: overlap, benchmark, costs and fit to your risk profile. Fewer funds can be the right result.',
+    title: 'Downside resilience over momentum',
+    body: 'A fund that runs fastest in a bull market often falls hardest when conditions turn. We evaluate drawdown depth, volatility, and recovery time before forming a view.',
     links: [{ label: 'How the review works →', href: '/invest/#how-it-works' }],
   },
   {
-    title: 'Transparent and personal',
-    body: 'You get our commission on each fund in writing before you choose. And you work with one person, from the first call to every review.',
-    links: [{ label: 'See the costs →', href: '/invest/#costs' }],
+    title: 'Portfolio cohesion over star collections',
+    body: 'Collecting 5-star funds often leaves investors with dozens of overlapping stocks and hidden concentration. We examine the whole mix: true diversification, category fit, and suitability.',
+    links: [{ label: 'See our services →', href: '/invest/' }],
+  },
+];
+
+// Operational safeguards: addresses the #1 question for ₹10L–₹1Cr investors
+// ("Where does my money go?"). Fully aligned with AMFI MFD rules.
+const safeguards = [
+  {
+    title: 'Zero custody',
+    body: 'You pay the fund house directly. We never hold your investment funds or mutual fund units.',
+  },
+  {
+    title: 'OTP authorized',
+    body: 'Every transaction—purchase, SIP setup, switch or redemption—requires your explicit approval by OTP.',
+  },
+  {
+    title: 'Direct ownership',
+    body: 'All folios remain registered directly in your name with the fund houses and their registrars (CAMS and KFintech).',
+  },
+  {
+    title: 'Disclosed in writing',
+    body: 'Our commission on each shortlisted fund is shared with you in writing before you choose to invest.',
   },
 ];
 ---
 
 <Layout
   title="About Fund Investigator: Why We Exist"
-  description={`Why Fund Investigator exists: we investigate funds with evidence, then help you choose and invest, with our costs shown first. Run by ${REGISTERED_NAME}, ${TAGLINE}.`}
+  description={`Why Fund Investigator exists: evidence-driven mutual fund distribution and portfolio reviews. Run by ${REGISTERED_NAME}, ${ARN}.`}
 >
   <!-- 1. Hero: the brand leads. The person comes in section 4, "Know your distributor". -->
   <Hero size="md" background="dark">
@@ -68,7 +82,7 @@ const promises = [
     </p>
   </Hero>
 
-  <!-- 2. Story, in the brand's voice: the pull quote carries the idea for skimmers. -->
+  <!-- 2. Story: the pull quote carries the idea for skimmers, grounded in founder conviction. -->
   <Section background="white" spacing="md" maxWidth="xl">
     <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <blockquote class="lg:col-span-5 border-l-4 border-fi-gold pl-6">
@@ -80,64 +94,112 @@ const promises = [
         <h2 class:list={[responsive.h3, 'font-bold text-fi-ink mb-4']}>The question we start with</h2>
         <div class="space-y-4 text-body-md text-fi-muted leading-relaxed max-w-fi-content">
           <p>
-            Most fund choices still come down to one number: what returned the most. That number matters, but it does not explain the path. A fund can lead because it took more risk, bet on a passing theme, or rode a market phase.
+            Most fund choices still come down to one number: what returned the most over the last year or three. That number matters, but it does not explain the path. A fund can lead a category simply because it took outsized risk, concentrated in a hot sector, or rode a fleeting market phase.
           </p>
           <p>
-            We started Fund Investigator to separate the result from the reasons. We check risk, falls and benchmark behaviour before we form a view. We built Deepdive so anyone can run the same checks.
+            We started Fund Investigator to separate the result from the reasons. After 12 years in financial services, we knew that trailing returns alone cannot tell you whether a fund manager was disciplined or simply lucky. So we built Deepdive to analyse benchmark behaviour, downside capture, and rolling risk in public.
           </p>
           <p>
-            Many funds are sold on last year's returns or on a new launch. <strong class="text-fi-ink">So we offer distribution that starts with analysis.</strong> As an {TAGLINE}, we use the same evidence to help you choose funds that suit you.
+            Many funds in India are sold on past returns or on newly launched schemes. <strong class="text-fi-ink">So we offer distribution that starts with analysis.</strong> As an {TAGLINE}, we use the same evidence to help you choose suitable funds, eliminate overlap, and review your portfolio over time.
           </p>
         </div>
       </div>
     </div>
   </Section>
 
-  <!-- 3. How we work: the homepage's three differences, each with its proof link. -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="How we work." lead="Three promises, and the proof behind each one." />
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {promises.map((promise, index) => (
-        <Card padding="lg" hover={false} class:list={['flex flex-col text-left', index === promises.length - 1 && 'sm:col-span-2 lg:col-span-1']}>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{promise.title}</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed mb-5 flex-1">{promise.body}</p>
-          <div class="flex flex-col items-start gap-2">
-            {promise.links.map((link) => (
-              <a
-                href={link.href}
-                class:list={[lightLink, 'text-body-sm']}
-                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                {...(link.track ?? {})}
-              >{link.label}</a>
-            ))}
+  <!-- 3. Our method: analytical principles as a ruled editorial list, each with its proof. -->
+  <Section background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Our analytical principles." lead="Three checks behind every investigation and portfolio review." />
+    <ol class="border-b border-fi-border text-left">
+      {principles.map((principle, index) => (
+        <li class="grid lg:grid-cols-12 gap-x-10 gap-y-3 py-8 border-t border-fi-border">
+          <div class="lg:col-span-5 flex items-baseline gap-4">
+            <span class:list={[responsive.h2, 'font-serif font-bold text-fi-muted leading-none']} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{principle.title}</h3>
           </div>
-        </Card>
+          <div class="lg:col-span-7">
+            <p class="text-body-md text-fi-muted leading-relaxed max-w-fi-content">{principle.body}</p>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4">
+              {principle.links.map((link) => (
+                <a
+                  href={link.href}
+                  class:list={[lightLink, 'text-body-sm']}
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  {...(link.track ?? {})}
+                >{link.label}</a>
+              ))}
+            </div>
+          </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </Section>
 
-  <!-- 4. Know your distributor: the person behind the brand, then the action. The name echoes
-       "Know Your Customer", a term every investor knows. One gold action. -->
-  <Section background="white" spacing="md" maxWidth="lg">
-    <SectionHeading title="Know your distributor." />
-    <div class="max-w-3xl mx-auto text-center">
-      {OWNER_PHOTO && (
-        <OptimizedImage
-          src={OWNER_PHOTO}
-          alt={REGISTERED_NAME}
-          preset="inline"
-          class="w-32 h-32 lg:w-40 lg:h-40 mx-auto mb-6 rounded-full object-cover"
-        />
-      )}
-      <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{REGISTERED_NAME}</h3>
-      <p class="text-body-sm text-fi-muted mt-1">{TAGLINE}</p>
-      <p class="text-body-md text-fi-muted leading-relaxed mt-6 max-w-fi-content mx-auto">
-        I built Deepdive, and I write our fund investigations. When you invest through Fund Investigator, you work with me, from the first call to every review. The credentials below are the background I bring to each review.
-      </p>
-    </div>
-    <StatRow surface="light" items={credentialRow} class="max-w-4xl mx-auto mt-10" />
+  <!-- 4. Know your distributor: profile card, credentials, and distribution safeguards. -->
+  <Section background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Know your distributor." lead="One person from the first call to every review." />
+    <Card variant="elevated" padding="lg" hover={false} class="text-left">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+        <div class="lg:col-span-4 lg:border-r lg:border-fi-border lg:pr-10">
+          {OWNER_PHOTO ? (
+            <OptimizedImage
+              src={OWNER_PHOTO}
+              alt={REGISTERED_NAME}
+              preset="inline"
+              class="w-28 h-28 lg:w-36 lg:h-36 mb-5 rounded-full object-cover"
+            />
+          ) : (
+            <div class="w-20 h-20 lg:w-24 lg:h-24 mb-5 rounded-full bg-fi-dark text-fi-gold font-bold text-heading-md flex items-center justify-center select-none" aria-hidden="true">
+              {REGISTERED_NAME.split(' ').map((n) => n[0]).slice(0, 2).join('')}
+            </div>
+          )}
+          <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{REGISTERED_NAME}</h3>
+          <p class="text-body-sm text-fi-muted mt-2 leading-relaxed">{TAGLINE}</p>
+          <p class="font-mono text-body-sm text-fi-ink mt-3">{ARN}</p>
+          <p class="text-caption text-fi-muted mt-1">Valid until {formatDate(ARN_VALID_UNTIL, 'short')}</p>
+        </div>
+        <div class="lg:col-span-8 space-y-6 text-body-md text-fi-muted leading-relaxed max-w-fi-content">
+          <p>
+            I built Deepdive, and I write our fund investigations to bring institutional rigor to individual fund choices. When you invest through Fund Investigator, you work directly with me, from the first conversation to every review. No call centres, and no junior relationship managers.
+          </p>
+          <div class="pt-5 border-t border-fi-border">
+            <h4 class="text-caption font-bold uppercase tracking-fi-label text-fi-ink mb-3">Background & credentials</h4>
+            <ul class="grid sm:grid-cols-2 gap-3">
+              {CREDENTIALS.map((cred) => (
+                <li class="flex items-baseline gap-2.5 text-body-sm text-fi-ink">
+                  <span class="w-1.5 h-1.5 rounded-full bg-fi-link shrink-0 self-center" aria-hidden="true"></span>
+                  <span><strong class="font-semibold">{cred.value}</strong> {cred.label}</span>
+                </li>
+              ))}
+              <li class="flex items-baseline gap-2.5 text-body-sm text-fi-ink">
+                <span class="w-1.5 h-1.5 rounded-full bg-fi-link shrink-0 self-center" aria-hidden="true"></span>
+                <span><strong class="font-semibold">{ARN}</strong> AMFI Registered</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Operational safeguards: answers custody, OTP approval, ownership and commission questions -->
+    <Card variant="subtle" hover={false} padding="lg" class="mt-8 text-left">
+      <h4 class="text-caption font-bold uppercase tracking-fi-label text-fi-ink mb-5">
+        How our distribution model is structured
+      </h4>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {safeguards.map((item) => (
+          <div>
+            <strong class="block text-body-sm font-bold text-fi-ink mb-1">{item.title}</strong>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </Card>
 
     <div class="text-center mt-12">
+      <p class="text-body-sm text-fi-muted mb-6 max-w-lg mx-auto text-balance">
+        Start with a 30-minute introductory call. We discuss your current funds, goals and risk profile. No charge for the call, and no obligation to invest.
+      </p>
       <div class={ctaRow}>
         <Button
           href={BOOKING_URL}
