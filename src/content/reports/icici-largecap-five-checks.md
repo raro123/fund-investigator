@@ -11,7 +11,6 @@ tags:
     - "Nifty 100 TRI"
     - "Large Cap Mutual Fund"
     - "Risk-Adjusted Returns"
-featured: false
 keyMetrics:
   - label: "CAGR"
     value: "15.8%"

@@ -3,154 +3,217 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import Hero from '../components/ui/Hero.astro';
-import Badge from '../components/ui/Badge.astro';
+import Card from '../components/ui/Card.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import OptimizedImage from '../components/ui/OptimizedImage.astro';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
-import { TWITTER_URL } from '../lib/site-urls';
+import { trackAttrs } from '../lib/analytics';
+import { whatsappUrl } from '../lib/whatsapp';
+import { formatDate } from '../lib/format';
+import { AMFI_VERIFY_URL, ARN, ARN_VALID_UNTIL, BOOKING_URL, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+
+// /about/ answers "who am I trusting?": the brand's reason and analytical method
+// first, then the person behind it ("Know your distributor"). The brand leads;
+// the owner does not overshadow it. It names no fund, so it may link to /invest/,
+// the booking page and WhatsApp (handoff §2, Links). Links *to* this page never
+// use the owner's name; the page itself does.
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
+
+// Three analytical principles, in the order we apply them: the portfolio, then
+// the numbers, then judgement. Qualitative checks list only what the owner does
+// in a review (confirmed 2026-10-15); published investigations stay quantitative.
+const principles = [
+  {
+    title: 'Portfolio first',
+    body: 'We start with the funds you already hold. Several funds can hold the same stocks. We check overlap and how much of your portfolio depends on a few stocks or sectors. Then we check how the fund mix fits your goals, time frame and risk profile.',
+    links: [{ label: 'See our services →', href: '/invest/' }],
+  },
+  {
+    title: 'Quantitative checks',
+    body: 'We compare each fund with a benchmark that matches what it invests in. We check if the returns were consistent and if the extra return justified the extra risk. We also check how far the fund fell and how long recovery took. Our investigations show the checks and the data.',
+    links: [
+      { label: 'Read the investigations →', href: '/reports/' },
+      { label: 'Open Deepdive ↗', href: deepdiveUrl('about'), external: true, track: trackAttrs('deepdive_click', 'about') },
+    ],
+  },
+  {
+    title: 'Qualitative checks',
+    body: 'Numbers show what happened, not why. So we check what the fund may invest in and if it holds to its stated strategy. We check who manages the fund and for how long. We also look at the investment process of the fund house.',
+    links: [{ label: 'How the review works →', href: '/invest/#how-it-works' }],
+  },
+];
+
+// Explain money flows and approvals without implying that each scheduled SIP
+// payment requires a new OTP.
+const safeguards = [
+  {
+    title: 'You pay the fund house',
+    body: 'You pay the fund house directly. We never hold your investment funds or mutual fund units.',
+  },
+  {
+    title: 'You approve the instructions',
+    body: 'We help with purchases, SIP setup, switches and redemptions. You give the required approvals before we proceed.',
+  },
+  {
+    title: 'You own your units',
+    body: 'Your mutual fund units remain in your name with the fund house.',
+  },
+  {
+    title: 'Our commission in writing',
+    body: 'We give you our commission for each shortlisted fund in writing before you choose to invest.',
+    link: { label: 'How our commission works →', href: '/invest/#costs' },
+  },
+];
 ---
 
 <Layout
-  title="About Fund Investigator: Evidence-Based Fund Analysis"
-  description="Why Fund Investigator exists: mutual fund analysis that starts with evidence, not sales."
+  title="About Fund Investigator: Why We Exist"
+  description={`Why Fund Investigator exists: evidence-driven mutual fund distribution and portfolio reviews. Run by ${REGISTERED_NAME}, ${ARN}.`}
 >
-  <Hero size="md" background="dark" class="fi-about-hero">
-    <div class="fi-about-grid pointer-events-none" aria-hidden="true"></div>
-
-    <Badge variant="dark" class="mb-6">About Fund Investigator</Badge>
-    <h1 class:list={[responsive.display, 'font-bold text-fi-ink mb-6']}>
+  <!-- 1. Hero: the brand leads. The person comes in section 4, "Know your distributor". -->
+  <Hero size="md" background="dark">
+    <h1 class:list={[responsive.display, 'font-bold mb-6 leading-fi-display tracking-fi-display']}>
       <span class="text-fi-ink-inv">Why</span>
       <span class="text-fi-gold">Fund Investigator</span>
       <span class="text-fi-ink-inv">Exists</span>
     </h1>
-    <p class="text-body-lg text-fi-muted-inv leading-relaxed max-w-2xl mx-auto">
-      Most fund platforms start with returns, ratings, or transactions. We start with the evidence behind performance.
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-2xl mx-auto font-light leading-relaxed']}>
+      We check how funds perform, how much risk they take, and how they fit together. Then we help you choose, invest and review.
     </p>
   </Hero>
 
-  <Section background="white" spacing="md" maxWidth="md">
-    <div class="border-l-4 border-fi-gold pl-6 md:pl-8">
-      <Badge class="mb-6">Case Note</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>The Question We Start With</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        Mutual fund research often gets compressed into one easy question: what returned the most?
+  <!-- 2. Story: why we exist (analytical rigour in distribution) and the portfolio-first promise.
+       One narrow reading column: it suits a phone first, and a long line would tire desktop readers. -->
+  <Section background="white" spacing="md" maxWidth="sm">
+    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Your portfolio first, then the product</h2>
+    <div class="space-y-4 text-body-md text-fi-muted leading-relaxed">
+      <p>
+        Most investors choose a fund by its past returns. Returns alone do not show the risk the fund took. They also do not show how it fits with your other funds. When that is not clear, a normal market fall can come as a surprise.
       </p>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        That number matters, but it does not explain the path. A fund can outperform because it took more risk, concentrated into a temporary theme, held up better in a drawdown, or simply benefited from a market phase.
+      <p>
+        I started Fund Investigator after 12 years in financial services. My aim is to bring analytical rigour to fund distribution. I built Deepdive to compare funds with fair benchmarks. It also checks how funds behaved when markets rose and fell.
       </p>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator exists to separate the result from the reasons behind it. We look at risk, drawdowns, benchmark behavior, and style drift before forming a view.
+      <p>
+        As an {TAGLINE}, <strong class="text-fi-ink">we start with your portfolio, not with a product.</strong> We explain what each fund does and the risks it takes. We show how it fits your goals. We tell you what to expect, including the bad years. And we give our commission in writing.
       </p>
     </div>
   </Section>
 
-  <Section background="dark" spacing="md" maxWidth="2xl">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <Badge variant="dark" class="mb-6">Why Fund Investigator</Badge>
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6 leading-tight tracking-tight']}>
-          Because Indian mutual fund investors deserve analysis that improves their portfolio.
-          <span class="text-fi-muted-inv">Not mis-selling that increases someone else's commission.</span>
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l4-8 4 5 5-6"/>
-            </svg>
+  <!-- 3. Our method: analytical principles as a ruled editorial list, each with its proof. -->
+  <Section background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Our analytical principles." lead="How we look at your portfolio and every fund in it." />
+    <ol class="border-b border-fi-border text-left">
+      {principles.map((principle, index) => (
+        <li class="grid lg:grid-cols-12 gap-x-10 gap-y-3 py-8 border-t border-fi-border">
+          <div class="lg:col-span-5 flex items-baseline gap-4">
+            <span class:list={[responsive.h2, 'font-serif font-bold text-fi-muted leading-none']} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{principle.title}</h3>
           </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Analytics, Not Sales</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            We do not rank funds to push a purchase. We show the evidence behind performance so the analysis can be checked before any decision is made.
-          </p>
-        </div>
-
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-            </svg>
+          <div class="lg:col-span-7">
+            <p class="text-body-md text-fi-muted leading-relaxed max-w-fi-content">{principle.body}</p>
+            <!-- py-2 gives each small text link a taller tap area on touch screens; mt-2 offsets the added padding. -->
+            <div class="flex flex-wrap gap-x-6 mt-2">
+              {principle.links.map((link) => (
+                <a
+                  href={link.href}
+                  class:list={[lightLink, 'inline-block py-2 text-body-sm']}
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  {...(link.track ?? {})}
+                >{link.label}</a>
+              ))}
+            </div>
           </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Zero Conflicts of Interest</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            No commissions, no fund partnerships, no trail fees. The reason we can stay analytical is because we do not earn from your investment decisions.
-          </p>
-        </div>
-
-        <div class="bg-fi-mid rounded-lg p-6 lg:p-8 border border-fi-border-dark">
-          <div class="w-11 h-11 bg-fi-border-dark rounded-lg flex items-center justify-center mb-5">
-            <svg class="w-fi-icon h-fi-icon text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3 class="text-heading-sm font-bold text-fi-ink-inv mb-3">Transparent Methodology</h3>
-          <p class="text-body-sm text-fi-muted-inv leading-relaxed">
-            Public data sources, standard financial measures, and clear calculations. No black boxes, no star ratings, no shortcut pretending to be research.
-          </p>
-        </div>
-      </div>
-    </div>
+        </li>
+      ))}
+    </ol>
   </Section>
 
-  <Section background="white" spacing="md" maxWidth="md">
-    <div class="border-t border-fi-border pt-10">
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Where We Draw the Line</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator provides analysis, not recommendations. We do not tell readers what to buy, sell, or hold. The work here is to make the evidence easier to inspect.
-      </p>
-      <p class="text-body-md text-fi-muted leading-relaxed">
-        That means no buy buttons, no portfolio nudges, and no recommended-fund lists. The reader keeps the decision. We provide the research trail.
-      </p>
-      <div class="flex justify-center gap-4 mt-8">
-        <a href="mailto:contact@fundinvestigator.com" class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-body-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          Contact Us
-        </a>
-        <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer" class="text-fi-ink hover:text-fi-gold transition-colors font-medium text-body-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          Follow on X
-        </a>
+  <!-- 4. Know your distributor: profile card, credentials, and distribution safeguards. -->
+  <Section background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Know your distributor." />
+    <Card variant="elevated" padding="lg" hover={false} class="text-left">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+        <div class="lg:col-span-4 lg:border-r lg:border-fi-border lg:pr-10">
+          <!-- Mobile: avatar sits beside the name like a contact card, so it does not take a row of its own. lg: stacks in the sidebar. -->
+          <div class="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-5">
+            {OWNER_PHOTO ? (
+              <OptimizedImage
+                src={OWNER_PHOTO}
+                alt={REGISTERED_NAME}
+                preset="inline"
+                class="w-20 h-20 lg:w-36 lg:h-36 shrink-0 rounded-full object-cover"
+              />
+            ) : (
+              <div class="w-16 h-16 lg:w-24 lg:h-24 shrink-0 rounded-full bg-fi-dark text-fi-gold font-bold text-heading-md flex items-center justify-center select-none" aria-hidden="true">
+                {REGISTERED_NAME.split(' ').map((n) => n[0]).slice(0, 2).join('')}
+              </div>
+            )}
+            <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{REGISTERED_NAME}</h3>
+          </div>
+          <p class="text-body-sm text-fi-muted mt-3 leading-relaxed">{TAGLINE}</p>
+          <p class="font-mono text-body-sm text-fi-ink mt-3">{ARN}</p>
+          <p class="text-caption text-fi-muted mt-1">Valid until {formatDate(ARN_VALID_UNTIL, 'short')}</p>
+          <a href={AMFI_VERIFY_URL} target="_blank" rel="noopener noreferrer" class:list={[lightLink, 'inline-block py-2 text-body-sm mt-1']}>Verify {ARN} on AMFI ↗</a>
+        </div>
+        <!-- Credentials read as prose, not a list: the ARN already shows in the left column. -->
+        <div class="lg:col-span-8 space-y-4 text-body-md text-fi-muted leading-relaxed max-w-fi-content">
+          <p>
+            I am the AMFI Registered distributor behind Fund Investigator. I have <strong class="text-fi-ink">12 years in financial services</strong> and a <strong class="text-fi-ink">Master's in Economics</strong>. I also hold a specialisation in Financial Technology and Management from <strong class="text-fi-ink">IIT Kanpur</strong>.
+          </p>
+          <p>
+            On our first call, I learn your goals, time frame and risk profile. I review your current funds and explain what I find. I help you choose and invest, and we agree when to review your portfolio. I work with you personally, from the first call to every review.
+          </p>
+        </div>
       </div>
-    </div>
-  </Section>
+    </Card>
 
-  <Section background="dark" spacing="md" maxWidth="md">
-    <div class="text-center">
-      <Badge variant="dark" class="mb-6">Open the File</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink-inv mb-6']}>See the Analysis in Action</h2>
-      <p class="text-body-md text-fi-muted-inv leading-relaxed max-w-2xl mx-auto mb-8">
-        Use Deepdive to inspect returns, risk, drawdowns, and benchmark behavior on the same screen.
+    <!-- Keep the money flow, approval process and commission explanation together. -->
+    <Card variant="subtle" hover={false} padding="lg" class="mt-8 text-left">
+      <h3 class="text-caption font-bold uppercase tracking-fi-label text-fi-ink mb-5">
+        Your money and your approval
+      </h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {safeguards.map((item) => (
+          <div>
+            <strong class="block text-body-sm font-bold text-fi-ink mb-1">{item.title}</strong>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{item.body}</p>
+            {item.link && (
+              <a href={item.link.href} class:list={[lightLink, 'inline-block py-2 text-body-sm mt-1']}>{item.link.label}</a>
+            )}
+          </div>
+        ))}
+      </div>
+    </Card>
+
+    <div class="text-center mt-12">
+      <p class="text-body-sm text-fi-muted mb-6 max-w-lg mx-auto text-balance">
+        Start with a 30-minute first call. We discuss your current funds, goals and risk profile. No charge for the call, and no obligation to invest.
       </p>
-      <Button href={deepdiveUrl('about')} size="lg" icon="external" target="_blank" rel="noopener noreferrer">Launch Deepdive</Button>
+      <div class={ctaRow}>
+        <Button
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          icon="external"
+          size="lg"
+          track={{ event: 'review_booking_click', placement: 'about' }}
+        >Book a call with {FIRST_NAME}</Button>
+        <Button
+          href={whatsappUrl('about')}
+          variant="secondary"
+          surface="light"
+          target="_blank"
+          rel="noopener noreferrer"
+          icon="whatsapp"
+          size="lg"
+          track={{ event: 'conversation_request', placement: 'about', channel: 'whatsapp' }}
+        >Contact on WhatsApp</Button>
+      </div>
+      <p class="mt-4 text-body-sm">
+        <a href="/invest/" class:list={[lightLink, 'inline-block py-2']}>How support works →</a>
+      </p>
     </div>
   </Section>
 </Layout>
-
-<style>
-  .fi-about-hero {
-    isolation: isolate;
-  }
-
-  .fi-about-grid {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.14;
-    background-image:
-      linear-gradient(rgba(203, 213, 225, 0.14) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(203, 213, 225, 0.14) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: linear-gradient(to bottom, transparent, black 18%, black 70%, transparent);
-  }
-
-  @media (max-width: 640px) {
-    .fi-about-grid {
-      background-size: 48px 48px;
-      opacity: 0.1;
-    }
-  }
-</style>

@@ -25,7 +25,7 @@
 
 interface Props {
   /** Hero height variant */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Center align content */
   centered?: boolean;
   /** Background color variant */
@@ -48,9 +48,12 @@ const {
 const sizeStyles = {
   sm: 'pt-24 pb-12 md:pt-28 md:pb-16',
   md: 'pt-28 pb-16 md:pt-36 md:pb-24',
-  // Bottom padding is intentionally tighter than top: the homepage hero (the
-  // only lg user) is followed immediately by the credibility strip.
-  lg: 'pt-28 pb-10 md:pt-36 md:pb-14 lg:pt-44',
+  // Top padding includes the fixed header's height, so bottom is smaller in
+  // value but optically balanced against it.
+  lg: 'pt-28 pb-12 md:pt-36 md:pb-16 lg:pt-44 lg:pb-20',
+  // For a hero with little content that must match the height of a fuller
+  // hero (the homepage against /invest/). Same header offset as lg.
+  xl: 'pt-52 pb-36 md:pt-52 md:pb-40 lg:pt-60 lg:pb-56',
 };
 
 // Background styles
@@ -69,7 +72,19 @@ const containerClasses = `relative z-10 max-w-5xl mx-auto min-w-0 max-w-full ${a
 ---
 
 <section class={sectionClasses}>
+  {background === 'dark' && <div class="fi-hero-glow pointer-events-none" aria-hidden="true"></div>}
   <div class={containerClasses}>
     <slot />
   </div>
 </section>
+
+<style>
+  /* Warm atmosphere behind the headline, so dark heroes read as editorial, not as a dev template.
+     Centred because the heroes are stacked and centred; spec: style_spec.md §10. */
+  .fi-hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(251, 191, 36, 0.08) 0%, transparent 55%);
+  }
+</style>

@@ -3,12 +3,15 @@ import type { ReportMetricIconName } from '../../lib/report-metrics';
 
 interface Props {
   name: ReportMetricIconName;
+  /** Card surface the icon sits on; 'dark' (default) or 'light' */
+  surface?: 'light' | 'dark';
 }
 
-const { name } = Astro.props;
+const { name, surface = 'dark' } = Astro.props;
+const colour = { light: 'text-fi-ink', dark: 'text-fi-ink-inv' };
 ---
 
-<span class="inline-flex text-fi-ink-inv" aria-hidden="true">
+<span class:list={['inline-flex', colour[surface]]} aria-hidden="true">
   {name === 'rulebook' && (
     <svg class="w-fi-icon h-fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5V4.5Z" />

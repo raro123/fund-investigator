@@ -1,8 +1,11 @@
 ---
 import Logo from './Logo.astro';
+import DistributorIdentity from './ui/DistributorIdentity.astro';
 import { substackWelcomeUrl } from '../lib/substack';
 import { deepdiveUrl } from '../lib/deepdive';
 import { TWITTER_URL, YOUTUBE_URL } from '../lib/site-urls';
+import { trackAttrs } from '../lib/analytics';
+import { whatsappUrl, WHATSAPP_ICON_PATH } from '../lib/whatsapp';
 
 const year = new Date().getFullYear();
 const subscribeUrl = substackWelcomeUrl('footer');
@@ -23,17 +26,18 @@ const subscribeUrl = substackWelcomeUrl('footer');
       </div>
 
       <div>
-        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Navigate</h3>
+        <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Navigate</h3>
         <nav class="flex flex-col gap-3">
+        <a href="/invest/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Invest with support</a>
         <a href="/reports/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
-          <a href={deepdiveUrl('footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive</a>
-        <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Why We Built This</a>
-          <a href={subscribeUrl} class="text-fi-gold hover:text-fi-gold-hover transition-colors font-semibold text-body-sm">Subscribe</a>
+          <a href={deepdiveUrl('footer')} {...trackAttrs('deepdive_click', 'footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive ↗</a>
+        <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">About</a>
+          <a href={subscribeUrl} {...trackAttrs('subscribe_click', 'footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Subscribe ↗</a>
         </nav>
       </div>
 
       <div>
-        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Legal</h3>
+        <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Legal</h3>
         <div class="flex flex-col gap-3">
         <a href="/terms/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Terms of Service</a>
         <a href="/privacy/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Privacy Policy</a>
@@ -42,7 +46,7 @@ const subscribeUrl = substackWelcomeUrl('footer');
       </div>
 
       <div>
-        <h3 class="text-fi-muted font-bold text-caption uppercase tracking-[0.1em] mb-4">Connect</h3>
+        <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Connect</h3>
         <div class="flex gap-3">
           <a
             href="mailto:contact@fundinvestigator.com"
@@ -51,6 +55,19 @@ const subscribeUrl = substackWelcomeUrl('footer');
           >
             <svg class="w-4 h-4 text-fi-muted-inv group-hover:text-fi-ink-inv transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </a>
+
+          <a
+            href={whatsappUrl('footer')}
+            {...trackAttrs('conversation_request', 'footer', 'whatsapp')}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-fi-icon-lg h-fi-icon-lg rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"
+            aria-label="WhatsApp"
+          >
+            <svg class="w-4 h-4 text-fi-muted-inv group-hover:text-fi-ink-inv transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d={WHATSAPP_ICON_PATH}/>
             </svg>
           </a>
 
@@ -84,10 +101,11 @@ const subscribeUrl = substackWelcomeUrl('footer');
 
     <div class="h-px bg-fi-border-dark mb-6"></div>
 
-    <div class="text-center">
+    <div class="text-center space-y-3">
       <p class="text-fi-muted-inv text-caption">
         © {year} Fund Investigator. All rights reserved.
       </p>
+      <DistributorIdentity variant="inline" surface="dark" />
     </div>
 
   </div>

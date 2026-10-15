@@ -13,11 +13,9 @@
 import { DEEPDIVE_URL } from './site-urls';
 
 export type DeepdivePlacement =
-  | 'header_nav'
-  | 'header_cta'
   | 'footer'
-  | 'homepage_hero'
-  | 'homepage_cta'
+  | 'reports_deepdive'
+  | 'invest_fallback'
   | 'about';
 
 export function deepdiveUrl(placement: DeepdivePlacement): string {

@@ -19,12 +19,13 @@ import {
 } from '@jdevalk/seo-graph-core';
 import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, DEEPDIVE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
+import { ARN, TAGLINE } from './distributor';
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
-export const HOME_TITLE = 'Indian Mutual Fund Analysis | Fund Investigator';
+export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
 export const HOME_DESCRIPTION =
-  'Compare AMFI-registered mutual funds by benchmark returns, SIP IRR, Sharpe ratio, volatility, and drawdown—with no commissions.';
+  `Expert-led, analysis-driven help to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
@@ -33,8 +34,8 @@ export const reportOgImagePath = (slug: string): string =>
 /** Matches the entity description in llms.txt.ts so both machine-readable surfaces agree. */
 const ORG_DESCRIPTION =
   'Data-driven mutual fund analysis for Indian investors. We investigate fund performance using ' +
-  'risk-adjusted metrics, rolling returns, and benchmark comparisons — with no commissions and no ' +
-  'conflicts of interest.';
+  'risk-adjusted metrics, rolling returns, and benchmark comparisons. Fund Investigator is run by an ' +
+  `${TAGLINE} (${ARN}).`;
 
 type SchemaObject = Record<string, unknown>;
 

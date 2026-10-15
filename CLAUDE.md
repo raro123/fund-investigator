@@ -12,6 +12,9 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
     - *Shadows:* `shadow-fi-card`, `shadow-fi-card-dark`.
     - *Z-index:* `z-fi-header`, `z-fi-menu`, `z-fi-overlay`.
     - *Sizing:* `w-fi-icon`, `h-fi-icon-lg`, `rounded-fi-btn`.
+- **Surface-specific colours:** `fi-muted`, `fi-link` are for light surfaces; `fi-subtle`, `fi-gold` text are for dark surfaces. Never put gold text, hovers or focus rings on white — use `fi-link`. Approved pairs: `docs/style_spec.md` §1.
+- **Gold rule:** one gold (`primary`) button per section; supporting actions are `secondary`/`tertiary`, which must pass `surface="light"` or `surface="dark"` (lint-enforced).
+- **Dates:** always `formatDate()` from `src/lib/format.ts` (en-IN). Never call `toLocaleDateString`/`toLocaleString` directly.
 
 ### Layer 2: UI Components
 - **Source:** `src/components/ui/`
@@ -34,7 +37,7 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
 
 ## 2. Content & Tone Guidelines
 
-- **Source:** `docs/content_philosophy.md`
+- **Source:** `docs/content_philosophy_v2.md` (latest, 2026-10-14; v1 at `docs/content_philosophy.md`)
 - **Adding a report category?** Update it in both `src/content.config.ts` (the enum — the build gate) and `categoryLabels` in `src/pages/reports.astro` (display label + pill order). The schema alone won't catch a missed second update: the build still passes, but the filter pill for that category silently never appears on `/reports`.
 
 ## 3. Development Workflow
@@ -52,4 +55,5 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
 - Do not use Windows npm from `/mnt/c/Program Files/nodejs` inside WSL.
 - `npm run dev`: Start local server.
 - `npm run build`: Build for production (`dist/`).
+- `npm run lint:design`: Design-system lint + WCAG contrast check (also runs in CI). Run before committing UI changes; fix violations by adding/using tokens, not by suppressing.
 - `npm run preview`: Preview build locally.

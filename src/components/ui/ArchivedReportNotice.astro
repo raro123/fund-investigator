@@ -1,5 +1,6 @@
 ---
 import Badge from './Badge.astro';
+import { formatDate } from '../../lib/format';
 
 interface Props {
   /** Last date included in the historical analysis, formatted as YYYY-MM-DD. */
@@ -9,12 +10,7 @@ interface Props {
 }
 
 const { analysisThrough, supersededBy } = Astro.props;
-const formattedAnalysisThrough = new Date(`${analysisThrough}T00:00:00Z`).toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
+const formattedAnalysisThrough = formatDate(analysisThrough);
 ---
 
 <aside class="rounded-lg border border-fi-border bg-fi-light p-5 sm:p-6" aria-label="Historical analysis notice">
@@ -24,7 +20,7 @@ const formattedAnalysisThrough = new Date(`${analysisThrough}T00:00:00Z`).toLoca
   </p>
   <a
     href={supersededBy}
-    class="mt-4 inline-flex border-b-2 border-fi-gold/40 text-body-sm font-semibold text-fi-ink transition-colors hover:border-fi-gold hover:text-fi-gold"
+    class="mt-4 inline-flex border-b-2 border-fi-gold/40 text-body-sm font-semibold text-fi-ink transition-colors hover:border-fi-gold hover:text-fi-link"
   >
     Read the current analysis →
   </a>

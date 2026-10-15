@@ -4,20 +4,33 @@
  *
  * A flexible button component with multiple variants, sizes, and optional icons.
  *
+ * Gold rule: one gold (primary) button per section. Supporting actions use
+ * secondary (neutral outline) or tertiary (text link). Secondary and tertiary
+ * must pass `surface` to match the background they sit on — their colours
+ * differ between light and dark so they stay readable on both, and
+ * `npm run lint:design` fails when it is missing.
+ *
  * @example
  * <!-- Primary button with arrow icon -->
  * <Button href="/app" icon="arrow-right">Launch Tool</Button>
  *
- * <!-- Secondary outlined button -->
- * <Button variant="secondary" size="lg">Learn More</Button>
+ * <!-- Secondary outlined button on a dark section -->
+ * <Button variant="secondary" surface="dark" size="lg">Learn More</Button>
  *
- * <!-- Tertiary text-only link -->
- * <Button variant="tertiary" href="/reports/" icon="arrow-right">View All</Button>
+ * <!-- Tertiary text-only link on a light section -->
+ * <Button variant="tertiary" surface="light" href="/reports/" icon="arrow-right">View All</Button>
+ *
+ * <!-- Tracked click: sends a PostHog event with the placement (src/lib/analytics.ts) -->
+ * <Button href={BOOKING_URL} track={{ event: 'review_booking_click', placement: 'invest_hero' }}>Book</Button>
  */
+import { trackAttrs, type TrackEvent } from '../../lib/analytics';
+import { WHATSAPP_ICON_PATH } from '../../lib/whatsapp';
 
 interface Props {
   /** Button style variant */
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  /** Background the button sits on — sets secondary/tertiary colours (required for those, lint-enforced) */
+  surface?: 'light' | 'dark';
   /** Button size */
   size?: 'sm' | 'md' | 'lg';
   /** If provided, renders as an anchor tag */
@@ -32,14 +45,17 @@ interface Props {
   disabled?: boolean;
   /** Makes button full width */
   fullWidth?: boolean;
-  /** Icon to display after text */
-  icon?: 'arrow-right' | 'external' | 'download' | 'none';
+  /** Icon to display: after the text, except brand icons (whatsapp), which lead */
+  icon?: 'arrow-right' | 'external' | 'download' | 'whatsapp' | 'none';
+  /** PostHog click event for funnel tracking (src/lib/analytics.ts) */
+  track?: { event: TrackEvent; placement: string; channel?: string };
   /** Additional CSS classes */
   class?: string;
 }
 
 const {
   variant = 'primary',
+  surface = 'light',
   size = 'md',
   href,
   target,
@@ -48,15 +64,25 @@ const {
   disabled = false,
   fullWidth = false,
   icon = 'none',
+  track,
   class: className = '',
 } = Astro.props;
 
-// Variant styles
+// Variant styles, per surface. Primary is identical on both; gold is never
+// used for secondary actions, and gold text appears only on dark surfaces
+// (fi-link is the gold family on light — see tailwind.config.mjs).
+const primaryStyles = 'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover';
 const variantStyles = {
-  primary:   'bg-fi-gold text-fi-ink border-2 border-fi-gold hover:bg-fi-gold-hover',
-  secondary: 'border-2 border-fi-gold text-fi-gold bg-transparent hover:bg-fi-gold/8',
-  tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
-  outline:   'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-white',
+  light: {
+    primary:   primaryStyles,
+    secondary: 'border-2 border-fi-ink text-fi-ink bg-transparent hover:bg-fi-ink hover:text-fi-ink-inv',
+    tertiary:  'text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link bg-transparent',
+  },
+  dark: {
+    primary:   primaryStyles,
+    secondary: 'border-2 border-fi-muted-inv/40 text-fi-ink-inv bg-transparent hover:border-fi-ink-inv',
+    tertiary:  'text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold bg-transparent',
+  },
 };
 
 // Size styles — font-size fixed at 14px per spec; sizes vary padding only
@@ -76,22 +102,32 @@ const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed pointer-events-
 const widthStyles = fullWidth ? 'w-full' : '';
 
 // Combined classes
-const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles} ${widthStyles} ${className}`.trim();
+const classes = `${baseStyles} ${variantStyles[surface][variant]} ${sizeStyles[size]} ${disabledStyles} ${widthStyles} ${className}`.trim();
 
 // Determine element type
 const Element = href ? 'a' : 'button';
-const elementProps = href ? { href, target, rel } : { type, disabled };
+const elementProps = {
+  ...(href ? { href, target, rel } : { type, disabled }),
+  ...(track ? trackAttrs(track.event, track.placement, track.channel) : {}),
+};
 
 // Icon SVGs
 const icons = {
   'arrow-right': `<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`,
   'external': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
   'download': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>`,
+  // Official glyph, shared with the footer link, so the site has one WhatsApp icon.
+  'whatsapp': `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="${WHATSAPP_ICON_PATH}"/></svg>`,
   'none': '',
 };
+
+// Brand icons name the destination, so they go before the label; arrows show
+// direction, so they follow it.
+const leadingIcon = icon === 'whatsapp';
 ---
 
 <Element class={classes} {...elementProps}>
+  {leadingIcon && <Fragment set:html={icons[icon]} />}
   <slot />
-  {icon !== 'none' && <Fragment set:html={icons[icon]} />}
+  {icon !== 'none' && !leadingIcon && <Fragment set:html={icons[icon]} />}
 </Element>

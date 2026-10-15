@@ -23,7 +23,7 @@ const firstSection = sections[0];
     >
       <button
         type="button"
-        class="flex h-full w-full items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold"
+        class="flex h-full w-full items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-link"
         aria-expanded="false"
         aria-controls="article-toc-mobile-panel"
         data-toc-toggle
@@ -59,7 +59,7 @@ const firstSection = sections[0];
             <li>
               <a
                 href={`#${section.slug}`}
-                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
                 data-toc-link
                 data-section-id={section.slug}
               >
@@ -70,7 +70,7 @@ const firstSection = sections[0];
         </ol>
         <a
           href="#article-top"
-          class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+          class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
           data-toc-close
         >
           <svg
@@ -92,7 +92,7 @@ const firstSection = sections[0];
 
     <noscript>
       <details class="sticky top-fi-article-nav z-fi-overlay mb-12 border-y border-fi-border bg-white shadow-fi-card xl:hidden">
-        <summary class="flex h-fi-article-nav w-full cursor-pointer items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-gold">
+        <summary class="flex h-fi-article-nav w-full cursor-pointer items-center gap-3 px-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fi-link">
           <span class="shrink-0 text-caption uppercase text-fi-muted">On this page</span>
           <span class="min-w-0 flex-1 truncate text-sm font-semibold text-fi-ink">{firstSection.text}</span>
         </summary>
@@ -102,7 +102,7 @@ const firstSection = sections[0];
               <li>
                 <a
                   href={`#${section.slug}`}
-                  class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                  class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
                 >
                   {section.text}
                 </a>
@@ -111,7 +111,7 @@ const firstSection = sections[0];
           </ol>
           <a
             href="#article-top"
-            class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+            class="mt-2 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
           >
             <svg
               class="h-4 w-4"
@@ -143,7 +143,7 @@ const firstSection = sections[0];
             <li>
               <a
                 href={`#${section.slug}`}
-                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+                class="block border-l-2 border-transparent py-2 pl-4 text-sm leading-snug text-fi-muted transition-colors hover:border-fi-gold hover:text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
                 data-toc-link
                 data-section-id={section.slug}
               >
@@ -154,7 +154,7 @@ const firstSection = sections[0];
         </ol>
         <a
           href="#article-top"
-          class="mt-5 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold"
+          class="mt-5 inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-fi-ink transition-colors hover:text-fi-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
         >
           <svg
             class="h-4 w-4"

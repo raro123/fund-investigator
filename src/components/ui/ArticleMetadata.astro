@@ -3,6 +3,7 @@ import {
   reportCategoryLabel,
   type ReportCategory,
 } from '../../lib/report-categories';
+import { formatDate } from '../../lib/format';
 
 interface Props {
   published: string;
@@ -13,11 +14,6 @@ interface Props {
 }
 
 const { published, updated, readTime, category, status = 'current' } = Astro.props;
-const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
 const showUpdated = Boolean(updated && updated !== published);
 const displayReadTime = readTime.replace(/\s+read$/i, '');
 ---

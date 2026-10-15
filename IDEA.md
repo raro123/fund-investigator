@@ -1,1 +1,0 @@
-The project has 2 items - one fund investigator website and seconf a deepdive app (tearsheet) which is a streamlit app for indian mutual fund analytics. The project will be used to run multiple sessions - related to content stratgey, website SEO/AIO, project improvement bugs etc

@@ -1,8 +1,9 @@
 # Project Log Archive: Fund Investigator
 
-Archived by the progress-logger compaction on 2026-08-20 (after S34). Contains resolved/moot
-pending decisions and the full session log for S1–S33, moved out of `docs/project_log.md` to keep
-that file to the latest session plus active decisions only. S34 remains in the live project log.
+Archived by the progress-logger compactions on 2026-08-20 (after S34) and 2026-10-11 (after S45).
+Contains resolved/moot pending decisions, older agent verdicts and the full session log for S1–S44,
+moved out of `docs/project_log.md` to keep that file to the latest session plus active decisions only.
+S45 remains in the live project log.
 
 ---
 
@@ -19,7 +20,7 @@ that file to the latest session plus active decisions only. S34 remains in the l
 | 44 | **Analytics Phase 2 — extend PostHog to the Astro site.** The owner already runs PostHog (free tier) for Deepdive analytics — supersedes the earlier self-hosted-Umami-on-Railway plan, which would have been pure ops overhead for a weaker result. Add `posthog-js` to `Layout.astro` using the same PostHog project, and configure cross-subdomain tracking (`fundinvestigator.com` ↔ `deepdive.fundinvestigator.com` share a top-level domain) so a single user journey — homepage → CTA click → Deepdive usage — is visible as one funnel instead of two disconnected tools | 2026-08-07 | S29 | ✅ Resolved (S30 — `posthog-js` initialized in `Layout.astro`, `cross_subdomain_cookie: true` set, merged to `dev`. Confirmed via the PostHog MCP that project 281630 "Default project" is the real, already-live Deepdive project — its known event names `investigation started`/`analysis viewed`/`analysis failed` are present in the schema) |
 | 45 | **Analytics Phase 2 — wire up event tracking once PostHog is live on the Astro site**: custom events for the 6 Deepdive CTA placements (`src/lib/deepdive.ts`) and Substack subscribe clicks (closes #9/#11); update `privacy.astro` to disclose PostHog/cookie use — owner has confirmed comfortable with cookies here, so this is a documentation update, not an open question | 2026-08-07 | S29 | ✅ Resolved (S30 — decided to rely on PostHog's default autocapture rather than hand-written per-CTA events, since every Deepdive/Substack link already carries a distinguishing `utm_content`; `privacy.astro` updated to disclose PostHog/cookies and drop the now-false "Cloudflare Browser Errors" claim) |
 | 46 | Merge `analytics/phase-0-1-cleanup` and `chore/consolidate-external-urls` (stacked on top, contains both) to `main` — both build clean, neither pushed yet, awaiting owner review | 2026-08-07 | S29 | ✅ Resolved (S32 — `dev` merged into `main` via merge commit `8200b12`, `npm run build` verified, pushed to `origin/main`; Cloudflare Pages production deploy triggered) |
-| 48 | **Set `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` in Cloudflare Pages** (both Production and Preview — see #37's history for why Preview can't be skipped). Confirmed live values via the PostHog MCP: key `phc_GdzruWcONrR6RtVMLf0ddtKd7GWEdfrWSdTPNs90mvn`, host `https://us.i.posthog.com` (US Cloud region — matches Deepdive's own `.env.example` default). Manual, on the site owner; the actual Cloudflare API write was intentionally not automated (blocked by the harness's own permission classifier as a live production-secret mutation, and the owner chose the manual-values-handoff option over an in-session automated write) | 2026-08-07 | S30 | ✅ Resolved (S30 — owner set both variables in Cloudflare Pages directly) |
+| 48 | **Set `PUBLIC_POSTHOG_KEY` and `PUBLIC_POSTHOG_HOST` in Cloudflare Pages** (both Production and Preview — see #37's history for why Preview can't be skipped). Confirmed live values via the PostHog MCP: key `[redacted; stored in Cloudflare Pages]`, host `https://us.i.posthog.com` (US Cloud region — matches Deepdive's own `.env.example` default). Manual, on the site owner; the actual Cloudflare API write was intentionally not automated (blocked by the harness's own permission classifier as a live production-secret mutation, and the owner chose the manual-values-handoff option over an in-session automated write) | 2026-08-07 | S30 | ✅ Resolved (S30 — owner set both variables in Cloudflare Pages directly) |
 | 49 | **Deepdive-side PostHog config fix, in the separate `tearsheet` repo.** `src/fund_investigator/ui/analytics_bridge.py`'s `posthog.init()` call (around line 206) does not set `cross_subdomain_cookie: true`, so its browser cookie is currently scoped to `deepdive.fundinvestigator.com` only — cross-domain identity won't stitch with the website's PostHog init until this is added there too. Out of scope for this repo/session | 2026-08-07 | S30 | ✅ Resolved (S32 — `fix/posthog-cross-subdomain-cookie` fast-forward merged into `tearsheet`'s `main` at `cab1fb7` and pushed; Railway production deploy triggered. Note: that push bypassed a PR-required branch-protection rule on `tearsheet`'s `main` — flagged for the owner in case that's not the intended workflow there) |
 | 50 | **Cloudflare Web Analytics has two legitimate, non-duplicate registrations — investigated and resolved as "no action needed," not a bug.** The zone-level "Automatic setup" has a catch-all rule but only reports `deepdive.fundinvestigator.com`; the Pages-level "JS Snippet installation" tracks the marketing site and previews. Both are legitimate and should be kept. The initial deletion diagnosis and two failed deletion attempts are retained in S31's session record for auditability | 2026-08-07 | S31 | ✅ Resolved (S31 — documented; no Cloudflare config change needed or made) |
 
@@ -29,6 +30,22 @@ that file to the latest session plus active decisions only. S34 remains in the l
 
 | # | Decision | Raised | Session | Status |
 |---|----------|--------|---------|--------|
+| 13 | Extract a reusable "Why Fund Investigator" component if reused on more pages | 2026-05-04 | S1 | ⚪ Moot (S45 — the block is not restored on the homepage; its message moved into the `/about/` hero subtitle) |
+| 33 | **Article plan #5 — Complete the final whole-system verification.** Audit internal links and subscription destinations, check accessibility, inspect mobile and laptop presentation, and run the production build after the remaining article work is complete | 2026-07-22 | S20; updated S35 | 🟢 Resolved (S35 — added accessible names to the header and footer logo links, passed PR and post-merge Link Check workflows, and confirmed both labels in the live production HTML after merge commit `bec20c5`.) |
+| 35 | Verify the Deepdive showcase walkthrough on a real Safari device. Chrome selects the most efficient format and never exercises the fallback Safari would use; the fallback decodes correctly offline but has not been confirmed playing in the browser | 2026-08-03 | S22 | ⚪ Moot (S44 — the video reel is removed from the homepage; a still snapshot replaces it) |
+| 36 | The showcase walkthrough closes on a `deepdive.fundinvestigator.com` watermark card, which is redundant when the reel plays on our own site. Harmless, but removing it requires re-rendering in the `brand_promo` project rather than a change in this repository | 2026-08-03 | S22 | ⚪ Moot (S44 — the reel no longer plays on the site) |
+| 42 | A Cloudflare Pages build log for a `dev`-branch preview deploy (commit `929e072`) read `Found Functions directory at /functions. Uploading.` — apparently contradicting #39's resolution that `functions/api/subscribe.ts` was deleted. The current repo checkout has no `functions/` directory, so this is most likely a stale preview build predating that deletion reaching `dev`, not a regression. Confirm whether `dev` has merged past the deletion commit, and whether a fresh Production or Preview build still uploads a Functions directory | 2026-08-03 | S26; updated S34, S35 | 🟢 Resolved (S35 — remote `main` is at merge commit `9b000f3`; the current source and build contain no `functions/` directory, and the fresh Cloudflare Production log reports `No functions dir at /functions found. Skipping.`) |
+| 47 | Google Search Console verification + sitemap submission (`sitemap-index.xml` already generated) — manual, on the site owner, not a code change; surfaced during the same analytics audit as Phase 2 | 2026-08-07 | S29; updated S35 | 🟢 Resolved (S35 — the `sc-domain:fundinvestigator.com` property is confirmed and `https://fundinvestigator.com/sitemap-index.xml` is submitted with status Success and 12 discovered pages. Bing Webmaster Tools remains optional and was not submitted. The previously noted duplicate SPF records remain a separate DNS follow-up.) |
+| 52 | **Hero CTA order.** S37 made "Read our Investigations" the gold hero primary and Deepdive the secondary, revising the order kept in S36. It is an isolated commit on `design/contrast-and-accent-fixes`; confirm or drop it at review. Watch Deepdive click-through from `homepage_hero` after release | 2026-10-03 | S37 | ⚪ Superseded (S40 — the hub hero has one button, "Invest with Support"; see #58) |
+| 53 | Replace one "Sales Trap" claim card with evidence — e.g. where last year's top-ranked funds in a category ranked the following year. Needs the data pull before any design work | 2026-10-03 | S37 | ⚪ Moot (S41 — the Sales Trap section is removed from the new homepage) |
+| 58 | **Brand — high priority: choose the hero headline after feedback.** Options: (1, recommended) "We investigate, so you can invest." (2) "Before you invest, we investigate." (3) "Your Mutual Funds Deserve Our Investigation". Subtitle and single "Invest with Support" button are agreed | 2026-10-05 | S40 | ✅ Resolved (S41 — option 1, "We investigate, so you can invest.", with the agreed subtitle) |
+| 59 | **Homepage — high priority: confirm section 2 "What we investigate".** It replaces the Problem section and absorbs the Deepdive lens cards (three questions: fair benchmark, risk, cost). Not yet applied to `docs/mfd_funnel_proposal.html` or proposal Section 15 | 2026-10-05 | S40 | ⚪ Superseded (S41 — section 2 is "How we help": three distribution cards) |
+| 63 | **Docs — medium priority: update `docs/mfd_copy_demo.html`** with the new hero and homepage order once #58 and #59 are settled | 2026-10-05 | S40 | ✅ Resolved (S41 — homepage, nav and `/invest/` page rebuilt in the demo) |
+| 64 | **Docs — low priority: delete `docs/homepage_funnel_*`** (three files from another session; superseded by the S40 decisions) | 2026-10-05 | S40 | ✅ Resolved (S42 — deleted with `docs/mfd_funnel_proposal.html`; proposal, demo and handoff are the sources of truth) |
+| 66 | **Website — high priority: design the `/investigate/` hub page.** DIY hub with two parts: the Deepdive App (snapshot, video, features, "Open the app") and the fund investigations list. `/reports/*` URLs stay. Homepage "Start investigating" links here | 2026-10-05 | S41 | ⚪ Superseded (S42 — Academy deferred; no hub. A Deepdive section on `/reports/` replaces it, in the demo) |
+| 67 | **Docs — medium priority: update `docs/mfd_funnel_proposal.html` (v4)** to the four-section homepage, the new nav and the `/invest/` page, then republish the private artifact. The published copy is out of date | 2026-10-05 | S41 | ⚪ Retired (S42 — the demo and `docs/mfd_funnel_handoff.md` are the source of truth; the v4 artifact and its local file were deleted on 2026-10-05) |
+| 70 | **Build — low priority: when implementing, make the `/invest/` timeline a shared UI component** (vertical below `lg`, horizontal from `lg`) and add it to `/styleguide` | 2026-10-05 | S41 | ✅ Resolved (S44 — `src/components/ui/Timeline.astro`, in `/styleguide`) |
+| 81 | **Commit — high priority: commit the S45 changes** (homepage copy and layout, `xl` hero size, `/about/` hero line, "No separate fee from you" on `/invest/`, WhatsApp `homepage_pricing` placement, handoff). One commit, with the owner's hero edit included | 2026-10-11 | S45 | ✅ Resolved (S45 — commit `bb7cff8`) |
 | 7 | Drive the hero verdict card dynamically from the featured report's frontmatter metrics | 2026-06-22 | S5 | ✅ Resolved (S9 — moot, hero card removed) |
 | 14 | Editorial serif headline vs current sans for the hero | 2026-06-22 | S3 | 🟡 Open — folded into the broader typography direction in #36, which shipped in S27 |
 | 15 | Hero verdict card framing (negative vs neutral) | 2026-06-22 | S3 | ✅ Resolved (S5 — qualitative directional findings) |
@@ -48,12 +65,409 @@ that file to the latest session plus active decisions only. S34 remains in the l
 | 39 | `functions/api/subscribe.ts` still calls the MailerLite API, but nothing in `src/` links to `/api/subscribe` anymore — the site fully migrated to Substack under decision #30. Dead code left over from before the cutover; delete once confirmed nothing external still posts to it | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, no references) |
 | 40 | `src/components/TearsheetMockup.astro` has zero imports anywhere in `src/` — the same unused component flagged back in S3 and never removed | 2026-08-03 | S24 | ✅ Resolved (S25 — deleted, along with the leftover `public/sample-tearsheet-placeholder.md`) |
 | 43 | **Cloudflare's zone-level "Manage your robots.txt" setting was blocking AI training and hard-blocking ClaudeBot/GPTBot/etc. from crawling at all** — verified live at `https://fundinvestigator.com/robots.txt` (2026-08-03), conflicting with the AI-citation strategy behind `llms.txt`/JSON-LD (#12, #34, S21). **Switched to "Content Signals Policy" and re-verified live** — the per-bot `Disallow` blocks are gone; ClaudeBot, GPTBot, and the others can crawl and cite the site again. **Residual watch-item:** Cloudflare's docs describe this option as also adding a `Content-Signal: search=yes,ai-train=no,use=reference` line, which isn't showing up on the live fetch yet — likely propagation lag, but re-check in a few days; if still absent, may need a support ticket rather than assuming it's silently working | 2026-08-03 | S26 | ✅ Resolved (S26 — setting switched and change verified live; residual Content-Signal-line question left open) |
+| 29 | Author in the structured data is the Organization, not a named person — a personal byline is deferred until SEBI Research Analyst certification. Revisit once certified (`authorRef()` in `src/lib/schema.ts` is isolated so the swap is one line, but it needs a visible byline alongside it). **S43:** extended to distribution pages: the name appears only in the ARN identity (footer, `/invest/` registration card); no founder profile or photo | 2026-07-14 | S12; updated S43 | ✅ Resolved (S49 — RA rule retired; name and credentials allowed; placement decided per page) |
+| 56 | **Design — medium priority: share repeated homepage cards and responsive patterns.** Move repeated problem and analytical cards from `src/pages/index.astro` into shared components. Extend `Card.astro` with a dark variant if that keeps the implementation simple. Use shared typography presets where they fit. Move repeated card layout and spacing rules into their owning components. Complete after mobile and desktop checks show consistent cards without layout changes | 2026-10-03 | S39 | ✅ Resolved (S49 — ServiceCard, SectionHeading, CheckList, FaqList) |
+| 77 | **Website — low priority: delete the unused promo videos** in `public/videos/` (only `promo-desktop-poster.webp` is still used). They still deploy | 2026-10-11 | S44 | ✅ Resolved (2026-10-14 cleanup — videos deleted; poster kept) |
+| 79 | **SEO — medium priority: update `HOME_DESCRIPTION`** to the new homepage message. Proposed: "Mutual fund investigations, and a portfolio review with an AMFI-registered Mutual Fund Distributor. See risks and costs before you invest." | 2026-10-11 | S45 | ✅ Resolved (S48 — title and description describe the service) |
+| 82 | **Copy — medium priority: approve the draft short copy.** The six one-line homepage card texts and the "Clear picture" lead-in on `/invest/#who` were drafted by Claude from the finalised long copy (`src/lib/who-we-help.ts`). **S47:** `/invest/#who` is removed, so only the six homepage lines remain to approve | 2026-10-11 | S46; updated S47 | ✅ Moot (S49 — the short card copy and who-we-help.ts are removed) |
 
 ---
 
-## Session Log Archive (S1–S33)
+## Archived Agent Verdicts
+
+### 2026-08-07 (after S29, at compaction)
+
+- **What we achieved:** Migrated email capture off MailerLite to Substack, shipped structured data
+  and an AI-crawlability fix, resolved report typography (Newsreader serif), cleaned up dead code
+  and stale docs, and completed an analytics audit — removing a dead beacon and adding UTM tracking
+  to the site's actual conversion path (Deepdive CTAs).
+- **What worked well:** Sessions consistently verify with `npm run build` before committing, and
+  periodic audits (SEO in S21, `CLAUDE.md` in S24, live Cloudflare dashboard cross-check in S26,
+  analytics in S29) keep finding real drift between docs/code and what's actually live, rather than
+  assuming the docs are correct.
+- **What needs to improve:** Branches are piling up unmerged (`dev`, `analytics/phase-0-1-cleanup`,
+  `chore/consolidate-external-urls`) — decision backlog (#46) is growing faster than merges land.
+  The pending-decisions table also had two entries both numbered #36 (S22 and S23), a numbering slip
+  worth catching sooner next time.
+- **What to focus on next:** Merge the stacked branches (#46) before starting Phase 2 analytics
+  work (#44/#45), then move on #34 (SEO implementation tranche) now that the AI-crawler block (#43)
+  is fixed and evidence-layer work is the natural next step.
+
+
+---
+
+## Session Log Archive (S1–S44)
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-11 | Session: S44 — Invest with Support funnel built on the site (PR 1 and PR 2)
+
+**What was done:**
+We built the funnel from the approved demo on the real site, in two commits on `feat/mfd-distribution-pathway`.
+PR 1 (`2f0d0aa`) adds the distributor identity and risk warning on every page, rewrites `/about/`, and removes the false "no commission" claims.
+PR 2 (`746eb04`) adds the `/invest/` page, rebuilds the homepage in four sections, changes the header to Invest · Investigations · About, and adds funnel events in PostHog.
+
+**Why:**
+Distribution is the only revenue today, and the live site still made claims that are false for a distributor.
+The portfolio review call gives a busy ₹10 lakh+ investor one clear, low-effort first step.
+
+**How:**
+We used the shared components and tokens, and added a Timeline, a Deepdive snapshot band, WhatsApp link and event helpers.
+We split the mixed files into PR 1 and PR 2 versions, and built each snapshot on its own (lint, build, claim search and link checks).
+We checked the pages in headless Chrome at 375px and 1440px: no sideways scroll, and the mobile menu closes on tap.
+
+**Decisions made:**
+- Commission rates are not published on the site; each client gets them in writing before investing (#65 updated).
+- Homepage guides are chosen by slug, not "latest". The video reel is replaced by a still snapshot (#35, #36 moot).
+- Booking and WhatsApp clicks are tracked by named PostHog events, because Zoho takes no `ref` (#62).
+- The project logs, `.claude/` and the AMFI circular PDF stay out of the commits.
+
+**Pending decisions:**
+- #75 fund names in the Deepdive snapshot, #76 nav Invest link on report pages, #77 unused videos, #78 privacy enquiries section; #65 disclaimer section; #62 internal-user filter; #60 WhatsApp kit and Zoho form.
+
+---
+
+### 📅 Date: 2026-10-11 | Session: S43 — Funnel revised for ₹10 lakh+ clients (demo v2)
+
+**What was done:**
+We reviewed the planned funnel as an outside expert for clients with ₹10 lakh to ₹1 crore.
+We built `docs/mfd_copy_demo_v2.html`: a portfolio review call as the main offer, a "Who we help" section, a revised `/invest/` page and a rewritten `/about/` page.
+We set up the booking route with Zoho Bookings and rewrote `docs/mfd_funnel_handoff.md` with every decision.
+
+**Why:**
+At about 150 sessions a quarter, the website cannot find these clients; referrals and outreach do, and the website must pass their trust check.
+Readers of fund deepdives tend to invest on their own, so the service needs a concrete, low-effort offer for busy investors.
+The live `/about/` page claimed "no commissions" and "zero conflicts of interest", which is now false.
+
+**How:**
+We compared the plan with how MFDs usually win larger clients, then iterated the demo with the owner and checked each version in headless Chrome at phone and desktop widths.
+We compared booking tools (Zoho, Cal.com, Google, Microsoft, Calendly) and chose Zoho because the site email already runs on Zoho Mail.
+
+**Decisions made:**
+- Main offer: a 30-minute portfolio review call (overlap, benchmark, costs, fit to risk profile). The visitor sends no documents. A CAS upload with a branded report is for later (#72).
+- Gold button: "Book a portfolio review" on the homepage hero, `/invest/` and `/about/`. WhatsApp is the secondary action.
+- Homepage adds "Who we help" (too many funds, a large sum, no time); approved, copy to be reworked.
+- `/about/` rewritten: new subtitle, "Our story" with the mis-selling problem and "distribution that starts with analysis", three rules (evidence before opinion, research kept apart from selling, open about pay), and two routes. No "What Changed" note.
+- The owner's name appears only in the ARN identity; no founder section, photo or LinkedIn link (#29 extended).
+- The "Three ways to invest" comparison table is parked (#73). Decision guides go under Investigations when written (#74).
+- PR 1 ships the new `/about/` copy without service links; PR 2 adds them.
+
+**Pending decisions:**
+- #72 CAS upload report, #73 comparison table, #74 decision guides; #60 booking form setup; review-call compliance check; "Who we help" copy rework.
+
+---
+
+### 📅 Date: 2026-10-05 | Session: S42 — Launch scope trimmed (reconstructed from the decision table)
+
+**What was done:**
+We wired the WhatsApp number into the demo, drafted `docs/mfd_whatsapp_kit.md`, and removed the Academy and the `/investigate/` hub from the plan.
+We deleted superseded funnel files and made the demo plus the handoff file the source of truth.
+
+**Why:**
+Launching needed fewer moving parts: no platform, no separate Academy, and one place for decisions.
+
+**How:**
+Demo and handoff edits; this entry was written in S43 from the S42 notes in the decision table, because S42 had no session entry.
+
+**Decisions made:**
+- Launch without a platform; Academy deferred, guides stay under Investigations; a Deepdive section on `/reports/` replaces the hub (#61, #64, #66, #67).
+- Dark hero and footer only, headings instead of pills, later (#71).
+
+**Pending decisions:**
+- #60 WhatsApp kit approval and transaction route, #71 design change.
+
+---
+
+### 📅 Date: 2026-10-05 | Session: S41 — Homepage, nav and /invest/ page settled in the demo
+
+**What was done:**
+We simplified the homepage from six planned sections to four, and set a new four-link navigation.
+We rebuilt the `/invest/` page in the copy demo: a WhatsApp-first hero, a five-step timeline, three compact "Who we are" cards, and a closing call to action.
+We recorded every decision in the distribution proposal (Section 15, decisions 7–11) and in the handoff file.
+
+**Why:**
+The old pages gave the newsletter and the do-it-yourself route the most visible actions, while distribution is the only revenue today.
+Copy must also meet the AMFI code of conduct: commission disclosure, fund-house disclosure, no AMC names or logos without approval, and no "free" claims.
+
+**How:**
+We applied a funnel order (service → Academy → DIY fallback) with one gold button per section and checked each version in a headless browser at phone and desktop widths.
+We read the AMFI master circular (Chapter 4, clause 4) and moved detailed disclosures to a planned `/disclaimer/` section so `/invest/` stays short.
+Outputs: `docs/mfd_copy_demo.html`, `docs/mfd_distribution_transition_proposal.md` (Sections 4, 5, 15), `docs/mfd_funnel_handoff.md`.
+
+**Decisions made:**
+- Homepage: Hero ("We investigate, so you can *invest.*", gold "Invest with Support") → How we help (three distribution cards and a fee line) → Academy (two guides and Subscribe) → Investigate (Deepdive snapshot, secondary button). The Sales Trap, Investigations, Deepdive video and "Why FI" sections are removed.
+- Nav: Invest · Academy · Investigate · About, as four equal text links. No Subscribe or Deepdive button in the nav. Nav links say "Invest"; buttons say "Invest with Support".
+- The content section is "Academy" (`/academy/`). `/investigate/` is a hub page, not a dropdown. Avoid the label "Research" because of its SEBI RA meaning.
+- `/invest/`: H1 "We do the investigation. *You make the call.*" The main action is WhatsApp, with email as the fallback. The platform appears only at step 4 and as an existing-client login link. "What changed" moves to `/about/`.
+- Empanelled with all AMCs, so the copy says "every fund house". Reviews happen "at regular intervals".
+- Fee message: "No fee from you", always followed by the commission and expense-ratio explanation. Never "free", "zero cost" or "we don't charge anything".
+- Homepage copy is approved as a first pass. A final wording check comes before the Phase 2 release.
+
+**Pending decisions:**
+- #60 WhatsApp number and platform (by 2026-10-12), #61 Academy guides, #64 delete superseded files, #65 `/disclaimer/` section, #66 `/investigate/` hub, #67 update the HTML proposal, #68 named funds in the guides, #69 AMC claim upkeep, #70 timeline component.
+
+---
+
+### 📅 Date: 2026-10-05 | Session: S40 — Hub funnel and homepage direction for distribution
+
+**What was done:**
+We reviewed the visitor journey for the new hub model, where distribution is the only revenue today.
+We drafted a funnel proposal page with PostHog evidence, a route map, the new homepage order, hero options, and wording rules.
+We added Section 15 to the distribution proposal and wrote a handoff file for the next session.
+
+**Why:**
+The old homepage served only do-it-yourself readers and argued against selling, which conflicts with the new distribution service.
+Copy must also stay inside the MFD role described in the AMFI FAQ: shortlisting suitable funds, helping with transactions, and reviews, not financial planning.
+
+**How:**
+PostHog showed that reports are the main entry point (85 of 152 sessions, 91% single-page) and that traffic is the main limit.
+We iterated the hero copy against the AMFI FAQ on MFD roles and the advertising rules.
+Outputs: `docs/mfd_funnel_proposal.html` (published privately, v4), `docs/mfd_distribution_transition_proposal.md` Section 15, `docs/mfd_funnel_handoff.md`.
+
+**Decisions made:**
+- Distribution is the main focus; the hero has one button, "Invest with Support", which links to `/invest/`.
+- No disclosure line in the hero; the footer and `/invest/` carry disclosures.
+- WhatsApp is the contact channel; the platform link becomes step 2, so Phase 2 no longer waits for a platform choice.
+- The content section is "Learn" (`/learn/`); nav order is Learn → Investigate → Invest with Support.
+- The homepage shows Learn article cards only, with no named-fund metrics.
+- The ARN is SIF-enabled; check SIF promotion rules before SIFs appear in copy.
+- Hero subtitle: "Investing is complex, and often emotional. Our analysis brings clarity, our support keeps you on course, and our transparency earns your trust."
+
+**Pending decisions:**
+- #58 hero headline, #59 section 2, #60 WhatsApp setup, #61 Learn articles, #62 PostHog events, #63 copy demo update, #64 delete superseded files.
+
+---
+
+### 📅 Date: 2026-10-03 | Session: S39 — Design consistency work queue
+
+**What was done:**
+Added three design tasks to the work queue after the branch review.
+The tasks cover design references, repeated cards, and visible keyboard focus.
+Parked the automated accessibility scan under #54.
+
+**Why:**
+The branch improves shared colours and action styles, but some design references and repeated page styles still differ.
+The owner prefers practical design fixes and simple checks.
+
+**How:**
+Each task has a priority, a defined scope, and a completion check.
+For implementation, run the existing design check and production build.
+Use focused mobile, desktop, and keyboard checks where relevant.
+
+**Decisions made:**
+- Queue #55 and #57 first, then #56.
+- Keep existing automated checks; defer extensive rule testing and new accessibility test tools.
+- Reuse components and existing dependencies. These tasks require no new paid service.
+
+**Pending decisions:**
+- None added. The tasks are queued for implementation.
+
+---
+
+### 📅 Date: 2026-10-03 | Session: S38 — Credibility strip removed from the homepage
+
+**What was done:**
+Removed the credibility strip below the homepage hero and rebalanced the `lg` Hero's bottom padding,
+which had been tightened only because the strip followed it. The `CredibilityStrip` component stays
+in `src/components/ui/` and on `/styleguide`, marked as currently unused.
+
+**Why:**
+Neither marker set held up. The original claims ("Data-backed", "Reproducible") were unverifiable;
+the S37 replacement facts were auto-updating but weak — "4 investigations" signals a small, new site
+and "Updated Aug 2026" says nothing about rigour. The hero subhead already carries the positioning.
+
+**Decisions made:**
+- Bring the strip back only with markers that are specific, true of every investigation, and linked
+  to proof (candidate set: TRI benchmarks · published five-check method · no commissions, no fund
+  picks). An investigation count returns only once it is large enough to help.
+- Method/independence points may work better in context (e.g. under the Investigations heading)
+  than as a strip — separate decision.
+
+**Pending decisions:**
+- None.
+
+---
+
+### 📅 Date: 2026-10-03 | Session: S37 — Design-system contrast, gold discipline, and enforcement
+
+**What was done:**
+Ran a design review of the live site and fixed its findings on branch
+`design/contrast-and-accent-fixes`. Tokens: `fi-light` slate-200 → slate-100; `fi-muted` and
+`fi-neutral` slate-500 → slate-600; new `fi-link` (amber-700) for the gold family on light surfaces;
+`fi-positive`/`fi-negative` darkened to 700s; layout tokens replacing every arbitrary value.
+Components: `Button` gained a `surface` prop with a neutral secondary (the `outline` variant was
+folded into it); Badge lost its raw-palette variants; ReportCard labels moved from 10px/50% opacity to
+`text-caption` in `fi-subtle`; a shared `formatDate()` (en-IN, UTC) replaced four ad-hoc formatters.
+Homepage: investigations lead the hero and sit directly after The Sales Trap; the credibility strip
+now states facts derived from content; Why FI and subscribe merged into one light section. Added
+`npm run lint:design` (design lint + WCAG contrast check) and a Design Checks CI workflow.
+
+**Why:**
+Muted copy on light sections was 3.9:1 (below WCAG AA), card labels were ~3.5:1 at 10px, gold was used
+for primary, secondary, nav and link treatments so it no longer signalled the main action, and dates
+used three formats including US style. `CLAUDE.md` already banned arbitrary values, yet `text-[10px]`
+shipped — written rules alone were not holding, so the fixes were encoded in tokens, components, and CI.
+
+**How:**
+Audited every token usage against its surface before changing values (`fi-muted` on the dark footer
+would have dropped to 2.6:1, so footer headings moved to `fi-subtle`). Verified with the production
+build, full-page headless screenshots at desktop and mobile widths, and by confirming both new checks
+exit non-zero on planted violations. On first run the checks caught three issues the manual audit
+missed (two raw palette classes, `fi-neutral` at 4.3:1 on `fi-light`).
+
+**Decisions made:**
+- Keep the dark theme; a light-mode migration was considered and rejected as low value for the cost.
+- Gold is reserved for one primary action per section and is never used as text on light surfaces.
+- Enforcement lives in code (tokens, components, lint, CI); docs explain the rules.
+
+**Pending decisions:**
+- #52, #53, #54.
+
+---
+
+### 📅 Date: 2026-08-21 | Session: S36 — Homepage CTA hierarchy simplified
+
+**What was done:**
+Reduced the homepage hero from three calls to action to two: investigate a fund in Deepdive or
+browse published investigations. Moved the methodology-guide route into the Deepdive showcase as a
+secondary action and renamed it “See the Five-Question Method” to match the article’s current title.
+The existing revised hero description was preserved.
+
+**Why:**
+The hero was asking visitors to choose among three overlapping routes before the page had explained
+the product. The guide works better beside the Deepdive demonstration, where it offers a clear choice
+between using the tool immediately and first learning the investigation method.
+
+**How:**
+Removed the tertiary text link from the hero and used the existing typed Button component for a
+responsive primary/secondary CTA pair in the Deepdive section. Verified the change with the full
+Astro production build and its H1, internal-link, image-alt, metadata-length, and metadata-uniqueness
+checks.
+
+**Decisions made:**
+- Keep two destination choices in the hero: Deepdive and the investigation archive.
+- Surface the methodology guide only in the Deepdive section, avoiding duplicate promotion in the
+  Investigations section.
+- Use concise CTA copy rather than the article’s full title.
+
+**Pending decisions:**
+- None.
+
+---
+
+### 📅 Date: 2026-08-21 | Session: S35 — Production SEO deployment cross-check and decision-log update
+
+**What was done:**
+Cross-checked the reported production handoff against the remote GitHub state, the completed Link
+Check action, a fresh local build, the current source tree, and live HTTPS responses. Remote `main`
+contains merge commit `9b000f3`; GitHub's Link Check run #4 completed successfully. The local build
+produced 14 pages and passed all five Astro SEO validators, with only the known sourcemap and stale
+Browserslist warnings. Live checks returned the expected IndexNow key, Markdown response and headers,
+sitemap, global discovery/security headers, immutable asset caching, 404 status, and Substack
+redirect behavior.
+
+**Why:**
+The deployment and webmaster claims needed to be checked against observable repository, CI, and
+production evidence before closing the related decisions. The accessibility result also needed to be
+separated from the completed SEO/deployment work so #33 would not be closed prematurely.
+
+**How:**
+Used the remote GitHub refs and Actions API for the production merge and Link Check status, ran
+`npm run build` locally, inspected the header/footer source and built route set, and made fresh HTTPS
+requests for the key, Markdown, sitemap, report, missing URL, asset, and subscribe routes. The
+header and footer logo links are still unlabeled in source and live HTML, confirming the remaining
+accessibility issue. The missing-image finding was not reproducible from the source/live HTML.
+
+**Decisions made:**
+- Close #42: the fresh production build confirms that no Pages Functions directory is uploaded.
+- Close #47: the Search Console domain property and sitemap submission are confirmed.
+- Close #33: the two logo links now have accessible names, and the live production HTML confirms both
+  labels after deployment.
+- Leave the optional Bing submission and Cloudflare Markdown negotiation rule unchanged.
+
+**Pending decisions:**
+- #33 is resolved; the reported logo-link accessibility defects are fixed and live.
+- #35, #36, #41, and #51 remain unchanged.
+
+**Follow-up (same session):**
+Added `aria-label="Fund Investigator home"` to the header and footer logo links in commit `e2f0698`.
+PR #2 passed its Link Check and Cloudflare preview checks, merged into `main` as `bec20c5`, and the
+post-merge main Link Check also passed. A live production HTML check returned HTTP 200 and found both
+accessible names. A full browser/axe scan was not available in this environment; the verification
+here targets the two defects identified by the prior desktop accessibility check.
+
+---
+
+### 📅 Date: 2026-08-08 | Session: S34 — Article navigation, SEO foundation, and report content refinement implemented
+
+**What was done:**
+Added an H2-only table of contents to every investigation with at least three sections: a sticky
+left rail on wide screens and an expandable sticky bar below the fixed header on mobile/tablet.
+The navigation tracks the active section, exposes the current section on mobile, supports
+back-to-top, Escape/outside-click dismissal, and accessible state. Article heroes now show Home /
+Investigations breadcrumbs, published and conditional updated dates, read time, category, archive
+status, and an organizational “By Fund Investigator” link to `/about/`. The visible and JSON-LD
+breadcrumb trails now use the same two destinations. The follow-up work also completed the shared
+SEO foundation through source-code Phase 4: centralized metadata and canonical handling, linked
+JSON-LD graphs and build validation, RSS and sitemap improvements, production-gated IndexNow, and
+machine-readable schema, Markdown, API-catalogue, and schema-map endpoints with route-specific
+headers and AI content signals.
+
+Reports now receive branded 1200×675 social cards at build time, with optional `seo.title`,
+`seo.description`, and `seo.image` overrides; the old `coverImage` workflow was retired. The main
+“Five Questions” investigation and mutual-fund-categories article were rewritten for clearer,
+question-led, plain-language explanations, and report images were constrained to the prose column.
+Supporting design tokens, styleguide coverage, deployment notes, SEO audit records, and the visual
+authority-strategy note were brought in line with the implementation.
+
+**Why:**
+Long evidence-led reports need orientation and freshness/ownership signals, but the article column
+should remain quiet, centred, and readable. Shared SEO infrastructure makes the reports easier for
+search engines, feed readers, and machine consumers to understand without adding runtime services.
+The content revisions reduce cognitive load while keeping the analysis, source trail, and editorial
+boundaries visible. Related content, sharing controls, and visible tags were useful ideas but not
+required for this first navigation pass.
+
+**How:**
+Passed Astro's rendered headings from the report route into the article layout, filtered to H2 in a
+typed component, and used a symmetrical named grid token to preserve the 65ch prose column. Added
+typed breadcrumb and metadata components without changing report frontmatter. Centralized metadata
+and schema assembly behind the shared SEO component, added deterministic Satori/Sharp social cards,
+and generated RSS plus schema/Markdown discovery surfaces from the content collection. Build-time
+validators and artifact checks were kept separate from the remaining Cloudflare and production
+verification gates. The three deferred footer/discovery ideas were consolidated into decision #32.
+
+**Decisions made:**
+- Render the TOC automatically at three or more H2 headings; do not number headings or include H3.
+- Keep authorship organizational and link the visible byline to the existing About page.
+- Keep visible and structured breadcrumbs to Home / Investigations only.
+- Use generated branded social cards by default, with custom report artwork handled through the
+  explicit `seo.image` override; remove the obsolete `coverImage` workflow (#27 resolved).
+- Implement the technical SEO/AIO tranche through source-code Phase 4; keep publisher authority,
+  Phase 5, and live deployment checks as follow-up work (#34 resolved).
+- Use question-led, plain-language article structure for the reader-facing mutual-fund explainers.
+- Audit the decision table against the current source: close or narrow the Substack/MailerLite and
+  site-side telemetry items (#9, #10, #11, #30), while keeping the Cloudflare deployment check (#42)
+  open until a fresh Pages build log is verified.
+
+**Pending decisions:**
+- #32 expanded and parked: curated related investigations, restrained sharing controls, and
+  filed-under tags remain separate follow-up decisions.
+- #33 remains open for final whole-system verification. SEO Phase 5 and the documented Cloudflare
+  Markdown negotiation rule still need deployment/live checks; publisher authority and methodology
+  work remain outside this implementation tranche.
+
+**Current-session follow-up (2026-08-20):**
+Implemented the remaining repository-side Phase 5 tranche: `FuzzyRedirect` on the 404 page, global
+discovery/security/performance headers in `public/_headers`, Lychee external-link CI, and a concise
+SEO title override for the Five Questions report. Updated `docs/seo_audit.md` and `docs/DEPLOYMENT.md`
+to reflect the source state. `npm run build` passed with all five Astro SEO validators; the prior
+over-length title warning is resolved. Unauthenticated HTTPS checks found the production sitemap and
+robots routes live, but the IndexNow key and Markdown alternate routes still return 404. Dashboard
+configuration, GSC confirmation, and a fresh Cloudflare build log are therefore still pending
+authentication/deployment.
 
 ---
 

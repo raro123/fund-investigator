@@ -17,19 +17,19 @@ export default {
       colors: {
 
         // --- STRUCTURAL BACKGROUNDS ---
-        // fi-dark:   Hero · Why FI · Footer sections
-        // fi-mid:    Unused for now — available for cards on dark bg
-        // fi-light:  Problem · Deepdive · Email Capture sections
+        // fi-dark:   Hero · Deepdive · Footer sections
+        // fi-mid:    Cards on dark bg (ReportCard, Deepdive lens cards, dark Badge)
+        // fi-light:  Alternating light sections (Problem · Why FI + Subscribe)
         'fi-dark':   '#020617',   // slate-950
         'fi-mid':    '#1E293B',   // slate-800 (dark card surfaces, label pill bg)
-        'fi-light':  '#E2E8F0',   // slate-200 (alternating light sections)
+        'fi-light':  '#F1F5F9',   // slate-100 — was slate-200, which read grey and dropped fi-muted below 4.5:1
 
         // --- PRIMARY TEXT ---
-        // fi-ink:      Primary text on light bg, primary text on dark bg (via opacity)
-        // fi-muted:    Secondary body copy on light bg
-        // fi-subtle:   Tertiary / placeholder text
+        // fi-ink:      Primary text on light bg
+        // fi-muted:    Secondary body copy on light bg — LIGHT SURFACES ONLY (2.6:1 on fi-dark)
+        // fi-subtle:   Labels and meta text on dark bg / dark cards (fails on light)
         'fi-ink':    '#020617',   // slate-950
-        'fi-muted':  '#64748B',   // slate-500
+        'fi-muted':  '#475569',   // slate-600 — was slate-500 (3.9:1 on the old fi-light)
         'fi-subtle': '#94A3B8',   // slate-400
 
         // --- INVERSE TEXT (on dark sections) ---
@@ -39,15 +39,19 @@ export default {
         'fi-muted-inv': '#CBD5E1',  // slate-300
 
         // --- ACCENT ---
-        // fi-gold:       Buttons (all bg), H1 emphasis word on dark bg
+        // fi-gold:       Primary button bg · H1 emphasis · gold text/links ON DARK ONLY
+        //                (1.7:1 on white — never use as text, hover or focus ring on light)
         // fi-gold-hover: Button hover only
+        // fi-link:       The gold family on light surfaces: text links, link hovers, focus rings
         'fi-gold':       '#FBBF24',  // amber-400
         'fi-gold-hover': '#FCD34D',  // amber-300
+        'fi-link':       '#B45309',  // amber-700 (5.0:1 on white)
 
         // --- UI CHROME ---
         // fi-border:      Card borders on light · section dividers
         // fi-border-dark: Borders on dark sections
-        // fi-icon-bg:     Icon container bg on light
+        // fi-icon-bg:     Icon container bg inside white cards — same value as
+        //                 fi-light, so never place it directly on a light section
         // fi-icon-bg-inv: Icon container bg on dark
         'fi-border':      '#E2E8F0',  // slate-200
         'fi-border-dark': '#334155',  // slate-700
@@ -56,15 +60,20 @@ export default {
 
         // --- SECTION LABEL PILL ---
         // (two variants: light + dark section)
-        // Light: bg fi-icon-bg · border fi-border · text fi-muted
+        // Light: bg white       · border fi-border · text fi-muted
         // Dark:  bg fi-mid     · border fi-border-dark · text fi-muted-inv
 
         // --- SEMANTIC STATES ---
-        // For data tables: positive returns, negative returns
-        'fi-positive': '#10B981',  // emerald-500
-        'fi-negative': '#EF4444',  // red-500
-        'fi-neutral':  '#64748B',  // slate-500
+        // For data tables on light surfaces: positive returns, negative returns.
+        // Never rely on colour alone — always pair with a sign (+/−) or arrow.
+        'fi-positive': '#047857',  // emerald-700 — was emerald-500 (2.5:1 on white)
+        'fi-negative': '#B91C1C',  // red-700 — was red-500 (3.8:1 on white)
+        'fi-neutral':  '#475569',  // slate-600 — was slate-500 (4.3:1 on fi-light)
       },
+
+      // Every approved text/background pairing above is contrast-tested by
+      // `npm run lint:design` (scripts/check-contrast.mjs). Add a pair there
+      // before using a new combination.
 
       // ─────────────────────────────────────────
       // TYPOGRAPHY
@@ -134,12 +143,47 @@ export default {
       maxWidth: {
         'fi-content': '65ch',       // article prose reading width
         'fi-disclaimer': '60ch',    // compact legal copy below reports
+        'fi-lightbox': '92vw',      // enlarged report image
+      },
+
+      // Hero H1 tracking/leading, kept constant across the responsive.display sizes
+      lineHeight: {
+        'fi-display': '1.08',
+      },
+      letterSpacing: {
+        'fi-display': '-0.02em',
+        'fi-label': '0.13em',       // section label pills (matches text-caption)
+      },
+
+      // Deepdive showcase frame: matched to each video rendition
+      aspectRatio: {
+        'fi-portrait': '9 / 16',
+        'fi-tablet': '3 / 4',
+      },
+
+      // Pressed-state shrink for submit buttons
+      scale: {
+        'fi-press': '0.98',
       },
 
       // Symmetrical side rails keep the 65ch article column optically centred
       // while reserving the left rail for in-page navigation at xl widths.
       gridTemplateColumns: {
         'fi-article': 'minmax(12rem, 1fr) minmax(0, 65ch) minmax(12rem, 1fr)',
+        // Homepage subscribe strip at lg: title · benefits take the rest · button
+        'fi-subscribe': 'auto minmax(0, 1fr) auto',
+      },
+      // Reveal on scroll: played once by the script in Layout.astro, only for
+      // elements that start below the fold. "backwards" fill keeps hover
+      // transforms working after the animation ends.
+      keyframes: {
+        'fi-rise': {
+          from: { opacity: '0', transform: 'translateY(16px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
+      },
+      animation: {
+        'fi-rise': 'fi-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) backwards',
       },
 
       inset: {
@@ -150,6 +194,7 @@ export default {
 
       maxHeight: {
         'fi-article-toc': 'calc(100vh - var(--fi-header-h) - 3rem)',
+        'fi-lightbox': '90vh',
       },
 
       fontSize: {

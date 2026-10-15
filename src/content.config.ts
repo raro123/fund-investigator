@@ -18,7 +18,6 @@ const reports = defineCollection({
     //   2. `categoryLabels` in src/lib/report-categories.ts (display label + pill order)
     category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
-    featured: z.boolean().optional().default(false),
     /** Lifecycle is separate from topical category: archived reports remain public historical snapshots. */
     status: z.enum(['current', 'archived']).optional().default('current'),
     /** Last observation included in an archived report, formatted as YYYY-MM-DD. */

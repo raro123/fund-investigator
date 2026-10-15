@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import satori from 'satori';
 import sharp from 'sharp';
 import { getCollection } from 'astro:content';
+import { formatDate } from '../../../lib/format';
 
 const regularFont = fs.readFileSync(
   new URL('../../../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff', import.meta.url),
@@ -24,11 +25,7 @@ export async function getStaticPaths() {
 export async function GET({ props }) {
   const { report } = props;
   const { title, category, date } = report.data;
-  const dateLabel = new Intl.DateTimeFormat('en-IN', {
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(`${date}T00:00:00Z`));
+  const dateLabel = formatDate(date, 'month');
 
   const card = {
     type: 'div',

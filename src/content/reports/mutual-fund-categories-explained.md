@@ -11,7 +11,6 @@ tags:
   - "Multi Cap"
   - "Balanced Advantage"
   - "Multi Asset Allocation"
-featured: true
 keyMetrics:
   - label: "Mandate"
     icon: "rulebook"

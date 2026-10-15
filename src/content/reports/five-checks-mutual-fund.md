@@ -13,7 +13,6 @@ tags:
     - "Fund Evaluation"
     - "Flexi Cap"
     - "Risk Analysis"
-featured: true
 keyMetrics:
   - label: "Returns"
     icon: "trending-up"

@@ -2,6 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import ReportCard from '../components/ReportCard.astro';
+import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
+import Section from '../components/ui/Section.astro';
+import Badge from '../components/ui/Badge.astro';
+import Button from '../components/ui/Button.astro';
+import { deepdiveUrl } from '../lib/deepdive';
 import { getCollection } from 'astro:content';
 import { categoryLabels } from '../lib/report-categories';
 import { responsive } from '../lib/responsive';
@@ -87,6 +92,27 @@ const showFilters = presentCategories.size > 1;
     </div>
 
   </Hero>
+
+  <!-- Readers here already want to check funds themselves, so Deepdive is this
+       section's gold action. No /invest/ link: most cards on this page name a fund. -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <DeepdiveSnapshot>
+      <Badge class="mb-6">Deepdive</Badge>
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Check any fund yourself.</h2>
+      <p class="text-body-md text-fi-muted leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
+        Run the same checks as our investigations on any fund: against a fair benchmark, through market falls, and for return against risk.
+      </p>
+      <Button
+        href={deepdiveUrl('reports_deepdive')}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="external"
+        track={{ event: 'deepdive_click', placement: 'reports_deepdive' }}
+      >
+        Open Deepdive
+      </Button>
+    </DeepdiveSnapshot>
+  </Section>
 
 </Layout>
 

@@ -1,0 +1,48 @@
+---
+/**
+ * ServiceCard Component
+ *
+ * One Invest with support service, led by the client's problem: a grey strip
+ * with the problem, then the numbered service and three ticks. The service is
+ * the heading; the problem is context, so it stays small. Light surfaces only.
+ *
+ * The number sits inline before the title in a quiet mono face: the services
+ * are a real sequence, but the number must not compete with the title.
+ *
+ * @example
+ * import { services } from '../lib/services';
+ * {services.map((service) => <ServiceCard {...service} />)}
+ *
+ * @param number - two-digit order, e.g. '01'
+ * @param title - service name
+ * @param icon - SVG inner markup on a 24×24 stroke grid, shown in the strip
+ * @param problem - the client's problem, one sentence
+ * @param bullets - three short items (CheckList)
+ * @param class - extra classes for the card
+ */
+import CheckList from './CheckList.astro';
+
+interface Props {
+  number: string;
+  title: string;
+  icon: string;
+  problem: string;
+  bullets: string[];
+  class?: string;
+}
+
+const { number, title, icon, problem, bullets, class: className = '' } = Astro.props;
+---
+
+<article class:list={['h-full flex flex-col overflow-hidden rounded-lg border border-fi-border bg-white shadow-fi-card text-left', className]}>
+  <p class="flex items-start gap-3 border-b border-dashed border-fi-border bg-fi-light px-6 py-3.5 text-body-sm text-fi-muted">
+    <svg class="w-5 h-5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icon} />
+    <span>{problem}</span>
+  </p>
+  <div class="flex-1 px-6 pt-5 pb-6">
+    <h3 class="text-heading-sm font-bold text-fi-ink mb-4">
+      <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{number}</span>{title}
+    </h3>
+    <CheckList items={bullets} />
+  </div>
+</article>

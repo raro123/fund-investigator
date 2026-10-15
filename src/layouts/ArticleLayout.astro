@@ -22,10 +22,6 @@ interface Props {
 }
 
 const { frontmatter, headings, articleBody, reportSlug } = Astro.props;
-const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
-  year: 'numeric', month: 'long', day: 'numeric'
-});
-
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const resolvedMetadata = resolveArticleMetadata(frontmatter);
 const reportImage = resolveReportImage(frontmatter, reportSlug, Astro.site);
@@ -43,6 +39,7 @@ const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Investigations', href: '/reports/' },
 ];
+import { ARN, TAGLINE } from '../lib/distributor';
 ---
 
 <Layout
@@ -84,7 +81,7 @@ const breadcrumbs = [
   >
     <div class="max-w-3xl mx-auto space-y-6">
       <ArticleBreadcrumbs items={breadcrumbs} />
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight">{frontmatter.title}</h1>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-fi-ink-inv leading-tight" style={`view-transition-name: report-${reportSlug}`}>{frontmatter.title}</h1>
       <p class="max-w-2xl font-serif text-xl leading-relaxed text-fi-muted-inv">{frontmatter.hook ?? frontmatter.description}</p>
       <ArticleMetadata
         published={frontmatter.date}
@@ -110,7 +107,7 @@ const breadcrumbs = [
         </div>
       )}
 
-      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-gold prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums">
+      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-link prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums">
         <slot />
       </div>
 
@@ -134,6 +131,9 @@ const breadcrumbs = [
           </p>
           <p>
             Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
+          </p>
+          <p class="mt-3">
+            Fund Investigator is run by an {TAGLINE} ({ARN}). This report is general information. It is not a recommendation to invest in any fund it describes.
           </p>
         </div>
       </div>
@@ -160,7 +160,7 @@ const breadcrumbs = [
       id="image-lightbox-img"
       src=""
       alt=""
-      class="max-h-[90vh] max-w-[92vw] object-contain rounded-lg shadow-fi-card-dark cursor-zoom-out"
+      class="max-h-fi-lightbox max-w-fi-lightbox object-contain rounded-lg shadow-fi-card-dark cursor-zoom-out"
     />
   </div>
 </Layout>

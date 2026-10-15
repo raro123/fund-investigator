@@ -3,8 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import { responsive } from '../lib/responsive';
+import { formatDate } from '../lib/format';
+import { REGISTERED_NAME, ARN, TAGLINE, RISK_WARNING, CONTACT_EMAIL } from '../lib/distributor';
 
-const year = new Date().getFullYear();
+// Set to the date the wording last changed, not the build date.
+const LAST_UPDATED = '2026-10-11';
 ---
 
 <Layout
@@ -30,7 +33,7 @@ const year = new Date().getFullYear();
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">No Investment Recommendations</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator does not recommend, endorse, or promote any specific mutual fund, asset management company, or investment strategy. The analysis provided is objective, data-driven, and designed to help investors conduct their own research. We do not receive any commissions or payments from fund houses.
+        Fund Investigator's tools and investigations do not recommend, endorse or promote any specific mutual fund, asset management company or investment strategy. They are data-driven and general. They do not consider your personal situation, goals or risk tolerance.
       </p>
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Data Accuracy and Timeliness</h2>
@@ -48,9 +51,9 @@ const year = new Date().getFullYear();
         Fund Investigator and its operators accept <strong>no liability</strong> for any losses, damages, or adverse outcomes resulting from the use of this platform or reliance on the information provided. Users assume all risk associated with their investment decisions.
       </p>
 
-      <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Independent Platform</h2>
+      <h2 id="distribution" class="text-heading-lg text-fi-ink font-bold mt-8">Distribution Relationship</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator is an independent platform with no affiliations to mutual fund houses, asset management companies, distributors, or financial advisors. We do not sell financial products or earn commissions from recommendations.
+        Fund Investigator is run by {REGISTERED_NAME}, an {TAGLINE} ({ARN}). Mutual fund distributors earn commission from asset management companies on investments in regular plans. Fund Investigator has no other affiliation with any asset management company. Our tools and investigations are general information and are not linked to any distribution activity. Before you invest through us, we tell you in writing the commission we earn on each suggested scheme.
       </p>
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Use at Your Own Risk</h2>
@@ -63,10 +66,12 @@ const year = new Date().getFullYear();
         This disclaimer may be updated from time to time. Continued use of Fund Investigator constitutes acceptance of any changes.
       </p>
 
+      <p class="text-body-md text-fi-ink font-semibold leading-relaxed mt-8">{RISK_WARNING}</p>
+
       <div class="mt-12 p-6 bg-fi-light rounded-lg border-l-4 border-fi-gold">
-        <p class="text-body-sm text-fi-muted font-semibold mb-2">Last Updated: January {year}</p>
+        <p class="text-body-sm text-fi-muted font-semibold mb-2">Last updated: {formatDate(LAST_UPDATED)}</p>
         <p class="text-body-sm text-fi-muted">
-          For questions about this disclaimer, contact us at <a href="mailto:contact@fundinvestigator.com" class="text-fi-ink hover:text-fi-gold underline">contact@fundinvestigator.com</a>
+          For questions about this disclaimer, contact us at <a href={`mailto:${CONTACT_EMAIL}`} class="text-fi-ink hover:text-fi-link underline">{CONTACT_EMAIL}</a>
         </p>
       </div>
 

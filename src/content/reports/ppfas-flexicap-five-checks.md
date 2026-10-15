@@ -11,7 +11,6 @@ tags:
     - "PPFAS Flexi Cap"
     - "Nifty 500 TRI"
     - "Risk-Adjusted Returns"
-featured: true
 keyMetrics:
   - label: "CAGR"
     value: "20.5%"

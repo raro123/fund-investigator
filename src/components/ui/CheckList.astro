@@ -1,0 +1,43 @@
+---
+/**
+ * CheckList Component
+ *
+ * Short items, each with a tick: what a service includes, first-call topics,
+ * credentials. The text stays left-aligned even inside a centred section,
+ * because lists are read from a fixed left edge (style_spec §6).
+ *
+ * @example
+ * <CheckList items={['Overlap', 'Costs']} />
+ * <CheckList items={CREDENTIALS.map((c) => c.text)} layout="inline" />
+ *
+ * @param items - list items (plain text)
+ * @param surface - 'light' (default) or 'dark'
+ * @param layout - 'stack' (default, one item per line) or 'inline' (wrapped, centred row)
+ * @param class - extra classes for the list
+ */
+
+interface Props {
+  items: string[];
+  surface?: 'light' | 'dark';
+  layout?: 'stack' | 'inline';
+  class?: string;
+}
+
+const { items, surface = 'light', layout = 'stack', class: className = '' } = Astro.props;
+
+const textColour = { light: 'text-fi-ink', dark: 'text-fi-ink-inv' };
+const tickColour = { light: 'text-fi-positive', dark: 'text-fi-gold' };
+const layoutStyles = {
+  stack: 'space-y-2.5 text-left',
+  inline: 'flex flex-wrap justify-center gap-x-6 gap-y-2',
+};
+---
+
+<ul class:list={[layoutStyles[layout], className]}>
+  {items.map((item) => (
+    <li class:list={['flex gap-3 text-body-sm leading-relaxed', textColour[surface]]}>
+      <svg class:list={['w-4 h-4 mt-1 shrink-0', tickColour[surface]]} fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>

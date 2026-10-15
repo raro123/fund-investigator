@@ -17,6 +17,9 @@
  *   <slot name="content" />
  * </Card>
  *
+ * <!-- Callout on a white section: light fill, no border -->
+ * <Card variant="subtle" hover={false}>…</Card>
+ *
  * <!-- Card without hover effect -->
  * <Card hover={false}>
  *   <p>Static content</p>
@@ -25,7 +28,7 @@
 
 interface Props {
   /** Card visual variant */
-  variant?: 'default' | 'elevated' | 'bordered' | 'glass';
+  variant?: 'default' | 'elevated' | 'bordered' | 'glass' | 'subtle';
   /** Internal padding */
   padding?: 'none' | 'sm' | 'md' | 'lg';
   /** Enable hover effects */
@@ -44,9 +47,10 @@ const {
 // Variant styles
 const variantStyles = {
   default: 'bg-white border border-fi-border',
-  elevated: 'bg-white border border-fi-border shadow-md',
+  elevated: 'bg-white border border-fi-border shadow-fi-card',
   bordered: 'bg-white border-2 border-fi-border',
   glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
+  subtle: 'bg-fi-light',
 };
 
 // Padding styles — responsive: slightly less on mobile, more on desktop
