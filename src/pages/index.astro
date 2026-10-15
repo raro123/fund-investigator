@@ -41,7 +41,7 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   href: whatsappUrl(placement),
   target: '_blank' as const,
   rel: 'noopener noreferrer',
-  icon: 'external' as const,
+  icon: 'whatsapp' as const,
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 

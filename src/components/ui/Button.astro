@@ -24,6 +24,7 @@
  * <Button href={BOOKING_URL} track={{ event: 'review_booking_click', placement: 'invest_hero' }}>Book</Button>
  */
 import { trackAttrs, type TrackEvent } from '../../lib/analytics';
+import { WHATSAPP_ICON_PATH } from '../../lib/whatsapp';
 
 interface Props {
   /** Button style variant */
@@ -44,8 +45,8 @@ interface Props {
   disabled?: boolean;
   /** Makes button full width */
   fullWidth?: boolean;
-  /** Icon to display after text */
-  icon?: 'arrow-right' | 'external' | 'download' | 'none';
+  /** Icon to display: after the text, except brand icons (whatsapp), which lead */
+  icon?: 'arrow-right' | 'external' | 'download' | 'whatsapp' | 'none';
   /** PostHog click event for funnel tracking (src/lib/analytics.ts) */
   track?: { event: TrackEvent; placement: string; channel?: string };
   /** Additional CSS classes */
@@ -115,11 +116,18 @@ const icons = {
   'arrow-right': `<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`,
   'external': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
   'download': `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>`,
+  // Official glyph, shared with the footer link, so the site has one WhatsApp icon.
+  'whatsapp': `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="${WHATSAPP_ICON_PATH}"/></svg>`,
   'none': '',
 };
+
+// Brand icons name the destination, so they go before the label; arrows show
+// direction, so they follow it.
+const leadingIcon = icon === 'whatsapp';
 ---
 
 <Element class={classes} {...elementProps}>
+  {leadingIcon && <Fragment set:html={icons[icon]} />}
   <slot />
-  {icon !== 'none' && <Fragment set:html={icons[icon]} />}
+  {icon !== 'none' && !leadingIcon && <Fragment set:html={icons[icon]} />}
 </Element>
