@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
     `- [Invest with support](${base}/invest/): 30-minute portfolio review call and help to choose and invest in suitable funds, from an ${TAGLINE}.`,
     `- [Mutual fund portfolio review](${base}/invest/portfolio-review/): For existing investors: a 30-minute call, then a review of overlap, benchmarks, costs and fit to your goals, with a short written brief.`,
-    `- [Start investing your savings](${base}/invest/start-investing/): For savings in FDs and new investors: a 30-minute call, then a starting brief with your goals, a simple mix and investing in stages.`,
+    `- [Start investing in mutual funds](${base}/invest/start-investing-mutual-funds/): For new investors with savings: a 30-minute call, then a starting brief with your goals, a simple mix and investing in stages.`,
     `- [Deepdive App](${DEEPDIVE_URL}): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
     '',
     '## Investigations',

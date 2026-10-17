@@ -116,10 +116,14 @@ export const reviewFaq: FaqItem[] = [
 ];
 
 /**
- * /invest/start-investing/: what a first-time investor with savings asks.
+ * /invest/start-investing-mutual-funds/: what a first-time investor with savings asks.
  * New answers are drafts for the owner to check (S56).
  */
 export const startFaq: FaqItem[] = [
+  {
+    question: 'Do I need to break my FDs?',
+    answer: 'No. Many investors keep part of their money in FDs. We look at your goals and when you need the money, then you decide how much, if any, goes into mutual funds, and when.',
+  },
   {
     question: 'What if markets fall after I invest?',
     answer: 'They will fall at times, and equity funds can fall sharply in the short term. That is why we agree your time frame first, keep money aside for emergencies, and invest a large amount in stages. When markets fall, you talk to us before you act.',

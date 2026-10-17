@@ -131,10 +131,10 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
 | 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | ✅ Resolved (S54): in the footer (`DistributorIdentity` inline), so every page has it; not in the hero or final call, to keep visitors on the booking buttons |
-| 107 | **Copy — high priority (owner): check the draft copy on `/invest/portfolio-review/`.** Hero, the five signs, the four checks, the five stages, "Is this review for you?", "How we are paid" and the two new FAQ answers (`reviewFaq` in `src/lib/faq.ts`: "What do I need to share?", "Will you ask me to sell my funds?") | 2026-10-17 | S55 | 🟡 Open (S56 — also check `/invest/start-investing/`, `/invest/sif/`, `/invest/gift-city-funds/`, the starting brief in `SampleBrief.astro` and the new answers in `startFaq`, `sifFaq`, `giftCityFaq`) |
+| 107 | **Copy — high priority (owner): check the draft copy on `/invest/portfolio-review/`.** Hero, the five signs, the four checks, the five stages, "Is this review for you?", "How we are paid" and the two new FAQ answers (`reviewFaq` in `src/lib/faq.ts`: "What do I need to share?", "Will you ask me to sell my funds?") | 2026-10-17 | S55 | 🟡 Open (S56 — also check `/invest/start-investing-mutual-funds/`, `/invest/sif/`, `/invest/gift-city-funds/`, the starting brief in `SampleBrief.astro` and the new answers in `startFaq`, `sifFaq`, `giftCityFaq`) |
 | 108 | **Distribution — high priority (owner): measure completed bookings by landing page.** Zoho takes no `ref`. Add a required Zoho question "What would you like help with?" (Review my portfolio · Start investing · SIF · GIFT City funds · Other); extends #88. Check whether the Zoho plan allows one service per landing page (own URL) or a redirect to a `/thanks/` page. Start the client sheet: date, name, landing, source, call held, client, amount, products, hours (`docs/landing_pages_plan.md` §4) | 2026-10-17 | S55 | 🟡 Open |
 | 109 | **Analytics — medium priority: PostHog funnels per landing page** (`landing_view` → `review_booking_click` / `conversation_request`, by `landing` and `utm_source`). Agree the UTM convention for every post (`utm_source`, `utm_campaign` = landing id, `utm_content` = the piece) and write the 3-month thresholds before the first content goes out | 2026-10-17 | S55 | 🟡 Open |
-| 110 | **Website — high priority: landing page 2, `/invest/start-investing/`**, for readers with savings in FDs. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both) |
+| 110 | **Website — high priority: landing page 2, `/invest/start-investing-mutual-funds/`**, for readers with savings who are new to markets. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing-mutual-funds/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both) |
 | 111 | **Website — medium priority: route links to the landing pages.** Small links on the homepage, and the `/invest/#products` SIF and GIFT City cards linking to pages 3 and 4 once built. The review page's "Larger portfolio?" line points to `/invest/#products` until then | 2026-10-17 | S55 | 🟡 Open (S56 — the four landing pages link to each other; the homepage and `/invest/` links are still to do) |
 
 ---
@@ -142,6 +142,26 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S57 — Start page: no FD framing, new slug
+
+**What was done:**
+Landing page 2 moved to `/invest/start-investing-mutual-funds/` and no longer speaks to FD holders. The hero now reads "Have savings? Start with mutual funds." The sample starting brief profile says "₹15 lakh in savings". A new FAQ answer says FDs can stay.
+
+**Why:**
+FDs are doing well while markets are down, so "Savings in FDs?" invited the reader to compare returns, and that comparison works against us. The reader we want is someone who has savings and wants to take part in financial markets. The new slug also matches what people search for.
+
+**How:**
+`git mv` of the page; title, description, hero, first sign and comments rewritten; `startFaq` opens with "Do I need to break my FDs?"; `SampleBrief`, `llms.txt`, `/styleguide`, the plan doc and items #107 and #110 updated. The page was never on `main`, so no redirect is needed.
+
+**Decisions made:**
+- Slug `/invest/start-investing-mutual-funds/`; landing id stays `start`, so the tracking is unchanged.
+- The page never runs down FDs or other savings. The call decides how much, if any, goes into funds, and when.
+
+**Pending decisions:**
+- None new.
 
 ---
 

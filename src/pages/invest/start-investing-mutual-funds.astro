@@ -16,14 +16,16 @@ import { responsive } from '../../lib/responsive';
 import { ARN } from '../../lib/distributor';
 
 // Landing page 2 of 4 (docs/landing_pages_plan.md): for readers with savings
-// in FDs or a savings account who are new to markets. Their main worry is
-// losing money or getting the timing wrong, so the page shows a careful
-// process (safety net, few funds, investing in stages), never a return.
+// who want to take part in financial markets and are new to them. The page
+// never runs down FDs or other savings (they can stay; the call decides how
+// much, if any, goes into funds, and when). Their main worry is losing money or
+// getting the timing wrong, so the page shows a careful process (safety net,
+// few funds, investing in stages), never a return.
 // Draft copy: the owner checks it (S56). Placements start with `lp_start_`.
 
 // The reader's situation, in their words.
 const signs = [
-  'Your savings sit in FDs or a savings account, and you are not sure what else suits you.',
+  'You have savings, and want to take part in financial markets, but do not know where to begin.',
   'You worry about investing just before markets fall.',
   'Thousands of funds, and no clear way to know which suit you.',
   'Friends, apps and videos give you different answers.',
@@ -83,19 +85,19 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
 ---
 
 <Layout
-  title="Start investing your savings - Fund Investigator"
-  description="Savings in FDs and new to mutual funds? A 30-minute call, then a starting brief: your goals first, a simple mix, and investing in stages."
+  title="Start investing in mutual funds - Fund Investigator"
+  description="Have savings and want to take part in financial markets? A 30-minute call, then a starting brief: your goals first, a simple mix of funds, in stages."
   trackView="landing_view"
   trackLanding="start"
 >
   <!-- 1. Hero: the reader's situation, the promise, the action, then a sample starting brief as proof -->
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
-      Savings in FDs?
-      <span class="block text-fi-gold">Start investing, carefully.</span>
+      Have savings?
+      <span class="block text-fi-gold">Start with mutual funds.</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      We help you move from savings to mutual funds one step at a time: your goals first, then a simple mix, invested in stages. You approve every step.
+      Want to take part in financial markets, one careful step at a time? We start with your goals and risk profile, then a simple mix of mutual funds, invested in stages. You approve every step.
     </p>
     <ContactActions placement="lp_start_hero" surface="dark" note={callDetails} />
 

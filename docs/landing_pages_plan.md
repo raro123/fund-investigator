@@ -7,7 +7,7 @@
 ## 1. Strategy
 
 - **Keep the promise; test who responds.** One brand, one service, one booking. The pages change the reader, the proof and the questions, not the offer.
-- **Start from the reader's situation, not a demographic.** "My savings are in FDs" tells us why they need help now.
+- **Start from the reader's situation, not a demographic.** "I have savings and want to start in the markets" tells us why they need help now.
 - **Every product gets its own way in.** SIF and GIFT City funds get separate pages from the start. Readers arrive with different questions ("Should I invest in a SIF?" vs "How do I hold US dollars from India?"). A combined "beyond mutual funds" page matches neither search and hides which product drew the interest.
 - **Content that feeds a page is a generic guide** (names no fund), written for the reader's question in plain words. Fund analyses that name a scheme never link to these pages (content guide, "Two Modes").
 
@@ -16,7 +16,7 @@
 | Order | Slug | Reader | Product | Landing id |
 |---|---|---|---|---|
 | 1 | `/invest/portfolio-review/` | Already invests; unsure the funds make sense together | Mutual funds | `review` |
-| 2 | `/invest/start-investing/` | Savings in FDs or a savings account; new to markets | Mutual funds | `start` |
+| 2 | `/invest/start-investing-mutual-funds/` | Has savings, wants to take part in financial markets; new to them | Mutual funds | `start` |
 | 3 | `/invest/sif/` | Experienced investor asking whether a SIF suits them | SIF | `sif` |
 | 4 | `/invest/gift-city-funds/` | Wants US dollar assets from India, including NRIs | GIFT City funds | `gift_city` |
 
