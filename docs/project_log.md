@@ -134,14 +134,36 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 107 | **Copy — high priority (owner): check the draft copy on `/invest/portfolio-review/`.** Hero, the five signs, the four checks, the five stages, "Is this review for you?", "How we are paid" and the two new FAQ answers (`reviewFaq` in `src/lib/faq.ts`: "What do I need to share?", "Will you ask me to sell my funds?") | 2026-10-17 | S55 | 🟡 Open (S56 — also check `/invest/start-investing-mutual-funds/`, `/invest/sif/`, `/invest/gift-city-funds/`, the starting brief in `SampleBrief.astro` and the new answers in `startFaq`, `sifFaq`, `giftCityFaq`) |
 | 108 | **Distribution — high priority (owner): measure completed bookings by landing page.** Zoho takes no `ref`. Add a required Zoho question "What would you like help with?" (Review my portfolio · Start investing · SIF · GIFT City funds · Other); extends #88. Check whether the Zoho plan allows one service per landing page (own URL) or a redirect to a `/thanks/` page. Start the client sheet: date, name, landing, source, call held, client, amount, products, hours (`docs/landing_pages_plan.md` §4) | 2026-10-17 | S55 | 🟡 Open |
 | 109 | **Analytics — medium priority: PostHog funnels per landing page** (`landing_view` → `review_booking_click` / `conversation_request`, by `landing` and `utm_source`). Agree the UTM convention for every post (`utm_source`, `utm_campaign` = landing id, `utm_content` = the piece) and write the 3-month thresholds before the first content goes out | 2026-10-17 | S55 | 🟡 Open |
-| 110 | **Website — high priority: landing page 2, `/invest/start-investing-mutual-funds/`**, for readers with savings who are new to markets. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing-mutual-funds/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both) |
-| 111 | **Website — medium priority: route links to the landing pages.** Small links on the homepage, and the `/invest/#products` SIF and GIFT City cards linking to pages 3 and 4 once built. The review page's "Larger portfolio?" line points to `/invest/#products` until then | 2026-10-17 | S55 | 🟡 Open (S56 — the four landing pages link to each other; the homepage and `/invest/` links are still to do) |
+| 110 | **Website — high priority: landing page 2, `/invest/start-investing-mutual-funds/`**, for readers with savings who are new to markets. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing-mutual-funds/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both). **S58:** the homepage and `/invest/` now link both pages (owner), so this check is more urgent |
+| 111 | **Website — medium priority: route links to the landing pages.** Small links on the homepage, and the `/invest/#products` SIF and GIFT City cards linking to pages 3 and 4 once built. The review page's "Larger portfolio?" line points to `/invest/#products` until then | 2026-10-17 | S55 | ✅ Resolved (S58): route cards on the homepage final section and `/invest/#products` link all four pages; the footer links the two mutual fund pages. Earlier: (S56 — the four landing pages link to each other; the homepage and `/invest/` links are still to do) |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S58 — Routes to the landing pages: homepage, `/invest/`, footer
+
+**What was done:**
+Visitors on the site can now reach the landing pages. The homepage final section has three small situation cards below the booking buttons ("Not ready yet? See how we help in your situation."). On `/invest/`, the same three situations replace the product cards, titled "Where are you starting from?", and keep each product's minimum and main risk. The footer links the portfolio review and start investing pages.
+
+**Why:**
+The landing pages had no way in from the site itself. Visitors choose by situation, not by product, so situation cards fit better than links on the product cards.
+
+**How:**
+`src/lib/routes.ts` holds the three routes (Already investing · Starting out · Beyond mutual funds), with facts taken word for word from `products.ts`. New `RouteCards` component: `compact` (homepage) and `detailed` (`/invest/`, with the facts; stacked until `lg`). Text links only. `/styleguide` shows both. Lint, contrast and build pass, with internal link checks; no page scrolls sideways at 375px.
+
+**Decisions made:**
+- Route cards come after the booking buttons, never in the hero or the header: the gold booking stays the main action.
+- The `#products` anchor stays on the `/invest/` section, so older links still work.
+- SIF and GIFT City links go live now (owner), before the #110 check.
+- Footer: only the two mutual fund pages.
+
+**Pending decisions:**
+- #111 resolved. #110 is more urgent: the SIF and GIFT City pages are now linked from the homepage and `/invest/`.
 
 ---
 

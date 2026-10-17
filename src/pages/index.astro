@@ -9,6 +9,7 @@ import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
+import RouteCards from '../components/ui/RouteCards.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
@@ -212,7 +213,9 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 5. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       The person behind the service is on /about/ (linked from the differences section). -->
+       The person behind the service is on /about/ (linked from the differences section).
+       The route cards come after the booking, for visitors not ready to book yet
+       (docs/landing_pages_plan.md, S58). -->
   <Section background="white" spacing="md" maxWidth="lg">
     <div class="text-center">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
@@ -229,6 +232,11 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <p class="mt-6 text-body-sm text-fi-muted">
         Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
       </p>
+    </div>
+
+    <div class="mt-14 border-t border-fi-border pt-10">
+      <p class="text-center text-body-md text-fi-muted mb-6">Not ready yet? See how we help in your situation.</p>
+      <RouteCards />
     </div>
   </Section>
 </Layout>

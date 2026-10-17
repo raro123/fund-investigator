@@ -20,7 +20,7 @@
 | 3 | `/invest/sif/` | Experienced investor asking whether a SIF suits them | SIF | `sif` |
 | 4 | `/invest/gift-city-funds/` | Wants US dollar assets from India, including NRIs | GIFT City funds | `gift_city` |
 
-`/invest/` stays the general page. Cross-links: the `/invest/#products` cards link to pages 3 and 4; pages 1 and 2 end with a small line to pages 3 and 4 for larger portfolios. The homepage gets small route links, not a segmentation section.
+`/invest/` stays the general page. Routes in (S58): `RouteCards` (data in `src/lib/routes.ts`) shows three situations (Already investing · Starting out · Beyond mutual funds). On `/invest/#products` they replace the product cards and keep each product's minimum and main risk; on the homepage they sit below the final section's booking buttons ("Not ready yet?"). The footer links pages 1 and 2. The landing pages link to each other. No links in the homepage hero or the header.
 
 **Page 2's proof:** `<SampleBrief variant="start" />`, a sample starting brief (never a "plan": "financial planning" is a legal limit).
 **Before pages 3 and 4 are indexed or shared widely:** check the SIF promotion rules (handoff §2, decision 9) and the GIFT City tax, LRS and reporting points; confirm we can place transactions in both (#60). Then remove `noindex` and the sitemap filter in `astro.config.mjs`.

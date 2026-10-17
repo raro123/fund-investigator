@@ -7,8 +7,8 @@ import Card from '../components/ui/Card.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
+import RouteCards from '../components/ui/RouteCards.astro';
 import { services } from '../lib/services';
-import { products } from '../lib/products';
 import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
@@ -108,13 +108,6 @@ const routes = [
   },
 ];
 
-// Each product is shown by fit, not as a catalogue (src/lib/products.ts).
-const productFacts = [
-  { label: 'Suits', key: 'suits' },
-  { label: 'Minimum', key: 'minimum' },
-  { label: 'Main risk', key: 'mainRisk' },
-] as const;
-
 const callDetails = '30-minute call · No charge · No obligation';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
@@ -156,27 +149,12 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Section>
 
-  <!-- 3. Products: what clients can invest in, each framed by fit. No buttons: the reader is still learning. -->
+  <!-- 3. Situations: one card per reader situation, each linking to its landing page and keeping
+       the product's minimum and main risk (src/lib/routes.ts). Text links only: no gold here.
+       Keeps the #products anchor so older links still land here. -->
   <Section id="products" background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="What you can invest in." lead="Most clients start with mutual funds. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
-    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
-      {products.map((product) => (
-        <li>
-          <Card padding="lg" hover={false} class="h-full">
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{product.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed mb-5">{product.intro}</p>
-            <dl class="space-y-3 text-body-sm leading-relaxed">
-              {productFacts.map((fact) => (
-                <div>
-                  <dt class="font-semibold text-fi-ink">{fact.label}</dt>
-                  <dd class="text-fi-muted">{product[fact.key]}</dd>
-                </div>
-              ))}
-            </dl>
-          </Card>
-        </li>
-      ))}
-    </ul>
+    <SectionHeading title="Where are you starting from?" lead="Most clients start with mutual funds. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
+    <RouteCards variant="detailed" />
   </Section>
 
   <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the

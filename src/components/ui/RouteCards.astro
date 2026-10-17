@@ -1,0 +1,60 @@
+---
+/**
+ * RouteCards Component
+ *
+ * Three small cards, one per reader situation (src/lib/routes.ts), each
+ * linking to its landing page. Text links only, never buttons, so the
+ * section's gold "Book a first call" stays the main action. Light surfaces only.
+ *
+ * - `compact`: title, one line and the links (homepage final section, below
+ *   the booking buttons)
+ * - `detailed`: adds each route's minimum and main risk (/invest/#products,
+ *   where they replace the product cards)
+ *
+ * @example
+ * <RouteCards />
+ * <RouteCards variant="detailed" />
+ *
+ * @param variant - 'compact' (default) or 'detailed'
+ * @param class - extra classes for the list
+ */
+import Card from './Card.astro';
+import { routes } from '../../lib/routes';
+
+interface Props {
+  variant?: 'compact' | 'detailed';
+  class?: string;
+}
+
+const { variant = 'compact', class: className = '' } = Astro.props;
+
+const detailed = variant === 'detailed';
+const link = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<!-- Detailed cards stack until lg: three columns of facts are too narrow on tablets. -->
+<ul class:list={['grid gap-4 text-left', detailed ? 'lg:grid-cols-3 lg:gap-5' : 'sm:grid-cols-3', className]}>
+  {routes.map((route) => (
+    <li>
+      <Card variant={detailed ? 'default' : 'subtle'} padding={detailed ? 'lg' : 'md'} hover={false} class="h-full flex flex-col">
+        <h3 class:list={['font-bold text-fi-ink mb-1', detailed ? 'text-heading-sm' : 'text-body-md']}>{route.title}</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">{route.line}</p>
+
+        {detailed && (
+          <dl class="mt-5 space-y-3 text-body-sm leading-relaxed">
+            {route.facts.map((fact) => (
+              <div>
+                <dt class="font-semibold text-fi-ink">{fact.label}</dt>
+                <dd class="text-fi-muted">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        <p class="mt-auto pt-4 flex flex-wrap gap-x-4 gap-y-1 text-body-sm">
+          {route.links.map((item) => <a href={item.href} class={link}>{item.label} →</a>)}
+        </p>
+      </Card>
+    </li>
+  ))}
+</ul>

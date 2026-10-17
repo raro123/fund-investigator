@@ -14,6 +14,7 @@ import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import ContactActions from '../components/ui/ContactActions.astro';
 import FitCards from '../components/ui/FitCards.astro';
+import RouteCards from '../components/ui/RouteCards.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import CheckList from '../components/ui/CheckList.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
@@ -197,6 +198,18 @@ import { responsive } from '../lib/responsive';
     <FitCards suits={['You already hold a diversified portfolio.']} notFor={['You are new to investing.']} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" class="mt-5" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FitCards suits={[…]} />
 <FitCards suits={[…]} notFor={[…]} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" />`}</code></pre>
+  </Section>
+
+  <!-- Route Cards (landing page routes) -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Route Cards</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      One card per reader situation, linking to its landing page. Text links only, so the section's gold button stays the main action. <code class="font-mono">detailed</code> adds the minimum and main risk. Data in <code class="font-mono">src/lib/routes.ts</code>. Light surfaces only.
+    </p>
+    <RouteCards />
+    <RouteCards variant="detailed" class="mt-8" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<RouteCards />                    <!-- homepage final section -->
+<RouteCards variant="detailed" />  <!-- /invest/#products -->`}</code></pre>
   </Section>
 
   <!-- Sample Brief -->
