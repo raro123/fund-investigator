@@ -34,7 +34,7 @@
 4. **Process, not promise.** What we check for this reader.
 5. **Proof for this reader:** review → sample brief; start → sample starting brief; SIF / GIFT City → suits, minimum, main risk, who should skip it.
 6. **How we are paid, before the ask.** Commission, direct vs regular, rates in writing per scheme.
-7. **Who this is not for.** Filters the wrong visitors and builds trust.
+7. **Who it suits.** Every page lists who the service or product suits, not who should skip it (owner, S57). Mutual funds cover short and long goals (overnight and liquid funds to equity). On the SIF and GIFT City pages, the minimum, the main risks and the rules stay in their own sections ("A SIF at a glance", "Four things to know first").
 8. **What happens next.** Call → holding details → written brief → you decide and approve each transaction by OTP.
 9. **4–6 questions for this reader.**
 10. **A closing call to action.** Phone first; footer identity and risk warning (site-wide).

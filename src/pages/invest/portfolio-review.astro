@@ -70,16 +70,12 @@ const steps = [
   },
 ];
 
-// Who the review suits, and who it does not: it turns away visitors we
-// cannot help and tells the rest that the review leads to ongoing support.
+// Who the review suits only: it tells the reader that the review leads to
+// ongoing support. Mutual fund pages do not list who should skip them.
 const suits = [
   'You already invest in mutual funds, through SIPs or lump sums.',
   'You want the reasons and the costs in writing before you change anything.',
   'You want one person to check your funds and stay with you after the review.',
-];
-const notFor = [
-  'You want a tip on which fund will do best next year.',
-  'You prefer to choose and track every fund yourself. Direct plans and our investigations may suit you better.',
 ];
 
 const callDetails = '30-minute call · No charge · No obligation';
@@ -141,10 +137,10 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
   </Section>
 
-  <!-- 5. Fit: who the review suits and who it does not, so the wrong visitors self-select out -->
+  <!-- 5. Fit: who the review suits -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <SectionHeading title="Is this review for you?" />
-    <FitCards suits={suits} notFor={notFor} />
+    <FitCards suits={suits} />
   </Section>
 
   <!-- 6. How we are paid, then the action: the cost answer comes right before the ask.

@@ -125,6 +125,10 @@ export const startFaq: FaqItem[] = [
     answer: 'No. Many investors keep part of their money in FDs. We look at your goals and when you need the money, then you decide how much, if any, goes into mutual funds, and when.',
   },
   {
+    question: 'What if I need some of the money soon?',
+    answer: 'Some mutual funds are built for short periods, such as overnight and liquid funds. They carry lower risk than equity funds, but no fund is free of risk. We match each part of your money to when you need it.',
+  },
+  {
     question: 'What if markets fall after I invest?',
     answer: 'They will fall at times, and equity funds can fall sharply in the short term. That is why we agree your time frame first, keep money aside for emergencies, and invest a large amount in stages. When markets fall, you talk to us before you act.',
   },

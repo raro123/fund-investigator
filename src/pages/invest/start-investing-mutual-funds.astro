@@ -35,7 +35,7 @@ const signs = [
 // How we start a first-time investor: four steps of the process, in order.
 const approach = [
   { title: 'Goals first', body: 'What the money is for, when you need it, and how much risk you can live with. The funds come after.' },
-  { title: 'A safety net', body: 'Money for emergencies stays in the bank before anything goes into the market.' },
+  { title: 'A safety net', body: 'Money for emergencies stays easy to reach, in the bank or a liquid fund, before anything goes into equity.' },
   { title: 'A simple mix', body: 'A few funds that suit your risk profile, each with the reasons and the costs in writing.' },
   { title: 'In stages', body: 'A large amount can go in over months, through SIPs or a transfer plan, so you do not depend on one day\'s market.' },
 ];
@@ -69,15 +69,12 @@ const steps = [
   },
 ];
 
+// Who this suits only: mutual funds cover short and long goals (overnight
+// and liquid funds to equity), so the page does not list who should skip it.
 const suits = [
-  'You have savings that you will not need for the next few years.',
-  'You want to invest, but want someone to explain each step.',
+  'You have savings and want to take part in financial markets.',
+  'You want someone to explain each step before you invest.',
   'You want the costs and our commission in writing before you decide.',
-];
-const notFor = [
-  'You want guaranteed returns. Mutual funds carry market risk.',
-  'You need all of the money within the next year or so.',
-  'You want tips for quick gains.',
 ];
 
 const callDetails = '30-minute call · No charge · No obligation';
@@ -139,10 +136,10 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
   </Section>
 
-  <!-- 5. Fit: who this suits and who it does not -->
+  <!-- 5. Fit: who this suits -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <SectionHeading title="Is this for you?" />
-    <FitCards suits={suits} notFor={notFor} />
+    <FitCards suits={suits} />
   </Section>
 
   <!-- 6. How we are paid, then the action. "No separate fee" sits with the commission explanation. -->

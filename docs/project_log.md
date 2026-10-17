@@ -159,6 +159,7 @@ FDs are doing well while markets are down, so "Savings in FDs?" invited the read
 **Decisions made:**
 - Slug `/invest/start-investing-mutual-funds/`; landing id stays `start`, so the tracking is unchanged.
 - The page never runs down FDs or other savings. The call decides how much, if any, goes into funds, and when.
+- All four landing pages show only who they suit ("Is this for you?"), not who should skip them (owner): mutual funds cover short and long goals, from overnight and liquid funds to equity. On the SIF and GIFT City pages the minimum, main risks and rules stay in "A SIF at a glance" and "Four things to know first". `FitCards` takes `notFor` as optional. New FAQ answer "What if I need some of the money soon?" (never "safe"; "no fund is free of risk").
 
 **Pending decisions:**
 - None new.

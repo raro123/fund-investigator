@@ -15,9 +15,10 @@ import { responsive } from '../../lib/responsive';
 import { ARN } from '../../lib/distributor';
 
 // Landing page 3 of 4 (docs/landing_pages_plan.md): for experienced investors
-// asking whether a SIF suits them. A suitability page, not a sales page: who
-// should skip a SIF comes before the process. Names no fund house or strategy
-// by name and makes no return claims.
+// asking whether a SIF suits them. A suitability page, not a sales page: who a
+// SIF suits comes before the process, and the minimum and main risks sit in
+// "A SIF at a glance". Names no fund house or strategy by name and makes no
+// return claims.
 // noindex until the copy is checked against the SIF promotion rules (log item 110):
 // the page works for links we share, but search engines do not list it yet.
 // Placements start with `lp_sif_`.
@@ -33,11 +34,6 @@ const suits = [
   'You already hold a diversified mutual fund portfolio.',
   'You can invest ₹10 lakh without needing it back soon.',
   'You accept that a strategy can trail the market for long periods.',
-];
-const notFor = [
-  'You are new to investing. Start with mutual funds.',
-  '₹10 lakh would be a large part of your savings.',
-  'You may need the money at short notice.',
 ];
 
 // Fit first: the whole portfolio, then whether a SIF adds anything.
@@ -112,10 +108,10 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </dl>
   </Section>
 
-  <!-- 3. Fit before process: who should skip a SIF is the main reason to trust this page -->
+  <!-- 3. Fit before process: who a SIF suits -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Who should consider a SIF, and who should skip it." />
-    <FitCards suits={suits} notFor={notFor} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" />
+    <SectionHeading title="Is a SIF for you?" />
+    <FitCards suits={suits} suitsTitle="Consider a SIF if" />
   </Section>
 
   <!-- 4. What happens next: the whole portfolio first, then the fit check -->

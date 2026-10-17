@@ -2,26 +2,29 @@
 /**
  * FitCards Component
  *
- * Two cards side by side: who a service or product suits, and who it does
- * not. Landing pages use it so the wrong visitors self-select out and the rest
- * trust the page more. The "suits" list has ticks; the "not for" list has
- * plain bullets, because a tick would read as approval. Light surfaces only.
+ * Who a service or product suits, and optionally who should skip it. Without
+ * `notFor`, one centred card: the landing pages use this form, because they
+ * say who a service suits and leave the risks to their own sections (owner,
+ * S57). With `notFor`, two cards sit side by side. The "suits" list has ticks;
+ * the "not for" list has plain bullets, because a tick would read as approval.
+ * Light surfaces only.
  *
  * @example
- * <FitCards suits={['You already invest in mutual funds.']} notFor={['You want a tip for quick gains.']} />
+ * <FitCards suits={['You already invest in mutual funds.']} />
+ * <FitCards suits={['You already hold a diversified portfolio.']} notFor={['You are new to investing.']} />
  *
  * @param suits - who it suits (plain text)
- * @param notFor - who should skip it (plain text)
+ * @param notFor - optional: who should skip it (plain text)
  * @param suitsTitle - heading of the first card
  * @param notForTitle - heading of the second card
- * @param class - extra classes for the grid
+ * @param class - extra classes for the wrapper
  */
 import Card from './Card.astro';
 import CheckList from './CheckList.astro';
 
 interface Props {
   suits: string[];
-  notFor: string[];
+  notFor?: string[];
   suitsTitle?: string;
   notForTitle?: string;
   class?: string;
@@ -29,22 +32,26 @@ interface Props {
 
 const {
   suits,
-  notFor,
+  notFor = [],
   suitsTitle = 'It suits you if',
   notForTitle = 'It is not the right fit if',
   class: className = '',
 } = Astro.props;
+
+const twoCards = notFor.length > 0;
 ---
 
-<div class:list={['grid md:grid-cols-2 gap-5 text-left', className]}>
+<div class:list={[twoCards ? 'grid md:grid-cols-2 gap-5' : 'max-w-2xl mx-auto', 'text-left', className]}>
   <Card padding="lg" hover={false} class="h-full">
     <h3 class="text-body-lg font-bold text-fi-ink mb-4">{suitsTitle}</h3>
     <CheckList items={suits} />
   </Card>
-  <Card padding="lg" hover={false} class="h-full">
-    <h3 class="text-body-lg font-bold text-fi-ink mb-4">{notForTitle}</h3>
-    <ul class="space-y-2.5 list-disc pl-5 marker:text-fi-muted">
-      {notFor.map((item) => <li class="text-body-sm text-fi-muted leading-relaxed">{item}</li>)}
-    </ul>
-  </Card>
+  {twoCards && (
+    <Card padding="lg" hover={false} class="h-full">
+      <h3 class="text-body-lg font-bold text-fi-ink mb-4">{notForTitle}</h3>
+      <ul class="space-y-2.5 list-disc pl-5 marker:text-fi-muted">
+        {notFor.map((item) => <li class="text-body-sm text-fi-muted leading-relaxed">{item}</li>)}
+      </ul>
+    </Card>
+  )}
 </div>

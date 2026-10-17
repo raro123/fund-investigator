@@ -49,11 +49,6 @@ const suits = [
   'You already have a base of Indian investments.',
   'You are comfortable with the rupee–dollar rate moving your value.',
 ];
-const notFor = [
-  'You will need the money in rupees within the next few years.',
-  'You do not want the extra tax and reporting steps.',
-  'You are new to investing. Start with mutual funds.',
-];
 
 const steps = [
   {
@@ -148,10 +143,10 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </ul>
   </Section>
 
-  <!-- 4. Fit: who should consider these funds and who should skip them -->
+  <!-- 4. Fit: who should consider these funds -->
   <Section background="white" spacing="md" maxWidth="2xl">
     <SectionHeading title="Are GIFT City funds for you?" />
-    <FitCards suits={suits} notFor={notFor} suitsTitle="Consider them if" notForTitle="Skip them if" />
+    <FitCards suits={suits} suitsTitle="Consider them if" />
   </Section>
 
   <!-- 5. What happens next: You beside We -->
