@@ -1,0 +1,189 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import CheckList from '../../components/ui/CheckList.astro';
+import ContactActions from '../../components/ui/ContactActions.astro';
+import FitCards from '../../components/ui/FitCards.astro';
+import SampleBrief from '../../components/ui/SampleBrief.astro';
+import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
+import SplitRows from '../../components/ui/SplitRows.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import { reviewFaq } from '../../lib/faq';
+import { responsive } from '../../lib/responsive';
+import { ARN } from '../../lib/distributor';
+
+// Landing page 1 of 4 (docs/landing_pages_plan.md): for readers who already
+// invest and are unsure their funds make sense together. Content that sends
+// readers here is a generic guide that names no fund, so this page may link to
+// booking and WhatsApp (handoff §2, Links). Draft copy: the owner checks it (log item 107).
+// Placements start with `lp_review_`, so PostHog can split this page from /invest/.
+
+// The reader's situation, in their words: each sign is something they can
+// recognise without knowing the metric behind it.
+const signs = [
+  'You hold more funds than you can explain.',
+  'You bought some funds on past returns, a tip or a new launch.',
+  'You have never compared your funds with their market index.',
+  'You do not know what your funds cost each year.',
+  'Your goals or income changed, but your funds did not.',
+];
+
+// The four checks match the sample brief in the hero and the review bullets in
+// src/lib/services.ts (suitability, performance, overlap, costs).
+const checks = [
+  { title: 'Overlap', body: 'How many of your stocks repeat across your funds. Several funds can hold the same companies.' },
+  { title: 'Benchmark', body: 'Whether each fund has beaten a fair market index over time, not only funds like it.' },
+  { title: 'Costs', body: 'What your funds cost each year, on average, and what the costs mean for your money.' },
+  { title: 'Fit', body: 'Whether your mix of equity, debt and gold suits your goals, time frame and risk profile.' },
+];
+
+// The review path only: from booking to the client's decision. The full
+// client journey, with ongoing reviews, lives on /invest/#how-it-works.
+const steps = [
+  {
+    name: 'Book a call',
+    left: 'Pick a time, or message us on WhatsApp.',
+    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+  },
+  {
+    name: 'The first call',
+    left: 'Tell us your goals, your time frame and the funds you hold.',
+    right: 'Agree your risk profile with you, and explain what the review checks.',
+  },
+  {
+    name: 'The review',
+    left: 'Share your Consolidated Account Statement (CAS) after the call.',
+    right: 'Help you download your CAS. Run the four checks on every fund you hold.',
+  },
+  {
+    name: 'Your brief',
+    left: 'Read the brief and ask your questions.',
+    right: 'Send a short brief: what to keep, what to watch and what to change, with the reasons.',
+  },
+  {
+    name: 'You decide',
+    left: 'Choose what to change, if anything. Approve each transaction by OTP.',
+    right: 'Shortlist suitable funds, with our commission in writing. Then review your funds at regular intervals.',
+  },
+];
+
+// Who the review suits, and who it does not: it turns away visitors we
+// cannot help and tells the rest that the review leads to ongoing support.
+const suits = [
+  'You already invest in mutual funds, through SIPs or lump sums.',
+  'You want the reasons and the costs in writing before you change anything.',
+  'You want one person to check your funds and stay with you after the review.',
+];
+const notFor = [
+  'You want a tip on which fund will do best next year.',
+  'You prefer to choose and track every fund yourself. Direct plans and our investigations may suit you better.',
+];
+
+const callDetails = '30-minute call · No charge · No obligation';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title="Mutual fund portfolio review - Fund Investigator"
+  description="Do your mutual funds work together? A 30-minute call, then a review of overlap, benchmarks, costs and fit, from an AMFI-registered distributor."
+  trackView="landing_view"
+  trackLanding="review"
+>
+  <!-- 1. Hero: the reader's question, the promise, the action, then the sample brief as proof -->
+  <Hero size="md" background="dark">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      Do your funds still
+      <span class="block text-fi-gold">make sense together?</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      Most portfolios grow one fund at a time. We review the whole mix for overlap, benchmarks, costs and fit to your goals. Then we send you a short brief, and you decide.
+    </p>
+    <ContactActions placement="lp_review_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-8">
+      <SampleBrief />
+    </div>
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+    </div>
+  </Hero>
+
+  <!-- 2. The situation: signs the reader recognises, before any pitch -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="Sound familiar?" lead="Common signs that a portfolio needs a review." />
+    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto">
+      <CheckList items={signs} />
+    </Card>
+  </Section>
+
+  <!-- 3. The process: four checks, the same ones the sample brief shows -->
+  <Section id="checks" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Four checks on every portfolio." lead="The checks we use in our investigations, run on the funds you hold." />
+    <ol class="grid sm:grid-cols-2 gap-5 text-left">
+      {checks.map((check, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{check.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{check.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <!-- 4. What happens next: You beside We, from booking to the decision -->
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="From the first call to your brief." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <!-- 5. Fit: who the review suits and who it does not, so the wrong visitors self-select out -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Is this review for you?" />
+    <FitCards suits={suits} notFor={notFor} />
+  </Section>
+
+  <!-- 6. How we are paid, then the action: the cost answer comes right before the ask.
+       "No separate fee" always sits with the commission explanation (handoff §2, Fees). -->
+  <Section id="costs" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How we are paid."
+      lead="No separate fee from you. The fund house pays our commission from the regular plan's yearly expense ratio. You get our commission on each fund, in writing, before you decide."
+    />
+    <!-- The main reassurance for existing investors who hold direct plans. -->
+    <Card variant="subtle" padding="md" hover={false} class="max-w-2xl mx-auto text-left">
+      <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans?</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        We review them on the first call, and you can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
+      </p>
+    </Card>
+    <p class="text-center text-body-sm mt-6">
+      <a href="/invest/#costs" class={lightLink}>Compare direct and regular plans →</a>
+    </p>
+    <ContactActions placement="lp_review_cta" surface="light" identity class="mt-12" />
+  </Section>
+
+  <!-- 7. Questions an existing investor asks first; shared answers come from src/lib/faq.ts -->
+  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions before your review" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={reviewFaq} />
+    </div>
+  </Section>
+
+  <!-- 8. Final call, then the routes for larger portfolios -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Start with a 30-minute call."
+      lead="Tell us what you hold and what worries you about it. We explain what the review will check, and you decide what happens next."
+    />
+    <ContactActions placement="lp_review_final" surface="light" />
+    <p class="mt-8 text-center text-body-sm text-fi-muted">
+      Larger portfolio? See <a href="/invest/sif/" class={lightLink}>SIFs</a> and <a href="/invest/gift-city-funds/" class={lightLink}>GIFT City funds</a>.
+    </p>
+  </Section>
+</Layout>

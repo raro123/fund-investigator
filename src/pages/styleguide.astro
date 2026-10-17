@@ -12,6 +12,8 @@ import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
+import ContactActions from '../components/ui/ContactActions.astro';
+import FitCards from '../components/ui/FitCards.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import CheckList from '../components/ui/CheckList.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
@@ -177,14 +179,36 @@ import { responsive } from '../lib/responsive';
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FaqList items={investFaq} />`}</code></pre>
   </Section>
 
+  <!-- Contact Actions + Fit Cards (landing pages) -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Contact Actions</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      "Book a first call" (gold) and "Contact on WhatsApp", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
+    </p>
+    <ContactActions placement="invest_cta" surface="light" note="30-minute call · No charge · No obligation" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ContactActions placement="lp_review_hero" surface="dark" note="…" />
+<ContactActions placement="lp_review_cta" surface="light" identity />`}</code></pre>
+
+    <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Fit Cards</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Who a service or product suits (ticks), and who it does not (plain bullets). Light surfaces only.
+    </p>
+    <FitCards suits={['You already invest in mutual funds.']} notFor={['You want a tip for quick gains.']} />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FitCards suits={[…]} notFor={[…]} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" />`}</code></pre>
+  </Section>
+
   <!-- Sample Brief -->
   <Section background="dark" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Sample Brief</h2>
     <p class="text-body-sm text-fi-muted-inv mb-8">
-      The homepage hero's preview of a portfolio-review brief. Dark surfaces only. Names no fund and shows no returns; every value is an example.
+      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start-investing page). Dark surfaces only. Names no fund and shows no returns; every value is an example.
     </p>
-    <SampleBrief />
-    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />`}</code></pre>
+    <div class="grid lg:grid-cols-2 gap-12">
+      <SampleBrief />
+      <SampleBrief variant="start" />
+    </div>
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />                  <!-- portfolio review (default) -->
+<SampleBrief variant="start" />  <!-- starting brief, for savings moving from FDs -->`}</code></pre>
   </Section>
 
   <!-- Color Palette -->

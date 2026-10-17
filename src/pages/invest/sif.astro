@@ -1,0 +1,161 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import ContactActions from '../../components/ui/ContactActions.astro';
+import FitCards from '../../components/ui/FitCards.astro';
+import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
+import SplitRows from '../../components/ui/SplitRows.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import { sifFaq } from '../../lib/faq';
+import { products } from '../../lib/products';
+import { responsive } from '../../lib/responsive';
+import { ARN } from '../../lib/distributor';
+
+// Landing page 3 of 4 (docs/landing_pages_plan.md): for experienced investors
+// asking whether a SIF suits them. A suitability page, not a sales page: who
+// should skip a SIF comes before the process. Names no fund house or strategy
+// by name and makes no return claims.
+// noindex until the copy is checked against the SIF promotion rules (log item 110):
+// the page works for links we share, but search engines do not list it yet.
+// Placements start with `lp_sif_`.
+
+const sif = products.find((product) => product.title === 'SIFs')!;
+const facts = [
+  { label: 'Suits', value: sif.suits },
+  { label: 'Minimum', value: sif.minimum },
+  { label: 'Main risk', value: sif.mainRisk },
+];
+
+const suits = [
+  'You already hold a diversified mutual fund portfolio.',
+  'You can invest ₹10 lakh without needing it back soon.',
+  'You accept that a strategy can trail the market for long periods.',
+];
+const notFor = [
+  'You are new to investing. Start with mutual funds.',
+  '₹10 lakh would be a large part of your savings.',
+  'You may need the money at short notice.',
+];
+
+// Fit first: the whole portfolio, then whether a SIF adds anything.
+const steps = [
+  {
+    name: 'Book a call',
+    left: 'Pick a time, or message us on WhatsApp.',
+    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+  },
+  {
+    name: 'The first call',
+    left: 'Tell us your goals, your time frame and what you hold today.',
+    right: 'Agree your risk profile with you. Explain how SIFs work and what they cost.',
+  },
+  {
+    name: 'Your portfolio',
+    left: 'Share your Consolidated Account Statement (CAS) after the call.',
+    right: 'Review your whole portfolio first: overlap, benchmarks, costs and fit.',
+  },
+  {
+    name: 'The fit check',
+    left: 'Read the brief and ask your questions.',
+    right: 'Say whether a SIF adds something your funds do not. If it does: which strategy, its risks and its redemption rules, in writing.',
+  },
+  {
+    name: 'You decide',
+    left: 'Approve each transaction by OTP. Pay the fund house directly.',
+    right: 'Handle the transaction, then review your SIF with the rest of your portfolio.',
+  },
+];
+
+const callDetails = '30-minute call · No charge · No obligation';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title="Is a SIF right for you? - Fund Investigator"
+  description="Specialised Investment Funds start at ₹10 lakh and carry higher risks. We check whether a SIF suits your portfolio before you invest anything."
+  trackView="landing_view"
+  trackLanding="sif"
+  noindex
+>
+  <!-- 1. Hero: the reader's question, an honest answer up front, the action -->
+  <Hero size="md" background="dark">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      Is a SIF
+      <span class="block text-fi-gold">right for you?</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      Specialised Investment Funds can use strategies a mutual fund cannot, such as long-short. They start at ₹10 lakh and carry higher risks. We check whether one suits your portfolio before you invest anything.
+    </p>
+    <ContactActions placement="lp_sif_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, 'SIF distributor', 'Transparent disclosures']} />
+    </div>
+  </Hero>
+
+  <!-- 2. What a SIF is, framed by fit (src/lib/products.ts), not as a catalogue -->
+  <Section id="what-is-a-sif" background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading
+      title="A SIF at a glance."
+      lead="A SEBI category run by mutual fund houses, between mutual funds and portfolio management services. It can take limited short positions through derivatives, which a mutual fund cannot."
+    />
+    <dl class="grid sm:grid-cols-3 gap-5 text-left">
+      {facts.map((fact) => (
+        <Card padding="lg" hover={false} class="h-full">
+          <dt class="text-caption uppercase text-fi-muted mb-2">{fact.label}</dt>
+          <dd class="text-body-md text-fi-ink leading-relaxed">{fact.value}</dd>
+        </Card>
+      ))}
+    </dl>
+  </Section>
+
+  <!-- 3. Fit before process: who should skip a SIF is the main reason to trust this page -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Who should consider a SIF, and who should skip it." />
+    <FitCards suits={suits} notFor={notFor} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" />
+  </Section>
+
+  <!-- 4. What happens next: the whole portfolio first, then the fit check -->
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Your portfolio first. Then the SIF." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <!-- 5. How we are paid, then the action. "No separate fee" sits with the commission explanation. -->
+  <Section id="costs" background="light" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How we are paid."
+      lead="No separate fee from you. The fund house pays our commission from the SIF's yearly expense ratio. You get our commission in writing before you decide."
+    />
+    <Card padding="md" hover={false} class="max-w-2xl mx-auto text-left">
+      <h3 class="text-body-md font-bold text-fi-ink mb-1">Everything in writing first</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        Before you invest, you get the strategy, its main risks, when you can redeem and our commission, in writing. Nothing moves without your approval.
+      </p>
+    </Card>
+    <ContactActions placement="lp_sif_cta" surface="light" identity class="mt-12" />
+  </Section>
+
+  <!-- 6. Questions before a SIF; shared answers come from src/lib/faq.ts -->
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions about SIFs" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={sifFaq} />
+    </div>
+  </Section>
+
+  <!-- 7. Final call, then the routes to the other pages -->
+  <Section background="light" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Ask whether a SIF suits you."
+      lead="A 30-minute call. We look at what you hold first, and you decide what happens next."
+    />
+    <ContactActions placement="lp_sif_final" surface="light" />
+    <p class="mt-8 text-center text-body-sm text-fi-muted">
+      Want US dollar assets instead? See <a href="/invest/gift-city-funds/" class={lightLink}>GIFT City funds →</a>
+    </p>
+  </Section>
+</Layout>

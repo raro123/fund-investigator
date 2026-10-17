@@ -31,7 +31,7 @@ const { items, openFirst = true, class: className = '' } = Astro.props;
     <details class="group border-t border-fi-border" open={openFirst && index === 0}>
       <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-5 text-body-md font-semibold text-fi-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link [&::-webkit-details-marker]:hidden">
         {item.question}
-        <span class="text-heading-sm leading-none text-fi-link transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true">+</span>
+        <span class="text-heading-sm leading-none text-fi-ink transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true">+</span>
       </summary>
       <p class="pb-5 max-w-fi-content text-body-sm leading-relaxed text-fi-muted">{item.answer}</p>
     </details>

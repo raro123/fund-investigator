@@ -18,7 +18,19 @@ export type WhatsappPlacement =
   | 'invest_cta'
   | 'invest_faq'
   | 'about'
-  | 'footer';
+  | 'footer'
+  | 'lp_review_hero'
+  | 'lp_review_cta'
+  | 'lp_review_final'
+  | 'lp_start_hero'
+  | 'lp_start_cta'
+  | 'lp_start_final'
+  | 'lp_sif_hero'
+  | 'lp_sif_cta'
+  | 'lp_sif_final'
+  | 'lp_gift_city_hero'
+  | 'lp_gift_city_cta'
+  | 'lp_gift_city_final';
 
 const prefilledText: Record<WhatsappPlacement, string> = {
   homepage_hero: `Hi ${FIRST_NAME}, I'd like to know how you can help with my investments.`,
@@ -30,6 +42,19 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   invest_faq: `Hi ${FIRST_NAME}, I have a question about Invest with support.`,
   about: `Hi ${FIRST_NAME}, I'd like to book a first call.`,
   footer: `Hi ${FIRST_NAME}, I have a question.`,
+  // Landing pages: the text names the reader's topic, so the chat shows why they wrote.
+  lp_review_hero: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
+  lp_review_cta: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
+  lp_review_final: `Hi ${FIRST_NAME}, I have a question about a portfolio review.`,
+  lp_start_hero: `Hi ${FIRST_NAME}, I have savings and want to start investing in mutual funds.`,
+  lp_start_cta: `Hi ${FIRST_NAME}, I have savings and want to start investing in mutual funds.`,
+  lp_start_final: `Hi ${FIRST_NAME}, I have a question about starting to invest.`,
+  lp_sif_hero: `Hi ${FIRST_NAME}, I'd like to know if a SIF suits me.`,
+  lp_sif_cta: `Hi ${FIRST_NAME}, I'd like to know if a SIF suits me.`,
+  lp_sif_final: `Hi ${FIRST_NAME}, I have a question about SIFs.`,
+  lp_gift_city_hero: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
+  lp_gift_city_cta: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
+  lp_gift_city_final: `Hi ${FIRST_NAME}, I have a question about GIFT City funds.`,
 };
 
 /**

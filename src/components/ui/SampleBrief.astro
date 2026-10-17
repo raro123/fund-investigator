@@ -2,45 +2,84 @@
 /**
  * SampleBrief Component
  *
- * A sample portfolio-review brief, shown as a white document on a dark hero.
- * It previews what a client receives after the review call: their mix against
- * a target, and headline findings in plain words. Sits on dark surfaces only (the
- * caption uses fi-subtle).
+ * A sample brief, shown as a white document on a dark hero. It previews what
+ * a client receives after the first call: their mix against a target, and
+ * headline points in plain words. Sits on dark surfaces only (the caption uses
+ * fi-subtle).
  *
- * Compliance guardrails (homepage promotes the service):
+ * Two variants:
+ *   - `review` (default): a portfolio review, for existing investors (homepage,
+ *     /invest/portfolio-review/)
+ *   - `start`: a starting brief, for savings moving from FDs into funds
+ *     (/invest/start-investing/). Never called a "plan" ("financial planning"
+ *     is a legal limit, content guide).
+ *
+ * Compliance guardrails (these pages promote the service):
  *   - names no fund and shows no returns or projections
  *   - labelled "Sample", with an example profile and no client name
  *
  * @example
  * <SampleBrief />
+ * <SampleBrief variant="start" />
  *
+ * @param variant - 'review' (default) or 'start'
  * @param class - extra classes for the figure
  */
 
 interface Props {
+  variant?: 'review' | 'start';
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
-
-const profile = 'Age 34 · Moderate risk · 5 funds';
+const { variant = 'review', class: className = '' } = Astro.props;
 
 // Illustrative values only. Each mix sums to 100.
-const mixes = [
-  { label: 'Now', equity: 82, debt: 14, gold: 4 },
-  { label: 'Target', equity: 65, debt: 28, gold: 7 },
-];
-
-// Each finding reads as one plain sentence: the value, then what it means.
+// Each point reads as one plain sentence: the value, then what it means.
 // Metric names (overlap, benchmark, expense ratio) stay out of the text,
-// because the client does not need the term to act on the finding.
-// Correlation is left out: most Indian equity funds move together (0.9+),
-// so it is not a finding on its own, and overlap already shows the cause.
-const findings = [
-  { value: '41%', text: 'of the stocks in your 3 equity funds are the same' },
-  { value: '2 of 5', text: 'funds have not beaten their market index over 5 years' },
-  { value: '1.6%', text: 'a year goes to fund costs, on average' },
-];
+// because the client does not need the term to act on the point.
+// Review: correlation is left out: most Indian equity funds move together
+// (0.9+), so it is not a finding on its own, and overlap already shows the cause.
+// Start: the points describe the process (a safety net, few funds, investing in
+// stages), never a return.
+const briefs = {
+  review: {
+    title: 'Portfolio review',
+    profile: 'Age 34 · Moderate risk · 5 funds',
+    mixLabel: 'Your mix against your target',
+    mixes: [
+      { label: 'Now', equity: 82, debt: 14, gold: 4 },
+      { label: 'Target', equity: 65, debt: 28, gold: 7 },
+    ],
+    pointsLabel: 'What we found',
+    points: [
+      { value: '41%', text: 'of the stocks in your 3 equity funds are the same' },
+      { value: '2 of 5', text: 'funds have not beaten their market index over 5 years' },
+      { value: '1.6%', text: 'a year goes to fund costs, on average' },
+    ],
+    caption: 'A sample portfolio review brief.',
+  },
+  start: {
+    title: 'Starting brief',
+    profile: 'Age 31 · ₹15 lakh in FDs · 7-year goal',
+    mixLabel: 'Your savings now, and the mix we agreed',
+    mixes: [
+      { label: 'Now', equity: 0, debt: 100, gold: 0 },
+      { label: 'Target', equity: 60, debt: 30, gold: 10 },
+    ],
+    pointsLabel: 'How you start',
+    points: [
+      { value: '6 months', text: 'of expenses stay in the bank for emergencies' },
+      { value: '3 funds', text: 'suit this goal and your risk profile' },
+      { value: '12 months', text: 'to invest the rest in stages, not on one day' },
+    ],
+    caption: 'A sample starting brief.',
+  },
+} as const;
+
+const { title, profile, mixLabel, mixes, pointsLabel, points, caption } = briefs[variant];
+
+// The value column fits the longest value, so the sentences start in one line.
+const valueWidth = { review: 'w-16', start: 'w-28' }[variant];
 
 const assetClasses = [
   { key: 'equity', name: 'Equity', fill: 'bg-fi-mid' },
@@ -49,6 +88,7 @@ const assetClasses = [
 ] as const;
 
 // Segment widths are data, not design values, so they are set inline below.
+// A 0% segment is left out: its padding and border would still show a sliver.
 // A segment shows its name only when wide enough to fit it, and its value
 // only when wide enough for the number; the key below names every colour.
 const segmentText = (name: string, value: number) =>
@@ -63,14 +103,14 @@ const segmentText = (name: string, value: number) =>
     <div class="relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 shadow-fi-card-dark transition-transform duration-300 hover:-translate-y-1">
       <div class="flex items-start justify-between gap-3">
         <div>
-          <p class="text-body-lg font-bold leading-snug">Portfolio review</p>
+          <p class="text-body-lg font-bold leading-snug">{title}</p>
           <p class="text-body-sm text-fi-muted tabular-nums">{profile}</p>
         </div>
         <span class="shrink-0 rounded-md border border-fi-border px-2 py-0.5 text-caption uppercase text-fi-muted">Sample</span>
       </div>
 
       <div class="mt-4 border-t border-fi-border pt-4">
-        <p class="text-caption uppercase text-fi-muted mb-3">Your mix against your target</p>
+        <p class="text-caption uppercase text-fi-muted mb-3">{mixLabel}</p>
         <div class="space-y-2">
           {mixes.map((mix) => (
             <div class="flex items-center gap-2">
@@ -80,7 +120,7 @@ const segmentText = (name: string, value: number) =>
                 role="img"
                 aria-label={`${mix.label}: equity ${mix.equity}%, debt ${mix.debt}%, gold ${mix.gold}%`}
               >
-                {assetClasses.map(({ key, name, fill }) => (
+                {assetClasses.filter(({ key }) => mix[key] > 0).map(({ key, name, fill }) => (
                   <span class:list={['flex items-center overflow-hidden pl-2 border-r-2 border-white last:border-r-0', fill]} style={`width: ${mix[key]}%`}>
                     <span class="whitespace-nowrap text-xs font-semibold text-white tabular-nums">{key === 'gold' ? '' : segmentText(name, mix[key])}</span>
                   </span>
@@ -97,12 +137,12 @@ const segmentText = (name: string, value: number) =>
       </div>
 
       <div class="mt-4 border-t border-fi-border pt-4">
-        <p class="text-caption uppercase text-fi-muted mb-3">What we found</p>
+        <p class="text-caption uppercase text-fi-muted mb-3">{pointsLabel}</p>
         <ul class="space-y-2.5">
-          {findings.map((finding) => (
+          {points.map((point) => (
             <li class="flex items-baseline gap-3">
-              <span class="w-16 shrink-0 text-heading-sm tabular-nums whitespace-nowrap">{finding.value}</span>
-              <span class="text-body-sm">{finding.text}</span>
+              <span class:list={[valueWidth, 'shrink-0 text-heading-sm tabular-nums whitespace-nowrap']}>{point.value}</span>
+              <span class="text-body-sm">{point.text}</span>
             </li>
           ))}
         </ul>
@@ -110,6 +150,6 @@ const segmentText = (name: string, value: number) =>
     </div>
   </div>
   <figcaption class="mt-6 text-body-sm text-fi-subtle text-center">
-    A sample portfolio review brief.
+    {caption}
   </figcaption>
 </figure>

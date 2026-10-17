@@ -131,12 +131,66 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
 | 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | ✅ Resolved (S54): in the footer (`DistributorIdentity` inline), so every page has it; not in the hero or final call, to keep visitors on the booking buttons |
+| 107 | **Copy — high priority (owner): check the draft copy on `/invest/portfolio-review/`.** Hero, the five signs, the four checks, the five stages, "Is this review for you?", "How we are paid" and the two new FAQ answers (`reviewFaq` in `src/lib/faq.ts`: "What do I need to share?", "Will you ask me to sell my funds?") | 2026-10-17 | S55 | 🟡 Open (S56 — also check `/invest/start-investing/`, `/invest/sif/`, `/invest/gift-city-funds/`, the starting brief in `SampleBrief.astro` and the new answers in `startFaq`, `sifFaq`, `giftCityFaq`) |
+| 108 | **Distribution — high priority (owner): measure completed bookings by landing page.** Zoho takes no `ref`. Add a required Zoho question "What would you like help with?" (Review my portfolio · Start investing · SIF · GIFT City funds · Other); extends #88. Check whether the Zoho plan allows one service per landing page (own URL) or a redirect to a `/thanks/` page. Start the client sheet: date, name, landing, source, call held, client, amount, products, hours (`docs/landing_pages_plan.md` §4) | 2026-10-17 | S55 | 🟡 Open |
+| 109 | **Analytics — medium priority: PostHog funnels per landing page** (`landing_view` → `review_booking_click` / `conversation_request`, by `landing` and `utm_source`). Agree the UTM convention for every post (`utm_source`, `utm_campaign` = landing id, `utm_content` = the piece) and write the 3-month thresholds before the first content goes out | 2026-10-17 | S55 | 🟡 Open |
+| 110 | **Website — high priority: landing page 2, `/invest/start-investing/`**, for readers with savings in FDs. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both) |
+| 111 | **Website — medium priority: route links to the landing pages.** Small links on the homepage, and the `/invest/#products` SIF and GIFT City cards linking to pages 3 and 4 once built. The review page's "Larger portfolio?" line points to `/invest/#products` until then | 2026-10-17 | S55 | 🟡 Open (S56 — the four landing pages link to each other; the homepage and `/invest/` links are still to do) |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S56 — Landing pages 2–4: start investing, SIF, GIFT City funds
+
+**What was done:**
+We built the other three landing pages: `/invest/start-investing/` (savings in FDs, new to markets), `/invest/sif/` and `/invest/gift-city-funds/`. Each one aims at one action, a booked call or a WhatsApp message, with three button pairs (hero, after the costs, final) and WhatsApp texts that name the topic. The start page shows a sample starting brief. The pages link to each other.
+
+**Why:**
+The owner asked for every category to have a page that turns an interested reader into a message or a booked call. Each product now has its own way in, so none is left unused.
+
+**How:**
+New components `ContactActions` (booking and WhatsApp buttons tracked by one placement, an optional call note and the registered identity) and `FitCards` (who it suits, who should skip it), both on `/styleguide`. `SampleBrief` has a `variant` prop (`review`, `start`); a 0% segment is no longer drawn. `/invest/portfolio-review/` now uses the shared components. New FAQ lists `startFaq`, `sifFaq`, `giftCityFaq` reuse shared answers word for word. New WhatsApp placements `lp_start_*`, `lp_sif_*`, `lp_gift_city_*`. `llms.txt` lists the start page. Lint, contrast and build pass (19 pages, metadata checks pass); at 375px no page scrolls sideways, and each page sends `landing_view` with its id.
+
+**Decisions made:**
+- Each page has one goal: a booked call or a WhatsApp message. The gold button is in the hero, the costs section and the final section only.
+- SIF and GIFT City pages are suitability pages: who should skip the product comes before the process, and every risk, redemption and tax point is promised in writing.
+- The GIFT City page states the rules that decide fit (LRS limit USD 250,000 a year, TCS, the rupee–dollar rate, tax and reporting) before the process. Tax copy stays general and points to the client's tax adviser.
+- `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until #110 is done.
+- The starting brief is never called a "plan".
+- FAQ toggles (+ / ×) are `fi-ink`, the hero navy, not `fi-link`: amber read as gold on light surfaces. Links stay `fi-link`.
+- Code comments write log items as "log item 110": "#110" reads as a hex colour to the design lint.
+
+**Pending decisions:**
+- #107 now covers the copy of all four pages, including the starting brief values. #110 and #111 updated.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S55 — Landing pages plan, `/invest/portfolio-review/` and landing tracking
+
+**What was done:**
+We agreed a landing pages plan (`docs/landing_pages_plan.md`): four pages, one per reader situation, fed by content (articles, YouTube, X). We built page 1, `/invest/portfolio-review/`, for readers who already invest. We added page tracking: a `landing_view` event that carries the page id and the visit's UTM tags, and WhatsApp texts that name the topic.
+
+**Why:**
+The owner is a new MFD with no client referrals yet, so clients will come from content. Each piece of content needs a page that matches the reader's question, and the pages show which situations bring clients worth having. The existing events recorded the button but not the page or the post that sent the visitor.
+
+**How:**
+`analytics.ts` has `landing_view` and `LandingId` (`review`, `start`, `sif`, `gift_city`). `Layout.astro` takes `trackLanding` and sends `landing` plus any `utm_*` tags with the view event. `whatsapp.ts` has `lp_review_hero`, `lp_review_cta` and `lp_review_final`. The page reuses `Hero`, `SampleBrief`, `CredibilityStrip`, `CheckList`, `SplitRows`, `Card` and `FaqList`; `reviewFaq` in `faq.ts` reuses four shared answers word for word. The page is in `llms.txt` and the sitemap. Lint, contrast (24 pairs) and build pass; the dev preview at 1024px and 375px shows no sideways scroll and the tracking attributes on all six buttons.
+
+**Decisions made:**
+- Four landing pages, not three: SIF and GIFT City funds get separate pages. A combined "beyond mutual funds" page matches no search and hides which product drew the interest.
+- Slugs: `/invest/portfolio-review/`, `/invest/start-investing/`, `/invest/sif/`, `/invest/gift-city-funds/`. `/invest/` stays the general page.
+- Content that feeds a landing page is a generic guide in the reader's words. Fund analyses that name a scheme never link to these pages.
+- Page order: hero with the sample brief, signs, four checks, five stages, who it suits, how we are paid with the action, FAQ, final call. Gold buttons in the hero, costs and final sections only.
+- Landing pages are service pages: they show the registered name, like `/invest/`. The homepage stays brand-only.
+- Placements on landing pages start with `lp_<landing>_`.
+
+**Pending decisions:**
+- New: #107 copy check, #108 completed bookings by page, #109 PostHog funnels and UTM convention, #110 pages 2–4, #111 route links.
 
 ---
 

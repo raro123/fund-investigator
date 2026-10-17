@@ -1,0 +1,184 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import CheckList from '../../components/ui/CheckList.astro';
+import ContactActions from '../../components/ui/ContactActions.astro';
+import FitCards from '../../components/ui/FitCards.astro';
+import SampleBrief from '../../components/ui/SampleBrief.astro';
+import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
+import SplitRows from '../../components/ui/SplitRows.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import { startFaq } from '../../lib/faq';
+import { responsive } from '../../lib/responsive';
+import { ARN } from '../../lib/distributor';
+
+// Landing page 2 of 4 (docs/landing_pages_plan.md): for readers with savings
+// in FDs or a savings account who are new to markets. Their main worry is
+// losing money or getting the timing wrong, so the page shows a careful
+// process (safety net, few funds, investing in stages), never a return.
+// Draft copy: the owner checks it (S56). Placements start with `lp_start_`.
+
+// The reader's situation, in their words.
+const signs = [
+  'Your savings sit in FDs or a savings account, and you are not sure what else suits you.',
+  'You worry about investing just before markets fall.',
+  'Thousands of funds, and no clear way to know which suit you.',
+  'Friends, apps and videos give you different answers.',
+  'You want to start, but not with a large mistake.',
+];
+
+// How we start a first-time investor: four steps of the process, in order.
+const approach = [
+  { title: 'Goals first', body: 'What the money is for, when you need it, and how much risk you can live with. The funds come after.' },
+  { title: 'A safety net', body: 'Money for emergencies stays in the bank before anything goes into the market.' },
+  { title: 'A simple mix', body: 'A few funds that suit your risk profile, each with the reasons and the costs in writing.' },
+  { title: 'In stages', body: 'A large amount can go in over months, through SIPs or a transfer plan, so you do not depend on one day\'s market.' },
+];
+
+// From booking to the first investment, then the reviews.
+const steps = [
+  {
+    name: 'Book a call',
+    left: 'Pick a time, or message us on WhatsApp.',
+    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+  },
+  {
+    name: 'The first call',
+    left: 'Tell us what you have saved, what it is for and when you may need it.',
+    right: 'Explain the main fund categories, and SIP or lump sum. Agree your risk profile with you.',
+  },
+  {
+    name: 'Your starting brief',
+    left: 'Read the brief and ask your questions.',
+    right: 'Send a short brief: what stays aside, the mix, the funds we suggest and how to invest in stages. Our commission in writing.',
+  },
+  {
+    name: 'Set up',
+    left: 'Complete KYC with our help. Approve each transaction by OTP, and pay the fund house directly.',
+    right: 'Handle KYC, SIPs and transfers.',
+  },
+  {
+    name: 'Stay with it',
+    left: 'Tell us when your plans change.',
+    right: 'Review your funds at regular intervals. Talk with you before you act when markets fall.',
+  },
+];
+
+const suits = [
+  'You have savings that you will not need for the next few years.',
+  'You want to invest, but want someone to explain each step.',
+  'You want the costs and our commission in writing before you decide.',
+];
+const notFor = [
+  'You want guaranteed returns. Mutual funds carry market risk.',
+  'You need all of the money within the next year or so.',
+  'You want tips for quick gains.',
+];
+
+const callDetails = '30-minute call · No charge · No obligation';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title="Start investing your savings - Fund Investigator"
+  description="Savings in FDs and new to mutual funds? A 30-minute call, then a starting brief: your goals first, a simple mix, and investing in stages."
+  trackView="landing_view"
+  trackLanding="start"
+>
+  <!-- 1. Hero: the reader's situation, the promise, the action, then a sample starting brief as proof -->
+  <Hero size="md" background="dark">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      Savings in FDs?
+      <span class="block text-fi-gold">Start investing, carefully.</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      We help you move from savings to mutual funds one step at a time: your goals first, then a simple mix, invested in stages. You approve every step.
+    </p>
+    <ContactActions placement="lp_start_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-8">
+      <SampleBrief variant="start" />
+    </div>
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+    </div>
+  </Hero>
+
+  <!-- 2. The situation: worries the reader recognises -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="Sound familiar?" lead="What most people tell us before their first investment." />
+    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto">
+      <CheckList items={signs} />
+    </Card>
+  </Section>
+
+  <!-- 3. The process: how we start, in four steps -->
+  <Section id="approach" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="How we help you start." lead="A careful process, so your first investment is not a guess." />
+    <ol class="grid sm:grid-cols-2 gap-5 text-left">
+      {approach.map((item, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{item.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{item.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <!-- 4. What happens next: You beside We, from booking to the reviews -->
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="From the first call to your first investment." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <!-- 5. Fit: who this suits and who it does not -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Is this for you?" />
+    <FitCards suits={suits} notFor={notFor} />
+  </Section>
+
+  <!-- 6. How we are paid, then the action. "No separate fee" sits with the commission explanation. -->
+  <Section id="costs" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How we are paid."
+      lead="No separate fee from you. The fund house pays our commission from the regular plan's yearly expense ratio. You get our commission on each fund, in writing, before you decide."
+    />
+    <!-- The main reassurance for a first-time investor: we never hold the money. -->
+    <Card variant="subtle" padding="md" hover={false} class="max-w-2xl mx-auto text-left">
+      <h3 class="text-body-md font-bold text-fi-ink mb-1">Your money goes to the fund house</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        You pay each fund house directly, and the units are in your name. We never receive your money, and nothing moves without your approval.
+      </p>
+    </Card>
+    <p class="text-center text-body-sm mt-6">
+      <a href="/invest/#costs" class={lightLink}>Compare direct and regular plans →</a>
+    </p>
+    <ContactActions placement="lp_start_cta" surface="light" identity class="mt-12" />
+  </Section>
+
+  <!-- 7. Questions a first-time investor asks; shared answers come from src/lib/faq.ts -->
+  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions before you start" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={startFaq} />
+    </div>
+  </Section>
+
+  <!-- 8. Final call, then the route for readers who already hold funds -->
+  <Section background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Start with a 30-minute call."
+      lead="Tell us what you have saved and what it is for. We explain how we would start, and you decide what happens next."
+    />
+    <ContactActions placement="lp_start_final" surface="light" />
+    <p class="mt-8 text-center text-body-sm text-fi-muted">
+      Already hold some funds? <a href="/invest/portfolio-review/" class={lightLink}>Start with a portfolio review →</a>
+    </p>
+  </Section>
+</Layout>

@@ -3,7 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { absoluteImageUrl } from '../lib/schema';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
-import type { TrackView } from '../lib/analytics';
+import type { LandingId, TrackView } from '../lib/analytics';
 
 // Self-hosted Inter font (matches Google Fonts weights) — site-wide UI chrome
 import '@fontsource/inter/400.css';
@@ -37,6 +37,7 @@ interface Props {
   noindex?: boolean;
   extraLinks?: ReadonlyArray<Record<string, string>>;
   trackView?: TrackView;      // Optional: PostHog page-view event sent on load
+  trackLanding?: LandingId;   // Optional: `landing` property of that event, on landing pages
 }
 
 const {
@@ -55,6 +56,7 @@ const {
   noindex = false,
   extraLinks = [],
   trackView,
+  trackLanding,
 } = Astro.props;
 
 const resolvedTitle = title?.trim() || 'Fund Investigator';
@@ -110,7 +112,7 @@ const defaultLinks = [
     />
 
   </head>
-  <body class="font-sans antialiased" data-track-view={trackView}>
+  <body class="font-sans antialiased" data-track-view={trackView} data-track-landing={trackLanding}>
     <Header />
     <main>
       <slot />
@@ -177,8 +179,14 @@ const defaultLinks = [
         // Funnel events (src/lib/analytics.ts). Booking and WhatsApp links
         // carry no utm the destination can report back, so these named
         // events are the record of which button started a conversation.
+        // The view event also carries the page's utm_* tags, so a landing
+        // page funnel can be broken down by the post or video that sent the
+        // visitor (docs/landing_pages_plan.md §4).
         const view = document.body.dataset.trackView;
-        if (view) posthog.capture(view);
+        if (view) {
+          const utm = [...new URLSearchParams(window.location.search)].filter(([key]) => key.startsWith('utm_'));
+          posthog.capture(view, { landing: document.body.dataset.trackLanding, ...Object.fromEntries(utm) });
+        }
 
         document.addEventListener('click', (event) => {
           const tracked = (event.target as Element | null)?.closest<HTMLElement>('[data-track]');
