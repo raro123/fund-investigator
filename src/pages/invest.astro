@@ -137,9 +137,14 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- 2. Client journey: You beside We at each stage, so every row repeats the hero promise.
-       Placements keep the "invest_review" name so earlier analytics stay comparable. -->
-  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+  <!-- Situation routes precede the detailed journey; retain the #products anchor. -->
+  <Section id="products" background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Where are you starting from?" lead="Start with your goals and what you hold. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
+    <RouteCards variant="detailed" />
+  </Section>
+
+  <!-- Preserve the invest_review placements so earlier analytics stay comparable. -->
+  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="From the first call to every review." lead="What you do, and what we do, at each stage." />
     <SplitRows rows={journey} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
 
@@ -149,30 +154,22 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Section>
 
-  <!-- 3. Situations: one card per reader situation, each linking to its landing page and keeping
-       the product's minimum and main risk (src/lib/routes.ts). Text links only: no gold here.
-       Keeps the #products anchor so older links still land here. -->
-  <Section id="products" background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Where are you starting from?" lead="Most clients start with mutual funds. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
-    <RouteCards variant="detailed" />
-  </Section>
-
   <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the
        action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
        buttons, the strip names the person, the email and the registration: credentials stay on /about/. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here is what the regular plan gets you with us." />
+    <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here we compare managing a direct plan yourself with a regular plan through us. Direct investors can also separately pay a registered investment adviser." />
     <SplitRows
       rows={routes}
       rowLabel=""
-      columns={[{ label: 'Direct plan, on your own', short: 'Direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
+      columns={[{ label: 'DIY direct plan', short: 'DIY direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
       emphasis="right"
     />
     <!-- The note for direct-plan holders is a callout: it is the main reassurance for this group. -->
     <Card variant="subtle" padding="md" hover={false} class="max-w-3xl mx-auto mt-8 text-left">
       <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans, but want an expert opinion?</h3>
       <p class="text-body-sm text-fi-muted leading-relaxed">
-        We review them on the first call, and you can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
+        We discuss them on the first call and review the details after you share your holdings. You can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
       </p>
     </Card>
 

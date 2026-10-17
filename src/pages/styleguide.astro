@@ -12,6 +12,8 @@ import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
+import OwnerIntro from '../components/ui/OwnerIntro.astro';
+import AssessmentPreview from '../components/ui/AssessmentPreview.astro';
 import ContactActions from '../components/ui/ContactActions.astro';
 import FitCards from '../components/ui/FitCards.astro';
 import RouteCards from '../components/ui/RouteCards.astro';
@@ -45,7 +47,7 @@ import { responsive } from '../lib/responsive';
       Three concise, verifiable markers plus a separate product attribution. The component owns its responsive typography, spacing, and separators.
     </p>
     <p class="text-body-sm text-fi-muted-inv mb-6">
-      Not currently used on any page (removed from the homepage in S38). Bring it back only with markers that are specific, true of every investigation, and linked to proof — not generic claims like the example below.
+      Used below the homepage and landing-page proof for registration and distribution markers. Use only verified markers; registration must never read as regulator endorsement.
     </p>
 
     <div class="overflow-hidden rounded-lg border border-fi-border-dark bg-fi-mid">
@@ -216,7 +218,7 @@ import { responsive } from '../lib/responsive';
   <Section background="dark" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Sample Brief</h2>
     <p class="text-body-sm text-fi-muted-inv mb-8">
-      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start investing page). Dark surfaces only. Names no fund and shows no returns; every value is an example.
+      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start investing page). Dark surfaces only. Names no fund and shows no returns; every value is illustrative. The review includes a practical discussion point. The starting mix excludes the emergency reserve, and its amount, fund count and timing are examples rather than minimums or requirements.
     </p>
     <div class="grid lg:grid-cols-2 gap-12">
       <SampleBrief />
@@ -224,6 +226,20 @@ import { responsive } from '../lib/responsive';
     </div>
     <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />                  <!-- portfolio review (default) -->
 <SampleBrief variant="start" />  <!-- starting brief, for savings moving into funds -->`}</code></pre>
+  </Section>
+
+  <!-- Landing-page trust and tangible service proof -->
+  <Section background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Owner introduction and assessment preview" lead="Compact trust and proof for service landing pages. Light surfaces only." />
+    <OwnerIntro class="mb-10" />
+    <div class="grid sm:grid-cols-2 gap-5">
+      <AssessmentPreview variant="sif" />
+      <AssessmentPreview variant="gift-city" />
+    </div>
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-light p-4 text-body-sm text-fi-muted"><code>{`<OwnerIntro />
+<AssessmentPreview variant="sif" />
+<AssessmentPreview variant="gift-city" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-4">OwnerIntro reads the name and first available credential from distributor.ts and links to the owner's story. AssessmentPreview shows what the written assessment covers, not a completed client result. Both accept a class prop.</p>
   </Section>
 
   <!-- Color Palette -->

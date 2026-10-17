@@ -1,0 +1,32 @@
+---
+/** Service deliverable preview, never presented as an actual client result. */
+import Card from './Card.astro';
+import CheckList from './CheckList.astro';
+
+interface Props {
+  variant: 'sif' | 'gift-city';
+  class?: string;
+}
+
+const { variant, class: className = '' } = Astro.props;
+const items = {
+  sif: [
+    'The role a SIF would play in your existing portfolio.',
+    'Whether its strategy adds useful exposure beyond the funds you hold.',
+    'The risks, redemption conditions and costs you would accept.',
+    'Our conclusion and the reasons, including when a SIF adds little.',
+  ],
+  'gift-city': [
+    'Your purpose for holding dollar investments and their role in your portfolio.',
+    'The underlying investment risks, currency exposure, costs and liquidity.',
+    'Eligibility, documents and funding questions for your residence and selected fund.',
+    'Tax and reporting questions to confirm with your tax adviser.',
+  ],
+};
+---
+
+<Card padding="lg" hover={false} class:list={['max-w-3xl mx-auto text-left', className]}>
+  <h3 class="text-body-lg font-bold text-fi-ink mb-2">{variant === 'sif' ? 'What your SIF assessment covers' : 'Your assessment checklist'}</h3>
+  <p class="text-body-sm text-fi-muted mb-4">A preview of your written brief, with reasons for the conclusion.</p>
+  <CheckList items={items[variant]} />
+</Card>

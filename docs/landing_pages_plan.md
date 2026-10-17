@@ -1,6 +1,6 @@
 # Landing pages plan
 
-**Status (2026-10-17, S56):** All four pages are built on `dev`, with draft copy for the owner to check (#107, #110). `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until their compliance checks are done (#110); they work for links we share. Open items: #107–#111 in `docs/project_log.md`.
+**Status (2026-10-17, S59):** The approved consolidated design/copy update is implemented on `dev`. Discovery appears earlier, each landing page keeps its three CTA pairs, the middle pair follows value/proof and costs, and each journey has three stages. This implementation does not resolve the separate suitability, promotion, tax or transaction-readiness reviews. `/invest/sif/` and `/invest/gift-city-funds/` remain `noindex` and out of the sitemap; noindex does not restrict access.
 **Why:** The owner is a new MFD without client referrals. Clients will come from content (articles, YouTube, X). Each piece of content links to the landing page that matches the reader's situation. The pages are also the test: which situations bring clients worth having, for a solo practice.
 **Rules:** `docs/content_philosophy_v2.md` (copy and legal limits), `docs/mfd_funnel_handoff.md` (funnel decisions), `CLAUDE.md` (design system).
 
@@ -20,23 +20,23 @@
 | 3 | `/invest/sif/` | Experienced investor asking whether a SIF suits them | SIF | `sif` |
 | 4 | `/invest/gift-city-funds/` | Wants US dollar assets from India, including NRIs | GIFT City funds | `gift_city` |
 
-`/invest/` stays the general page. Routes in (S58): `RouteCards` (data in `src/lib/routes.ts`) shows three situations (Already investing · Starting out · Beyond mutual funds). On `/invest/#products` they replace the product cards and keep each product's minimum and main risk; on the homepage they sit below the final section's booking buttons ("Not ready yet?"). The footer links pages 1 and 2. The landing pages link to each other. No links in the homepage hero or the header.
+`/invest/` stays the general service page. `RouteCards` (data in `src/lib/routes.ts`) shows three situations (Already investing · Starting out · Beyond mutual funds). On `/invest/#products` they precede `#how-it-works` and retain the product disclosures. On the homepage they appear once, immediately after services, under "Where are you starting from?". The footer still links pages 1 and 2. Final product cross-sells were removed from review, SIF and GIFT City; the beginner page retains its relevant existing-investor review link. Shared header and footer policy are unchanged pending review.
 
 **Page 2's proof:** `<SampleBrief variant="start" />`, a sample starting brief (never a "plan": "financial planning" is a legal limit).
 **Before pages 3 and 4 are indexed or shared widely:** check the SIF promotion rules (handoff §2, decision 9) and the GIFT City tax, LRS and reporting points; confirm we can place transactions in both (#60). Then remove `noindex` and the sitemap filter in `astro.config.mjs`.
-**Shared pieces:** `ContactActions` (the booking and WhatsApp buttons with one placement, optional call note and identity) and `FitCards` (who it suits, who should skip it). Every page uses `trackView="landing_view"` and its `trackLanding` id.
+**Shared pieces:** `ContactActions` keeps the existing booking/WhatsApp placements and message mappings. `OwnerIntro` introduces the owner with one credential from `distributor.ts` beside the early proof. `AssessmentPreview` shows the SIF/GIFT City written-assessment checklist, not a completed client result. `SampleBrief` remains explicitly illustrative: the review adds a practical implication; the starting example keeps its emergency reserve outside the investment mix and labels its amount/timing/fund count as examples, not minimums. These shared components are demonstrated in `/styleguide`. Every page retains `trackView="landing_view"` and its `trackLanding` id.
 
 ## 3. What every landing page has
 
 1. **One reader, one promise, one action.** "Book a first call" is the gold button; WhatsApp is secondary.
 2. **Message match.** The headline repeats the promise of the content that sent the reader, in their words.
 3. **Hero:** the situation, what we do, what you get, the call details (30 minutes, no charge for the call).
-4. **Process, not promise.** What we check for this reader.
-5. **Proof for this reader:** review → sample brief; start → sample starting brief; SIF / GIFT City → suits, minimum, main risk, who should skip it.
-6. **How we are paid, before the ask.** Commission, direct vs regular, rates in writing per scheme.
-7. **Who it suits.** Every page lists who the service or product suits, not who should skip it (owner, S57). Mutual funds cover short and long goals (overnight and liquid funds to equity). On the SIF and GIFT City pages, the minimum, the main risks and the rules stay in their own sections ("A SIF at a glance", "Four things to know first").
-8. **What happens next.** Call → holding details → written brief → you decide and approve each transaction by OTP.
-9. **4–6 questions for this reader.**
+4. **Value and proof first.** Review → four checks and sample brief; start → goals, reserve, suitable mix and sample starting brief; SIF/GIFT City → compact fit/facts plus assessment preview. Owner identity appears early. Duplicate problem/fit sections are combined rather than compressed with smaller type.
+5. **How we are paid, then the middle CTA.** Commission and costs in writing before the decision. MF pages explain the regular plan expense ratio; direct plans exclude distributor commission and may be managed DIY or with a separately paid registered investment adviser.
+6. **Visible risks and minimums.** No blanket "not for" list. SIF minimum/risks remain prominent. GIFT City shows both underlying investment risk and currency risk, with visible Resident in India and NRI blocks. Resident LRS guidance is not reused as NRI setup instructions.
+7. **Three stages.** First conversation → assessment/brief after holding details where needed → investor decision, setup and support. The investor approves transactions and pays the provider directly. No new delivery-time promises.
+8. **Relevant questions.** Beginner FAQ starts with amount, access and market risk; FD concerns appear later. GIFT City questions are visibly grouped by residence, followed by shared questions.
+9. **Keep the page focused.** Remove unrelated final product cross-sells; no extra popups or sticky UI.
 10. **A closing call to action.** Phone first; footer identity and risk warning (site-wide).
 11. **Compliance:** no scheme or fund house names, no return claims, no "advice", "free" or "research" as a label.
 
@@ -59,4 +59,23 @@ Path: content → landing view → click → booking or WhatsApp → call → cl
 
 1. Template and tracking with page 1 (`/invest/portfolio-review/`). S55.
 2. Pages 2–4, the starting brief and the shared components. S56.
-3. Next: the owner's copy and compliance checks (#107, #110), route links (#111), then the first content that links to each page.
+3. Situation routes built (S58), moved earlier and landing pages streamlined (S59). Implementation and browser review are complete; separate launch-readiness items remain.
+
+### S59 validation
+
+- `npm run lint:design` passes, including all 24 configured contrast pairs.
+- `npm run build` passes for 19 pages, including H1, internal-link, image-alt and metadata validation. The SEO dependency reports missing-source sourcemap warnings; these do not fail the build.
+- Local browser review covered the homepage, `/invest/` and all four landing pages at 390px, plus all four landing pages at 320px. No horizontal document overflow or nested page sections; the beginner FAQ expands correctly. Desktop layout was also inspected.
+- All twelve landing-page booking placements and their booking destinations are preserved. SIF and GIFT City still render `noindex`.
+- At 390px, the homepage portfolio-review route moved from approximately 6,300px to 3,500px down the page. The middle landing-page booking actions appear approximately 26–32% earlier. These are layout measurements, not evidence of improved conversions.
+- No commit, push, deployment, external booking or analytics configuration change was made.
+
+## 6. Separate pending actions
+
+These are backlog items, not findings resolved by the copy implementation:
+
+- Review the shared header/footer links on named-fund analyses against the content-mode rule. No shared navigation changes were made here.
+- Both guides currently featured on the homepage still name schemes in their body; they must not be treated as generic landing-page feeders merely because their card copy is generic. Review/replace that feeder content separately.
+- Complete SIF promotion and GIFT City tax/LRS/TCS, eligibility and transaction-readiness checks (#110, #60). Noindex is not an access gate, and the existing public routes remain reachable.
+- Confirm suitability boundaries and the service's deliverables/limits before release; this copy edit is not a suitability-policy review.
+- Complete booking attribution and PostHog funnel setup (#108–#109). Existing clicks are not evidence of completed bookings. Zoho, WhatsApp and tracking infrastructure were not changed.

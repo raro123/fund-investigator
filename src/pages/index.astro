@@ -138,8 +138,13 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Section>
 
-  <!-- 3. The Fund Investigator way: why us, without the person (the final section reveals them) -->
   <Section background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Where are you starting from?" />
+    <RouteCards />
+  </Section>
+
+  <!-- The differences follow the situation routes. -->
+  <Section background="light" spacing="md" maxWidth="2xl">
     <SectionHeading
       title="The Fund Investigator way."
       lead="Because Indian fund investors deserve fund choices backed by evidence and a portfolio-first approach."
@@ -163,7 +168,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 4. Investigations and tools: value first (guides), then the ask (subscribe) -->
-  <Section background="light" spacing="md" maxWidth="2xl">
+  <Section background="white" spacing="md" maxWidth="2xl">
     <SectionHeading
       title="Our investigations and tools."
       lead="Read our analysis, see our methods and try our tools."
@@ -214,8 +219,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
 
   <!-- 5. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
        The person behind the service is on /about/ (linked from the differences section).
-       The route cards come after the booking, for visitors not ready to book yet
-       (docs/landing_pages_plan.md, S58). -->
+       Situation routes appear immediately after services. -->
   <Section background="white" spacing="md" maxWidth="lg">
     <div class="text-center">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
@@ -234,9 +238,6 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       </p>
     </div>
 
-    <div class="mt-14 border-t border-fi-border pt-10">
-      <p class="text-center text-body-md text-fi-muted mb-6">Not ready yet? See how we help in your situation.</p>
-      <RouteCards />
-    </div>
+
   </Section>
 </Layout>

@@ -55,7 +55,7 @@ export const investFaqGroups: FaqGroup[] = [
     items: [
       {
         question: 'What is the difference between a direct plan and a regular plan?',
-        answer: 'Each fund is sold in two versions. You buy a direct plan on your own, with no help to choose or review. You buy a regular plan through a distributor like us. It has a higher yearly expense ratio, and our commission comes from that difference. The fund and its investments are the same in both.',
+        answer: 'A direct plan has a lower yearly expense ratio because it excludes distributor commission. You can manage it yourself or separately pay a registered investment adviser for help. A regular plan is bought through a distributor like us and has a higher expense ratio that includes distributor commission. The fund and its investments are the same in both.',
       },
       {
         question: 'Do you choose funds by the commission they pay you?',
@@ -121,8 +121,8 @@ export const reviewFaq: FaqItem[] = [
  */
 export const startFaq: FaqItem[] = [
   {
-    question: 'Do I need to break my FDs?',
-    answer: 'No. Many investors keep part of their money in FDs. We look at your goals and when you need the money, then you decide how much, if any, goes into mutual funds, and when.',
+    question: 'How much do I need to start?',
+    answer: 'Each mutual fund sets its own minimum for SIPs and lump sums. We check the minimums for the funds that suit you. The ₹15 lakh in the sample brief is only an example, not a minimum for starting.',
   },
   {
     question: 'What if I need some of the money soon?',
@@ -130,7 +130,7 @@ export const startFaq: FaqItem[] = [
   },
   {
     question: 'What if markets fall after I invest?',
-    answer: 'They will fall at times, and equity funds can fall sharply in the short term. That is why we agree your time frame first, keep money aside for emergencies, and invest a large amount in stages. When markets fall, you talk to us before you act.',
+    answer: 'Markets fall at times, and equity funds can fall sharply in the short term. That is why we discuss your time frame, risk profile and emergency reserve before choosing funds. Investing in stages may suit your circumstances, but it does not remove market risk. You can talk to us before deciding what to do.',
   },
   {
     question: 'SIP or lump sum?',
@@ -140,7 +140,10 @@ export const startFaq: FaqItem[] = [
     question: 'Do I need a demat account?',
     answer: 'No. Mutual fund units are held in your name with each fund house. You need KYC, and we help you complete it.',
   },
-  sharedAnswer('Is there a minimum amount?'),
+  {
+    question: 'Do I need to break my FDs?',
+    answer: 'No. We look at your goals and when you need the money, then you decide how much, if any, goes into mutual funds, and when. FDs can remain part of your savings.',
+  },
   sharedAnswer('What is the difference between a direct plan and a regular plan?'),
   sharedAnswer('Who holds my money?'),
 ];
@@ -191,4 +194,29 @@ export const giftCityFaq: FaqItem[] = [
   },
   sharedAnswer('Do you choose funds by the commission they pay you?'),
   sharedAnswer('Who holds my money?'),
+];
+
+/** Residence-specific setup questions stay visibly separate on the GIFT City page. */
+export const giftCityFaqGroups: FaqGroup[] = [
+  {
+    title: 'Resident in India',
+    items: [giftCityFaq[1], giftCityFaq[3]],
+  },
+  {
+    title: 'NRI',
+    items: [
+      {
+        question: 'Can I invest from my country of residence?',
+        answer: 'Eligibility depends on your country of residence and the selected fund. We confirm the fund\'s requirements, documents and funding route before you decide.',
+      },
+      {
+        question: 'Do I use the resident LRS route?',
+        answer: 'The LRS guidance on this page is for residents in India. For NRIs, we confirm the funding route for the selected fund and your country of residence. Confirm your tax and reporting obligations with your tax adviser.',
+      },
+    ],
+  },
+  {
+    title: 'For both routes',
+    items: [giftCityFaq[2], giftCityFaq[4], giftCityFaq[5]],
+  },
 ];

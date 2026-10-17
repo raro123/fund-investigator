@@ -4,12 +4,13 @@ import Hero from '../../components/ui/Hero.astro';
 import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
-import FitCards from '../../components/ui/FitCards.astro';
+import OwnerIntro from '../../components/ui/OwnerIntro.astro';
+import AssessmentPreview from '../../components/ui/AssessmentPreview.astro';
 import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
 import SplitRows from '../../components/ui/SplitRows.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import FaqList from '../../components/ui/FaqList.astro';
-import { giftCityFaq } from '../../lib/faq';
+import { giftCityFaqGroups } from '../../lib/faq';
 import { products } from '../../lib/products';
 import { responsive } from '../../lib/responsive';
 import { ARN } from '../../lib/distributor';
@@ -26,60 +27,34 @@ const giftCity = products.find((product) => product.title === 'GIFT City funds')
 const facts = [
   { label: 'Suits', value: giftCity.suits },
   { label: 'Minimum', value: giftCity.minimum },
-  { label: 'Main risk', value: giftCity.mainRisk },
+  { label: 'Main risks', value: 'The underlying investments can lose value. Your rupee value also moves with the exchange rate. Liquidity, tax and reporting depend on the fund and your residence.' },
 ];
 
-// Why people look at these funds, in their words.
-const reasons = [
-  { title: 'Spending in dollars later', body: 'Studies abroad, travel, or a life partly outside India. Part of the money can be in the currency you will spend.' },
-  { title: 'Beyond Indian markets', body: 'Part of your money in markets outside India, through a fund based in India\'s international financial centre.' },
-  { title: 'NRIs', body: 'Invest in US dollars through a fund in GIFT City, without converting to rupees.' },
-];
-
-// The rules that decide fit, stated as facts.
-const rules = [
-  { title: 'The LRS limit', body: 'Residents send money under the Liberalised Remittance Scheme: up to USD 250,000 per person in a financial year, across all uses.' },
-  { title: 'TCS on remittances', body: 'Tax collected at source can apply when you send money abroad above a yearly threshold. You can adjust it against your income tax.' },
-  { title: 'The rupee–dollar rate', body: 'Your value in rupees moves with the exchange rate, both ways.' },
-  { title: 'Tax and reporting', body: 'The rules differ from rupee funds. We explain them before you decide; please confirm them with your tax adviser.' },
-];
-
-const suits = [
-  'Part of your future spending will be in US dollars.',
-  'You already have a base of Indian investments.',
-  'You are comfortable with the rupee–dollar rate moving your value.',
+// Residence changes the setup questions; neither route assumes eligibility.
+const residenceRoutes = [
+  { title: 'Resident in India', body: 'For future dollar spending or exposure beyond Indian markets. Residents invest under the Liberalised Remittance Scheme (LRS): up to USD 250,000 per person in a financial year, across all uses. TCS can apply above a yearly threshold and can be adjusted against income tax.' },
+  { title: 'NRI', body: 'For investing in US dollars through GIFT City. We confirm whether the selected fund accepts investors from your country of residence, and which funding route and documents apply. Resident LRS instructions are not the NRI setup route.' },
 ];
 
 const steps = [
   {
-    name: 'Book a call',
-    left: 'Pick a time, or message us on WhatsApp.',
-    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+    name: 'First conversation',
+    left: 'Tell us your goals, where you live and where you expect to spend the money.',
+    right: 'Discuss your risk profile and whether dollar investments have a role in your portfolio.',
   },
   {
-    name: 'The first call',
-    left: 'Tell us your goals, where you will spend the money, and whether you live in India.',
-    right: 'Agree your risk profile with you. Explain how GIFT City funds, the LRS and TCS work.',
+    name: 'Assessment and brief',
+    left: 'Share your holdings after the call. Read the brief and confirm tax questions with your tax adviser.',
+    right: 'Explain the fit, fund risks, costs and liquidity. Confirm eligibility and the funding route for your residence and selected fund.',
   },
   {
-    name: 'The fit check',
-    left: 'Share your Consolidated Account Statement (CAS) after the call, and read the brief.',
-    right: 'Say whether dollar assets suit your goals and how much. If they do: which fund, its risks and costs, and the tax points, in writing.',
-  },
-  {
-    name: 'Set up',
-    left: 'Send the money through your bank under the LRS. Approve each step.',
-    right: 'Handle the fund\'s KYC and the investment.',
-  },
-  {
-    name: 'Stay with it',
-    left: 'Tell us when your plans change.',
-    right: 'Review the fund with the rest of your portfolio at regular intervals.',
+    name: 'Your decision and support',
+    left: 'Approve each step and pay the provider directly. Residents use the applicable LRS route; NRIs use the confirmed funding route.',
+    right: 'Disclose our commission, help with KYC and setup, and review the investment with your wider portfolio.',
   },
 ];
 
 const callDetails = '30-minute call · No charge · No obligation';
-const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <Layout
@@ -89,14 +64,13 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
   trackLanding="gift_city"
   noindex
 >
-  <!-- 1. Hero: the reader's wish, what the product is, the action -->
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
       Want part of your money
       <span class="block text-fi-gold">in US dollars?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      GIFT City funds are based in India's international financial centre and held in US dollars. Residents invest under the LRS, and NRIs can invest too. We check whether they suit you, and explain the rules first.
+      GIFT City investment funds are based in India's international financial centre and held in US dollars. They carry investment risk as well as currency risk. We check the fit and explain the route for residents in India and NRIs before you decide.
     </p>
     <ContactActions placement="lp_gift_city_hero" surface="dark" note={callDetails} />
 
@@ -105,19 +79,17 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- 2. Why people look at these funds, then the facts by fit (src/lib/products.ts) -->
   <Section id="why" background="white" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Why investors look at GIFT City funds." />
-    <ul class="grid sm:grid-cols-3 gap-5 text-left">
-      {reasons.map((reason, index) => (
-        <li data-reveal={index}>
-          <Card variant="subtle" padding="lg" hover={false} class="h-full">
-            <h3 class="text-body-lg font-bold text-fi-ink mb-2">{reason.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{reason.body}</p>
-          </Card>
-        </li>
+    <OwnerIntro class="mb-10" />
+    <SectionHeading title="Two routes. Start with where you live." lead="Dollar spending or investments outside India may be a reason to consider these funds. Your wider portfolio and risk profile come first." />
+    <div class="grid sm:grid-cols-2 gap-5 text-left">
+      {residenceRoutes.map((route) => (
+        <Card variant="subtle" padding="lg" hover={false}>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{route.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{route.body}</p>
+        </Card>
       ))}
-    </ul>
+    </div>
     <dl class="grid sm:grid-cols-3 gap-5 text-left mt-5">
       {facts.map((fact) => (
         <Card padding="lg" hover={false} class="h-full">
@@ -128,34 +100,12 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </dl>
   </Section>
 
-  <!-- 3. The rules that decide fit, before any process -->
-  <Section id="rules" background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Four things to know first." lead="These rules decide whether GIFT City funds suit you. We go through each one on the call." />
-    <ul class="grid sm:grid-cols-2 gap-5 text-left">
-      {rules.map((rule, index) => (
-        <li data-reveal={index}>
-          <Card padding="lg" hover={false} class="h-full">
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{rule.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{rule.body}</p>
-          </Card>
-        </li>
-      ))}
-    </ul>
+  <Section id="rules" background="light" spacing="md" maxWidth="lg">
+    <SectionHeading title="What your assessment covers." lead="A preview of the questions we work through, not a completed client result." />
+    <AssessmentPreview variant="gift-city" />
+    <p class="text-body-sm text-fi-muted leading-relaxed text-center max-w-2xl mx-auto mt-6">Tax and reporting differ from rupee funds. Confirm the points that apply to your residence and chosen fund with your tax adviser before investing.</p>
   </Section>
 
-  <!-- 4. Fit: who should consider these funds -->
-  <Section background="white" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Are GIFT City funds for you?" />
-    <FitCards suits={suits} suitsTitle="Consider them if" />
-  </Section>
-
-  <!-- 5. What happens next: You beside We -->
-  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="From the first call to your first dollar investment." lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
-  </Section>
-
-  <!-- 6. How we are paid, then the action. "No separate fee" sits with the commission explanation. -->
   <Section id="costs" background="white" spacing="md" maxWidth="lg">
     <SectionHeading
       title="How we are paid."
@@ -164,23 +114,29 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <ContactActions placement="lp_gift_city_cta" surface="light" identity class="mt-4" />
   </Section>
 
-  <!-- 7. Questions before investing in US dollars; shared answers come from src/lib/faq.ts -->
-  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Understand the fit, costs and next steps." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about GIFT City funds" />
     <div class="max-w-3xl mx-auto text-left">
-      <FaqList items={giftCityFaq} />
+      {giftCityFaqGroups.map((group, index) => (
+        <div class={index > 0 ? 'mt-8' : ''}>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{group.title}</h3>
+          <FaqList items={group.items} openFirst={index === 0} />
+        </div>
+      ))}
     </div>
   </Section>
 
-  <!-- 8. Final call, then the routes to the other pages -->
   <Section background="white" spacing="md" maxWidth="lg">
     <SectionHeading
       title="Ask whether GIFT City funds suit you."
       lead="A 30-minute call. We look at your goals and what you hold first, and you decide what happens next."
     />
     <ContactActions placement="lp_gift_city_final" surface="light" />
-    <p class="mt-8 text-center text-body-sm text-fi-muted">
-      Experienced investor? See whether <a href="/invest/sif/" class={lightLink}>a SIF suits you →</a>
-    </p>
+
   </Section>
 </Layout>

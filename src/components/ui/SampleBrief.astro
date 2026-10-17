@@ -56,23 +56,22 @@ const briefs = {
       { value: '2 of 5', text: 'funds have not beaten their market index over 5 years' },
       { value: '1.6%', text: 'a year goes to fund costs, on average' },
     ],
-    caption: 'A sample portfolio review brief.',
+    caption: 'Illustrative portfolio review brief.',
   },
   start: {
     title: 'Starting brief',
-    profile: 'Age 31 · ₹15 lakh in savings · 7-year goal',
-    mixLabel: 'Your savings now, and the mix we agreed',
+    profile: 'Age 31 · ₹15 lakh to invest · 7-year goal',
+    mixLabel: 'Investment mix, after the emergency reserve',
     mixes: [
-      { label: 'Now', equity: 0, debt: 100, gold: 0 },
       { label: 'Target', equity: 60, debt: 30, gold: 10 },
     ],
     pointsLabel: 'How you start',
     points: [
-      { value: '6 months', text: 'of expenses kept aside for emergencies' },
-      { value: '3 funds', text: 'suit this goal and your risk profile' },
-      { value: '12 months', text: 'to invest the rest in stages, not on one day' },
+      { value: '6 months', text: 'of expenses held separately for emergencies' },
+      { value: '3 funds', text: 'for this example goal and risk profile' },
+      { value: '12 months', text: 'to invest in stages in this example' },
     ],
-    caption: 'A sample starting brief.',
+    caption: 'Illustrative starting brief. ₹15 lakh is not a minimum; the reserve, fund count and timing are examples, not requirements.',
   },
 } as const;
 
@@ -147,6 +146,11 @@ const segmentText = (name: string, value: number) =>
           ))}
         </ul>
       </div>
+      {variant === 'review' && (
+        <div class="mt-4 border-t border-fi-border pt-4">
+          <p class="text-body-sm text-fi-muted"><strong class="text-fi-ink">What this means:</strong> Equity is above the agreed target. Discuss whether that risk still fits before deciding on any changes.</p>
+        </div>
+      )}
     </div>
   </div>
   <figcaption class="mt-6 text-body-sm text-fi-subtle text-center">

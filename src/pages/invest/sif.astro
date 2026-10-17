@@ -4,7 +4,8 @@ import Hero from '../../components/ui/Hero.astro';
 import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
-import FitCards from '../../components/ui/FitCards.astro';
+import OwnerIntro from '../../components/ui/OwnerIntro.astro';
+import AssessmentPreview from '../../components/ui/AssessmentPreview.astro';
 import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
 import SplitRows from '../../components/ui/SplitRows.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
@@ -25,48 +26,31 @@ import { ARN } from '../../lib/distributor';
 
 const sif = products.find((product) => product.title === 'SIFs')!;
 const facts = [
-  { label: 'Suits', value: sif.suits },
+  { label: 'Consider it if', value: 'You have a diversified mutual fund portfolio, can commit the minimum without needing it soon, and accept long periods of underperformance.' },
   { label: 'Minimum', value: sif.minimum },
   { label: 'Main risk', value: sif.mainRisk },
-];
-
-const suits = [
-  'You already hold a diversified mutual fund portfolio.',
-  'You can invest ₹10 lakh without needing it back soon.',
-  'You accept that a strategy can trail the market for long periods.',
 ];
 
 // Fit first: the whole portfolio, then whether a SIF adds anything.
 const steps = [
   {
-    name: 'Book a call',
-    left: 'Pick a time, or message us on WhatsApp.',
-    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+    name: 'First conversation',
+    left: 'Tell us your goals, time frame and what you hold.',
+    right: 'Discuss your risk profile and explain how SIFs work.',
   },
   {
-    name: 'The first call',
-    left: 'Tell us your goals, your time frame and what you hold today.',
-    right: 'Agree your risk profile with you. Explain how SIFs work and what they cost.',
+    name: 'Portfolio assessment',
+    left: 'Share your holdings or CAS after the call. Read the brief and ask questions.',
+    right: 'Review the portfolio, then explain whether a SIF adds anything useful, with risks, redemption conditions and costs in writing.',
   },
   {
-    name: 'Your portfolio',
-    left: 'Share your Consolidated Account Statement (CAS) after the call.',
-    right: 'Review your whole portfolio first: overlap, benchmarks, costs and fit.',
-  },
-  {
-    name: 'The fit check',
-    left: 'Read the brief and ask your questions.',
-    right: 'Say whether a SIF adds something your funds do not. If it does: which strategy, its risks and its redemption rules, in writing.',
-  },
-  {
-    name: 'You decide',
-    left: 'Approve each transaction by OTP. Pay the fund house directly.',
-    right: 'Handle the transaction, then review your SIF with the rest of your portfolio.',
+    name: 'Your decision and support',
+    left: 'Decide whether to proceed. Approve transactions by OTP and pay the fund house directly.',
+    right: 'Disclose our commission before you choose. Help with setup and review any SIF alongside your other funds.',
   },
 ];
 
 const callDetails = '30-minute call · No charge · No obligation';
-const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <Layout
@@ -76,7 +60,6 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
   trackLanding="sif"
   noindex
 >
-  <!-- 1. Hero: the reader's question, an honest answer up front, the action -->
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
       Is a SIF
@@ -92,8 +75,8 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- 2. What a SIF is, framed by fit (src/lib/products.ts), not as a catalogue -->
   <Section id="what-is-a-sif" background="white" spacing="md" maxWidth="2xl">
+    <OwnerIntro class="mb-10" />
     <SectionHeading
       title="A SIF at a glance."
       lead="A SEBI category run by mutual fund houses, between mutual funds and portfolio management services. It can take limited short positions through derivatives, which a mutual fund cannot."
@@ -106,21 +89,9 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         </Card>
       ))}
     </dl>
+    <AssessmentPreview variant="sif" class="mt-8" />
   </Section>
 
-  <!-- 3. Fit before process: who a SIF suits -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Is a SIF for you?" />
-    <FitCards suits={suits} suitsTitle="Consider a SIF if" />
-  </Section>
-
-  <!-- 4. What happens next: the whole portfolio first, then the fit check -->
-  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Your portfolio first. Then the SIF." lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
-  </Section>
-
-  <!-- 5. How we are paid, then the action. "No separate fee" sits with the commission explanation. -->
   <Section id="costs" background="light" spacing="md" maxWidth="lg">
     <SectionHeading
       title="How we are paid."
@@ -135,23 +106,24 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <ContactActions placement="lp_sif_cta" surface="light" identity class="mt-12" />
   </Section>
 
-  <!-- 6. Questions before a SIF; shared answers come from src/lib/faq.ts -->
-  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Your portfolio first. Then decide whether a SIF fits." lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <Section id="faq" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about SIFs" />
     <div class="max-w-3xl mx-auto text-left">
       <FaqList items={sifFaq} />
     </div>
   </Section>
 
-  <!-- 7. Final call, then the routes to the other pages -->
-  <Section background="light" spacing="md" maxWidth="lg">
+  <Section background="white" spacing="md" maxWidth="lg">
     <SectionHeading
       title="Ask whether a SIF suits you."
       lead="A 30-minute call. We look at what you hold first, and you decide what happens next."
     />
     <ContactActions placement="lp_sif_final" surface="light" />
-    <p class="mt-8 text-center text-body-sm text-fi-muted">
-      Want US dollar assets instead? See <a href="/invest/gift-city-funds/" class={lightLink}>GIFT City funds →</a>
-    </p>
+
   </Section>
 </Layout>

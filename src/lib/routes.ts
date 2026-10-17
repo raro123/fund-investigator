@@ -1,6 +1,6 @@
 /**
  * The three reader situations that route to the landing pages
- * (docs/landing_pages_plan.md): one source for the homepage final section and
+ * (docs/landing_pages_plan.md): one source for the homepage discovery section and
  * the /invest/#products cards.
  *
  * Each route keeps the disclosure the old product cards showed: the minimum and
@@ -54,7 +54,7 @@ export const routes: Route[] = [
   },
   {
     title: 'Starting out',
-    line: 'Your goals first, then a simple mix of mutual funds, invested in stages.',
+    line: 'Your goals first, with help choosing mutual funds and setting up your investments.',
     links: [{ label: 'Start with mutual funds', href: '/invest/start-investing-mutual-funds/' }],
     facts: [
       { label: 'Minimum', value: mutualFunds.minimum },

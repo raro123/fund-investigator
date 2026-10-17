@@ -218,6 +218,11 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.
 - Unlike the removed decorative Deepdive mockup (§13), it shows a real deliverable, so it earns its place.
 - Allocation bars: equity `fi-mid`, debt `fi-link`, gold `fi-gold`, white labels inside wide segments, plus a colour key (gold is too light to carry a label).
+- Review adds one practical implication below the findings. Start shows only the investment target (not bank savings labelled as debt), with the emergency reserve separate. Amount, reserve, fund count and timing are explicitly examples, not minimums or prescriptions.
+
+### Landing-page proof (`OwnerIntro.astro`, `AssessmentPreview.astro`)
+- `OwnerIntro`: compact, centred name, one owner-supplied credential and personal support statement, with "Read our story". Reads `distributor.ts`; safely omits an absent credential. Light surfaces only, placed in the first section beside the page's proof.
+- `AssessmentPreview variant="sif" | "gift-city"`: a shared Card and CheckList showing what a written assessment covers. It is a deliverable preview, not an invented client outcome. Light surfaces only. Both components accept `class` for spacing, and are demonstrated in `/styleguide`.
 
 ---
 

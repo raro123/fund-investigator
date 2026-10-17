@@ -1,0 +1,16 @@
+---
+/** Compact personal introduction beside landing-page proof. Identity is owner-supplied. */
+import { REGISTERED_NAME, CREDENTIALS } from '../../lib/distributor';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+const credential = CREDENTIALS[0];
+---
+
+<div class:list={['max-w-3xl mx-auto text-center text-body-sm leading-relaxed', className]}>
+  <p class="text-fi-ink">You work directly with <strong>{REGISTERED_NAME}</strong>.</p>
+  <p class="text-fi-muted">{credential && `${credential.text}. `}One person from the first conversation to ongoing reviews. <a href="/about/" class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">Read our story →</a></p>
+</div>
