@@ -20,9 +20,8 @@ import { ARN } from '../../lib/distributor';
 // SIF suits comes before the process, and the minimum and main risks sit in
 // "A SIF at a glance". Names no fund house or strategy by name and makes no
 // return claims.
-// noindex until the copy is checked against the SIF promotion rules (log item 110):
-// the page works for links we share, but search engines do not list it yet.
-// Placements start with `lp_sif_`.
+// Indexed on dev; the copy is checked against the SIF promotion rules before
+// release (log item 110). Placements start with `lp_sif_`.
 
 const sif = products.find((product) => product.title === 'SIFs')!;
 const facts = [
@@ -58,7 +57,6 @@ const callDetails = '30-minute call · No charge · No obligation';
   description="Specialised Investment Funds start at ₹10 lakh and carry higher risks. We check whether a SIF suits your portfolio before you invest anything."
   trackView="landing_view"
   trackLanding="sif"
-  noindex
 >
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
@@ -124,6 +122,5 @@ const callDetails = '30-minute call · No charge · No obligation';
       lead="A 30-minute call. We look at what you hold first, and you decide what happens next."
     />
     <ContactActions placement="lp_sif_final" surface="light" />
-
   </Section>
 </Layout>

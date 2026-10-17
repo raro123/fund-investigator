@@ -24,10 +24,7 @@ export default defineConfig({
         !page.includes('/styleguide') &&
         !page.includes('/404') &&
         !page.includes('/subscribe') &&
-        !page.includes('/_TEMPLATE') &&
-        // noindex until their compliance checks are done (project_log #110)
-        !page.includes('/invest/sif/') &&
-        !page.includes('/invest/gift-city-funds/'),
+        !page.includes('/_TEMPLATE'),
       chunks: {
         reports: (item) => reportSourcePath(item.url) ? item : undefined,
       },

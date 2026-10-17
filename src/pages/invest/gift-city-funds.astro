@@ -13,27 +13,28 @@ import FaqList from '../../components/ui/FaqList.astro';
 import { giftCityFaqGroups } from '../../lib/faq';
 import { products } from '../../lib/products';
 import { responsive } from '../../lib/responsive';
-import { ARN } from '../../lib/distributor';
+import { ARN, CREDENTIALS } from '../../lib/distributor';
 
 // Landing page 4 of 4 (docs/landing_pages_plan.md): for residents who want
-// part of their money in US dollars, and for NRIs. The "things to know" section
-// (LRS, TCS, currency, tax) comes before the process, because those rules
-// decide whether the product suits the reader. Tax stays general and points to
-// the client's tax adviser. Names no fund house or fund; no return claims.
-// noindex until the tax, LRS and transaction points are checked (log item 110).
-// Placements start with `lp_gift_city_`.
+// part of their money in US dollars, and for NRIs. Same order as the SIF page:
+// the facts and the assessment preview first, then the two residence routes
+// (LRS, TCS, eligibility), then costs. Tax stays general and points to the
+// client's tax adviser. Names no fund house or fund; no return claims.
+// Indexed on dev; the tax, LRS and transaction points are checked before
+// release (log item 110). Placements start with `lp_gift_city_`.
 
 const giftCity = products.find((product) => product.title === 'GIFT City funds')!;
+// Labels match "A SIF at a glance", so the two product pages read alike.
 const facts = [
-  { label: 'Suits', value: giftCity.suits },
+  { label: 'Consider it if', value: 'You want part of your portfolio in US dollars, for future dollar spending or exposure beyond Indian markets, and can accept currency risk.' },
   { label: 'Minimum', value: giftCity.minimum },
   { label: 'Main risks', value: 'The underlying investments can lose value. Your rupee value also moves with the exchange rate. Liquidity, tax and reporting depend on the fund and your residence.' },
 ];
 
 // Residence changes the setup questions; neither route assumes eligibility.
 const residenceRoutes = [
-  { title: 'Resident in India', body: 'For future dollar spending or exposure beyond Indian markets. Residents invest under the Liberalised Remittance Scheme (LRS): up to USD 250,000 per person in a financial year, across all uses. TCS can apply above a yearly threshold and can be adjusted against income tax.' },
-  { title: 'NRI', body: 'For investing in US dollars through GIFT City. We confirm whether the selected fund accepts investors from your country of residence, and which funding route and documents apply. Resident LRS instructions are not the NRI setup route.' },
+  { title: 'Resident in India', body: 'You invest under the Liberalised Remittance Scheme (LRS): up to USD 250,000 per person in a financial year, across all uses. TCS can apply above a yearly threshold and can be adjusted against your income tax.' },
+  { title: 'NRI', body: 'We confirm whether the fund accepts investors from your country of residence, and which funding route and documents apply. The resident LRS route is not the NRI route.' },
 ];
 
 const steps = [
@@ -62,7 +63,6 @@ const callDetails = '30-minute call · No charge · No obligation';
   description="Want part of your money in US dollars? GIFT City funds for residents under the LRS and for NRIs. We check fit and explain the tax points first."
   trackView="landing_view"
   trackLanding="gift_city"
-  noindex
 >
   <Hero size="md" background="dark">
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
@@ -70,27 +70,23 @@ const callDetails = '30-minute call · No charge · No obligation';
       <span class="block text-fi-gold">in US dollars?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      GIFT City investment funds are based in India's international financial centre and held in US dollars. They carry investment risk as well as currency risk. We check the fit and explain the route for residents in India and NRIs before you decide.
+      GIFT City funds are based in India's international financial centre and held in US dollars. They carry investment risk and currency risk. We check the fit and the route for residents in India and NRIs before you decide.
     </p>
     <ContactActions placement="lp_gift_city_hero" surface="dark" note={callDetails} />
 
     <div class="mt-10 border-t border-fi-border-dark">
-      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+      <!-- "40+ fund houses empanelled" is a mutual fund credential, so it stays off this page. -->
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, CREDENTIALS[0].text, 'Transparent disclosures']} />
     </div>
   </Hero>
 
-  <Section id="why" background="white" spacing="md" maxWidth="2xl">
+  <Section id="what-are-gift-city-funds" background="white" spacing="md" maxWidth="2xl">
     <OwnerIntro class="mb-10" />
-    <SectionHeading title="Two routes. Start with where you live." lead="Dollar spending or investments outside India may be a reason to consider these funds. Your wider portfolio and risk profile come first." />
-    <div class="grid sm:grid-cols-2 gap-5 text-left">
-      {residenceRoutes.map((route) => (
-        <Card variant="subtle" padding="lg" hover={false}>
-          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{route.title}</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">{route.body}</p>
-        </Card>
-      ))}
-    </div>
-    <dl class="grid sm:grid-cols-3 gap-5 text-left mt-5">
+    <SectionHeading
+      title="GIFT City funds at a glance."
+      lead="Funds based in GIFT City (IFSC), regulated by the International Financial Services Centres Authority (IFSCA) and held in US dollars. They differ from Indian mutual funds in currency, tax and reporting."
+    />
+    <dl class="grid sm:grid-cols-3 gap-5 text-left">
       {facts.map((fact) => (
         <Card padding="lg" hover={false} class="h-full">
           <dt class="text-caption uppercase text-fi-muted mb-2">{fact.label}</dt>
@@ -98,11 +94,19 @@ const callDetails = '30-minute call · No charge · No obligation';
         </Card>
       ))}
     </dl>
+    <AssessmentPreview variant="gift-city" class="mt-8" />
   </Section>
 
-  <Section id="rules" background="light" spacing="md" maxWidth="lg">
-    <SectionHeading title="What your assessment covers." lead="A preview of the questions we work through, not a completed client result." />
-    <AssessmentPreview variant="gift-city" />
+  <Section id="routes" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Two routes. Start with where you live." lead="Your residence decides how you invest, which documents apply and how the money moves." />
+    <div class="grid sm:grid-cols-2 gap-5 text-left">
+      {residenceRoutes.map((route) => (
+        <Card padding="lg" hover={false} class="h-full">
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{route.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{route.body}</p>
+        </Card>
+      ))}
+    </div>
     <p class="text-body-sm text-fi-muted leading-relaxed text-center max-w-2xl mx-auto mt-6">Tax and reporting differ from rupee funds. Confirm the points that apply to your residence and chosen fund with your tax adviser before investing.</p>
   </Section>
 
@@ -111,11 +115,17 @@ const callDetails = '30-minute call · No charge · No obligation';
       title="How we are paid."
       lead="No separate fee from you. The fund house pays our commission from the fund's yearly expenses. You get our commission in writing before you decide."
     />
-    <ContactActions placement="lp_gift_city_cta" surface="light" identity class="mt-4" />
+    <Card variant="subtle" padding="md" hover={false} class="max-w-2xl mx-auto text-left">
+      <h3 class="text-body-md font-bold text-fi-ink mb-1">Everything in writing first</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">
+        Before you invest, you get the fund's risks, costs, liquidity and our commission in writing. You pay the provider directly, and nothing moves without your approval.
+      </p>
+    </Card>
+    <ContactActions placement="lp_gift_city_cta" surface="light" identity class="mt-12" />
   </Section>
 
   <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Understand the fit, costs and next steps." lead="What you do, and what we do, at each stage." />
+    <SectionHeading title="Your portfolio first. Then decide whether dollar funds fit." lead="What you do, and what we do, at each stage." />
     <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
   </Section>
 
@@ -137,6 +147,5 @@ const callDetails = '30-minute call · No charge · No obligation';
       lead="A 30-minute call. We look at your goals and what you hold first, and you decide what happens next."
     />
     <ContactActions placement="lp_gift_city_final" surface="light" />
-
   </Section>
 </Layout>

@@ -134,14 +134,36 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 107 | **Copy — high priority (owner): check the draft copy on `/invest/portfolio-review/`.** Hero, the five signs, the four checks, the five stages, "Is this review for you?", "How we are paid" and the two new FAQ answers (`reviewFaq` in `src/lib/faq.ts`: "What do I need to share?", "Will you ask me to sell my funds?") | 2026-10-17 | S55 | 🟡 Open (S56 — also check `/invest/start-investing-mutual-funds/`, `/invest/sif/`, `/invest/gift-city-funds/`, the starting brief in `SampleBrief.astro` and the new answers in `startFaq`, `sifFaq`, `giftCityFaq`) |
 | 108 | **Distribution — high priority (owner): measure completed bookings by landing page.** Zoho takes no `ref`. Add a required Zoho question "What would you like help with?" (Review my portfolio · Start investing · SIF · GIFT City funds · Other); extends #88. Check whether the Zoho plan allows one service per landing page (own URL) or a redirect to a `/thanks/` page. Start the client sheet: date, name, landing, source, call held, client, amount, products, hours (`docs/landing_pages_plan.md` §4) | 2026-10-17 | S55 | 🟡 Open |
 | 109 | **Analytics — medium priority: PostHog funnels per landing page** (`landing_view` → `review_booking_click` / `conversation_request`, by `landing` and `utm_source`). Agree the UTM convention for every post (`utm_source`, `utm_campaign` = landing id, `utm_content` = the piece) and write the 3-month thresholds before the first content goes out | 2026-10-17 | S55 | 🟡 Open |
-| 110 | **Website — high priority: landing page 2, `/invest/start-investing-mutual-funds/`**, for readers with savings who are new to markets. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing-mutual-funds/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both). **S58:** the homepage and `/invest/` now link both pages (owner), so this check is more urgent |
+| 110 | **Website — high priority: landing page 2, `/invest/start-investing-mutual-funds/`**, for readers with savings who are new to markets. Needs a sample starting brief first (never "plan"). Then pages 3 (`/invest/sif/`) and 4 (`/invest/gift-city-funds/`) after the SIF promotion rules, the GIFT City tax/LRS points and the transaction route (#60) are checked | 2026-10-17 | S55 | 🟡 Open (S56 — all three pages built with draft copy. `/invest/start-investing-mutual-funds/` is indexed. `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until the owner checks the SIF promotion rules, the GIFT City tax/LRS/TCS copy and the transaction route; then remove both). **S58:** the homepage and `/invest/` now link both pages (owner), so this check is more urgent. **S60:** `noindex` and the sitemap filter removed (owner: the pages are on `dev` and go through the compliance check anyway). The check now gates the merge to `main`, not indexing |
 | 111 | **Website — medium priority: route links to the landing pages.** Small links on the homepage, and the `/invest/#products` SIF and GIFT City cards linking to pages 3 and 4 once built. The review page's "Larger portfolio?" line points to `/invest/#products` until then | 2026-10-17 | S55 | ✅ Resolved (S58): route cards on the homepage final section and `/invest/#products` link all four pages; the footer links the two mutual fund pages. Earlier: (S56 — the four landing pages link to each other; the homepage and `/invest/` links are still to do) |
+| 112 | **Website — low priority: landing-page components.** The four landing pages repeat the same markup: the hero `<h1>` class string, `callDetails`, `lightLink`, the `CredibilityStrip`, the "How we are paid" section with its card and middle `ContactActions`, and the fact-card grid on SIF and GIFT City. Extract a `LandingHero` (headline, gold line, subtitle, placement, proof slot, markers), a `LandingCosts` (lead, card, placement) and a `FactGrid`, add them to `/styleguide`, and keep responsive classes inside the components (CLAUDE.md, Layer 2). No copy or tracking change | 2026-10-17 | S60 | 🟡 Open |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S60 — SIF and GIFT City indexable, GIFT City page reordered, consistency fixes
+
+**What was done:**
+`/invest/sif/` and `/invest/gift-city-funds/` are no longer `noindex` and are back in the sitemap and `llms.txt`. The GIFT City page follows the SIF page's order: "GIFT City funds at a glance" (what they are, IFSCA, then Consider it if · Minimum · Main risks) with the assessment preview, then the two residence routes, then costs with an "Everything in writing first" card before the middle booking buttons. The portfolio-review hero lost its eyebrow and the separate holdings line, so the booking button sits higher on phones; the sample brief's "What this means" line is shorter. S59 (commit `66163ab`, routes earlier, `OwnerIntro`, `AssessmentPreview`) is described in `docs/landing_pages_plan.md` §5.
+
+**Why:**
+The owner reviewed the landing pages. The pages are on `dev` and go through the compliance check before release anyway, so `noindex` only delayed them. The GIFT City page was the densest: its "Suits" fact repeated the residence cards, and its middle booking had no reassurance before it. "40+ fund houses empanelled" is a mutual fund credential, so it implied too much on a GIFT City page.
+
+**How:**
+`astro.config.mjs` sitemap filter and both `noindex` props removed. GIFT City hero strip: AMFI registration · `CREDENTIALS[0]` · Transparent disclosures. Fit label "Consider it if" on both product pages. How-it-works heading "Your portfolio first. Then decide whether dollar funds fit." mirrors the SIF page. Plan doc status, footer note and pending actions updated.
+
+**Decisions made:**
+- SIF and GIFT City pages are indexable; #110 now gates the merge to `main`, not indexing.
+- Product pages use the same fit label ("Consider it if") and the same section order.
+- Credibility markers on a page must apply to that page's product.
+
+**Pending decisions:**
+- New: #112 landing-page components. #110 updated.
 
 ---
 
