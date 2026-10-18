@@ -13,11 +13,8 @@ tags:
   - "Multi Asset Allocation"
 keyMetrics:
   - label: "Mandate"
-    icon: "rulebook"
   - label: "Portfolio mix"
-    icon: "pie-chart"
   - label: "Investor fit"
-    icon: "compass"
 ---
 
 Investors often compare mutual funds from different categories as if they are playing the same game. This can mislead investors because each category follows a different framework. The Securities and Exchange Board of India (SEBI)[^sebi] sets the rules for each category. These rules state which assets a fund may own, how much of each asset it must hold, and how the manager may use the remaining assets.

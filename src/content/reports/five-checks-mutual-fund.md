@@ -15,11 +15,8 @@ tags:
     - "Risk Analysis"
 keyMetrics:
   - label: "Returns"
-    icon: "trending-up"
   - label: "Risk"
-    icon: "shield"
   - label: "Consistency"
-    icon: "repeat"
 ---
 
 With thousands of mutual funds to choose from, finding the right fund can be difficult. A convincing sales pitch can make the decision even harder. However, with the right framework, you can look beyond the sales pitch. This article introduces five questions you can use to assess a fund’s returns, consistency, and risk. The answers provide a starting point for deciding whether the fund belongs in your portfolio.

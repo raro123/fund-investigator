@@ -4,6 +4,7 @@ import Button from '../components/ui/Button.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
+import FolderTab from '../components/ui/FolderTab.astro';
 import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
@@ -60,11 +61,6 @@ const differences = [
     title: 'Transparent and personal',
     body: 'Our commission in writing before you choose, and one person from the first call to every review.',
   },
-];
-
-const subscribeBenefits = [
-  { title: 'Every new investigation', body: 'Fund checks and guides, by email.', icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
-  { title: 'Access to Deepdive', body: 'Our fund analysis app.', icon: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>' },
 ];
 
 const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
@@ -159,35 +155,29 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <a href="/reports/" class={darkLink}>View all investigations →</a>
     </p>
 
-    <!-- Gold stays for booking; the subscription is this section's only button. -->
-    <Card variant="dark" hover={false} padding="lg" class="mt-10 grid gap-6 text-left lg:grid-cols-fi-subscribe lg:items-center lg:gap-8">
-      <h3 class="text-heading-sm font-bold text-fi-ink-inv">Subscribe for free</h3>
-      <ul class="grid sm:grid-cols-2 gap-5">
-        {subscribeBenefits.map((benefit) => (
-          <li class="flex gap-3">
-            <span class="w-10 h-10 shrink-0 rounded-lg bg-fi-dark flex items-center justify-center">
-              <svg class="w-5 h-5 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={benefit.icon} />
-            </span>
-            <span>
-              <strong class="block text-body-sm text-fi-ink-inv">{benefit.title}</strong>
-              <span class="text-body-sm text-fi-muted-inv">{benefit.body}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <Button
-        href={substackWelcomeUrl('homepage_bottom')}
-        variant="secondary"
-        surface="dark"
-        target="_blank"
-        rel="noopener noreferrer"
-        icon="external"
-        track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
-        class="w-full sm:w-auto min-w-0 justify-self-start"
-      >
-        Subscribe
-      </Button>
-    </Card>
+    <!-- The subscription as one more item in the archive: the report cards' folder tab and dark
+         fill, one plain sentence, the button. Gold stays for booking; this is the section's only button. -->
+    <div class="mt-10 flex flex-col text-left">
+      <FolderTab surface="dark">Stay updated</FolderTab>
+      <Card variant="dark" hover={false} padding="lg" class="rounded-tl-none flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <p class="text-body-md text-fi-muted-inv leading-relaxed">
+          <span class="text-fi-ink-inv font-semibold">Every new investigation, by email.</span>
+          Subscribers also get access to Deepdive, our fund analysis app.
+        </p>
+        <Button
+          href={substackWelcomeUrl('homepage_bottom')}
+          variant="secondary"
+          surface="dark"
+          target="_blank"
+          rel="noopener noreferrer"
+          icon="external"
+          track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
+          class="w-full sm:w-auto min-w-0 shrink-0"
+        >
+          Subscribe
+        </Button>
+      </Card>
+    </div>
   </Section>
 
   <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).

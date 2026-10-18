@@ -2,27 +2,33 @@
 /**
  * ReportCard Component
  *
- * Editorial dark card for investigation reports. Five content zones:
- * meta (readTime + date), title, hook, metrics, footer (CTA).
+ * Editorial card for investigation reports, styled like a filed record without
+ * saying so: the category sits on a folder tab on the card's top edge, then the
+ * title and hook, a dashed rule, and a typed record in mono (what the report
+ * covers, or its key figures, then the date and read time). No stamps or
+ * verdicts: fund analyses are evidence only (content philosophy).
+ *
+ * Key metrics with a value (fund analyses: CAGR, Sharpe, max drawdown) read as
+ * "Key figures CAGR 25.0% · Sharpe 1.55 · …"; metrics without one (guides) read
+ * as "Covers Returns · Risk · Consistency".
  *
  * @example
  * <ReportCard report={report} href={`/reports/${report.slug}`} />
  *
  * @param report - Astro content collection entry with data fields:
- *   title, category, readTime, hook?, keyMetrics?, date, status?
+ *   title, category, readTime, hook?, keyMetrics?, date, updated?, status?
  * @param href - URL to navigate to on click
- * @param surface - 'dark' (default, /reports/) or 'light' (homepage); light swaps gold for fi-link
+ * @param surface - 'dark' (default: homepage band, /reports/) or 'light'; light swaps gold for fi-link
  */
 
 import Badge from './ui/Badge.astro';
-import MetricIcon from './ui/MetricIcon.astro';
-import type { ReportMetricIconName } from '../lib/report-metrics';
+import FolderTab from './ui/FolderTab.astro';
 import { formatDate } from '../lib/format';
+import { reportCategoryLabel, type ReportCategory } from '../lib/report-categories';
 
 interface KeyMetric {
   label: string;
   value?: string;
-  icon?: ReportMetricIconName;
 }
 
 interface Props {
@@ -31,25 +37,27 @@ interface Props {
     slug?: string;
     data: {
       title: string;
-      category: string;
+      category: ReportCategory;
       readTime: string;
       date: string;
+      updated?: string;
       hook?: string;
       keyMetrics?: KeyMetric[];
       status?: 'current' | 'archived';
     };
   };
   href: string;
-  /** Section surface: 'dark' (default, /reports/) or 'light' (homepage) */
+  /** Section surface: 'dark' (default) or 'light' */
   surface?: 'light' | 'dark';
 }
 
 const { report, href, surface = 'dark' } = Astro.props;
 
 // One class set per surface; gold text and hovers only on dark (style_spec §1).
+// The FolderTab shares the card's fill and border, so it reads as part of the folder.
 const styles = {
   dark: {
-    card: 'bg-fi-mid border-fi-border-dark hover:border-fi-subtle hover:shadow-fi-card-dark',
+    card: 'bg-fi-mid border-fi-border-dark group-hover:border-fi-subtle group-hover:shadow-fi-card-dark',
     meta: 'text-fi-subtle',
     title: 'text-fi-ink-inv group-hover:text-fi-gold',
     hook: 'text-fi-muted-inv',
@@ -58,7 +66,7 @@ const styles = {
     cta: 'text-fi-gold',
   },
   light: {
-    card: 'bg-white border-fi-border shadow-fi-card hover:border-fi-subtle',
+    card: 'bg-white border-fi-border shadow-fi-card group-hover:border-fi-subtle',
     meta: 'text-fi-muted',
     title: 'text-fi-ink group-hover:text-fi-link',
     hook: 'text-fi-muted',
@@ -67,60 +75,62 @@ const styles = {
     cta: 'text-fi-link',
   },
 }[surface];
-const { title, readTime, date, hook, keyMetrics, status = 'current' } = report.data;
 
-const formattedDate = formatDate(date, 'short');
+const { title, category, readTime, date, updated, hook, keyMetrics = [], status = 'current' } = report.data;
+
+// Figures when the metrics carry values (fund analyses), topics when they do not (guides).
+// Each part stays on one line when the row wraps, so "Max DD -37.3%" never splits.
+const hasFigures = keyMetrics.some((metric) => metric.value);
+const record = [
+  keyMetrics.length > 0 && {
+    label: hasFigures ? 'Key figures' : 'Covers',
+    parts: keyMetrics.map((metric) => (metric.value ? `${metric.label} ${metric.value}` : metric.label)),
+  },
+  {
+    label: updated ? 'Updated' : 'Published',
+    parts: [formatDate(updated ?? date, 'short'), readTime],
+  },
+].filter((row): row is { label: string; parts: string[] } => Boolean(row));
 
 // Same name as the article H1 (ArticleLayout.astro), so the title moves into
 // place on navigation. Slugs are unique, so names never clash on one page.
 const titleTransition = report.slug ? `view-transition-name: report-${report.slug}` : undefined;
-
 ---
 
 <a href={href} class="block h-full group">
-  <article class:list={[styles.card, 'border rounded-lg p-6 h-full flex flex-col hover:-translate-y-1 transition-all duration-200']}>
-
-    <!-- Zone 1: Meta row -->
-    <div class="flex justify-between items-center gap-3">
-      <div class="flex items-center gap-2">
-        <span class:list={[styles.meta, 'text-caption font-medium uppercase tracking-widest']}>{readTime}</span>
-        {status === 'archived' && <Badge variant="dark" size="sm">Historical</Badge>}
-      </div>
-      <time class:list={[styles.meta, 'text-caption font-medium uppercase tracking-widest tabular-nums']}>{formattedDate}</time>
+  <div class="h-full flex flex-col transition-transform duration-200 group-hover:-translate-y-1">
+    <!-- The category on a folder tab: -mb-px lets the tab cover the card's top border. -->
+    <div class="flex items-end justify-between gap-3">
+      <FolderTab surface={surface} class="group-hover:border-fi-subtle">{reportCategoryLabel(category)}</FolderTab>
+      {status === 'archived' && <Badge variant={surface === 'dark' ? 'dark' : 'default'} size="sm">Historical</Badge>}
     </div>
 
-    <!-- Zone 2: Title -->
-    <h2 class:list={[styles.title, 'text-heading-sm font-bold leading-tight line-clamp-2 mt-4 transition-colors duration-200']} style={titleTransition}>
-      {title}
-    </h2>
+    <article class:list={[styles.card, 'flex-1 flex flex-col border rounded-lg rounded-tl-none p-6 transition-all duration-200']}>
+      <h2 class:list={[styles.title, 'text-heading-sm font-bold leading-tight line-clamp-2 transition-colors duration-200']} style={titleTransition}>
+        {title}
+      </h2>
 
-    <!-- Zone 3: Hook -->
-    {hook && (
-      <p class:list={[styles.hook, 'text-body-sm leading-relaxed mt-3 flex-1']}>{hook}</p>
-    )}
+      {hook && (
+        <p class:list={[styles.hook, 'text-body-sm leading-relaxed mt-3']}>{hook}</p>
+      )}
 
-    <!-- Zone 4: Metrics -->
-    {keyMetrics && keyMetrics.length > 0 && (
-      <div class:list={[styles.rule, 'border-t mt-5 pt-5']}>
-        <div class="grid grid-cols-3">
-          {keyMetrics.map((metric, i) => (
-            <div class:list={['text-center', i > 0 && ['border-l', styles.rule]]}>
-              {metric.icon ? (
-                <MetricIcon name={metric.icon} surface={surface} />
-              ) : (
-                <p class:list={[styles.value, 'text-heading-md font-bold']}>{metric.value}</p>
-              )}
-              <p class:list={[styles.meta, 'text-caption font-medium uppercase tracking-wide mt-2']}>{metric.label}</p>
+      <!-- The typed record: mono labels and values under a dashed rule, kept at the foot
+           (mt-auto) with at least pt-5 above it when the hook is long. -->
+      <div class="mt-auto pt-5">
+        <dl class:list={[styles.rule, 'pt-4 border-t border-dashed space-y-2']}>
+          {record.map((row) => (
+            <!-- Label above value on phones, side by side from sm. -->
+            <div class="grid gap-x-3 gap-y-0.5 sm:grid-cols-fi-record font-mono text-body-sm leading-snug">
+              <dt class:list={[styles.meta, 'text-caption uppercase pt-0.5']}>{row.label}</dt>
+              <dd class:list={[styles.value, 'tabular-nums']}>
+                {row.parts.map((part, i) => <>{i > 0 && ' · '}<span class="whitespace-nowrap">{part}</span></>)}
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
-    )}
 
-    <!-- Footer -->
-    <div class:list={[styles.rule, 'border-t mt-5 pt-5 flex items-center justify-center']}>
-      <span class:list={[styles.cta, 'text-caption font-semibold inline-block transition-transform duration-200 group-hover:translate-x-2']}>Read Investigation →</span>
-    </div>
-
-  </article>
+      <span class:list={[styles.cta, 'mt-5 text-caption font-semibold inline-block transition-transform duration-200 group-hover:translate-x-2']}>Read Investigation →</span>
+    </article>
+  </div>
 </a>

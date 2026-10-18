@@ -41,7 +41,7 @@
 - **Header:** Invest with support · Investigations · About. Three equal text links, no nav button. Deepdive and Subscribe are not in the header.
 - **Footer Navigate column:** Invest with support · Investigations · Deepdive ↗ · About · Subscribe ↗. All plain links. The footer also has a WhatsApp icon (`footer`).
 - The main button label is "Book a first call" (homepage and `/invest/`); the homepage final section also says "Book a first call" (S54: no owner name on the homepage). `/about/` says "Book a call with Ishpreet".
-- **Deepdive appears in:** the `/reports/` section, links inside investigations, `/about/` section 4, and the footer. The homepage mentions it only as "Access to Deepdive" in the subscribe strip. All open links move to the email access flow (#91).
+- **Deepdive appears in:** the `/reports/` section, links inside investigations, `/about/` section 4, and the footer. The homepage mentions it only in the subscribe card ("Subscribers also get access to Deepdive"). All open links move to the email access flow (#91).
 
 ### Homepage (2026-10-14, current)
 
@@ -51,7 +51,7 @@ Four sections on one centre axis (headings, leads and buttons centred; card text
 | --- | --- | --- | --- |
 | 1 | Hero, stacked: headline, subhead, call details ("30-minute call · No charge · No obligation"), sample brief, trust strip (brief first so it shows on the first screen) | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
 | 2 | "Sound familiar?": 3 case files (`CaseFile`), each the client's problem typed in their words (Courier Prime, gold highlighter) beside the service that solves it under a "Case solved" stamp (Portfolio review · Fund curation · Execution and ongoing reviews), fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
-| 3 | Our investigations and tools: 2 dark report cards, subscribe strip (investigations + Deepdive access), gold glow | dark | View all investigations · Subscribe (`homepage_bottom`) |
+| 3 | Our investigations and tools: 2 dark report cards (category folder tab, typed record), a subscribe card in the same style ("Stay updated" tab, one sentence, no heading), gold glow | dark | View all investigations · Subscribe (`homepage_bottom`) |
 | 4 | Final call, brand voice: "Start with a 30-minute call.", tagline · ARN, "we" copy, then the three differences as an "On the record" ledger. No owner name, photo or credentials (homepage privacy, S54; they are on `/about/`) | light | Book a first call · Contact on WhatsApp (`homepage_final`) · Read our story → `/about/` |
 
 `/invest/` order: see the `/invest/` table below. The direct vs regular comparison lives only in the FAQ.

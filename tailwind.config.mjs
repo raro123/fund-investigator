@@ -174,8 +174,8 @@ export default {
       // while reserving the left rail for in-page navigation at xl widths.
       gridTemplateColumns: {
         'fi-article': 'minmax(12rem, 1fr) minmax(0, 65ch) minmax(12rem, 1fr)',
-        // Homepage subscribe strip at lg: title · benefits take the rest · button
-        'fi-subscribe': 'auto minmax(0, 1fr) auto',
+        // Report card record: mono label column (fits "KEY FIGURES") · value
+        'fi-record': '6.75rem minmax(0, 1fr)',
         // Homepage case file from lg: the problem · the arrow on the seam · the solution
         'fi-case-file': 'minmax(0, 1fr) auto minmax(0, 1.2fr)',
       },

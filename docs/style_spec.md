@@ -213,8 +213,15 @@ The homepage's problems and services use one idea from the brand ("We investigat
 ### On the record (homepage final section, light)
 - The three differences (content philosophy pillars, same words) as a ledger, not cards: a mono `On the record` caption, then three columns between `fi-border` rules (`divide-x` from `lg`, `divide-y` below). `text-body-lg` bold title, `text-body-sm` `fi-muted` body. No icons.
 
-### Report Cards on light surfaces (`ReportCard surface="light"`)
-- White card, `fi-border`, `shadow-fi-card`; meta and hook `fi-muted`, title `fi-ink`, hover and "Read Investigation" in `fi-link` (never gold on white). `/reports/` keeps the default dark surface.
+### Report Cards (`ReportCard.astro`, homepage band and `/reports/`, S61)
+- Styled like a filed record without saying so. The category (`categoryLabels`) sits on a folder tab on the card's top edge: mono caption, same fill and border as the card, `-mb-px` so it covers the card's top border; the card's top-left corner is square under it.
+- Title and hook as before, then a dashed rule and a **typed record** in mono at the foot: a `fi-subtle` label column (`grid-cols-fi-record` from `sm`, label above value on phones) and `fi-ink-inv` values, each part `whitespace-nowrap`:
+  - `Key figures CAGR 25.0% · Sharpe 1.55 · Max DD -12.9%` when the report's `keyMetrics` carry values (fund analyses);
+  - `Covers Returns · Risk · Consistency` when they are labels only (guides);
+  - `Updated` (or `Published`) with the date and the read time.
+- No icons (the `MetricIcon` row was removed), no stamps or verdicts: fund analyses are evidence only.
+- Surfaces: `dark` (default, `fi-mid` on `fi-dark`, gold title hover and "Read Investigation") and `light` (white, `fi-link`, never gold on white).
+- The tab is `FolderTab.astro`, shared with the homepage subscribe card: a "Stay updated" tab on a `Card variant="dark"` (`rounded-tl-none`) with one sentence ("Every new investigation, by email." in `fi-ink-inv`, the Deepdive line in `fi-muted-inv`) and the secondary Subscribe button. No heading, no icons, never "free".
 
 ### Check List (`CheckList.astro`) and FAQ List (`FaqList.astro`)
 - `CheckList`: ticks in `fi-positive` (light) or `fi-gold` (dark); `layout="inline"` for a centred row, e.g. credentials.

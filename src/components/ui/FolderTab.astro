@@ -1,0 +1,32 @@
+---
+/**
+ * FolderTab Component
+ *
+ * A small tab on a card's top edge, like a file folder: a mono caption with the
+ * card's own fill and border, pulled down 1px so it covers the card's top
+ * border. Give the card below `rounded-tl-none`. Used by ReportCard and the
+ * homepage subscribe card, so the investigations band reads as one archive
+ * without saying so.
+ *
+ * @example
+ * <FolderTab surface="dark">Methodology</FolderTab>
+ * <Card variant="dark" class="rounded-tl-none">…</Card>
+ *
+ * @param surface - 'dark' (fi-mid card on a dark section) or 'light' (white card)
+ * @param class - extra classes, e.g. a group-hover border
+ */
+
+interface Props {
+  surface?: 'dark' | 'light';
+  class?: string;
+}
+
+const { surface = 'dark', class: className = '' } = Astro.props;
+
+const styles = {
+  dark: 'bg-fi-mid border-fi-border-dark text-fi-subtle',
+  light: 'bg-white border-fi-border text-fi-muted',
+};
+---
+
+<span class:list={[styles[surface], 'relative z-10 -mb-px inline-block self-start rounded-t-md border border-b-0 px-3 pt-1.5 pb-1 font-mono text-caption uppercase transition-colors duration-200', className]}><slot /></span>

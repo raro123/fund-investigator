@@ -1,6 +1,5 @@
 import { defineCollection, z } from 'astro:content';
 import { seoSchema } from '@jdevalk/astro-seo-graph';
-import { reportMetricIconNames } from './lib/report-metrics';
 
 const reports = defineCollection({
   type: 'content',
@@ -26,12 +25,11 @@ const reports = defineCollection({
     supersededBy: z.string().startsWith('/reports/').optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),
+    /** Report card record, max 3. With values (fund analyses): "Key figures CAGR 25.0% · …".
+     *  Labels only (guides): "Covers Returns · Risk · Consistency". */
     keyMetrics: z.array(z.object({
       label: z.string(),
       value: z.string().optional(),
-      icon: z.enum(reportMetricIconNames).optional(),
-    }).refine((metric) => metric.value || metric.icon, {
-      message: 'A key metric must provide either a value or an icon.',
     })).max(3).optional(),
   }).superRefine((report, ctx) => {
     if (report.status === 'archived' && !report.analysisThrough) {
