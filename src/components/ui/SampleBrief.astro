@@ -31,6 +31,8 @@ interface Props {
   class?: string;
 }
 
+import Stamp from './Stamp.astro';
+
 const { variant = 'review', class: className = '' } = Astro.props;
 
 // Illustrative values only. Each mix sums to 100.
@@ -90,8 +92,11 @@ const assetClasses = [
 // A 0% segment is left out: its padding and border would still show a sliver.
 // A segment shows its name only when wide enough to fit it, and its value
 // only when wide enough for the number; the key below names every colour.
+// A 10–19% segment is too narrow for its number on a phone (14% of a 375px
+// bar is about 33px), so that number shows from sm; the aria-label has them all.
 const segmentText = (name: string, value: number) =>
   value >= 20 ? `${name} ${value}%` : value >= 10 ? `${value}%` : '';
+const segmentTextClass = (value: number) => (value >= 20 ? '' : 'hidden sm:inline');
 ---
 
 <figure class:list={['w-full max-w-lg mx-auto', className]}>
@@ -100,16 +105,16 @@ const segmentText = (name: string, value: number) =>
     <div class="absolute inset-0 rounded-xl bg-fi-mid border border-fi-border-dark rotate-3 translate-x-2 translate-y-1.5" aria-hidden="true"></div>
 
     <div class="relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 shadow-fi-card-dark transition-transform duration-300 hover:-translate-y-1">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <p class="text-body-lg font-bold leading-snug">{title}</p>
-          <p class="text-body-sm text-fi-muted tabular-nums">{profile}</p>
-        </div>
-        <span class="shrink-0 rounded-md border border-fi-border px-2 py-0.5 text-caption uppercase text-fi-muted">Sample</span>
+      <!-- The same stamp as "Case solved" and "Disclosed": on brand, and a clear "this is an example".
+           It shares the title's row; the profile runs full width below, so it stays on one line. -->
+      <div class="flex items-center justify-between gap-3">
+        <p class="text-body-lg font-bold leading-snug">{title}</p>
+        <Stamp class="shrink-0 mr-1">Sample</Stamp>
       </div>
+      <p class="mt-2 text-body-sm text-fi-muted tabular-nums">{profile}</p>
 
-      <div class="mt-4 border-t border-fi-border pt-4">
-        <p class="text-caption uppercase text-fi-muted mb-3">{mixLabel}</p>
+      <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+        <p class="font-mono text-caption uppercase text-fi-muted mb-3">{mixLabel}</p>
         <div class="space-y-2">
           {mixes.map((mix) => (
             <div class="flex items-center gap-2">
@@ -121,7 +126,7 @@ const segmentText = (name: string, value: number) =>
               >
                 {assetClasses.filter(({ key }) => mix[key] > 0).map(({ key, name, fill }) => (
                   <span class:list={['flex items-center overflow-hidden pl-2 border-r-2 border-white last:border-r-0', fill]} style={`width: ${mix[key]}%`}>
-                    <span class="whitespace-nowrap text-xs font-semibold text-white tabular-nums">{key === 'gold' ? '' : segmentText(name, mix[key])}</span>
+                    <span class:list={['whitespace-nowrap text-xs font-semibold text-white tabular-nums', segmentTextClass(mix[key])]}>{key === 'gold' ? '' : segmentText(name, mix[key])}</span>
                   </span>
                 ))}
               </div>
@@ -135,8 +140,8 @@ const segmentText = (name: string, value: number) =>
         </div>
       </div>
 
-      <div class="mt-4 border-t border-fi-border pt-4">
-        <p class="text-caption uppercase text-fi-muted mb-3">{pointsLabel}</p>
+      <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+        <p class="font-mono text-caption uppercase text-fi-muted mb-3">{pointsLabel}</p>
         <ul class="space-y-2.5">
           {points.map((point) => (
             <li class="flex items-baseline gap-3">
@@ -147,8 +152,8 @@ const segmentText = (name: string, value: number) =>
         </ul>
       </div>
       {variant === 'review' && (
-        <div class="mt-4 border-t border-fi-border pt-4">
-          <p class="text-body-sm text-fi-muted"><strong class="text-fi-ink">What this means:</strong> Equity is above target. Discuss whether that risk still fits before changing anything.</p>
+        <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+          <p class="text-body-sm text-fi-muted"><strong class="text-fi-ink">What this means:</strong> You hold more equity than your target, and much of it is the same stocks. We'd talk it through with you before changing anything.</p>
         </div>
       )}
     </div>

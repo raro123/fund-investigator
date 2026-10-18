@@ -57,7 +57,7 @@ Four sections on one centre axis (headings, leads and buttons centred; card text
 `/invest/` order: see the `/invest/` table below. The direct vs regular comparison lives only in the FAQ.
 
 **Homepage design rules (still valid from S46):**
-- **Sample brief (`SampleBrief`):** labelled "Sample", example profile (age 34, moderate risk, 5 funds), mix now vs target, then three findings in plain words (value + one short sentence, no metric names): stock overlap across the equity funds, funds that lag benchmark, average expense ratio. Correlation stays out of the hero card (equity funds normally move together at 0.9+); use it in the full brief with a comparison. No fund names, no returns or projections, no commission rates. Values are illustrative (#83).
+- **Sample brief (`SampleBrief`):** a "Sample" stamp, example profile (age 34, moderate risk, 5 funds), mix now vs target, then three findings in plain words (value + one short sentence, no metric names): stock overlap across the equity funds, funds that lag benchmark, average expense ratio. Correlation stays out of the hero card (equity funds normally move together at 0.9+); use it in the full brief with a comparison. No fund names, no returns or projections, no commission rates. Values are illustrative (#83).
 - **Motion: Subtle.** Reveal on scroll (`data-reveal`) and cross-page view transitions; both off under reduced motion. See `docs/style_spec.md` §11.
 - **Not used:** section labels, numbered labels, mid-page dark bands, parallax, counters, carousels.
 

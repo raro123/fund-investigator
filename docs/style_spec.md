@@ -235,6 +235,9 @@ The homepage's problems and services use one idea from the brand ("We investigat
 ### Sample Brief (`SampleBrief.astro`)
 - A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
 - Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.
+- Tied to the typed files below without losing the hero's legibility: "Sample" is a tilted `Stamp` (the same stamp as "Case solved" and "Disclosed"; a stronger "example" signal than a pill), the section captions are `font-mono`, and the dividers are dashed. The numbers, bars and sentences stay in the sans for a quick read.
+- A bar segment shows "Name n%" from 20%; a 10–19% segment shows its number from `sm` only (too narrow on a phone); the key and the `aria-label` name every value.
+- The review closes on "What this means:" joining the findings ("You hold more equity than your target, and much of it is the same stocks. We'd talk it through with you before changing anything."): a description, never an instruction to sell.
 - Unlike the removed decorative Deepdive mockup (§13), it shows a real deliverable, so it earns its place.
 - Allocation bars: equity `fi-mid`, debt `fi-link`, gold `fi-gold`, white labels inside wide segments, plus a colour key (gold is too light to carry a label).
 - Review adds one practical implication below the findings. Start shows only the investment target (not bank savings labelled as debt), with the emergency reserve separate. Amount, reserve, fund count and timing are explicitly examples, not minimums or prescriptions.
