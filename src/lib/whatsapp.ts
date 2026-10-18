@@ -1,9 +1,9 @@
 /**
  * WhatsApp chat link builder for the Invest with support enquiry route.
  *
- * Mirrors `deepdive.ts`: each button placement has its own prefilled text and
- * a `ref` tag, so an incoming chat shows which button started it. The visitor
- * only taps Send, so the texts are friendly and name no fund
+ * Each button placement has its own prefilled text. The visitor only taps
+ * Send, so the texts are friendly, name no fund and carry no tracking code:
+ * the `conversation_request` PostHog event records the placement
  * (docs/mfd_whatsapp_kit.md §4).
  */
 
@@ -58,14 +58,13 @@ const prefilledText: Record<WhatsappPlacement, string> = {
 };
 
 /**
- * Build a wa.me link with the placement's prefilled text and ref tag.
+ * Build a wa.me link with the placement's prefilled text.
  *
- * @param placement - Button placement; becomes the `(ref: …)` suffix.
+ * @param placement - Button placement; picks the prefilled text.
  * @returns The full https://wa.me/… URL.
  */
 export function whatsappUrl(placement: WhatsappPlacement): string {
-  const text = `${prefilledText[placement]} (ref: ${placement})`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(prefilledText[placement])}`;
 }
 
 /**

@@ -20,7 +20,7 @@
 1. Distribution is the main focus and the only revenue today. Paid research is deferred.
 2. **Target client: ₹10 lakh to ₹1 crore** in mutual funds, usually busy professionals who want help, not more data. The website is the trust check after a referral; referrals and direct outreach find the clients.
 3. **Main offer: a 30-minute first call**, booked through Zoho Bookings (free plan): `https://fundinvestigator.zohobookings.in/488614000000029045`. The button says "Book a first call". The call covers goals, time frame and risk profile, then existing funds (if any). The portfolio review (overlap, benchmark check, costs, fit to the risk profile) needs the holding details, which the client shares **after** the call; we then send a short brief. Never write "no documents needed". Keep it factual; fund choices belong to the distribution conversation.
-4. **Contact:** booking first, WhatsApp second (`wa.me/919625026859`, +91 96250 26859, prefilled text and a `ref` per placement). Email (contact@fundinvestigator.com) is the fallback.
+4. **Contact:** booking first, WhatsApp second (`wa.me/919625026859`, +91 96250 26859, prefilled text per placement). Email (contact@fundinvestigator.com) is the fallback.
 5. **Owner's name (rule changed 2026-10-14).** The SEBI RA rule is retired. The name, photo and credentials may appear on service pages: the homepage final section shows them (photo and credentials from `src/lib/distributor.ts`, hidden while empty, #90), and the ARN identity stays in the footer and on `/invest/`. Fund analyses that name a scheme: decide a byline case by case (#98). Structured data still names the Organization; switch `authorRef()` only when the page shows the person.
 6. **Launch without a platform.** Copy names none. We place transactions through MFU, an exchange platform or similar; the investor approves by OTP and pays the fund house directly. Add "Existing clients: log in to [Platform]" back once a platform exists.
 7. Empanelled with every AMC: copy says "every fund house", never an AMC list, name or logo (AMFI code 4(d), 4(k)).
@@ -101,7 +101,7 @@ Hero, filters, cards, plus one section after the list: Deepdive snapshot, "Check
 ### Tracking placements
 Events (`src/lib/analytics.ts`): `review_booking_click`, `conversation_request` (channel), `deepdive_click`, `subscribe_click`, plus the `invest_view` page view. Zoho and WhatsApp report no placement back, so the click event is the only record.
 - Booking: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `about`.
-- WhatsApp `ref`: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `invest_faq`, `about`, `footer`.
+- WhatsApp: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `invest_faq`, `about`, `footer`.
 - Deepdive: `reports_deepdive`, `about`, `footer` (`invest_fallback` is defined but unused).
 - Substack: `homepage_bottom`, `article_end`, `article_takeaways`, `footer`.
 - Retired: `homepage_beginner`, `homepage_pricing`, `homepage_deepdive`, `header_*`.
@@ -146,7 +146,7 @@ The two-PR plan (disclosure first, funnel second) is done: both are built and me
 **Checks before merge**
 - [ ] `npm run lint:design` and `npm run build` pass
 - [ ] At most one gold button per section; secondary and tertiary buttons pass `surface`
-- [ ] External links use `target="_blank" rel="noopener noreferrer"`; WhatsApp links open with the right text and `ref`; booking links open the Zoho page
+- [ ] External links use `target="_blank" rel="noopener noreferrer"`; WhatsApp links open with the right text; booking links open the Zoho page
 - [ ] No `/invest/`, WhatsApp or booking link in the content of any fund analysis or `/reports/` (the global nav link is allowed, #76)
 - [ ] Footer identity and risk warning on the homepage, a report, `/about/` and `/invest/`
 - [ ] Phone (375px) and desktop: no sideways scroll; mobile menu closes on tap
