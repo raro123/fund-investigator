@@ -48,7 +48,7 @@ export const homeServices: HomeService[] = [
     bullets: [
       'Your goals, time frame and risk profile',
       'Your existing funds (if any): performance, fit and costs',
-      'A clear, written brief before you decide anything',
+      'A clear brief before you decide',
     ],
   },
   {
