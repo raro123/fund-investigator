@@ -8,15 +8,16 @@ import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import ServiceCard from '../components/ui/ServiceCard.astro';
-import RouteCards from '../components/ui/RouteCards.astro';
+import CaseFile from '../components/ui/CaseFile.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
 import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { services } from '../lib/services';
+import { homeServices } from '../lib/services';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
@@ -44,7 +45,8 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// Three differences, in the order of the section's lead line (evidence, then portfolio first).
+// The three differences (content philosophy pillars, same words each time),
+// shown as trust points under the final call.
 const differences = [
   {
     title: 'Analysis and evidence',
@@ -66,6 +68,7 @@ const subscribeBenefits = [
 ];
 
 const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const darkLink = 'text-body-md font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 ---
 
@@ -106,31 +109,28 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Hero>
 
-  <!-- 2. Problems → services: each problem leads to the service that solves it, then the fee -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading
-      title="Clearer choices. Less clutter. More confidence."
-      lead="Four common problems, and the service that solves each one. You approve every transaction."
-    />
+  <!-- 2. Case files: each client problem, in their words, beside the service that solves it
+       (CaseFile). The solutions link to the landing pages (the homepage's only route to them
+       besides the footer). Each file reveals on its own as it scrolls in. Then the fee. -->
+  <Section background="light" spacing="md" maxWidth="lg">
+    <SectionHeading title="Sound familiar?" lead="Three problems we hear most from investors, and how we solve each one." />
 
-    <ol class="grid sm:grid-cols-2 gap-5">
-      {services.map((service, index) => (
-        <li data-reveal={index}>
-          <ServiceCard {...service} />
+    <ol class="space-y-10">
+      {homeServices.map((service) => (
+        <li data-reveal={0}>
+          <CaseFile {...service} />
         </li>
       ))}
     </ol>
 
-    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees).
-         The direct vs regular comparison lives in the /invest/ FAQ.
-         The icon matches the grey problem icons in the service cards above, not the accent colour. -->
-    <Card hover={false} padding="md" class="mt-5 flex items-start gap-3 text-left">
-      <svg class="w-5 h-5 mt-0.5 shrink-0 text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/></svg>
-      <p class="text-body-sm text-fi-muted leading-relaxed">
-        <strong class="text-fi-ink">No separate fee from you.</strong>
-        Our commission is part of the fund's yearly expense ratio, and we disclose it transparently before you select your funds.
-      </p>
-    </Card>
+    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees): a typed memo,
+         clipped to the page, signed with the registered name and ARN. Never "free" or "₹0"; no rates.
+         The direct vs regular comparison lives in the /invest/ FAQ. -->
+    <div data-reveal={0} class="mt-14">
+      <Memo label="Memo · How we are paid" title="No separate fee from you." signoff={`Fund Investigator · ${ARN}`}>
+        The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
+      </Memo>
+    </div>
 
     <div class:list={[ctaRow, 'mt-10']}>
       <Button {...booking('homepage_services')} class="w-full sm:w-auto min-w-0">Book a first call</Button>
@@ -138,66 +138,39 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Section>
 
-  <Section background="white" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Where are you starting from?" />
-    <RouteCards />
-  </Section>
-
-  <!-- The differences follow the situation routes. -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading
-      title="The Fund Investigator way."
-      lead="Because Indian fund investors deserve fund choices backed by evidence and a portfolio-first approach."
-    />
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {differences.map((difference, index) => (
-        <div data-reveal={index}>
-          <Card hover={false} padding="md" class="h-full text-left">
-            <h3 class="text-body-lg font-bold text-fi-ink mb-2">{difference.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{difference.body}</p>
-          </Card>
-        </div>
-      ))}
-    </div>
-
-    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-      <Button href="/invest/" variant="secondary" surface="light" icon="arrow-right">How support works</Button>
-      <a href="/about/" class={lightLink}>Read our story →</a>
-    </div>
-  </Section>
-
-  <!-- 4. Investigations and tools: value first (guides), then the ask (subscribe) -->
-  <Section background="white" spacing="md" maxWidth="2xl">
+  <!-- 4. Investigations and tools: the page's second dark band, with the hero's glow, so
+       the page alternates dark and light (style_spec §1). Value first (guides), then the ask. -->
+  <Section background="dark" glow spacing="md" maxWidth="2xl">
     <SectionHeading
       title="Our investigations and tools."
       lead="Read our analysis, see our methods and try our tools."
+      surface="dark"
     />
 
     <div class="grid sm:grid-cols-2 gap-5 text-left">
       {featuredGuides.map((report, index) => (
         <div data-reveal={index}>
-          <ReportCard report={report} href={`/reports/${report.slug}/`} surface="light" />
+          <ReportCard report={report} href={`/reports/${report.slug}/`} />
         </div>
       ))}
     </div>
 
     <p class="mt-8 text-center">
-      <a href="/reports/" class={lightLink}>View all investigations →</a>
+      <a href="/reports/" class={darkLink}>View all investigations →</a>
     </p>
 
     <!-- Gold stays for booking; the subscription is this section's only button. -->
-    <Card variant="bordered" hover={false} padding="lg" class="mt-10 grid gap-6 text-left lg:grid-cols-fi-subscribe lg:items-center lg:gap-8">
-      <h3 class="text-heading-sm font-bold text-fi-ink">Subscribe for free</h3>
+    <Card variant="dark" hover={false} padding="lg" class="mt-10 grid gap-6 text-left lg:grid-cols-fi-subscribe lg:items-center lg:gap-8">
+      <h3 class="text-heading-sm font-bold text-fi-ink-inv">Subscribe for free</h3>
       <ul class="grid sm:grid-cols-2 gap-5">
         {subscribeBenefits.map((benefit) => (
           <li class="flex gap-3">
-            <span class="w-10 h-10 shrink-0 rounded-lg bg-fi-icon-bg flex items-center justify-center">
-              <svg class="w-5 h-5 text-fi-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={benefit.icon} />
+            <span class="w-10 h-10 shrink-0 rounded-lg bg-fi-dark flex items-center justify-center">
+              <svg class="w-5 h-5 text-fi-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={benefit.icon} />
             </span>
             <span>
-              <strong class="block text-body-sm text-fi-ink">{benefit.title}</strong>
-              <span class="text-body-sm text-fi-muted">{benefit.body}</span>
+              <strong class="block text-body-sm text-fi-ink-inv">{benefit.title}</strong>
+              <span class="text-body-sm text-fi-muted-inv">{benefit.body}</span>
             </span>
           </li>
         ))}
@@ -205,7 +178,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <Button
         href={substackWelcomeUrl('homepage_bottom')}
         variant="secondary"
-        surface="light"
+        surface="dark"
         target="_blank"
         rel="noopener noreferrer"
         icon="external"
@@ -218,10 +191,10 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 5. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       The person behind the service is on /about/ (linked from the differences section).
-       Situation routes appear immediately after services. -->
-  <Section background="white" spacing="md" maxWidth="lg">
-    <div class="text-center">
+       The three differences sit under the actions as an "On the record" ledger (rules, no cards),
+       then the link to /about/, where the person behind the service is. -->
+  <Section background="white" spacing="md" maxWidth="2xl">
+    <div class="text-center max-w-3xl mx-auto">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
         Start with a 30-minute call.
       </h2>
@@ -238,6 +211,18 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       </p>
     </div>
 
+    <p class="mt-14 mb-4 text-center font-mono text-caption uppercase text-fi-muted">On the record</p>
+    <ul class="grid lg:grid-cols-3 border-y border-fi-border divide-y lg:divide-y-0 lg:divide-x divide-fi-border text-left">
+      {differences.map((difference, index) => (
+        <li data-reveal={index} class="py-6 lg:py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0">
+          <h3 class="text-body-lg font-bold text-fi-ink mb-2">{difference.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{difference.body}</p>
+        </li>
+      ))}
+    </ul>
 
+    <p class="mt-8 text-center">
+      <a href="/about/" class={lightLink}>Read our story →</a>
+    </p>
   </Section>
 </Layout>

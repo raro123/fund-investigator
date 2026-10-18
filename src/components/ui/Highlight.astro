@@ -1,0 +1,52 @@
+---
+/**
+ * Highlight Component
+ *
+ * A gold highlighter stroke over the lower part of a few words: the heart of a
+ * sentence, as an investigator marks evidence. fi-gold at 45%, never gold
+ * text, so it is allowed on light surfaces and fi-ink stays far above 4.5:1.
+ * Light surfaces only; one mark per block of text.
+ *
+ * When an ancestor reveals on scroll (`data-reveal`, Layout.astro), the stroke
+ * draws in from left to right. Text visible at load, and readers who prefer
+ * reduced motion, see it already drawn.
+ *
+ * The <style> comes before the mark on purpose: anything after it would leave
+ * a space before the punctuation that follows the highlight.
+ *
+ * @example
+ * <p>We disclose it <Highlight>in writing</Highlight>.</p>
+ *
+ * @param class - extra classes for the mark
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<style>
+  .fi-mark {
+    background-color: transparent;
+    background-image: linear-gradient(transparent 50%, rgba(251, 191, 36, 0.45) 50%, rgba(251, 191, 36, 0.45) 92%, transparent 92%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /* The stroke overhangs the words a little without moving them. */
+    padding: 0 0.08em;
+    margin: 0 -0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Draw the stroke after the block has risen into place (fi-rise, 0.65s). */
+  :global(.animate-fi-rise) .fi-mark {
+    animation: fi-mark 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s backwards;
+  }
+
+  @keyframes fi-mark {
+    from { background-size: 0% 100%; }
+  }
+</style>
+<mark class:list={['fi-mark text-fi-ink', className]}><slot /></mark>

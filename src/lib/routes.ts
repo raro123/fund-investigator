@@ -1,7 +1,6 @@
 /**
  * The three reader situations that route to the landing pages
- * (docs/landing_pages_plan.md): one source for the homepage discovery section and
- * the /invest/#products cards.
+ * (docs/landing_pages_plan.md): one source for the /invest/#products cards.
  *
  * Each route keeps the disclosure the old product cards showed: the minimum and
  * the main risk, taken word for word from src/lib/products.ts, so the facts

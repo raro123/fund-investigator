@@ -195,16 +195,23 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Title: `15px` · `font-weight: 700` · `fi-ink-inv`
 - Body: `13px` · `fi-muted-inv` · `line-height: 1.65`
 
-### Service Cards (`ServiceCard.astro`, light section)
-- One card per Invest with support service, led by the client's problem. Copy source: `src/lib/services.ts` (homepage bullets and `/invest/` details in one list).
-- Grey problem strip on top (`fi-light`, dashed `fi-border` rule, `fi-muted` icon and text, `text-body-sm`), then the service: inline mono number in `fi-muted`, `text-heading-sm` title in `fi-ink`, three `CheckList` ticks.
-- The number sits on the title line, never on its own coloured row: the services are a sequence, but the title must lead.
-- Grid: `sm:grid-cols-2` (2×2 on desktop).
+### Case files (`CaseFile.astro`, homepage, light section, S61)
+The homepage's problems and services use one idea from the brand ("We investigate"): each client problem and the service that solves it form one **case file**. Copy source: `src/lib/services.ts` (`homeServices`, one record per problem and its service). `/invest/` keeps the four services as journey stages (`services`).
 
-### Difference Cards (homepage, white section)
-- `Card` with an `text-body-lg` bold title and a one- or two-line `text-body-sm` body. No icons: the titles carry the meaning, and the page already has icons in the service strips and ticks.
-- Short paragraphs, not bullets: each card explains a belief and its reason. Service cards use bullets because they list what the client gets.
-- Grid: `sm:grid-cols-2 lg:grid-cols-3`.
+- **The card:** white, `fi-border`, `shadow-fi-card`, no tab, number or dark edge (owner, S61). Files stack in a `max-w-5xl` column, `space-y-10`.
+- **The problem panel** (`fi-light`): no label. The problem in the client's own voice, in quotes, **typed** in Courier Prime (`font-typewriter`, `responsive.typed`, 18→20→24px, `fi-ink`). Courier Prime is for this text only; `font-mono` stays for data and labels.
+- **The highlighter (`Highlight.astro`):** the heart of each problem (`mark` in `services.ts`) gets a gold highlighter stroke over the lower part of the words: `fi-gold` at 45%, never gold text, so `fi-ink` stays readable. One mark per block of text; used in the case files and the fee memo only.
+- **The seam:** a 40px `fi-gold` circle with a `fi-ink` arrow and a white ring, sitting on the join between the panels (down on phones, right from `lg`). Decorative, not a button.
+- **The solution panel** (white): the `text-heading-sm` title and three `CheckList` ticks, then a **"Case solved" rubber stamp** at the bottom right, like a sign-off (tick and uppercase `text-body-sm` extrabold, `tracking-fi-label`, 2px `fi-link` border plus an offset `fi-link` ring for the double rule, tilted −6°). No links in the file. The stamp is `fi-link`, not red: `fi-negative` means a loss, and gold text is never on white.
+- **Layout:** stacked below `lg`; from `lg`, problem · seam · solution (`grid-cols-fi-case-file`, 1 : 1.2).
+
+### Fee memo (`Memo.astro`, homepage, under the case files)
+- "No separate fee from you" as a typed memo clipped to the page: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), a grey (`fi-muted`) paper clip over the top-left edge, like metal, so gold stays for the highlight and the booking button, a mono label ("Memo · How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a typed sign-off with the registered name and ARN at the bottom right.
+- Wording rules still apply: say "No separate fee from you" and explain the commission in the same place; never "free" or "₹0"; no commission rates.
+- On reveal the highlight draws, then the clip slides on.
+
+### On the record (homepage final section, white)
+- The three differences (content philosophy pillars, same words) as a ledger, not cards: a mono `On the record` caption, then three columns between `fi-border` rules (`divide-x` from `lg`, `divide-y` below). `text-body-lg` bold title, `text-body-sm` `fi-muted` body. No icons.
 
 ### Report Cards on light surfaces (`ReportCard surface="light"`)
 - White card, `fi-border`, `shadow-fi-card`; meta and hook `fi-muted`, title `fi-ink`, hover and "Read Investigation" in `fi-link` (never gold on white). `/reports/` keeps the default dark surface.
@@ -271,8 +278,8 @@ Owned by `Hero.astro` (`.fi-hero-glow`, a `position: absolute; inset: 0` layer) 
 Centred at 50% because heroes are stacked and centred (was 85% for the old split hero). Very low
 opacity — atmosphere only, not decorative.
 
-### Why FI Section
-Same radial gradient treatment as hero.
+### Dark content sections
+`<Section background="dark" glow>` adds the same gold glow, anchored at the top edge (`.fi-section-glow` in `Section.astro`). The homepage investigations band uses it. Cards on these sections use `Card variant="dark"` (`fi-mid`, `fi-border-dark`).
 
 ---
 
@@ -285,6 +292,8 @@ Hover lift: `transform: translateY(-2px)` — buttons, cards
 Motion level: **Subtle** (decided 2026-10-11). Two effects only, both off under `prefers-reduced-motion`:
 - **Reveal on scroll:** add `data-reveal="<index>"` to an element; the script in `Layout.astro` plays `animate-fi-rise` (fade + 16px rise, 90ms stagger per index) as it nears the viewport. Elements visible at load never animate, so the first frame is always complete.
 - **Page transitions:** `@view-transition { navigation: auto; }` in `Layout.astro`. Report card titles and article H1s share `view-transition-name: report-<slug>`, so the title moves into place. Unsupported browsers load pages normally.
+
+One addition (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo does the same with its highlight and paper clip (`Memo.astro`). It rides on the reveal, so it is off under reduced motion too.
 
 Not used: parallax, scroll-jacking, count-up numbers, carousels.
 

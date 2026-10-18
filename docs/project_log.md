@@ -146,6 +146,31 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 
 ---
 
+### 📅 Date: 2026-10-18 | Session: S61 — Homepage: case files (problem beside its solution); dark investigations band; WhatsApp text without `ref`
+
+**What was done:**
+The homepage services section is now two sections. "Sound familiar?" lists three client problems (`ProblemList`, white). "A service for each one." answers them with three `ServiceCard`s with the same numbers: Portfolio review · Fund curation · Execution and ongoing reviews. Each card links its landing pages, or `/invest/#how-it-works`. The fee note and booking buttons stay below the cards. The "Where are you starting from?" routes section and the "Fund Investigator way" section are gone. The three differences now sit as trust points under the final call's buttons, followed by "Read our story →". Separately, WhatsApp prefilled messages no longer end in `(ref: …)` (commit `555dc4f`).
+
+Then a visual pass, because the page read flat (owner: "lacking pizzazz"; creative liberty). One idea from the brand, "We investigate": each problem is a **case note** (`Case 01`, the client's words in quotes in the Newsreader italic, a gold highlighter stroke that draws in over the heart of the problem, dashed file rules) and each service is its **case folder** (dark tab with gold `Case 01`, dark top edge). The solutions heading is "Every case, investigated." Investigations is now a dark band with the hero's glow, dark report cards and a dark subscribe strip, so the page alternates dark and light again (style_spec §1: only the hero was dark). The differences are an "On the record" ledger between rules instead of cards; the final section is white.
+
+Finally, the owner's idea: problem and solution in one **case file** (`CaseFile`) instead of two sections. Each file has the "Case 01" tab; the problem (serif italic, highlighter) sits on a `fi-light` panel beside the solution from `lg`, above it on phones, with a gold arrow on the seam. On reveal the highlighter draws, the arrow pops and the solution slides in. `ProblemList` and `ServiceCard` were removed. Owner's last pass (case-file inspiration): the problem is typed in Courier Prime (new `@fontsource/courier-prime`, `font-typewriter`) instead of the serif italic; the "The problem" and "How we solve it" labels and icons are gone; a tilted "Case solved" stamp in `fi-link` lands last, at the solution's bottom right; the "Case 01" tabs and the dark top edge are gone; the files hold no links, so the homepage reaches the landing pages through the footer and `/invest/` only. The three problems were rewritten in the client's everyday words (no "overlap"): unsure the funds bought over the years are right for them; wanting to start investing but not knowing where to begin (for first-time investors; its third bullet is now about the first SIP or lump sum); "I'd like a helping hand when my life changes, when markets move, and with the day-to-day admin" ("admin", not "paperwork": most of it is online) (its bullets answer the three in the same order). The fee note under the files is now a typed **memo** clipped to the page (`Memo`: grey paper clip, "Memo · How we are paid", Courier Prime body with one highlight on "in writing, before you select your funds", signed with the registered name and ARN); the highlighter became a shared `Highlight` component. The homepage is now four sections: hero (dark) · case files (light) · investigations (dark) · final call (white).
+
+**Why:**
+The owner's review: four problems in small grey strips were the weakest text in their own cards, and "Execution" alone was a weak problem. Joining it with ongoing reviews gives one promise: we do the transactions and stay with you. The routes section repeated the problem framing right after it, and `/invest/` already has the routes. The solution cards keep the homepage's links to the landing pages (S58). The `ref` tag was visible to the customer, and `conversation_request` already records the placement.
+
+**How:**
+`src/lib/services.ts`: `services` is now the four `/invest/` stage titles only; `homeServices` holds one record per problem and its service (number, icon, problem, bullets, links), with links taken from `routes.ts`. `ServiceCard` lost the problem strip and gained `links` and the folder tab. New `ProblemList` component (first-person `problem` plus `mark`; `services.ts` throws if a mark is not in its problem). New: `Section` `glow` prop, `Card variant="dark"`, `responsive.quote`, `grid-cols-fi-case` token, Newsreader 400 italic. All new colour pairs were already approved by the contrast check. Styleguide, `style_spec.md`, handoff homepage table and `landing_pages_plan.md` updated.
+
+**Decisions made:**
+- Homepage: three problems and three services, paired by number; `/invest/` keeps four journey stages.
+- The difference pillars keep their exact words (content philosophy), now as trust points in the final section.
+- `RouteCards` compact variant stays in the styleguide, unused on pages.
+- The "case" language and the highlighter belong to the homepage problems and services only; don't spread them to other pages without a review.
+- The page alternates dark and light: hero (dark) · case files (light) · investigations (dark) · final call (white) · footer (dark).
+- The OTP fact moved from a section lead into case 03. The fee memo says who pays us (the fund house, from the expense ratio, already deducted from the fund's returns), not "you pay the fund house directly", which read as if investors pay a fee.
+
+---
+
 ### 📅 Date: 2026-10-17 | Session: S60 — SIF and GIFT City indexable, GIFT City page reordered, consistency fixes
 
 **What was done:**

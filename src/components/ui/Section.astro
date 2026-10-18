@@ -19,6 +19,9 @@
  * <Section background="navy" spacing="sm">
  *   <p>Dark section with less padding</p>
  * </Section>
+ *
+ * <!-- Dark content section with the hero's gold glow (style_spec §10) -->
+ * <Section background="dark" glow>…</Section>
  */
 
 interface Props {
@@ -34,6 +37,8 @@ interface Props {
   class?: string;
   /** Additional CSS classes for container */
   containerClass?: string;
+  /** The hero's faint gold glow behind the content; dark sections only */
+  glow?: boolean;
 }
 
 const {
@@ -43,7 +48,10 @@ const {
   maxWidth = 'xl',
   class: className = '',
   containerClass = '',
+  glow = false,
 } = Astro.props;
+
+const showGlow = glow && background === 'dark';
 
 // Background styles
 const backgroundStyles = {
@@ -72,12 +80,22 @@ const maxWidthStyles = {
 };
 
 // Combined classes
-const sectionClasses = `${backgroundStyles[background]} ${spacingStyles[spacing]} px-4 sm:px-6 lg:px-10 ${className}`.trim();
-const containerClasses = `${maxWidthStyles[maxWidth]} mx-auto ${containerClass}`.trim();
+const sectionClasses = `${backgroundStyles[background]} ${spacingStyles[spacing]} px-4 sm:px-6 lg:px-10 ${showGlow ? 'relative overflow-hidden' : ''} ${className}`.trim();
+const containerClasses = `${maxWidthStyles[maxWidth]} mx-auto ${showGlow ? 'relative' : ''} ${containerClass}`.trim();
 ---
 
 <section id={id} class={sectionClasses}>
+  {showGlow && <div class="fi-section-glow pointer-events-none" aria-hidden="true"></div>}
   <div class={containerClasses}>
     <slot />
   </div>
 </section>
+
+<style>
+  /* Same treatment as Hero.astro's .fi-hero-glow (fi-gold at 8%), placed at the top edge. */
+  .fi-section-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 45% at 50% 0%, rgba(251, 191, 36, 0.08) 0%, transparent 60%);
+  }
+</style>

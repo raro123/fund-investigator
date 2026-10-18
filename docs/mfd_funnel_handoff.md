@@ -45,15 +45,14 @@
 
 ### Homepage (2026-10-14, current)
 
-Five sections on one centre axis (headings, leads and buttons centred; card text left). Gold is for booking only. Copy sources: `src/lib/services.ts`, `src/lib/faq.ts`, `src/lib/distributor.ts`.
+Four sections on one centre axis (headings, leads and buttons centred; card text left). Gold is for booking only. Copy sources: `src/lib/services.ts`, `src/lib/faq.ts`, `src/lib/distributor.ts`.
 
 | # | Section | Background | Actions (placement) |
 | --- | --- | --- | --- |
 | 1 | Hero, stacked: headline, subhead, call details ("30-minute call · No charge · No obligation"), sample brief, trust strip (brief first so it shows on the first screen) | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
-| 2 | Problems → services: 4 `ServiceCard`s, fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
-| 3 | The Fund Investigator way: mission lead, 3 difference cards | white | How support works (secondary button) → `/invest/` · Read our story → `/about/` |
-| 4 | Our investigations and tools: 2 guides, subscribe strip (investigations + Deepdive access) | light | View all investigations · Subscribe (`homepage_bottom`) |
-| 5 | Final call, brand voice: "Start with a 30-minute call.", tagline · ARN, "we" copy. No owner name, photo or credentials (homepage privacy, S54; they are on `/about/`) | white | Book a first call · Contact on WhatsApp (`homepage_final`) |
+| 2 | "Sound familiar?": 3 case files (`CaseFile`), each the client's problem typed in their words (Courier Prime, gold highlighter) beside the service that solves it under a "Case solved" stamp (Portfolio review · Fund curation · Execution and ongoing reviews), fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
+| 3 | Our investigations and tools: 2 dark report cards, subscribe strip (investigations + Deepdive access), gold glow | dark | View all investigations · Subscribe (`homepage_bottom`) |
+| 4 | Final call, brand voice: "Start with a 30-minute call.", tagline · ARN, "we" copy, then the three differences as an "On the record" ledger. No owner name, photo or credentials (homepage privacy, S54; they are on `/about/`) | white | Book a first call · Contact on WhatsApp (`homepage_final`) · Read our story → `/about/` |
 
 `/invest/` order: see the `/invest/` table below. The direct vs regular comparison lives only in the FAQ.
 
@@ -66,7 +65,7 @@ Removed from the homepage: The Sales Trap, the Deepdive showcase and section, "H
 
 ### `/invest/` page (S51, 2026-10-15)
 
-**Job:** how investing with support works: the client journey, the products and the questions before a first call. The homepage pitches (why us); `/about/` shows the person and credentials; `/invest/` explains how. Entry: the homepage "Fund Investigator way" section (secondary button), the header and the footer. The header brings cold visitors from reports, so the hero keeps the main action. Review frequency and brief timing are agreed on the call per client; the site states no tiers or day counts.
+**Job:** how investing with support works: the client journey, the products and the questions before a first call. The homepage pitches (why us); `/about/` shows the person and credentials; `/invest/` explains how. Entry: the homepage solution cards ("How support works"), the header and the footer. The header brings cold visitors from reports, so the hero keeps the main action. Review frequency and brief timing are agreed on the call per client; the site states no tiers or day counts.
 
 | # | Section | Background | Content |
 | --- | --- | --- | --- |

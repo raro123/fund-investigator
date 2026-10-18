@@ -17,11 +17,13 @@ import AssessmentPreview from '../components/ui/AssessmentPreview.astro';
 import ContactActions from '../components/ui/ContactActions.astro';
 import FitCards from '../components/ui/FitCards.astro';
 import RouteCards from '../components/ui/RouteCards.astro';
-import ServiceCard from '../components/ui/ServiceCard.astro';
+import CaseFile from '../components/ui/CaseFile.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import CheckList from '../components/ui/CheckList.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
-import { services } from '../lib/services';
+import { homeServices } from '../lib/services';
 import { investFaq } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 ---
@@ -155,21 +157,30 @@ import { responsive } from '../lib/responsive';
     <pre class="overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SectionHeading title="…" lead="…" surface="light" />`}</code></pre>
   </Section>
 
-  <!-- Service Card + Check List -->
-  <Section background="light" spacing="sm" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Service Card and Check List</h2>
+  <!-- Case File + Check List -->
+  <Section background="light" spacing="sm" maxWidth="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Case File and Check List</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      A service led by the client's problem: grey problem strip, inline mono number, title, three ticks. Light surfaces only. Copy lives in <code class="font-mono">src/lib/services.ts</code>. <code class="font-mono">CheckList</code> is the tick list on its own (<code class="font-mono">layout="inline"</code> for a centred row).
+      One client problem and the service that solves it, as one card: the problem typed in the client's words (Courier Prime, <code class="font-mono">font-typewriter</code>, a gold highlighter on the heart of it) beside the solution from <code class="font-mono">lg</code>, above it on phones; a gold arrow on the seam; a "Case solved" stamp in <code class="font-mono">fi-link</code> at the solution's bottom right. On scroll reveal the highlighter draws, the arrow pops, the solution slides in and the stamp lands. Light surfaces only. Copy lives in <code class="font-mono">src/lib/services.ts</code> (<code class="font-mono">homeServices</code>). <code class="font-mono">CheckList</code> is the tick list on its own (<code class="font-mono">layout="inline"</code> for a centred row).
     </p>
-    <div class="grid sm:grid-cols-2 gap-5">
-      <ServiceCard {...services[0]} />
-      <div class="rounded-lg border border-fi-border bg-white p-6">
-        <CheckList items={services[0].bullets} />
-        <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
-      </div>
+    <CaseFile {...homeServices[0]} />
+    <div class="mt-8 rounded-lg border border-fi-border bg-white p-6">
+      <CheckList items={homeServices[0].bullets} />
+      <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
     </div>
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ServiceCard number="01" title="…" icon="…" problem="…" bullets={[…]} />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<li data-reveal={0}><CaseFile problem="…" mark="…" title="…" bullets={[…]} /></li>
 <CheckList items={[…]} surface="light" layout="stack" />`}</code></pre>
+
+    <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Memo and Highlight</h2>
+    <p class="text-body-sm text-fi-muted mb-10">
+      <code class="font-mono">Memo</code>: a typed note clipped to the page (grey paper clip, mono label over a dashed rule, bold title, Courier Prime body, typed sign-off). For a fact the reader should see in writing; the homepage uses it for how we are paid. <code class="font-mono">Highlight</code>: the gold highlighter stroke, one per block of text, drawn in on scroll reveal. Light surfaces only.
+    </p>
+    <Memo label="Memo · How we are paid" title="No separate fee from you." signoff="Fund Investigator · ARN-000000">
+      The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
+    </Memo>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<div data-reveal={0}>
+  <Memo label="Memo · …" title="…" signoff="…">… <Highlight>…</Highlight> …</Memo>
+</div>`}</code></pre>
   </Section>
 
   <!-- FAQ List -->
@@ -210,7 +221,7 @@ import { responsive } from '../lib/responsive';
     </p>
     <RouteCards />
     <RouteCards variant="detailed" class="mt-8" />
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<RouteCards />                    <!-- homepage final section -->
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<RouteCards />                    <!-- compact; not on a page at present -->
 <RouteCards variant="detailed" />  <!-- /invest/#products -->`}</code></pre>
   </Section>
 

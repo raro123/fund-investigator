@@ -20,6 +20,9 @@
  * <!-- Callout on a white section: light fill, no border -->
  * <Card variant="subtle" hover={false}>…</Card>
  *
+ * <!-- On a dark section: fi-mid fill, fi-border-dark rule -->
+ * <Card variant="dark" hover={false}>…</Card>
+ *
  * <!-- Card without hover effect -->
  * <Card hover={false}>
  *   <p>Static content</p>
@@ -28,7 +31,7 @@
 
 interface Props {
   /** Card visual variant */
-  variant?: 'default' | 'elevated' | 'bordered' | 'glass' | 'subtle';
+  variant?: 'default' | 'elevated' | 'bordered' | 'glass' | 'subtle' | 'dark';
   /** Internal padding */
   padding?: 'none' | 'sm' | 'md' | 'lg';
   /** Enable hover effects */
@@ -51,6 +54,7 @@ const variantStyles = {
   bordered: 'bg-white border-2 border-fi-border',
   glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
   subtle: 'bg-fi-light',
+  dark: 'bg-fi-mid border border-fi-border-dark',
 };
 
 // Padding styles — responsive: slightly less on mobile, more on desktop
