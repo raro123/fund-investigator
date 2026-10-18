@@ -47,18 +47,21 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// What happens on the first call, as a typed record in the final section.
-// Only facts already promised elsewhere: 30 minutes, no charge, no obligation.
-const firstCall = [
-  { label: 'Length', value: '30 minutes' },
-  { label: 'Cost', value: 'No charge · No obligation' },
-  { label: 'You share', value: 'Your goals, or what worries you about your portfolio', wide: true },
-  { label: 'Then', value: 'We explain how we can help. You decide what happens next.', wide: true },
+// The final section's file is the reader's own case, not yet opened: every file
+// above it is filled in. "No charge" stays with the call (never the case), so the
+// service never reads as free.
+const yourCase = [
+  { label: 'Client', value: 'You' },
+  { label: 'Status', value: 'Not yet opened', typed: true },
 ];
 
-// The three differences (content philosophy pillars, same words each time),
-// shown "On the record" inside the first-call dossier as ticked features.
-const differences = ['Analysis and evidence', 'Portfolio first', 'Transparent and personal'];
+// What happens on the first call, as an agenda still to tick. Only facts already
+// promised elsewhere: 30 minutes, no charge, no obligation ("You decide").
+const firstCall = [
+  'You share your goals, or what worries you',
+  'We explain how we can help',
+  'You decide what happens next',
+];
 
 const darkLink = 'text-body-md font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
@@ -177,30 +180,31 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       One typed case file (Dossier) holds it all: what happens on the call, then the three
-       differences "On the record" with the link to /about/, then the actions at its foot, so the
-       page ends on them. Light, after the dark band. -->
+       The reader's own case file (Dossier), blank where the others are filled in: "Know your
+       investigator" (the person, on /about/) in the header, client, a status that types itself
+       out, the first call as an agenda still to tick, then the actions
+       at its foot, so the page ends on them. "Your money. Your goals." speaks to first-time and
+       existing investors alike. Light, after the dark band. -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <div class="text-center max-w-3xl mx-auto">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
-        Start with a 30-minute call.
+        Your money. Your goals. Our investigation.
       </h2>
-      <p class="text-body-md text-fi-muted mb-14">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+      <p class="text-body-md text-fi-muted mb-12">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
     </div>
 
     <div data-reveal={0}>
       <Dossier
         label="Case file"
-        reference="First call"
-        title="Your first call"
-        fields={firstCall}
-        notes={{ label: 'On the record', items: differences, link: { label: 'Read our story', href: '/about/' } }}
+        link={{ label: 'Know your investigator', href: '/about/#distributor' }}
+        fields={yourCase}
+        notes={{ label: 'On the first call', aside: '30 minutes · No charge', items: firstCall }}
       >
         <div class="flex flex-col sm:flex-row gap-4">
           <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
           <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
         </div>
-        <p class="mt-5 text-body-sm text-fi-muted">
+        <p class="mt-4 text-body-sm text-fi-muted">
           We reply within 1 business day. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{CONTACT_EMAIL}</a>
         </p>
       </Dossier>

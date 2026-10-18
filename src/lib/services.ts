@@ -47,8 +47,8 @@ export const homeServices: HomeService[] = [
     // so it also works for a first-time investor.
     bullets: [
       'Your goals, time frame and risk profile',
-      'Your existing funds, if any: suitability, performance, overlap and costs',
-      'A short brief before you decide anything',
+      'Your existing funds (if any): performance, fit and costs',
+      'A clear, written brief before you decide anything',
     ],
   },
   {

@@ -3,29 +3,34 @@
  * Dossier Component
  *
  * A typed case-file sheet: clipped to the page (PaperClip) on two more sheets
- * slightly out of line, a mono header over a dashed rule ("Case file" ·
- * "First call"), a title in Courier Prime capitals, then the facts as form
- * fields (mono label, typed value, a rule under each), two to a row from sm
- * unless a field is `wide`. Optional `notes` add a captioned row of ticked
- * features (e.g. "On the record"), and the default slot sits at the foot, for
- * the actions. Light surfaces only.
+ * slightly out of line, a mono header over a dashed rule ("Case file", with a
+ * reference or a link on the right), an optional title in Courier Prime
+ * capitals, then the facts as form fields (mono label, typed value, a rule
+ * under each), two to a row from sm
+ * unless a field is `wide`. Optional `notes` add a captioned agenda of typed
+ * items with empty boxes (things still to happen, e.g. "On the first call"),
+ * and the default slot sits at the foot, for the actions. Light surfaces only.
  *
  * No mugshots, "confidential" stamps or redacted lines: the reader is the
  * client, and a page that sells disclosure hides nothing.
  *
- * Put `data-reveal` on a wrapper; the clip slides on when it reveals.
+ * Put `data-reveal` on a wrapper; the clip slides on when it reveals, then a
+ * `typed` field types itself out behind a caret. Text visible at load, and
+ * readers who prefer reduced motion, see it already typed.
  *
  * @example
- * <Dossier label="Case file" reference="First call" title="Your first call"
- *   fields={[{ label: 'Length', value: '30 minutes' }, { label: 'Then', value: '…', wide: true }]}>
+ * <Dossier label="Case file" link={{ label: 'Know your investigator', href: '/about/#distributor' }}
+ *   fields={[{ label: 'Client', value: 'You' }, { label: 'Status', value: 'Not yet opened', typed: true }]}
+ *   notes={{ label: 'On the first call', aside: '30 minutes · No charge', items: ['…'] }}>
  *   <Button …>Book a first call</Button>
  * </Dossier>
  *
  * @param label - left of the header, e.g. 'Case file'
- * @param reference - right of the header, e.g. 'First call'
- * @param title - the file's name, set in typed capitals
- * @param fields - { label, value, wide? } facts as form fields
- * @param notes - optional { label, items: string[], link? } ticked features before the actions
+ * @param reference - right of the header, e.g. 'No. 001'
+ * @param link - { label, href } right of the header instead of a reference
+ * @param title - optional file name, set in typed capitals
+ * @param fields - { label, value, wide?, typed? } facts as form fields
+ * @param notes - optional { label, aside?, items: string[] } agenda before the actions
  * @param class - extra classes for the dossier
  */
 import PaperClip from './PaperClip.astro';
@@ -35,23 +40,28 @@ interface Field {
   value: string;
   /** Take the full row from sm */
   wide?: boolean;
+  /** Type the value out behind a caret on reveal (one short line) */
+  typed?: boolean;
 }
 
 interface Props {
   label: string;
   reference?: string;
-  title: string;
+  /** A link on the right of the header, in place of the reference */
+  link?: { label: string; href: string };
+  title?: string;
   fields: Field[];
-  /** Optional notes block before the actions, e.g. "On the record" with a link */
+  /** Optional agenda before the actions, e.g. "On the first call" */
   notes?: {
     label: string;
+    /** Right of the caption, e.g. '30 minutes · No charge' */
+    aside?: string;
     items: string[];
-    link?: { label: string; href: string };
   };
   class?: string;
 }
 
-const { label, reference, title, fields, notes, class: className = '' } = Astro.props;
+const { label, reference, link, title, fields, notes, class: className = '' } = Astro.props;
 
 const caption = 'font-mono text-caption uppercase text-fi-muted';
 ---
@@ -61,38 +71,43 @@ const caption = 'font-mono text-caption uppercase text-fi-muted';
   <div class="absolute inset-0 translate-x-2 translate-y-2 rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
   <div class="absolute inset-0 -translate-x-1 translate-y-1 -rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
 
-  <article class="relative rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-10 pb-7 sm:px-8 lg:px-10 lg:pt-12 lg:pb-9">
+  <article class="relative rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-8 pb-6 sm:px-8 lg:px-10 lg:pt-10 lg:pb-8">
     <PaperClip class="absolute -top-6 left-8 z-10" />
 
-    <div class:list={[caption, 'flex justify-between gap-4 pb-3 border-b border-dashed border-fi-border']}>
-      <span>{label}</span>
-      {reference && <span>{reference}</span>}
+    <!-- The link is underlined, with no arrow, so it sits beside the label on a 375px phone. -->
+    <div class:list={[caption, 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 pb-3 border-b border-dashed border-fi-border']}>
+      <span class="whitespace-nowrap">{label}</span>
+      {link ? (
+        <a href={link.href} class="whitespace-nowrap text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link">{link.label}</a>
+      ) : reference && <span>{reference}</span>}
     </div>
 
-    <h3 class="mt-6 font-typewriter font-bold uppercase text-heading-md sm:text-heading-lg text-fi-ink leading-tight">{title}</h3>
+    {title && <h3 class="mt-6 font-typewriter font-bold uppercase text-heading-md sm:text-heading-lg text-fi-ink leading-tight">{title}</h3>}
 
-    <dl class="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+    <dl class="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
       {fields.map((field) => (
         <div class:list={['border-b border-fi-border pb-3', field.wide && 'sm:col-span-2']}>
           <dt class={caption}>{field.label}</dt>
-          <dd class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">{field.value}</dd>
+          <dd class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">
+            {field.typed ? (
+              <span class="whitespace-nowrap"><span class="fi-typed" style={`--fi-chars: ${field.value.length}`}>{field.value}</span><span class="fi-caret" aria-hidden="true"></span></span>
+            ) : field.value}
+          </dd>
         </div>
       ))}
     </dl>
 
-    <!-- Notes: a caption (and a link), then short features with ticks, wrapping in one row. -->
+    <!-- Notes: a caption (and an aside), then typed agenda items, each behind an empty box. -->
     {notes && (
-      <div class="mt-8">
-        <div class="flex items-baseline justify-between gap-4 mb-3">
-          <h4 class={caption}>{notes.label}</h4>
-          {notes.link && (
-            <a href={notes.link.href} class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{notes.link.label} →</a>
-          )}
+      <div class="mt-6">
+        <div class:list={[caption, 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3']}>
+          <h4 class="whitespace-nowrap">{notes.label}</h4>
+          {notes.aside && <span class="whitespace-nowrap">{notes.aside}</span>}
         </div>
-        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        <ul class="space-y-1.5">
           {notes.items.map((item) => (
-            <li class="flex items-center gap-2 text-body-sm font-semibold text-fi-ink">
-              <svg class="w-4 h-4 shrink-0 text-fi-positive" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+            <li class="flex items-start gap-3 font-typewriter text-body-md text-fi-ink leading-relaxed">
+              <span class="mt-1.5 h-3.5 w-3.5 shrink-0 rounded-sm border-2 border-fi-muted" aria-hidden="true"></span>
               {item}
             </li>
           ))}
@@ -101,9 +116,47 @@ const caption = 'font-mono text-caption uppercase text-fi-muted';
     )}
 
     {Astro.slots.has('default') && (
-      <div class="mt-7">
+      <div class="mt-6">
         <slot />
       </div>
     )}
   </article>
 </div>
+
+<style>
+  /* A typewriter caret after the typed value: a solid block, like a cursor waiting. */
+  .fi-typed {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .fi-caret {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1.05em;
+    margin-left: 0.15ch;
+    vertical-align: -0.15em;
+    background-color: currentColor;
+  }
+
+  /* After the clip slides on (fi-clip ends at 1.5s), the value types out
+     one character at a time (Courier Prime is monospaced, so 1ch is one
+     character), then the caret blinks a few times and stays. */
+  :global(.animate-fi-rise) .fi-typed {
+    animation: fi-type 0.9s steps(var(--fi-chars)) 1.5s backwards;
+  }
+
+  :global(.animate-fi-rise) .fi-caret {
+    animation: fi-blink 1s steps(1) 2.4s 4;
+  }
+
+  @keyframes fi-type {
+    from { width: 0; }
+    to { width: calc(var(--fi-chars) * 1ch); }
+  }
+
+  @keyframes fi-blink {
+    50% { opacity: 0; }
+  }
+</style>
