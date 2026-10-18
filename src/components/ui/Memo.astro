@@ -3,34 +3,35 @@
  * Memo Component
  *
  * A short typed note: a mono label over a dashed rule, a bold sans title, then
- * the body typed in Courier Prime and an optional typed sign-off at the bottom
- * right. For a fact the reader should see in writing, such as how we are paid.
- * No paper clip: the homepage keeps one clipped sheet (the "Your case" Dossier).
- * Light surfaces only.
+ * the body typed in Courier Prime and an optional rubber stamp (Stamp) at the
+ * bottom right, e.g. "Disclosed". For a fact the reader should see in writing,
+ * such as how we are paid. No paper clip: the homepage keeps one clipped sheet
+ * (the "Your case" Dossier). Light surfaces only.
  *
  * Put `data-reveal` on the memo (or a wrapper). When it reveals on scroll
- * (Layout.astro), a `Highlight` in the body draws in. Memos visible at load,
- * and readers who prefer reduced motion, see it finished.
+ * (Layout.astro), a `Highlight` in the body draws in, then the stamp lands.
+ * Memos visible at load, and readers who prefer reduced motion, see it finished.
  *
  * @example
- * <Memo label="Memo · Our fee" title="No separate fee from you." signoff="Fund Investigator · ARN-370951">
+ * <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
  *   Our commission is … We disclose it <Highlight>in writing</Highlight>.
  * </Memo>
  *
- * @param label - mono caption at the top, e.g. 'Memo · Our fee'
+ * @param label - mono caption at the top, e.g. 'How we are paid'
  * @param title - the one-line point of the memo
- * @param signoff - optional typed sign-off, e.g. the registered name and ARN
+ * @param stamp - optional stamp at the bottom right, e.g. 'Disclosed'
  * @param class - extra classes for the memo
  */
+import Stamp from './Stamp.astro';
 
 interface Props {
   label: string;
   title: string;
-  signoff?: string;
+  stamp?: string;
   class?: string;
 }
 
-const { label, title, signoff, class: className = '' } = Astro.props;
+const { label, title, stamp, class: className = '' } = Astro.props;
 ---
 
 <article class:list={['mx-auto max-w-2xl rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-7 pb-6 lg:px-10 lg:pt-8 lg:pb-8 text-left', className]}>
@@ -39,5 +40,10 @@ const { label, title, signoff, class: className = '' } = Astro.props;
   <div class="font-typewriter text-body-md sm:text-body-lg text-fi-ink leading-relaxed">
     <slot />
   </div>
-  {signoff && <p class="mt-6 text-right font-typewriter text-body-sm text-fi-muted">&mdash; {signoff}</p>}
+  <!-- The stamp lands after the Highlight has drawn (0.4s + 0.8s). -->
+  {stamp && (
+    <div class="mt-6 flex justify-end">
+      <Stamp delay={1.3}>{stamp}</Stamp>
+    </div>
+  )}
 </article>

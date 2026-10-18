@@ -173,13 +173,13 @@ import { responsive } from '../lib/responsive';
 
     <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Memo and Highlight</h2>
     <p class="text-body-sm text-fi-muted mb-10">
-      <code class="font-mono">Memo</code>: a typed note (mono label over a dashed rule, bold title, Courier Prime body, typed sign-off; no clip, which the page keeps for the "Your case" <code class="font-mono">Dossier</code>). For a fact the reader should see in writing; the homepage uses it for how we are paid. <code class="font-mono">Highlight</code>: the gold highlighter stroke, one per block of text, drawn in on scroll reveal. Light surfaces only.
+      <code class="font-mono">Memo</code>: a typed note (mono label over a dashed rule, bold title, Courier Prime body, an optional <code class="font-mono">Stamp</code> at the bottom right, the same stamp as "Case solved"; no clip, which the page keeps for the "Your case" <code class="font-mono">Dossier</code>). For a fact the reader should see in writing; the homepage uses it for how we are paid. <code class="font-mono">Highlight</code>: the gold highlighter stroke, one per block of text, drawn in on scroll reveal. Light surfaces only.
     </p>
-    <Memo label="Memo · How we are paid" title="No separate fee from you." signoff="Fund Investigator · ARN-000000">
+    <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
       The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
     </Memo>
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<div data-reveal={0}>
-  <Memo label="Memo · …" title="…" signoff="…">… <Highlight>…</Highlight> …</Memo>
+  <Memo label="…" title="…" stamp="Disclosed">… <Highlight>…</Highlight> …</Memo>
 </div>`}</code></pre>
   </Section>
 

@@ -27,6 +27,7 @@
  */
 import CheckList from './CheckList.astro';
 import Highlight from './Highlight.astro';
+import Stamp from './Stamp.astro';
 import { responsive } from '../../lib/responsive';
 
 interface Props {
@@ -62,14 +63,11 @@ const after = problem.slice(start + mark.length);
     <div class="fi-case-solution px-6 pt-8 pb-7 lg:p-8 lg:pl-10 flex flex-col">
       <h3 class="text-heading-sm font-bold text-fi-ink mb-4">{title}</h3>
       <CheckList items={bullets} />
-      <!-- A rubber stamp at the bottom right, like a sign-off: double rule (border plus offset ring),
-           tilted. The wrapper's mt-auto keeps it at the foot when the problem panel makes the
-           row taller; its pt-6 is the minimum gap below the ticks. fi-link, not gold, on white. -->
+      <!-- The stamp at the bottom right, like a sign-off. The wrapper's mt-auto keeps it at the
+           foot when the problem panel makes the row taller; its pt-6 is the minimum gap below
+           the ticks. -->
       <div class="mt-auto pt-6 self-end">
-        <span class="fi-stamp -rotate-6 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-2 border-fi-link ring-1 ring-fi-link ring-offset-2 ring-offset-white px-3 py-1 text-body-sm font-extrabold uppercase tracking-fi-label text-fi-link">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
-          Case solved
-        </span>
+        <Stamp>Case solved</Stamp>
       </div>
     </div>
   </div>
@@ -77,15 +75,12 @@ const after = problem.slice(start + mark.length);
 
 <style>
   /* The sequence after the file rises (fi-rise, 0.65s): the Highlight draws (0.4s), then the
-     arrow, the solution and the stamp. */
+     arrow, the solution and the stamp (Stamp.astro, at its default 1.75s). */
   :global(.animate-fi-rise) .fi-case-arrow {
     animation: fi-pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) 0.95s backwards;
   }
   :global(.animate-fi-rise) .fi-case-solution {
     animation: fi-slide-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 1.1s backwards;
-  }
-  :global(.animate-fi-rise) .fi-stamp {
-    animation: fi-stamp 0.35s cubic-bezier(0.5, 0, 0.75, 0) 1.75s backwards;
   }
   @media (min-width: 1024px) {
     :global(.animate-fi-rise) .fi-case-solution {
@@ -101,9 +96,5 @@ const after = problem.slice(start + mark.length);
   }
   @keyframes fi-slide-in {
     from { opacity: 0; transform: translateX(32px); }
-  }
-  /* Comes down from above the page and lands at its tilt (-6deg, the -rotate-6 class). */
-  @keyframes fi-stamp {
-    from { opacity: 0; transform: rotate(-12deg) scale(1.9); }
   }
 </style>

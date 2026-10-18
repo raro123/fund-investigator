@@ -118,11 +118,11 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       ))}
     </ol>
 
-    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees): a typed memo,
-         clipped to the page, signed with the registered name and ARN. Never "free" or "₹0"; no rates.
-         The direct vs regular comparison lives in the /invest/ FAQ. -->
+    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees): a typed memo
+         with a "Disclosed" stamp. The ARN is in the hero, the final section and the footer.
+         Never "free" or "₹0"; no rates. The direct vs regular comparison lives in the /invest/ FAQ. -->
     <div data-reveal={0} class="mt-14">
-      <Memo label="Memo · How we are paid" title="No separate fee from you." signoff={`Fund Investigator · ${ARN}`}>
+      <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
         The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
       </Memo>
     </div>

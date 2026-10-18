@@ -206,9 +206,9 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - **Layout:** stacked below `lg`; from `lg`, problem · seam · solution (`grid-cols-fi-case-file`, 1 : 1.2).
 
 ### Fee memo (`Memo.astro`, homepage, under the case files)
-- "No separate fee from you" as a typed memo: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), no paper clip (the homepage keeps one clipped sheet, the "Your case" dossier), a mono label ("Memo · How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a typed sign-off with the registered name and ARN at the bottom right.
+- "No separate fee from you" as a typed memo: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), no paper clip (the homepage keeps one clipped sheet, the "Your case" dossier), a mono label ("How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a "Disclosed" stamp at the bottom right (`Stamp`, the same stamp as "Case solved"). No typed sign-off: the ARN is in the hero, the final section and the footer.
 - Wording rules still apply: say "No separate fee from you" and explain the commission in the same place; never "free" or "₹0"; no commission rates.
-- On reveal the highlight draws.
+- On reveal the highlight draws, then the stamp lands.
 
 ### Your case dossier (`Dossier.astro`, homepage final section, light)
 - The page's last element and its only clipped sheet, so the page ends on the booking buttons. Under "Your money. Your goals. Our investigation." (first-time and existing investors alike; no "portfolio") and the tagline with the ARN: the reader's own case file, blank where every file above it is filled in. A typed sheet (`max-w-2xl`), clipped with `PaperClip` on two more sheets slightly out of line. A mono header over a dashed rule: "Case file" on the left and, on the right, an underlined `fi-link` "Know your investigator" to `/about/#distributor` (the person, one click away; no arrow, so it fits beside the label on a 375px phone). No title, to keep the file compact. Then form fields (mono `fi-muted` label, typed `fi-ink` value, a `fi-border` rule under each; two to a row from `sm` unless `wide`): Client "You" · Status "Not yet opened".
