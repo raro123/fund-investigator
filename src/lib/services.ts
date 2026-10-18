@@ -4,7 +4,7 @@
  *
  * /invest/ walks through the four services as journey stages (`services`).
  * The homepage groups them into three case files, one per client problem
- * (`homeServices`): execution and ongoing reviews share a file, because the
+ * (`homeServices`): transactions and ongoing reviews share a file, because the
  * client meets them as one promise, under the plain title "Ongoing support".
  * The other two titles come from `services`, so both pages use the same word
  * for the same service.
@@ -22,7 +22,7 @@ export interface Service {
 export const services: Service[] = [
   { title: 'Portfolio review' },
   { title: 'Fund selection' },
-  { title: 'Execution' },
+  { title: 'Transactions' },
   { title: 'Ongoing reviews' },
 ];
 
@@ -66,7 +66,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    // Execution and ongoing reviews in one file (they keep their own names on /invest/).
+    // Transactions and ongoing reviews in one file (they keep their own names on /invest/).
     title: 'Ongoing support',
     // Three moments in one problem: life changes, market moves, day-to-day admin.
     // The bullets answer them in the same order. "Admin", not "paperwork": most of it is online.

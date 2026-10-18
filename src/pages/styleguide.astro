@@ -74,7 +74,8 @@ import { responsive } from '../lib/responsive';
       The investigator's credentials under the homepage's sample brief: a "Credentials" folder tab on a dark card with a typed record (the exact AMFI tagline, the ARN with a link to verify it on AMFI, the fund houses we are empanelled with). Values come from <code class="font-mono">src/lib/distributor.ts</code>. Dark surfaces only.
     </p>
     <Credentials class="max-w-lg" />
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<Credentials class="mt-10 mx-auto w-full max-w-lg" />`}</code></pre>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<Credentials class="mt-10 mx-auto w-full max-w-lg" />  <!-- homepage hero -->
+<Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />  <!-- /invest/: adds name, validity, email -->`}</code></pre>
   </Section>
 
   <!-- Archived Report Notice -->
@@ -135,7 +136,7 @@ import { responsive } from '../lib/responsive';
       numbered
       rows={[
         { name: 'Book a call', left: 'Pick a time, or message us.', right: 'Reply within 1 business day.' },
-        { name: 'Execution', left: 'Approve each transaction by OTP.', right: 'Handle KYC, SIPs and lump sums.' },
+        { name: 'Transactions', left: 'Approve each transaction.', right: 'Handle KYC, SIPs and lump sums.' },
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SplitRows rows={[{ name, left, right }, …]} rowLabel columns={[{ label, short? }, { label, short? }]} numbered? emphasis="none|right" />`}</code></pre>

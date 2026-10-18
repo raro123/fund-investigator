@@ -8,8 +8,11 @@
  *
  * - `compact`: title, one line and the links (not on a page at present; the
  *   homepage reaches the landing pages through the footer and /invest/)
- * - `detailed`: adds each route's minimum and main risk (/invest/#products,
- *   where they replace the product cards)
+ * - `detailed`: filed like the report cards: the situation on a folder tab
+ *   (FolderTab, the card's heading), one line, then each route's product,
+ *   minimum and main risk as a typed record (mono labels and values, dashed
+ *   rules), then the links (/invest/#products, where they replace the
+ *   product cards)
  *
  * @example
  * <RouteCards />
@@ -19,6 +22,7 @@
  * @param class - extra classes for the list
  */
 import Card from './Card.astro';
+import FolderTab from './FolderTab.astro';
 import { routes } from '../../lib/routes';
 
 interface Props {
@@ -32,29 +36,44 @@ const detailed = variant === 'detailed';
 const link = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
-<!-- Detailed cards stack until lg: three columns of facts are too narrow on tablets. -->
-<ul class:list={['grid gap-4 text-left', detailed ? 'lg:grid-cols-3 lg:gap-5' : 'sm:grid-cols-3', className]}>
-  {routes.map((route) => (
-    <li>
-      <Card variant={detailed ? 'default' : 'subtle'} padding={detailed ? 'lg' : 'md'} hover={false} class="h-full flex flex-col">
-        <h3 class:list={['font-bold text-fi-ink mb-1', detailed ? 'text-heading-sm' : 'text-body-md']}>{route.title}</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">{route.line}</p>
+{detailed ? (
+  <!-- Detailed cards stack until lg: three columns of facts are too narrow on tablets. -->
+  <ul class:list={['grid gap-6 text-left lg:grid-cols-3 lg:gap-5', className]}>
+    {routes.map((route) => (
+      <li class="flex flex-col">
+        <!-- The tab is the card's heading; -mb-px lets it cover the card's top border. -->
+        <h3 class="flex"><FolderTab surface="light">{route.title}</FolderTab></h3>
+        <div class="flex-1 flex flex-col rounded-lg rounded-tl-none border border-fi-border bg-white shadow-fi-card p-6">
+          <p class="text-body-md text-fi-ink leading-relaxed">{route.line}</p>
 
-        {detailed && (
-          <dl class="mt-5 space-y-3 text-body-sm leading-relaxed">
+          <dl class="mt-5 pt-4 border-t border-dashed border-fi-border space-y-3 font-mono text-body-sm leading-snug">
             {route.facts.map((fact) => (
               <div>
-                <dt class="font-semibold text-fi-ink">{fact.label}</dt>
-                <dd class="text-fi-muted">{fact.value}</dd>
+                <dt class="text-caption uppercase text-fi-muted">{fact.label}</dt>
+                <dd class="mt-0.5 text-fi-ink">{fact.value}</dd>
               </div>
             ))}
           </dl>
-        )}
 
-        <p class="mt-auto pt-4 flex flex-wrap gap-x-4 gap-y-1 text-body-sm">
-          {route.links.map((item) => <a href={item.href} class={link}>{item.label} →</a>)}
-        </p>
-      </Card>
-    </li>
-  ))}
-</ul>
+          <p class="mt-auto pt-5 flex flex-wrap gap-x-4 gap-y-1 text-body-sm">
+            {route.links.map((item) => <a href={item.href} class={link}>{item.label} →</a>)}
+          </p>
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <ul class:list={['grid gap-4 text-left sm:grid-cols-3', className]}>
+    {routes.map((route) => (
+      <li>
+        <Card variant="subtle" padding="md" hover={false} class="h-full flex flex-col">
+          <h3 class="font-bold text-fi-ink mb-1 text-body-md">{route.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{route.line}</p>
+          <p class="mt-auto pt-4 flex flex-wrap gap-x-4 gap-y-1 text-body-sm">
+            {route.links.map((item) => <a href={item.href} class={link}>{item.label} →</a>)}
+          </p>
+        </Card>
+      </li>
+    ))}
+  </ul>
+)}

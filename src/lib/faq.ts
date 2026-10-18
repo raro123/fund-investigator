@@ -68,7 +68,7 @@ export const investFaqGroups: FaqGroup[] = [
     items: [
       {
         question: 'What happens after the call?',
-        answer: 'For a full review, we ask for your Consolidated Account Statement (CAS) after the call. We help you download it. Then we send you a short brief.',
+        answer: 'For a full review, we ask for your Consolidated Account Statement (CAS) after the call. We help you download it. Then we send you a clear brief.',
       },
       {
         question: 'How often do you review my funds?',

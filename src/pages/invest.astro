@@ -13,8 +13,8 @@ import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
-import { formatDate } from '../lib/format';
+import Credentials from '../components/ui/Credentials.astro';
+import { BOOKING_URL } from '../lib/distributor';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
 // Every contact button is tracked: Zoho and WhatsApp report no placement back.
@@ -38,7 +38,7 @@ const whatsapp = (placement: WhatsappPlacement) => ({
 // cell repeats the label.
 // Stages 3–6 take the service names from src/lib/services.ts, so this page and
 // the homepage cards use the same words. Timings are agreed on the call.
-const [review, curation, execution, ongoing] = services;
+const [review, selection, transactions, ongoing] = services;
 const journey = [
   {
     name: 'Book a call',
@@ -53,16 +53,17 @@ const journey = [
   {
     name: review.title,
     left: 'Share your Consolidated Account Statement (CAS) after the call.',
-    right: 'Help you download your CAS. Check suitability, benchmark, overlap and costs. Then send you a short brief.',
+    right: 'Help you download your CAS. Check suitability, benchmark, overlap and costs. Then send you a clear brief.',
   },
   {
-    name: curation.title,
+    name: selection.title,
     left: 'Decide what to keep and what to buy. Nothing moves without your approval.',
     right: 'Shortlist suitable funds, with the reasons, the alternatives and our commission in writing.',
   },
   {
-    name: execution.title,
-    left: 'Approve each transaction by OTP. Pay the fund house directly.',
+    name: transactions.title,
+    // No approval method named (OTP, email link, e-mandate), as on the homepage.
+    left: 'Approve each transaction. Pay the fund house directly.',
     right: 'Handle KYC, SIPs and lump sums.',
   },
   {
@@ -89,7 +90,7 @@ const routes = [
   {
     name: 'Transactions',
     left: 'You place each one on a platform.',
-    right: 'We do the setup, from KYC to each SIP. You approve each one by OTP.',
+    right: 'We handle the admin, from KYC to each SIP, with your approval.',
   },
   {
     name: 'Reviews',
@@ -156,7 +157,8 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
 
   <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the
        action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
-       buttons, the strip names the person, the email and the registration: credentials stay on /about/. -->
+       buttons, the light Credentials card: the person (service pages may name them), the
+       registration with the ARN to verify on AMFI, and the email. The full story stays on /about/. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here we compare managing a direct plan yourself with a regular plan through us. Direct investors can also separately pay a registered investment adviser." />
     <SplitRows
@@ -178,17 +180,8 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
         <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
       </div>
-      <div class="mt-8 text-body-sm leading-relaxed">
-        <p class="text-fi-ink">
-          You work with <strong>{REGISTERED_NAME}</strong> ·
-          <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'whitespace-nowrap']}>{CONTACT_EMAIL}</a>
-        </p>
-        <p class="text-fi-muted">
-          {TAGLINE} · <span class="whitespace-nowrap">{ARN}</span> · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
-          <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>Read our story →</a>
-        </p>
-      </div>
     </div>
+    <Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />
   </Section>
 
   <!-- 5. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
