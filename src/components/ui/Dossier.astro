@@ -1,0 +1,81 @@
+---
+/**
+ * Dossier Component
+ *
+ * A typed case-file sheet: clipped to the page (PaperClip) on two more sheets
+ * slightly out of line, a mono header over a dashed rule ("Case file" ·
+ * "First call"), a title in Courier Prime capitals, then the facts as form
+ * fields (mono label, typed value, a rule under each), two to a row from sm
+ * unless a field is `wide`. The default slot sits under a dashed rule at the
+ * foot, for the actions. Light surfaces only.
+ *
+ * No mugshots, "confidential" stamps or redacted lines: the reader is the
+ * client, and a page that sells disclosure hides nothing.
+ *
+ * Put `data-reveal` on a wrapper; the clip slides on when it reveals.
+ *
+ * @example
+ * <Dossier label="Case file" reference="First call" title="Your first call"
+ *   fields={[{ label: 'Length', value: '30 minutes' }, { label: 'Then', value: '…', wide: true }]}>
+ *   <Button …>Book a first call</Button>
+ * </Dossier>
+ *
+ * @param label - left of the header, e.g. 'Case file'
+ * @param reference - right of the header, e.g. 'First call'
+ * @param title - the file's name, set in typed capitals
+ * @param fields - { label, value, wide? } facts as form fields
+ * @param class - extra classes for the dossier
+ */
+import PaperClip from './PaperClip.astro';
+
+interface Field {
+  label: string;
+  value: string;
+  /** Take the full row from sm */
+  wide?: boolean;
+}
+
+interface Props {
+  label: string;
+  reference?: string;
+  title: string;
+  fields: Field[];
+  class?: string;
+}
+
+const { label, reference, title, fields, class: className = '' } = Astro.props;
+
+const caption = 'font-mono text-caption uppercase text-fi-muted';
+---
+
+<div class:list={['relative mx-auto max-w-2xl text-left', className]}>
+  <!-- Two more sheets under the file, slightly out of line. -->
+  <div class="absolute inset-0 translate-x-2 translate-y-2 rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
+  <div class="absolute inset-0 -translate-x-1 translate-y-1 -rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
+
+  <article class="relative rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-10 pb-7 sm:px-8 lg:px-10 lg:pt-12 lg:pb-9">
+    <PaperClip class="absolute -top-6 left-8 z-10" />
+
+    <div class:list={[caption, 'flex justify-between gap-4 pb-3 border-b border-dashed border-fi-border']}>
+      <span>{label}</span>
+      {reference && <span>{reference}</span>}
+    </div>
+
+    <h3 class="mt-6 font-typewriter font-bold uppercase text-heading-md sm:text-heading-lg text-fi-ink leading-tight">{title}</h3>
+
+    <dl class="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+      {fields.map((field) => (
+        <div class:list={['border-b border-fi-border pb-3', field.wide && 'sm:col-span-2']}>
+          <dt class={caption}>{field.label}</dt>
+          <dd class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">{field.value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    {Astro.slots.has('default') && (
+      <div class="mt-7">
+        <slot />
+      </div>
+    )}
+  </article>
+</div>

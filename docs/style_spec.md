@@ -206,12 +206,17 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - **Layout:** stacked below `lg`; from `lg`, problem · seam · solution (`grid-cols-fi-case-file`, 1 : 1.2).
 
 ### Fee memo (`Memo.astro`, homepage, under the case files)
-- "No separate fee from you" as a typed memo clipped to the page: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), a grey (`fi-muted`) paper clip over the top-left edge, like metal, so gold stays for the highlight and the booking button, a mono label ("Memo · How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a typed sign-off with the registered name and ARN at the bottom right.
+- "No separate fee from you" as a typed memo: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), no paper clip (the homepage keeps one clipped sheet, the first-call dossier), a mono label ("Memo · How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a typed sign-off with the registered name and ARN at the bottom right.
 - Wording rules still apply: say "No separate fee from you" and explain the commission in the same place; never "free" or "₹0"; no commission rates.
-- On reveal the highlight draws, then the clip slides on.
+- On reveal the highlight draws.
+
+### First call dossier (`Dossier.astro`, homepage final section, light)
+- The page's last element and its only clipped sheet, so the page ends on the booking buttons. Under "Start with a 30-minute call." and the tagline with the ARN: a typed case-file sheet (`max-w-2xl`), clipped with `PaperClip` on two more sheets slightly out of line. A mono header over a dashed rule ("Case file" · "First call"), the title "Your first call" in Courier Prime 700 capitals, then the facts as form fields (mono `fi-muted` label, typed `fi-ink` value, a `fi-border` rule under each; two to a row from `sm` unless `wide`): Length · Cost · You share · Then. Only facts promised elsewhere (30 minutes, no charge, no obligation).
+- At the foot (the default slot), the booking and WhatsApp buttons (`homepage_final`), then "We reply within 1 business day. Prefer email?" with the address.
+- No mugshots, "confidential" stamps or redacted lines.
 
 ### On the record (homepage final section, light)
-- The three differences (content philosophy pillars, same words) as a ledger, not cards: a mono `On the record` caption, then three columns between `fi-border` rules (`divide-x` from `lg`, `divide-y` below). `text-body-lg` bold title, `text-body-sm` `fi-muted` body. No icons.
+- Opens the final section, above "Start with a 30-minute call.", with "Read our story →" under it. The three differences (content philosophy pillars, same words) as a ledger, not cards: a mono `On the record` caption (an `h2`, so the item `h3`s nest correctly), then three columns between `fi-border` rules (`divide-x` from `lg`, `divide-y` below). `text-body-lg` bold title, `text-body-sm` `fi-muted` body. No icons.
 
 ### Report Cards (`ReportCard.astro`, homepage band and `/reports/`, S61)
 - Styled like a filed record without saying so. The category (`categoryLabels`) sits on a folder tab on the card's top edge: mono caption, same fill and border as the card, `-mb-px` so it covers the card's top border; the card's top-left corner is square under it.
@@ -300,7 +305,7 @@ Motion level: **Subtle** (decided 2026-10-11). Two effects only, both off under 
 - **Reveal on scroll:** add `data-reveal="<index>"` to an element; the script in `Layout.astro` plays `animate-fi-rise` (fade + 16px rise, 90ms stagger per index) as it nears the viewport. Elements visible at load never animate, so the first frame is always complete.
 - **Page transitions:** `@view-transition { navigation: auto; }` in `Layout.astro`. Report card titles and article H1s share `view-transition-name: report-<slug>`, so the title moves into place. Unsupported browsers load pages normally.
 
-Additions (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo does the same with its highlight and paper clip (`Memo.astro`, `PaperClip.astro`). It rides on the reveal, so it is off under reduced motion too.
+Additions (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo draws its highlight (`Memo.astro`), and the first-call dossier's paper clip slides on (`Dossier.astro`, `PaperClip.astro`). It rides on the reveal, so it is off under reduced motion too.
 
 Not used: parallax, scroll-jacking, count-up numbers, carousels.
 

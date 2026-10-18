@@ -5,6 +5,7 @@ import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import FolderTab from '../components/ui/FolderTab.astro';
+import Dossier from '../components/ui/Dossier.astro';
 import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
@@ -45,6 +46,15 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   icon: 'whatsapp' as const,
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
+
+// What happens on the first call, as a typed record in the final section.
+// Only facts already promised elsewhere: 30 minutes, no charge, no obligation.
+const firstCall = [
+  { label: 'Length', value: '30 minutes' },
+  { label: 'Cost', value: 'No charge · No obligation' },
+  { label: 'You share', value: 'Your goals, or what worries you about your portfolio', wide: true },
+  { label: 'Then', value: 'We explain how we can help. You decide what happens next.', wide: true },
+];
 
 // The three differences (content philosophy pillars, same words each time),
 // shown as trust points under the final call.
@@ -181,27 +191,12 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       The three differences sit under the actions as an "On the record" ledger (rules, no cards),
-       then the link to /about/, where the person behind the service is. Light, after the dark band. -->
+       First the three differences as an "On the record" ledger (rules, no cards) and the link to
+       /about/, then the ask: what happens on the call as a typed case file (Dossier), with the
+       actions at its foot, so the page ends on them. Light, after the dark band. -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <div class="text-center max-w-3xl mx-auto">
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
-        Start with a 30-minute call.
-      </h2>
-      <p class="text-body-md text-fi-muted mb-6">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
-      <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
-        Tell us your goals, or what worries you about your portfolio. We explain how we can help, and you decide what happens next. We reply to messages within 1 business day.
-      </p>
-      <div class={ctaRow}>
-        <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
-        <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
-      </div>
-      <p class="mt-6 text-body-sm text-fi-muted">
-        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
-      </p>
-    </div>
-
-    <p class="mt-14 mb-4 text-center font-mono text-caption uppercase text-fi-muted">On the record</p>
+    <!-- A real h2, styled as a caption, so the ledger's h3s sit under their own heading. -->
+    <h2 class="mb-4 text-center font-mono text-caption uppercase text-fi-muted">On the record</h2>
     <ul class="grid lg:grid-cols-3 border-y border-fi-border divide-y lg:divide-y-0 lg:divide-x divide-fi-border text-left">
       {differences.map((difference, index) => (
         <li data-reveal={index} class="py-6 lg:py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0">
@@ -210,9 +205,27 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
         </li>
       ))}
     </ul>
-
     <p class="mt-8 text-center">
       <a href="/about/" class={lightLink}>Read our story →</a>
     </p>
+
+    <div class="mt-16 lg:mt-20 text-center max-w-3xl mx-auto">
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
+        Start with a 30-minute call.
+      </h2>
+      <p class="text-body-md text-fi-muted mb-14">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+    </div>
+
+    <div data-reveal={0}>
+      <Dossier label="Case file" reference="First call" title="Your first call" fields={firstCall}>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
+          <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
+        </div>
+        <p class="mt-5 text-body-sm text-fi-muted">
+          We reply within 1 business day. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{CONTACT_EMAIL}</a>
+        </p>
+      </Dossier>
+    </div>
   </Section>
 </Layout>

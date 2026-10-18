@@ -83,8 +83,8 @@ export default {
       //   Loaded via @fontsource/newsreader in Layout.astro. Weights: 400 · 700 only.
       // Mono: for tabular financial data
       // Typewriter: Courier Prime — homepage typed text only: the client's problem in the case files
-      //   (CaseFile) and the fee memo (Memo). Loaded via @fontsource/courier-prime
-      //   in Layout.astro. Weight: 400.
+      //   (CaseFile), the fee memo (Memo) and the first-call dossier (Dossier). Loaded via @fontsource/courier-prime
+      //   in Layout.astro. Weights: 400 · 700 (dossier titles).
       // ─────────────────────────────────────────
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],

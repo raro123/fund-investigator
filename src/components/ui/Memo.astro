@@ -2,14 +2,15 @@
 /**
  * Memo Component
  *
- * A short typed note clipped to the page: a grey `PaperClip` over the top edge,
- * a mono label over a dashed rule, a bold sans title, then the body typed in
- * Courier Prime and an optional typed sign-off at the bottom right. For a fact
- * the reader should see in writing, such as how we are paid. Light surfaces only.
+ * A short typed note: a mono label over a dashed rule, a bold sans title, then
+ * the body typed in Courier Prime and an optional typed sign-off at the bottom
+ * right. For a fact the reader should see in writing, such as how we are paid.
+ * No paper clip: the homepage keeps one clipped sheet (the first-call Dossier).
+ * Light surfaces only.
  *
  * Put `data-reveal` on the memo (or a wrapper). When it reveals on scroll
- * (Layout.astro), a `Highlight` in the body draws in and the clip slides on.
- * Memos visible at load, and readers who prefer reduced motion, see it finished.
+ * (Layout.astro), a `Highlight` in the body draws in. Memos visible at load,
+ * and readers who prefer reduced motion, see it finished.
  *
  * @example
  * <Memo label="Memo · Our fee" title="No separate fee from you." signoff="Fund Investigator · ARN-370951">
@@ -21,7 +22,6 @@
  * @param signoff - optional typed sign-off, e.g. the registered name and ARN
  * @param class - extra classes for the memo
  */
-import PaperClip from './PaperClip.astro';
 
 interface Props {
   label: string;
@@ -33,9 +33,7 @@ interface Props {
 const { label, title, signoff, class: className = '' } = Astro.props;
 ---
 
-<article class:list={['relative mx-auto max-w-2xl rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-9 pb-6 lg:px-10 lg:pt-10 lg:pb-8 text-left', className]}>
-  <PaperClip class="absolute -top-6 left-8" />
-
+<article class:list={['mx-auto max-w-2xl rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-7 pb-6 lg:px-10 lg:pt-8 lg:pb-8 text-left', className]}>
   <p class="font-mono text-caption uppercase text-fi-muted pb-3 mb-5 border-b border-dashed border-fi-border">{label}</p>
   <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{title}</h3>
   <div class="font-typewriter text-body-md sm:text-body-lg text-fi-ink leading-relaxed">
