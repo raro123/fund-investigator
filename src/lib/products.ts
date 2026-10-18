@@ -1,6 +1,7 @@
 /**
- * The products we help clients invest in: the facts behind the /invest/#products
- * route cards (src/lib/routes.ts) and the SIF and GIFT City landing pages.
+ * The products we help clients invest in: the facts behind the route cards
+ * (src/lib/routes.ts; on no page since 2026-10-19) and the SIF and GIFT City
+ * landing pages.
  *
  * Each product is framed by fit (who it suits, the minimum, the main risk),
  * not as a catalogue. Name no fund house and make no return claims

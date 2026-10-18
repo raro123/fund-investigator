@@ -11,6 +11,7 @@ import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
+import CaseLog from '../components/ui/CaseLog.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import OwnerIntro from '../components/ui/OwnerIntro.astro';
@@ -128,7 +129,7 @@ import { responsive } from '../lib/responsive';
   <Section background="white" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>SplitRows</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      Two things side by side under a row label: the client journey (You beside We) and the direct vs regular comparison (<code class="font-mono">emphasis="right"</code>). Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Light surfaces only. Used on <code class="font-mono">/invest/</code>.
+      Two things side by side under a row label: the direct vs regular comparison on <code class="font-mono">/invest/</code> (<code class="font-mono">emphasis="right"</code>) and the landing pages' steps (You beside We). Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Mono labels, dashed rules. Light surfaces only.
     </p>
     <SplitRows
       rowLabel="Stage"
@@ -140,6 +141,21 @@ import { responsive } from '../lib/responsive';
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SplitRows rows={[{ name, left, right }, …]} rowLabel columns={[{ label, short? }, { label, short? }]} numbered? emphasis="none|right" />`}</code></pre>
+  </Section>
+
+  <!-- Case Log -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>CaseLog</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      A process as an investigator's log: a dashed line with a dot per stage, grouped into acts (mono labels with a diamond marker), numbered across the acts. One column at every width. On <code class="font-mono">/invest/</code> the acts follow the hero line: we do the investigation, you make the call, we stay on your case. Light surfaces only; <code class="font-mono">background</code> matches the markers' ring to the section.
+    </p>
+    <CaseLog
+      acts={[
+        { label: 'We do the investigation', stages: [{ name: 'The first call', body: 'An introduction. You tell us about your situation, and we explain how we work.' }] },
+        { label: 'You make the call', stages: [{ name: 'Findings', body: 'We walk you through the brief. You decide.' }] },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<CaseLog acts={[{ label, stages: [{ name, body }, …] }, …]} background="light|white" />`}</code></pre>
   </Section>
 
   <!-- Stat Row -->
@@ -231,7 +247,7 @@ import { responsive } from '../lib/responsive';
     <RouteCards />
     <RouteCards variant="detailed" class="mt-8" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<RouteCards />                    <!-- compact; not on a page at present -->
-<RouteCards variant="detailed" />  <!-- /invest/#products -->`}</code></pre>
+<RouteCards variant="detailed" />  <!-- not on a page at present -->`}</code></pre>
   </Section>
 
   <!-- Sample Brief -->

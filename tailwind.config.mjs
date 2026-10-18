@@ -178,6 +178,8 @@ export default {
         'fi-record': '6.75rem minmax(0, 1fr)',
         // Homepage case file from lg: the problem · the arrow on the seam · the solution
         'fi-case-file': 'minmax(0, 1fr) auto minmax(0, 1.2fr)',
+        // Case log (/invest/ journey): the dashed line and its markers · the entry
+        'fi-log': '2.5rem minmax(0, 1fr)',
       },
       // Reveal on scroll: played once by the script in Layout.astro, only for
       // elements that start below the fold. "backwards" fill keeps hover

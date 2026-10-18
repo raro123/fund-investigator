@@ -239,8 +239,10 @@ The homepage's problems and services use one idea from the brand ("We investigat
 
 ### `/invest/` typed-record pass (2026-10-19)
 - The page takes the homepage's pieces without its motif: no stamps, no "case" headings.
-- Route cards (`RouteCards variant="detailed"`, `#products`): the situation on a light `FolderTab`, which is the card's heading (`h3`); the card `rounded-tl-none`; the line in `text-body-md` `fi-ink`; then the facts (Product, Minimum, Main risk) as a typed record under a dashed rule (mono `fi-muted` caption labels, mono `fi-ink` values); the links at the foot. The compact variant is unchanged.
-- `SplitRows` (the journey, the direct vs regular comparison, and the landing pages' steps): mono labels and dashed rules between rows.
+- Order: hero → journey → direct vs regular (with the actions and Credentials) → FAQ. The route cards (`#products`) were removed on 2026-10-19: they sent warm visitors away before the journey. "Book a call" is no longer a stage; the reply time sits under the journey's buttons.
+- Investigation pieces here are documents, not props: the note for direct-plan investors is a `Memo` ("For direct-plan investors"), with one `Highlight` on "You can keep them direct". No stamps on this page. A sample brief inside the journey was tried and removed (too long here; the homepage hero already shows it).
+- The journey is a `CaseLog` (`#how-it-works`), written as what we do: a dashed line (`fi-border`) with a dot per stage (white, `fi-muted` edge, ringed in the section colour), grouped into three acts that follow the hero line, each a mono `fi-ink` caption with a small `fi-ink` diamond: **We do the investigation** (01 The first call, an introduction · 02 Fact-finding · 03 Investigation) · **You make the call** (04 Findings, with our commission in writing; "You decide") · **We stay on your case** (05 Transactions · 06 Ongoing reviews, at intervals we agree together). Stage numbers run across the acts; one column at every width (`grid-cols-fi-log`). The client's part appears only where it signals control or safety. Lead: "What we do at each stage."
+- `SplitRows` (the direct vs regular comparison, and the landing pages' steps): mono labels and dashed rules between rows.
 - Wording, as on the homepage: no approval method named ("Approve each transaction"; "with your approval", not "by OTP"), "Transactions", not "Execution", and "a clear brief".
 
 ### Sample Brief (`SampleBrief.astro`)

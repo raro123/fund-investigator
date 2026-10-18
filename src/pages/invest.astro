@@ -3,11 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import Card from '../components/ui/Card.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
+import CaseLog from '../components/ui/CaseLog.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
-import RouteCards from '../components/ui/RouteCards.astro';
 import { services } from '../lib/services';
 import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
@@ -33,43 +34,54 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// One client journey: what the client does beside what we do, at each stage.
-// Each cell continues its column label ("You" pick a time, "We" reply…), so no
-// cell repeats the label.
-// Stages 3–6 take the service names from src/lib/services.ts, so this page and
-// the homepage cards use the same words. Timings are agreed on the call.
-const [review, selection, transactions, ongoing] = services;
+// The journey as a case log, in three acts that follow the hero line: we do the
+// investigation, you make the call, then we stay on your case. Written as what we
+// do; the client's part appears only where it signals control or safety (you
+// decide, with your approval, you pay the fund house directly). Booking is not a
+// stage (the buttons cover it; the reply time sits under the buttons below).
+// No approval method is named (OTP, email link, e-mandate), as on the homepage.
+// Our commission is in writing before the client chooses (stage 04): the disclosure rule.
+const [, , transactions, ongoing] = services;
 const journey = [
   {
-    name: 'Book a call',
-    left: 'Pick a time, or message us on WhatsApp.',
-    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+    label: 'We do the investigation',
+    stages: [
+      {
+        name: 'The first call',
+        body: 'An introduction. You tell us about your situation, and we explain how we work. 30 minutes, no charge, no obligation.',
+      },
+      {
+        name: 'Fact-finding',
+        body: 'If you want to go ahead: your goals, your time frame, a risk profile, and the investments you already hold. We help you download your account statement.',
+      },
+      {
+        name: 'Investigation',
+        // The SIF and GIFT City suitability line moved here from the removed route cards.
+        body: 'We check your funds for suitability, benchmark, overlap and costs, research suitable funds, draw up a shortlist and write a clear brief. SIFs and GIFT City funds only when your amount and risk profile suit them.',
+      },
+    ],
   },
   {
-    name: 'The first call',
-    left: 'Tell us your goals, your time frame and your risk profile.',
-    right: 'Look at the funds you hold. New to funds? Explain the main categories, and SIP or lump sum.',
+    label: 'You make the call',
+    stages: [
+      {
+        name: 'Findings',
+        body: 'We walk you through the brief, with the reasons, the alternatives and our commission in writing. You decide. Larger portfolios can take more than one conversation.',
+      },
+    ],
   },
   {
-    name: review.title,
-    left: 'Share your Consolidated Account Statement (CAS) after the call.',
-    right: 'Help you download your CAS. Check suitability, benchmark, overlap and costs. Then send you a clear brief.',
-  },
-  {
-    name: selection.title,
-    left: 'Decide what to keep and what to buy. Nothing moves without your approval.',
-    right: 'Shortlist suitable funds, with the reasons, the alternatives and our commission in writing.',
-  },
-  {
-    name: transactions.title,
-    // No approval method named (OTP, email link, e-mandate), as on the homepage.
-    left: 'Approve each transaction. Pay the fund house directly.',
-    right: 'Handle KYC, SIPs and lump sums.',
-  },
-  {
-    name: ongoing.title,
-    left: 'Tell us when your plans change.',
-    right: 'Review your funds at regular intervals. Help with rebalancing, SIP changes, switches and redemptions.',
+    label: 'We stay on your case',
+    stages: [
+      {
+        name: transactions.title,
+        body: 'We handle the admin, from KYC to each SIP, with your approval. You pay the fund house directly.',
+      },
+      {
+        name: ongoing.title,
+        body: 'We review your funds at intervals we agree together, and help with SIP changes, switches and redemptions as your plans change.',
+      },
+    ],
   },
 ];
 
@@ -138,24 +150,22 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- Situation routes precede the detailed journey; retain the #products anchor. -->
-  <Section id="products" background="white" spacing="md" maxWidth="2xl">
-    <SectionHeading title="Where are you starting from?" lead="Start with your goals and what you hold. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
-    <RouteCards variant="detailed" />
-  </Section>
-
-  <!-- Preserve the invest_review placements so earlier analytics stay comparable. -->
+  <!-- 2. The journey comes straight after the hero: most visitors arrive from the homepage to
+       learn how it works. The situation route cards were removed (2026-10-19): they sent warm
+       visitors away before the answer; the footer and the sitemap link the landing pages.
+       Preserve the invest_review placements so earlier analytics stay comparable. -->
   <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="From the first call to every review." lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={journey} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+    <SectionHeading title="From the first call to every review." lead="What we do at each stage." />
+    <CaseLog acts={journey} />
 
     <div class:list={[ctaRow, 'mt-12']}>
       <Button {...booking('invest_review')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
     </div>
+    <p class="mt-4 text-center text-body-sm text-fi-muted">We confirm your booking at once, and reply on WhatsApp within 1 business day.</p>
   </Section>
 
-  <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the
+  <!-- 3. Direct vs regular, then the booking: the comparison answers the cost question, so the
        action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
        buttons, the light Credentials card: the person (service pages may name them), the
        registration with the ARN to verify on AMFI, and the email. The full story stays on /about/. -->
@@ -167,13 +177,14 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
       columns={[{ label: 'DIY direct plan', short: 'DIY direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
       emphasis="right"
     />
-    <!-- The note for direct-plan holders is a callout: it is the main reassurance for this group. -->
-    <Card variant="subtle" padding="md" hover={false} class="max-w-3xl mx-auto mt-8 text-left">
-      <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans, but want an expert opinion?</h3>
-      <p class="text-body-sm text-fi-muted leading-relaxed">
-        We discuss them on the first call and review the details after you share your holdings. You can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
-      </p>
-    </Card>
+    <!-- The note for direct-plan holders, as a typed memo addressed to them: it is the main
+         reassurance for this group, and something we would put in writing. One highlight, on
+         the reassurance itself. -->
+    <div data-reveal={0} class="mt-10">
+      <Memo label="For direct-plan investors" title="Already in direct plans, but want an expert opinion?">
+        We discuss them on the first call and review the details after you share your holdings. <Highlight>You can keep them direct</Highlight>. If you invest through us, we can only use regular plans. Nothing moves without your approval.
+      </Memo>
+    </div>
 
     <div class="text-center mt-14">
       <div class={ctaRow}>
@@ -184,7 +195,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />
   </Section>
 
-  <!-- 5. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
+  <!-- 4. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
   <Section id="faq" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions before you start" />
     <div class="space-y-10">
