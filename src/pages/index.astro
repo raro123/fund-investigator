@@ -8,7 +8,7 @@ import FolderTab from '../components/ui/FolderTab.astro';
 import Dossier from '../components/ui/Dossier.astro';
 import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
-import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import Credentials from '../components/ui/Credentials.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
 import Memo from '../components/ui/Memo.astro';
@@ -106,10 +106,9 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <SampleBrief />
     </div>
 
-    <!-- The ARN stays in the hero, directly after the proof. -->
-    <div class="mt-10 border-t border-fi-border-dark">
-      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
-    </div>
+    <!-- The registration stays in the hero, directly after the proof: the investigator's
+         credentials, in the exact AMFI tagline, with the ARN to verify on AMFI. -->
+    <Credentials class="mt-10 mx-auto w-full max-w-lg" />
   </Hero>
 
   <!-- 2. Case files: each client problem, in their words, beside the service that solves it

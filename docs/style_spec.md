@@ -232,6 +232,10 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - `CheckList`: ticks in `fi-positive` (light) or `fi-gold` (dark); `layout="inline"` for a centred row, e.g. credentials.
 - `FaqList`: native `<details>` rows with `fi-border` rules, a `fi-link` plus that turns into a cross when open, and a `fi-link` focus ring. Copy source: `src/lib/faq.ts`.
 
+### Credentials (`Credentials.astro`, homepage hero, dark)
+- Under the sample brief, in its `max-w-lg` column: the investigator shows their credentials. A "Credentials" `FolderTab` on a `fi-mid` card (`rounded-tl-none`), holding a typed record in the report cards' style (mono `fi-subtle` caption labels, mono `fi-ink-inv` values, dashed `fi-border-dark` rules; label above value on phones, `grid-cols-fi-record` from `sm`): Registered (the exact AMFI `TAGLINE`) · ARN (the number, then a gold "Verify on AMFI ↗" link to AMFI's distributor search) · Empanelled (`EMPANELMENT`, "40+ fund houses"; "fund houses", not "AMCs").
+- Replaces the homepage's credibility strip: no "Transparent disclosures" (a claim; the fee memo's "Disclosed" stamp shows it). The landing pages keep `CredibilityStrip` for now. No owner name (homepage privacy); the footer carries the full disclosure.
+
 ### Sample Brief (`SampleBrief.astro`)
 - A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
 - Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.

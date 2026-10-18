@@ -56,6 +56,9 @@ export const ARN = 'ARN-370951';
 /** ARN expiry as YYYY-MM-DD; display through formatDate(). */
 export const ARN_VALID_UNTIL = '2029-09-05';
 
+/** How many fund houses (AMCs) we are empanelled with; "fund houses", not "AMCs", in copy. */
+export const EMPANELMENT = '40+ fund houses';
+
 /** AMFI's public distributor search; investors can look up the ARN there. */
 export const AMFI_VERIFY_URL = 'https://www.amfiindia.com/locate-distributor';
 
