@@ -49,7 +49,7 @@ Four sections on one centre axis (headings, leads and buttons centred; card text
 
 | # | Section | Background | Actions (placement) |
 | --- | --- | --- | --- |
-| 1 | Hero, stacked: headline, subhead, call details ("30-minute call · No charge · No obligation"), sample brief, then the "Credentials" card (exact AMFI tagline, ARN with "Verify on AMFI ↗", empanelled with 40+ fund houses; brief first so it shows on the first screen) | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
+| 1 | Hero, stacked: headline, subhead ("Build or improve your portfolio with mutual funds, SIFs and GIFT City funds, backed by evidence."), call details ("30-minute call · No charge · No obligation"), sample brief, then the "Credentials" card (exact AMFI tagline, ARN with "Verify on AMFI ↗", empanelled with 40+ fund houses; brief first so it shows on the first screen) | dark | Book a first call · Contact on WhatsApp (`homepage_hero`) |
 | 2 | "Is this your case?" (lead: "The problems we hear most, and how we solve each one."): 3 case files (`CaseFile`), each the client's problem typed in their words (Courier Prime, gold highlighter) beside the service that solves it under a "Case solved" stamp (Portfolio review · Fund selection · Ongoing support), fee line | light | Book a first call · Contact on WhatsApp (`homepage_services`) |
 | 3 | Our investigations and tools: 2 dark report cards (category folder tab, typed record), a subscribe card in the same style ("Stay updated" tab, one sentence, no heading), gold glow | dark | View all investigations · Subscribe (`homepage_bottom`) |
 | 4 | Final call, brand voice: "Your money. Your goals. Our investigation.", "Ready to talk about your case?", then the reader's own case file (`Dossier`, no clip: Client You · Status "Awaiting you", typed out on reveal; Your investigator "AMFI-registered · ARN" with "Know more" → `/about/#distributor`; "On the first call · 30 minutes · No charge" as an agenda with empty boxes: you share your goals, we explain how we can help, you decide; the actions at its foot, so the page ends on them). No owner name, photo or credentials (homepage privacy, S54; they are on `/about/`); the full AMFI disclosure is in the footer; the three differences are on `/about/` only | light | Book a first call · Contact on WhatsApp (`homepage_final`) · Know more → `/about/#distributor` |
@@ -141,6 +141,7 @@ The two-PR plan (disclosure first, funnel second) is done: both are built and me
 - [ ] Deepdive email access, and repoint the open Deepdive links (#91)
 - [ ] Owner photo and credentials (#90); Zoho form (#88); WhatsApp kit (#60)
 - [ ] PostHog internal-user filter (#62)
+- [ ] Compliance check on the homepage hero subhead (2026-10-19): "improve your portfolio" may read as an outcome (returns) claim; fallback "Build or review". SIFs and GIFT City funds are now named in the hero, so confirm the SIF promotion rules (decision 9) too
 
 **Checks before merge**
 - [ ] `npm run lint:design` and `npm run build` pass
