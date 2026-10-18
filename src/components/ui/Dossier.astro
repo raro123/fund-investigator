@@ -6,8 +6,9 @@
  * slightly out of line, a mono header over a dashed rule ("Case file" ·
  * "First call"), a title in Courier Prime capitals, then the facts as form
  * fields (mono label, typed value, a rule under each), two to a row from sm
- * unless a field is `wide`. The default slot sits under a dashed rule at the
- * foot, for the actions. Light surfaces only.
+ * unless a field is `wide`. Optional `notes` add a captioned row of ticked
+ * features (e.g. "On the record"), and the default slot sits at the foot, for
+ * the actions. Light surfaces only.
  *
  * No mugshots, "confidential" stamps or redacted lines: the reader is the
  * client, and a page that sells disclosure hides nothing.
@@ -24,6 +25,7 @@
  * @param reference - right of the header, e.g. 'First call'
  * @param title - the file's name, set in typed capitals
  * @param fields - { label, value, wide? } facts as form fields
+ * @param notes - optional { label, items: string[], link? } ticked features before the actions
  * @param class - extra classes for the dossier
  */
 import PaperClip from './PaperClip.astro';
@@ -40,10 +42,16 @@ interface Props {
   reference?: string;
   title: string;
   fields: Field[];
+  /** Optional notes block before the actions, e.g. "On the record" with a link */
+  notes?: {
+    label: string;
+    items: string[];
+    link?: { label: string; href: string };
+  };
   class?: string;
 }
 
-const { label, reference, title, fields, class: className = '' } = Astro.props;
+const { label, reference, title, fields, notes, class: className = '' } = Astro.props;
 
 const caption = 'font-mono text-caption uppercase text-fi-muted';
 ---
@@ -71,6 +79,26 @@ const caption = 'font-mono text-caption uppercase text-fi-muted';
         </div>
       ))}
     </dl>
+
+    <!-- Notes: a caption (and a link), then short features with ticks, wrapping in one row. -->
+    {notes && (
+      <div class="mt-8">
+        <div class="flex items-baseline justify-between gap-4 mb-3">
+          <h4 class={caption}>{notes.label}</h4>
+          {notes.link && (
+            <a href={notes.link.href} class="text-body-sm font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{notes.link.label} →</a>
+          )}
+        </div>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+          {notes.items.map((item) => (
+            <li class="flex items-center gap-2 text-body-sm font-semibold text-fi-ink">
+              <svg class="w-4 h-4 shrink-0 text-fi-positive" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
 
     {Astro.slots.has('default') && (
       <div class="mt-7">

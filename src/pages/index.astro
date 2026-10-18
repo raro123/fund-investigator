@@ -57,23 +57,9 @@ const firstCall = [
 ];
 
 // The three differences (content philosophy pillars, same words each time),
-// shown as trust points under the final call.
-const differences = [
-  {
-    title: 'Analysis and evidence',
-    body: 'Every fund is checked against a fair benchmark, with the analysis tool we built.',
-  },
-  {
-    title: 'Portfolio first',
-    body: 'New or existing investor, we plan your whole mix first, then the funds. Fewer funds can be the right result.',
-  },
-  {
-    title: 'Transparent and personal',
-    body: 'Our commission in writing before you choose, and one person from the first call to every review.',
-  },
-];
+// shown "On the record" inside the first-call dossier as ticked features.
+const differences = ['Analysis and evidence', 'Portfolio first', 'Transparent and personal'];
 
-const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 const darkLink = 'text-body-md font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 ---
@@ -191,25 +177,11 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       First the three differences as an "On the record" ledger (rules, no cards) and the link to
-       /about/, then the ask: what happens on the call as a typed case file (Dossier), with the
-       actions at its foot, so the page ends on them. Light, after the dark band. -->
+       One typed case file (Dossier) holds it all: what happens on the call, then the three
+       differences "On the record" with the link to /about/, then the actions at its foot, so the
+       page ends on them. Light, after the dark band. -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <!-- A real h2, styled as a caption, so the ledger's h3s sit under their own heading. -->
-    <h2 class="mb-4 text-center font-mono text-caption uppercase text-fi-muted">On the record</h2>
-    <ul class="grid lg:grid-cols-3 border-y border-fi-border divide-y lg:divide-y-0 lg:divide-x divide-fi-border text-left">
-      {differences.map((difference, index) => (
-        <li data-reveal={index} class="py-6 lg:py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0">
-          <h3 class="text-body-lg font-bold text-fi-ink mb-2">{difference.title}</h3>
-          <p class="text-body-sm text-fi-muted leading-relaxed">{difference.body}</p>
-        </li>
-      ))}
-    </ul>
-    <p class="mt-8 text-center">
-      <a href="/about/" class={lightLink}>Read our story →</a>
-    </p>
-
-    <div class="mt-16 lg:mt-20 text-center max-w-3xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
         Start with a 30-minute call.
       </h2>
@@ -217,7 +189,13 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
 
     <div data-reveal={0}>
-      <Dossier label="Case file" reference="First call" title="Your first call" fields={firstCall}>
+      <Dossier
+        label="Case file"
+        reference="First call"
+        title="Your first call"
+        fields={firstCall}
+        notes={{ label: 'On the record', items: differences, link: { label: 'Read our story', href: '/about/' } }}
+      >
         <div class="flex flex-col sm:flex-row gap-4">
           <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
           <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
