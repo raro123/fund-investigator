@@ -1,0 +1,39 @@
+---
+/**
+ * PaperClip Component
+ *
+ * A grey (fi-muted) paper clip, like metal, to clip a typed sheet to the page
+ * (Memo). Grey, not gold, so gold stays for the highlight and the
+ * booking button. Decorative: hidden from assistive tech.
+ *
+ * Place it with absolute classes over the sheet's top edge, half on and half
+ * off. When an ancestor reveals on scroll (`data-reveal`, Layout.astro), the
+ * clip slides on after the sheet has risen.
+ *
+ * @example
+ * <article class="relative …"><PaperClip class="absolute -top-6 left-8" />…</article>
+ *
+ * @param class - position classes
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg class:list={['fi-clip w-6 h-12 text-fi-muted', className]} fill="none" stroke="currentColor" viewBox="0 0 24 56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M17 18v24a5 5 0 0 1-10 0V12a8 8 0 0 1 16 0v30a11 11 0 0 1-22 0V20" />
+</svg>
+
+<style>
+  /* After the sheet rises (fi-rise, 0.65s), the clip slides on. */
+  :global(.animate-fi-rise) .fi-clip {
+    animation: fi-clip 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) 1s backwards;
+  }
+
+  @keyframes fi-clip {
+    from { opacity: 0; transform: translateY(-14px) rotate(-12deg); }
+  }
+</style>

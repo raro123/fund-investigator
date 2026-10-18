@@ -210,7 +210,7 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - Wording rules still apply: say "No separate fee from you" and explain the commission in the same place; never "free" or "₹0"; no commission rates.
 - On reveal the highlight draws, then the clip slides on.
 
-### On the record (homepage final section, white)
+### On the record (homepage final section, light)
 - The three differences (content philosophy pillars, same words) as a ledger, not cards: a mono `On the record` caption, then three columns between `fi-border` rules (`divide-x` from `lg`, `divide-y` below). `text-body-lg` bold title, `text-body-sm` `fi-muted` body. No icons.
 
 ### Report Cards on light surfaces (`ReportCard surface="light"`)
@@ -293,7 +293,7 @@ Motion level: **Subtle** (decided 2026-10-11). Two effects only, both off under 
 - **Reveal on scroll:** add `data-reveal="<index>"` to an element; the script in `Layout.astro` plays `animate-fi-rise` (fade + 16px rise, 90ms stagger per index) as it nears the viewport. Elements visible at load never animate, so the first frame is always complete.
 - **Page transitions:** `@view-transition { navigation: auto; }` in `Layout.astro`. Report card titles and article H1s share `view-transition-name: report-<slug>`, so the title moves into place. Unsupported browsers load pages normally.
 
-One addition (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo does the same with its highlight and paper clip (`Memo.astro`). It rides on the reveal, so it is off under reduced motion too.
+Additions (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo does the same with its highlight and paper clip (`Memo.astro`, `PaperClip.astro`). It rides on the reveal, so it is off under reduced motion too.
 
 Not used: parallax, scroll-jacking, count-up numbers, carousels.
 

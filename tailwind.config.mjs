@@ -82,8 +82,9 @@ export default {
       //   copy, lists, pull-quotes, and markdown tables (see src/layouts/ArticleLayout.astro).
       //   Loaded via @fontsource/newsreader in Layout.astro. Weights: 400 · 700 only.
       // Mono: for tabular financial data
-      // Typewriter: Courier Prime — the client's problem in the homepage case files only
-      //   (CaseFile). Loaded via @fontsource/courier-prime in Layout.astro. Weight: 400.
+      // Typewriter: Courier Prime — homepage typed text only: the client's problem in the case files
+      //   (CaseFile) and the fee memo (Memo). Loaded via @fontsource/courier-prime
+      //   in Layout.astro. Weight: 400.
       // ─────────────────────────────────────────
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
