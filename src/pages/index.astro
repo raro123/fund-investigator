@@ -17,7 +17,7 @@ import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
-import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
+import { ARN, BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import { homeServices } from '../lib/services';
 
@@ -49,10 +49,18 @@ const whatsapp = (placement: WhatsappPlacement) => ({
 
 // The final section's file is the reader's own case, not yet opened: every file
 // above it is filled in. "No charge" stays with the call (never the case), so the
-// service never reads as free.
+// service never reads as free. Client and Status share a row on phones, so the
+// status stays short. The investigator is the registration, not the owner's name
+// (homepage privacy); the person is one click away on /about/.
 const yourCase = [
   { label: 'Client', value: 'You' },
-  { label: 'Status', value: 'Not yet opened', typed: true },
+  { label: 'Status', value: 'Awaiting you', typed: true },
+  {
+    label: 'Your investigator',
+    value: `AMFI-registered · ${ARN}`,
+    wide: true,
+    link: { label: 'Know more', href: '/about/#distributor', ariaLabel: 'Know your investigator' },
+  },
 ];
 
 // What happens on the first call, as an agenda still to tick. Only facts already
@@ -180,23 +188,23 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
   </Section>
 
   <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       The reader's own case file (Dossier), blank where the others are filled in: "Know your
-       investigator" (the person, on /about/) in the header, client, a status that types itself
-       out, the first call as an agenda still to tick, then the actions
-       at its foot, so the page ends on them. "Your money. Your goals." speaks to first-time and
-       existing investors alike. Light, after the dark band. -->
+       The reader's own case file (Dossier), blank where the others are filled in: client and a
+       status that types itself out, the investigator's registration with a link to the person on
+       /about/, the first call as an agenda still to tick, then the actions at its foot, so the
+       page ends on them. "Your money. Your goals." speaks to first-time and existing investors
+       alike. The full AMFI disclosure is in the footer, the ARN in the hero and this file.
+       Light, after the dark band. -->
   <Section background="light" spacing="md" maxWidth="2xl">
     <div class="text-center max-w-3xl mx-auto">
       <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
         Your money. Your goals. Our investigation.
       </h2>
-      <p class="text-body-md text-fi-muted mb-12">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
+      <p class="text-body-md text-fi-muted mb-10">Ready to talk about your case?</p>
     </div>
 
     <div data-reveal={0}>
       <Dossier
         label="Case file"
-        link={{ label: 'Know your investigator', href: '/about/#distributor' }}
         fields={yourCase}
         notes={{ label: 'On the first call', aside: '30 minutes · No charge', items: firstCall }}
       >
