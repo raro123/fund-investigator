@@ -1,0 +1,22 @@
+---
+/**
+ * RiskDisclosures Component
+ *
+ * The mandatory warnings for every product we promote, in one band above the
+ * footer on every page: AMFI's mutual-fund warning and SEBI's SIF warning
+ * (COM-015), each a RiskNote linking to its note on /disclosures/. Placed by
+ * Layout.astro, so no page adds or drops it (owner review, 2026-10-19).
+ *
+ * @example
+ * <RiskDisclosures />
+ */
+import Section from './Section.astro';
+import RiskNote from './RiskNote.astro';
+---
+
+<Section background="light" spacing="sm" maxWidth="xl" class="border-t border-fi-border">
+  <div class="grid gap-4 md:grid-cols-2" aria-label="Risk disclosures" role="region">
+    <RiskNote kind="mf" surface="light" />
+    <RiskNote kind="sif" surface="light" />
+  </div>
+</Section>

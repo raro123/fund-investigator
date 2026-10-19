@@ -14,7 +14,6 @@ import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import IdCard from '../components/ui/IdCard.astro';
-import RiskNote from '../components/ui/RiskNote.astro';
 import { BOOKING_URL } from '../lib/distributor';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
@@ -47,7 +46,7 @@ const steps = [
   {
     title: 'We listen',
     // The call's scope, once in this process section (COM-008, compliance wording).
-    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us. The call is to understand your requirements and explain our distribution service. It does not include a completed portfolio analysis or scheme recommendation.',
+    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us.',
     fact: 'No charge · No obligation',
   },
   {
@@ -101,7 +100,7 @@ const routes = [
   },
   {
     name: 'Cost',
-    featured: 'The Regular Plan has a higher expense ratio that includes distributor commission. We disclose our commission before you decide.',
+    featured: 'No separate fee from you. The Regular Plan has a higher expense ratio that includes distributor commission. We disclose our commission before you decide.',
     other: 'The Direct Plan has a lower expense ratio because it does not include distributor commission. Any separately arranged advice may involve a separate fee.',
   },
 ];
@@ -155,7 +154,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
        for direct investors is in the FAQ's direct vs regular answer. Then the memo for
        direct-plan holders. Keep the invest_cta placements for comparable analytics. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Mutual-fund schemes generally offer direct and regular plans. Where both are available, the underlying scheme portfolio is the same, but the expense ratios and NAVs differ. The other difference is who does the work." />
+    <SectionHeading title="Same fund. More support." lead="Mutual-fund schemes generally offer direct and regular plans. Where both are available, the underlying scheme portfolio is the same, but the expense ratios and NAVs differ." />
     <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
       <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_cta')} variant="tertiary" surface="light">Contact on WhatsApp</Button>
@@ -165,7 +164,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
          the reassurance itself. -->
     <div data-reveal={0} class="mt-14">
       <Memo label="For direct-plan investors" title="Already in direct plans, but want an expert opinion?">
-        At your request, we can review your existing mutual-fund holdings as part of assessing your portfolio for our distribution service. <Highlight>A review does not require you to switch.</Highlight> Investments facilitated through us are regular plans; we do not execute direct-plan transactions or offer a standalone investment-advisory service.
+        If you ask, we can review the direct plans you hold. <Highlight>You don't have to switch.</Highlight> Anything you invest through us goes into regular plans. We don't handle direct-plan transactions, and we don't offer investment advice as a separate service.
       </Memo>
     </div>
   </Section>
@@ -189,7 +188,6 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         <div class="max-w-3xl mx-auto text-left">
           <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{group.title}</h3>
           <FaqList items={group.items} openFirst={index === 0} />
-          {group.riskNote && <RiskNote kind={group.riskNote} surface="light" class="mt-6" />}
         </div>
       ))}
     </div>

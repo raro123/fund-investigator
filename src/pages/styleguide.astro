@@ -101,10 +101,10 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Note and Footnotes</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      RiskNote shows a regulator's exact warning on the page, once, at the end of the section that promotes the product. The wording comes from distributor.ts and cannot be passed in. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+      RiskNote shows a regulator's exact warning: <code class="font-mono">mf</code> (AMFI) or <code class="font-mono">sif</code> (SEBI). The wording comes from distributor.ts and cannot be passed in. Pages never place it: RiskDisclosures shows both, once, above the footer on every page (you can see it at the bottom of this page). Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
     </p>
     <div class="grid gap-6 lg:grid-cols-2">
-      <RiskNote kind="sif" surface="light" />
+      <RiskNote kind="mf" surface="light" />
       <div class="rounded-lg bg-fi-dark p-6">
         <RiskNote kind="sif" surface="dark" />
       </div>
@@ -118,7 +118,7 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Distributor Identity</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      The AMFI disclosure: registered name, the exact tagline and the ARN (the risk warning left the footer on 2026-10-19 and stays on <code class="font-mono">/disclaimer/</code>), read from <code class="font-mono">src/lib/distributor.ts</code>. The name appears only here, never as a byline or profile. <code class="font-mono">inline</code> sits in the footer on every page; <code class="font-mono">block</code> sits in a card.
+      The AMFI disclosure: registered name, the exact tagline and the ARN (the risk warnings sit in the RiskDisclosures band just above the footer), read from <code class="font-mono">src/lib/distributor.ts</code>. The name appears only here, never as a byline or profile. <code class="font-mono">inline</code> sits in the footer on every page; <code class="font-mono">block</code> sits in a card.
     </p>
     <div class="grid gap-6 md:grid-cols-2">
       <div class="rounded-lg bg-fi-dark p-6 text-center">

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import RiskDisclosures from '../components/ui/RiskDisclosures.astro';
 import { absoluteImageUrl } from '../lib/schema';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
 import type { LandingId, TrackView } from '../lib/analytics';
@@ -120,6 +121,7 @@ const defaultLinks = [
     <main>
       <slot />
     </main>
+    <RiskDisclosures />
     <Footer />
 
     <script>

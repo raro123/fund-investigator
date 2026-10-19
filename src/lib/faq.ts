@@ -21,8 +21,6 @@ export interface FaqItem {
 export interface FaqGroup {
   title: string;
   items: FaqItem[];
-  /** A mandatory warning shown open under the group, never inside an answer (RiskNote). */
-  riskNote?: 'sif';
 }
 
 export const investFaqGroups: FaqGroup[] = [
@@ -41,8 +39,6 @@ export const investFaqGroups: FaqGroup[] = [
   },
   {
     title: 'Products',
-    // SEBI's SIF warning shows open under this group (COM-015): the FAQ text alone is not enough.
-    riskNote: 'sif',
     items: [
       {
         // Compliance's conditional draft (COM-015), pending its source-backed clearance.

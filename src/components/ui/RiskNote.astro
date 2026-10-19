@@ -8,21 +8,22 @@
  * shadow, no stamp) but in full ink, so it stays conspicuous.
  *
  * The wording comes from `src/lib/distributor.ts` and cannot be passed in, so
- * no page can reword a regulator's text. One per page, at the end of the
- * section that promotes the product, never under each button (COM-015).
+ * no page can reword a regulator's text. Pages do not place it themselves:
+ * RiskDisclosures shows each note once, above the footer on every page, never
+ * under each button (COM-015, owner review 2026-10-19).
  *
  * @example
  * <RiskNote kind="sif" surface="light" />
  *
- * @param kind - which warning: 'sif' (SEBI's §13.4 SIF warning)
+ * @param kind - which warning: 'mf' (AMFI's standard warning) or 'sif' (SEBI's §13.4 SIF warning)
  * @param surface - 'light' or 'dark'
  * @param class - extra classes for the note
  */
-import { SIF_WARNING } from '../../lib/distributor';
+import { RISK_WARNING, SIF_WARNING } from '../../lib/distributor';
 import { disclosureHref } from '../../lib/disclosures';
 
 interface Props {
-  kind: 'sif';
+  kind: 'mf' | 'sif';
   surface: 'light' | 'dark';
   class?: string;
 }
@@ -30,6 +31,7 @@ interface Props {
 const { kind, surface, class: className = '' } = Astro.props;
 
 const notes = {
+  mf: { label: 'Risk note · Mutual funds', text: RISK_WARNING, link: { label: 'How we are paid →', href: disclosureHref('how-we-are-paid') } },
   sif: { label: 'Risk note · SIFs', text: SIF_WARNING, link: { label: 'SIF eligibility and sources →', href: disclosureHref('sif') } },
 };
 const note = notes[kind];
@@ -52,7 +54,7 @@ const tone = {
 ---
 
 <aside
-  class:list={['mx-auto max-w-2xl rounded-lg border border-dashed px-6 py-5 lg:px-8 text-left', tone.box, className]}
+  class:list={['rounded-lg border border-dashed px-6 py-5 lg:px-8 text-left', tone.box, className]}
   aria-label={note.label}
 >
   <p class:list={['font-mono text-caption uppercase pb-2 mb-3 border-b border-dashed', tone.label]}>{note.label}</p>

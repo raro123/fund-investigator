@@ -13,7 +13,6 @@ import SectionHeading from '../components/ui/SectionHeading.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
 import Memo from '../components/ui/Memo.astro';
 import Highlight from '../components/ui/Highlight.astro';
-import RiskNote from '../components/ui/RiskNote.astro';
 import Fn from '../components/ui/Fn.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
@@ -144,10 +143,6 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       </Memo>
     </div>
 
-    {/* The hero promotes SIFs, so SEBI's warning sits on this page once, beside the fee memo:
-        the section that already says what we disclose (COM-015). Not under each button. */}
-    <RiskNote kind="sif" surface="light" class="mt-6" />
-
     <div class:list={[ctaRow, 'mt-10']}>
       <Button {...booking('homepage_services')} class="w-full sm:w-auto min-w-0">Book a first call</Button>
       <Button {...whatsapp('homepage_services')} variant="secondary" surface="light" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
@@ -189,7 +184,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <FolderTab surface="dark">Stay updated</FolderTab>
       <Card variant="dark" hover={false} padding="lg" class="rounded-tl-none flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <p class="text-body-md text-fi-muted-inv leading-relaxed">
-          <span class="text-fi-ink-inv font-semibold">Every new investigation, by email.</span>
+          <span class="text-fi-ink-inv font-semibold">Subscribers get every new investigation by email.</span>
         </p>
         <Button
           href={substackWelcomeUrl('homepage_bottom')}
@@ -228,10 +223,6 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
         fields={yourCase}
         notes={{ label: 'On the first call', aside: 'Introductory · 30 minutes · No charge', items: firstCall }}
       >
-        {/* The call's scope, once in this process section, not under each button (COM-008). */}
-        <p class="mb-6 text-body-sm text-fi-muted leading-relaxed">
-          The call is to understand your requirements and explain our distribution service. It does not include a completed portfolio analysis or scheme recommendation.
-        </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
           <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>

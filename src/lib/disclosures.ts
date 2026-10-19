@@ -9,8 +9,8 @@
  * (fund_distribution_business/website_compliance_tasks.md). Most of these
  * notes are optional public transparency: the legal duties they describe are
  * met in the client disclosure pack before investment. Text a regulator
- * requires on the page itself (the SIF warning) is shown on that page with
- * RiskNote as well as here.
+ * requires on the page itself (the mutual-fund and SIF warnings) is shown on
+ * every page by RiskDisclosures, above the footer, as well as here.
  *
  * Not yet here, until cleared: GIFT City funds (COM-007: products, issuer,
  * our role, eligibility, LRS, currency) and the sample portfolio's method
