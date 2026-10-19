@@ -3,6 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import { responsive } from '../lib/responsive';
+import { formatDate } from '../lib/format';
+
+// Set to the date the wording last changed, not the build date.
+const LAST_UPDATED = '2026-10-19';
 ---
 
 <Layout
@@ -14,7 +18,7 @@ import { responsive } from '../lib/responsive';
       Terms of Service
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted']}>
-      Last updated: January 2, 2026
+      Last updated: {formatDate(LAST_UPDATED)}
     </p>
   </Hero>
 
@@ -38,7 +42,7 @@ import { responsive } from '../lib/responsive';
       <section class="space-y-4">
         <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>3. Data and Information</h2>
         <p>
-          All fund data is sourced from AMFI (Association of Mutual Funds in India). While we strive for accuracy, we make no warranties about the completeness, reliability, or accuracy of this information.
+          Fund NAV data may be sourced from AMFI. Benchmark data may be sourced from NSE Indices or other identified index providers. Scheme attributes, portfolios and manager information may be sourced from AMC factsheets, portfolio disclosures, SID/KIM documents and other official publications. Regulatory information may be sourced from SEBI and AMFI. Fund Investigator may calculate derived metrics from these sources. The source and calculation period are identified in each applicable report. While we strive for accuracy, we make no warranties about the completeness, reliability, or accuracy of this information.
         </p>
       </section>
 

@@ -254,7 +254,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   return assemble([
     organizationSchema(site),
     websiteSchema(site),
-    deepdiveSchema(site),
+    // deepdiveSchema is left out until the tool's outputs are cleared (COM-022, 2026-10-19).
     buildWebPage({
       url: pageUrl,
       name: HOME_TITLE,

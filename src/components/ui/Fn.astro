@@ -1,0 +1,37 @@
+---
+/**
+ * Fn Component
+ *
+ * A footnote marker: a superscript note number that links to that note on
+ * /disclosures/. Place it straight after the punctuation it annotates, with
+ * no space. The number comes from the note's place in `src/lib/disclosures.ts`;
+ * pages pass the stable id, so reordering notes never breaks a link.
+ *
+ * Use sparingly: one marker where a claim has a fuller note, not on every
+ * sentence. Text a regulator requires on the page belongs in RiskNote instead.
+ *
+ * @example
+ * We disclose it in writing.<Fn id="how-we-are-paid" />
+ * <Fn id="sif" surface="dark" />
+ *
+ * @param id - the note's id in disclosures.ts
+ * @param surface - 'light' (default) or 'dark'
+ */
+import { disclosureHref, disclosureNumber, disclosureTitle, type DisclosureId } from '../../lib/disclosures';
+
+interface Props {
+  id: DisclosureId;
+  surface?: 'light' | 'dark';
+}
+
+const { id, surface = 'light' } = Astro.props;
+
+const number = disclosureNumber(id);
+const colour = { light: 'text-fi-link', dark: 'text-fi-gold' }[surface];
+---
+
+<sup class="ml-0.5 font-sans text-caption leading-none"><a
+  href={disclosureHref(id)}
+  class:list={[colour, 'font-semibold no-underline hover:underline']}
+  aria-label={`Note ${number}: ${disclosureTitle(id)}`}
+>{number}</a></sup>

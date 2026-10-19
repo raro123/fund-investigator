@@ -9,8 +9,6 @@ import StepMemos from '../components/ui/StepMemos.astro';
 import IdCard from '../components/ui/IdCard.astro';
 import Highlight from '../components/ui/Highlight.astro';
 import { responsive } from '../lib/responsive';
-import { deepdiveUrl } from '../lib/deepdive';
-import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl } from '../lib/whatsapp';
 import { ARN, BOOKING_URL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
 
@@ -35,10 +33,8 @@ const principles = [
   {
     title: 'Quantitative checks',
     body: 'We compare each fund with a benchmark that matches what it invests in. We check if the returns were consistent and if the extra return justified the extra risk. We also check how far the fund fell and how long recovery took. Our investigations show the checks and the data.',
-    links: [
-      { label: 'Read the investigations →', href: '/reports/' },
-      { label: 'Open Deepdive ↗', href: deepdiveUrl('about'), external: true, track: trackAttrs('deepdive_click', 'about') },
-    ],
+    // No Deepdive link until the tool's outputs are cleared (COM-022, 2026-10-19).
+    links: [{ label: 'Read the investigations →', href: '/reports/' }],
   },
   {
     title: 'Qualitative checks',

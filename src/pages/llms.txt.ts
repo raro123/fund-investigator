@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
-import { SITE_URL, DEEPDIVE_URL } from '../lib/site-urls';
+import { SITE_URL } from '../lib/site-urls';
 import { ARN, TAGLINE } from '../lib/distributor';
 
 export const GET: APIRoute = async ({ site }) => {
@@ -24,18 +24,23 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
     `- [Invest with support](${base}/invest/): 30-minute portfolio review call and help to choose and invest in suitable funds, from an ${TAGLINE}.`,
-    `- [Deepdive App](${DEEPDIVE_URL}): Interactive tool to analyze any AMFI-registered mutual fund yourself.`,
+    // No Deepdive entry until the tool's outputs are cleared (COM-022, 2026-10-19).
     '',
-    '## Investigations',
-    '',
-    ...sorted.map(
-      (r) =>
-        `- [${r.data.title}](${base}/reports/${r.slug}/): ${r.data.description}`
-    ),
-    '',
+    ...(sorted.length > 0
+      ? [
+          '## Investigations',
+          '',
+          ...sorted.map(
+            (r) =>
+              `- [${r.data.title}](${base}/reports/${r.slug}/): ${r.data.description}`
+          ),
+          '',
+        ]
+      : []),
     '## Optional',
     '',
     `- [All Investigations](${base}/reports/): Index of current published fund investigations.`,
+    `- [Disclosures](${base}/disclosures/): How we are paid, data sources, what clients receive before investing, and SIF eligibility and risk.`,
     `- [Disclaimer](${base}/disclaimer/): Data sources, methodology notes, distributor disclosure, and investment risk disclosures.`,
   ];
 

@@ -14,6 +14,7 @@ import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import IdCard from '../components/ui/IdCard.astro';
+import RiskNote from '../components/ui/RiskNote.astro';
 import { BOOKING_URL } from '../lib/distributor';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
@@ -188,6 +189,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
         <div class="max-w-3xl mx-auto text-left">
           <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{group.title}</h3>
           <FaqList items={group.items} openFirst={index === 0} />
+          {group.riskNote && <RiskNote kind={group.riskNote} surface="light" class="mt-6" />}
         </div>
       ))}
     </div>

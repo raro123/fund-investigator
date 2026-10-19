@@ -13,6 +13,8 @@ import SectionHeading from '../components/ui/SectionHeading.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
 import Memo from '../components/ui/Memo.astro';
 import Highlight from '../components/ui/Highlight.astro';
+import RiskNote from '../components/ui/RiskNote.astro';
+import Fn from '../components/ui/Fn.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
@@ -23,7 +25,9 @@ import { homeServices } from '../lib/services';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
-// with the decision guides once they are published (log #74).
+// with the decision guides once they are published (log #74). Both are held for
+// AMC approval or a generic rewrite (COM-002, 2026-10-19), so the section shows
+// only the subscription until a cleared guide is back in src/content/reports/.
 const featuredGuideSlugs = ['five-checks-mutual-fund', 'mutual-fund-categories-explained'];
 const allReports = await getCollection('reports');
 const featuredGuides = featuredGuideSlugs
@@ -136,9 +140,13 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
          Never "free" or "₹0"; no rates. The direct vs regular comparison lives in the /invest/ FAQ. -->
     <div data-reveal={0} class="mt-14">
       <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
-        The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
+        The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.<Fn id="how-we-are-paid" />
       </Memo>
     </div>
+
+    {/* The hero promotes SIFs, so SEBI's warning sits on this page once, beside the fee memo:
+        the section that already says what we disclose (COM-015). Not under each button. */}
+    <RiskNote kind="sif" surface="light" class="mt-6" />
 
     <div class:list={[ctaRow, 'mt-10']}>
       <Button {...booking('homepage_services')} class="w-full sm:w-auto min-w-0">Book a first call</Button>
@@ -146,35 +154,42 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Section>
 
-  <!-- 3. Investigations and tools: the page's second dark band, with the hero's glow, so
-       the page alternates dark and light (style_spec §1). Value first (guides), then the ask. -->
+  <!-- 3. Investigations: the page's second dark band, with the hero's glow, so the page
+       alternates dark and light (style_spec §1). Value first (guides), then the ask; with no
+       cleared guide, only the ask. -->
+  {/* No Deepdive promotion until the tool's outputs are cleared (COM-022, 2026-10-19). */}
   <Section background="dark" glow spacing="md" maxWidth="2xl">
     <SectionHeading
-      title="Our investigations and tools."
-      lead="Read our analysis, see our methods and try our tools."
+      title="Our investigations."
+      lead={featuredGuides.length > 0
+        ? 'Read our analysis and see our methods.'
+        : 'We are preparing our next investigations. Get each one by email.'}
       surface="dark"
     />
 
-    <div class="grid sm:grid-cols-2 gap-5 text-left">
-      {featuredGuides.map((report, index) => (
-        <div data-reveal={index}>
-          <ReportCard report={report} href={`/reports/${report.slug}/`} />
+    {featuredGuides.length > 0 && (
+      <>
+        <div class="grid sm:grid-cols-2 gap-5 text-left">
+          {featuredGuides.map((report, index) => (
+            <div data-reveal={index}>
+              <ReportCard report={report} href={`/reports/${report.slug}/`} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
 
-    <p class="mt-8 text-center">
-      <a href="/reports/" class={darkLink}>View all investigations →</a>
-    </p>
+        <p class="mt-8 mb-10 text-center">
+          <a href="/reports/" class={darkLink}>View all investigations →</a>
+        </p>
+      </>
+    )}
 
     <!-- The subscription as one more item in the archive: the report cards' folder tab and dark
          fill, one plain sentence, the button. Gold stays for booking; this is the section's only button. -->
-    <div class="mt-10 flex flex-col text-left">
+    <div class="flex flex-col text-left">
       <FolderTab surface="dark">Stay updated</FolderTab>
       <Card variant="dark" hover={false} padding="lg" class="rounded-tl-none flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <p class="text-body-md text-fi-muted-inv leading-relaxed">
           <span class="text-fi-ink-inv font-semibold">Every new investigation, by email.</span>
-          Subscribers also get access to Deepdive, our fund analysis app.
         </p>
         <Button
           href={substackWelcomeUrl('homepage_bottom')}

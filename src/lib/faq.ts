@@ -21,6 +21,8 @@ export interface FaqItem {
 export interface FaqGroup {
   title: string;
   items: FaqItem[];
+  /** A mandatory warning shown open under the group, never inside an answer (RiskNote). */
+  riskNote?: 'sif';
 }
 
 export const investFaqGroups: FaqGroup[] = [
@@ -33,16 +35,19 @@ export const investFaqGroups: FaqGroup[] = [
       },
       {
         question: 'Is there a minimum amount?',
-        answer: 'Each mutual fund sets its own minimum, and most are small. SIFs start at ₹10 lakh. GIFT City funds set their minimum in US dollars.',
+        answer: 'Each mutual fund sets its own minimum, and most are small. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies; see "What is a SIF?" below. GIFT City funds set their minimum in US dollars.',
       },
     ],
   },
   {
     title: 'Products',
+    // SEBI's SIF warning shows open under this group (COM-015): the FAQ text alone is not enough.
+    riskNote: 'sif',
     items: [
       {
+        // Compliance's conditional draft (COM-015), pending its source-backed clearance.
         question: 'What is a SIF?',
-        answer: 'A Specialised Investment Fund. It is a SEBI category that can use strategies a mutual fund cannot, such as long-short. The minimum is ₹10 lakh, and the risks are higher. We explain them on the call.',
+        answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
       {
         question: 'Who can invest in GIFT City funds?',

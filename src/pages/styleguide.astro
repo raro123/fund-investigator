@@ -8,6 +8,8 @@ import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import Credentials from '../components/ui/Credentials.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
+import RiskNote from '../components/ui/RiskNote.astro';
+import Fn from '../components/ui/Fn.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
@@ -90,9 +92,26 @@ import { responsive } from '../lib/responsive';
     <div class="max-w-3xl">
       <ArchivedReportNotice
         analysisThrough="2025-12-31"
-        supersededBy="/reports/five-checks-mutual-fund/"
+        supersededBy="/reports/"
       />
     </div>
+  </Section>
+
+  <!-- Risk Note and footnote marker -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Note and Footnotes</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      RiskNote shows a regulator's exact warning on the page, once, at the end of the section that promotes the product. The wording comes from distributor.ts and cannot be passed in. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+    </p>
+    <div class="grid gap-6 lg:grid-cols-2">
+      <RiskNote kind="sif" surface="light" />
+      <div class="rounded-lg bg-fi-dark p-6">
+        <RiskNote kind="sif" surface="dark" />
+      </div>
+    </div>
+    <p class="mt-6 text-body-md text-fi-ink max-w-2xl">
+      We disclose our commission in writing before you choose.<Fn id="how-we-are-paid" />
+    </p>
   </Section>
 
   <!-- Distributor Identity -->

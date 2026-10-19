@@ -1,0 +1,61 @@
+---
+/**
+ * RiskNote Component
+ *
+ * A mandatory warning shown on the page itself, in the Memo family's typed
+ * look: a mono label over a dashed rule, then the exact wording, with an
+ * optional link to the matching note on /disclosures/. Quieter than a Memo (no
+ * shadow, no stamp) but in full ink, so it stays conspicuous.
+ *
+ * The wording comes from `src/lib/distributor.ts` and cannot be passed in, so
+ * no page can reword a regulator's text. One per page, at the end of the
+ * section that promotes the product, never under each button (COM-015).
+ *
+ * @example
+ * <RiskNote kind="sif" surface="light" />
+ *
+ * @param kind - which warning: 'sif' (SEBI's §13.4 SIF warning)
+ * @param surface - 'light' or 'dark'
+ * @param class - extra classes for the note
+ */
+import { SIF_WARNING } from '../../lib/distributor';
+import { disclosureHref } from '../../lib/disclosures';
+
+interface Props {
+  kind: 'sif';
+  surface: 'light' | 'dark';
+  class?: string;
+}
+
+const { kind, surface, class: className = '' } = Astro.props;
+
+const notes = {
+  sif: { label: 'Risk note · SIFs', text: SIF_WARNING, link: { label: 'SIF eligibility and sources →', href: disclosureHref('sif') } },
+};
+const note = notes[kind];
+
+// Approved surface pairs (docs/style_spec.md §1).
+const tone = {
+  light: {
+    box: 'border-fi-border bg-white',
+    label: 'text-fi-muted border-fi-border',
+    text: 'text-fi-ink',
+    link: 'text-fi-link decoration-fi-link/40 hover:decoration-fi-link',
+  },
+  dark: {
+    box: 'border-fi-border-dark bg-fi-mid',
+    label: 'text-fi-subtle border-fi-border-dark',
+    text: 'text-fi-ink-inv',
+    link: 'text-fi-gold decoration-fi-gold/40 hover:decoration-fi-gold',
+  },
+}[surface];
+---
+
+<aside
+  class:list={['mx-auto max-w-2xl rounded-lg border border-dashed px-6 py-5 lg:px-8 text-left', tone.box, className]}
+  aria-label={note.label}
+>
+  <p class:list={['font-mono text-caption uppercase pb-2 mb-3 border-b border-dashed', tone.label]}>{note.label}</p>
+  <p class:list={['text-body-sm leading-relaxed', tone.text]}>{note.text}</p>
+  <a href={note.link.href} class:list={['inline-block mt-2 py-1 text-body-sm font-semibold underline underline-offset-4', tone.link]}>{note.link.label}</a>
+</aside>

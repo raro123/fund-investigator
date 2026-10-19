@@ -73,6 +73,15 @@ export const TAGLINE = 'AMFI Registered Mutual Fund Distributor & SIF Distributo
 export const RISK_WARNING =
   'Mutual Fund investments are subject to market risks, read all scheme related documents carefully.';
 
+/**
+ * Mandatory SIF warning, verbatim from SEBI circular
+ * SEBI/HO/IMD/IMD-PoD-1/P/CIR/2025/26 (27 February 2025), Annexure A §13.4.
+ * Every page that promotes SIFs must show it conspicuously, with no additions
+ * or deletions (COM-015). Keep SEBI's spelling and grammar exactly as here.
+ */
+export const SIF_WARNING =
+  'Investments in Specialized Investment Fund involves relatively higher risk including potential loss of capital, liquidity risk and market volatility. Please read all investment strategy related documents carefully before making the investment decision.';
+
 export const CONTACT_EMAIL = 'contact@fundinvestigator.com';
 
 /** WhatsApp Business number in international format, digits only (for wa.me links). */

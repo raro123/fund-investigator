@@ -17,6 +17,7 @@ const SUBSTACK_WELCOME_PATH = '/welcome';
 
 export type SubstackPlacement =
   | 'homepage_bottom'
+  | 'reports_index'
   | 'article_end'
   | 'article_takeaways'
   | 'footer';
