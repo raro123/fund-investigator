@@ -8,7 +8,7 @@ import FolderTab from '../components/ui/FolderTab.astro';
 import Dossier from '../components/ui/Dossier.astro';
 import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
-import Credentials from '../components/ui/Credentials.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
 import Memo from '../components/ui/Memo.astro';
@@ -17,7 +17,7 @@ import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
 import { substackWelcomeUrl } from '../lib/substack';
-import { ARN, BOOKING_URL, CONTACT_EMAIL } from '../lib/distributor';
+import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import { homeServices } from '../lib/services';
 
@@ -50,16 +50,17 @@ const whatsapp = (placement: WhatsappPlacement) => ({
 // The final section's file is the reader's own case, not yet opened: every file
 // above it is filled in. "No charge" stays with the call (never the case), so the
 // service never reads as free. Client and Status share a row on phones, so the
-// status stays short. The investigator is the registration, not the owner's name
-// (homepage privacy); the person is one click away on /about/.
+// status stays short. The distributor is the registration in the exact AMFI tagline
+// with the ARN, not the owner's name (homepage privacy, owner 2026-10-16, confirmed
+// 2026-10-19); the person is one click away on /about/.
 const yourCase = [
   { label: 'Client', value: 'You' },
   { label: 'Status', value: 'Awaiting you', typed: true },
   {
-    label: 'Your investigator',
-    value: `AMFI-registered · ${ARN}`,
+    label: 'Your distributor',
+    value: `${TAGLINE} (${ARN})`,
     wide: true,
-    link: { label: 'Know more', href: '/about/#distributor', ariaLabel: 'Know your investigator' },
+    link: { label: 'Know more', href: '/about/#distributor', ariaLabel: 'Know your distributor' },
   },
 ];
 
@@ -109,9 +110,12 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <SampleBrief />
     </div>
 
-    <!-- The registration stays in the hero, directly after the proof: the investigator's
-         credentials, in the exact AMFI tagline, with the ARN to verify on AMFI. -->
-    <Credentials class="mt-10 mx-auto w-full max-w-lg" />
+    <!-- The ARN stays in the hero, directly after the proof, as a slim trust strip: the
+         Credentials card took too much of the first screen. The exact AMFI tagline is in the
+         footer; the ARN to verify on AMFI is on /invest/ and /about/. -->
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
+    </div>
   </Hero>
 
   <!-- 2. Case files: each client problem, in their words, beside the service that solves it

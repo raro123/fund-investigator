@@ -31,7 +31,7 @@ interface Props {
   class?: string;
 }
 
-import Stamp from './Stamp.astro';
+import Badge from './Badge.astro';
 
 const { variant = 'review', class: className = '' } = Astro.props;
 
@@ -105,11 +105,12 @@ const segmentTextClass = (value: number) => (value >= 20 ? '' : 'hidden sm:inlin
     <div class="absolute inset-0 rounded-xl bg-fi-mid border border-fi-border-dark rotate-3 translate-x-2 translate-y-1.5" aria-hidden="true"></div>
 
     <div class="relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 shadow-fi-card-dark transition-transform duration-300 hover:-translate-y-1">
-      <!-- The same stamp as "Case solved" and "Disclosed": on brand, and a clear "this is an example".
-           It shares the title's row; the profile runs full width below, so it stays on one line. -->
+      <!-- A quiet "Sample" box, not a stamp: it must say "this is an example" without
+           pulling the eye from the brief. It shares the title's row; the profile runs full
+           width below, so it stays on one line. -->
       <div class="flex items-center justify-between gap-3">
         <p class="text-body-lg font-bold leading-snug">{title}</p>
-        <Stamp class="shrink-0 mr-1">Sample</Stamp>
+        <Badge size="sm" rounded={false} class="shrink-0">Sample</Badge>
       </div>
       <p class="mt-2 text-body-sm text-fi-muted tabular-nums">{profile}</p>
 

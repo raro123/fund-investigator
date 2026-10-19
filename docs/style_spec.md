@@ -232,10 +232,15 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - `CheckList`: ticks in `fi-positive` (light) or `fi-gold` (dark); `layout="inline"` for a centred row, e.g. credentials.
 - `FaqList`: native `<details>` rows with `fi-border` rules, a `fi-link` plus that turns into a cross when open, and a `fi-link` focus ring. Copy source: `src/lib/faq.ts`.
 
-### Credentials (`Credentials.astro`, homepage hero dark, `/invest/` light)
-- Under the sample brief, in its `max-w-lg` column: the investigator shows their credentials. A "Credentials" `FolderTab` on a `fi-mid` card (`rounded-tl-none`), holding a typed record in the report cards' style (mono `fi-subtle` caption labels, mono `fi-ink-inv` values, dashed `fi-border-dark` rules; label above value on phones, `grid-cols-fi-record` from `sm`): Registered (the exact AMFI `TAGLINE`) · ARN (the number, then a gold "Verify on AMFI ↗" link to AMFI's distributor search) · Empanelled (`EMPANELMENT`, "40+ fund houses"; "fund houses", not "AMCs").
-- Replaces the homepage's credibility strip: no "Transparent disclosures" (a claim; the fee memo's "Disclosed" stamp shows it). The landing pages keep `CredibilityStrip` for now. No owner name (homepage privacy); the footer carries the full disclosure.
-- `surface="light" detailed` on `/invest/#costs`, under the last booking buttons (white card, `fi-border`, `shadow-fi-card`, `fi-link` links): adds Investigator (the registered name · "Read our story →" `/about/`; service pages may name the person), the ARN's validity, and Contact (the email). Replaces the plain "You work with … · tagline · ARN · validity" lines.
+### Credentials (`Credentials.astro`)
+- Was under the homepage's sample brief until 2026-10-19; the hero now uses `CredibilityStrip` again (AMFI-registered (ARN) · 40+ fund houses empanelled · Transparent disclosures), because the card took too much of the first screen. `/invest/` uses `IdCard` instead (below). The card itself: A "Credentials" `FolderTab` on a `fi-mid` card (`rounded-tl-none`), holding a typed record in the report cards' style (mono `fi-subtle` caption labels, mono `fi-ink-inv` values, dashed `fi-border-dark` rules; label above value on phones, `grid-cols-fi-record` from `sm`): Registered (the exact AMFI `TAGLINE`) · ARN (the number, then a gold "Verify on AMFI ↗" link to AMFI's distributor search) · Empanelled (`EMPANELMENT`, "40+ fund houses"; "fund houses", not "AMCs").
+- Default (dark) form has no owner name (homepage privacy); the footer carries the full disclosure.
+- `surface="light" detailed` (white card, `fi-border`, `shadow-fi-card`, `fi-link` links): adds Investigator (the registered name · "Read our story →" `/about/`; service pages may name the person), the ARN's validity, and Contact (the email).
+
+### `/invest/` redesign (2026-10-19, later the same day)
+- Order: hero → how it works (`StepMemos`, four steps: We listen / analyse / explain / support, each with a fact line answering the reader's worry) → "Same fund. More support." (`PlanCompare`: "With us" featured sheet with ticks and the booking, "Do it yourself" flat and muted; folder tabs below `lg`) → the direct-plan `Memo` → "Who you work with." (`IdCard`) → FAQ (white).
+- `IdCard`: dark logo band, a circular photo (monogram until `OWNER_PHOTO` is set), the name and the exact `TAGLINE`, then a typed record (ARN with validity and "Verify on AMFI ↗", empanelment, background from `CREDENTIALS`, email) and "Read our story →". Our own design: never AMFI's logo or ARN-card layout.
+- The notes below describe the earlier pass and are kept for history.
 
 ### `/invest/` typed-record pass (2026-10-19)
 - The page takes the homepage's pieces without its motif: no stamps, no "case" headings.
@@ -248,7 +253,7 @@ The homepage's problems and services use one idea from the brand ("We investigat
 ### Sample Brief (`SampleBrief.astro`)
 - A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
 - Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.
-- Tied to the typed files below without losing the hero's legibility: "Sample" is a tilted `Stamp` (the same stamp as "Case solved" and "Disclosed"; a stronger "example" signal than a pill), the section captions are `font-mono`, and the dividers are dashed. The numbers, bars and sentences stay in the sans for a quick read.
+- Tied to the typed files below without losing the hero's legibility: "Sample" is a quiet box (`Badge`, `sm`, square corners, `fi-muted` on white; the tilted `Stamp` took too much attention, 2026-10-19), the section captions are `font-mono`, and the dividers are dashed. The numbers, bars and sentences stay in the sans for a quick read.
 - A bar segment shows "Name n%" from 20%; a 10–19% segment shows its number from `sm` only (too narrow on a phone); the key and the `aria-label` name every value.
 - The review closes on "What this means:" joining the findings ("You hold more equity than your target, and much of it is the same stocks. We'd talk it through with you before changing anything."): a description, never an instruction to sell.
 - Unlike the removed decorative Deepdive mockup (§13), it shows a real deliverable, so it earns its place.

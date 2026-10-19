@@ -47,7 +47,8 @@ const initials = REGISTERED_NAME.split(' ').map((part) => part[0]).slice(0, 2).j
 const link = 'whitespace-nowrap text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link transition-colors';
 const row = 'grid gap-x-3 gap-y-0.5 py-2.5 sm:grid-cols-fi-record';
 const label = 'text-caption uppercase pt-0.5 text-fi-muted';
-const photo = 'w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-md';
+// A circle, as the avatar on /about/.
+const photo = 'w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-full';
 ---
 
 <article class:list={['overflow-hidden rounded-lg border border-fi-border bg-white shadow-fi-card text-left', className]}>
