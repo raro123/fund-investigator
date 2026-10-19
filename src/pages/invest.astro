@@ -154,7 +154,8 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
        for direct investors is in the FAQ's direct vs regular answer. Then the memo for
        direct-plan holders. Keep the invest_cta placements for comparable analytics. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Mutual-fund schemes generally offer direct and regular plans. Where both are available, the underlying scheme portfolio is the same, but the expense ratios and NAVs differ." />
+    {/* No lead: how direct and regular plans differ is FAQ material ("Costs"); this section is about the service. */}
+    <SectionHeading title="Same fund. More support." />
     <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
       <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_cta')} variant="tertiary" surface="light">Contact on WhatsApp</Button>
