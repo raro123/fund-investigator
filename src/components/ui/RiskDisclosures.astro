@@ -2,21 +2,28 @@
 /**
  * RiskDisclosures Component
  *
- * The mandatory warnings for every product we promote, in one band above the
- * footer on every page: AMFI's mutual-fund warning and SEBI's SIF warning
- * (COM-015), each a RiskNote linking to its note on /disclosures/. Placed by
- * Layout.astro, so no page adds or drops it (owner review, 2026-10-19).
+ * The mandatory warnings for every product we promote, in one quiet card above
+ * the footer on every page: AMFI's mutual-fund warning and SEBI's SIF warning
+ * (COM-015), one paragraph each. Placed by Layout.astro, so no page adds or
+ * drops it, and never under each button (owner review, 2026-10-19).
+ *
+ * The wording comes from `src/lib/distributor.ts` and cannot be passed in, so
+ * no page can reword a regulator's text. No links: the fuller notes are on
+ * /disclosures/, linked from the footer.
  *
  * @example
  * <RiskDisclosures />
  */
 import Section from './Section.astro';
-import RiskNote from './RiskNote.astro';
+import { RISK_WARNING, SIF_WARNING } from '../../lib/distributor';
 ---
 
-<Section background="light" spacing="sm" maxWidth="xl" class="border-t border-fi-border">
-  <div class="grid gap-4 md:grid-cols-2" aria-label="Risk disclosures" role="region">
-    <RiskNote kind="mf" surface="light" />
-    <RiskNote kind="sif" surface="light" />
-  </div>
+<Section background="light" spacing="xs" class="border-t border-fi-border">
+  <aside class="rounded-lg border border-dashed border-fi-border bg-white px-6 py-4 text-left" aria-label="Risk disclosures">
+    <p class="font-mono text-caption uppercase text-fi-muted pb-2 mb-3 border-b border-dashed border-fi-border">Risk disclosures</p>
+    <div class="space-y-2 text-body-sm leading-relaxed text-fi-ink">
+      <p>{RISK_WARNING}</p>
+      <p>{SIF_WARNING}</p>
+    </div>
+  </aside>
 </Section>

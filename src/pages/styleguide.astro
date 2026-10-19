@@ -8,7 +8,6 @@ import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import Credentials from '../components/ui/Credentials.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
-import RiskNote from '../components/ui/RiskNote.astro';
 import Fn from '../components/ui/Fn.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
@@ -97,18 +96,12 @@ import { responsive } from '../lib/responsive';
     </div>
   </Section>
 
-  <!-- Risk Note and footnote marker -->
+  <!-- Risk disclosures and footnote marker -->
   <Section background="light" spacing="sm" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Note and Footnotes</h2>
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Disclosures and Footnotes</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      RiskNote shows a regulator's exact warning: <code class="font-mono">mf</code> (AMFI) or <code class="font-mono">sif</code> (SEBI). The wording comes from distributor.ts and cannot be passed in. Pages never place it: RiskDisclosures shows both, once, above the footer on every page (you can see it at the bottom of this page). Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+      RiskDisclosures shows the regulators' exact warnings (AMFI's mutual-fund warning and SEBI's SIF warning) in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it; pages never do, and the wording comes from distributor.ts. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
     </p>
-    <div class="grid gap-6 lg:grid-cols-2">
-      <RiskNote kind="mf" surface="light" />
-      <div class="rounded-lg bg-fi-dark p-6">
-        <RiskNote kind="sif" surface="dark" />
-      </div>
-    </div>
     <p class="mt-6 text-body-md text-fi-ink max-w-2xl">
       We disclose our commission in writing before you choose.<Fn id="how-we-are-paid" />
     </p>

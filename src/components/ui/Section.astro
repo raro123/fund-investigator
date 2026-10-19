@@ -30,7 +30,7 @@ interface Props {
   /** Background color variant */
   background?: 'white' | 'light' | 'dark';
   /** Vertical padding (spacing) */
-  spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /** Maximum width of inner container */
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   /** Additional CSS classes for section */
@@ -63,7 +63,8 @@ const backgroundStyles = {
 // Spacing styles (vertical padding)
 const spacingStyles = {
   none: '',
-  sm: 'py-12 md:py-16',
+  xs: 'py-8',
+  sm:'py-12 md:py-16',
   md: 'py-16 md:py-24',
   lg: 'py-20 md:py-32',
   xl: 'py-32 md:py-40',
