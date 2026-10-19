@@ -3,15 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import Hero from '../components/ui/Hero.astro';
-import Card from '../components/ui/Card.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import OptimizedImage from '../components/ui/OptimizedImage.astro';
+import Memo from '../components/ui/Memo.astro';
+import StepMemos from '../components/ui/StepMemos.astro';
+import IdCard from '../components/ui/IdCard.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import { responsive } from '../lib/responsive';
 import { deepdiveUrl } from '../lib/deepdive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl } from '../lib/whatsapp';
-import { formatDate } from '../lib/format';
-import { AMFI_VERIFY_URL, ARN, ARN_VALID_UNTIL, BOOKING_URL, FIRST_NAME, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { ARN, BOOKING_URL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
 
 // /about/ answers "who am I trusting?": the brand's reason and analytical method
 // first, then the person behind it ("Know your distributor"). The brand leads;
@@ -24,6 +25,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
 // Three analytical principles, in the order we apply them: the portfolio, then
 // the numbers, then judgement. Qualitative checks list only what the owner does
 // in a review (confirmed 2026-10-15); published investigations stay quantitative.
+// Shown as typed memos ("Principle 01"), each with its proof in the foot.
 const principles = [
   {
     title: 'Portfolio first',
@@ -84,108 +86,53 @@ const safeguards = [
     </p>
   </Hero>
 
-  <!-- 2. Story: why we exist (analytical rigour in distribution) and the portfolio-first promise.
-       One narrow reading column: it suits a phone first, and a long line would tire desktop readers. -->
-  <Section background="white" spacing="md" maxWidth="sm">
-    <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>Your portfolio first, then the product</h2>
-    <div class="space-y-4 text-body-md text-fi-muted leading-relaxed">
-      <p>
-        Most investors choose a fund by its past returns. Returns alone do not show the risk the fund took. They also do not show how it fits with your other funds. When that is not clear, a normal market fall can come as a surprise.
-      </p>
-      <p>
-        I started Fund Investigator after 12 years in financial services. My aim is to bring analytical rigour to fund distribution. I built Deepdive to compare funds with fair benchmarks. It also checks how funds behaved when markets rose and fell.
-      </p>
-      <p>
-        As an {TAGLINE}, <strong class="text-fi-ink">we start with your portfolio, not with a product.</strong> We explain what each fund does and the risks it takes. We show how it fits your goals. We tell you what to expect, including the bad years. And we give our commission in writing.
-      </p>
+  <!-- 2. Story: why we exist (analytical rigour in distribution) and the portfolio-first promise,
+       as a typed letter (Memo without a title) under the centred heading. One highlight, on the
+       promise itself. "Our story" matches the IdCard link that leads here. -->
+  <Section background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Your portfolio first, then the product" />
+    <div data-reveal={0}>
+      <Memo label="Our story">
+        <p>
+          Most investors choose a fund by its past returns. Returns alone do not show the risk the fund took. They also do not show how it fits with your other funds. When that is not clear, a normal market fall can come as a surprise.
+        </p>
+        <p>
+          I started Fund Investigator after 12 years in financial services. My aim is to bring analytical rigour to fund distribution. I built Deepdive to compare funds with fair benchmarks. It also checks how funds behaved when markets rose and fell.
+        </p>
+        <p>
+          As an {TAGLINE}, <Highlight>we start with your portfolio, not with a product.</Highlight> We explain what each fund does and the risks it takes. We show how it fits your goals. We tell you what to expect, including the bad years. And we give our commission in writing.
+        </p>
+      </Memo>
     </div>
   </Section>
 
-  <!-- 3. Our method: analytical principles as a ruled editorial list, each with its proof. -->
+  <!-- 3. Our method: the analytical principles as typed memos, each with its proof in the foot. -->
   <Section background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Our analytical principles." lead="How we look at your portfolio and every fund in it." />
-    <ol class="border-b border-fi-border text-left">
-      {principles.map((principle, index) => (
-        <li class="grid lg:grid-cols-12 gap-x-10 gap-y-3 py-8 border-t border-fi-border">
-          <div class="lg:col-span-5 flex items-baseline gap-4">
-            <span class:list={[responsive.h2, 'font-serif font-bold text-fi-muted leading-none']} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{principle.title}</h3>
-          </div>
-          <div class="lg:col-span-7">
-            <p class="text-body-md text-fi-muted leading-relaxed max-w-fi-content">{principle.body}</p>
-            <!-- py-2 gives each small text link a taller tap area on touch screens; mt-2 offsets the added padding. -->
-            <div class="flex flex-wrap gap-x-6 mt-2">
-              {principle.links.map((link) => (
-                <a
-                  href={link.href}
-                  class:list={[lightLink, 'inline-block py-2 text-body-sm']}
-                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  {...(link.track ?? {})}
-                >{link.label}</a>
-              ))}
-            </div>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <StepMemos label="Principle" steps={principles} />
   </Section>
 
-  <!-- 4. Know your distributor: profile card, credentials, and distribution safeguards. -->
+  <!-- 4. Know your distributor: the ID card (as on /invest/, without its link back here) with the
+       owner's own words inside, then the safeguards as a memo, then the call. The background line
+       in the card and the first paragraph both name the credentials (owner-approved 2026-10-19). -->
   <Section id="distributor" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Know your distributor." />
-    <Card variant="elevated" padding="lg" hover={false} class="text-left">
-      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
-        <div class="lg:col-span-4 lg:border-r lg:border-fi-border lg:pr-10">
-          <!-- Mobile: avatar sits beside the name like a contact card, so it does not take a row of its own. lg: stacks in the sidebar. -->
-          <div class="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-5">
-            {OWNER_PHOTO ? (
-              <OptimizedImage
-                src={OWNER_PHOTO}
-                alt={REGISTERED_NAME}
-                preset="inline"
-                class="w-20 h-20 lg:w-36 lg:h-36 shrink-0 rounded-full object-cover"
-              />
-            ) : (
-              <div class="w-16 h-16 lg:w-24 lg:h-24 shrink-0 rounded-full bg-fi-dark text-fi-gold font-bold text-heading-md flex items-center justify-center select-none" aria-hidden="true">
-                {REGISTERED_NAME.split(' ').map((n) => n[0]).slice(0, 2).join('')}
-              </div>
-            )}
-            <h3 class:list={[responsive.h3, 'font-bold text-fi-ink']}>{REGISTERED_NAME}</h3>
-          </div>
-          <p class="text-body-sm text-fi-muted mt-3 leading-relaxed">{TAGLINE}</p>
-          <p class="font-mono text-body-sm text-fi-ink mt-3">{ARN}</p>
-          <p class="text-caption text-fi-muted mt-1">Valid until {formatDate(ARN_VALID_UNTIL, 'short')}</p>
-          <a href={AMFI_VERIFY_URL} target="_blank" rel="noopener noreferrer" class:list={[lightLink, 'inline-block py-2 text-body-sm mt-1']}>Verify {ARN} on AMFI ↗</a>
-        </div>
-        <!-- Credentials read as prose, not a list: the ARN already shows in the left column. -->
-        <div class="lg:col-span-8 space-y-4 text-body-md text-fi-muted leading-relaxed max-w-fi-content">
-          <p>
-            I am the AMFI Registered distributor behind Fund Investigator. I have <strong class="text-fi-ink">12 years in financial services</strong> and a <strong class="text-fi-ink">Master's in Economics</strong>. I also hold a specialisation in Financial Technology and Management from <strong class="text-fi-ink">IIT Kanpur</strong>.
-          </p>
-          <p>
-            On our first call, I learn your goals, time frame and risk profile. I review your current funds and explain what I find. I help you choose and invest, and we agree when to review your portfolio. I work with you personally, from the first call to every review.
-          </p>
-        </div>
-      </div>
-    </Card>
+    <div data-reveal={0}>
+      <IdCard story={false} class="mx-auto w-full max-w-2xl">
+        <p>
+          I am the AMFI Registered distributor behind Fund Investigator. I have <strong>12 years in financial services</strong> and a <strong>Master's in Economics</strong>. I also hold a specialisation in Financial Technology and Management from <strong>IIT Kanpur</strong>.
+        </p>
+        <p>
+          On our first call, I learn your goals, time frame and risk profile. I review your current funds and explain what I find. I help you choose and invest, and we agree when to review your portfolio. I work with you personally, from the first call to every review.
+        </p>
+      </IdCard>
+    </div>
 
-    <!-- Keep the money flow, approval process and commission explanation together. -->
-    <Card variant="subtle" hover={false} padding="lg" class="mt-8 text-left">
-      <h3 class="text-caption font-bold uppercase tracking-fi-label text-fi-ink mb-5">
-        Your money and your approval
-      </h3>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {safeguards.map((item) => (
-          <div>
-            <strong class="block text-body-sm font-bold text-fi-ink mb-1">{item.title}</strong>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{item.body}</p>
-            {item.link && (
-              <a href={item.link.href} class:list={[lightLink, 'inline-block py-2 text-body-sm mt-1']}>{item.link.label}</a>
-            )}
-          </div>
-        ))}
-      </div>
-    </Card>
+    <!-- Keep the money flow, approval process and commission explanation together, signed off
+         with the homepage fee memo's "Disclosed" stamp. -->
+    <div data-reveal={0} class="mt-14">
+      <Memo label="Your money and your approval" items={safeguards} stamp="Disclosed" />
+    </div>
 
     <div class="text-center mt-12">
       <p class="text-body-sm text-fi-muted mb-6 max-w-lg mx-auto text-balance">

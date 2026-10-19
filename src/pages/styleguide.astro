@@ -174,6 +174,18 @@ import { responsive } from '../lib/responsive';
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos steps={[{ title, body, mark?, fact }, …]} />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      Three memos sit in one column until <code class="font-mono">lg</code>, then three across. <code class="font-mono">label</code> renames "Step", and <code class="font-mono">links</code> put the proof in the foot. Used for the analytical principles on <code class="font-mono">/about/</code>.
+    </p>
+    <StepMemos
+      label="Principle"
+      steps={[
+        { title: 'Portfolio first', body: 'We start with the funds you already hold.', links: [{ label: 'See our services →', href: '/invest/' }] },
+        { title: 'Quantitative checks', body: 'We compare each fund with a fair benchmark.', links: [{ label: 'Read the investigations →', href: '/reports/' }] },
+        { title: 'Qualitative checks', body: 'Numbers show what happened, not why.', links: [{ label: 'How the review works →', href: '/invest/#how-it-works' }] },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos label="Principle" steps={[{ title, body, links: [{ label, href, external?, track? }] }, …]} />`}</code></pre>
   </Section>
 
   <!-- Plan Compare -->
@@ -204,6 +216,13 @@ import { responsive } from '../lib/responsive';
     </p>
     <IdCard class="max-w-2xl" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<IdCard class="mx-auto w-full max-w-2xl" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      On <code class="font-mono">/about/</code>: <code class="font-mono">story={'{false}'}</code> drops the "Read our story" footer, and the slot holds the owner's own words, typed under the record behind a dashed rule.
+    </p>
+    <IdCard story={false} class="max-w-2xl">
+      <p>A paragraph in the owner's own words, with <strong>a credential in bold</strong>.</p>
+    </IdCard>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<IdCard story={false} class="mx-auto w-full max-w-2xl"><p>…</p><p>…</p></IdCard>`}</code></pre>
   </Section>
 
   <!-- Stat Row -->
@@ -254,6 +273,26 @@ import { responsive } from '../lib/responsive';
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<div data-reveal={0}>
   <Memo label="…" title="…" stamp="Disclosed">… <Highlight>…</Highlight> …</Memo>
 </div>`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      Without a <code class="font-mono">title</code>, a Memo is a typed letter under a centred SectionHeading (the story on <code class="font-mono">/about/</code>). With <code class="font-mono">items</code>, it lists a few short points, two to a row from <code class="font-mono">sm</code>, with dashed rules between rows (the safeguards on <code class="font-mono">/about/</code>).
+    </p>
+    <Memo label="Our story">
+      <p>A first paragraph, typed.</p>
+      <p>A second paragraph, with <Highlight>the promise highlighted</Highlight>.</p>
+    </Memo>
+    <Memo
+      label="Your money and your approval"
+      stamp="Disclosed"
+      class="mt-8"
+      items={[
+        { title: 'You pay the fund house', body: 'You pay the fund house directly.' },
+        { title: 'You approve the instructions', body: 'You give the required approvals before we proceed.' },
+        { title: 'You own your units', body: 'Your units remain in your name.' },
+        { title: 'Our commission in writing', body: 'In writing before you choose to invest.', link: { label: 'How our commission works →', href: '/invest/#costs' } },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Memo label="…"><p>…</p><p>…</p></Memo>
+<Memo label="…" stamp="Disclosed" items={[{ title, body, link?: { label, href } }, …]} />`}</code></pre>
   </Section>
 
   <!-- FAQ List -->

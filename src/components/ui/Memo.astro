@@ -7,6 +7,12 @@
  * bottom right, e.g. "Disclosed". For a fact the reader should see in writing,
  * such as how we are paid. Light surfaces only.
  *
+ * - no `title`: a typed letter under a centred SectionHeading, e.g. the story
+ *   on /about/; separate paragraphs with <p> in the slot
+ * - `items`: a few short points instead of (or after) the body, two to a row
+ *   from sm, each a bold title over a typed line behind a dashed rule, with an
+ *   optional link, e.g. the safeguards on /about/
+ *
  * Put `data-reveal` on the memo (or a wrapper). When it reveals on scroll
  * (Layout.astro), a `Highlight` in the body draws in, then the stamp lands.
  * Memos visible at load, and readers who prefer reduced motion, see it finished.
@@ -15,30 +21,61 @@
  * <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
  *   Our commission is … We disclose it <Highlight>in writing</Highlight>.
  * </Memo>
+ * <Memo label="Your money and your approval" stamp="Disclosed" items={[
+ *   { title: 'You pay the fund house', body: '…' },
+ *   { title: 'Our commission in writing', body: '…', link: { label: 'How our commission works →', href: '/invest/#costs' } },
+ * ]} />
  *
  * @param label - mono caption at the top, e.g. 'How we are paid'
- * @param title - the one-line point of the memo
+ * @param title - optional one-line point of the memo
+ * @param items - optional [{ title, body, link? }] points, two to a row from sm
  * @param stamp - optional stamp at the bottom right, e.g. 'Disclosed'
  * @param class - extra classes for the memo
  */
 import Stamp from './Stamp.astro';
 
+interface Item {
+  title: string;
+  body: string;
+  link?: { label: string; href: string };
+}
+
 interface Props {
   label: string;
-  title: string;
+  title?: string;
+  items?: Item[];
   stamp?: string;
   class?: string;
 }
 
-const { label, title, stamp, class: className = '' } = Astro.props;
+const { label, title, items, stamp, class: className = '' } = Astro.props;
+
+const rowRule = (index: number) =>
+  index === 0 ? '' : index === 1 ? 'border-t pt-4 sm:border-t-0 sm:pt-0' : 'border-t pt-4';
+const link = 'inline-block py-2 font-semibold text-body-sm text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <article class:list={['mx-auto max-w-2xl rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-7 pb-6 lg:px-10 lg:pt-8 lg:pb-8 text-left', className]}>
   <p class="font-mono text-caption uppercase text-fi-muted pb-3 mb-5 border-b border-dashed border-fi-border">{label}</p>
-  <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{title}</h3>
-  <div class="font-typewriter text-body-md sm:text-body-lg text-fi-ink leading-relaxed">
-    <slot />
-  </div>
+  {title && <h3 class="text-heading-sm font-bold text-fi-ink mb-3">{title}</h3>}
+  {Astro.slots.has('default') && (
+    <div class="font-typewriter text-body-md sm:text-body-lg text-fi-ink leading-relaxed space-y-4">
+      <slot />
+    </div>
+  )}
+  <!-- Points: a dashed rule above each one but the first row, which sits under the label's rule
+       (one point on phones, two from sm). -->
+  {items && (
+    <ul class="grid gap-x-8 sm:grid-cols-2">
+      {items.map((item, index) => (
+        <li class:list={['pb-4 border-dashed border-fi-border', rowRule(index)]}>
+          <h4 class="text-body-md font-bold text-fi-ink mb-1">{item.title}</h4>
+          <p class="font-typewriter text-body-md text-fi-ink leading-relaxed">{item.body}</p>
+          {item.link && <a href={item.link.href} class={link}>{item.link.label}</a>}
+        </li>
+      ))}
+    </ul>
+  )}
   <!-- The stamp lands after the Highlight has drawn (0.4s + 0.8s). -->
   {stamp && (
     <div class="mt-6 flex justify-end">

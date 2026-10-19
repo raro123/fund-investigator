@@ -14,13 +14,18 @@
  * the step that matters most. Each fact line should answer the reader's worry
  * at that step, in a few words that fit one line at four columns.
  *
+ * Three steps sit in one column until lg, then three across, so no memo is left
+ * alone on a row. `label` renames "Step" (e.g. "Principle" on /about/). A step
+ * can carry `links` in its foot, in place of or after the fact line.
+ *
  * @example
  * <StepMemos steps={[
  *   { title: 'We listen', body: 'We get to know you…', fact: 'No charge · No obligation' },
  *   { title: 'We explain', body: '… our commission in writing.', fact: 'You decide, you approve' },
  * ]} />
  *
- * @param steps - [{ title, body, mark?, fact }] in order; up to four
+ * @param steps - [{ title, body, mark?, fact?, links? }] in order; three or four
+ * @param label - word before each number (default 'Step')
  * @param class - extra classes for the list
  */
 import Highlight from './Highlight.astro';
@@ -30,15 +35,22 @@ interface Step {
   body: string;
   /** words in `body` to highlight */
   mark?: string;
-  fact: string;
+  fact?: string;
+  /** links in the foot, e.g. to the proof; `track` adds analytics attributes */
+  links?: { label: string; href: string; external?: boolean; track?: Record<string, string> }[];
 }
 
 interface Props {
   steps: Step[];
+  label?: string;
   class?: string;
 }
 
-const { steps, class: className = '' } = Astro.props;
+const { steps, label = 'Step', class: className = '' } = Astro.props;
+
+const columns = steps.length === 3 ? 'lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4';
+// py-2 gives each small link a taller tap area on touch screens; the row's -my-2 takes it back.
+const link = 'inline-block py-2 font-semibold text-body-sm text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
 
 // Split each body around its mark, so the Highlight can sit inside the typed text.
 const parts = steps.map(({ body, mark }) => {
@@ -49,19 +61,33 @@ const parts = steps.map(({ body, mark }) => {
 });
 ---
 
-<ol class:list={['grid gap-5 sm:grid-cols-2 lg:grid-cols-4 text-left', className]}>
+<ol class:list={['grid gap-5 text-left', columns, className]}>
   {steps.map((step, index) => (
     <li data-reveal={index} class="flex flex-col rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-6 pb-5">
       <p class="font-mono text-caption uppercase text-fi-muted pb-3 mb-4 border-b border-dashed border-fi-border">
-        Step {String(index + 1).padStart(2, '0')}
+        {label} {String(index + 1).padStart(2, '0')}
       </p>
       <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{step.title}</h3>
       <p class="font-typewriter text-body-md text-fi-ink leading-relaxed text-pretty">
         {parts[index].before}{parts[index].mark && <Highlight>{parts[index].mark}</Highlight>}{parts[index].after}
       </p>
-      <p class="mt-auto pt-5">
-        <span class="block border-t border-dashed border-fi-border pt-3 font-mono text-caption uppercase text-fi-muted">{step.fact}</span>
-      </p>
+      <div class="mt-auto pt-5">
+        <div class="border-t border-dashed border-fi-border pt-3">
+          {step.fact && <p class="font-mono text-caption uppercase text-fi-muted">{step.fact}</p>}
+          {step.links && (
+            <p class="flex flex-wrap gap-x-6 -my-2">
+              {step.links.map((item) => (
+                <a
+                  href={item.href}
+                  class={link}
+                  {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  {...(item.track ?? {})}
+                >{item.label}</a>
+              ))}
+            </p>
+          )}
+        </div>
+      </div>
     </li>
   ))}
 </ol>

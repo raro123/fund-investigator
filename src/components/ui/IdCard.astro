@@ -14,9 +14,15 @@
  * Our own design: never AMFI's logo, and never the layout of AMFI's ARN card,
  * so it can't be mistaken for a regulator's document.
  *
+ * On /about/ itself, pass `story={false}` (the link would point to the page
+ * it is on) and put the owner's own words in the slot: they sit under the
+ * record behind a dashed rule, typed in Courier Prime like a Memo.
+ *
  * @example
  * <IdCard class="max-w-2xl mx-auto" />
+ * <IdCard story={false} class="max-w-2xl mx-auto"><p>I am …</p><p>On our first call …</p></IdCard>
  *
+ * @param story - show the "Read our story" footer (default true)
  * @param class - extra classes for the card, e.g. width
  */
 import Logo from '../Logo.astro';
@@ -35,10 +41,11 @@ import {
 import { formatDate } from '../../lib/format';
 
 interface Props {
+  story?: boolean;
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { story = true, class: className = '' } = Astro.props;
 
 // The label already says "ARN", so the value is the number alone.
 const arnNumber = ARN.replace(/^ARN-/, '');
@@ -97,9 +104,17 @@ const photo = 'w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-full';
         <dd><a href={`mailto:${CONTACT_EMAIL}`} class={link}>{CONTACT_EMAIL}</a></dd>
       </div>
     </dl>
+
+    {Astro.slots.has('default') && (
+      <div class="mt-1 border-t border-dashed border-fi-border pt-5 space-y-4 font-typewriter text-body-md text-fi-ink leading-relaxed">
+        <slot />
+      </div>
+    )}
   </div>
 
-  <footer class="border-t border-dashed border-fi-border px-6 py-4">
-    <a href="/about/" class:list={[link, 'font-semibold text-body-sm']}>Read our story →</a>
-  </footer>
+  {story && (
+    <footer class="border-t border-dashed border-fi-border px-6 py-4">
+      <a href="/about/" class:list={[link, 'font-semibold text-body-sm']}>Read our story →</a>
+    </footer>
+  )}
 </article>
