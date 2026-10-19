@@ -66,7 +66,8 @@ const note = Astro.slots.has('note') ? await Astro.slots.render('note') : '';
 
 const caption = 'font-mono text-caption uppercase';
 const rule = 'border-t border-dashed border-fi-border';
-const sheet = 'rounded-lg border border-fi-border bg-white shadow-fi-card';// The same twelve columns for the rows and for the sheet behind them, so the
+const sheet = 'rounded-lg border border-fi-border bg-white shadow-fi-card';
+// The same twelve columns for the rows and for the sheet behind them, so the
 // sheet lines up with its column at every width from lg.
 const columns = 'grid grid-cols-12 gap-x-12';
 const spans = { name: 'col-span-3', featured: 'col-span-5', other: 'col-span-4' };
