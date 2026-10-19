@@ -173,7 +173,6 @@ The two-PR plan (disclosure first, funnel second) is done: both are built and me
 | 80 | Check `/about/` and `/disclaimer/` for the general "regular plans cost more than direct plans" wording | Claude |
 | 83 | Compliance check of the homepage sample brief; real anonymised values later | Owner |
 | 84 | Decide #71 for `/reports/`, `/about/` and the article end card (the homepage is now dark hero and footer only) | Owner + Claude |
-| 92 | Footer tagline: "Investigate Before You Invest" is from the research positioning | Owner |
 | 94 | Check the site copy against the AMFI MFD FAQ PDF | Claude |
 | 97 | Retire v1 of the content guide, or keep it as history | Owner |
 | 85 | `ReportCard` footer: left-aligned "Read investigation →" (site-wide) | Claude |
