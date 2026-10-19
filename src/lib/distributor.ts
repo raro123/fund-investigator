@@ -87,5 +87,5 @@ export const CONTACT_EMAIL = 'contact@fundinvestigator.com';
 /** WhatsApp Business number in international format, digits only (for wa.me links). */
 export const WHATSAPP_NUMBER = '919625026859';
 
-/** Zoho Bookings page for the 30-minute portfolio review call. */
+/** Zoho Bookings page for the 30-minute introductory call (no completed analysis on the call, COM-008). */
 export const BOOKING_URL = 'https://fundinvestigator.zohobookings.in/488614000000029045';

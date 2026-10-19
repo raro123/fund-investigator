@@ -23,7 +23,7 @@ export const GET: APIRoute = async ({ site }) => {
     '## About',
     '',
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
-    `- [Invest with support](${base}/invest/): 30-minute portfolio review call and help to choose and invest in suitable funds, from an ${TAGLINE}.`,
+    `- [Invest with support](${base}/invest/): 30-minute introductory call, then help to choose and invest in suitable funds, from an ${TAGLINE}.`,
     // No Deepdive entry until the tool's outputs are cleared (COM-022, 2026-10-19).
     '',
     ...(sorted.length > 0

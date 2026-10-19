@@ -107,7 +107,7 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
     <!-- "No charge" is scoped to the call so the service never reads as free. -->
     <p class="text-body-sm text-fi-subtle text-balance">
-      30-minute call · No charge · No obligation
+      30-minute introductory call · No charge · No obligation
     </p>
 
     <div class="mt-8">
@@ -226,8 +226,12 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       <Dossier
         label="Case file"
         fields={yourCase}
-        notes={{ label: 'On the first call', aside: '30 minutes · No charge', items: firstCall }}
+        notes={{ label: 'On the first call', aside: 'Introductory · 30 minutes · No charge', items: firstCall }}
       >
+        {/* The call's scope, once in this process section, not under each button (COM-008). */}
+        <p class="mb-6 text-body-sm text-fi-muted leading-relaxed">
+          The call is to understand your requirements and explain our distribution service. It does not include a completed portfolio analysis or scheme recommendation.
+        </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
           <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>

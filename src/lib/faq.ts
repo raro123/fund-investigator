@@ -60,7 +60,7 @@ export const investFaqGroups: FaqGroup[] = [
     items: [
       {
         question: 'What is the difference between a direct plan and a regular plan?',
-        answer: 'A direct plan has a lower yearly expense ratio because it excludes distributor commission. You can manage it yourself or separately pay a registered investment adviser for help. A regular plan is bought through a distributor like us and has a higher expense ratio that includes distributor commission. The fund and its investments are the same in both.',
+        answer: 'A direct plan has a lower yearly expense ratio because it excludes distributor commission. You can manage it yourself or separately pay a SEBI-registered Investment Adviser for help. A regular plan is bought through a distributor like us and has a higher expense ratio that includes distributor commission. The fund and its investments are the same in both.',
       },
       {
         question: 'Do you choose funds by the commission they pay you?',

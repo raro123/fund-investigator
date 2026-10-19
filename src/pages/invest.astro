@@ -46,7 +46,8 @@ const whatsapp = (placement: WhatsappPlacement) => ({
 const steps = [
   {
     title: 'We listen',
-    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us.',
+    // The call's scope, once in this process section (COM-008, compliance wording).
+    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us. The call is to understand your requirements and explain our distribution service. It does not include a completed portfolio analysis or scheme recommendation.',
     fact: 'No charge · No obligation',
   },
   {
@@ -74,46 +75,45 @@ const steps = [
 // sits in its header, so readers place themselves first. Four short rows: the
 // step memos above carry the detail (KYC, SIPs, benchmarks, overlap), so this
 // only makes the contrast scannable. Value before price: the support rows, then
-// cost, then the closing human row. The cost cell leads with "No separate fee
-// from you" (it carries a tick) and says where the commission comes from (legal
-// limit); "Lower expense ratio" beside it shows ours is higher, and the FAQ and the
-// homepage fee memo explain it. The DIY cost stays money only: the time it takes
-// is in its header.
+// cost. The cost cells state the expense-ratio difference both ways, and the FAQ
+// and the homepage fee memo explain it.
 const plans = {
   featured: { label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' },
   other: { label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' },
 };
+// Cell wording is Compliance's (COM-012, owner-approved 2026-10-19): no blanket
+// "alone" claims, and the direct side names separately arranged advice.
 const routes = [
   {
     name: 'Choosing funds',
-    featured: 'We shortlist funds for your goals, with the reasons.',
-    other: 'You research alone.',
+    featured: 'We shortlist mutual funds based on your goals, time horizon and risk profile, and explain the reasons.',
+    other: 'You select the fund yourself or obtain separate advice, such as from a SEBI-registered Investment Adviser.',
   },
   {
-    name: 'Ongoing',
-    featured: 'We set up and review your funds; you approve.',
-    other: 'You place and track each one.',
-  },
-  {
-    name: 'Cost',
-    featured: 'No separate fee from you. Our commission is paid from the regular plan\'s expense ratio.',
-    other: 'Lower expense ratio. No commission.',
+    name: 'Ongoing support',
+    featured: 'We help with Regular Plan transactions and review your mutual-fund portfolio with you.',
+    other: 'You manage transactions and reviews yourself or arrange support separately.',
   },
   {
     name: 'When markets fall',
-    featured: 'You talk to a person before you act.',
-    other: 'You decide alone.',
+    featured: 'You can discuss your mutual-fund portfolio with us before deciding what to do.',
+    other: 'You make the decision yourself or seek separately arranged advice.',
+  },
+  {
+    name: 'Cost',
+    featured: 'The Regular Plan has a higher expense ratio that includes distributor commission. We disclose our commission before you decide.',
+    other: 'The Direct Plan has a lower expense ratio because it does not include distributor commission. Any separately arranged advice may involve a separate fee.',
   },
 ];
 
-const callDetails = '30-minute call · No charge · No obligation';
+const callDetails = '30-minute introductory call · No charge · No obligation';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <Layout
   title="Invest with support - Fund Investigator"
-  description="How investing with support works: a 30-minute first call, a portfolio review, and help to choose and invest in mutual funds, SIFs and GIFT City funds."
+  description="How investing with support works: a 30-minute introductory call, a portfolio review, and help to choose and invest in mutual funds, SIFs and GIFT City funds."
   trackView="invest_view"
 >
   <!-- 1. Hero: short, because most visitors come from the homepage pitch; the header still brings cold visitors, so the main action stays here -->
@@ -155,7 +155,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
        for direct investors is in the FAQ's direct vs regular answer. Then the memo for
        direct-plan holders. Keep the invest_cta placements for comparable analytics. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Every fund comes as a direct plan and a regular plan, with the same investments. The difference is the cost, and who does the work." />
+    <SectionHeading title="Same fund. More support." lead="Mutual-fund schemes generally offer direct and regular plans. Where both are available, the underlying scheme portfolio is the same, but the expense ratios and NAVs differ. The other difference is who does the work." />
     <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
       <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_cta')} variant="tertiary" surface="light">Contact on WhatsApp</Button>
@@ -165,7 +165,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
          the reassurance itself. -->
     <div data-reveal={0} class="mt-14">
       <Memo label="For direct-plan investors" title="Already in direct plans, but want an expert opinion?">
-        We discuss them on the first call and review the details after you share your holdings. <Highlight>You can keep them direct</Highlight>. If you invest through us, we can only use regular plans. Nothing moves without your approval.
+        At your request, we can review your existing mutual-fund holdings as part of assessing your portfolio for our distribution service. <Highlight>A review does not require you to switch.</Highlight> Investments facilitated through us are regular plans; we do not execute direct-plan transactions or offer a standalone investment-advisory service.
       </Memo>
     </div>
   </Section>
