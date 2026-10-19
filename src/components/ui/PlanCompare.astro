@@ -1,0 +1,213 @@
+---
+/**
+ * PlanCompare Component
+ *
+ * Two ways to do the same thing, with one of them featured: on /invest/, a
+ * regular plan with us beside a direct plan on your own. The featured plan is
+ * a white memo sheet (border, card shadow) with a tick on each row and the
+ * section's actions at its foot; the other plan stays flat and muted, as plain
+ * fact. Each plan's header says who it suits, so readers place themselves
+ * before they read a row. No crosses and no badge: the layout does the
+ * choosing, and the other side must stay fair. Light surfaces only.
+ *
+ * From `lg`, three columns (row names, featured, other) with the sheet behind
+ * the featured column: everything at once. Below `lg`, one sheet with folder
+ * tabs (the plan titles), the featured plan selected, so the section stays
+ * short to scan; both labels are always visible, and either plan is one tap
+ * away. Without JS both plans show in turn. The actions render in the featured
+ * sheet at both sizes, so the slot is rendered once and placed twice.
+ *
+ * @example
+ * <PlanCompare
+ *   featured={{ label: 'Regular plan', title: 'With us', suits: 'If you want an expert to check and help' }}
+ *   other={{ label: 'Direct plan', title: 'Do it yourself', suits: 'If you have the time and the know-how' }}
+ *   rows={[{ name: 'Choosing funds', featured: 'We shortlist funds…', other: 'You research alone.' }]}
+ * >
+ *   <Button href="…">Book a first call</Button>
+ *   <Fragment slot="note">Direct investors can also…</Fragment>
+ * </PlanCompare>
+ *
+ * @param featured - { label, title, suits } for the featured plan
+ * @param other - { label, title, suits } for the other plan
+ * @param rows - [{ name, featured, other }] in display order
+ * @param class - extra classes for the wrapper
+ * @slot default - actions at the foot of the featured sheet
+ * @slot note - optional small print under the other plan
+ */
+
+interface Plan {
+  /** mono caption, e.g. 'Regular plan' */
+  label: string;
+  title: string;
+  /** who the plan suits, one short line */
+  suits: string;
+}
+
+interface Row {
+  name: string;
+  featured: string;
+  other: string;
+}
+
+interface Props {
+  featured: Plan;
+  other: Plan;
+  rows: Row[];
+  class?: string;
+}
+
+const { featured, other, rows, class: className = '' } = Astro.props;
+
+// Ids tie each phone tab to its panel; unique per instance on the page.
+const id = `plans-${Math.random().toString(36).slice(2, 8)}`;
+const actions = await Astro.slots.render('default');
+const note = Astro.slots.has('note') ? await Astro.slots.render('note') : '';
+
+const caption = 'font-mono text-caption uppercase';
+const rule = 'border-t border-dashed border-fi-border';
+const sheet = 'rounded-lg border border-fi-border bg-white shadow-fi-card';
+// The same twelve columns for the rows and for the sheet behind them, so the
+// sheet lines up with its column at every width from lg.
+const columns = 'grid grid-cols-12 gap-x-12';
+const spans = { name: 'col-span-3', featured: 'col-span-5', other: 'col-span-4' };
+---
+
+<div class:list={['max-w-5xl mx-auto text-left', className]}>
+  <!-- From lg: three columns, the featured plan on a sheet. -->
+  <div data-reveal={0} class="relative hidden lg:block">
+    <div class:list={['absolute inset-0 pointer-events-none', columns]} aria-hidden="true">
+      <div class:list={[spans.featured, 'col-start-4 -mx-7', sheet]}></div>
+    </div>
+
+    <div class:list={['relative pt-7', columns]}>
+      <div class={spans.name}></div>
+      {[featured, other].map((plan, index) => (
+        <div class:list={[index === 0 ? spans.featured : spans.other, 'pb-6']}>
+          <p class:list={[caption, 'text-fi-muted mb-2']}>{plan.label}</p>
+          <p class:list={['text-heading-sm font-bold', index === 0 ? 'text-fi-ink' : 'text-fi-muted']}>{plan.title}</p>
+          <p class="mt-1 text-body-sm text-fi-muted">{plan.suits}</p>
+        </div>
+      ))}
+    </div>
+
+    <ul class="relative">
+      {rows.map((row) => (
+        <li class={columns}>
+          <h3 class:list={[spans.name, rule, 'py-5 text-heading-sm font-bold text-fi-ink']}>{row.name}</h3>
+          <p class:list={[spans.featured, rule, 'py-5 flex gap-3 font-typewriter text-body-md text-fi-ink leading-relaxed']}>
+            <span class="sr-only">{featured.title}: </span>
+            <svg class="w-4 h-4 mt-1.5 shrink-0 text-fi-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+            <span>{row.featured}</span>
+          </p>
+          <p class:list={[spans.other, rule, 'py-5 text-body-sm text-fi-muted leading-relaxed']}>
+            <span class="sr-only">{other.title}: </span>{row.other}
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <div class:list={['relative pb-7', columns]}>
+      <div class={spans.name}></div>
+      <div class:list={[spans.featured, rule, 'pt-6 flex flex-wrap items-center gap-x-6 gap-y-3']}>
+        <Fragment set:html={actions} />
+      </div>
+      {note && (
+        <p class:list={[spans.other, rule, 'pt-6 text-body-sm text-fi-muted leading-relaxed']}>
+          <Fragment set:html={note} />
+        </p>
+      )}
+    </div>
+  </div>
+
+  <!-- Below lg: one sheet with folder tabs, the featured plan selected. Both tab
+       labels are always visible and equal in size, so either plan is one tap away.
+       Without JS the tabs stay hidden and both plans show, one after the other. -->
+  <div data-plan-tabs data-reveal={0} class="lg:hidden max-w-xl mx-auto">
+    <div hidden data-tablist>
+      <div role="tablist" aria-label="Compare the plans" class="flex gap-1">
+        {[featured, other].map((plan, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`${id}-tab-${index}`}
+            aria-controls={`${id}-panel-${index}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+            data-selected={index === 0 ? 'true' : 'false'}
+            class:list={[caption, 'relative -mb-px rounded-t-md border border-b-0 px-4 pt-2 pb-1.5 border-fi-border bg-fi-light text-fi-muted hover:text-fi-ink data-[selected=true]:z-10 data-[selected=true]:bg-white data-[selected=true]:text-fi-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-fi-link']}
+          >{plan.title}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class:list={[sheet, 'rounded-tl-none px-6']}>
+      {[featured, other].map((plan, index) => {
+        const isFeatured = index === 0;
+        return (
+          <div id={`${id}-panel-${index}`} aria-labelledby={`${id}-tab-${index}`} data-panel>
+            {!isFeatured && <hr class:list={[rule, 'border-b-0']} data-divider />}
+            <div class="pt-7 pb-6">
+              <p class:list={[caption, 'text-fi-muted mb-2']}>{plan.label}</p>
+              <h3 class:list={['text-heading-sm font-bold', isFeatured ? 'text-fi-ink' : 'text-fi-muted']}>{plan.title}</h3>
+              <p class="mt-1 mb-5 text-body-sm text-fi-muted">{plan.suits}</p>
+              <ul>
+                {rows.map((row) => (
+                  <li class:list={[rule, 'py-4 flex gap-3']}>
+                    {isFeatured
+                      ? <svg class="w-4 h-4 mt-1 shrink-0 text-fi-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+                      : <span class="w-4 shrink-0" aria-hidden="true"></span>}
+                    <div>
+                      <h4 class:list={['text-body-md font-bold', isFeatured ? 'text-fi-ink' : 'text-fi-muted']}>{row.name}</h4>
+                      {isFeatured
+                        ? <p class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">{row.featured}</p>
+                        : <p class="mt-1 text-body-sm text-fi-muted leading-relaxed">{row.other}</p>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              {isFeatured
+                ? <div class:list={[rule, 'pt-5 flex flex-wrap items-center gap-x-6 gap-y-3']}><Fragment set:html={actions} /></div>
+                : note && <p class:list={[rule, 'pt-4 text-body-sm text-fi-muted leading-relaxed']}><Fragment set:html={note} /></p>}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Folder tabs below lg: show the tabs, then one plan at a time. Arrow keys,
+  // Home and End move between the tabs (WAI-ARIA tabs pattern).
+  document.querySelectorAll<HTMLElement>('[data-plan-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = String(i === index);
+        tab.setAttribute('aria-selected', selected);
+        tab.dataset.selected = selected;
+        tab.tabIndex = i === index ? 0 : -1;
+        panels[i].hidden = i !== index;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (event) => {
+        const target = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[event.key];
+        if (target === undefined) return;
+        event.preventDefault();
+        select((target + tabs.length) % tabs.length, true);
+      });
+    });
+
+    // The rule between the plans is only for the no-JS stack.
+    root.querySelectorAll<HTMLElement>('[data-divider]').forEach((divider) => (divider.hidden = true));
+    panels.forEach((panel) => panel.setAttribute('role', 'tabpanel'));
+    root.querySelector<HTMLElement>('[data-tablist]')!.hidden = false;
+    select(0);
+  });
+</script>

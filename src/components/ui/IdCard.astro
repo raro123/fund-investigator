@@ -1,0 +1,104 @@
+---
+/**
+ * IdCard Component
+ *
+ * The person you work with, as an identity card: a dark band with the logo,
+ * then the photo (or a monogram until OWNER_PHOTO is set), the name and the
+ * AMFI tagline, and a typed record in the Credentials style (mono labels,
+ * dashed rules): the ARN with its validity and the link to verify it on AMFI,
+ * the fund houses we are empanelled with, the owner's background and the
+ * email. "Read our story" closes the card. Values come from
+ * src/lib/distributor.ts. For service pages, where the name may appear (the
+ * homepage keeps Credentials without it). Light surfaces only.
+ *
+ * Our own design: never AMFI's logo, and never the layout of AMFI's ARN card,
+ * so it can't be mistaken for a regulator's document.
+ *
+ * @example
+ * <IdCard class="max-w-2xl mx-auto" />
+ *
+ * @param class - extra classes for the card, e.g. width
+ */
+import Logo from '../Logo.astro';
+import OptimizedImage from './OptimizedImage.astro';
+import {
+  AMFI_VERIFY_URL,
+  ARN,
+  ARN_VALID_UNTIL,
+  CONTACT_EMAIL,
+  CREDENTIALS,
+  EMPANELMENT,
+  OWNER_PHOTO,
+  REGISTERED_NAME,
+  TAGLINE,
+} from '../../lib/distributor';
+import { formatDate } from '../../lib/format';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+// The label already says "ARN", so the value is the number alone.
+const arnNumber = ARN.replace(/^ARN-/, '');
+const initials = REGISTERED_NAME.split(' ').map((part) => part[0]).slice(0, 2).join('');
+
+const link = 'whitespace-nowrap text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link transition-colors';
+const row = 'grid gap-x-3 gap-y-0.5 py-2.5 sm:grid-cols-fi-record';
+const label = 'text-caption uppercase pt-0.5 text-fi-muted';
+const photo = 'w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-md';
+---
+
+<article class:list={['overflow-hidden rounded-lg border border-fi-border bg-white shadow-fi-card text-left', className]}>
+  <header class="flex items-center justify-between gap-4 bg-fi-dark px-6 py-3">
+    <Logo variant="transparent" width={120} />
+    <p class="font-mono text-caption uppercase text-fi-subtle">Your investigator</p>
+  </header>
+
+  <div class="px-6 pt-6 pb-5">
+    <div class="flex items-center gap-5 sm:gap-6">
+      {OWNER_PHOTO ? (
+        <OptimizedImage src={OWNER_PHOTO} alt={REGISTERED_NAME} preset="inline" class:list={[photo, 'object-cover']} />
+      ) : (
+        <div class:list={[photo, 'flex items-center justify-center bg-fi-dark text-fi-gold font-bold text-heading-md select-none']} aria-hidden="true">{initials}</div>
+      )}
+      <div>
+        <h3 class="text-heading-md font-bold text-fi-ink leading-tight">{REGISTERED_NAME}</h3>
+        <p class="mt-1.5 text-body-sm text-fi-muted leading-snug">{TAGLINE}</p>
+      </div>
+    </div>
+
+    <!-- Label above value on phones, side by side from sm, as on the Credentials card. -->
+    <dl class="mt-6 border-t border-dashed border-fi-border divide-y divide-dashed divide-fi-border font-mono text-body-sm leading-snug text-fi-ink">
+      <div class={row}>
+        <dt class={label}>ARN</dt>
+        <dd class="tabular-nums">
+          {arnNumber} · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
+          <!-- AMFI's search opens empty, so the accessible name gives the ARN to type in. -->
+          <a href={AMFI_VERIFY_URL} target="_blank" rel="noopener noreferrer" aria-label={`Verify ${ARN} on AMFI (opens in a new tab)`} class={link}>Verify on AMFI ↗</a>
+        </dd>
+      </div>
+      <div class={row}>
+        <dt class={label}>Empanelled</dt>
+        <dd>{EMPANELMENT}</dd>
+      </div>
+      <div class={row}>
+        <dt class={label}>Background</dt>
+        <dd>
+          <ul class="space-y-1">
+            {CREDENTIALS.map((credential) => <li>{credential.text}</li>)}
+          </ul>
+        </dd>
+      </div>
+      <div class={row}>
+        <dt class={label}>Contact</dt>
+        <dd><a href={`mailto:${CONTACT_EMAIL}`} class={link}>{CONTACT_EMAIL}</a></dd>
+      </div>
+    </dl>
+  </div>
+
+  <footer class="border-t border-dashed border-fi-border px-6 py-4">
+    <a href="/about/" class:list={[link, 'font-semibold text-body-sm']}>Read our story →</a>
+  </footer>
+</article>

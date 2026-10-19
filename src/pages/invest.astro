@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import SplitRows from '../components/ui/SplitRows.astro';
+import PlanCompare from '../components/ui/PlanCompare.astro';
 import StepMemos from '../components/ui/StepMemos.astro';
 import Memo from '../components/ui/Memo.astro';
 import Highlight from '../components/ui/Highlight.astro';
@@ -13,7 +13,7 @@ import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import Credentials from '../components/ui/Credentials.astro';
+import IdCard from '../components/ui/IdCard.astro';
 import { BOOKING_URL } from '../lib/distributor';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
@@ -67,39 +67,41 @@ const steps = [
   },
 ];
 
-// Direct vs regular: the same fund bought two ways. The right column promotes
-// what we do; the left stays fair fact (no fear). The cost row keeps "No
-// separate fee" with the commission explanation (legal limit).
+// Direct vs regular: the same fund bought two ways. "With us" comes first and is
+// the featured sheet; "Do it yourself" stays fair fact (no crosses, no fear), and
+// the design does the choosing, never a word against anyone. Who each plan suits
+// sits in its header, so readers place themselves first. Four short rows: the
+// step memos above carry the detail (KYC, SIPs, benchmarks, overlap), so this
+// only makes the contrast scannable. Value before price: the support rows, then
+// cost, then the closing human row. The cost cell leads with "No separate fee
+// from you" (it carries a tick) and says where the commission comes from (legal
+// limit); "Lower expense ratio" beside it shows ours is higher, and the FAQ and the
+// homepage fee memo explain it. The DIY cost stays money only: the time it takes
+// is in its header.
+const plans = {
+  featured: { label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' },
+  other: { label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' },
+};
 const routes = [
   {
-    name: 'Cost',
-    left: 'Lower yearly expense ratio. No commission.',
-    right: 'Higher yearly expense ratio. The fund house pays our commission from it. No separate fee from you.',
-  },
-  {
     name: 'Choosing funds',
-    left: 'You research and shortlist on your own.',
-    right: 'We shortlist funds that fit your goals, with the reasons and the alternatives. Our commission in writing.',
+    featured: 'We shortlist funds for your goals, with the reasons.',
+    other: 'You research alone.',
   },
   {
-    name: 'Transactions',
-    left: 'You place each one on a platform.',
-    right: 'We handle the admin, from KYC to each SIP, with your approval.',
+    name: 'Ongoing',
+    featured: 'We set up and review your funds; you approve.',
+    other: 'You place and track each one.',
   },
   {
-    name: 'Reviews',
-    left: 'You track benchmarks, overlap and costs yourself.',
-    right: 'We check your funds against fair benchmarks, for overlap and for costs, at regular intervals.',
+    name: 'Cost',
+    featured: 'No separate fee from you. Our commission is paid from the regular plan\'s expense ratio.',
+    other: 'Lower expense ratio. No commission.',
   },
   {
     name: 'When markets fall',
-    left: 'You decide on your own.',
-    right: 'You talk to a person before you act.',
-  },
-  {
-    name: 'Suits',
-    left: 'Investors with the time and interest to manage their own funds.',
-    right: 'Investors who want an expert to check and help, from a first SIP to a large portfolio.',
+    featured: 'You talk to a person before you act.',
+    other: 'You decide alone.',
   },
 ];
 
@@ -147,38 +149,39 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     <p class="mt-4 text-center text-body-sm text-fi-muted">We confirm your booking at once, and reply on WhatsApp within 1 business day.</p>
   </Section>
 
-  <!-- 3. Direct vs regular, then the booking: the comparison answers the cost question, so the
-       action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
-       buttons, the light Credentials card: the person (service pages may name them), the
-       registration with the ARN to verify on AMFI, and the email. The full story stays on /about/. -->
+  <!-- 3. Direct vs regular, with the booking inside the "With us" sheet: the action belongs to
+       the choice. Owns #costs (the /about/ "See the costs" link lands here). The adviser route
+       for direct investors is in the FAQ's direct vs regular answer. Then the memo for
+       direct-plan holders. Keep the invest_cta placements for comparable analytics. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here we compare managing a direct plan yourself with a regular plan through us. Direct investors can also separately pay a registered investment adviser." />
-    <SplitRows
-      rows={routes}
-      rowLabel=""
-      columns={[{ label: 'DIY direct plan', short: 'DIY direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
-      emphasis="right"
-    />
+    <SectionHeading title="Same fund. More support." lead="Every fund comes as a direct plan and a regular plan, with the same investments. The difference is the cost, and who does the work." />
+    <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
+      <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
+      <Button {...whatsapp('invest_cta')} variant="tertiary" surface="light">Contact on WhatsApp</Button>
+    </PlanCompare>
     <!-- The note for direct-plan holders, as a typed memo addressed to them: it is the main
          reassurance for this group, and something we would put in writing. One highlight, on
          the reassurance itself. -->
-    <div data-reveal={0} class="mt-10">
+    <div data-reveal={0} class="mt-14">
       <Memo label="For direct-plan investors" title="Already in direct plans, but want an expert opinion?">
         We discuss them on the first call and review the details after you share your holdings. <Highlight>You can keep them direct</Highlight>. If you invest through us, we can only use regular plans. Nothing moves without your approval.
       </Memo>
     </div>
-
-    <div class="text-center mt-14">
-      <div class={ctaRow}>
-        <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
-        <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
-      </div>
-    </div>
-    <Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />
   </Section>
 
-  <!-- 4. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
-  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+  <!-- 4. Who you work with: the last question before booking. The person as an ID card: name,
+       the AMFI tagline, the ARN to verify on AMFI, the empanelment, the background and the
+       email (service pages may name the owner). No button: the booking sits in the "With us"
+       sheet just above. The full story stays on /about/. -->
+  <Section id="who" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Who you work with." lead="One person, from the first call to every review." />
+    <div data-reveal={0}>
+      <IdCard class="mx-auto w-full max-w-2xl" />
+    </div>
+  </Section>
+
+  <!-- 5. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions before you start" />
     <div class="space-y-10">
       {investFaqGroups.map((group, index) => (

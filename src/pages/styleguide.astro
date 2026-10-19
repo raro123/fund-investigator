@@ -13,6 +13,8 @@ import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
 import CaseLog from '../components/ui/CaseLog.astro';
 import StepMemos from '../components/ui/StepMemos.astro';
+import PlanCompare from '../components/ui/PlanCompare.astro';
+import IdCard from '../components/ui/IdCard.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import OwnerIntro from '../components/ui/OwnerIntro.astro';
@@ -77,7 +79,7 @@ import { responsive } from '../lib/responsive';
     </p>
     <Credentials class="max-w-lg" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<Credentials class="mt-10 mx-auto w-full max-w-lg" />  <!-- homepage hero -->
-<Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />  <!-- /invest/: adds name, validity, email -->`}</code></pre>
+<Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />  <!-- service pages: adds name, validity, email -->`}</code></pre>
   </Section>
 
   <!-- Archived Report Notice -->
@@ -130,7 +132,7 @@ import { responsive } from '../lib/responsive';
   <Section background="white" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>SplitRows</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      Two things side by side under a row label: the direct vs regular comparison on <code class="font-mono">/invest/</code> (<code class="font-mono">emphasis="right"</code>) and the landing pages' steps (You beside We). Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Mono labels, dashed rules. Light surfaces only.
+      Two things side by side under a row label: the landing pages' steps (You beside We); <code class="font-mono">emphasis="right"</code> mutes the left column. Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Mono labels, dashed rules. Light surfaces only.
     </p>
     <SplitRows
       rowLabel="Stage"
@@ -172,6 +174,36 @@ import { responsive } from '../lib/responsive';
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos steps={[{ title, body, mark?, fact }, …]} />`}</code></pre>
+  </Section>
+
+  <!-- Plan Compare -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>PlanCompare</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Two ways to do the same thing, one featured: the featured plan is a white memo sheet with a tick on each row and the actions at its foot; the other stays flat and muted, as plain fact. Each header says who the plan suits. Three columns from <code class="font-mono">lg</code>; below it, one sheet with folder tabs, the featured plan selected (both plans in turn without JS). Used for direct vs regular on <code class="font-mono">/invest/</code>. No crosses, no badge. Light surfaces only.
+    </p>
+    <PlanCompare
+      featured={{ label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' }}
+      other={{ label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' }}
+      rows={[
+        { name: 'Choosing funds', featured: 'We shortlist funds that fit your goals, with the reasons.', other: 'You research and shortlist alone.' },
+        { name: 'When markets fall', featured: 'You talk to a person before you act.', other: 'You decide alone.' },
+      ]}
+    >
+      <Button size="lg">Book a first call</Button>
+      <Fragment slot="note">Small print under the other plan.</Fragment>
+    </PlanCompare>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<PlanCompare featured={{ label, title, suits }} other={{ label, title, suits }} rows={[{ name, featured, other }, …]}>actions<Fragment slot="note">…</Fragment></PlanCompare>`}</code></pre>
+  </Section>
+
+  <!-- ID Card -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>IdCard</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      The person you work with, as an identity card: a dark band with the logo, the photo (a monogram until <code class="font-mono">OWNER_PHOTO</code> is set), the name and the exact AMFI tagline, then a typed record: the ARN with its validity and the link to verify it on AMFI, the empanelment, the background and the email. Our own design, never AMFI's logo or card layout. Values come from <code class="font-mono">src/lib/distributor.ts</code>. Used on <code class="font-mono">/invest/</code>. Light surfaces only.
+    </p>
+    <IdCard class="max-w-2xl" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<IdCard class="mx-auto w-full max-w-2xl" />`}</code></pre>
   </Section>
 
   <!-- Stat Row -->
