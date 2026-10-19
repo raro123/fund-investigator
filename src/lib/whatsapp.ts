@@ -19,6 +19,7 @@ export type WhatsappPlacement =
   | 'invest_faq'
   | 'about'
   | 'footer'
+  | 'article_end'
   | 'lp_review_hero'
   | 'lp_review_cta'
   | 'lp_review_final'
@@ -42,6 +43,7 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   invest_faq: `Hi ${FIRST_NAME}, I have a question about Invest with support.`,
   about: `Hi ${FIRST_NAME}, I'd like to book a first call.`,
   footer: `Hi ${FIRST_NAME}, I have a question.`,
+  article_end: `Hi ${FIRST_NAME}, I read your guide and I'd like a review of my mutual fund portfolio.`,
   // Landing pages: the text names the reader's topic, so the chat shows why they wrote.
   lp_review_hero: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
   lp_review_cta: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,

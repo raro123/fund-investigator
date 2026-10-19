@@ -1,0 +1,57 @@
+---
+/**
+ * ArticleServiceInvite Component
+ *
+ * The one invite in a generic guide, after the article and above its notes
+ * ("teach, then invite": content_philosophy_v2.md). The heading and line come
+ * from the report's `serviceInvite` frontmatter so they follow the article's
+ * topic. Booking is the gold action; WhatsApp and the subscription support it.
+ * Never used on a report that names a scheme.
+ *
+ * @example
+ * <ArticleServiceInvite heading="Want these questions answered for your funds?" line="In a portfolio review, …" />
+ */
+import Button from './Button.astro';
+import { BOOKING_URL } from '../../lib/distributor';
+import { substackWelcomeUrl } from '../../lib/substack';
+import { whatsappUrl } from '../../lib/whatsapp';
+
+interface Props {
+  heading: string;
+  line: string;
+}
+
+const { heading, line } = Astro.props;
+---
+
+<aside class="rounded-lg bg-fi-dark p-8" aria-label="Portfolio review">
+  <h2 class="font-serif text-2xl font-bold text-fi-ink-inv mb-3">{heading}</h2>
+  <p class="text-fi-muted-inv leading-relaxed mb-6">{line}</p>
+  <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+    <Button
+      href={BOOKING_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      icon="external"
+      track={{ event: 'review_booking_click', placement: 'article_end' }}
+    >Book a portfolio review</Button>
+    <Button
+      variant="secondary"
+      surface="dark"
+      href={whatsappUrl('article_end')}
+      target="_blank"
+      rel="noopener noreferrer"
+      icon="whatsapp"
+      track={{ event: 'conversation_request', placement: 'article_end', channel: 'whatsapp' }}
+    >WhatsApp us</Button>
+    <Button
+      variant="tertiary"
+      surface="dark"
+      href={substackWelcomeUrl('article_end')}
+      target="_blank"
+      rel="noopener noreferrer"
+      icon="external"
+      track={{ event: 'subscribe_click', placement: 'article_end' }}
+    >Subscribe for new guides</Button>
+  </div>
+</aside>

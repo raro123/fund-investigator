@@ -24,9 +24,9 @@ import { homeServices } from '../lib/services';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
-// with the decision guides once they are published (log #74). Both are held for
-// AMC approval or a generic rewrite (COM-002, 2026-10-19), so the section shows
-// only the subscription until a cleared guide is back in src/content/reports/.
+// with the decision guides once they are published (log #74). Both were held under
+// COM-002 (2026-10-19) and are back as generic rewrites naming no scheme
+// (2026-10-20); a missing slug drops out and the section shows only the subscription.
 const featuredGuideSlugs = ['five-checks-mutual-fund', 'mutual-fund-categories-explained'];
 const allReports = await getCollection('reports');
 const featuredGuides = featuredGuideSlugs

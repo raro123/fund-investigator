@@ -23,6 +23,13 @@ const reports = defineCollection({
     analysisThrough: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     /** Current report readers should visit from an archived snapshot. */
     supersededBy: z.string().startsWith('/reports/').optional(),
+    /** Service invite above the notes. Only for guides that name no scheme: a fund
+     *  analysis never links to the service (content_philosophy_v2.md, Two Modes).
+     *  Without it, the report ends with the subscription card. */
+    serviceInvite: z.object({
+      heading: z.string().max(80),
+      line: z.string().max(220),
+    }).optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),
     /** Report card record, max 3. With values (fund analyses): "Key figures CAGR 25.0% · …".

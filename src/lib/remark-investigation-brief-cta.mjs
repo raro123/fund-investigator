@@ -22,13 +22,13 @@ function ctaNode() {
         children: [
           {
             type: 'text',
-            value: 'Get notified when we publish new fund research or update an existing investigation. ',
+            value: 'Finding this useful? Get notified when we publish new guides and investigations. ',
           },
           {
             type: 'link',
             url: SUBSCRIBE_PATH,
             title: null,
-            children: [{ type: 'text', value: 'Subscribe for Investigation Briefs' }],
+            children: [{ type: 'text', value: 'Subscribe' }],
           },
           { type: 'text', value: '.' },
         ],

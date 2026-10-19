@@ -42,6 +42,8 @@ interface Props {
   extraLinks?: ReadonlyArray<Record<string, string>>;
   trackView?: TrackView;      // Optional: PostHog page-view event sent on load
   trackLanding?: LandingId;   // Optional: `landing` property of that event, on landing pages
+  /** False only where the page shows the same warnings in its own disclaimer (articles). */
+  riskDisclosures?: boolean;
 }
 
 const {
@@ -61,6 +63,7 @@ const {
   extraLinks = [],
   trackView,
   trackLanding,
+  riskDisclosures = true,
 } = Astro.props;
 
 const resolvedTitle = title?.trim() || 'Fund Investigator';
@@ -121,7 +124,7 @@ const defaultLinks = [
     <main>
       <slot />
     </main>
-    <RiskDisclosures />
+    {riskDisclosures && <RiskDisclosures />}
     <Footer />
 
     <script>
