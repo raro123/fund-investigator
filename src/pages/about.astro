@@ -17,7 +17,6 @@ import { ARN, BOOKING_URL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/d
 // the owner does not overshadow it. It names no fund, so it may link to /invest/,
 // the booking page and WhatsApp (handoff §2, Links). Links *to* this page never
 // use the owner's name; the page itself does.
-const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 
 // Three analytical principles, in the order we apply them: the portfolio, then
@@ -124,9 +123,6 @@ const principles = [
           track={{ event: 'conversation_request', placement: 'about', channel: 'whatsapp' }}
         >Contact on WhatsApp</Button>
       </div>
-      <p class="mt-4 text-body-sm">
-        <a href="/invest/" class:list={[lightLink, 'inline-block py-2']}>How support works →</a>
-      </p>
     </div>
   </Section>
 </Layout>
