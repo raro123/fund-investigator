@@ -43,27 +43,6 @@ const principles = [
   },
 ];
 
-// Explain money flows and approvals without implying that each scheduled SIP
-// payment requires a new OTP.
-const safeguards = [
-  {
-    title: 'You pay the fund house',
-    body: 'You pay the fund house directly. We never hold your investment funds or mutual fund units.',
-  },
-  {
-    title: 'You approve the instructions',
-    body: 'We help with purchases, SIP setup, switches and redemptions. You give the required approvals before we proceed.',
-  },
-  {
-    title: 'You own your units',
-    body: 'Your mutual fund units remain in your name with the fund house.',
-  },
-  {
-    title: 'Our commission in writing',
-    body: 'We give you our commission for each shortlisted fund in writing before you choose to invest.',
-    link: { label: 'How our commission works →', href: '/invest/#costs' },
-  },
-];
 ---
 
 <Layout
@@ -109,7 +88,7 @@ const safeguards = [
   </Section>
 
   <!-- 4. Know your distributor: the ID card (as on /invest/, without its link back here) with the
-       owner's own words inside, then the safeguards as a memo, then the call. The background line
+       owner's own words inside, then the booking buttons. The background line
        in the card and the first paragraph both name the credentials (owner-approved 2026-10-19). -->
   <Section id="distributor" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Know your distributor." />
@@ -122,12 +101,6 @@ const safeguards = [
           On our first call, I learn your goals and what you hold, and explain how we work. If you go ahead, I review your current funds, help you choose and invest, and we agree when to review your portfolio. I work with you personally, from the first call to every review.
         </p>
       </IdCard>
-    </div>
-
-    <!-- Keep the money flow, approval process and commission explanation together, signed off
-         with the homepage fee memo's "Disclosed" stamp. -->
-    <div data-reveal={0} class="mt-14">
-      <Memo label="Your money and your approval" items={safeguards} stamp="Disclosed" />
     </div>
 
     <div class="text-center mt-12">
