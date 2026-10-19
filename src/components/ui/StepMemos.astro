@@ -1,0 +1,67 @@
+---
+/**
+ * StepMemos Component
+ *
+ * A short process as a row of typed memos, one per step, in the Memo style: a
+ * mono "Step 01" label over a dashed rule, a bold sans title, the body typed in
+ * Courier Prime, and a fact line at the foot (time, cost, who approves) behind
+ * a second dashed rule. One column on phones, two from sm, four from lg; the
+ * fact lines line up because each memo stretches to the row's height. Light
+ * surfaces only.
+ *
+ * Each memo reveals on scroll in turn (`data-reveal`, Layout.astro). An optional
+ * `mark` draws a Highlight over those words in a step's body: once at most, on
+ * the step that matters most. Each fact line should answer the reader's worry
+ * at that step, in a few words that fit one line at four columns.
+ *
+ * @example
+ * <StepMemos steps={[
+ *   { title: 'We listen', body: 'We get to know you…', fact: 'No charge · No obligation' },
+ *   { title: 'We explain', body: '… our commission in writing.', fact: 'You decide, you approve' },
+ * ]} />
+ *
+ * @param steps - [{ title, body, mark?, fact }] in order; up to four
+ * @param class - extra classes for the list
+ */
+import Highlight from './Highlight.astro';
+
+interface Step {
+  title: string;
+  body: string;
+  /** words in `body` to highlight */
+  mark?: string;
+  fact: string;
+}
+
+interface Props {
+  steps: Step[];
+  class?: string;
+}
+
+const { steps, class: className = '' } = Astro.props;
+
+// Split each body around its mark, so the Highlight can sit inside the typed text.
+const parts = steps.map(({ body, mark }) => {
+  const start = mark ? body.indexOf(mark) : -1;
+  return start < 0
+    ? { before: body, mark: '', after: '' }
+    : { before: body.slice(0, start), mark, after: body.slice(start + mark!.length) };
+});
+---
+
+<ol class:list={['grid gap-5 sm:grid-cols-2 lg:grid-cols-4 text-left', className]}>
+  {steps.map((step, index) => (
+    <li data-reveal={index} class="flex flex-col rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-6 pb-5">
+      <p class="font-mono text-caption uppercase text-fi-muted pb-3 mb-4 border-b border-dashed border-fi-border">
+        Step {String(index + 1).padStart(2, '0')}
+      </p>
+      <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{step.title}</h3>
+      <p class="font-typewriter text-body-md text-fi-ink leading-relaxed text-pretty">
+        {parts[index].before}{parts[index].mark && <Highlight>{parts[index].mark}</Highlight>}{parts[index].after}
+      </p>
+      <p class="mt-auto pt-5">
+        <span class="block border-t border-dashed border-fi-border pt-3 font-mono text-caption uppercase text-fi-muted">{step.fact}</span>
+      </p>
+    </li>
+  ))}
+</ol>

@@ -4,12 +4,11 @@ import Hero from '../components/ui/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
-import CaseLog from '../components/ui/CaseLog.astro';
+import StepMemos from '../components/ui/StepMemos.astro';
 import Memo from '../components/ui/Memo.astro';
 import Highlight from '../components/ui/Highlight.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
-import { services } from '../lib/services';
 import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
@@ -34,54 +33,37 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// The journey as a case log, in three acts that follow the hero line: we do the
-// investigation, you make the call, then we stay on your case. Written as what we
-// do; the client's part appears only where it signals control or safety (you
-// decide, with your approval, you pay the fund house directly). Booking is not a
-// stage (the buttons cover it; the reply time sits under the buttons below).
-// No approval method is named (OTP, email link, e-mandate), as on the homepage.
-// Our commission is in writing before the client chooses (stage 04): the disclosure rule.
-const [, , transactions, ongoing] = services;
-const journey = [
+// What happens after you book, in four steps: we listen, we analyse, we explain,
+// we support. Plain investing words, no detective terms. Each fact line answers
+// the reader's worry at that step: cost and pressure, opinion or numbers, control,
+// what ongoing help costs. "No extra fee", never "no fee": the fund house pays our
+// commission from the expense ratio (legal limit, as the fee memo's "No separate
+// fee"). Booking is not a step (the buttons cover it; the reply time sits under
+// the buttons below). No approval method is named (OTP, email link, e-mandate),
+// as on the homepage. Our commission is in writing before the client chooses
+// (step 03): the disclosure rule.
+const steps = [
   {
-    label: 'We do the investigation',
-    stages: [
-      {
-        name: 'The first call',
-        body: 'An introduction. You tell us about your situation, and we explain how we work. 30 minutes, no charge, no obligation.',
-      },
-      {
-        name: 'Fact-finding',
-        body: 'If you want to go ahead: your goals, your time frame, a risk profile, and the investments you already hold. We help you download your account statement.',
-      },
-      {
-        name: 'Investigation',
-        // The SIF and GIFT City suitability line moved here from the removed route cards.
-        body: 'We check your funds for suitability, benchmark, overlap and costs, research suitable funds, draw up a shortlist and write a clear brief. SIFs and GIFT City funds only when your amount and risk profile suit them.',
-      },
-    ],
+    title: 'We listen',
+    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us.',
+    fact: 'No charge · No obligation',
   },
   {
-    label: 'You make the call',
-    stages: [
-      {
-        name: 'Findings',
-        body: 'We walk you through the brief, with the reasons, the alternatives and our commission in writing. You decide. Larger portfolios can take more than one conversation.',
-      },
-    ],
+    title: 'We analyse',
+    // "Funds", not "options": options are derivatives in investing. SIF and GIFT City
+    // minimums are in the FAQ below.
+    body: 'We analyse your goals, risk profile and any funds you already hold, then shortlist suitable funds.',
+    fact: 'Backed by the numbers',
   },
   {
-    label: 'We stay on your case',
-    stages: [
-      {
-        name: transactions.title,
-        body: 'We handle the admin, from KYC to each SIP, with your approval. You pay the fund house directly.',
-      },
-      {
-        name: ongoing.title,
-        body: 'We review your funds at intervals we agree together, and help with SIP changes, switches and redemptions as your plans change.',
-      },
-    ],
+    title: 'We explain',
+    body: 'We walk you through the written brief. We explain the evidence for any changes, discuss the alternatives and disclose our commission in writing.',
+    fact: 'You decide, you approve',
+  },
+  {
+    title: 'We support',
+    body: 'We set up your investments; you approve and pay the fund house directly. We review your portfolio at agreed intervals.',
+    fact: 'No extra fee for support',
   },
 ];
 
@@ -155,8 +137,8 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
        visitors away before the answer; the footer and the sitemap link the landing pages.
        Preserve the invest_review placements so earlier analytics stay comparable. -->
   <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="From the first call to every review." lead="What we do at each stage." />
-    <CaseLog acts={journey} />
+    <SectionHeading title="What happens after you book." lead="Four steps, from the first call to every review." />
+    <StepMemos steps={steps} />
 
     <div class:list={[ctaRow, 'mt-12']}>
       <Button {...booking('invest_review')} size="lg">Book a first call</Button>

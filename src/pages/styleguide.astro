@@ -12,6 +12,7 @@ import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
 import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
 import CaseLog from '../components/ui/CaseLog.astro';
+import StepMemos from '../components/ui/StepMemos.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import OwnerIntro from '../components/ui/OwnerIntro.astro';
@@ -156,6 +157,21 @@ import { responsive } from '../lib/responsive';
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<CaseLog acts={[{ label, stages: [{ name, body }, …] }, …]} background="light|white" />`}</code></pre>
+  </Section>
+
+  <!-- Step Memos -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>StepMemos</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      A short process as a row of typed memos in the Memo style: a mono step label over a dashed rule, a bold title, a typed body and a fact line at the foot. One column on phones, two from <code class="font-mono">sm</code>, four from <code class="font-mono">lg</code>. Memos reveal in turn; <code class="font-mono">mark</code> highlights words in one step's body. Used for how it works on <code class="font-mono">/invest/</code>. Light surfaces only.
+    </p>
+    <StepMemos
+      steps={[
+        { title: 'We listen', body: 'We get to know you and your goals, and explain how we work.', fact: 'No charge · No obligation' },
+        { title: 'We explain', body: 'We walk you through the brief, with the alternatives and our commission in writing.', mark: 'our commission in writing', fact: 'You decide, you approve' },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos steps={[{ title, body, mark?, fact }, …]} />`}</code></pre>
   </Section>
 
   <!-- Stat Row -->
