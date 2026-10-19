@@ -1,6 +1,7 @@
 # Handoff: Invest with Support funnel
 
 **Status (2026-10-14, S50):** All funnel work is merged into `dev` (22 commits ahead of `main`; `origin/dev` is at S49). Production has no `/invest/` yet. Next: the release blockers (§7), then a PR from `dev` to `main` (#95).
+**Landing pages (2026-10-19):** the four `/invest/` landing pages are not in this release. They live on the `landing-pages` branch for later work; `dev` does not link to them.
 **Source of truth:** this file. The homepage and `/invest/` follow the agreed demo (`claude.ai/artifact/F3YwEXP1V29kCMcEDRE4KK`, v19); the "Homepage (2026-10-14)" table in §2 replaces older homepage and `/invest/` tables. The owner's name, credentials and the word "expertise" are allowed (SEBI RA rule retired).
 **Content guide:** `docs/content_philosophy_v2.md` (latest, S50) holds the copy rules: the goal (authority with clients), the three page modes, the message pillars, and the legal limits vs tone choices.
 **Retired docs (2026-10-14):** the transition proposal, the copy demos (v1, v2) and the S47 funnel recommendations are deleted. Read them in git history (commit `18fcfda`) if you need the background, for example the proposal's Deepdive changes (§9).

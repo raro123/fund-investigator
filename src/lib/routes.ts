@@ -1,8 +1,9 @@
 /**
  * The three reader situations that route to the landing pages
  * (docs/landing_pages_plan.md): one source for the RouteCards. They left
- * /invest/ on 2026-10-19 (they sent warm visitors away before the journey);
- * kept for the styleguide and a possible future placement.
+ * /invest/ on 2026-10-19 (they sent warm visitors away before the journey).
+ * Unused on `dev`: the landing pages live on the landing-pages branch
+ * (2026-10-19); kept for when they return.
  *
  * Each route keeps the disclosure the old product cards showed: the minimum and
  * the main risk, taken word for word from src/lib/products.ts, so the facts

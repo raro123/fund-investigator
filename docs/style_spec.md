@@ -261,6 +261,7 @@ The homepage's problems and services use one idea from the brand ("We investigat
 - Review adds one practical implication below the findings. Start shows only the investment target (not bank savings labelled as debt), with the emergency reserve separate. Amount, reserve, fund count and timing are explicitly examples, not minimums or prescriptions.
 
 ### Landing-page proof (`OwnerIntro.astro`, `AssessmentPreview.astro`)
+- The landing pages live on the `landing-pages` branch as of 2026-10-19, not on `dev`. These two components, `RouteCards`, and the landing-page uses of `SplitRows` and `FitCards` stay on `dev` for when they return; the `RouteCards` demo is no longer in `/styleguide`.
 - `OwnerIntro`: compact, centred name, one owner-supplied credential and personal support statement, with "Read our story". Reads `distributor.ts`; safely omits an absent credential. Light surfaces only, placed in the first section beside the page's proof.
 - `AssessmentPreview variant="sif" | "gift-city"`: a shared Card and CheckList showing what a written assessment covers. It is a deliverable preview, not an invented client outcome. Light surfaces only. Both components accept `class` for spacing, and are demonstrated in `/styleguide`.
 

@@ -1,5 +1,7 @@
 # Landing pages plan
 
+**Moved off `dev` (2026-10-19):** the four pages are out of this release. They live on the `landing-pages` branch (cut from `dev` at `a82408f`), for later work; `dev` has no landing pages and no links to them (footer column, `llms.txt` and the styleguide Route Cards demo removed). The status below describes that branch.
+
 **Status (2026-10-17, S60):** All four pages are built on `dev` and indexable, and all four are in the sitemap (owner, S60: every page goes through the compliance check before release anyway). Discovery appears early, each landing page keeps its three CTA pairs, the middle pair follows value/proof and costs, and each journey has three stages. The suitability, SIF promotion, GIFT City tax and transaction-readiness reviews (#110, #60) still gate the release to `main`.
 **Why:** The owner is a new MFD without client referrals. Clients will come from content (articles, YouTube, X). Each piece of content links to the landing page that matches the reader's situation. The pages are also the test: which situations bring clients worth having, for a solo practice.
 **Rules:** `docs/content_philosophy_v2.md` (copy and legal limits), `docs/mfd_funnel_handoff.md` (funnel decisions), `CLAUDE.md` (design system).

@@ -14,7 +14,7 @@ const subscribeUrl = substackWelcomeUrl('footer');
 <footer id="contact" class="bg-fi-dark py-16 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-10 mb-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
 
       <div class="col-span-2 lg:col-span-1 flex flex-col gap-4">
         <a href="/" class="inline-block" aria-label="Fund Investigator home">
@@ -26,20 +26,9 @@ const subscribeUrl = substackWelcomeUrl('footer');
       </div>
 
       <div>
-        <h3 id="footer-invest-heading" class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">
-          <a href="/invest/" class="hover:text-fi-ink-inv transition-colors">Invest with support</a>
-        </h3>
-        <nav aria-labelledby="footer-invest-heading" class="flex flex-col gap-3">
-          <a href="/invest/start-investing-mutual-funds/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Start investing</a>
-          <a href="/invest/portfolio-review/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Portfolio review</a>
-          <a href="/invest/sif/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">SIFs</a>
-          <a href="/invest/gift-city-funds/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">GIFT City funds</a>
-        </nav>
-      </div>
-
-      <div>
         <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Navigate</h3>
         <nav aria-label="Footer navigation" class="flex flex-col gap-3">
+          <a href="/invest/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Invest with support</a>
         <a href="/reports/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
           <a href={deepdiveUrl('footer')} {...trackAttrs('deepdive_click', 'footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive ↗</a>
         <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">About</a>
