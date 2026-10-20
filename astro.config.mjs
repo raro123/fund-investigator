@@ -17,6 +17,19 @@ const reportSourcePath = (url) => {
   return match ? `src/content/reports/${match[1]}.md` : null;
 };
 
+// Static pages map one-to-one to a file in src/pages ("/" → index.astro, "/about/" → about.astro).
+const pageSourcePath = (url) => {
+  const pathname = new URL(url).pathname;
+  if (pathname === '/') return 'src/pages/index.astro';
+  const match = pathname.match(/^\/([^/]+)\/$/);
+  return match ? `src/pages/${match[1]}.astro` : null;
+};
+
+// Commits that touched many pages without a content change (title suffix sweep,
+// formatting). Skipping them keeps lastmod meaning "the content changed", which
+// is the only lastmod Google trusts.
+const LASTMOD_EXCLUDE_COMMITS = ['6835eed'];
+
 export default defineConfig({
   integrations: [
     tailwind(),
@@ -30,9 +43,12 @@ export default defineConfig({
         reports: (item) => reportSourcePath(item.url) ? item : undefined,
       },
       serialize: (item) => {
-        const sourcePath = reportSourcePath(item.url);
+        const sourcePath = reportSourcePath(item.url) ?? pageSourcePath(item.url);
         if (sourcePath) {
-          const lastmod = gitLastmod(sourcePath, { depth: 20 });
+          const lastmod = gitLastmod(sourcePath, {
+            depth: 20,
+            excludeCommits: LASTMOD_EXCLUDE_COMMITS,
+          });
           if (lastmod) item.lastmod = lastmod;
         }
         return item;

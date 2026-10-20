@@ -3,6 +3,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import RiskDisclosures from '../components/ui/RiskDisclosures.astro';
 import { absoluteImageUrl, LANGUAGE, OG_LOCALE } from '../lib/schema';
+import { OG_HEIGHT, OG_PAGES, OG_WIDTH, pageOgImagePath, type OgPageId } from '../lib/og-card';
+// Hashed URL of the body font; the same asset the @fontsource CSS loads, so the preload is reused.
+import interLatin400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
 import type { LandingId, TrackView } from '../lib/analytics';
 
@@ -26,6 +29,7 @@ interface Props {
   excerpt?: string;
   firstParagraph?: string;
   ogImage?: string;           // Optional: URL path to OG image
+  ogPage?: OgPageId;          // Optional: build-time page card from src/lib/og-card.ts; overrides ogImage
   ogImageAlt?: string;        // Optional: Alt text for OG image
   ogImageWidth?: number;
   ogImageHeight?: number;
@@ -51,10 +55,11 @@ const {
   description,
   excerpt,
   firstParagraph,
-  ogImage,
-  ogImageAlt,
-  ogImageWidth = 1200,
-  ogImageHeight = 630,
+  ogImage: suppliedOgImage,
+  ogPage,
+  ogImageAlt: suppliedOgImageAlt,
+  ogImageWidth: suppliedOgImageWidth = 1200,
+  ogImageHeight: suppliedOgImageHeight = 630,
   ogType = 'website',  // Default to 'website'
   jsonLd,
   graph: suppliedGraph,
@@ -72,6 +77,10 @@ const resolvedDescription =
   excerpt?.trim() ||
   firstParagraph?.trim() ||
   'Data-driven mutual fund analysis for Indian investors.';
+const ogImage = ogPage ? pageOgImagePath(ogPage) : suppliedOgImage;
+const ogImageAlt = ogPage ? OG_PAGES[ogPage].title : suppliedOgImageAlt;
+const ogImageWidth = ogPage ? OG_WIDTH : suppliedOgImageWidth;
+const ogImageHeight = ogPage ? OG_HEIGHT : suppliedOgImageHeight;
 const ogImageUrl = absoluteImageUrl(ogImage, Astro.site);
 
 // Brand suffix in the tab/SERP title, skipped where the title already carries the brand
@@ -94,6 +103,8 @@ const defaultLinks = [
   { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
   { rel: 'alternate', type: 'application/rss+xml', href: '/feed.xml', title: 'Fund Investigator RSS feed' },
+  // Body text font only: preloading every weight would compete with the page itself.
+  { rel: 'preload', href: interLatin400, as: 'font', type: 'font/woff2', crossorigin: '' },
 ];
 ---
 
