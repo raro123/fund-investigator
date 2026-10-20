@@ -18,7 +18,7 @@ import {
   makeIds,
 } from '@jdevalk/seo-graph-core';
 import type { GraphEntity } from '@jdevalk/seo-graph-core';
-import { SITE_URL, DEEPDIVE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
+import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
 import { ARN, TAGLINE } from './distributor';
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
@@ -179,32 +179,6 @@ export const websiteSchema = (site?: URL): SchemaObject => {
   };
 };
 
-/**
- * Deepdive as a first-class entity rather than a bare outbound link.
- *
- * No aggregateRating or offers are asserted: the app has no user ratings and
- * its pricing is not a stable fact this site should fabricate.
- */
-export const deepdiveSchema = (site?: URL): SchemaObject => buildPiece({
-  '@type': 'WebApplication',
-  '@id': `${DEEPDIVE_URL}/#app`,
-  name: 'Deepdive',
-  url: DEEPDIVE_URL,
-  applicationCategory: 'FinanceApplication',
-  browserRequirements: 'Requires JavaScript',
-  description:
-    'Interactive tool to analyse any AMFI-registered mutual fund against its benchmark — ' +
-    'CAGR, SIP IRR, rolling returns, Sharpe ratio, volatility, drawdown and recovery time.',
-  featureList: [
-    'Benchmark comparison against Nifty and other indices',
-    'Lumpsum CAGR and SIP IRR',
-    'Rolling returns and rolling win rate',
-    'Sharpe ratio and volatility',
-    'Drawdown depth and recovery time',
-  ],
-  publisher: { '@id': orgId(site) },
-});
-
 export const articleSchema = (
   frontmatter: ArticleFrontmatter,
   pageUrl: string,
@@ -254,7 +228,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   return assemble([
     organizationSchema(site),
     websiteSchema(site),
-    // deepdiveSchema is left out until the tool's outputs are cleared (COM-022, 2026-10-19).
+    // No Deepdive entity until the tool's outputs are cleared (COM-022, 2026-10-19).
     buildWebPage({
       url: pageUrl,
       name: HOME_TITLE,

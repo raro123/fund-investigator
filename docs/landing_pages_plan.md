@@ -83,3 +83,7 @@ These are backlog items, not findings resolved by the copy implementation:
 - Extract the repeated landing-page markup into components (#112).
 - Confirm suitability boundaries and the service's deliverables/limits before release; this copy edit is not a suitability-policy review.
 - Complete booking attribution and PostHog funnel setup (#108–#109). Existing clicks are not evidence of completed bookings. Zoho, WhatsApp and tracking infrastructure were not changed.
+
+## Restoring the pages
+
+The `landing-pages` branch is an ancestor of `dev`, so merging it changes nothing. The pages left `dev` in `0382349`; their support code (`RouteCards`, `routes.ts`, `products.ts`, and the `reviewFaq`/`startFaq`/`sifFaq`/`giftCityFaq`/`giftCityFaqGroups` sets in `faq.ts`) left in the S67 cleanup commit. To bring them back, revert both commits on a new branch and open that as the PR.

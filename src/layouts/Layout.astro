@@ -177,9 +177,8 @@ const defaultLinks = [
           cross_subdomain_cookie: true,
           persistence: 'localStorage+cookie',
           // Autocapture (on by default) is intentionally left enabled and
-          // undisturbed: every Deepdive/Substack CTA link already carries a
-          // distinguishing utm_content in its href (see deepdive.ts,
-          // substack.ts), so autocapture's automatic click/pageview tracking
+          // undisturbed: every Substack CTA link already carries a
+          // distinguishing utm_content in its href (see substack.ts), so autocapture's automatic click/pageview tracking
           // already gives placement-level attribution without hand-written
           // posthog.capture() calls per CTA.
         });

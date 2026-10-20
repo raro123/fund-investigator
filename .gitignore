@@ -52,6 +52,7 @@ output/
 
 # Claude Code personal settings
 .claude/settings.local.json
+.claude/launch.json
 
 # Reference PDFs (local only)
 docs/*.pdf

@@ -11,9 +11,7 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 
 - Production site: https://fundinvestigator.com
 - Deepdive app: https://deepdive.fundinvestigator.com
-- MailerLite developer docs: https://developers.mailerlite.com/docs
 - Astro docs: https://docs.astro.build
-- Cloudflare Pages Functions docs: https://developers.cloudflare.com/pages/functions/
 - Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy_v2.md` (v1 retired: `docs/archive/content_philosophy_v1.md`) · Deployment: `docs/DEPLOYMENT.md`
 - Archived sessions (S1–S44) and resolved/moot pending decisions: `docs/project_log_archive.md`
 
@@ -85,13 +83,25 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 118 | **Release — high priority: release blockers** (bundle of #114, #65, #78, #115; `docs/production-readiness-review-2026-10-20.md`). Privacy copy for the distribution service's data: Zoho booking details, WhatsApp enquiries, holdings/CAS, retention (#78; needs #117's CAS channel and chat retention). Terms and disclaimer describe the distribution service, not "information only", including `/disclaimer/#distribution` (#65). First-call label "Introductory call · 30 minutes · No charge" everywhere (#115). Then the acceptance checks: one test booking end to end, one test WhatsApp enquiry, analytics receipt in production. Then the PR `dev` → `main`. Done in S65: phone tables, article CTA, benchmark accuracy | 2026-10-20 | S66 (from S41–S65) | 🟡 Open |
 | 119 | **Compliance — high priority: copy check** (bundle of #94, #80, #83, #98). Site copy against the AMFI MFD FAQ PDF (#94). "Regular plans cost more than direct" on `/about/` and `/disclaimer/`: same-fund comparison only (#80). The homepage `SampleBrief` illustrative values (#83). Content-guide v2 calls: "partner"/"wealth" as tone, bylines case by case (#98). "Improve" in the hero subhead (S62; fallback "Build or review"). Clearance of the two generic guides (COM-002, COM-014) | 2026-10-20 | S66 (from S45–S64) | 🟡 Open |
 | 120 | **Analytics — medium priority: PostHog** (bundle of #62, #113). Internal-user filter (project setting). Update filters on `article_end` to `guide_end` and `report_end`; `article_takeaways` is now a `subscribe_click` placement. Compare `subscribe_click` with Substack's signup counts monthly. Clicks aren't bookings: record completed calls by hand in the client sheet | 2026-10-20 | S66 (from S40–S66) | 🟡 Open |
-| 121 | **Landing pages — parked on the `landing-pages` branch** (bundle of #107, #108, #109, #110, #112). Before they return: owner copy check of the four pages and their FAQs (#107); Zoho measurement per landing page (#108); PostHog funnels and the UTM convention (#109); SIF promotion rules, GIFT City tax/LRS/TCS copy and the transaction route (#110); extract `LandingHero`, `LandingCosts` and `FactGrid` (#112). Bring back as a PR after the release | 2026-10-20 | S66 (from S55–S62) | 🟡 Parked |
+| 121 | **Landing pages — parked on the `landing-pages` branch** (bundle of #107, #108, #109, #110, #112). Before they return: owner copy check of the four pages and their FAQs (#107); Zoho measurement per landing page (#108); PostHog funnels and the UTM convention (#109); SIF promotion rules, GIFT City tax/LRS/TCS copy and the transaction route (#110); extract `LandingHero`, `LandingCosts` and `FactGrid` (#112). Bring back as a PR after the release, by reverting `0382349` and the S67 cleanup (merging the branch restores nothing) | 2026-10-20 | S66 (from S55–S62) | 🟡 Parked |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S67 — Pre-release repo cleanup
+
+**What was done:**
+Final pass before `dev` → `main`. Lint, contrast (24/24) and build (13 pages, all SEO gates) pass. Removed code no page imports: `DeepdiveSnapshot` and its poster, `src/lib/deepdive.ts`, `deepdiveSchema`, `DEEPDIVE_URL`, the `deepdive_click` event (Deepdive is parked, #91); `RouteCards`, `routes.ts`, `products.ts` and the landing-page FAQ sets in `faq.ts` (landing pages are parked, #121). Removed two unreferenced docs (`Decoding_the_Mutual_Fund_Categories_v3_with_footnotes.docx`, `seo-authority-strategy.html`) and the MailerLite and Pages Functions links. `.claude/launch.json` is now ignored. Deleted branches already merged into `dev`: `codex/article-readiness`, `compliance/release-fixes`, `feature/inline-subscribe`, and remote `design/contrast-and-accent-fixes`.
+
+**Decisions made:**
+- `landing-pages` is an ancestor of `dev`, so merging it would restore nothing. Bring the pages back by reverting `0382349` and the S67 cleanup commit (`docs/landing_pages_plan.md`, "Restoring the pages").
+- `npm audit` (1 critical, 20 high) is not exploitable on this static build: no `define:vars`, no on-demand image endpoint, and the rest are build-time tools. All fixes need Astro 7 / Tailwind 4; upgrade after the release.
+- Still blocking release (#118): terms and disclaimer "informational only" wording, privacy coverage of the distribution service's data, the remaining first-call labels, and the owner acceptance checks.
 
 ---
 

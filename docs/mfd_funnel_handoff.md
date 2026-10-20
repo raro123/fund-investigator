@@ -98,7 +98,7 @@ Removed: the "Two ways we help" section (it gave the DIY route equal weight), th
 Hero, filters, cards, plus one section after the list: Deepdive snapshot, "Check any fund yourself.", "Open Deepdive ↗" (`reports_deepdive`). No `/invest/` link (most cards name a fund). The snapshot still shows fund names (#75).
 
 ### Tracking placements
-Events (`src/lib/analytics.ts`): `review_booking_click`, `conversation_request` (channel), `deepdive_click`, `subscribe_click`, plus the `invest_view` page view. Zoho and WhatsApp report no placement back, so the click event is the only record.
+Events (`src/lib/analytics.ts`): `review_booking_click`, `conversation_request` (channel), `subscribe_click`, plus the `invest_view` page view. Zoho and WhatsApp report no placement back, so the click event is the only record.
 - Booking: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `about`.
 - WhatsApp: `homepage_hero`, `homepage_services`, `homepage_final`, `invest_hero`, `invest_review`, `invest_cta`, `invest_faq`, `about`, `footer`.
 - Deepdive: `reports_deepdive`, `about`, `footer` (`invest_fallback` is defined but unused).

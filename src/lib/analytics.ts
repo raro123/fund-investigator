@@ -11,7 +11,6 @@
 export type TrackEvent =
   | 'review_booking_click'
   | 'conversation_request'
-  | 'deepdive_click'
   | 'subscribe_click';
 
 /** Page-view events sent once on load, set through Layout's `trackView` prop. */
