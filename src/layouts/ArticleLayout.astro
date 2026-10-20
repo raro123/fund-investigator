@@ -13,7 +13,7 @@ import {
   resolveArticleMetadata,
   resolveReportImage,
 } from '../lib/schema';
-import { substackWelcomeUrl } from '../lib/substack';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 
 interface Props {
   frontmatter: CollectionEntry<'reports'>['data'];
@@ -140,7 +140,7 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
                 <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Subscribe for Investigation Briefs</h3>
                 <p class="text-fi-muted-inv">Get notified when we publish new fund research or update an existing investigation.</p>
               </div>
-              <Button href={substackWelcomeUrl('article_end')} variant="primary" size="md" icon="external">Subscribe</Button>
+              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end' }}>Subscribe</Button>
             </div>
           </div>
         </>

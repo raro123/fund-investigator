@@ -13,7 +13,7 @@
  */
 import Button from './Button.astro';
 import { BOOKING_URL } from '../../lib/distributor';
-import { substackWelcomeUrl } from '../../lib/substack';
+import { SUBSCRIBE_PAGE } from '../../lib/substack';
 import { whatsappUrl } from '../../lib/whatsapp';
 
 interface Props {
@@ -50,11 +50,9 @@ const { heading, line } = Astro.props;
     <Button
       variant="tertiary"
       surface="dark"
-      href={substackWelcomeUrl('article_end')}
-      target="_blank"
-      rel="noopener noreferrer"
-      icon="external"
-      track={{ event: 'subscribe_click', placement: 'article_end' }}
+      href={SUBSCRIBE_PAGE}
+      icon="arrow-right"
+      track={{ event: 'subscribe_click', placement: 'guide_end' }}
     >Subscribe for new guides</Button>
   </div>
 </aside>

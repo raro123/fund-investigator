@@ -17,7 +17,7 @@ import Fn from '../components/ui/Fn.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
-import { substackWelcomeUrl } from '../lib/substack';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import { homeServices } from '../lib/services';
@@ -187,12 +187,10 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
           <span class="text-fi-ink-inv font-semibold">Subscribers get every new investigation by email.</span>
         </p>
         <Button
-          href={substackWelcomeUrl('homepage_bottom')}
+          href={SUBSCRIBE_PAGE}
           variant="secondary"
           surface="dark"
-          target="_blank"
-          rel="noopener noreferrer"
-          icon="external"
+          icon="arrow-right"
           track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
           class="w-full sm:w-auto min-w-0 shrink-0"
         >

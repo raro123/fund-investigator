@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Button from '../components/ui/Button.astro';
-import { substackWelcomeUrl } from '../lib/substack';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { getCollection } from 'astro:content';
 import { categoryLabels } from '../lib/report-categories';
 import { responsive } from '../lib/responsive';
@@ -97,10 +97,8 @@ const showFilters = presentCategories.size > 1;
         <p class="text-heading-sm font-semibold text-fi-ink-inv mb-2">New investigations are on the way.</p>
         <p class="text-body-md text-fi-muted-inv mb-8">Subscribers get every new investigation by email.</p>
         <Button
-          href={substackWelcomeUrl('reports_index')}
-          target="_blank"
-          rel="noopener noreferrer"
-          icon="external"
+          href={SUBSCRIBE_PAGE}
+          icon="arrow-right"
           track={{ event: 'subscribe_click', placement: 'reports_index' }}
         >
           Subscribe
