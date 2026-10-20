@@ -7,6 +7,7 @@ import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { getCollection } from 'astro:content';
 import { categoryLabels } from '../lib/report-categories';
 import { responsive } from '../lib/responsive';
+import { reportsIndexSchemaGraph } from '../lib/schema';
 
 const allReports = await getCollection('reports');
 const sortedReports = allReports
@@ -24,9 +25,18 @@ const filterTabs = [
 
 // Hide the filter strip until there's more than one real category to choose between
 const showFilters = presentCategories.size > 1;
+
+const pageTitle = 'Mutual Fund Research and Guides';
+const pageDescription = 'Guides for Indian investors on how to check a mutual fund and compare fund categories, using benchmarks, risk metrics and returns data.';
+const graph = reportsIndexSchemaGraph(
+  pageTitle,
+  pageDescription,
+  sortedReports.map((report) => ({ path: `/reports/${report.slug}/`, title: report.data.title })),
+  Astro.site,
+);
 ---
 
-<Layout title="Investigation Reports - Fund Investigator" description="Fact-based mutual fund and category analysis with benchmark comparisons, risk metrics, and clear evidence.">
+<Layout title={pageTitle} description={pageDescription} graph={graph}>
 
   <!-- Single Hero section: clears fixed header, owns all vertical rhythm -->
   <Hero size="sm" background="dark" centered={false} containerClass="max-w-6xl mx-auto">

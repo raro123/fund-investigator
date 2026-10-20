@@ -2,7 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import RiskDisclosures from '../components/ui/RiskDisclosures.astro';
-import { absoluteImageUrl } from '../lib/schema';
+import { absoluteImageUrl, LANGUAGE, OG_LOCALE } from '../lib/schema';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
 import type { LandingId, TrackView } from '../lib/analytics';
 
@@ -98,7 +98,7 @@ const defaultLinks = [
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={LANGUAGE}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -111,6 +111,7 @@ const defaultLinks = [
       ogImageWidth={ogImageWidth}
       ogImageHeight={ogImageHeight}
       siteName="Fund Investigator"
+      locale={OG_LOCALE}
       twitter={{ card: 'summary_large_image' }}
       article={article}
       noindex={noindex}

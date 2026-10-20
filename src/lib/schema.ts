@@ -19,13 +19,29 @@ import {
 } from '@jdevalk/seo-graph-core';
 import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
-import { ARN, TAGLINE } from './distributor';
+import { AMFI_VERIFY_URL, ARN, CREDENTIALS, REGISTERED_NAME, TAGLINE } from './distributor';
+import { services } from './services';
+
+/** BCP 47 tag for schema.org `inLanguage` and `<html lang>`: the audience reads Indian English. */
+export const LANGUAGE = 'en-IN';
+/** Open Graph wants an underscore, not a hyphen. */
+export const OG_LOCALE = 'en_IN';
+
+/** Topics the publisher and the distributor both cover; shared so the two entities agree. */
+const KNOWS_ABOUT = [
+  'Mutual funds',
+  'Specialized Investment Funds (SIF)',
+  'GIFT City funds',
+  'Portfolio review',
+  'Risk-adjusted returns',
+  'Benchmark comparison',
+];
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
 export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
 export const HOME_DESCRIPTION =
-  `Expert-led, analysis-driven help to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
+  `Expert-led, analysis-driven help for Indian investors to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
@@ -84,6 +100,8 @@ const idsFor = (site?: URL) => makeIds({ siteUrl: origin(site) });
 // resolve the same publisher and website entities after this migration.
 const orgId = (site?: URL): string => `${origin(site)}/#organization`;
 const websiteId = (site?: URL): string => `${origin(site)}/#website`;
+// The person lives on /about/ only (homepage is brand-only), so the id sits there too.
+const personId = (site?: URL): string => `${origin(site)}/about/#person`;
 
 const assemble = (pieces: SchemaObject[]) =>
   assembleGraph(pieces as GraphEntity[], { warnOnDanglingReferences: true });
@@ -163,6 +181,10 @@ export const organizationSchema = (site?: URL): SchemaObject => buildPiece({
     email: 'contact@fundinvestigator.com',
     contactType: 'customer support',
   },
+  // Trust signals: /disclosures/ states how we are paid and where the data comes from.
+  publishingPrinciples: `${origin(site)}/disclosures/`,
+  areaServed: { '@type': 'Country', name: 'India' },
+  knowsAbout: KNOWS_ABOUT,
 });
 
 export const websiteSchema = (site?: URL): SchemaObject => {
@@ -172,10 +194,11 @@ export const websiteSchema = (site?: URL): SchemaObject => {
       url: `${origin(site)}/`,
       name: 'Fund Investigator',
       description: ORG_DESCRIPTION,
-      inLanguage: 'en',
+      inLanguage: LANGUAGE,
       publisher: { '@id': orgId(site) },
     }, ids),
     '@id': websiteId(site),
+    copyrightHolder: { '@id': orgId(site) },
   };
 };
 
@@ -197,7 +220,7 @@ export const articleSchema = (
     dateModified: asDate(frontmatter.updated ?? frontmatter.date),
     articleSection: frontmatter.category,
     keywords: frontmatter.tags,
-    inLanguage: 'en',
+    inLanguage: LANGUAGE,
     isAccessibleForFree: true,
     author: authorRef(site),
     publisher: { '@id': orgId(site) },
@@ -234,7 +257,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
       name: HOME_TITLE,
       description: HOME_DESCRIPTION,
       isPartOf: { '@id': websiteId(site) },
-      inLanguage: 'en',
+      inLanguage: LANGUAGE,
     }, ids),
   ]);
 };
@@ -256,7 +279,7 @@ export const reportSchemaPieces = (
     width: imageWidth,
     height: imageHeight,
     caption: imageCaption,
-    inLanguage: 'en',
+    inLanguage: LANGUAGE,
   }, ids);
   const breadcrumb = breadcrumbSchema([
     { name: 'Home', path: '/' },
@@ -270,7 +293,7 @@ export const reportSchemaPieces = (
     isPartOf: { '@id': websiteId(site) },
     breadcrumb: { '@id': ids.breadcrumb(pageUrl) },
     primaryImage: { '@id': ids.primaryImage(pageUrl) },
-    inLanguage: 'en',
+    inLanguage: LANGUAGE,
     datePublished: asDate(frontmatter.date),
     dateModified: asDate(frontmatter.updated ?? frontmatter.date),
   }, ids);
@@ -304,3 +327,132 @@ export const reportSchemaGraph = (
   imageHeight,
   imageCaption,
 ));
+
+interface PageGraphInput {
+  path: string;
+  name: string;
+  description: string;
+  /** schema.org page type; AboutPage is not in the core builder's union, so it is set after building. */
+  type?: 'WebPage' | 'AboutPage' | 'CollectionPage';
+  breadcrumbName: string;
+  mainEntity?: SchemaObject;
+  /** Entities the page describes, added to the graph after the page itself. */
+  entities?: SchemaObject[];
+}
+
+/**
+ * Shared shape for static pages: publisher + website + typed WebPage + breadcrumb,
+ * so every indexable page carries a complete, linked graph.
+ */
+const staticPageGraph = (
+  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, entities = [] }: PageGraphInput,
+  site?: URL,
+): SchemaObject => {
+  const ids = idsFor(site);
+  const pageUrl = new URL(path, `${origin(site)}/`).toString();
+  const page = buildWebPage({
+    url: pageUrl,
+    name,
+    description,
+    isPartOf: { '@id': websiteId(site) },
+    breadcrumb: { '@id': ids.breadcrumb(pageUrl) },
+    inLanguage: LANGUAGE,
+    ...(mainEntity ? { mainEntity } : {}),
+  }, ids);
+
+  return assemble([
+    organizationSchema(site),
+    websiteSchema(site),
+    { ...page, '@type': type },
+    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: breadcrumbName, path }], site),
+    ...entities,
+  ]);
+};
+
+/**
+ * The distributor behind the brand. ARN and credentials are the E-E-A-T signal
+ * for a finance site; they mirror what /about/ shows, from distributor.ts.
+ */
+export const personSchema = (site?: URL): SchemaObject => buildPiece({
+  '@type': 'Person',
+  '@id': personId(site),
+  name: REGISTERED_NAME,
+  url: `${origin(site)}/about/`,
+  jobTitle: TAGLINE,
+  worksFor: { '@id': orgId(site) },
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'AMFI Registration Number (ARN)',
+    value: ARN,
+    url: AMFI_VERIFY_URL,
+  },
+  hasCredential: CREDENTIALS.map((credential) => ({
+    '@type': 'EducationalOccupationalCredential',
+    name: credential.text,
+  })),
+  knowsAbout: KNOWS_ABOUT,
+});
+
+/** @param description Same string as the page's meta description, so the two stay aligned. */
+export const aboutSchemaGraph = (name: string, description: string, site?: URL): SchemaObject =>
+  staticPageGraph({
+    path: '/about/',
+    name,
+    description,
+    type: 'AboutPage',
+    breadcrumbName: 'About',
+    mainEntity: { '@id': orgId(site) },
+    entities: [personSchema(site)],
+  }, site);
+
+/** The /invest/ page describes one service with four stages, provided by the Organization. */
+export const investSchemaGraph = (name: string, description: string, site?: URL): SchemaObject => {
+  const serviceId = `${origin(site)}/invest/#service`;
+  return staticPageGraph({
+    path: '/invest/',
+    name,
+    description,
+    breadcrumbName: 'Invest with support',
+    mainEntity: { '@id': serviceId },
+    entities: [buildPiece({
+      '@type': 'Service',
+      '@id': serviceId,
+      name: 'Invest with support',
+      serviceType: 'Mutual fund, SIF and GIFT City fund distribution',
+      description,
+      provider: { '@id': orgId(site) },
+      areaServed: { '@type': 'Country', name: 'India' },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Invest with support',
+        itemListElement: services.map((service) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: service.title },
+        })),
+      },
+    })],
+  }, site);
+};
+
+/** @param reports Current reports in display order, as path + title. */
+export const reportsIndexSchemaGraph = (
+  name: string,
+  description: string,
+  reports: ReadonlyArray<{ path: string; title: string }>,
+  site?: URL,
+): SchemaObject => staticPageGraph({
+  path: '/reports/',
+  name,
+  description,
+  type: 'CollectionPage',
+  breadcrumbName: 'Investigations',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: reports.map((report, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: report.title,
+      url: new URL(report.path, `${origin(site)}/`).toString(),
+    })),
+  },
+}, site);

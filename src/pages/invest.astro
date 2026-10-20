@@ -15,6 +15,7 @@ import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
 import IdCard from '../components/ui/IdCard.astro';
 import { BOOKING_URL } from '../lib/distributor';
+import { investSchemaGraph } from '../lib/schema';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
 // Every contact button is tracked: Zoho and WhatsApp report no placement back.
@@ -108,11 +109,14 @@ const routes = [
 const callDetails = '30-minute introductory call · No charge · No obligation';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const pageTitle = 'Invest with support';
+const pageDescription = 'How investing with support works: a 30-minute introductory call, a portfolio review, and help to choose mutual funds, SIFs and GIFT City funds.';
 ---
 
 <Layout
-  title="Invest with support - Fund Investigator"
-  description="How investing with support works: a 30-minute introductory call, a portfolio review, and help to choose and invest in mutual funds, SIFs and GIFT City funds."
+  title={pageTitle}
+  description={pageDescription}
+  graph={investSchemaGraph(pageTitle, pageDescription, Astro.site)}
   trackView="invest_view"
 >
   <!-- 1. Hero: short, because most visitors come from the homepage pitch; the header still brings cold visitors, so the main action stays here -->

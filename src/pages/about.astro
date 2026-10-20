@@ -11,6 +11,7 @@ import Highlight from '../components/ui/Highlight.astro';
 import { responsive } from '../lib/responsive';
 import { whatsappUrl } from '../lib/whatsapp';
 import { ARN, BOOKING_URL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { aboutSchemaGraph } from '../lib/schema';
 
 // /about/ answers "who am I trusting?": the brand's reason and analytical method
 // first, then the person behind it ("Know your distributor"). The brand leads;
@@ -42,11 +43,14 @@ const principles = [
   },
 ];
 
+const pageTitle = 'About Fund Investigator: Why We Exist';
+const pageDescription = `Why Fund Investigator exists: evidence-driven mutual fund distribution and portfolio reviews. Run by ${REGISTERED_NAME}, ${ARN}.`;
 ---
 
 <Layout
-  title="About Fund Investigator: Why We Exist"
-  description={`Why Fund Investigator exists: evidence-driven mutual fund distribution and portfolio reviews. Run by ${REGISTERED_NAME}, ${ARN}.`}
+  title={pageTitle}
+  description={pageDescription}
+  graph={aboutSchemaGraph(pageTitle, pageDescription, Astro.site)}
 >
   <!-- 1. Hero: the brand leads. The person comes in section 4, "Know your distributor". -->
   <Hero size="md" background="dark">
