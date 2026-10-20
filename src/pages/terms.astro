@@ -4,9 +4,12 @@ import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import { responsive } from '../lib/responsive';
 import { formatDate } from '../lib/format';
+import { REGISTERED_NAME, ARN, TAGLINE } from '../lib/distributor';
 
 // Set to the date the wording last changed, not the build date.
-const LAST_UPDATED = '2026-10-19';
+const LAST_UPDATED = '2026-10-20';
+
+const lightLink = 'text-fi-ink hover:text-fi-link font-medium underline';
 ---
 
 <Layout
@@ -33,9 +36,18 @@ const LAST_UPDATED = '2026-10-19';
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>2. Use of Service</h2>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>2. What We Offer</h2>
+        {/* #65 / review must-have 4 (2026-10-20 draft, pending compliance review): "information
+            only" is scoped to the public content; the distribution service is described as on
+            /invest/ and /disclosures/. */}
         <p>
-          Fund Investigator provides analytical tools and information about mutual funds. The service is provided for informational purposes only and does not constitute financial advice.
+          Fund Investigator has two parts. This website publishes guides, investigations and tools that give general educational information about mutual funds. They do not consider your personal circumstances and are not investment advice or a recommendation.
+        </p>
+        <p>
+          Separately, {REGISTERED_NAME}, an {TAGLINE} ({ARN}), offers a distribution service, <a href="/invest/" class={lightLink}>Invest with support</a>. It starts with a 30-minute introductory call at no charge. If you choose to go ahead, it covers fact-finding, risk profiling and a suitability assessment, a scheme shortlist prepared for you, help to invest in Regular Plans, and reviews at agreed intervals. Investments made through us may earn us commission from the relevant AMC. Our distributor relationship, commission and product universe are described on our <a href="/disclosures/" class={lightLink}>Disclosures</a> page.
+        </p>
+        <p>
+          Booking a call or contacting us does not make you a client or oblige you to invest. Every investment decision is yours.
         </p>
       </section>
 
@@ -49,14 +61,14 @@ const LAST_UPDATED = '2026-10-19';
       <section class="space-y-4">
         <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>4. Disclaimer</h2>
         <p>
-          The analysis and metrics provided are for informational purposes only. They should not be considered as investment advice or recommendations. Past performance does not guarantee future results.
+          The analysis and metrics in our public guides, investigations and tools are general information. They should not be considered as investment advice or recommendations for you. Past performance does not guarantee future results. See our <a href="/disclaimer/" class={lightLink}>Disclaimer</a>.
         </p>
       </section>
 
       <section class="space-y-4">
         <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>5. Limitation of Liability</h2>
         <p>
-          Fund Investigator shall not be liable for any investment decisions made based on the information provided through this service.
+          Fund Investigator shall not be liable for any investment decisions made based on the general information published on this website.
         </p>
       </section>
 

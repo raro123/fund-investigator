@@ -4,14 +4,23 @@ import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import { responsive } from '../lib/responsive';
 import { formatDate } from '../lib/format';
+import { REGISTERED_NAME, CONTACT_EMAIL } from '../lib/distributor';
 
 // Set to the date the wording last changed, not the build date.
-const LAST_UPDATED = '2026-10-19';
+const LAST_UPDATED = '2026-10-20';
+
+// #78 / review must-have 3 (2026-10-20 draft, pending compliance review). Data flows from
+// the owner, S67: bookings in Zoho Bookings; enquiries by WhatsApp or email; CAS through
+// the partner distribution platform or by email, never WhatsApp (log decision 117); client records on
+// the partner platform and with the RTAs; non-client enquiries deleted after 12 months.
+// The old "We do not collect or store personal financial information" was untrue and
+// stays removed (COM-004).
+const lightLink = 'text-fi-ink hover:text-fi-link font-medium underline';
 ---
 
 <Layout
   title="Privacy Policy - Fund Investigator"
-  description="Privacy Policy for Fund Investigator: data collection, cookies, analytics, and your rights."
+  description="Privacy Policy for Fund Investigator: what we collect for the website, newsletter, bookings and distribution service, who we share it with, and how long we keep it."
 >
   <Hero size="sm" centered={false}>
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink mb-4 leading-tight']}>
@@ -26,84 +35,94 @@ const LAST_UPDATED = '2026-10-19';
     <div class="prose prose-lg max-w-none text-fi-muted space-y-8">
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>1. Information We Collect</h2>
         <p>
-          Fund Investigator collects minimal information necessary to provide our service. This includes usage data such as pages visited and features accessed to improve the user experience.
+          Fund Investigator is run by {REGISTERED_NAME}. This policy explains what we collect when you read the website, subscribe, book a call or contact us, and when you become a client of our mutual-fund distribution service.
         </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-6']}>1. Information We Collect</h2>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Website use.</strong> Usage data such as pages visited and buttons clicked (see Cookies and Tracking).</li>
+          <li><strong>Newsletter.</strong> You subscribe through Substack's form, not a form of ours. Substack provides us with your email address, subscription status and any name associated with your subscription.</li>
+          <li><strong>Booking a call.</strong> Our booking page is run by Zoho Bookings. It collects your name, email address, phone number, the time you choose and your answers to the booking questions.</li>
+          <li><strong>WhatsApp and email.</strong> If you contact us, we receive your name, phone number or email address and what you write.</li>
+          <li><strong>If you become a client.</strong> The details needed to serve you and to meet our regulatory obligations: KYC and contact details, your goals, risk profile and other information for the suitability assessment, your existing holdings (for example your Consolidated Account Statement, CAS) and your transaction records.</li>
+        </ul>
         <p>
-          If you subscribe to Fund Investigator, you enter your email address on Substack rather than on this website. Substack provides us with the subscriber information needed to operate the publication, including your email address, subscription status, and any name associated with your subscription.
+          Clients share their CAS and other financial documents through our partner distribution platform or by email to {CONTACT_EMAIL}. Please do not send financial documents over WhatsApp.
         </p>
       </section>
 
       <section class="space-y-4">
         <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>2. How We Use Information</h2>
         <p>
-          Information collected is used solely to:
+          We use this information only to:
         </p>
         <ul class="list-disc list-inside space-y-2 ml-4">
-          <li>Provide and improve our analytical tools and services</li>
-          <li>Understand usage patterns to enhance user experience</li>
-          <li>Respond to user inquiries and support requests</li>
-          <li>Send subscribed users investigation briefs, new-investigation notices, and tool updates</li>
-          <li>Understand newsletter delivery and subscriber engagement</li>
+          <li>Arrange and hold your introductory call, and answer your enquiries</li>
+          <li>For clients: carry out fact-finding, risk profiling and the suitability assessment, prepare your shortlist, process the investments you approve and review your portfolio</li>
+          <li>Meet our obligations as a mutual-fund distributor, including KYC and record-keeping</li>
+          <li>Send subscribers new guides, investigations and updates, and understand newsletter delivery and engagement</li>
+          <li>Understand how the website is used, so we can improve it</li>
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>3. Data Sources</h2>
-        {/* COM-005 source wording. The old "We do not collect or store personal financial
-            information" was untrue (CAS, holdings, risk profiles) and is removed (COM-004); the
-            full policy rewrite waits for the data-flow inventory and privacy review. */}
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>3. Cookies and Tracking</h2>
         <p>
-          Fund NAV data may be sourced from AMFI. Benchmark data may be sourced from NSE Indices or other identified index providers. Scheme attributes, portfolios and manager information may be sourced from AMC factsheets, portfolio disclosures, SID/KIM documents and other official publications. Regulatory information may be sourced from SEBI and AMFI. Fund Investigator may calculate derived metrics from these sources. The source and calculation period are identified in each applicable report.
+          We use Cloudflare Web Analytics, a privacy-friendly analytics service that does not use cookies or collect personal information. It records anonymous pageviews and basic usage statistics. It does not identify individual users or track behaviour across websites.
+        </p>
+        <p>
+          We also use PostHog, a product analytics service. PostHog uses cookies and records pageviews, clicks and other interactions on fundinvestigator.com and its subdomains, so we can see which pages and buttons lead to a booking, an enquiry or a subscription.
+        </p>
+        <p>
+          Our subscribe page shows Substack's sign-up form, and our booking and WhatsApp buttons open Zoho Bookings and WhatsApp. Each has its own cookies and practices: see <a href="https://substack.com/privacy" target="_blank" rel="noopener noreferrer" class={lightLink}>Substack's Privacy Policy</a>, <a href="https://www.zoho.com/privacy.html" target="_blank" rel="noopener noreferrer" class={lightLink}>Zoho's Privacy Policy</a> and <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" class={lightLink}>WhatsApp's Privacy Policy</a>.
         </p>
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>4. Cookies and Tracking</h2>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>4. Data Sharing</h2>
         <p>
-          We use Cloudflare Web Analytics, a privacy-friendly analytics service that does not use cookies or collect personal information. This service tracks anonymous pageviews and basic usage statistics to help us improve the website. It does not identify individual users or track behavior across websites.
+          We do not sell, trade or rent your information. We share it only with:
         </p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>Service providers that run parts of the service for us: Substack (newsletter), Zoho (bookings), WhatsApp (messages), and PostHog and Cloudflare (website analytics)</li>
+          <li>For clients, those needed to process your investments: our partner distribution platform, the registrar and transfer agents (RTAs), the asset management companies and KYC registration agencies</li>
+          <li>Regulators and authorities, where the law requires it</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>5. Retention and Your Choices</h2>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Enquiries and bookings.</strong> If you do not become a client, we delete your booking details and messages within 12 months of our last contact, or sooner if you ask.</li>
+          <li><strong>Client records.</strong> We keep them for as long as SEBI and AMFI record-keeping rules require, then delete them.</li>
+          <li><strong>Newsletter.</strong> You can unsubscribe using the link in any newsletter or through Substack. We keep subscriber information only as long as needed to run the publication, honour unsubscribe requests and meet legal obligations.</li>
+        </ul>
         <p>
-          We also use PostHog, a product analytics service, to understand how visitors use the site and the Fund Deepdive tool. PostHog uses cookies and tracks pageviews, clicks, and other interactions. Because Fund Investigator and Fund Deepdive share the fundinvestigator.com domain, PostHog can follow a visitor's activity across both fundinvestigator.com and deepdive.fundinvestigator.com to understand how the site drives use of the tool.
-        </p>
-        <p>
-          Following a subscription link takes you to Substack, which has its own cookies and tracking practices described in <a href="https://substack.com/privacy" target="_blank" rel="noopener noreferrer" class="text-fi-ink hover:text-fi-link font-medium underline">Substack's Privacy Policy</a>.
+          You may contact us to ask for access to, correction of or deletion of the information we hold about you. Records the law requires us to keep cannot be deleted before that period ends.
         </p>
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>5. Data Sharing</h2>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>6. Data Security</h2>
         <p>
-          We do not sell, trade, or rent user information to third parties. Newsletter subscriptions are processed by Substack, our newsletter and subscription provider. Substack makes subscriber information available to us so we can deliver the publication and manage subscription requests. We do not share personal information except as required by law or with service providers needed to operate the site and publication.
+          We implement reasonable security measures to protect information, and limit access to client records to those who need it to serve you. However, no method of transmission over the internet is completely secure.
         </p>
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>6. Subscription Choices and Retention</h2>
-        <p>
-          You can unsubscribe using the link in any newsletter or manage your subscription through Substack. We retain subscriber information only for as long as needed to operate the publication, honour unsubscribe requests, and meet legal obligations. You may contact us to request access to, correction of, or deletion of the subscriber information we control.
-        </p>
-      </section>
-
-      <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>7. Data Security</h2>
-        <p>
-          We implement reasonable security measures to protect information. However, no method of transmission over the internet is completely secure.
-        </p>
-      </section>
-
-      <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>8. Changes to Privacy Policy</h2>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>7. Changes to Privacy Policy</h2>
         <p>
           We may update this Privacy Policy periodically. Changes will be posted on this page with an updated revision date.
         </p>
       </section>
 
       <section class="space-y-4">
-        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>9. Contact</h2>
+        <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mt-12 mb-6']}>8. Contact</h2>
         <p>
-          For questions about this Privacy Policy, please contact us at <a href="mailto:contact@fundinvestigator.com" class="text-fi-ink hover:text-fi-link font-medium">contact@fundinvestigator.com</a>
+          For questions about this Privacy Policy or your information, please contact us at <a href={`mailto:${CONTACT_EMAIL}`} class="text-fi-ink hover:text-fi-link font-medium">{CONTACT_EMAIL}</a>
         </p>
       </section>
 

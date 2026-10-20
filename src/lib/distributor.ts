@@ -14,7 +14,7 @@
 /** Name registered against the ARN with AMFI. */
 export const REGISTERED_NAME = 'Ishpreet Singh Modi';
 
-/** First name for personal copy: "Book a call with …", WhatsApp greetings. */
+/** First name for personal copy: WhatsApp greetings. */
 export const FIRST_NAME = 'Ishpreet';
 
 /** One credential: a short highlight for the /about/ credential row, and the

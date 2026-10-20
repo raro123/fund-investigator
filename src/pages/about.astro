@@ -10,7 +10,7 @@ import IdCard from '../components/ui/IdCard.astro';
 import Highlight from '../components/ui/Highlight.astro';
 import { responsive } from '../lib/responsive';
 import { whatsappUrl } from '../lib/whatsapp';
-import { ARN, BOOKING_URL, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { ARN, BOOKING_URL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
 
 // /about/ answers "who am I trusting?": the brand's reason and analytical method
 // first, then the person behind it ("Know your distributor"). The brand leads;
@@ -111,7 +111,7 @@ const principles = [
           icon="external"
           size="lg"
           track={{ event: 'review_booking_click', placement: 'about' }}
-        >Book a call with {FIRST_NAME}</Button>
+        >Book a first call</Button>
         <Button
           href={whatsappUrl('about')}
           variant="secondary"
