@@ -7,21 +7,27 @@ import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
 import ArticleBreadcrumbs from '../components/ui/ArticleBreadcrumbs.astro';
 import ArticleMetadata from '../components/ui/ArticleMetadata.astro';
 import ArticleTableOfContents from '../components/ui/ArticleTableOfContents.astro';
+import ArticleServiceInvite from '../components/ui/ArticleServiceInvite.astro';
 import {
   reportSchemaGraph,
   resolveArticleMetadata,
   resolveReportImage,
 } from '../lib/schema';
-import { substackWelcomeUrl } from '../lib/substack';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 
 interface Props {
   frontmatter: CollectionEntry<'reports'>['data'];
   headings: MarkdownHeading[];
   articleBody: string;
   reportSlug: string;
+  /** The report's footnotes, lifted out of the body by rehype-split-footnotes. */
+  footnotesHtml?: string;
 }
 
-const { frontmatter, headings, articleBody, reportSlug } = Astro.props;
+const { frontmatter, headings, articleBody, reportSlug, footnotesHtml } = Astro.props;
+// Shared by the article body and its notes, which render apart so the service
+// invite can sit between them.
+const proseClasses = 'article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-link prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums';
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const resolvedMetadata = resolveArticleMetadata(frontmatter);
 const reportImage = resolveReportImage(frontmatter, reportSlug, Astro.site);
@@ -39,7 +45,7 @@ const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Investigations', href: '/reports/' },
 ];
-import { ARN, TAGLINE } from '../lib/distributor';
+import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
 ---
 
 <Layout
@@ -51,6 +57,7 @@ import { ARN, TAGLINE } from '../lib/distributor';
   ogImageHeight={reportImage.height}
   ogType="article"
   graph={graph}
+  riskDisclosures={false}
   extraLinks={[{
     rel: 'alternate',
     type: 'text/markdown',
@@ -89,6 +96,7 @@ import { ARN, TAGLINE } from '../lib/distributor';
         readTime={frontmatter.readTime}
         category={frontmatter.category}
         status={frontmatter.status}
+        byline={frontmatter.byline}
       />
     </div>
   </header>
@@ -107,33 +115,50 @@ import { ARN, TAGLINE } from '../lib/distributor';
         </div>
       )}
 
-      <div class="article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-link prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums">
+      <div class={proseClasses}>
         <slot />
       </div>
 
-      <div class="mt-16 pt-8 border-t border-fi-border">
-        <!-- One clear parting action after the report has delivered its evidence.
-             Deepdive remains linked contextually inside each investigation. -->
-        <div class="bg-fi-dark rounded-lg p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-          <div class="flex-1">
-            <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Subscribe for Investigation Briefs</h3>
-            <p class="text-fi-muted-inv">Get notified when we publish new fund research or update an existing investigation.</p>
+      {frontmatter.serviceInvite ? (
+        <>
+          <!-- Generic guide: the service invite comes straight after the article,
+               above its notes. -->
+          <div class="mt-16">
+            <ArticleServiceInvite
+              heading={frontmatter.serviceInvite.heading}
+              line={frontmatter.serviceInvite.line}
+            />
           </div>
-          <Button href={substackWelcomeUrl('article_end')} variant="primary" size="md" icon="external">Subscribe</Button>
-        </div>
-      </div>
+          {footnotesHtml && <div class={proseClasses} set:html={footnotesHtml} />}
+        </>
+      ) : (
+        <>
+          {footnotesHtml && <div class={proseClasses} set:html={footnotesHtml} />}
+          <div class="mt-16 pt-8 border-t border-fi-border">
+            <!-- One clear parting action after the report has delivered its evidence. -->
+            <div class="bg-fi-dark rounded-lg p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Subscribe for Investigation Briefs</h3>
+                <p class="text-fi-muted-inv">Get notified when we publish new fund research or update an existing investigation.</p>
+              </div>
+              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end' }}>Subscribe</Button>
+            </div>
+          </div>
+        </>
+      )}
 
       <div class="mt-12 pt-8 border-t border-fi-border">
         <div class="mx-auto max-w-fi-disclaimer text-sm leading-relaxed text-fi-muted">
+          <!-- Articles carry the regulators' warnings here, so Layout drops the
+               sitewide RiskDisclosures card on these pages. -->
           <h4 class="font-semibold text-fi-ink mb-3">Disclaimer</h4>
+          <p class="mb-3">{RISK_WARNING}</p>
+          <p class="mb-3">{SIF_WARNING}</p>
           <p class="mb-3">
-            This analysis is based on historical performance data, sourced from Fund Investigator's Mutual Fund Deepdive platform. Past performance does not guarantee future results. This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell.
+            This article is general information. It does not consider your personal circumstances and is not a recommendation to invest in any fund or category. Past performance does not guarantee future results.
           </p>
           <p>
-            Before investing, review the fund's prospectus, consult with a qualified financial advisor, and ensure the investment aligns with your financial goals and risk tolerance. All equity mutual funds carry investment risk, including potential loss of principal.
-          </p>
-          <p class="mt-3">
-            Fund Investigator is run by an {TAGLINE} ({ARN}). This report is general information. It is not a recommendation to invest in any fund it describes.
+            Fund Investigator is run by an {TAGLINE} ({ARN}).
           </p>
         </div>
       </div>
@@ -190,6 +215,45 @@ import { ARN, TAGLINE } from '../lib/distributor';
     cursor: zoom-in;
   }
 
+  .article-prose :global(.article-subscribe-note) {
+    @apply my-8 rounded-lg border border-fi-border bg-fi-light p-4 font-sans text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-subscribe-note > strong) {
+    @apply mb-1 block font-semibold text-fi-ink;
+  }
+
+  .article-prose :global(.article-subscribe-note > a) {
+    @apply rounded-sm border-b-0 font-semibold text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
+  }
+
+  .article-prose :global(.article-table) {
+    @apply my-8;
+    min-width: 0;
+  }
+
+  .article-prose :global(.article-table-hint) {
+    @apply mb-2 mt-0 font-sans text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-table-scroll) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .article-prose :global(.article-table-scroll:focus-visible) {
+    @apply rounded outline outline-2 outline-offset-2 outline-fi-link;
+  }
+
+  .article-prose :global(.article-table-scroll table) {
+    @apply my-0;
+  }
+
+  .article-prose :global(table[data-wide-table] th),
+  .article-prose :global(table[data-wide-table] td) {
+    @apply min-w-fi-table-cell sm:min-w-0;
+  }
+
   .article-prose :global(a[data-footnote-ref]) {
     @apply border-b-0 font-bold text-fi-muted no-underline;
   }
@@ -216,6 +280,30 @@ import { ARN, TAGLINE } from '../lib/distributor';
 </style>
 
 <script>
+  document.querySelectorAll<HTMLElement>('[data-article-table]').forEach((region) => {
+    const table = region.querySelector('table');
+    const hint = document.getElementById(region.dataset.tableHint ?? '');
+    if (!table || !hint) return;
+
+    const syncOverflow = () => {
+      const overflowing = region.scrollWidth > region.clientWidth + 1;
+      hint.hidden = !overflowing;
+      // Only tables that need horizontal navigation add a keyboard stop.
+      if (overflowing) {
+        region.tabIndex = 0;
+        region.setAttribute('aria-describedby', hint.id);
+      } else {
+        region.removeAttribute('tabindex');
+        region.removeAttribute('aria-describedby');
+      }
+    };
+
+    const observer = new ResizeObserver(syncOverflow);
+    observer.observe(region);
+    observer.observe(table);
+    syncOverflow();
+  });
+
   const articleHero = document.querySelector<HTMLElement>('[data-article-hero]');
   const progressTrack = document.querySelector<HTMLElement>('[data-article-progress]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');

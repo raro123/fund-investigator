@@ -78,15 +78,19 @@ export default {
       // ─────────────────────────────────────────
       // TYPOGRAPHY
       // Sans: Inter — site-wide UI chrome (nav, buttons, cards, body copy outside articles)
-      // Serif: Newsreader — report article content only: h1, deck, all heading levels, body
+      // Serif: Newsreader — report article content: h1, deck, all heading levels, body
       //   copy, lists, pull-quotes, and markdown tables (see src/layouts/ArticleLayout.astro).
       //   Loaded via @fontsource/newsreader in Layout.astro. Weights: 400 · 700 only.
       // Mono: for tabular financial data
+      // Typewriter: Courier Prime — homepage typed text only: the client's problem in the case files
+      //   (CaseFile), the fee memo (Memo) and the first-call dossier (Dossier). Loaded via @fontsource/courier-prime
+      //   in Layout.astro. Weights: 400 · 700 (dossier titles).
       // ─────────────────────────────────────────
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         serif: ['Newsreader', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        typewriter: ['Courier Prime', 'Courier New', 'Courier', 'monospace'],
       },
 
       // Font scale — 1.250 ratio
@@ -140,6 +144,9 @@ export default {
       },
 
       // Max-width tokens
+      minWidth: {
+        'fi-table-cell': '10rem',  // readable columns in wide article tables on phones
+      },
       maxWidth: {
         'fi-content': '65ch',       // article prose reading width
         'fi-disclaimer': '60ch',    // compact legal copy below reports
@@ -170,8 +177,12 @@ export default {
       // while reserving the left rail for in-page navigation at xl widths.
       gridTemplateColumns: {
         'fi-article': 'minmax(12rem, 1fr) minmax(0, 65ch) minmax(12rem, 1fr)',
-        // Homepage subscribe strip at lg: title · benefits take the rest · button
-        'fi-subscribe': 'auto minmax(0, 1fr) auto',
+        // Report card record: mono label column (fits "KEY FIGURES") · value
+        'fi-record': '6.75rem minmax(0, 1fr)',
+        // Homepage case file from lg: the problem · the arrow on the seam · the solution
+        'fi-case-file': 'minmax(0, 1fr) auto minmax(0, 1.2fr)',
+        // Case log (/invest/ journey): the dashed line and its markers · the entry
+        'fi-log': '2.5rem minmax(0, 1fr)',
       },
       // Reveal on scroll: played once by the script in Layout.astro, only for
       // elements that start below the fold. "backwards" fill keeps hover

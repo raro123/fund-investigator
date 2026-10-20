@@ -1,0 +1,75 @@
+---
+/**
+ * CaseLog Component
+ *
+ * A process as an investigator's log: a dashed line down the left with a dot
+ * per stage, grouped into acts (mono caption labels on the line, each with a
+ * small diamond marker). Stages are numbered across the acts (01, 02…), each
+ * with a bold name and a short description. One column at every width, so it
+ * reads the same on phones. Light surfaces only.
+ *
+ * On /invest/ the acts follow the hero line: "We do the investigation" ·
+ * "You make the call" · "We stay on your case".
+ *
+ * @example
+ * <CaseLog acts={[
+ *   { label: 'We do the investigation', stages: [{ name: 'The first call', body: '…' }] },
+ *   { label: 'You make the call', stages: [{ name: 'Findings', body: '…' }] },
+ * ]} />
+ *
+ * @param acts - [{ label, stages: [{ name, body }] }] in order
+ * @param background - the section behind it, 'light' (default) or 'white':
+ *   the markers' ring matches it, so the line seems to pass behind them
+ * @param class - extra classes for the log
+ */
+
+interface Stage {
+  name: string;
+  body: string;
+}
+
+interface Act {
+  label: string;
+  stages: Stage[];
+}
+
+interface Props {
+  acts: Act[];
+  background?: 'light' | 'white';
+  class?: string;
+}
+
+const { acts, background = 'light', class: className = '' } = Astro.props;
+
+const ring = { light: 'ring-fi-light', white: 'ring-white' }[background];
+
+// Stage numbers run across the acts; each act's list starts where the last ended.
+const starts = acts.map((_, i) => 1 + acts.slice(0, i).reduce((sum, act) => sum + act.stages.length, 0));
+---
+
+<div class:list={['relative max-w-3xl mx-auto text-left', className]}>
+  <!-- The log's line, centred in the marker column (fi-log: 2.5rem), behind the markers. -->
+  <span class="absolute left-5 top-4 bottom-4 -translate-x-px border-l-2 border-dashed border-fi-border" aria-hidden="true"></span>
+
+  {acts.map((act, actIndex) => (
+    <div class:list={['relative', actIndex > 0 && 'mt-6']}>
+      <div class="grid grid-cols-fi-log items-center py-2">
+        <span class:list={['mx-auto h-2.5 w-2.5 rotate-45 bg-fi-ink ring-4', ring]} aria-hidden="true"></span>
+        <h3 class="font-mono text-caption uppercase text-fi-ink">{act.label}</h3>
+      </div>
+      <ol start={starts[actIndex]}>
+        {act.stages.map((stage, stageIndex) => (
+          <li class="grid grid-cols-fi-log py-3">
+            <span class:list={['mx-auto mt-2 h-3 w-3 rounded-full border-2 border-fi-muted bg-white ring-4', ring]} aria-hidden="true"></span>
+            <div>
+              <h4 class="text-heading-sm font-bold text-fi-ink">
+                <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{String(starts[actIndex] + stageIndex).padStart(2, '0')}</span>{stage.name}
+              </h4>
+              <p class="mt-1 text-body-sm sm:text-body-md text-fi-muted leading-relaxed">{stage.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</div>

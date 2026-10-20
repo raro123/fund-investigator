@@ -1,38 +1,38 @@
 ---
 import Logo from './Logo.astro';
 import DistributorIdentity from './ui/DistributorIdentity.astro';
-import { substackWelcomeUrl } from '../lib/substack';
-import { deepdiveUrl } from '../lib/deepdive';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { TWITTER_URL, YOUTUBE_URL } from '../lib/site-urls';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, WHATSAPP_ICON_PATH } from '../lib/whatsapp';
 
 const year = new Date().getFullYear();
-const subscribeUrl = substackWelcomeUrl('footer');
 ---
 
 <footer id="contact" class="bg-fi-dark py-16 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
 
-      <div class="flex flex-col gap-4">
+      <div class="col-span-2 lg:col-span-1 flex flex-col gap-4">
         <a href="/" class="inline-block" aria-label="Fund Investigator home">
           <Logo width={160} variant="transparent" />
         </a>
+        <!-- The homepage hero's line, so every page closes on the same promise (#92), in the
+             footer's own gold italic (owner, 2026-10-19). -->
         <p class="text-fi-gold italic text-body-sm leading-relaxed">
-          Investigate Before You Invest
+          We investigate, so you can invest.
         </p>
       </div>
 
       <div>
         <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Navigate</h3>
-        <nav class="flex flex-col gap-3">
-        <a href="/invest/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Invest with support</a>
+        <nav aria-label="Footer navigation" class="flex flex-col gap-3">
+          <a href="/invest/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Invest with support</a>
         <a href="/reports/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
-          <a href={deepdiveUrl('footer')} {...trackAttrs('deepdive_click', 'footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Deepdive ↗</a>
+          {/* No Deepdive link until the tool's outputs are cleared (COM-022, 2026-10-19). */}
         <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">About</a>
-          <a href={subscribeUrl} {...trackAttrs('subscribe_click', 'footer')} target="_blank" rel="noopener noreferrer" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Subscribe ↗</a>
+          <a href={SUBSCRIBE_PAGE} {...trackAttrs('subscribe_click', 'footer')} class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Subscribe</a>
         </nav>
       </div>
 
@@ -42,12 +42,13 @@ const subscribeUrl = substackWelcomeUrl('footer');
         <a href="/terms/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Terms of Service</a>
         <a href="/privacy/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Privacy Policy</a>
         <a href="/disclaimer/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Disclaimer</a>
+        <a href="/disclosures/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Disclosures</a>
         </div>
       </div>
 
       <div>
         <h3 class="text-fi-subtle font-bold text-caption uppercase tracking-widest mb-4">Connect</h3>
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-3">
           <a
             href="mailto:contact@fundinvestigator.com"
             class="w-fi-icon-lg h-fi-icon-lg rounded-lg bg-white/7 hover:bg-white/14 flex items-center justify-center transition-all group"

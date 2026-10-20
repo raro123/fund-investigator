@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import SubstackEmbed from '../components/ui/SubstackEmbed.astro';
+import Button from '../components/ui/Button.astro';
+import { responsive } from '../lib/responsive';
+
+// The in-site subscription: Substack's embedded form, so readers don't leave for
+// substack.com. The report takeaways prompt links here (remark-investigation-brief-cta.mjs).
+---
+
+<Layout
+  ogPage="subscribe"
+  title="Subscribe by Email"
+  description="Get new Fund Investigator guides and mutual fund investigations by email, whenever they're published."
+>
+  <Hero size="sm" background="light">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink mb-4 leading-tight']}>
+      Subscribe
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted']}>
+      New guides and investigations by email, when they're published.
+    </p>
+
+    <!-- The form sits in the hero, not a Section below it: the two paddings stacked left a
+         128px gap above the frame. Order: form, the way back, then the note. -->
+    <div class="mt-8 flex flex-col items-center gap-4">
+      <SubstackEmbed />
+      <!-- Shown only when the reader came from a page on this site; the script fills in the target. -->
+      <div data-subscribe-back hidden>
+        <Button href="/reports/" variant="tertiary" surface="light" icon="none">
+          <span data-subscribe-back-label>Back</span>
+        </Button>
+      </div>
+      <p class="text-body-sm text-fi-muted text-center max-w-md">
+        After you subscribe, check your inbox for a confirmation email from Substack.
+        Sign-up is handled by Substack. You can unsubscribe from any email.
+      </p>
+    </div>
+  </Hero>
+</Layout>
+
+<script>
+  // The form runs in Substack's frame, so the page can't see a signup; it offers the way back
+  // instead. Only a same-origin referrer is used, so the link can never point off the site.
+  const back = document.querySelector<HTMLElement>('[data-subscribe-back]');
+  const link = back?.querySelector<HTMLAnchorElement>('a');
+  const label = back?.querySelector<HTMLElement>('[data-subscribe-back-label]');
+
+  try {
+    const from = document.referrer ? new URL(document.referrer) : null;
+    if (back && link && label && from && from.origin === location.origin && from.pathname !== location.pathname) {
+      link.href = from.pathname + from.search + from.hash;
+      label.textContent = from.pathname.startsWith('/reports/') && from.pathname !== '/reports/'
+        ? 'Back to the article'
+        : 'Back to where you were';
+      back.hidden = false;
+    }
+  } catch {
+    // A malformed referrer leaves the link hidden.
+  }
+</script>

@@ -1,0 +1,100 @@
+---
+/**
+ * CaseFile Component
+ *
+ * One client problem and the Invest with support service that solves it, as a
+ * single case file: a white card in which the problem, typed in the client's
+ * own voice (Courier Prime, the heart of it marked with a gold highlighter),
+ * sits beside the solution from lg, and above it below lg. A gold arrow badge
+ * on the seam points from the problem to the solution, which carries a
+ * "Case solved" rubber stamp in fi-link at its bottom right. Light surfaces only.
+ *
+ * Put `data-reveal` on the file (or its list item). When it reveals on scroll
+ * (Layout.astro), the problem rises first, the highlighter draws, the arrow
+ * pops, the solution slides in (from the right from lg, from below on phones)
+ * and the stamp lands. Files visible at load, and readers who prefer reduced
+ * motion, see the finished file.
+ *
+ * @example
+ * import { homeServices } from '../lib/services';
+ * {homeServices.map((service) => <li data-reveal={0}><CaseFile {...service} /></li>)}
+ *
+ * @param problem - the client's problem, first person
+ * @param mark - the words in `problem` to highlight
+ * @param title - service name
+ * @param bullets - three short items (CheckList)
+ * @param class - extra classes for the file
+ */
+import CheckList from './CheckList.astro';
+import Highlight from './Highlight.astro';
+import Stamp from './Stamp.astro';
+import { responsive } from '../../lib/responsive';
+
+interface Props {
+  problem: string;
+  mark: string;
+  title: string;
+  bullets: string[];
+  class?: string;
+}
+
+const { problem, mark, title, bullets, class: className = '' } = Astro.props;
+
+const start = problem.indexOf(mark);
+const before = problem.slice(0, start);
+const after = problem.slice(start + mark.length);
+---
+
+<article class:list={['text-left', className]}>
+  <div class="grid lg:grid-cols-fi-case-file rounded-lg border border-fi-border bg-white shadow-fi-card overflow-hidden">
+    <div class="bg-fi-light px-6 pt-7 pb-9 lg:p-10 flex items-center">
+      <p class:list={[responsive.typed, 'font-typewriter font-normal text-fi-ink leading-relaxed']}>
+        &ldquo;{before}<Highlight>{mark}</Highlight>{after}&rdquo;
+      </p>
+    </div>
+
+    <!-- The arrow sits on the seam: negative margins take its size back out of the grid. -->
+    <div class="relative z-10 flex justify-center -my-5 lg:my-0 lg:-mx-5 lg:flex-col" aria-hidden="true">
+      <span class="fi-case-arrow w-10 h-10 rounded-full bg-fi-gold ring-4 ring-white flex items-center justify-center">
+        <svg class="w-5 h-5 text-fi-ink lg:-rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </span>
+    </div>
+
+    <div class="fi-case-solution px-6 pt-8 pb-7 lg:p-8 lg:pl-10 flex flex-col">
+      <h3 class="text-heading-sm font-bold text-fi-ink mb-4">{title}</h3>
+      <CheckList items={bullets} />
+      <!-- The stamp at the bottom right, like a sign-off. The wrapper's mt-auto keeps it at the
+           foot when the problem panel makes the row taller; its pt-6 is the minimum gap below
+           the ticks. -->
+      <div class="mt-auto pt-6 self-end">
+        <Stamp>Case solved</Stamp>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* The sequence after the file rises (fi-rise, 0.65s): the Highlight draws (0.4s), then the
+     arrow, the solution and the stamp (Stamp.astro, at its default 1.75s). */
+  :global(.animate-fi-rise) .fi-case-arrow {
+    animation: fi-pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) 0.95s backwards;
+  }
+  :global(.animate-fi-rise) .fi-case-solution {
+    animation: fi-slide-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 1.1s backwards;
+  }
+  @media (min-width: 1024px) {
+    :global(.animate-fi-rise) .fi-case-solution {
+      animation-name: fi-slide-in;
+    }
+  }
+
+  @keyframes fi-pop {
+    from { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes fi-slide-up {
+    from { opacity: 0; transform: translateY(24px); }
+  }
+  @keyframes fi-slide-in {
+    from { opacity: 0; transform: translateX(32px); }
+  }
+</style>

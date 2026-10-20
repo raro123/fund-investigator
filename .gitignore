@@ -45,6 +45,14 @@ my_thoughts.md
 
 # Playwright MCP workspace artifacts
 .playwright-mcp/
+.playwright-cli/
+
+# Agent scratch output (scripts, screenshots, worktrees)
+output/
+
+# Claude Code personal settings
+.claude/settings.local.json
+.claude/launch.json
 
 # Reference PDFs (local only)
 docs/*.pdf

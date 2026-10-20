@@ -1,6 +1,5 @@
 import { defineCollection, z } from 'astro:content';
 import { seoSchema } from '@jdevalk/astro-seo-graph';
-import { reportMetricIconNames } from './lib/report-metrics';
 
 const reports = defineCollection({
   type: 'content',
@@ -13,6 +12,10 @@ const reports = defineCollection({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
+    /** Who signs the report. 'owner' credits the ARN holder (visible byline + Person author in JSON-LD).
+     *  A fund analysis that names a scheme decides case by case (content_philosophy_v2.md, bylines):
+     *  set 'brand' there to sign as Fund Investigator. */
+    byline: z.enum(['owner', 'brand']).optional().default('owner'),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
     //   1. this enum (the gate — an unlisted value fails the build)
     //   2. `categoryLabels` in src/lib/report-categories.ts (display label + pill order)
@@ -24,14 +27,20 @@ const reports = defineCollection({
     analysisThrough: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     /** Current report readers should visit from an archived snapshot. */
     supersededBy: z.string().startsWith('/reports/').optional(),
+    /** Service invite above the notes. Only for guides that name no scheme: a fund
+     *  analysis never links to the service (content_philosophy_v2.md, Two Modes).
+     *  Without it, the report ends with the subscription card. */
+    serviceInvite: z.object({
+      heading: z.string().max(80),
+      line: z.string().max(220),
+    }).optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),
+    /** Report card record, max 3. With values (fund analyses): "Key figures CAGR 25.0% · …".
+     *  Labels only (guides): "Covers Returns · Risk · Consistency". */
     keyMetrics: z.array(z.object({
       label: z.string(),
       value: z.string().optional(),
-      icon: z.enum(reportMetricIconNames).optional(),
-    }).refine((metric) => metric.value || metric.icon, {
-      message: 'A key metric must provide either a value or an icon.',
     })).max(3).optional(),
   }).superRefine((report, ctx) => {
     if (report.status === 'archived' && !report.analysisThrough) {

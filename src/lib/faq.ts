@@ -33,7 +33,7 @@ export const investFaqGroups: FaqGroup[] = [
       },
       {
         question: 'Is there a minimum amount?',
-        answer: 'Each mutual fund sets its own minimum, and most are small. SIFs start at ₹10 lakh. GIFT City funds set their minimum in US dollars.',
+        answer: 'Each mutual fund sets its own minimum, and most are small. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies; see "What is a SIF?" below. GIFT City funds set their minimum in US dollars.',
       },
     ],
   },
@@ -41,8 +41,9 @@ export const investFaqGroups: FaqGroup[] = [
     title: 'Products',
     items: [
       {
+        // Compliance's conditional draft (COM-015), pending its source-backed clearance.
         question: 'What is a SIF?',
-        answer: 'A Specialised Investment Fund. It is a SEBI category that can use strategies a mutual fund cannot, such as long-short. The minimum is ₹10 lakh, and the risks are higher. We explain them on the call.',
+        answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
       {
         question: 'Who can invest in GIFT City funds?',
@@ -55,7 +56,7 @@ export const investFaqGroups: FaqGroup[] = [
     items: [
       {
         question: 'What is the difference between a direct plan and a regular plan?',
-        answer: 'Each fund is sold in two versions. You buy a direct plan on your own, with no help to choose or review. You buy a regular plan through a distributor like us. It has a higher yearly expense ratio, and our commission comes from that difference. The fund and its investments are the same in both.',
+        answer: 'A direct plan has a lower yearly expense ratio because it excludes distributor commission. You can manage it yourself or separately pay a SEBI-registered Investment Adviser for help. A regular plan is bought through a distributor like us and has a higher expense ratio that includes distributor commission. The fund and its investments are the same in both, but the expense ratios and NAVs differ.',
       },
       {
         question: 'Do you choose funds by the commission they pay you?',
@@ -68,7 +69,7 @@ export const investFaqGroups: FaqGroup[] = [
     items: [
       {
         question: 'What happens after the call?',
-        answer: 'For a full review, we ask for your Consolidated Account Statement (CAS) after the call. We help you download it. Then we send you a short brief.',
+        answer: 'If you want to go ahead, we start with fact-finding: your goals, your time frame, a risk profile and the investments you hold (we help you download your Consolidated Account Statement). Then we investigate and walk you through a clear brief before you decide anything.',
       },
       {
         question: 'How often do you review my funds?',

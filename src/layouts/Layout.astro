@@ -1,9 +1,13 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { absoluteImageUrl } from '../lib/schema';
+import RiskDisclosures from '../components/ui/RiskDisclosures.astro';
+import { absoluteImageUrl, LANGUAGE, OG_LOCALE } from '../lib/schema';
+import { OG_HEIGHT, OG_PAGES, OG_WIDTH, pageOgImagePath, type OgPageId } from '../lib/og-card';
+// Hashed URL of the body font; the same asset the @fontsource CSS loads, so the preload is reused.
+import interLatin400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 import Seo from '@jdevalk/astro-seo-graph/Seo.astro';
-import type { TrackView } from '../lib/analytics';
+import type { LandingId, TrackView } from '../lib/analytics';
 
 // Self-hosted Inter font (matches Google Fonts weights) — site-wide UI chrome
 import '@fontsource/inter/400.css';
@@ -14,6 +18,9 @@ import '@fontsource/inter/800.css';
 
 // Self-hosted Newsreader serif — report article content and brand pull quotes (style_spec.md §2)
 import '@fontsource/newsreader/400.css';
+// Typewriter face for the homepage typed text only (CaseFile, Memo, Dossier)
+import '@fontsource/courier-prime/400.css';
+import '@fontsource/courier-prime/700.css'; // dossier titles (Dossier)
 import '@fontsource/newsreader/700.css';
 
 interface Props {
@@ -22,6 +29,7 @@ interface Props {
   excerpt?: string;
   firstParagraph?: string;
   ogImage?: string;           // Optional: URL path to OG image
+  ogPage?: OgPageId;          // Optional: build-time page card from src/lib/og-card.ts; overrides ogImage
   ogImageAlt?: string;        // Optional: Alt text for OG image
   ogImageWidth?: number;
   ogImageHeight?: number;
@@ -37,6 +45,9 @@ interface Props {
   noindex?: boolean;
   extraLinks?: ReadonlyArray<Record<string, string>>;
   trackView?: TrackView;      // Optional: PostHog page-view event sent on load
+  trackLanding?: LandingId;   // Optional: `landing` property of that event, on landing pages
+  /** False only where the page shows the same warnings in its own disclaimer (articles). */
+  riskDisclosures?: boolean;
 }
 
 const {
@@ -44,10 +55,11 @@ const {
   description,
   excerpt,
   firstParagraph,
-  ogImage,
-  ogImageAlt,
-  ogImageWidth = 1200,
-  ogImageHeight = 630,
+  ogImage: suppliedOgImage,
+  ogPage,
+  ogImageAlt: suppliedOgImageAlt,
+  ogImageWidth: suppliedOgImageWidth = 1200,
+  ogImageHeight: suppliedOgImageHeight = 630,
   ogType = 'website',  // Default to 'website'
   jsonLd,
   graph: suppliedGraph,
@@ -55,6 +67,8 @@ const {
   noindex = false,
   extraLinks = [],
   trackView,
+  trackLanding,
+  riskDisclosures = true,
 } = Astro.props;
 
 const resolvedTitle = title?.trim() || 'Fund Investigator';
@@ -63,6 +77,10 @@ const resolvedDescription =
   excerpt?.trim() ||
   firstParagraph?.trim() ||
   'Data-driven mutual fund analysis for Indian investors.';
+const ogImage = ogPage ? pageOgImagePath(ogPage) : suppliedOgImage;
+const ogImageAlt = ogPage ? OG_PAGES[ogPage].title : suppliedOgImageAlt;
+const ogImageWidth = ogPage ? OG_WIDTH : suppliedOgImageWidth;
+const ogImageHeight = ogPage ? OG_HEIGHT : suppliedOgImageHeight;
 const ogImageUrl = absoluteImageUrl(ogImage, Astro.site);
 
 // Brand suffix in the tab/SERP title, skipped where the title already carries the brand
@@ -85,11 +103,13 @@ const defaultLinks = [
   { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
   { rel: 'alternate', type: 'application/rss+xml', href: '/feed.xml', title: 'Fund Investigator RSS feed' },
+  // Body text font only: preloading every weight would compete with the page itself.
+  { rel: 'preload', href: interLatin400, as: 'font', type: 'font/woff2', crossorigin: '' },
 ];
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={LANGUAGE}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -102,6 +122,7 @@ const defaultLinks = [
       ogImageWidth={ogImageWidth}
       ogImageHeight={ogImageHeight}
       siteName="Fund Investigator"
+      locale={OG_LOCALE}
       twitter={{ card: 'summary_large_image' }}
       article={article}
       noindex={noindex}
@@ -110,11 +131,12 @@ const defaultLinks = [
     />
 
   </head>
-  <body class="font-sans antialiased" data-track-view={trackView}>
+  <body class="font-sans antialiased" data-track-view={trackView} data-track-landing={trackLanding}>
     <Header />
     <main>
       <slot />
     </main>
+    {riskDisclosures && <RiskDisclosures />}
     <Footer />
 
     <script>
@@ -167,9 +189,8 @@ const defaultLinks = [
           cross_subdomain_cookie: true,
           persistence: 'localStorage+cookie',
           // Autocapture (on by default) is intentionally left enabled and
-          // undisturbed: every Deepdive/Substack CTA link already carries a
-          // distinguishing utm_content in its href (see deepdive.ts,
-          // substack.ts), so autocapture's automatic click/pageview tracking
+          // undisturbed: every Substack CTA link already carries a
+          // distinguishing utm_content in its href (see substack.ts), so autocapture's automatic click/pageview tracking
           // already gives placement-level attribution without hand-written
           // posthog.capture() calls per CTA.
         });
@@ -177,8 +198,14 @@ const defaultLinks = [
         // Funnel events (src/lib/analytics.ts). Booking and WhatsApp links
         // carry no utm the destination can report back, so these named
         // events are the record of which button started a conversation.
+        // The view event also carries the page's utm_* tags, so a landing
+        // page funnel can be broken down by the post or video that sent the
+        // visitor (docs/landing_pages_plan.md §4).
         const view = document.body.dataset.trackView;
-        if (view) posthog.capture(view);
+        if (view) {
+          const utm = [...new URLSearchParams(window.location.search)].filter(([key]) => key.startsWith('utm_'));
+          posthog.capture(view, { landing: document.body.dataset.trackLanding, ...Object.fromEntries(utm) });
+        }
 
         document.addEventListener('click', (event) => {
           const tracked = (event.target as Element | null)?.closest<HTMLElement>('[data-track]');

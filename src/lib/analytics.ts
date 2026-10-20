@@ -11,11 +11,17 @@
 export type TrackEvent =
   | 'review_booking_click'
   | 'conversation_request'
-  | 'deepdive_click'
   | 'subscribe_click';
 
 /** Page-view events sent once on load, set through Layout's `trackView` prop. */
-export type TrackView = 'invest_view';
+export type TrackView = 'invest_view' | 'landing_view';
+
+/**
+ * Landing pages (docs/landing_pages_plan.md), sent as the `landing` property of
+ * `landing_view` through Layout's `trackLanding` prop. One id per reader
+ * situation, so a PostHog funnel can be broken down by page.
+ */
+export type LandingId = 'review' | 'start' | 'sif' | 'gift_city';
 
 /**
  * Data attributes for a tracked element.

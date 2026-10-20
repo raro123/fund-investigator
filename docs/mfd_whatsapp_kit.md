@@ -35,15 +35,15 @@
 
 ## 4. Prefilled messages (website buttons)
 
-Each button opens a chat with this text. The `ref` shows which button the person used.
+Each button opens a chat with a short, friendly text for its placement. The text carries no tracking code, because the person sees it and sends it: the button click is recorded as the PostHog `conversation_request` event with its `placement`. Landing-page texts name the reader's topic, so the chat itself shows why they wrote.
 
 | Placement | Page | Prefilled text |
 | --- | --- | --- |
-| `invest_hero` | `/invest/` hero | Hi, I'd like to know more about Invest with Support. (ref: invest_hero) |
-| `invest_cta` | `/invest/` "Ready to start?" | Hi, I'd like to know more about Invest with Support. (ref: invest_cta) |
-| `homepage_pricing` | Homepage "How we are paid" | Hi, I have a question about Invest with Support. (ref: homepage_pricing) |
+| `invest_hero` | `/invest/` hero | Hi Ishpreet, I'd like to know more about Invest with support. |
+| `invest_cta` | `/invest/` "Ready to start?" | Hi Ishpreet, I'd like to know more about Invest with support. |
+| `lp_review_hero` | Portfolio review page hero | Hi Ishpreet, I'd like a review of my mutual fund portfolio. |
 
-Link format: `https://wa.me/919625026859?text=<URL-encoded text>`. At build time this lives in `src/lib/whatsapp.ts` (`whatsappUrl(placement)`), mirroring `deepdive.ts`.
+The full list of placements and texts lives in `src/lib/whatsapp.ts` (`whatsappUrl(placement)`). Link format: `https://wa.me/919625026859?text=<URL-encoded text>`.
 
 ## 5. Privacy policy section (draft for `/privacy/`)
 

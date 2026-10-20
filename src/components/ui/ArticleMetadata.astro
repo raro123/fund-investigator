@@ -4,6 +4,8 @@ import {
   type ReportCategory,
 } from '../../lib/report-categories';
 import { formatDate } from '../../lib/format';
+import { ARN } from '../../lib/distributor';
+import { reportAuthorName, type Byline } from '../../lib/schema';
 
 interface Props {
   published: string;
@@ -11,61 +13,55 @@ interface Props {
   readTime: string;
   category?: ReportCategory;
   status?: 'current' | 'archived';
+  /** 'owner' names the ARN holder; the name links to the distributor section of /about/. */
+  byline?: Byline;
 }
 
-const { published, updated, readTime, category, status = 'current' } = Astro.props;
+const { published, updated, readTime, category, status = 'current', byline = 'owner' } = Astro.props;
+const authorHref = byline === 'owner' ? '/about/#distributor' : '/about/';
 const showUpdated = Boolean(updated && updated !== published);
+const displayDate = showUpdated && updated ? updated : published;
 const displayReadTime = readTime.replace(/\s+read$/i, '');
 ---
 
 <div class="border-t border-fi-gold pt-5 text-sm">
-  <div class="flex flex-col items-start gap-3 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-5 lg:gap-y-2">
-    <dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1 lg:gap-x-3" role="group" aria-label="Article dates">
+    <dl class="flex flex-wrap items-baseline gap-x-3 gap-y-2" aria-label="Article details">
       <div class="inline-flex items-baseline gap-1.5">
-        <dt class="text-fi-subtle">Published</dt>
+        <dt class="text-fi-subtle">{showUpdated ? 'Last updated' : 'Published'}</dt>
         <dd class="font-semibold text-fi-muted-inv">
-          <time datetime={published}>{formatDate(published)}</time>
+          <time datetime={displayDate}>{formatDate(displayDate)}</time>
         </dd>
       </div>
-      {showUpdated && updated && (
-        <div class="inline-flex items-baseline gap-1.5">
-          <dt class="text-fi-subtle">Updated</dt>
-          <dd class="font-semibold text-fi-muted-inv">
-            <time datetime={updated}>{formatDate(updated)}</time>
-          </dd>
-        </div>
-      )}
-    </dl>
-
-    <dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1 lg:gap-x-3" role="group" aria-label="Article details">
       <div class="inline-flex items-baseline gap-1.5">
-        <dt class="text-fi-subtle">Reading time</dt>
-        <dd class="font-semibold text-fi-muted-inv">{displayReadTime}</dd>
+        <dt class="sr-only">Reading time</dt>
+        <dd class="font-semibold text-fi-muted-inv"><span aria-hidden="true" class="mr-3 text-fi-subtle">·</span>{displayReadTime} read</dd>
       </div>
       {category && (
         <div class="inline-flex items-baseline gap-1.5">
-          <dt class="text-fi-subtle">Category</dt>
-          <dd class="font-semibold text-fi-muted-inv">{reportCategoryLabel(category)}</dd>
+          <dt class="sr-only">Category</dt>
+          <dd class="font-semibold text-fi-muted-inv"><span aria-hidden="true" class="mr-3 text-fi-subtle">·</span>{reportCategoryLabel(category)}</dd>
         </div>
       )}
       {status === 'archived' && (
         <div class="inline-flex items-baseline gap-1.5">
-          <dt class="text-fi-subtle">Status</dt>
-          <dd class="font-semibold text-fi-muted-inv">Historical</dd>
+          <dt class="sr-only">Status</dt>
+          <dd class="font-semibold text-fi-muted-inv"><span aria-hidden="true" class="mr-3 text-fi-subtle">·</span>Historical</dd>
         </div>
       )}
     </dl>
 
-    <dl role="group" aria-label="Article byline">
-      <div class="inline-flex items-baseline gap-1.5 whitespace-nowrap">
+    <dl class="mt-3" aria-label="Article byline">
+      <div class="inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
         <dt class="text-fi-subtle">By</dt>
-        <dd>
+        <dd class="whitespace-nowrap">
           <a
-            href="/about/"
+            href={authorHref}
             class="rounded-sm font-semibold text-fi-muted-inv transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold focus-visible:ring-offset-2 focus-visible:ring-offset-fi-dark"
-          >Fund Investigator</a>
+          >{reportAuthorName(byline)}</a>
         </dd>
+        {byline === 'owner' && (
+          <dd class="whitespace-nowrap text-fi-subtle"><span aria-hidden="true" class="mr-1.5">·</span>{ARN}</dd>
+        )}
       </div>
     </dl>
-  </div>
 </div>

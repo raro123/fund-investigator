@@ -37,7 +37,7 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
 
 ## 2. Content & Tone Guidelines
 
-- **Source:** `docs/content_philosophy_v2.md` (latest, 2026-10-14; v1 at `docs/content_philosophy.md`)
+- **Source:** `docs/content_philosophy_v2.md` (latest, 2026-10-14; v1 retired to `docs/archive/content_philosophy_v1.md`)
 - **Adding a report category?** Update it in both `src/content.config.ts` (the enum — the build gate) and `categoryLabels` in `src/pages/reports.astro` (display label + pill order). The schema alone won't catch a missed second update: the build still passes, but the filter pill for that category silently never appears on `/reports`.
 
 ## 3. Development Workflow

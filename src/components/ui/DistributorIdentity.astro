@@ -2,12 +2,15 @@
 /**
  * DistributorIdentity Component
  *
- * The AMFI distributor disclosure: registered name, ARN, a link to verify the
- * ARN on AMFI's distributor search, and the standard risk warning. Values come from `src/lib/distributor.ts` so every page shows the
- * same, current details.
+ * The AMFI distributor disclosure: registered name, the exact tagline, ARN, and
+ * a link to verify the ARN on AMFI's distributor search. Values come from
+ * `src/lib/distributor.ts` so every page shows the same, current details.
+ *
+ * The risk warnings (RISK_WARNING, SIF_WARNING) are not part of this line: they
+ * show in the RiskDisclosures band directly above the footer on every page.
  *
  * @example
- * <!-- Footer bottom bar: one line of identity plus the risk warning -->
+ * <!-- Footer bottom bar: one line of identity -->
  * <DistributorIdentity variant="inline" surface="dark" />
  *
  * <!-- Card body on a light page: name, registration, ARN validity, RIA note -->
@@ -18,13 +21,12 @@ import {
   ARN,
   ARN_VALID_UNTIL,
   TAGLINE,
-  RISK_WARNING,
   AMFI_VERIFY_URL,
 } from '../../lib/distributor';
 import { formatDate } from '../../lib/format';
 
 interface Props {
-  /** inline: one identity line + risk warning (footer). block: stacked details (cards). */
+  /** inline: one identity line (footer). block: stacked details (cards). */
   variant?: 'inline' | 'block';
   /** Background the component sits on; text colours differ per surface. */
   surface: 'light' | 'dark';
@@ -48,7 +50,6 @@ const tone = {
       {REGISTERED_NAME} · {TAGLINE} · {ARN} ·
       <a href={AMFI_VERIFY_URL} target="_blank" rel="noopener noreferrer" class:list={[tone.link, 'whitespace-nowrap']}>Verify {ARN} on AMFI ↗</a>
     </p>
-    <p class:list={[tone.secondary, 'mt-1']}>{RISK_WARNING}</p>
   </div>
 ) : (
   <div class:list={['text-body-sm', className]}>

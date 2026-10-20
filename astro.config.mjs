@@ -4,6 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import seoGraph from '@jdevalk/astro-seo-graph/integration';
 import { gitLastmod } from '@jdevalk/astro-seo-graph';
 import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
+import rehypeSplitFootnotes from './src/lib/rehype-split-footnotes.mjs';
+import rehypeScrollableTables from './src/lib/rehype-scrollable-tables.mjs';
 
 const INDEXNOW_KEY = '14a30902d8a12fd849ea16a55b53e034';
 const isProductionBuild =
@@ -15,6 +17,19 @@ const reportSourcePath = (url) => {
   return match ? `src/content/reports/${match[1]}.md` : null;
 };
 
+// Static pages map one-to-one to a file in src/pages ("/" → index.astro, "/about/" → about.astro).
+const pageSourcePath = (url) => {
+  const pathname = new URL(url).pathname;
+  if (pathname === '/') return 'src/pages/index.astro';
+  const match = pathname.match(/^\/([^/]+)\/$/);
+  return match ? `src/pages/${match[1]}.astro` : null;
+};
+
+// Commits that touched many pages without a content change (title suffix sweep,
+// formatting). Skipping them keeps lastmod meaning "the content changed", which
+// is the only lastmod Google trusts.
+const LASTMOD_EXCLUDE_COMMITS = ['6835eed'];
+
 export default defineConfig({
   integrations: [
     tailwind(),
@@ -23,15 +38,17 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/styleguide') &&
         !page.includes('/404') &&
-        !page.includes('/subscribe') &&
         !page.includes('/_TEMPLATE'),
       chunks: {
         reports: (item) => reportSourcePath(item.url) ? item : undefined,
       },
       serialize: (item) => {
-        const sourcePath = reportSourcePath(item.url);
+        const sourcePath = reportSourcePath(item.url) ?? pageSourcePath(item.url);
         if (sourcePath) {
-          const lastmod = gitLastmod(sourcePath, { depth: 20 });
+          const lastmod = gitLastmod(sourcePath, {
+            depth: 20,
+            excludeCommits: LASTMOD_EXCLUDE_COMMITS,
+          });
           if (lastmod) item.lastmod = lastmod;
         }
         return item;
@@ -59,7 +76,8 @@ export default defineConfig({
   site: 'https://fundinvestigator.com',
 
   markdown: {
-    remarkPlugins: [remarkInvestigationBriefCta]
+    remarkPlugins: [remarkInvestigationBriefCta],
+    rehypePlugins: [rehypeScrollableTables, rehypeSplitFootnotes]
   },
 
   // Image optimization settings

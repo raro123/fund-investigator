@@ -33,11 +33,13 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Verify static redirect rules
+      # /subscribe/ is a real page (Substack's embedded form), no longer a redirect.
+      # Held reports still 301 to the five-checks guide.
+      - name: Verify subscribe page and static redirect rules
         run: |
+          test -f dist/subscribe/index.html
           test -f dist/_redirects
-          grep -Fq '/subscribe ' dist/_redirects
-          grep -Fq '/subscribe/ ' dist/_redirects
+          grep -Fq '/reports/hdfc-flexicap-performance/ /reports/five-checks-mutual-fund/ 301' dist/_redirects
 
       - name: Check internal links (blocking)
         uses: lycheeverse/lychee-action@v2
@@ -46,7 +48,6 @@ jobs:
             --no-progress
             --scheme file
             --root-dir "$GITHUB_WORKSPACE/dist"
-            --exclude '^file:.*/dist/subscribe/?$'
             './dist/**/*.html'
           fail: true
 

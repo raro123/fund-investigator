@@ -195,29 +195,75 @@ Both: `font-size: 11px (caption)` · `font-weight: 700` · `letter-spacing: 0.13
 - Title: `15px` · `font-weight: 700` · `fi-ink-inv`
 - Body: `13px` · `fi-muted-inv` · `line-height: 1.65`
 
-### Service Cards (`ServiceCard.astro`, light section)
-- One card per Invest with support service, led by the client's problem. Copy source: `src/lib/services.ts` (homepage bullets and `/invest/` details in one list).
-- Grey problem strip on top (`fi-light`, dashed `fi-border` rule, `fi-muted` icon and text, `text-body-sm`), then the service: inline mono number in `fi-muted`, `text-heading-sm` title in `fi-ink`, three `CheckList` ticks.
-- The number sits on the title line, never on its own coloured row: the services are a sequence, but the title must lead.
-- Grid: `sm:grid-cols-2` (2×2 on desktop).
+### Case files (`CaseFile.astro`, homepage, light section, S61)
+The homepage's problems and services use one idea from the brand ("We investigate"): each client problem and the service that solves it form one **case file**. Copy source: `src/lib/services.ts` (`homeServices`, one record per problem and its service). `/invest/` keeps the four services as journey stages (`services`).
 
-### Difference Cards (homepage, white section)
-- `Card` with an `text-body-lg` bold title and a one- or two-line `text-body-sm` body. No icons: the titles carry the meaning, and the page already has icons in the service strips and ticks.
-- Short paragraphs, not bullets: each card explains a belief and its reason. Service cards use bullets because they list what the client gets.
-- Grid: `sm:grid-cols-2 lg:grid-cols-3`.
+- **The card:** white, `fi-border`, `shadow-fi-card`, no tab, number or dark edge (owner, S61). Files stack in a `max-w-5xl` column, `space-y-10`.
+- **The problem panel** (`fi-light`): no label. The problem in the client's own voice, in quotes, **typed** in Courier Prime (`font-typewriter`, `responsive.typed`, 18→20→24px, `fi-ink`). Courier Prime is for this text only; `font-mono` stays for data and labels.
+- **The highlighter (`Highlight.astro`):** the heart of each problem (`mark` in `services.ts`) gets a gold highlighter stroke over the lower part of the words: `fi-gold` at 45%, never gold text, so `fi-ink` stays readable. One mark per block of text; used in the case files and the fee memo only.
+- **The seam:** a 40px `fi-gold` circle with a `fi-ink` arrow and a white ring, sitting on the join between the panels (down on phones, right from `lg`). Decorative, not a button.
+- **The solution panel** (white): the `text-heading-sm` title and three `CheckList` ticks, then a **"Case solved" rubber stamp** at the bottom right, like a sign-off (tick and uppercase `text-body-sm` extrabold, `tracking-fi-label`, 2px `fi-link` border plus an offset `fi-link` ring for the double rule, tilted −6°). No links in the file. The stamp is `fi-link`, not red: `fi-negative` means a loss, and gold text is never on white.
+- **Layout:** stacked below `lg`; from `lg`, problem · seam · solution (`grid-cols-fi-case-file`, 1 : 1.2).
 
-### Report Cards on light surfaces (`ReportCard surface="light"`)
-- White card, `fi-border`, `shadow-fi-card`; meta and hook `fi-muted`, title `fi-ink`, hover and "Read Investigation" in `fi-link` (never gold on white). `/reports/` keeps the default dark surface.
+### Fee memo (`Memo.astro`, homepage, under the case files)
+- "No separate fee from you" as a typed memo: a white `max-w-2xl` sheet (`fi-border`, `shadow-fi-card`), a mono label ("How we are paid") over a dashed rule, the bold sans title, the body in Courier Prime with one `Highlight` ("in writing, before you select your funds"), and a "Disclosed" stamp at the bottom right (`Stamp`, the same stamp as "Case solved"). No typed sign-off: the ARN is in the hero, the final dossier and the footer.
+- Wording rules still apply: say "No separate fee from you" and explain the commission in the same place; never "free" or "₹0"; no commission rates.
+- On reveal the highlight draws, then the stamp lands.
+
+### Your case dossier (`Dossier.astro`, homepage final section, light)
+- The page's last element, so the page ends on the booking buttons. Under "Your money. Your goals. Our investigation." (first-time and existing investors alike; no "portfolio") and "Ready to talk about your case?": the reader's own case file, blank where every file above it is filled in. A typed sheet (`max-w-2xl`) on two more sheets slightly out of line; no paper clip. A mono "Case file" header over a dashed rule; no title, to keep the file compact.
+- Form fields (mono `fi-muted` label, typed `fi-ink` value, a `fi-border` rule under each), two to a row at every width unless `wide`, so half-row values stay about 12 characters: Client "You" · Status "Awaiting you"; then, wide, Your investigator "AMFI-registered · ARN-…" with an underlined `fi-link` "Know more" on the right of the label (accessible name "Know your investigator") to `/about/#distributor`. The registration, not the owner's name (homepage privacy); the person is one click away. The full AMFI disclosure is in the footer.
+- The status is `typed`: once the sheet has risen, it types out one character at a time behind a solid `fi-ink` caret, which blinks four times and stays (it reads as waiting for you). Off under reduced motion and above the fold (it rides on the reveal); the text is always in the DOM.
+- Then the `notes` agenda: a mono "On the first call" caption with "30 minutes · No charge" on the right (on its own line on phones), then three typed items behind empty `fi-muted` boxes, things still to happen: You share your goals, or what worries you · We explain how we can help · You decide what happens next. Only facts promised elsewhere (30 minutes, no charge, no obligation). "No charge" stays with the call, never the case, so the service never reads as free.
+- At the foot (the default slot), the booking and WhatsApp buttons (`homepage_final`), then "We reply within 1 business day. Prefer email?" with the address.
+- No mugshots, "confidential" stamps, redacted lines or green ticks (a typed file, not a feature list). The three differences are not on the homepage; they live on `/about/` (nav).
+
+### Report Cards (`ReportCard.astro`, homepage band and `/reports/`, S61)
+- Styled like a filed record without saying so. The category (`categoryLabels`) sits on a folder tab on the card's top edge: mono caption, same fill and border as the card, `-mb-px` so it covers the card's top border; the card's top-left corner is square under it.
+- Title and hook as before, then a dashed rule and a **typed record** in mono at the foot: a `fi-subtle` label column (`grid-cols-fi-record` from `sm`, label above value on phones) and `fi-ink-inv` values, each part `whitespace-nowrap`:
+  - `Key figures CAGR 25.0% · Sharpe 1.55 · Max DD -12.9%` when the report's `keyMetrics` carry values (fund analyses);
+  - `Covers Returns · Risk · Consistency` when they are labels only (guides);
+  - `Updated` (or `Published`) with the date and the read time.
+- No icons (the `MetricIcon` row was removed), no stamps or verdicts: fund analyses are evidence only.
+- Surfaces: `dark` (default, `fi-mid` on `fi-dark`, gold title hover and "Read Investigation") and `light` (white, `fi-link`, never gold on white).
+- The tab is `FolderTab.astro`, shared with the homepage subscribe card: a "Stay updated" tab on a `Card variant="dark"` (`rounded-tl-none`) with one sentence ("Every new investigation, by email." in `fi-ink-inv`, the Deepdive line in `fi-muted-inv`) and the secondary Subscribe button. No heading, no icons, never "free".
 
 ### Check List (`CheckList.astro`) and FAQ List (`FaqList.astro`)
 - `CheckList`: ticks in `fi-positive` (light) or `fi-gold` (dark); `layout="inline"` for a centred row, e.g. credentials.
 - `FaqList`: native `<details>` rows with `fi-border` rules, a `fi-link` plus that turns into a cross when open, and a `fi-link` focus ring. Copy source: `src/lib/faq.ts`.
 
+### Credentials (`Credentials.astro`)
+- Was under the homepage's sample brief until 2026-10-19; the hero now uses `CredibilityStrip` again (AMFI-registered (ARN) · 40+ fund houses empanelled · Transparent disclosures), because the card took too much of the first screen. `/invest/` uses `IdCard` instead (below). The card itself: A "Credentials" `FolderTab` on a `fi-mid` card (`rounded-tl-none`), holding a typed record in the report cards' style (mono `fi-subtle` caption labels, mono `fi-ink-inv` values, dashed `fi-border-dark` rules; label above value on phones, `grid-cols-fi-record` from `sm`): Registered (the exact AMFI `TAGLINE`) · ARN (the number, then a gold "Verify on AMFI ↗" link to AMFI's distributor search) · Empanelled (`EMPANELMENT`, "40+ fund houses"; "fund houses", not "AMCs").
+- Default (dark) form has no owner name (homepage privacy); the footer carries the full disclosure.
+- `surface="light" detailed` (white card, `fi-border`, `shadow-fi-card`, `fi-link` links): adds Investigator (the registered name · "Read our story →" `/about/`; service pages may name the person), the ARN's validity, and Contact (the email).
+
+### `/invest/` redesign (2026-10-19, later the same day)
+- Order: hero → how it works (`StepMemos`, four steps: We listen / analyse / explain / support, each with a fact line answering the reader's worry) → "Same fund. More support." (`PlanCompare`: "With us" featured sheet with ticks and the booking, "Do it yourself" flat and muted; folder tabs below `lg`) → the direct-plan `Memo` → "Who you work with." (`IdCard`) → FAQ (white).
+- `IdCard`: dark logo band, a circular photo (monogram until `OWNER_PHOTO` is set), the name and the exact `TAGLINE`, then a typed record (ARN with validity and "Verify on AMFI ↗", empanelment, background from `CREDENTIALS`, email) and "Read our story →". Our own design: never AMFI's logo or ARN-card layout.
+- The notes below describe the earlier pass and are kept for history.
+
+### `/invest/` typed-record pass (2026-10-19)
+- The page takes the homepage's pieces without its motif: no stamps, no "case" headings.
+- Order: hero → journey → direct vs regular (with the actions and Credentials) → FAQ. The route cards (`#products`) were removed on 2026-10-19: they sent warm visitors away before the journey. "Book a call" is no longer a stage; the reply time sits under the journey's buttons.
+- Investigation pieces here are documents, not props: the note for direct-plan investors is a `Memo` ("For direct-plan investors"), with one `Highlight` on "You can keep them direct". No stamps on this page. A sample brief inside the journey was tried and removed (too long here; the homepage hero already shows it).
+- The journey is a `CaseLog` (`#how-it-works`), written as what we do: a dashed line (`fi-border`) with a dot per stage (white, `fi-muted` edge, ringed in the section colour), grouped into three acts that follow the hero line, each a mono `fi-ink` caption with a small `fi-ink` diamond: **We do the investigation** (01 The first call, an introduction · 02 Fact-finding · 03 Investigation) · **You make the call** (04 Findings, with our commission in writing; "You decide") · **We stay on your case** (05 Transactions · 06 Ongoing reviews, at intervals we agree together). Stage numbers run across the acts; one column at every width (`grid-cols-fi-log`). The client's part appears only where it signals control or safety. Lead: "What we do at each stage."
+- `SplitRows` (the direct vs regular comparison, and the landing pages' steps): mono labels and dashed rules between rows.
+- Wording, as on the homepage: no approval method named ("Approve each transaction"; "with your approval", not "by OTP"), "Transactions", not "Execution", and "a clear brief".
+
 ### Sample Brief (`SampleBrief.astro`)
 - A white "document" card on the dark homepage hero, with a rotated `fi-mid` sheet behind it. Previews the brief a client receives after the review call.
 - Content rules: labelled "Sample", example profile only, no fund names, no returns or projections. All values are illustrative.
+- Tied to the typed files below without losing the hero's legibility: "Sample" is a quiet box (`Badge`, `sm`, square corners, `fi-muted` on white; the tilted `Stamp` took too much attention, 2026-10-19), the section captions are `font-mono`, and the dividers are dashed. The numbers, bars and sentences stay in the sans for a quick read.
+- A bar segment shows "Name n%" from 20%; a 10–19% segment shows its number from `sm` only (too narrow on a phone); the key and the `aria-label` name every value.
+- The review closes on "What this means:" joining the findings ("You hold more equity than your target, and much of it is the same stocks. We'd talk it through with you before changing anything."): a description, never an instruction to sell.
 - Unlike the removed decorative Deepdive mockup (§13), it shows a real deliverable, so it earns its place.
 - Allocation bars: equity `fi-mid`, debt `fi-link`, gold `fi-gold`, white labels inside wide segments, plus a colour key (gold is too light to carry a label).
+- Review adds one practical implication below the findings. Start shows only the investment target (not bank savings labelled as debt), with the emergency reserve separate. Amount, reserve, fund count and timing are explicitly examples, not minimums or prescriptions.
+
+### Landing-page proof (`OwnerIntro.astro`, `AssessmentPreview.astro`)
+- The landing pages live on the `landing-pages` branch as of 2026-10-19, not on `dev`. `SplitRows` and `FitCards` stay on `dev` (used elsewhere). `RouteCards` and its data (`routes.ts`, `products.ts`) and the landing-page FAQ sets in `faq.ts` were removed in the pre-release cleanup (S67); they come back with the pages (see `docs/landing_pages_plan.md`).
+- `OwnerIntro`: compact, centred name, one owner-supplied credential and personal support statement, with "Read our story". Reads `distributor.ts`; safely omits an absent credential. Light surfaces only, placed in the first section beside the page's proof.
+- `AssessmentPreview variant="sif" | "gift-city"`: a shared Card and CheckList showing what a written assessment covers. It is a deliverable preview, not an invented client outcome. Light surfaces only. Both components accept `class` for spacing, and are demonstrated in `/styleguide`.
 
 ---
 
@@ -266,8 +312,8 @@ Owned by `Hero.astro` (`.fi-hero-glow`, a `position: absolute; inset: 0` layer) 
 Centred at 50% because heroes are stacked and centred (was 85% for the old split hero). Very low
 opacity — atmosphere only, not decorative.
 
-### Why FI Section
-Same radial gradient treatment as hero.
+### Dark content sections
+`<Section background="dark" glow>` adds the same gold glow, anchored at the top edge (`.fi-section-glow` in `Section.astro`). The homepage investigations band uses it. Cards on these sections use `Card variant="dark"` (`fi-mid`, `fi-border-dark`).
 
 ---
 
@@ -280,6 +326,8 @@ Hover lift: `transform: translateY(-2px)` — buttons, cards
 Motion level: **Subtle** (decided 2026-10-11). Two effects only, both off under `prefers-reduced-motion`:
 - **Reveal on scroll:** add `data-reveal="<index>"` to an element; the script in `Layout.astro` plays `animate-fi-rise` (fade + 16px rise, 90ms stagger per index) as it nears the viewport. Elements visible at load never animate, so the first frame is always complete.
 - **Page transitions:** `@view-transition { navigation: auto; }` in `Layout.astro`. Report card titles and article H1s share `view-transition-name: report-<slug>`, so the title moves into place. Unsupported browsers load pages normally.
+
+Additions (S61): when a homepage case file reveals, its highlighter draws in, the seam arrow pops, the solution panel slides in (from the right from `lg`, from below on phones) and the stamp lands, in that order (`CaseFile.astro`). The fee memo draws its highlight (`Memo.astro`), and the "Your case" dossier's status types out (`Dossier.astro`). It rides on the reveal, so it is off under reduced motion too.
 
 Not used: parallax, scroll-jacking, count-up numbers, carousels.
 

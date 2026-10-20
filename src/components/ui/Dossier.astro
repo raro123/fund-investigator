@@ -1,0 +1,164 @@
+---
+/**
+ * Dossier Component
+ *
+ * A typed case-file sheet on two more sheets slightly out of line: a mono
+ * header over a dashed rule ("Case file", with an optional reference on the
+ * right), an optional title in Courier Prime capitals, then the facts as form
+ * fields (mono label, typed value, a rule under each), two to a row at every
+ * width unless a field is `wide`, so keep half-row values short (about 12
+ * characters on a 375px phone). A field can carry a short link inline after
+ * its value. Optional `notes` add a captioned agenda of typed items with empty
+ * boxes (things still to happen, e.g. "On the first call"), and the default
+ * slot sits at the foot, for the actions. Light surfaces only.
+ *
+ * No mugshots, "confidential" stamps or redacted lines: the reader is the
+ * client, and a page that sells disclosure hides nothing.
+ *
+ * Put `data-reveal` on a wrapper; once the sheet has risen, a `typed` field
+ * types itself out behind a caret. Text visible at load, and readers who
+ * prefer reduced motion, see it already typed.
+ *
+ * @example
+ * <Dossier label="Case file"
+ *   fields={[
+ *     { label: 'Client', value: 'You' },
+ *     { label: 'Status', value: 'Awaiting you', typed: true },
+ *     { label: 'Your distributor', value: '…', wide: true, link: { label: 'Know more', href: '/about/#distributor' } },
+ *   ]}
+ *   notes={{ label: 'On the first call', aside: '30 minutes · No charge', items: ['…'] }}>
+ *   <Button …>Book a first call</Button>
+ * </Dossier>
+ *
+ * @param label - left of the header, e.g. 'Case file'
+ * @param reference - optional, right of the header, e.g. 'No. 001'
+ * @param title - optional file name, set in typed capitals
+ * @param fields - { label, value, wide?, typed?, link? } facts as form fields
+ * @param notes - optional { label, aside?, items: string[] } agenda before the actions
+ * @param class - extra classes for the dossier
+ */
+
+interface Field {
+  label: string;
+  value: string;
+  /** Take the full row */
+  wide?: boolean;
+  /** Type the value out behind a caret on reveal (one short line) */
+  typed?: boolean;
+  /** A short link inline after the value; `ariaLabel` names it out of context */
+  link?: { label: string; href: string; ariaLabel?: string };
+}
+
+interface Props {
+  label: string;
+  reference?: string;
+  title?: string;
+  fields: Field[];
+  /** Optional agenda before the actions, e.g. "On the first call" */
+  notes?: {
+    label: string;
+    /** Right of the caption, e.g. '30 minutes · No charge' */
+    aside?: string;
+    items: string[];
+  };
+  class?: string;
+}
+
+const { label, reference, title, fields, notes, class: className = '' } = Astro.props;
+
+const caption = 'font-mono text-caption uppercase text-fi-muted';
+---
+
+<div class:list={['relative mx-auto max-w-2xl text-left', className]}>
+  <!-- Two more sheets under the file, slightly out of line. -->
+  <div class="absolute inset-0 translate-x-2 translate-y-2 rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
+  <div class="absolute inset-0 -translate-x-1 translate-y-1 -rotate-1 rounded-lg border border-fi-border bg-white" aria-hidden="true"></div>
+
+  <article class="relative rounded-lg border border-fi-border bg-white shadow-fi-card px-6 pt-7 pb-6 sm:px-8 lg:px-10 lg:pt-9 lg:pb-8">
+    <div class:list={[caption, 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 pb-3 border-b border-dashed border-fi-border']}>
+      <span class="whitespace-nowrap">{label}</span>
+      {reference && <span>{reference}</span>}
+    </div>
+
+    {title && <h3 class="mt-6 font-typewriter font-bold uppercase text-heading-md sm:text-heading-lg text-fi-ink leading-tight">{title}</h3>}
+
+    <dl class="mt-5 grid grid-cols-2 gap-x-8 gap-y-3">
+      {fields.map((field) => (
+        <div class:list={['border-b border-fi-border pb-3', field.wide && 'col-span-2']}>
+          <dt class={caption}>{field.label}</dt>
+          <dd class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">
+            {field.typed ? (
+              <span class="whitespace-nowrap"><span class="fi-typed" style={`--fi-chars: ${field.value.length}`}>{field.value}</span><span class="fi-caret" aria-hidden="true"></span></span>
+            ) : field.value}
+            {/* Inline after the value; nowrap keeps the link whole when the line wraps. */}
+            {field.link && (
+              <a href={field.link.href} aria-label={field.link.ariaLabel} class="ml-2 font-mono text-caption uppercase whitespace-nowrap text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link">{field.link.label}</a>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+    <!-- Notes: a caption (and an aside), then typed agenda items, each behind an empty box. -->
+    {notes && (
+      <div class="mt-6">
+        <div class:list={[caption, 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3']}>
+          <h4>{notes.label}</h4>
+          {notes.aside && <span class="whitespace-nowrap">{notes.aside}</span>}
+        </div>
+        <ul class="space-y-1.5">
+          {notes.items.map((item) => (
+            <li class="flex items-start gap-3 font-typewriter text-body-md text-fi-ink leading-relaxed">
+              <span class="mt-1.5 h-3.5 w-3.5 shrink-0 rounded-sm border-2 border-fi-muted" aria-hidden="true"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {Astro.slots.has('default') && (
+      <div class="mt-6">
+        <slot />
+      </div>
+    )}
+  </article>
+</div>
+
+<style>
+  /* A typewriter caret after the typed value: a solid block, like a cursor waiting. */
+  .fi-typed {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .fi-caret {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1.05em;
+    margin-left: 0.15ch;
+    vertical-align: -0.15em;
+    background-color: currentColor;
+  }
+
+  /* Once the sheet has risen (fi-rise, 0.65s), the value types out one
+     character at a time (Courier Prime is monospaced, so 1ch is one
+     character), then the caret blinks a few times and stays. */
+  :global(.animate-fi-rise) .fi-typed {
+    animation: fi-type 0.9s steps(var(--fi-chars)) 0.8s backwards;
+  }
+
+  :global(.animate-fi-rise) .fi-caret {
+    animation: fi-blink 1s steps(1) 1.7s 4;
+  }
+
+  @keyframes fi-type {
+    from { width: 0; }
+    to { width: calc(var(--fi-chars) * 1ch); }
+  }
+
+  @keyframes fi-blink {
+    50% { opacity: 0; }
+  }
+</style>

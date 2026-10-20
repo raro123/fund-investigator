@@ -1,73 +1,89 @@
 /**
- * The four Invest with support services: one source for the homepage cards
- * and the stage names in the /invest/ journey.
+ * The Invest with support services: one source for the homepage problems and
+ * solutions, and the stage names in the /invest/ journey.
  *
- * The homepage shows each service with the problem it solves and three short
- * bullets (`ServiceCard`). /invest/ uses the titles as journey stage names,
- * so both pages use the same word for the same service.
+ * /invest/ walks through the four services as journey stages (`services`).
+ * The homepage groups them into three case files, one per client problem
+ * (`homeServices`): transactions and ongoing reviews share a file, because the
+ * client meets them as one promise, under the plain title "Ongoing support".
+ * The other two titles come from `services`, so both pages use the same word
+ * for the same service.
  *
  * @example
- * import { services } from '../lib/services';
- * {services.map((service) => <ServiceCard {...service} />)}
+ * import { homeServices } from '../lib/services';
+ * {homeServices.map((service) => <li data-reveal={0}><CaseFile {...service} /></li>)}
  */
 
 export interface Service {
-  /** Two-digit order, shown inline before the title: the services are a sequence */
-  number: string;
   title: string;
-  /** SVG inner markup on a 24×24 stroke grid, shown in the problem strip */
-  icon: string;
-  /** The client's problem, in their words (homepage strip) */
+}
+
+/** The four services, in journey order (/invest/ stages 3–6). */
+export const services: Service[] = [
+  { title: 'Portfolio review' },
+  { title: 'Fund selection' },
+  { title: 'Transactions' },
+  { title: 'Ongoing reviews' },
+];
+
+const [review, selection] = services;
+
+export interface HomeService {
+  title: string;
+  /** The client's problem, in the first person, as they would say it (homepage case files).
+   *  Their words, not ours: no "overlap", "benchmark" or "rebalancing". */
   problem: string;
-  /** Three short bullets for the homepage card */
+  /** The words in `problem` to mark with the highlighter: the heart of the problem */
+  mark: string;
+  /** Three short bullets: what the client gets */
   bullets: string[];
 }
 
-export const services: Service[] = [
+export const homeServices: HomeService[] = [
   {
-    number: '01',
-    title: 'Portfolio review',
-    icon: '<path d="M3 3l18 18"/><path d="M10.6 6.1A9.8 9.8 0 0 1 12 6c6.5 0 10 6 10 6a17 17 0 0 1-3.2 3.8M6.6 6.6A17 17 0 0 0 2 12s3.5 6 10 6a9.6 9.6 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
-    problem: 'Not sure your investments suit your goals, or how they perform?',
+    title: review.title,
+    problem: "I've bought funds over the years. Now I'm not sure they're right for me.",
+    mark: "not sure they're right for me",
     // The review starts with the person, then the funds they hold (if any),
     // so it also works for a first-time investor.
     bullets: [
       'Your goals, time frame and risk profile',
-      'Your existing funds, if any: suitability, performance, overlap and costs',
-      'A short brief before you decide anything',
+      'Your existing funds (if any): performance, fit and costs',
+      'A clear brief before you decide',
     ],
   },
   {
-    number: '02',
-    title: 'Fund curation',
-    icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-    problem: 'Thousands of funds, and no clear way to know which suit you.',
+    title: selection.title,
+    // The first-time investor's problem: the start page's words ("I have savings and want to start investing").
+    problem: "I have some savings and want to start investing, but I don't know where to begin.",
+    mark: "I don't know where to begin",
     bullets: [
       'A shortlist that suits your goals and risk profile',
-      'The reasons and costs for each fund, with our commission in writing',
-      'For your first SIP or an existing portfolio',
+      // The commission is part of each fund's cost; the fee memo under the case
+      // files explains it in writing, so it is not repeated here.
+      'Why each fund and what it costs',
+      'Help completing your investment, step by step',
     ],
   },
   {
-    number: '03',
-    title: 'Execution',
-    icon: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-    problem: 'KYC, forms and switches take time, so decisions wait.',
+    // Transactions and ongoing reviews in one file (they keep their own names on /invest/).
+    title: 'Ongoing support',
+    // Three moments in one problem: life changes, market moves, day-to-day admin.
+    // The bullets answer them in the same order. "Admin", not "paperwork": most of it is online.
+    // No approval method named (OTP, email link, e-mandate): just "with your approval".
+    problem: "I'd like a helping hand when my life changes, when markets move, and with the day-to-day admin.",
+    mark: 'a helping hand',
     bullets: [
-      'We do the setup, from KYC to each transaction',
-      'You approve every transaction by OTP',
-      'Your money goes directly to the fund house',
-    ],
-  },
-  {
-    number: '04',
-    title: 'Ongoing reviews',
-    icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
-    problem: 'No one follows up when markets rise or fall.',
-    bullets: [
-      'Reviews against benchmarks at regular intervals',
-      'Help with rebalancing, SIP changes and redemptions',
-      'Someone to talk to when markets move',
+      'Your investments updated as your life changes',
+      'Regular reviews, and someone to guide you when markets move',
+      'We handle the admin, from KYC to each transaction, with your approval',
     ],
   },
 ];
+
+// A mark must be part of its problem, or the highlighter silently disappears.
+for (const service of homeServices) {
+  if (!service.problem.includes(service.mark)) {
+    throw new Error(`homeServices "${service.title}": mark "${service.mark}" is not in its problem`);
+  }
+}

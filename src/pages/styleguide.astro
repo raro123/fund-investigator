@@ -6,23 +6,34 @@ import Badge from '../components/ui/Badge.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import Credentials from '../components/ui/Credentials.astro';
 import ArchivedReportNotice from '../components/ui/ArchivedReportNotice.astro';
+import Fn from '../components/ui/Fn.astro';
 import DistributorIdentity from '../components/ui/DistributorIdentity.astro';
-import Timeline from '../components/ui/Timeline.astro';
 import SplitRows from '../components/ui/SplitRows.astro';
+import CaseLog from '../components/ui/CaseLog.astro';
+import StepMemos from '../components/ui/StepMemos.astro';
+import PlanCompare from '../components/ui/PlanCompare.astro';
+import IdCard from '../components/ui/IdCard.astro';
 import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
-import ServiceCard from '../components/ui/ServiceCard.astro';
+import OwnerIntro from '../components/ui/OwnerIntro.astro';
+import AssessmentPreview from '../components/ui/AssessmentPreview.astro';
+import ContactActions from '../components/ui/ContactActions.astro';
+import FitCards from '../components/ui/FitCards.astro';
+import CaseFile from '../components/ui/CaseFile.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import CheckList from '../components/ui/CheckList.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
-import { services } from '../lib/services';
+import { homeServices } from '../lib/services';
 import { investFaq } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 ---
 
 <Layout
-  title="Design System - Fund Investigator"
+  title="Design System"
   description="Fund Investigator's component library, design tokens, and usage guidance for building consistent pages."
   noindex
 >
@@ -42,7 +53,7 @@ import { responsive } from '../lib/responsive';
       Three concise, verifiable markers plus a separate product attribution. The component owns its responsive typography, spacing, and separators.
     </p>
     <p class="text-body-sm text-fi-muted-inv mb-6">
-      Not currently used on any page (removed from the homepage in S38). Bring it back only with markers that are specific, true of every investigation, and linked to proof — not generic claims like the example below.
+      Used below the homepage and landing-page proof for registration and distribution markers. Use only verified markers; registration must never read as regulator endorsement.
     </p>
 
     <div class="overflow-hidden rounded-lg border border-fi-border-dark bg-fi-mid">
@@ -60,6 +71,14 @@ import { responsive } from '../lib/responsive';
   attributionLabel="Deepdive"
   attributionHref="https://deepdive.fundinvestigator.com"
 />`}</code></pre>
+
+    <h2 class:list={[responsive.h2, 'text-fi-ink-inv mt-12 mb-3']}>Credentials</h2>
+    <p class="text-body-sm text-fi-muted-inv mb-6">
+      The investigator's credentials (the homepage hero now uses CredibilityStrip instead): a "Credentials" folder tab on a dark card with a typed record (the exact AMFI tagline, the ARN with a link to verify it on AMFI, the fund houses we are empanelled with). Values come from <code class="font-mono">src/lib/distributor.ts</code>. Dark surfaces only.
+    </p>
+    <Credentials class="max-w-lg" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<Credentials class="mt-10 mx-auto w-full max-w-lg" />  <!-- homepage hero -->
+<Credentials surface="light" detailed class="mt-10 mx-auto w-full max-w-2xl" />  <!-- service pages: adds name, validity, email -->`}</code></pre>
   </Section>
 
   <!-- Archived Report Notice -->
@@ -71,16 +90,27 @@ import { responsive } from '../lib/responsive';
     <div class="max-w-3xl">
       <ArchivedReportNotice
         analysisThrough="2025-12-31"
-        supersededBy="/reports/five-checks-mutual-fund/"
+        supersededBy="/reports/"
       />
     </div>
+  </Section>
+
+  <!-- Risk disclosures and footnote marker -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Disclosures and Footnotes</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      RiskDisclosures shows the regulators' exact warnings (AMFI's mutual-fund warning and SEBI's SIF warning) in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it; pages never do, and the wording comes from distributor.ts. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+    </p>
+    <p class="mt-6 text-body-md text-fi-ink max-w-2xl">
+      We disclose our commission in writing before you choose.<Fn id="how-we-are-paid" />
+    </p>
   </Section>
 
   <!-- Distributor Identity -->
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Distributor Identity</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      The AMFI disclosure: registered name, ARN and the standard risk warning, read from <code class="font-mono">src/lib/distributor.ts</code>. The name appears only here, never as a byline or profile. <code class="font-mono">inline</code> sits in the footer on every page; <code class="font-mono">block</code> sits in a card.
+      The AMFI disclosure: registered name, the exact tagline and the ARN (the risk warnings sit in the RiskDisclosures band just above the footer), read from <code class="font-mono">src/lib/distributor.ts</code>. The name appears only here, never as a byline or profile. <code class="font-mono">inline</code> sits in the footer on every page; <code class="font-mono">block</code> sits in a card.
     </p>
     <div class="grid gap-6 md:grid-cols-2">
       <div class="rounded-lg bg-fi-dark p-6 text-center">
@@ -94,25 +124,11 @@ import { responsive } from '../lib/responsive';
 <DistributorIdentity variant="block" surface="light" />`}</code></pre>
   </Section>
 
-  <!-- Timeline -->
-  <Section background="white" spacing="sm" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Timeline</h2>
-    <p class="text-body-sm text-fi-muted mb-6">
-      An ordered list of steps on a light surface. Vertical below <code class="font-mono">lg</code>, so phones never scroll sideways; horizontal from <code class="font-mono">lg</code>. No step numbers: the order carries the sequence. Used on <code class="font-mono">/invest/</code>.
-    </p>
-    <Timeline steps={[
-      { title: 'Book a review call', body: 'Pick a time, or message us.', icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>' },
-      { title: 'First conversation', body: 'We discuss your goals.', icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>' },
-      { title: 'We set it up, you approve', body: 'You approve each one by OTP.', icon: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>' },
-    ]} />
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Timeline steps={[{ title, body, icon }, …]} />`}</code></pre>
-  </Section>
-
   <!-- Split Rows -->
   <Section background="white" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>SplitRows</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      Two things side by side under a row label: the client journey (You beside We) and the direct vs regular comparison (<code class="font-mono">emphasis="right"</code>). Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Light surfaces only. Used on <code class="font-mono">/invest/</code>.
+      Two things side by side under a row label: the landing pages' steps (You beside We); <code class="font-mono">emphasis="right"</code> mutes the left column. Rows stack below <code class="font-mono">lg</code>, with a label in each cell; three columns under one header from <code class="font-mono">lg</code>. Mono labels, dashed rules. Light surfaces only.
     </p>
     <SplitRows
       rowLabel="Stage"
@@ -120,10 +136,89 @@ import { responsive } from '../lib/responsive';
       numbered
       rows={[
         { name: 'Book a call', left: 'Pick a time, or message us.', right: 'Reply within 1 business day.' },
-        { name: 'Execution', left: 'Approve each transaction by OTP.', right: 'Handle KYC, SIPs and lump sums.' },
+        { name: 'Transactions', left: 'Approve each transaction.', right: 'Handle KYC, SIPs and lump sums.' },
       ]}
     />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SplitRows rows={[{ name, left, right }, …]} rowLabel columns={[{ label, short? }, { label, short? }]} numbered? emphasis="none|right" />`}</code></pre>
+  </Section>
+
+  <!-- Case Log -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>CaseLog</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      A process as an investigator's log: a dashed line with a dot per stage, grouped into acts (mono labels with a diamond marker), numbered across the acts. One column at every width. On <code class="font-mono">/invest/</code> the acts follow the hero line: we do the investigation, you make the call, we stay on your case. Light surfaces only; <code class="font-mono">background</code> matches the markers' ring to the section.
+    </p>
+    <CaseLog
+      acts={[
+        { label: 'We do the investigation', stages: [{ name: 'The first call', body: 'An introduction. You tell us about your situation, and we explain how we work.' }] },
+        { label: 'You make the call', stages: [{ name: 'Findings', body: 'We walk you through the brief. You decide.' }] },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<CaseLog acts={[{ label, stages: [{ name, body }, …] }, …]} background="light|white" />`}</code></pre>
+  </Section>
+
+  <!-- Step Memos -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>StepMemos</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      A short process as a row of typed memos in the Memo style: a mono step label over a dashed rule, a bold title, a typed body and a fact line at the foot. One column on phones, two from <code class="font-mono">sm</code>, four from <code class="font-mono">lg</code>. Memos reveal in turn; <code class="font-mono">mark</code> highlights words in one step's body. Used for how it works on <code class="font-mono">/invest/</code>. Light surfaces only.
+    </p>
+    <StepMemos
+      steps={[
+        { title: 'We listen', body: 'We get to know you and your goals, and explain how we work.', fact: 'No charge · No obligation' },
+        { title: 'We explain', body: 'We walk you through the brief, with the alternatives and our commission in writing.', mark: 'our commission in writing', fact: 'You decide, you approve' },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos steps={[{ title, body, mark?, fact }, …]} />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      Three memos sit in one column until <code class="font-mono">lg</code>, then three across. <code class="font-mono">label</code> renames "Step", and <code class="font-mono">links</code> put the proof in the foot. Used for the analytical principles on <code class="font-mono">/about/</code>.
+    </p>
+    <StepMemos
+      label="Principle"
+      steps={[
+        { title: 'Portfolio first', body: 'We start with the funds you already hold.', links: [{ label: 'See our services →', href: '/invest/' }] },
+        { title: 'Quantitative checks', body: 'We compare each fund with a fair benchmark.', links: [{ label: 'Read the investigations →', href: '/reports/' }] },
+        { title: 'Qualitative checks', body: 'Numbers show what happened, not why.', links: [{ label: 'How the review works →', href: '/invest/#how-it-works' }] },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<StepMemos label="Principle" steps={[{ title, body, links: [{ label, href, external?, track? }] }, …]} />`}</code></pre>
+  </Section>
+
+  <!-- Plan Compare -->
+  <Section background="white" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>PlanCompare</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Two ways to do the same thing, one featured: the featured plan is a white memo sheet with a tick on each row and the actions at its foot; the other stays flat and muted, as plain fact. Each header says who the plan suits. Three columns from <code class="font-mono">lg</code>; below it, one sheet with folder tabs, the featured plan selected (both plans in turn without JS). Used for direct vs regular on <code class="font-mono">/invest/</code>. No crosses, no badge. Light surfaces only.
+    </p>
+    <PlanCompare
+      featured={{ label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' }}
+      other={{ label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' }}
+      rows={[
+        { name: 'Choosing funds', featured: 'We shortlist funds that fit your goals, with the reasons.', other: 'You research and shortlist alone.' },
+        { name: 'When markets fall', featured: 'You talk to a person before you act.', other: 'You decide alone.' },
+      ]}
+    >
+      <Button size="lg">Book a first call</Button>
+      <Fragment slot="note">Small print under the other plan.</Fragment>
+    </PlanCompare>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<PlanCompare featured={{ label, title, suits }} other={{ label, title, suits }} rows={[{ name, featured, other }, …]}>actions<Fragment slot="note">…</Fragment></PlanCompare>`}</code></pre>
+  </Section>
+
+  <!-- ID Card -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>IdCard</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      The person you work with, as an identity card: a dark band with the logo, the photo (a monogram until <code class="font-mono">OWNER_PHOTO</code> is set), the name and the exact AMFI tagline, then a typed record: the ARN with its validity and the link to verify it on AMFI, the empanelment, the background and the email. Our own design, never AMFI's logo or card layout. Values come from <code class="font-mono">src/lib/distributor.ts</code>. Used on <code class="font-mono">/invest/</code>. Light surfaces only.
+    </p>
+    <IdCard class="max-w-2xl" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<IdCard class="mx-auto w-full max-w-2xl" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      On <code class="font-mono">/about/</code>: <code class="font-mono">story={'{false}'}</code> drops the "Read our story" footer, and the slot holds the owner's own words, typed under the record behind a dashed rule.
+    </p>
+    <IdCard story={false} class="max-w-2xl">
+      <p>A paragraph in the owner's own words, with <strong>a credential in bold</strong>.</p>
+    </IdCard>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<IdCard story={false} class="mx-auto w-full max-w-2xl"><p>…</p><p>…</p></IdCard>`}</code></pre>
   </Section>
 
   <!-- Stat Row -->
@@ -150,21 +245,50 @@ import { responsive } from '../lib/responsive';
     <pre class="overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<SectionHeading title="…" lead="…" surface="light" />`}</code></pre>
   </Section>
 
-  <!-- Service Card + Check List -->
-  <Section background="light" spacing="sm" maxWidth="2xl">
-    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Service Card and Check List</h2>
+  <!-- Case File + Check List -->
+  <Section background="light" spacing="sm" maxWidth="lg">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Case File and Check List</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      A service led by the client's problem: grey problem strip, inline mono number, title, three ticks. Light surfaces only. Copy lives in <code class="font-mono">src/lib/services.ts</code>. <code class="font-mono">CheckList</code> is the tick list on its own (<code class="font-mono">layout="inline"</code> for a centred row).
+      One client problem and the service that solves it, as one card: the problem typed in the client's words (Courier Prime, <code class="font-mono">font-typewriter</code>, a gold highlighter on the heart of it) beside the solution from <code class="font-mono">lg</code>, above it on phones; a gold arrow on the seam; a "Case solved" stamp in <code class="font-mono">fi-link</code> at the solution's bottom right. On scroll reveal the highlighter draws, the arrow pops, the solution slides in and the stamp lands. Light surfaces only. Copy lives in <code class="font-mono">src/lib/services.ts</code> (<code class="font-mono">homeServices</code>). <code class="font-mono">CheckList</code> is the tick list on its own (<code class="font-mono">layout="inline"</code> for a centred row).
     </p>
-    <div class="grid sm:grid-cols-2 gap-5">
-      <ServiceCard {...services[0]} />
-      <div class="rounded-lg border border-fi-border bg-white p-6">
-        <CheckList items={services[0].bullets} />
-        <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
-      </div>
+    <CaseFile {...homeServices[0]} />
+    <div class="mt-8 rounded-lg border border-fi-border bg-white p-6">
+      <CheckList items={homeServices[0].bullets} />
+      <CheckList items={['Credential one', 'Credential two']} layout="inline" class="mt-6" />
     </div>
-    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ServiceCard number="01" title="…" icon="…" problem="…" bullets={[…]} />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<li data-reveal={0}><CaseFile problem="…" mark="…" title="…" bullets={[…]} /></li>
 <CheckList items={[…]} surface="light" layout="stack" />`}</code></pre>
+
+    <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Memo and Highlight</h2>
+    <p class="text-body-sm text-fi-muted mb-10">
+      <code class="font-mono">Memo</code>: a typed note (mono label over a dashed rule, bold title, Courier Prime body, an optional <code class="font-mono">Stamp</code> at the bottom right, the same stamp as "Case solved"). For a fact the reader should see in writing; the homepage uses it for how we are paid. <code class="font-mono">Highlight</code>: the gold highlighter stroke, one per block of text, drawn in on scroll reveal. Light surfaces only.
+    </p>
+    <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
+      The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
+    </Memo>
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<div data-reveal={0}>
+  <Memo label="…" title="…" stamp="Disclosed">… <Highlight>…</Highlight> …</Memo>
+</div>`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-10 mb-6">
+      Without a <code class="font-mono">title</code>, a Memo is a typed letter under a centred SectionHeading (the story on <code class="font-mono">/about/</code>). With <code class="font-mono">items</code>, it lists a few short points, two to a row from <code class="font-mono">sm</code>, with dashed rules between rows (the safeguards on <code class="font-mono">/about/</code>).
+    </p>
+    <Memo label="Our story">
+      <p>A first paragraph, typed.</p>
+      <p>A second paragraph, with <Highlight>the promise highlighted</Highlight>.</p>
+    </Memo>
+    <Memo
+      label="Your money and your approval"
+      stamp="Disclosed"
+      class="mt-8"
+      items={[
+        { title: 'You pay the fund house', body: 'You pay the fund house directly.' },
+        { title: 'You approve the instructions', body: 'You give the required approvals before we proceed.' },
+        { title: 'You own your units', body: 'Your units remain in your name.' },
+        { title: 'Our commission in writing', body: 'In writing before you choose to invest.', link: { label: 'How our commission works →', href: '/invest/#costs' } },
+      ]}
+    />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<Memo label="…"><p>…</p><p>…</p></Memo>
+<Memo label="…" stamp="Disclosed" items={[{ title, body, link?: { label, href } }, …]} />`}</code></pre>
   </Section>
 
   <!-- FAQ List -->
@@ -177,14 +301,52 @@ import { responsive } from '../lib/responsive';
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FaqList items={investFaq} />`}</code></pre>
   </Section>
 
+  <!-- Contact Actions + Fit Cards (landing pages) -->
+  <Section background="light" spacing="sm" maxWidth="2xl">
+    <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Contact Actions</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      "Book a first call" (gold) and "Contact on WhatsApp", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
+    </p>
+    <ContactActions placement="invest_cta" surface="light" note="30-minute call · No charge · No obligation" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ContactActions placement="lp_review_hero" surface="dark" note="…" />
+<ContactActions placement="lp_review_cta" surface="light" identity />`}</code></pre>
+
+    <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Fit Cards</h2>
+    <p class="text-body-sm text-fi-muted mb-6">
+      Who a service or product suits (ticks), and optionally who should skip it (plain bullets). Landing pages show one card; <code class="font-mono">notFor</code> adds the second. Light surfaces only.
+    </p>
+    <FitCards suits={['You already invest in mutual funds.']} />
+    <FitCards suits={['You already hold a diversified portfolio.']} notFor={['You are new to investing.']} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" class="mt-5" />
+    <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<FitCards suits={[…]} />
+<FitCards suits={[…]} notFor={[…]} suitsTitle="Consider a SIF if" notForTitle="Skip a SIF if" />`}</code></pre>
+  </Section>
+
   <!-- Sample Brief -->
   <Section background="dark" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Sample Brief</h2>
     <p class="text-body-sm text-fi-muted-inv mb-8">
-      The homepage hero's preview of a portfolio-review brief. Dark surfaces only. Names no fund and shows no returns; every value is an example.
+      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start investing page). Dark surfaces only. Names no fund and shows no returns; every value is illustrative. The review includes a practical discussion point. The starting mix excludes the emergency reserve, and its amount, fund count and timing are examples rather than minimums or requirements.
     </p>
-    <SampleBrief />
-    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />`}</code></pre>
+    <div class="grid lg:grid-cols-2 gap-12">
+      <SampleBrief />
+      <SampleBrief variant="start" />
+    </div>
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />                  <!-- portfolio review (default) -->
+<SampleBrief variant="start" />  <!-- starting brief, for savings moving into funds -->`}</code></pre>
+  </Section>
+
+  <!-- Landing-page trust and tangible service proof -->
+  <Section background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Owner introduction and assessment preview" lead="Compact trust and proof for service landing pages. Light surfaces only." />
+    <OwnerIntro class="mb-10" />
+    <div class="grid sm:grid-cols-2 gap-5">
+      <AssessmentPreview variant="sif" />
+      <AssessmentPreview variant="gift-city" />
+    </div>
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-light p-4 text-body-sm text-fi-muted"><code>{`<OwnerIntro />
+<AssessmentPreview variant="sif" />
+<AssessmentPreview variant="gift-city" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-4">OwnerIntro reads the name and first available credential from distributor.ts and links to the owner's story. AssessmentPreview shows what the written assessment covers, not a completed client result. Both accept a class prop.</p>
   </Section>
 
   <!-- Color Palette -->

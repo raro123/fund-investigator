@@ -69,8 +69,9 @@ tags: ["Large Cap", "Value Investing", "Risk Analysis"]
 # METRICS
 # ---------------------------------------------------------------------------
 
-# Optional, max 3. The metric chips on the report card in the listings.
-# Fund reports use these; methodology guides usually do not.
+# Optional, max 3. The typed record on the report card.
+# Fund reports give values: the card reads "Key figures CAGR 25.0% · Sharpe 1.55 · Max DD -12.9%".
+# Guides give labels only (no value): the card reads "Covers Returns · Risk · Consistency".
 keyMetrics:
   - label: "CAGR"
     value: "25.0%"

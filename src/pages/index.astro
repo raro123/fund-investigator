@@ -4,22 +4,29 @@ import Button from '../components/ui/Button.astro';
 import ReportCard from '../components/ReportCard.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
+import FolderTab from '../components/ui/FolderTab.astro';
+import Dossier from '../components/ui/Dossier.astro';
 import Hero from '../components/ui/Hero.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import ServiceCard from '../components/ui/ServiceCard.astro';
+import CaseFile from '../components/ui/CaseFile.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
+import Fn from '../components/ui/Fn.astro';
 import { getCollection } from 'astro:content';
 import { responsive } from '../lib/responsive';
 import { HOME_DESCRIPTION, HOME_TITLE, homeSchemaGraph } from '../lib/schema';
-import { substackWelcomeUrl } from '../lib/substack';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { ARN, BOOKING_URL, CONTACT_EMAIL, TAGLINE } from '../lib/distributor';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { services } from '../lib/services';
+import { homeServices } from '../lib/services';
 
 // Featured by slug, not "latest": only guides whose card text names no fund may
 // sit on a page that promotes the service (handoff §2, Links). Replace these
-// with the decision guides once they are published (log #74).
+// with the decision guides once they are published (log #74). Both were held under
+// COM-002 (2026-10-19) and are back as generic rewrites naming no scheme
+// (2026-10-20); a missing slug drops out and the section shows only the subscription.
 const featuredGuideSlugs = ['five-checks-mutual-fund', 'mutual-fund-categories-explained'];
 const allReports = await getCollection('reports');
 const featuredGuides = featuredGuideSlugs
@@ -43,32 +50,37 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// Three differences, in the order of the section's lead line (evidence, then portfolio first).
-const differences = [
+// The final section's file is the reader's own case, not yet opened: every file
+// above it is filled in. "No charge" stays with the call (never the case), so the
+// service never reads as free. Client and Status share a row on phones, so the
+// status stays short. The distributor is the registration in the exact AMFI tagline
+// with the ARN, not the owner's name (homepage privacy, owner 2026-10-16, confirmed
+// 2026-10-19); the person is one click away on /about/.
+const yourCase = [
+  { label: 'Client', value: 'You' },
+  { label: 'Status', value: 'Awaiting you', typed: true },
   {
-    title: 'Analysis and evidence',
-    body: 'Every fund is checked against a fair benchmark, with the analysis tool we built.',
-  },
-  {
-    title: 'Portfolio first',
-    body: 'New or existing investor, we plan your whole mix first, then the funds. Fewer funds can be the right result.',
-  },
-  {
-    title: 'Transparent and personal',
-    body: 'Our commission in writing before you choose, and one person from the first call to every review.',
+    label: 'Your distributor',
+    value: `${TAGLINE} (${ARN})`,
+    wide: true,
+    link: { label: 'Know more', href: '/about/#distributor', ariaLabel: 'Know your distributor' },
   },
 ];
 
-const subscribeBenefits = [
-  { title: 'Every new investigation', body: 'Fund checks and guides, by email.', icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
-  { title: 'Access to Deepdive', body: 'Our fund analysis app.', icon: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>' },
+// What happens on the first call, as an agenda still to tick. Only facts already
+// promised elsewhere: 30 minutes, no charge, no obligation ("You decide").
+const firstCall = [
+  'You share your goals, or what worries you',
+  'We explain how we can help',
+  'You decide what happens next',
 ];
 
-const lightLink = 'text-body-md font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const darkLink = 'text-body-md font-semibold text-fi-gold underline decoration-fi-gold/40 hover:decoration-fi-gold';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 ---
 
 <Layout
+  ogPage="home"
   title={HOME_TITLE}
   description={HOME_DESCRIPTION}
   graph={homeSchemaGraph(Astro.site)}
@@ -81,9 +93,12 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
       so you can <span class="text-fi-gold">invest.</span>
     </h1>
 
-    <!-- Tagline says what the company does; "build" speaks to beginners, "improve" to existing investors. -->
+    <!-- Says what the company does: "build" speaks to beginners, "improve" to existing investors
+         ("improve" is pending a compliance check: it may read as an outcome claim; "review" is the
+         fallback). "Backed by evidence" is the heading's promise made concrete; the sample brief
+         below shows it. All three products, joined by "and": any mix of them. -->
     <p class="text-body-lg text-fi-ink-inv font-semibold max-w-sm sm:max-w-xl mx-auto leading-relaxed text-balance mb-8">
-      Build and improve your portfolio with our help and expertise in mutual funds and SIFs.
+      Build or improve your portfolio with mutual funds, SIFs and <span class="whitespace-nowrap">GIFT City funds</span>, backed by evidence.
     </p>
 
     <div class:list={[ctaRow, 'mb-4']}>
@@ -92,44 +107,42 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
     <!-- "No charge" is scoped to the call so the service never reads as free. -->
     <p class="text-body-sm text-fi-subtle text-balance">
-      30-minute call · No charge · No obligation
+      30-minute introductory call · No charge · No obligation
     </p>
 
     <div class="mt-8">
       <SampleBrief />
     </div>
 
-    <!-- The ARN stays in the hero, directly after the proof. -->
+    <!-- The ARN stays in the hero, directly after the proof, as a slim trust strip: the
+         Credentials card took too much of the first screen. The exact AMFI tagline is in the
+         footer; the ARN to verify on AMFI is on /invest/ and /about/. -->
     <div class="mt-10 border-t border-fi-border-dark">
       <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '40+ fund houses empanelled', 'Transparent disclosures']} />
     </div>
   </Hero>
 
-  <!-- 2. Problems → services: each problem leads to the service that solves it, then the fee -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading
-      title="Clearer choices. Less clutter. More confidence."
-      lead="Four common problems, and the service that solves each one. You approve every transaction."
-    />
+  <!-- 2. Case files: each client problem, in their words, beside the service that solves it
+       (CaseFile). Each file reveals on its own as it scrolls in. Then the fee. -->
+  <Section background="light" spacing="md" maxWidth="lg">
+    <SectionHeading title="Is this your case?" lead="The problems we hear most, and how we solve each one." />
 
-    <ol class="grid sm:grid-cols-2 gap-5">
-      {services.map((service, index) => (
-        <li data-reveal={index}>
-          <ServiceCard {...service} />
+    <ol class="space-y-10">
+      {homeServices.map((service) => (
+        <li data-reveal={0}>
+          <CaseFile {...service} />
         </li>
       ))}
     </ol>
 
-    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees).
-         The direct vs regular comparison lives in the /invest/ FAQ.
-         The icon matches the grey problem icons in the service cards above, not the accent colour. -->
-    <Card hover={false} padding="md" class="mt-5 flex items-start gap-3 text-left">
-      <svg class="w-5 h-5 mt-0.5 shrink-0 text-fi-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M13 5c3 0 3 8-2 8H7l7 6"/></svg>
-      <p class="text-body-sm text-fi-muted leading-relaxed">
-        <strong class="text-fi-ink">No separate fee from you.</strong>
-        Our commission is part of the fund's yearly expense ratio, and we disclose it transparently before you select your funds.
-      </p>
-    </Card>
+    <!-- "No separate fee" is always explained in the same place (handoff §2, Fees): a typed memo
+         with a "Disclosed" stamp. The ARN is in the hero, the final section and the footer.
+         Never "free" or "₹0"; no rates. The direct vs regular comparison lives in the /invest/ FAQ. -->
+    <div data-reveal={0} class="mt-14">
+      <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
+        The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.<Fn id="how-we-are-paid" />
+      </Memo>
+    </div>
 
     <div class:list={[ctaRow, 'mt-10']}>
       <Button {...booking('homepage_services')} class="w-full sm:w-auto min-w-0">Book a first call</Button>
@@ -137,98 +150,86 @@ const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-
     </div>
   </Section>
 
-  <!-- 3. The Fund Investigator way: why us, without the person (the final section reveals them) -->
-  <Section background="white" spacing="md" maxWidth="2xl">
+  <!-- 3. Investigations: the page's second dark band, with the hero's glow, so the page
+       alternates dark and light (style_spec §1). Value first (guides), then the ask; with no
+       cleared guide, only the ask. -->
+  {/* No Deepdive promotion until the tool's outputs are cleared (COM-022, 2026-10-19). */}
+  <Section background="dark" glow spacing="md" maxWidth="2xl">
     <SectionHeading
-      title="The Fund Investigator way."
-      lead="Because Indian fund investors deserve fund choices backed by evidence and a portfolio-first approach."
+      title="Our investigations."
+      lead={featuredGuides.length > 0
+        ? 'Read our analysis and see our methods.'
+        : 'We are preparing our next investigations. Get each one by email.'}
+      surface="dark"
     />
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {differences.map((difference, index) => (
-        <div data-reveal={index}>
-          <Card hover={false} padding="md" class="h-full text-left">
-            <h3 class="text-body-lg font-bold text-fi-ink mb-2">{difference.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{difference.body}</p>
-          </Card>
+    {featuredGuides.length > 0 && (
+      <>
+        <div class="grid sm:grid-cols-2 gap-5 text-left">
+          {featuredGuides.map((report, index) => (
+            <div data-reveal={index}>
+              <ReportCard report={report} href={`/reports/${report.slug}/`} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
 
-    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-      <Button href="/invest/" variant="secondary" surface="light" icon="arrow-right">How support works</Button>
-      <a href="/about/" class={lightLink}>Read our story →</a>
+        <p class="mt-8 mb-10 text-center">
+          <a href="/reports/" class={darkLink}>View all investigations →</a>
+        </p>
+      </>
+    )}
+
+    <!-- The subscription as one more item in the archive: the report cards' folder tab and dark
+         fill, one plain sentence, the button. Gold stays for booking; this is the section's only button. -->
+    <div class="flex flex-col text-left">
+      <FolderTab surface="dark">Stay updated</FolderTab>
+      <Card variant="dark" hover={false} padding="lg" class="rounded-tl-none flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <p class="text-body-md text-fi-muted-inv leading-relaxed">
+          <span class="text-fi-ink-inv font-semibold">Subscribers get every new investigation by email.</span>
+        </p>
+        <Button
+          href={SUBSCRIBE_PAGE}
+          variant="secondary"
+          surface="dark"
+          icon="arrow-right"
+          track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
+          class="w-full sm:w-auto min-w-0 shrink-0"
+        >
+          Subscribe
+        </Button>
+      </Card>
     </div>
   </Section>
 
-  <!-- 4. Investigations and tools: value first (guides), then the ask (subscribe) -->
+  <!-- 4. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
+       The reader's own case file (Dossier), blank where the others are filled in: client and a
+       status that types itself out, the investigator's registration with a link to the person on
+       /about/, the first call as an agenda still to tick, then the actions at its foot, so the
+       page ends on them. "Your money. Your goals." speaks to first-time and existing investors
+       alike. The full AMFI disclosure is in the footer, the ARN in the hero and this file.
+       Light, after the dark band. -->
   <Section background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading
-      title="Our investigations and tools."
-      lead="Read our analysis, see our methods and try our tools."
-    />
-
-    <div class="grid sm:grid-cols-2 gap-5 text-left">
-      {featuredGuides.map((report, index) => (
-        <div data-reveal={index}>
-          <ReportCard report={report} href={`/reports/${report.slug}/`} surface="light" />
-        </div>
-      ))}
+    <div class="text-center max-w-3xl mx-auto">
+      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
+        Your money. Your goals. Our investigation.
+      </h2>
+      <p class="text-body-md text-fi-muted mb-10">Ready to talk about your case?</p>
     </div>
 
-    <p class="mt-8 text-center">
-      <a href="/reports/" class={lightLink}>View all investigations →</a>
-    </p>
-
-    <!-- Gold stays for booking; the subscription is this section's only button. -->
-    <Card variant="bordered" hover={false} padding="lg" class="mt-10 grid gap-6 text-left lg:grid-cols-fi-subscribe lg:items-center lg:gap-8">
-      <h3 class="text-heading-sm font-bold text-fi-ink">Subscribe for free</h3>
-      <ul class="grid sm:grid-cols-2 gap-5">
-        {subscribeBenefits.map((benefit) => (
-          <li class="flex gap-3">
-            <span class="w-10 h-10 shrink-0 rounded-lg bg-fi-icon-bg flex items-center justify-center">
-              <svg class="w-5 h-5 text-fi-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={benefit.icon} />
-            </span>
-            <span>
-              <strong class="block text-body-sm text-fi-ink">{benefit.title}</strong>
-              <span class="text-body-sm text-fi-muted">{benefit.body}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <Button
-        href={substackWelcomeUrl('homepage_bottom')}
-        variant="secondary"
-        surface="light"
-        target="_blank"
-        rel="noopener noreferrer"
-        icon="external"
-        track={{ event: 'subscribe_click', placement: 'homepage_bottom' }}
-        class="w-full sm:w-auto min-w-0 justify-self-start"
+    <div data-reveal={0}>
+      <Dossier
+        label="Case file"
+        fields={yourCase}
+        notes={{ label: 'Introductory call · 30 minutes · No charge', items: firstCall }}
       >
-        Subscribe
-      </Button>
-    </Card>
-  </Section>
-
-  <!-- 5. Final call: brand voice, no owner name or photo (homepage privacy, owner 2026-10-16).
-       The person behind the service is on /about/ (linked from the differences section). -->
-  <Section background="white" spacing="md" maxWidth="lg">
-    <div class="text-center">
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink leading-tight tracking-tight text-balance mb-3']}>
-        Start with a 30-minute call.
-      </h2>
-      <p class="text-body-md text-fi-muted mb-6">{TAGLINE} · <span class="whitespace-nowrap">{ARN}</span></p>
-      <p class="text-body-md text-fi-muted leading-relaxed max-w-xl mx-auto mb-8 text-balance">
-        Tell us your goals, or what worries you about your portfolio. We explain how we can help, and you decide what happens next. We reply to messages within 1 business day.
-      </p>
-      <div class={ctaRow}>
-        <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
-        <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
-      </div>
-      <p class="mt-6 text-body-sm text-fi-muted">
-        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
-      </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <Button {...booking('homepage_final')} size="lg" class="w-full sm:w-auto min-w-0">Book a first call</Button>
+          <Button {...whatsapp('homepage_final')} variant="secondary" surface="light" size="lg" class="w-full sm:w-auto min-w-0">Contact on WhatsApp</Button>
+        </div>
+        <p class="mt-4 text-body-sm text-fi-muted">
+          We reply within 1 business day. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">{CONTACT_EMAIL}</a>
+        </p>
+      </Dossier>
     </div>
   </Section>
 </Layout>

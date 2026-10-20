@@ -14,7 +14,7 @@
 /** Name registered against the ARN with AMFI. */
 export const REGISTERED_NAME = 'Ishpreet Singh Modi';
 
-/** First name for personal copy: "Book a call with …", WhatsApp greetings. */
+/** First name for personal copy: WhatsApp greetings. */
 export const FIRST_NAME = 'Ishpreet';
 
 /** One credential: a short highlight for the /about/ credential row, and the
@@ -56,6 +56,9 @@ export const ARN = 'ARN-370951';
 /** ARN expiry as YYYY-MM-DD; display through formatDate(). */
 export const ARN_VALID_UNTIL = '2029-09-05';
 
+/** How many fund houses (AMCs) we are empanelled with; "fund houses", not "AMCs", in copy. */
+export const EMPANELMENT = '40+ fund houses';
+
 /** AMFI's public distributor search; investors can look up the ARN there. */
 export const AMFI_VERIFY_URL = 'https://www.amfiindia.com/locate-distributor';
 
@@ -70,10 +73,19 @@ export const TAGLINE = 'AMFI Registered Mutual Fund Distributor & SIF Distributo
 export const RISK_WARNING =
   'Mutual Fund investments are subject to market risks, read all scheme related documents carefully.';
 
+/**
+ * Mandatory SIF warning, verbatim from SEBI circular
+ * SEBI/HO/IMD/IMD-PoD-1/P/CIR/2025/26 (27 February 2025), Annexure A §13.4.
+ * Every page that promotes SIFs must show it conspicuously, with no additions
+ * or deletions (COM-015). Keep SEBI's spelling and grammar exactly as here.
+ */
+export const SIF_WARNING =
+  'Investments in Specialized Investment Fund involves relatively higher risk including potential loss of capital, liquidity risk and market volatility. Please read all investment strategy related documents carefully before making the investment decision.';
+
 export const CONTACT_EMAIL = 'contact@fundinvestigator.com';
 
 /** WhatsApp Business number in international format, digits only (for wa.me links). */
 export const WHATSAPP_NUMBER = '919625026859';
 
-/** Zoho Bookings page for the 30-minute portfolio review call. */
+/** Zoho Bookings page for the 30-minute introductory call (no completed analysis on the call, COM-008). */
 export const BOOKING_URL = 'https://fundinvestigator.zohobookings.in/488614000000029045';

@@ -2,9 +2,9 @@
 /**
  * SplitRows Component
  *
- * Rows that set two things side by side under one row label. On /invest/ it
- * shows the client journey ("You" beside "We" at each stage) and the direct vs
- * regular comparison. `emphasis="right"` makes the right column (our service)
+ * Rows that set two things side by side under one row label. The landing pages
+ * use it for the client journey ("You" beside "We" at each stage); the direct vs
+ * regular comparison on /invest/ is PlanCompare. `emphasis="right"` makes the right column (our service)
  * the strong side and mutes the left; the left text must still be fair fact.
  * Light surfaces only.
  *
@@ -55,7 +55,8 @@ interface Props {
 const { rows, rowLabel, columns, numbered = false, emphasis = 'none', class: className = '' } = Astro.props;
 
 // Label colour comes from the column tone, so each label gets exactly one colour.
-const label = 'text-caption uppercase tracking-fi-label';
+// Mono labels and dashed rules: the typed-record look of the homepage files.
+const label = 'font-mono text-caption uppercase';
 // The row-name column is narrower: names are short, the cell text is not.
 const spans = { name: 'lg:col-span-3', left: 'lg:col-span-4', right: 'lg:col-span-5' };
 const strong = { text: 'text-fi-ink font-medium', label: 'text-fi-ink' };
@@ -75,9 +76,9 @@ const cells = [
     {cells.map((cell) => <span class:list={[label, cell.span, cell.tone.label]}>{cell.column.label}</span>)}
   </div>
 
-  <List class="border-b border-fi-border">
+  <List class="border-b border-dashed border-fi-border">
     {rows.map((row, index) => (
-      <li class="grid sm:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-2 py-5 lg:py-6 border-t border-fi-border">
+      <li class="grid sm:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-2 py-5 lg:py-6 border-t border-dashed border-fi-border">
         <h3 class:list={['sm:col-span-2 text-heading-sm font-bold text-fi-ink', spans.name]}>
           {numbered && <span class="font-mono text-body-sm font-medium text-fi-muted mr-2.5">{String(index + 1).padStart(2, '0')}</span>}{row.name}
         </h3>

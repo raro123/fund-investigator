@@ -1,0 +1,47 @@
+---
+/**
+ * Stamp Component
+ *
+ * A rubber stamp, like a sign-off: a tick and a short uppercase word or two in
+ * a double rule (2px border plus an offset ring), tilted −6°. fi-link, not
+ * gold, on white; fi-negative would mean a loss. Light surfaces only.
+ * Used for "Case solved" (CaseFile), "Disclosed" (the fee memo) and "Sample"
+ * (SampleBrief, on its white sheet in the dark hero).
+ *
+ * When an ancestor reveals on scroll (`data-reveal`, Layout.astro), the stamp
+ * comes down from above the page and lands at its tilt, after `delay` seconds.
+ * Stamps visible at load, and readers who prefer reduced motion, see it landed.
+ *
+ * @example
+ * <div class="mt-6 flex justify-end"><Stamp>Disclosed</Stamp></div>
+ *
+ * @param delay - seconds after the reveal before the stamp lands (default 1.75)
+ * @param class - extra classes, e.g. placement
+ */
+
+interface Props {
+  delay?: number;
+  class?: string;
+}
+
+const { delay = 1.75, class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={['fi-stamp -rotate-6 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-2 border-fi-link ring-1 ring-fi-link ring-offset-2 ring-offset-white px-3 py-1 text-body-sm font-extrabold uppercase tracking-fi-label text-fi-link', className]}
+  style={`--fi-stamp-delay: ${delay}s`}
+>
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>
+  <slot />
+</span>
+
+<style>
+  :global(.animate-fi-rise) .fi-stamp {
+    animation: fi-stamp 0.35s cubic-bezier(0.5, 0, 0.75, 0) var(--fi-stamp-delay) backwards;
+  }
+
+  /* Comes down from above the page and lands at its tilt (-6deg, the -rotate-6 class). */
+  @keyframes fi-stamp {
+    from { opacity: 0; transform: rotate(-12deg) scale(1.9); }
+  }
+</style>

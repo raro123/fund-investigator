@@ -21,6 +21,9 @@ export const responsive = {
   /** Subsection H3: 20px -> 24px */
   h3: 'text-heading-sm sm:text-heading-md',
 
+  /** Typed quote in a half-width panel, e.g. the client's problem in the homepage case files: 18px -> 20px -> 24px */
+  typed: 'text-body-lg sm:text-heading-sm lg:text-heading-md',
+
   /** Lead/subtitle: 16px -> 18px */
   subtitle: 'text-body-md sm:text-body-lg',
 } as const;

@@ -3,18 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import Card from '../components/ui/Card.astro';
-import SplitRows from '../components/ui/SplitRows.astro';
+import PlanCompare from '../components/ui/PlanCompare.astro';
+import StepMemos from '../components/ui/StepMemos.astro';
+import Memo from '../components/ui/Memo.astro';
+import Highlight from '../components/ui/Highlight.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
-import { services } from '../lib/services';
-import { products } from '../lib/products';
 import { investFaqGroups } from '../lib/faq';
 import { responsive } from '../lib/responsive';
 import { trackAttrs } from '../lib/analytics';
 import { whatsappUrl, type WhatsappPlacement } from '../lib/whatsapp';
-import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
-import { formatDate } from '../lib/format';
+import IdCard from '../components/ui/IdCard.astro';
+import { BOOKING_URL } from '../lib/distributor';
+import { investSchemaGraph } from '../lib/schema';
 
 // This page names no fund, so it may link to booking and WhatsApp (handoff §2, Links).
 // Every contact button is tracked: Zoho and WhatsApp report no placement back.
@@ -33,96 +34,90 @@ const whatsapp = (placement: WhatsappPlacement) => ({
   track: { event: 'conversation_request' as const, placement, channel: 'whatsapp' },
 });
 
-// One client journey: what the client does beside what we do, at each stage.
-// Each cell continues its column label ("You" pick a time, "We" reply…), so no
-// cell repeats the label.
-// Stages 3–6 take the service names from src/lib/services.ts, so this page and
-// the homepage cards use the same words. Timings are agreed on the call.
-const [review, curation, execution, ongoing] = services;
-const journey = [
+// What happens after you book, in four steps: we listen, we analyse, we explain,
+// we support. Plain investing words, no detective terms. Each fact line answers
+// the reader's worry at that step: cost and pressure, opinion or numbers, control,
+// what ongoing help costs. "No extra fee", never "no fee": the fund house pays our
+// commission from the expense ratio (legal limit, as the fee memo's "No separate
+// fee"). Booking is not a step (the buttons cover it; the reply time sits under
+// the buttons below). No approval method is named (OTP, email link, e-mandate),
+// as on the homepage. Our commission is in writing before the client chooses
+// (step 03): the disclosure rule.
+const steps = [
   {
-    name: 'Book a call',
-    left: 'Pick a time, or message us on WhatsApp.',
-    right: 'Confirm your booking at once. Reply on WhatsApp within 1 business day.',
+    title: 'We listen',
+    // The call's scope, once in this process section (COM-008, compliance wording).
+    body: 'We get to know you and your goals, and explain how we work. Then you decide whether to work with us.',
+    fact: 'No charge · No obligation',
   },
   {
-    name: 'The first call',
-    left: 'Tell us your goals, your time frame and your risk profile.',
-    right: 'Look at the funds you hold. New to funds? Explain the main categories, and SIP or lump sum.',
+    title: 'We analyse',
+    // "Funds", not "options": options are derivatives in investing. SIF and GIFT City
+    // minimums are in the FAQ below.
+    body: 'We analyse your goals, risk profile and any funds you already hold, then shortlist suitable funds.',
+    fact: 'Backed by the numbers',
   },
   {
-    name: review.title,
-    left: 'Share your Consolidated Account Statement (CAS) after the call.',
-    right: 'Help you download your CAS. Check suitability, benchmark, overlap and costs. Then send you a short brief.',
+    title: 'We explain',
+    body: 'We walk you through the written brief. We explain the evidence for any changes, discuss the alternatives and disclose our commission in writing.',
+    fact: 'You decide, you approve',
   },
   {
-    name: curation.title,
-    left: 'Decide what to keep and what to buy. Nothing moves without your approval.',
-    right: 'Shortlist suitable funds, with the reasons, the alternatives and our commission in writing.',
-  },
-  {
-    name: execution.title,
-    left: 'Approve each transaction by OTP. Pay the fund house directly.',
-    right: 'Handle KYC, SIPs and lump sums.',
-  },
-  {
-    name: ongoing.title,
-    left: 'Tell us when your plans change.',
-    right: 'Review your funds at regular intervals. Help with rebalancing, SIP changes, switches and redemptions.',
+    title: 'We support',
+    body: 'We set up your investments; you approve and pay the fund house directly. We review your portfolio at agreed intervals.',
+    fact: 'No extra fee for support',
   },
 ];
 
-// Direct vs regular: the same fund bought two ways. The right column promotes
-// what we do; the left stays fair fact (no fear). The cost row keeps "No
-// separate fee" with the commission explanation (legal limit).
+// Direct vs regular: the same fund bought two ways. "With us" comes first and is
+// the featured sheet; "Do it yourself" stays fair fact (no crosses, no fear), and
+// the design does the choosing, never a word against anyone. Who each plan suits
+// sits in its header, so readers place themselves first. Four short rows: the
+// step memos above carry the detail (KYC, SIPs, benchmarks, overlap), so this
+// only makes the contrast scannable. Value before price: the support rows, then
+// cost. The cost cells state the expense-ratio difference both ways, and the FAQ
+// and the homepage fee memo explain it.
+const plans = {
+  featured: { label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' },
+  other: { label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' },
+};
+// Cell wording is Compliance's (COM-012, owner-approved 2026-10-19): no blanket
+// "alone" claims, and the direct side names separately arranged advice.
 const routes = [
   {
-    name: 'Cost',
-    left: 'Lower yearly expense ratio. No commission.',
-    right: 'Higher yearly expense ratio. The fund house pays our commission from it. No separate fee from you.',
-  },
-  {
     name: 'Choosing funds',
-    left: 'You research and shortlist on your own.',
-    right: 'We shortlist funds that fit your goals, with the reasons and the alternatives. Our commission in writing.',
+    featured: 'We shortlist mutual funds based on your goals, time horizon and risk profile, and explain the reasons.',
+    other: 'You select the fund yourself or obtain separate advice, such as from a SEBI-registered Investment Adviser.',
   },
   {
-    name: 'Transactions',
-    left: 'You place each one on a platform.',
-    right: 'We do the setup, from KYC to each SIP. You approve each one by OTP.',
-  },
-  {
-    name: 'Reviews',
-    left: 'You track benchmarks, overlap and costs yourself.',
-    right: 'We check your funds against fair benchmarks, for overlap and for costs, at regular intervals.',
+    name: 'Ongoing support',
+    featured: 'We help with Regular Plan transactions and review your mutual-fund portfolio with you.',
+    other: 'You manage transactions and reviews yourself or arrange support separately.',
   },
   {
     name: 'When markets fall',
-    left: 'You decide on your own.',
-    right: 'You talk to a person before you act.',
+    featured: 'You can discuss your mutual-fund portfolio with us before deciding what to do.',
+    other: 'You make the decision yourself or seek separately arranged advice.',
   },
   {
-    name: 'Suits',
-    left: 'Investors with the time and interest to manage their own funds.',
-    right: 'Investors who want an expert to check and help, from a first SIP to a large portfolio.',
+    name: 'Cost',
+    featured: 'No separate fee from you. The Regular Plan has a higher expense ratio that includes distributor commission. We disclose our commission before you decide.',
+    other: 'The Direct Plan has a lower expense ratio because it does not include distributor commission. Any separately arranged advice may involve a separate fee.',
   },
 ];
 
-// Each product is shown by fit, not as a catalogue (src/lib/products.ts).
-const productFacts = [
-  { label: 'Suits', key: 'suits' },
-  { label: 'Minimum', key: 'minimum' },
-  { label: 'Main risk', key: 'mainRisk' },
-] as const;
-
-const callDetails = '30-minute call · No charge · No obligation';
+const callDetails = '30-minute introductory call · No charge · No obligation';
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const pageTitle = 'Invest with support';
+const pageDescription = 'How investing with support works: a 30-minute introductory call, a portfolio review, and help to choose mutual funds, SIFs and GIFT City funds.';
 ---
 
 <Layout
-  title="Invest with support - Fund Investigator"
-  description="How investing with support works: a 30-minute first call, a portfolio review, and help to choose and invest in mutual funds, SIFs and GIFT City funds."
+  ogPage="invest"
+  title={pageTitle}
+  description={pageDescription}
+  graph={investSchemaGraph(pageTitle, pageDescription, Astro.site)}
   trackView="invest_view"
 >
   <!-- 1. Hero: short, because most visitors come from the homepage pitch; the header still brings cold visitors, so the main action stays here -->
@@ -144,80 +139,55 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     </div>
   </Hero>
 
-  <!-- 2. Client journey: You beside We at each stage, so every row repeats the hero promise.
-       Placements keep the "invest_review" name so earlier analytics stay comparable. -->
-  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="From the first call to every review." lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={journey} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  <!-- 2. The journey comes straight after the hero: most visitors arrive from the homepage to
+       learn how it works. The situation route cards were removed (2026-10-19): they sent warm
+       visitors away before the answer. The landing pages are on the landing-pages branch.
+       Preserve the invest_review placements so earlier analytics stay comparable. -->
+  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="What happens after you book." lead="We do the work to help you invest. Every decision stays with you." />
+    <StepMemos steps={steps} />
 
     <div class:list={[ctaRow, 'mt-12']}>
       <Button {...booking('invest_review')} size="lg">Book a first call</Button>
       <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
     </div>
+    <p class="mt-4 text-center text-body-sm text-fi-muted">We confirm your booking at once, and reply on WhatsApp within 1 business day.</p>
   </Section>
 
-  <!-- 3. Products: what clients can invest in, each framed by fit. No buttons: the reader is still learning. -->
-  <Section id="products" background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="What you can invest in." lead="Most clients start with mutual funds. We discuss SIFs and GIFT City funds only when your amount and risk profile suit them." />
-    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
-      {products.map((product) => (
-        <li>
-          <Card padding="lg" hover={false} class="h-full">
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{product.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed mb-5">{product.intro}</p>
-            <dl class="space-y-3 text-body-sm leading-relaxed">
-              {productFacts.map((fact) => (
-                <div>
-                  <dt class="font-semibold text-fi-ink">{fact.label}</dt>
-                  <dd class="text-fi-muted">{product[fact.key]}</dd>
-                </div>
-              ))}
-            </dl>
-          </Card>
-        </li>
-      ))}
-    </ul>
-  </Section>
-
-  <!-- 4. Direct vs regular, then the booking: the comparison answers the cost question, so the
-       action follows at once. Owns #costs (the /about/ "See the costs" link lands here). Under the
-       buttons, the strip names the person, the email and the registration: credentials stay on /about/. -->
+  <!-- 3. Direct vs regular, with the booking inside the "With us" sheet: the action belongs to
+       the choice. Owns #costs (the /about/ "See the costs" link lands here). The adviser route
+       for direct investors is in the FAQ's direct vs regular answer. Then the memo for
+       direct-plan holders. Keep the invest_cta placements for comparable analytics. -->
   <Section id="costs" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Same fund. More support." lead="Every fund has a direct plan and a regular plan. Here is what the regular plan gets you with us." />
-    <SplitRows
-      rows={routes}
-      rowLabel=""
-      columns={[{ label: 'Direct plan, on your own', short: 'Direct' }, { label: 'Regular plan, with us', short: 'With us' }]}
-      emphasis="right"
-    />
-    <!-- The note for direct-plan holders is a callout: it is the main reassurance for this group. -->
-    <Card variant="subtle" padding="md" hover={false} class="max-w-3xl mx-auto mt-8 text-left">
-      <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans, but want an expert opinion?</h3>
-      <p class="text-body-sm text-fi-muted leading-relaxed">
-        We review them on the first call, and you can keep them direct. If you invest through us, we can only use regular plans. Nothing moves without your approval.
-      </p>
-    </Card>
+    {/* No lead: how direct and regular plans differ is FAQ material ("Costs"); this section is about the service. */}
+    <SectionHeading title="Same fund. More support." />
+    <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
+      <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
+      <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
+    </PlanCompare>
+    <!-- The note for direct-plan holders, as a typed memo addressed to them: it is the main
+         reassurance for this group, and something we would put in writing. One highlight, on
+         the reassurance itself. -->
+    <div data-reveal={0} class="mt-14">
+      <Memo label="For direct-plan investors" title="Already in direct plans, but want an expert opinion?">
+        If you ask, we can review the direct plans you hold. <Highlight>You don't have to switch.</Highlight> Anything you invest through us goes into regular plans. We don't handle direct-plan transactions, and we don't offer investment advice as a separate service.
+      </Memo>
+    </div>
+  </Section>
 
-    <div class="text-center mt-14">
-      <div class={ctaRow}>
-        <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
-        <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
-      </div>
-      <div class="mt-8 text-body-sm leading-relaxed">
-        <p class="text-fi-ink">
-          You work with <strong>{REGISTERED_NAME}</strong> ·
-          <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'whitespace-nowrap']}>{CONTACT_EMAIL}</a>
-        </p>
-        <p class="text-fi-muted">
-          {TAGLINE} · <span class="whitespace-nowrap">{ARN}</span> · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
-          <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>Read our story →</a>
-        </p>
-      </div>
+  <!-- 4. Who you work with: the last question before booking. The person as an ID card: name,
+       the AMFI tagline, the ARN to verify on AMFI, the empanelment, the background and the
+       email (service pages may name the owner). No button: the booking sits in the "With us"
+       sheet just above. The full story stays on /about/. -->
+  <Section id="who" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Who you work with." lead="One person, from the first call to every review." />
+    <div data-reveal={0}>
+      <IdCard class="mx-auto w-full max-w-2xl" />
     </div>
   </Section>
 
   <!-- 5. FAQ last: it is reference material and will grow. The WhatsApp line gives the page an action at its end. -->
-  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions before you start" />
     <div class="space-y-10">
       {investFaqGroups.map((group, index) => (

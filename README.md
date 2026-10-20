@@ -64,7 +64,6 @@ fund-investigator/
 │       └── llms.txt.ts                 # Machine-readable summary for AI crawlers
 ├── public/
 │   ├── images/                         # Static social/OG images
-│   ├── videos/                         # Deepdive snapshot poster
 │   └── robots.txt
 ├── docs/                                # Design spec, content, deployment, funnel handoff, project log
 ├── CLAUDE.md                           # Agent instructions (AGENTS.md symlinks here)

@@ -11,10 +11,8 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 
 - Production site: https://fundinvestigator.com
 - Deepdive app: https://deepdive.fundinvestigator.com
-- MailerLite developer docs: https://developers.mailerlite.com/docs
 - Astro docs: https://docs.astro.build
-- Cloudflare Pages Functions docs: https://developers.cloudflare.com/pages/functions/
-- Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy_v2.md` (v1: `docs/content_philosophy.md`) · Deployment: `docs/DEPLOYMENT.md`
+- Design tokens: `tailwind.config.mjs` · Content guide: `docs/content_philosophy_v2.md` (v1 retired: `docs/archive/content_philosophy_v1.md`) · Deployment: `docs/DEPLOYMENT.md`
 - Archived sessions (S1–S44) and resolved/moot pending decisions: `docs/project_log_archive.md`
 
 ---
@@ -76,67 +74,258 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 
 | # | Decision | Raised | Session | Status |
 |---|----------|--------|---------|--------|
-| 1 | Premium/first-paid feature set, price point, and billing/hosting approach | 2026-06-22 | S4 | 🟡 Open |
-| 2 | Whether/when to pursue the advisor / white-label B2B research line | 2026-06-22 | S4 | 🟡 Open |
-| 3 | SEBI Research Analyst implications of charging for research | 2026-06-22 | S4 | 🟡 Open |
-| 4 | Hosted paid tier (Substack/Ghost/Beehiiv/MailerLite) vs custom infra | 2026-06-22 | S4 | 🟡 Open |
-| 5 | Add a plain-language "verdict layer" to Fund Deepdive | 2026-06-22 | S5 | 🟡 Open |
-| 6 | Rebrand app to "Deepdive by Fund Investigator" (approved; implement in Deepdive repo) | 2026-06-22 | S5 | 🟢 Approved, pending impl |
-| 8 | Option C "Suggest a Fund" email capture — resurfaced as a mid-article subscribe pitch ("Want your fund investigated? Subscribe and reply with its name"). Copy drafted but not shipped; it is a real commitment (reader replies must feed the investigation queue), so it waits until we are ready to honor requests | 2026-06-22 | S6; revisited S17 | 🟡 Parked |
-| 12 | Homepage teaser punchline — keep long-term vs shorter variant | 2026-05-04 | S1 | 🟡 Open |
-| 22 | Hero fund-search console — replace the primary CTA with a live fund lookup that deep-links into Deepdive (design agreed, build parked) | 2026-07-12 | S10 | 🟡 Parked |
-| 23 | Add `?fund=<scheme_code>` deep-link support to the Deepdive app — prerequisite for #22, and useful on its own for linking a report to the fund it investigates | 2026-07-12 | S10 | 🟡 Parked |
-| 31 | **Launch the Substack Five Checks series as individual investigations of popular funds.** The intended reader already owns or is considering the named fund. Select funds for popularity and prospect relevance, then report whatever the five checks show; include a popular fund with weaker or mixed evidence early to establish editorial independence. Do not add fund comparisons or suitability conclusions until an explicit individual risk-profile layer and its editorial boundaries exist | 2026-07-21 | S19 | 🟢 Approved; editorial strategy documented |
-| 32 | **Article footer and discovery enhancements — curated related investigations, sharing controls, and filed-under tags.** For related content, show up to two manually selected current reports after an article's conclusion, reject archived destinations, and keep historical reports limited to their successor notice. If sharing is added, keep it restrained and audience-relevant (Copy link, WhatsApp, LinkedIn). If tags are exposed, use a quiet footer row rather than a second navigation rail. These remain separate decisions after the article navigation and metadata work; do not add them by default | 2026-07-22; expanded 2026-08-08 | S20; S34 | 🟡 Parked |
-| 41 | Extend `/styleguide` to visually cover page-composition patterns it currently doesn't show: Navigation, Footer, Background Accents (the hero/Why-FI radial gradient), and Section Labels. **Updated:** Deepdive App Mockup and Email Input dropped from this list — both describe UI that no longer exists; moved into `style_spec.md`'s "What Was Deliberately Excluded" log instead. Navigation, Footer, and Section Spacing had also drifted from the live implementation — `style_spec.md` now points at the owning component file instead of restating values. Building live `/styleguide` sections for Nav/Footer/Background Accents is still real UI/Astro work, not a doc edit — separate session | 2026-08-03 | S24 | 🟡 Open |
-| 51 | **Optional, low-priority cosmetic follow-up from #50**: the "JS Snippet installation" Web Analytics site's host allowlist (`(fund-investigator.pages.dev\|fundinvestigator.com)$`) doesn't cover preview-branch subdomains like `dev.fund-investigator.pages.dev`, so its beacon 404s there — browser console noise only on preview deploys, does not affect production. Widening the host pattern would fix it, but doing this via the API hits the same wall discovered in #50: the connected Cloudflare API token can read Pages/Web-Analytics config but cannot write it (confirmed via the failed `PATCH` in #50) — would need either a manual dashboard edit or a token-permission upgrade (Account → Cloudflare Pages → Edit) first | 2026-08-07 | S31 | 🟡 Open |
-| 54 | Add a rendered-page accessibility scan (axe or pa11y against `dist/`) to CI. Existing checks cannot detect every rendered colour combination. Defer this task because the owner prefers simple checks over extensive rule testing | 2026-10-03 | S37; updated S39 | 🟡 Parked |
-| 55 | **Design — high priority: align the design references.** Update `docs/style_spec.md` card descriptions to match the shared components and current homepage. Check colours, padding, corners, and hover styles. Prefer references to component props over repeated numeric specifications. Keep existing `/styleguide` examples consistent. Complete when the references agree with the website. Page-composition examples remain separate under #41 | 2026-10-03 | S39 | 🟡 Open (S49 — new homepage cards, centre axis and light ReportCard documented; older card specs still to align) |
-| 57 | **Design — high priority: use consistent, visible focus styles.** Replace half-opacity focus rings in Input, SearchInput, and LoginForm with the approved full-opacity colour. Check error and normal states. Confirm shared Button focus styles on light and dark surfaces. Complete after a keyboard check confirms visible focus across these controls | 2026-10-03 | S39 | 🟢 Queued |
-| 60 | **Distribution — high priority: set up the WhatsApp business number** (WhatsApp Business app, profile with name/ARN/risk warning, greeting with commission note, `wa.me` link with source code). Blocks Phase 2. **S41:** owner sets the number and confirms the platform by 2026-10-12. **S42:** number is +91 96250 26859, wired into the demo. Launch without a platform: step 4 names none, the existing-client login line is dropped. Texts drafted in `docs/mfd_whatsapp_kit.md`; owner to approve, confirm reply time and email, and choose the transaction route before replying to enquiries. **S43:** booking is the first contact route (Zoho Bookings, free plan, link in the handoff); WhatsApp is second. Owner to set the booking form (30 min, holdings-range question, minimum fields, reminders). **S47:** the Zoho changes for beginners moved to #88 | 2026-10-05 | S40; updated S41, S42, S43, S47 | 🟡 Open (S51 — reply time confirmed: within 1 business day; kit texts updated) |
-| 61 | **Content — high priority: write Academy guides** (was "Learn"; no named funds). The homepage launches with the two existing guides; more guides are needed before release, and they are the main traffic lever | 2026-10-05 | S40; updated S41 | 🟡 Open (S42 — Academy deferred: new guides live under Investigations; revisit a separate Academy at ~8–10 guides) |
-| 62 | **Analytics — medium priority: add PostHog funnel events** (`route_choice`, `invest_view`, `conversation_request` with channel, `platform_click`, `deepdive_click`, `subscribe_click`) and an internal-user filter. **S43:** add `review_booking_click` with placement; drop `platform_click` until a platform exists **S44:** built: `invest_view`, `review_booking_click`, `conversation_request` (channel), `deepdive_click`, `subscribe_click`, each with a placement, sent from data attributes by one listener in `Layout.astro`. Left: the internal-user filter in PostHog (a project setting). **S47:** new placement `homepage_beginner` on `review_booking_click`; count completed bookings by the Zoho form answer (#88), manually at first | 2026-10-05 | S40; updated S43, S47 | 🟡 Open (S49 — placements now homepage_hero/services/final, invest_*, footer WhatsApp; homepage_beginner and homepage_pricing retired; internal-user filter left; S51 — new WhatsApp placement `invest_faq`) |
-| 65 | **Compliance — high priority: draft the distribution section of `/disclaimer/`.** It holds the detail moved off `/invest/`: commission rates by scheme (AMFI code 4(c)), the direct vs regular table, the ₹10 lakh cost example, and the complaints process. `/invest/` links to it once ("Full disclosures") **S44:** commission rates are not published on the site (confidentiality, competition); each client gets the commission on each suggested scheme in writing before investing. The section explains how commission works, gives the direct vs regular comparison and a ₹10 lakh example with an illustrative rate, and the complaints process. The anchor `/disclaimer/#distribution` and the per-client disclosure sentence are live | 2026-10-05 | S41 | 🟡 Open |
-| 68 | **Content — medium priority: the two Academy guides name funds as worked examples** (HDFC Flexi Cap; Parag Parikh, Nippon, ICICI, HDFC BAF). Until they are rewritten without fund names, they carry no `/invest/` link, and homepage cards use their `hook` text (the Five Questions `description` names a fund) | 2026-10-05 | S41 | 🟡 Open |
-| 69 | **Compliance — low priority, ongoing: keep "empanelled with every fund house" true.** Recheck empanelment when a new AMC launches | 2026-10-05 | S41 | 🟡 Open |
-| 71 | **Design — medium priority, later: dark hero and footer only; headings instead of pills.** Middle sections white/`fi-light` only. Changes: `/reports/` list moves out of the dark hero into a white section (needs a light `ReportCard` variant and light filter chips, active chip `fi-ink` not gold); article end card from dark to `fi-light`; `/about/` loses its two mid-page dark bands. Drop section pills; keep a plain caption only where the heading doesn't name the section (homepage Investigations, `/invest/` hero). Rewrite `style_spec.md` "Section Background Rhythm" and §5 "Section Labels (Pills)". `/styleguide` exempt | 2026-10-05 | S42 | 🟡 Open |
-| 72 | **Product — later: CAS upload with a branded portfolio report.** The visitor uploads a CAS and gets an overlap, benchmark, cost and risk-fit report with our branding. Grows from the portfolio review call (demo v2). Needs secure handling of personal financial data, a privacy section, and the review-vs-advice compliance check first | 2026-10-10 | S43 | 🟡 Parked |
-| 73 | **Website — later: "Three ways to invest" comparison on `/invest/`** (do it yourself · fee-only adviser (RIA) · Invest with Support: plan type, how you pay, who chooses, reviews, financial plan, best for). Answers "why pay the commission?" for ₹10L+ investors. Drafted in demo v2, removed by the owner for now. Needs a check that comparing with RIAs is acceptable in MFD promotion | 2026-10-11 | S43 | 🟡 Partly done (S51 — two-column "Same fund. More support." direct vs regular comparison on `/invest/#costs`; the fee-only adviser column is left out) |
-| 74 | **Content — decision guides under Investigations** (no named funds): lump sum or STP for a bonus, fund overlap, tax when you redeem, what to do when markets fall. They may link to `/invest/`. Publish under `/reports/` (Academy stays deferred); when the first one ships, decide on a new category, which needs both the `src/content.config.ts` enum and `categoryLabels` in `src/pages/reports.astro`. Then feature them on the homepage Investigations section. Feeds #61 | 2026-10-11 | S43 | 🟡 Open |
-| 75 | **Compliance — high priority: the Deepdive snapshot shows fund names.** `public/videos/promo-desktop-poster.webp` shows the quick picks (Parag Parikh, HDFC, ICICI) on the homepage and `/reports/`. The homepage promotes the service, so it must name no fund. Options: (1, recommended) retake after the Deepdive quick picks are removed (proposal §9); (2) crop the image now | 2026-10-11 | S44 | 🟡 Open (S49 — homepage no longer shows the snapshot; /reports/ still does) |
-| 76 | **Compliance — medium priority: the header and footer "Invest" link appears on report pages.** The handoff puts Invest in the global nav, but also says no `/invest/` link on fund analyses or `/reports/`. No booking or WhatsApp link appears there. Recommendation: keep the nav link, because the rule is about links in the content; confirm | 2026-10-11 | S44 | 🟡 Open |
-| 78 | **Compliance — high priority: add the enquiries section to `/privacy/`** (WhatsApp kit §5, plus Zoho booking-form data). Needs the chat retention period from the owner (#60) | 2026-10-11 | S44 | 🟡 Open |
-| 80 | **Compliance — medium priority: check `/about/` and `/disclaimer/` for the general "regular plans cost more than direct plans" wording.** It is not always true across funds (one fund's direct plan can cost more than another fund's regular plan). As an MFD we say only that our commission is built into the regular plan's expense ratio | 2026-10-11 | S45 | 🟡 Open |
-| 83 | **Compliance — medium priority: confirm the homepage sample brief.** `SampleBrief` shows illustrative values (41% overlap, 2 of 5 lag benchmark, 1.6% average expense ratio, mix 82/14/4 → 65/28/7), labelled "Sample", with no fund names and no returns. Check it against the MF advertisement rules; swap in values from a real anonymised brief once one exists | 2026-10-11 | S46 | 🟡 Open |
-| 84 | **Design — medium priority: #71 versus the S46 homepage.** S46 added one mid-page dark band ("How we are paid") by owner choice, which differs from #71 ("dark hero and footer only"). Decide whether #71 still applies to `/reports/`, `/about/` and the article end card, and whether the other pages drop their labels like the homepage. **S47:** `/invest/` has dropped all its labels | 2026-10-11 | S46; updated S47 | 🟡 Open (S49 — homepage has no mid-page dark band now: dark hero and footer only; decide #71 for /reports/, /about/, article end card) |
-| 85 | **Website — low priority: `ReportCard` footer.** Left-aligned "Read investigation →" link instead of the centred, letter-spaced caption. Site-wide (also `/reports/`), so held back from the homepage-only S46 | 2026-10-11 | S46 | 🟡 Open |
+| 55 | **Design — high priority: align the design references.** Update `docs/style_spec.md` card descriptions to match the shared components and current homepage. Check colours, padding, corners, and hover styles. Prefer references to component props over repeated numeric specifications. Keep existing `/styleguide` examples consistent. Complete when the references agree with the website. Page-composition examples remain separate under #41 | 2026-10-03 | S39 | 🟡 Open (S49 — new homepage cards, centre axis and light ReportCard documented; older card specs still to align) → + #41 merged (S66): page-composition examples in `/styleguide` (Navigation, Footer, Background Accents, Section Labels); + the Button focus check from #57 (keyboard check on light and dark surfaces) |
+| 74 | **Content — decision guides under Investigations** (no named funds): lump sum or STP for a bonus, fund overlap, tax when you redeem, what to do when markets fall. They may link to `/invest/`. Publish under `/reports/` (Academy stays deferred); when the first one ships, decide on a new category, which needs both the `src/content.config.ts` enum and `categoryLabels` in `src/pages/reports.astro`. Then feature them on the homepage Investigations section. Feeds #61 | 2026-10-11 | S43 | 🟡 Open → + #61 merged (S66): new guides are the main traffic lever; no Academy until ~8–10 guides. Generic guides carry a service invite (`serviceInvite`) |
 | 86 | **Website — low priority: header and content alignment.** At wide screens the header logo sits 40px right of the section content (the header pads inside `max-w-7xl`, `Section` pads outside it). Existed before S46 | 2026-10-11 | S46 | 🟡 Open |
-| 87 | **Copy — high priority, before release: the first-call section on `/invest/`.** The column "If you already invest: a portfolio review" lists overlap, benchmark, costs and fit, which suggests they happen on the call. They need the client's holding details and come after the call as a written review. Agreed direction: the page shows the result and broad steps; the procedure (what to share, how, when) goes in the Zoho confirmation email. Rewrite the column and step 2 "First conversation"; the S47 draft was rejected as not persuasive enough. Inputs that help: what clients value most, one concrete example finding | 2026-10-12 | S47 | 🟡 Open (S49 — existing-investor points now follow the new review definition; the "after the call" procedure is in the FAQ, the column still reads as on-call) → ✅ Resolved (S51): the first-call section is replaced by the You/We journey; the review happens after the call, from the client's CAS |
-| 88 | **Distribution — high priority (owner): update Zoho Bookings for both visitor groups.** Title and description that welcome first-time and existing investors; host name "Fund Investigator" (no-byline rule, #29); required question "First investment / Existing portfolio"; check that no field requires existing holdings; confirmation email says what to share, how (never WhatsApp) and when the written review arrives. The homepage beginner button already links to booking | 2026-10-12 | S47 | 🟡 Open (S49 — host name should now be the owner's name, to match the homepage final section; S51 — the confirmation email also explains how we help the client get their CAS, and shows the new SIF tagline) |
-| 89 | **Compliance — high priority: direct vs regular wording on promotion pages.** S47 changed the homepage costs point to "You pay through the regular plan's expense ratio, which is higher than the direct plan's. Our commission comes from that difference." This conflicts with the S45 rule (do not compare direct and regular costs on promotion pages). `/invest/#costs` already says "a regular plan costs more each year than the direct plan of the same fund". Options: (1) allow a same-fund comparison only, which is always true, and update the S45 rule; (2) go back to the S45 wording on both pages. Linked to #80 | 2026-10-12 | S47 | 🟡 Open (S49 — homepage fee line no longer compares plans; the /invest/ FAQ compares direct and regular for the same fund (option 1) — owner to confirm) → ✅ Resolved (S51): option 1, same-fund comparison, in the `/invest/` comparison table |
-| 90 | **Website — high priority (owner): add photo and 2–3 credentials** to `src/lib/distributor.ts` (`OWNER_PHOTO`, `CREDENTIALS`). The homepage final section shows them automatically; hidden while empty | 2026-10-14 | S49 | 🟡 Open (S53 — credentials done; `/about/` shows them as prose; photo still missing) |
-| 91 | **Deepdive — high priority (owner): email-based access before deploy.** The homepage subscribe strip promises "Access to Deepdive". Then point the remaining open Deepdive links (footer, `/reports/`, `/about/`, articles) at the access flow | 2026-10-14 | S49 | 🟡 Open |
-| 92 | **Copy — low priority: footer tagline.** "Investigate Before You Invest" is from the research positioning; draft option "Analysis first. Then we help you invest." | 2026-10-14 | S49 | 🟡 Open |
-| 93 | **Content — medium priority: update the content guidelines.** Split the handoff §2 word list into legal limits (advice/adviser, independent, anything that plays down risk) and old tone choices; add rules for promoting the service (claims, differences, proof) to `docs/content_philosophy.md` | 2026-10-14 | S49 | ✅ Resolved (S50): `docs/content_philosophy_v2.md` |
-| 94 | **Compliance — medium priority: check the site copy against the AMFI MFD FAQ PDF** (`docs/FAQsonRoleofMFDsAdvts (1).pdf`), including the references an outside v4 draft cited (Q.1, Q.3, Q.8(c), Q.10, Q.12(c), Q.13, Q.14) | 2026-10-14 | S49 | 🟡 Open |
-| 95 | **Deploy — high priority: open a PR from `dev` to `main`.** The funnel branches are merged into `dev` (20 commits ahead of `main`); production has no `/invest/` and no booking buttons yet (PostHog, 30 days: no booking or WhatsApp events). Push `dev` first (`origin/dev` is at S47). **S51:** `dev` pushed (`6a83d83`, 23 commits ahead of `main`). After launch, review clicks per placement after 2–3 months and drop the weakest button pair | 2026-10-14 | S49; updated 2026-10-14 | 🟡 Open (S54): PR #5 `dev` → `main` open, all checks pass; merge pending |
-| 96 | **Docs — medium priority: fix two stale rules in handoff §2.** Item 3 says the visitor "sends no documents" (wrong: the detailed review needs holding details after the first call); item 5 keeps the retired "name only next to the ARN" rule | 2026-10-14 | S50 | 🟡 Open |
-| 97 | **Content — low priority: v1 vs v2 content guide.** v1 has the new goal line but still says "not a salesperson" and "understate". Retire v1 (move to archive) or keep it as history | 2026-10-14 | S50 | 🟡 Open |
-| 98 | **Content — medium priority: confirm two v2 calls.** (a) "Partner" and "wealth" are tone choices, not legal limits; (b) owner byline on fund analyses that name a scheme: case by case | 2026-10-14 | S50 | 🟡 Open |
-| 99 | **Copy — high priority (owner): check the S51 draft copy on `/invest/`.** The comparison rows, the You/We journey text, the three product cards (`src/lib/products.ts`: SIP minimum, SIF ₹10 lakh rule, LRS, NRIs), and the new FAQ answers. Two approved answers changed: "Is there a minimum amount?" (was "No minimum for mutual funds", which is not correct) and "What happens after the call?" (now names the CAS) | 2026-10-15 | S51 | 🟡 Open |
-| 100 | **Compliance — high priority (owner): use the SIF tagline outside the site.** AMFI requires "AMFI Registered Mutual Fund Distributor & SIF Distributor", with name and ARN, in all communication. Update the WhatsApp Business profile, Zoho Bookings page and emails, and email signature. On the site, decide whether the `/about/` sentence "As an AMFI-registered Mutual Fund Distributor…" also changes | 2026-10-15 | S51 | 🟡 Open |
-| 101 | **Distribution — high priority (owner): choose how clients send their CAS** (email, Zoho upload or other; never WhatsApp). Then add it to the Zoho confirmation email (#88) and the privacy policy (#78) | 2026-10-15 | S51 | 🟡 Open |
-| 102 | **Compliance — medium priority: "No charge for the call"** in the call details on the homepage hero and `/invest/` hero. It is close to the banned "free" wording, and the commission explanation is not next to it. Options: keep, or "30-minute first call · No obligation to invest" | 2026-10-15 | S51 | ✅ Resolved (S51): keep. It describes the intro call only, not the service: the client pays nothing for the first call. **S54:** shortened to "30-minute call · No charge · No obligation" |
-| 103 | **Website — medium priority: show the `SampleBrief` on `/invest/`** next to journey stage 3, so the "short brief" is visible. Waits for #83; may need a light-surface variant | 2026-10-15 | S51 | 🟡 Parked |
-| 104 | **Website — low priority: `Timeline` component is now used only in `/styleguide`.** Delete it, or keep it for a later page | 2026-10-15 | S51 | 🟡 Open |
+| 91 | **Deepdive — high priority (owner): email-based access before deploy.** The homepage subscribe strip promises "Access to Deepdive". Then point the remaining open Deepdive links (footer, `/reports/`, `/about/`, articles) at the access flow | 2026-10-14 | S49 | 🟡 Parked (S63, COM-022 — all Deepdive promotion and the subscriber promise removed until the tool's outputs are cleared) |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
-| 106 | **Website — low priority: reuse the "Verify on AMFI" link** (`AMFI_VERIFY_URL`, AMFI distributor search) next to the ARN in the footer and on `/invest/`. Live on `/about/` only | 2026-10-15 | S53 | ✅ Resolved (S54): in the footer (`DistributorIdentity` inline), so every page has it; not in the hero or final call, to keep visitors on the booking buttons |
+| 117 | **Owner — high priority: outside setup** (bundle of #60, #88, #90, #100, #101). WhatsApp Business profile, kit approval and the transaction route (#60). Zoho Bookings: title for both visitor groups, host name, required "First investment / Existing portfolio" question, confirmation email saying what to share, how (never WhatsApp) and when the brief arrives (#88). Photo for `OWNER_PHOTO` (#90). The SIF tagline in WhatsApp, Zoho, emails and signature; the shorter-tagline question waits on AMFI (#100). How clients send their CAS (#101; feeds #118's privacy copy) | 2026-10-20 | S66 (from S40–S66) | 🟡 Open |
+| 118 | **Release — high priority: release blockers** (bundle of #114, #65, #78, #115; `docs/production-readiness-review-2026-10-20.md`). Done in S65: phone tables, article CTA, benchmark accuracy. Done in S67 (drafts, facts confirmed by the owner): privacy covers Zoho, WhatsApp/email, CAS (partner platform or email, never WhatsApp), client records (partner platform, RTAs), 12-month deletion for non-clients (#78); terms and disclaimer scope "information only" to public content and describe the distribution service (#65); first-call labels (#115). Left: compliance sign-off of the S67 privacy/terms/disclaimer wording; then the acceptance checks: one test booking end to end, one test WhatsApp enquiry, analytics receipt in production. Then the PR `dev` → `main` | 2026-10-20 | S67 (from S41–S67) | 🟡 Open — owner checks only |
+| 119 | **Compliance — high priority: copy check** (bundle of #94, #80, #83, #98). Site copy against the AMFI MFD FAQ PDF (#94). "Regular plans cost more than direct" on `/about/` and `/disclaimer/`: same-fund comparison only (#80). The homepage `SampleBrief` illustrative values (#83). Content-guide v2 calls: "partner"/"wealth" as tone, bylines case by case (#98). "Improve" in the hero subhead (S62; fallback "Build or review"). Clearance of the two generic guides (COM-002, COM-014) | 2026-10-20 | S66 (from S45–S64) | 🟡 Open |
+| 120 | **Analytics — medium priority: PostHog** (bundle of #62, #113). Internal-user filter (project setting). Update filters on `article_end` to `guide_end` and `report_end`; `article_takeaways` is now a `subscribe_click` placement. Compare `subscribe_click` with Substack's signup counts monthly. Clicks aren't bookings: record completed calls by hand in the client sheet | 2026-10-20 | S66 (from S40–S66) | 🟡 Open |
+| 121 | **Landing pages — parked on the `landing-pages` branch** (bundle of #107, #108, #109, #110, #112). Before they return: owner copy check of the four pages and their FAQs (#107); Zoho measurement per landing page (#108); PostHog funnels and the UTM convention (#109); SIF promotion rules, GIFT City tax/LRS/TCS copy and the transaction route (#110); extract `LandingHero`, `LandingCosts` and `FactGrid` (#112). Bring back as a PR after the release, by reverting `0382349` and the S67 cleanup (merging the branch restores nothing) | 2026-10-20 | S66 (from S55–S62) | 🟡 Parked |
 
 ---
 
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S67 — Pre-release repo cleanup
+
+**What was done:**
+Final pass before `dev` → `main`. Lint, contrast (24/24) and build (13 pages, all SEO gates) pass. Removed code no page imports: `DeepdiveSnapshot` and its poster, `src/lib/deepdive.ts`, `deepdiveSchema`, `DEEPDIVE_URL`, the `deepdive_click` event (Deepdive is parked, #91); `RouteCards`, `routes.ts`, `products.ts` and the landing-page FAQ sets in `faq.ts` (landing pages are parked, #121). Removed two unreferenced docs (`Decoding_the_Mutual_Fund_Categories_v3_with_footnotes.docx`, `seo-authority-strategy.html`) and the MailerLite and Pages Functions links. `.claude/launch.json` is now ignored. Deleted branches already merged into `dev`: `codex/article-readiness`, `compliance/release-fixes`, `feature/inline-subscribe`, and remote `design/contrast-and-accent-fixes`.
+
+**Decisions made:**
+- `landing-pages` is an ancestor of `dev`, so merging it would restore nothing. Bring the pages back by reverting `0382349` and the S67 cleanup commit (`docs/landing_pages_plan.md`, "Restoring the pages").
+- `npm audit` (1 critical, 20 high) is not exploitable on this static build: no `define:vars`, no on-demand image endpoint, and the rest are build-time tools. All fixes need Astro 7 / Tailwind 4; upgrade after the release.
+- Release copy (#118) drafted in S67 and confirmed by the owner: privacy (Zoho, WhatsApp/email, CAS via partner platform or email, client records on the partner platform and with RTAs, 12-month deletion for non-clients), terms and disclaimer scoped to public content, first-call labels. Left: compliance sign-off and the owner acceptance checks.
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S66 — In-site subscription (`/subscribe/` with Substack's embed); "Know more" after the ARN
+
+**What was done:**
+Reviewed the subscription flow. Every Subscribe button sent readers to Substack's `/welcome` page in a new tab; the report-end card had no `subscribe_click` tracking; the guide invite and the report-end card shared the `article_end` placement; the copy promised "every new investigation" while every investigation is held. Weighed leaving Substack (Buttondown / MailerLite / Brevo with an inline form, or a Pages Function + D1) and kept Substack. Built `/subscribe/` with Substack's official embed (`SubstackEmbed` component, `SUBSTACK_EMBED_URL`): the reader subscribes without leaving the site. A "check your inbox" line sits under the form, and a back link returns readers to the same-site page they came from ("Back to the article" from a report, "Back to where you were" elsewhere, hidden for outside referrers). Two test signups with the owner's Outlook addresses: no new tab opened, the button turned into a ✓, and the owner confirmed the subscriptions went through. The `/subscribe` 301 to Substack was removed and the page joined the sitemap. All six placements now open `/subscribe/` in the same tab: homepage, `/reports/`, footer, guide end, report end and the Key Takeaways prompt (`3587ed2`, `33b24ac`). Then, on the homepage case file, "Know more" moved from the right of the "Your distributor" label to inline after the ARN, and the "Introductory first call (no charges)" caption now wraps on phones instead of running 21px past the card's padding (`bcd4b30`). `dev` pushed (`bcd4b30`). Session log written for S62–S66 (it had stopped at S61). Then the pending-decisions table was cut from 57 open items to 10. Out-of-date items (paid research, Deepdive, held named-fund content, superseded design and copy items) went to `docs/project_log_archive.md` with a reason each, along with rows already resolved. Related items became five bundles: #117 owner setup, #118 release blockers, #119 compliance copy check, #120 PostHog, #121 landing pages (parked). Quick wins done: handoff §2 items 5 and 7 updated (#96, #69), content guide v1 moved to `docs/archive/` (#97), the unused `Timeline` component deleted (#104), and `.gitignore` covers local tool output (#116).
+
+**Why:**
+Leaving the site for Substack cost a step and a tab. The embed keeps Substack's double opt-in, unsubscribe and sending, with no backend and no privacy-page change ("you enter your email on Substack" stays true). A custom form posting to Substack's internal `/api/v1/free` was rejected: undocumented, needs a proxy, and can break silently.
+
+**How:**
+`src/pages/subscribe.astro`, `src/components/ui/SubstackEmbed.astro` (light surfaces only: the frame is Substack's white box and cannot be styled), `SUBSCRIBE_PAGE` in `src/lib/substack.ts`; `substackWelcomeUrl` and `SubstackPlacement` removed. Placements: `homepage_bottom`, `reports_index`, `footer`, `guide_end` (was `article_end`), `report_end` (new; the end card was untracked) and `article_takeaways`. The back link reads `document.referrer` and uses it only when it is same-origin, so it can never point off the site. `Dossier` field links are inline after the value (`whitespace-nowrap`, so the link never splits). The work started on `feature/inline-subscribe`, was rebased onto the S65 commit (`5a2ddf4`) and fast-forwarded into `dev`.
+
+**Decisions made:**
+- Stay on Substack; subscribe through the in-site embed, not a redirect.
+- The page cannot see a signup inside the frame: no automatic redirect after subscribing (it would fire on mis-clicks). Completed signups are counted in Substack only.
+- `TAGLINE` stays verbatim. The owner asked for "AMFI Registered Mutual Fund & SIF Distributor"; kept until AMFI's acceptance of the shorter form is confirmed (#100).
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S65 — Production-readiness review and article fixes (separate session)
+
+**What was done:**
+An outside-advisor review of `dev` (`docs/production-readiness-review-2026-10-20.md`) recommended holding the release for a small correction pass. It listed five must-haves: article tables cut off on phones; the article CTA promising a "portfolio review" while every other CTA books a first call; privacy copy that doesn't cover the distribution service's data; terms and disclaimer still describing an information-only service; and an inaccurate benchmark claim (Nifty 500 TRI as *the* flexi-cap benchmark). The article pass (`5a2ddf4`, notes in `docs/article-readiness-fixes-2026-10-20.md`) fixed the three article items. Wide tables are now keyboard-scrollable regions with an overflow hint (`rehype-scrollable-tables.mjs`, `fi-table-cell` token). The guide invite now says "Book a first call", with the introductory-call line. The benchmark, Sharpe and category wording is corrected against primary sources. The takeaways subscribe prompt became a styled note (`article-subscribe-note`), and article metadata was simplified.
+
+**Decisions made:**
+- Must-haves 3 (privacy) and 4 (terms/disclaimer scope) remain open, along with the release acceptance checks (#114).
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S64 — Two guides restored as generic rewrites; first-call label
+
+**What was done:**
+The two guides came back as generic rewrites that name no scheme (`aaf3472`). Five checks uses a hypothetical "Fund A" with rounded, labelled figures (HDFC screenshots removed; COM-020 Sharpe wording). Categories has no named funds, a rule-boundary table and COM-014 wording. The four held scheme-naming reports 301 to the five-checks guide. In articles, the AMFI and SIF warnings moved into the article disclaimer, so the sitewide risk card is dropped there. Generic guides get a service invite above the notes (`serviceInvite` frontmatter: booking primary, WhatsApp secondary, subscribe tertiary), and footnotes are split out (`rehype-split-footnotes`). Then (`8c8231d`): the homepage case file's agenda is headed "Introductory first call (No charges)", and on `/invest/` WhatsApp is a secondary button beside the booking button.
+
+**Decisions made:**
+- A guide that names no scheme may invite readers to the service ("teach, then invite"); a fund analysis never does. Pending compliance review (COM-002, COM-014).
+
+---
+
+### 📅 Date: 2026-10-19 | Session: S63 — Compliance release fixes (review of 19 October)
+
+**What was done:**
+Applied the website compliance review, item by item with the owner:
+- **Reports held (COM-001/002, `fb9ed24`):** all six reports moved to `src/content-held/reports/` (README lists what each needs), so nothing about them is built. Homepage and `/reports/` fall back to the subscription.
+- **Deepdive promotion removed (COM-022):** footer, `/reports/`, About, the homepage subscriber promise, JSON-LD and `llms.txt`.
+- **New `/disclosures/` page:** numbered notes with sources and review dates (`src/lib/disclosures.ts`, `Fn` marker).
+- **Wording fixes:** source, research and affiliation wording in terms, privacy and the disclaimer; "qualified financial advisor" became SEBI-registered Investment Adviser.
+- **Copy (`7dde621`):**
+  - the no-charge call is labelled "introductory" everywhere (COM-008);
+  - the direct-plan memo uses the agreed boundary text (COM-011);
+  - the four `PlanCompare` rows use Compliance's wording (COM-012), and the rows lost their ticks and dots;
+  - SID/KIM wording (COM-013).
+- **Risk warnings (`79d4e0d`, `af8aa0b`):** AMFI mutual-fund and SEBI SIF warnings in one compact "Risk disclosures" card above the footer on every page (`RiskDisclosures`, `Section spacing="xs"`); the inline `RiskNote` was removed.
+- **`/invest/` costs:** the plan-difference lead moved into the FAQ (`16dabd9`).
+- **About trimmed:** the call text, the "Your money and your approval" memo and the "How support works" link were removed (`cf2c884`, `df2a668`, `cc8798e`).
+
+**Decisions made:**
+- No report or guide is published until cleared; the subscription stands in for them.
+- Risk warnings live in one sitewide card, not inline next to SIF mentions.
+
+---
+
+### 📅 Date: 2026-10-19 | Session: S62 — Typed-record pass on the hero, `/invest/` and `/about/`; landing pages off `dev`
+
+**What was done:**
+Carried the homepage's typed-record look across the site:
+- **Homepage:**
+  - the `SampleBrief` got a clearer "What this means" conclusion, mono captions and dashed rules, and its "Sample" stamp became a quiet badge (`d4745db`, `cc0904e`);
+  - the hero subhead names all three products, "backed by evidence" (`4ddb147`);
+  - a Credentials card replaced the credibility strip under the hero, then the slim strip returned because the card took too much of the first screen (`b8306e0`, `cc0904e`);
+  - the case file's "Your distributor" field shows the exact AMFI tagline and the ARN.
+- **`/invest/`:**
+  - the journey went from a case log to four `StepMemos` (we listen, analyse, explain, support) (`19095d9`, `5416786`);
+  - the route cards were removed;
+  - direct vs regular became `PlanCompare`, with folder tabs on phones (`f1a0798`);
+  - credentials moved into an `IdCard` in a new "Who you work with" section.
+- **`/about/`:** rebuilt with the same components, copy unchanged: `Memo`, `StepMemos` and `IdCard` (`a82408f`, also on `landing-pages`).
+- **Landing pages:** the four `/invest/` landing pages moved to the `landing-pages` branch, out of this release (`0382349`).
+- **Footer:** the tagline is now the hero line, "We investigate, so you can invest.", in gold italic (`2ba267d`, `b5d7f08`; #92). The standard risk warning left the footer identity line.
+
+**Decisions made:**
+- No approval method named in copy ("with your approval", not "by OTP"); the "Execution" service is now "Transactions".
+- "Improve" stays in the hero subhead pending a compliance check (fallback "Build or review").
+
+---
+
+### 📅 Date: 2026-10-18 | Session: S61 — Homepage: case files (problem beside its solution); dark investigations band; WhatsApp text without `ref`
+
+**What was done:**
+The homepage services section is now two sections. "Sound familiar?" lists three client problems (`ProblemList`, white). "A service for each one." answers them with three `ServiceCard`s with the same numbers: Portfolio review · Fund curation · Execution and ongoing reviews. Each card links its landing pages, or `/invest/#how-it-works`. The fee note and booking buttons stay below the cards. The "Where are you starting from?" routes section and the "Fund Investigator way" section are gone. The three differences now sit as trust points under the final call's buttons, followed by "Read our story →". Separately, WhatsApp prefilled messages no longer end in `(ref: …)` (commit `555dc4f`).
+
+Then a visual pass, because the page read flat (owner: "lacking pizzazz"; creative liberty). One idea from the brand, "We investigate": each problem is a **case note** (`Case 01`, the client's words in quotes in the Newsreader italic, a gold highlighter stroke that draws in over the heart of the problem, dashed file rules) and each service is its **case folder** (dark tab with gold `Case 01`, dark top edge). The solutions heading is "Every case, investigated." Investigations is now a dark band with the hero's glow, dark report cards and a dark subscribe strip, so the page alternates dark and light again (style_spec §1: only the hero was dark). The differences are an "On the record" ledger between rules instead of cards; the final section is white.
+
+Finally, the owner's idea: problem and solution in one **case file** (`CaseFile`) instead of two sections. Each file has the "Case 01" tab; the problem (serif italic, highlighter) sits on a `fi-light` panel beside the solution from `lg`, above it on phones, with a gold arrow on the seam. On reveal the highlighter draws, the arrow pops and the solution slides in. `ProblemList` and `ServiceCard` were removed. Owner's last pass (case-file inspiration): the problem is typed in Courier Prime (new `@fontsource/courier-prime`, `font-typewriter`) instead of the serif italic; the "The problem" and "How we solve it" labels and icons are gone; a tilted "Case solved" stamp in `fi-link` lands last, at the solution's bottom right; the "Case 01" tabs and the dark top edge are gone; the files hold no links, so the homepage reaches the landing pages through the footer and `/invest/` only. The three problems were rewritten in the client's everyday words (no "overlap"): unsure the funds bought over the years are right for them; wanting to start investing but not knowing where to begin (for first-time investors; its third bullet is now about the first SIP or lump sum); "I'd like a helping hand when my life changes, when markets move, and with the day-to-day admin" ("admin", not "paperwork": most of it is online) (its bullets answer the three in the same order). The fee note under the files is now a typed **memo** clipped to the page (`Memo`: grey paper clip, "Memo · How we are paid", Courier Prime body with one highlight on "in writing, before you select your funds", signed with the registered name and ARN); the highlighter became a shared `Highlight` component. The routes were tried back on the homepage, first as a detective's evidence board, then as a tabbed case dossier, and then dropped: they repeated the case files, hid most of their content behind tabs and duplicated `/invest/`. The landing pages stay off the homepage; the footer, `/invest/` and the sitemap link them. The paper clip became a shared `PaperClip`. The homepage is now four sections: hero (dark) · case files (light) · investigations (dark) · final call (light). Report cards (homepage and `/reports/`) got the same quiet filing look without new words: the category on a folder tab, a dashed rule, and a typed mono record instead of the three-icon row ("Key figures CAGR … · Sharpe … · Max DD …" for fund analyses, "Covers …" for guides, then "Updated" or "Published" with the read time). `MetricIcon`, `report-metrics.ts` and the `icon` option in `keyMetrics` were removed; the two guides now list label-only metrics. The subscribe card joined the same look: a "Stay updated" folder tab (shared `FolderTab`), one sentence and the Subscribe button, without the "Subscribe for free" heading or the benefit icons. The final call's paragraph became a typed case file (`Dossier`: clipped sheet, "Your first call" in Courier Prime 700 capitals, form fields Length · Cost · You share · Then) with the booking buttons at its foot. The "On the record" differences then moved inside the dossier (its `notes`, with "Read our story"), shown as their three names with ticks, without the explanations, so the final section is one heading and one file, ending on the booking buttons; the fee memo lost its paper clip so the dossier is the page's one clipped sheet. Then the dossier became the reader's own case, the one file on the page not yet filled in: "Your money. Your goals. Our investigation." (not "portfolio", which leaves out first-time investors), "Your case", No. ________, Client You, Status "Not yet opened" typed out behind a caret on reveal, and the first call as an agenda with empty boxes ("30 minutes · No charge": you share your goals, we explain how we can help, you decide). The green-ticked differences and "Read our story" left the homepage (a feature list in a typed file, and "first call" said three times); the differences stay on `/about/`. Owner's pass: more compact (no "Your case" title, tighter spacing), and the case number became a "Know your investigator" link to the new `#distributor` anchor on `/about/`. Then the owner's second pass: the paper clip went (`PaperClip` removed), the tagline under the heading became "Ready to talk about your case?", Client and Status share a row at every width with the status "Awaiting you", and a "Your investigator" field (AMFI-registered · ARN, "Know more" → `/about/#distributor`) holds the disclosure in the file; the footer keeps the full AMFI disclosure.
+
+**Why:**
+The owner's review: four problems in small grey strips were the weakest text in their own cards, and "Execution" alone was a weak problem. Joining it with ongoing reviews gives one promise: we do the transactions and stay with you. The routes section repeated the problem framing right after it, and `/invest/` already has the routes. The solution cards keep the homepage's links to the landing pages (S58). The `ref` tag was visible to the customer, and `conversation_request` already records the placement.
+
+**How:**
+`src/lib/services.ts`: `services` is now the four `/invest/` stage titles only; `homeServices` holds one record per problem and its service (number, icon, problem, bullets, links), with links taken from `routes.ts`. `ServiceCard` lost the problem strip and gained `links` and the folder tab. New `ProblemList` component (first-person `problem` plus `mark`; `services.ts` throws if a mark is not in its problem). New: `Section` `glow` prop, `Card variant="dark"`, `responsive.quote`, `grid-cols-fi-case` token, Newsreader 400 italic. All new colour pairs were already approved by the contrast check. Styleguide, `style_spec.md`, handoff homepage table and `landing_pages_plan.md` updated.
+
+**Decisions made:**
+- Homepage: three problems and three services, paired by number; `/invest/` keeps four journey stages.
+- The difference pillars keep their exact words (content philosophy), now as trust points in the final section.
+- `RouteCards` compact variant stays in the styleguide, unused on pages.
+- Landing pages are not linked from the homepage (footer, `/invest/` and sitemap only). Revisit if `landing_view` referrers show the homepage would matter.
+- The "case" language and the highlighter belong to the homepage problems and services only; don't spread them to other pages without a review.
+- The page alternates dark and light: hero (dark) · case files (light) · investigations (dark) · final call (light) · footer (dark).
+- The OTP fact moved from a section lead into case 03. The fee memo says who pays us (the fund house, from the expense ratio, already deducted from the fund's returns), not "you pay the fund house directly", which read as if investors pay a fee.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S60 — SIF and GIFT City indexable, GIFT City page reordered, consistency fixes
+
+**What was done:**
+`/invest/sif/` and `/invest/gift-city-funds/` are no longer `noindex` and are back in the sitemap and `llms.txt`. The GIFT City page follows the SIF page's order: "GIFT City funds at a glance" (what they are, IFSCA, then Consider it if · Minimum · Main risks) with the assessment preview, then the two residence routes, then costs with an "Everything in writing first" card before the middle booking buttons. The portfolio-review hero lost its eyebrow and the separate holdings line, so the booking button sits higher on phones; the sample brief's "What this means" line is shorter. S59 (commit `66163ab`, routes earlier, `OwnerIntro`, `AssessmentPreview`) is described in `docs/landing_pages_plan.md` §5.
+
+**Why:**
+The owner reviewed the landing pages. The pages are on `dev` and go through the compliance check before release anyway, so `noindex` only delayed them. The GIFT City page was the densest: its "Suits" fact repeated the residence cards, and its middle booking had no reassurance before it. "40+ fund houses empanelled" is a mutual fund credential, so it implied too much on a GIFT City page.
+
+**How:**
+`astro.config.mjs` sitemap filter and both `noindex` props removed. GIFT City hero strip: AMFI registration · `CREDENTIALS[0]` · Transparent disclosures. Fit label "Consider it if" on both product pages. How-it-works heading "Your portfolio first. Then decide whether dollar funds fit." mirrors the SIF page. Plan doc status, footer note and pending actions updated.
+
+**Decisions made:**
+- SIF and GIFT City pages are indexable; #110 now gates the merge to `main`, not indexing.
+- Product pages use the same fit label ("Consider it if") and the same section order.
+- Credibility markers on a page must apply to that page's product.
+
+**Pending decisions:**
+- New: #112 landing-page components. #110 updated.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S58 — Routes to the landing pages: homepage, `/invest/`, footer
+
+**What was done:**
+Visitors on the site can now reach the landing pages. The homepage final section has three small situation cards below the booking buttons ("Not ready yet? See how we help in your situation."). On `/invest/`, the same three situations replace the product cards, titled "Where are you starting from?", and keep each product's minimum and main risk. The footer links the portfolio review and start investing pages.
+
+**Why:**
+The landing pages had no way in from the site itself. Visitors choose by situation, not by product, so situation cards fit better than links on the product cards.
+
+**How:**
+`src/lib/routes.ts` holds the three routes (Already investing · Starting out · Beyond mutual funds), with facts taken word for word from `products.ts`. New `RouteCards` component: `compact` (homepage) and `detailed` (`/invest/`, with the facts; stacked until `lg`). Text links only. `/styleguide` shows both. Lint, contrast and build pass, with internal link checks; no page scrolls sideways at 375px.
+
+**Decisions made:**
+- Route cards come after the booking buttons, never in the hero or the header: the gold booking stays the main action.
+- The `#products` anchor stays on the `/invest/` section, so older links still work.
+- SIF and GIFT City links go live now (owner), before the #110 check.
+- Footer: only the two mutual fund pages.
+
+**Pending decisions:**
+- #111 resolved. #110 is more urgent: the SIF and GIFT City pages are now linked from the homepage and `/invest/`.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S57 — Start page: no FD framing, new slug
+
+**What was done:**
+Landing page 2 moved to `/invest/start-investing-mutual-funds/` and no longer speaks to FD holders. The hero now reads "Have savings? Start with mutual funds." The sample starting brief profile says "₹15 lakh in savings". A new FAQ answer says FDs can stay.
+
+**Why:**
+FDs are doing well while markets are down, so "Savings in FDs?" invited the reader to compare returns, and that comparison works against us. The reader we want is someone who has savings and wants to take part in financial markets. The new slug also matches what people search for.
+
+**How:**
+`git mv` of the page; title, description, hero, first sign and comments rewritten; `startFaq` opens with "Do I need to break my FDs?"; `SampleBrief`, `llms.txt`, `/styleguide`, the plan doc and items #107 and #110 updated. The page was never on `main`, so no redirect is needed.
+
+**Decisions made:**
+- Slug `/invest/start-investing-mutual-funds/`; landing id stays `start`, so the tracking is unchanged.
+- The page never runs down FDs or other savings. The call decides how much, if any, goes into funds, and when.
+- All four landing pages show only who they suit ("Is this for you?"), not who should skip them (owner): mutual funds cover short and long goals, from overnight and liquid funds to equity. On the SIF and GIFT City pages the minimum, main risks and rules stay in "A SIF at a glance" and "Four things to know first". `FitCards` takes `notFor` as optional. New FAQ answer "What if I need some of the money soon?" (never "safe"; "no fund is free of risk").
+
+**Pending decisions:**
+- None new.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S56 — Landing pages 2–4: start investing, SIF, GIFT City funds
+
+**What was done:**
+We built the other three landing pages: `/invest/start-investing/` (savings in FDs, new to markets), `/invest/sif/` and `/invest/gift-city-funds/`. Each one aims at one action, a booked call or a WhatsApp message, with three button pairs (hero, after the costs, final) and WhatsApp texts that name the topic. The start page shows a sample starting brief. The pages link to each other.
+
+**Why:**
+The owner asked for every category to have a page that turns an interested reader into a message or a booked call. Each product now has its own way in, so none is left unused.
+
+**How:**
+New components `ContactActions` (booking and WhatsApp buttons tracked by one placement, an optional call note and the registered identity) and `FitCards` (who it suits, who should skip it), both on `/styleguide`. `SampleBrief` has a `variant` prop (`review`, `start`); a 0% segment is no longer drawn. `/invest/portfolio-review/` now uses the shared components. New FAQ lists `startFaq`, `sifFaq`, `giftCityFaq` reuse shared answers word for word. New WhatsApp placements `lp_start_*`, `lp_sif_*`, `lp_gift_city_*`. `llms.txt` lists the start page. Lint, contrast and build pass (19 pages, metadata checks pass); at 375px no page scrolls sideways, and each page sends `landing_view` with its id.
+
+**Decisions made:**
+- Each page has one goal: a booked call or a WhatsApp message. The gold button is in the hero, the costs section and the final section only.
+- SIF and GIFT City pages are suitability pages: who should skip the product comes before the process, and every risk, redemption and tax point is promised in writing.
+- The GIFT City page states the rules that decide fit (LRS limit USD 250,000 a year, TCS, the rupee–dollar rate, tax and reporting) before the process. Tax copy stays general and points to the client's tax adviser.
+- `/invest/sif/` and `/invest/gift-city-funds/` are `noindex` and out of the sitemap until #110 is done.
+- The starting brief is never called a "plan".
+- FAQ toggles (+ / ×) are `fi-ink`, the hero navy, not `fi-link`: amber read as gold on light surfaces. Links stay `fi-link`.
+- Code comments write log items as "log item 110": "#110" reads as a hex colour to the design lint.
+
+**Pending decisions:**
+- #107 now covers the copy of all four pages, including the starting brief values. #110 and #111 updated.
+
+---
+
+### 📅 Date: 2026-10-17 | Session: S55 — Landing pages plan, `/invest/portfolio-review/` and landing tracking
+
+**What was done:**
+We agreed a landing pages plan (`docs/landing_pages_plan.md`): four pages, one per reader situation, fed by content (articles, YouTube, X). We built page 1, `/invest/portfolio-review/`, for readers who already invest. We added page tracking: a `landing_view` event that carries the page id and the visit's UTM tags, and WhatsApp texts that name the topic.
+
+**Why:**
+The owner is a new MFD with no client referrals yet, so clients will come from content. Each piece of content needs a page that matches the reader's question, and the pages show which situations bring clients worth having. The existing events recorded the button but not the page or the post that sent the visitor.
+
+**How:**
+`analytics.ts` has `landing_view` and `LandingId` (`review`, `start`, `sif`, `gift_city`). `Layout.astro` takes `trackLanding` and sends `landing` plus any `utm_*` tags with the view event. `whatsapp.ts` has `lp_review_hero`, `lp_review_cta` and `lp_review_final`. The page reuses `Hero`, `SampleBrief`, `CredibilityStrip`, `CheckList`, `SplitRows`, `Card` and `FaqList`; `reviewFaq` in `faq.ts` reuses four shared answers word for word. The page is in `llms.txt` and the sitemap. Lint, contrast (24 pairs) and build pass; the dev preview at 1024px and 375px shows no sideways scroll and the tracking attributes on all six buttons.
+
+**Decisions made:**
+- Four landing pages, not three: SIF and GIFT City funds get separate pages. A combined "beyond mutual funds" page matches no search and hides which product drew the interest.
+- Slugs: `/invest/portfolio-review/`, `/invest/start-investing/`, `/invest/sif/`, `/invest/gift-city-funds/`. `/invest/` stays the general page.
+- Content that feeds a landing page is a generic guide in the reader's words. Fund analyses that name a scheme never link to these pages.
+- Page order: hero with the sample brief, signs, four checks, five stages, who it suits, how we are paid with the action, FAQ, final call. Gold buttons in the hero, costs and final sections only.
+- Landing pages are service pages: they show the registered name, like `/invest/`. The homepage stays brand-only.
+- Placements on landing pages start with `lp_<landing>_`.
+
+**Pending decisions:**
+- New: #107 copy check, #108 completed bookings by page, #109 PostHog funnels and UTM convention, #110 pages 2–4, #111 route links.
 
 ---
 

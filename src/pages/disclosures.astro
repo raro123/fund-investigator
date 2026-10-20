@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/ui/Section.astro';
+import Hero from '../components/ui/Hero.astro';
+import { responsive } from '../lib/responsive';
+import { formatDate } from '../lib/format';
+import { disclosures, disclosureHref } from '../lib/disclosures';
+import { CONTACT_EMAIL } from '../lib/distributor';
+
+// The site's notes, in bibliography style: numbered, each with its sources and
+// review date (src/lib/disclosures.ts). Pages link here with <Fn id="…" />. The
+// anchors are the notes' ids, so links survive renumbering.
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title="Disclosures"
+  description="How we are paid, what you receive before you invest, our data sources and SIF eligibility, with sources and review dates."
+>
+  <Hero size="sm">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink mb-6 leading-tight']}>
+      Disclosures
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted max-w-2xl mx-auto leading-relaxed']}>
+      The notes behind what we say on this site. Each one lists its sources and when we last reviewed it.
+    </p>
+  </Hero>
+
+  <Section background="white" spacing="lg" maxWidth="md">
+    <!-- Contents: the notes by number, so a reader can jump straight to one. -->
+    <nav aria-label="Notes on this page" class="mb-12 pb-8 border-b border-dashed border-fi-border">
+      <p class="font-mono text-caption uppercase text-fi-muted mb-4">Notes</p>
+      <ol class="grid gap-2 sm:grid-cols-2 text-body-sm">
+        {disclosures.map((note, index) => (
+          <li class="flex gap-3">
+            <span class="font-mono text-fi-muted w-6 shrink-0">{index + 1}.</span>
+            <a href={disclosureHref(note.id)} class={lightLink}>{note.title}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <ol class="space-y-6">
+      {disclosures.map((note, index) => (
+        <li id={note.id} class="scroll-mt-24 rounded-lg p-4 -mx-4 target:bg-fi-light transition-colors">
+          <article class="flex gap-4">
+            <span class="font-mono text-body-md text-fi-muted w-8 shrink-0 pt-0.5" aria-hidden="true">[{index + 1}]</span>
+            <div class="min-w-0">
+              <h2 class="text-heading-sm font-bold text-fi-ink mb-3">
+                <span class="sr-only">Note {index + 1}: </span>{note.title}
+              </h2>
+              <div class="space-y-3 text-body-md text-fi-ink leading-relaxed">
+                {note.body.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+              {'items' in note && (
+                <ul class="mt-3 space-y-2 list-disc pl-5 text-body-md text-fi-ink leading-relaxed marker:text-fi-muted">
+                  {note.items.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+              <div class="mt-4 pt-3 border-t border-dashed border-fi-border text-body-sm text-fi-muted space-y-1">
+                <p>
+                  <span class="font-mono text-caption uppercase mr-2">Sources</span>
+                  {note.sources.map((source, sourceIndex) => (
+                    <>
+                      {sourceIndex > 0 && '; '}
+                      {'href' in source && source.href
+                        ? <a href={source.href} target="_blank" rel="noopener noreferrer" class={lightLink}>{source.label} ↗</a>
+                        : <cite class="not-italic">{source.label}</cite>}
+                    </>
+                  ))}
+                </p>
+                <p>
+                  <span class="font-mono text-caption uppercase mr-2">Reviewed</span>
+                  <time datetime={note.reviewed}>{formatDate(note.reviewed)}</time>
+                </p>
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-12 text-body-sm text-fi-muted">
+      Questions about these notes? Write to <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>.
+    </p>
+  </Section>
+</Layout>

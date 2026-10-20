@@ -7,11 +7,11 @@ import { formatDate } from '../lib/format';
 import { REGISTERED_NAME, ARN, TAGLINE, RISK_WARNING, CONTACT_EMAIL } from '../lib/distributor';
 
 // Set to the date the wording last changed, not the build date.
-const LAST_UPDATED = '2026-10-11';
+const LAST_UPDATED = '2026-10-20';
 ---
 
 <Layout
-  title="Disclaimer - Fund Investigator"
+  title="Disclaimer"
   description="Important disclaimers and legal information about Fund Investigator's analysis and data."
 >
   <Hero size="sm">
@@ -26,9 +26,12 @@ const LAST_UPDATED = '2026-10-11';
   <Section background="white" spacing="lg" maxWidth="md">
     <div class="prose prose-lg prose-slate mx-auto">
 
-      <h2 class="text-heading-lg text-fi-ink font-bold">Not Financial Advice</h2>
+      {/* #65 / review must-have 4 (2026-10-20 draft, pending compliance review): "information
+          only" is scoped to the public guides and tools, not the whole business; the
+          distribution service is described in #distribution below. */}
+      <h2 class="text-heading-lg text-fi-ink font-bold">Our Public Content Is Not Advice</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator provides <strong>information and analysis only</strong>. Nothing on this platform constitutes financial advice, investment recommendations, or an offer to buy or sell securities. All investment decisions should be made in consultation with a qualified financial advisor who understands your specific financial situation, goals, and risk tolerance.
+        Fund Investigator's public guides, investigations and tools provide <strong>general information and analysis only</strong>. Nothing in them constitutes financial advice, an investment recommendation for you, or an offer to buy or sell securities. Separately, {REGISTERED_NAME} offers a mutual-fund distribution service, described under <a href="#distribution" class="text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">Distribution Relationship</a> below. For independent advice, consult a SEBI-registered Investment Adviser who understands your specific financial situation, goals, and risk tolerance.
       </p>
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">No Investment Recommendations</h2>
@@ -48,17 +51,22 @@ const LAST_UPDATED = '2026-10-11';
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Limitation of Liability</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator and its operators accept <strong>no liability</strong> for any losses, damages, or adverse outcomes resulting from the use of this platform or reliance on the information provided. Users assume all risk associated with their investment decisions.
+        Fund Investigator and its operators accept <strong>no liability</strong> for any losses, damages, or adverse outcomes resulting from reliance on the general information published on this website. Readers assume all risk associated with investment decisions they make on the basis of that information.
       </p>
 
       <h2 id="distribution" class="text-heading-lg text-fi-ink font-bold mt-8">Distribution Relationship</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        Fund Investigator is run by {REGISTERED_NAME}, an {TAGLINE} ({ARN}). Mutual fund distributors earn commission from asset management companies on investments in regular plans. Fund Investigator has no other affiliation with any asset management company. Our tools and investigations are general information and are not linked to any distribution activity. Before you invest through us, we tell you in writing the commission we earn on each suggested scheme.
+        Fund Investigator is run by {REGISTERED_NAME}, an {TAGLINE} ({ARN}). {REGISTERED_NAME}, {ARN}, distributes mutual-fund schemes in a Regular Plan capacity through the mutual funds with which we are empanelled. The complete affiliated-fund list and product-universe disclosure are provided to clients before an investment decision.
+      </p>
+      {/* COM-006 / COM-017 wording, 2026-10-19: the same text as the "Public research and your
+          shortlist" note on /disclosures/. */}
+      <p class="text-body-md text-fi-muted leading-relaxed">
+        Our public tools and investigation articles provide general educational information and do not consider any reader's personal circumstances. They are separate from a client-specific scheme shortlist. If you choose to use our mutual-fund distribution service, any shortlist is prepared separately after fact-finding, risk profiling and suitability assessment. Investments made through us are in regular plans and may earn us commission from the relevant AMC. <a href="/disclosures/" class="text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link">See our disclosures</a>.
       </p>
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Use at Your Own Risk</h2>
       <p class="text-body-md text-fi-muted leading-relaxed">
-        By using Fund Investigator, you acknowledge that you are using the platform at your own risk. You understand that investment decisions are your sole responsibility and that Fund Investigator provides informational tools only.
+        By using this website, you acknowledge that its public guides, investigations and tools are general information, and that you use them at your own risk. Clients of our distribution service receive a separate shortlist after fact-finding, risk profiling and suitability assessment. Whether you invest, and in what, is always your decision.
       </p>
 
       <h2 class="text-heading-lg text-fi-ink font-bold mt-8">Changes to This Disclaimer</h2>

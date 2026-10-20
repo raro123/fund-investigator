@@ -1,0 +1,88 @@
+---
+/**
+ * ContactActions Component
+ *
+ * The two contact actions of a service page: "Book a first call" (the gold
+ * button) and "Contact on WhatsApp" (secondary). Both are tracked by one
+ * placement, because Zoho and WhatsApp report no placement back
+ * (src/lib/analytics.ts). The WhatsApp link opens with the placement's
+ * prefilled text (src/lib/whatsapp.ts). It holds the section's gold button,
+ * so use it once per section.
+ *
+ * `note` adds a small line under the buttons (the call details). `identity`
+ * adds who the client works with, the registration and the ARN validity
+ * (light surfaces only), for the section that answers "how are you paid?".
+ *
+ * @example
+ * <ContactActions placement="lp_review_hero" surface="dark" note="30-minute call · No charge · No obligation" />
+ * <ContactActions placement="lp_review_cta" surface="light" identity />
+ *
+ * @param placement - WhatsApp placement; also the PostHog placement of both buttons
+ * @param surface - 'light' or 'dark' (the section background)
+ * @param note - optional line under the buttons
+ * @param identity - show the registered name, email, tagline and ARN (light only)
+ * @param class - extra classes for the wrapper
+ */
+import Button from './Button.astro';
+import { whatsappUrl, type WhatsappPlacement } from '../../lib/whatsapp';
+import { ARN, ARN_VALID_UNTIL, BOOKING_URL, CONTACT_EMAIL, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
+import { formatDate } from '../../lib/format';
+
+interface Props {
+  placement: WhatsappPlacement;
+  surface: 'light' | 'dark';
+  note?: string;
+  identity?: boolean;
+  class?: string;
+}
+
+const { placement, surface, note, identity = false, class: className = '' } = Astro.props;
+
+const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
+const noteColour = { light: 'text-fi-muted', dark: 'text-fi-subtle' }[surface];
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<div class:list={['text-center', className]}>
+  <div class={ctaRow}>
+    <Button
+      href={BOOKING_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      icon="external"
+      size="lg"
+      track={{ event: 'review_booking_click', placement }}
+      class="w-full sm:w-auto min-w-0"
+    >
+      Book a first call
+    </Button>
+    <Button
+      href={whatsappUrl(placement)}
+      target="_blank"
+      rel="noopener noreferrer"
+      icon="whatsapp"
+      variant="secondary"
+      surface={surface}
+      size="lg"
+      track={{ event: 'conversation_request', placement, channel: 'whatsapp' }}
+      class="w-full sm:w-auto min-w-0"
+    >
+      Contact on WhatsApp
+    </Button>
+  </div>
+
+  {note && <p class:list={['mt-4 text-body-sm text-balance', noteColour]}>{note}</p>}
+
+  {identity && surface === 'light' && (
+    <div class="mt-8 text-body-sm leading-relaxed">
+      <p class="text-fi-ink">
+        You work with <strong>{REGISTERED_NAME}</strong> ·
+        <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'whitespace-nowrap']}>{CONTACT_EMAIL}</a>
+      </p>
+      <p class="text-fi-muted">
+        {TAGLINE} · <span class="whitespace-nowrap">{ARN}</span> · <span class="whitespace-nowrap">valid to {formatDate(ARN_VALID_UNTIL, 'short')}</span> ·
+        <a href="/about/" class:list={[lightLink, 'whitespace-nowrap']}>Read our story →</a>
+      </p>
+    </div>
+  )}
+</div>

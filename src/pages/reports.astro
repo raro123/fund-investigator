@@ -2,14 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import ReportCard from '../components/ReportCard.astro';
-import DeepdiveSnapshot from '../components/DeepdiveSnapshot.astro';
-import Section from '../components/ui/Section.astro';
-import Badge from '../components/ui/Badge.astro';
 import Button from '../components/ui/Button.astro';
-import { deepdiveUrl } from '../lib/deepdive';
+import { SUBSCRIBE_PAGE } from '../lib/substack';
 import { getCollection } from 'astro:content';
 import { categoryLabels } from '../lib/report-categories';
 import { responsive } from '../lib/responsive';
+import { reportsIndexSchemaGraph } from '../lib/schema';
 
 const allReports = await getCollection('reports');
 const sortedReports = allReports
@@ -27,9 +25,18 @@ const filterTabs = [
 
 // Hide the filter strip until there's more than one real category to choose between
 const showFilters = presentCategories.size > 1;
+
+const pageTitle = 'Mutual Fund Research and Guides';
+const pageDescription = 'Guides for Indian investors on how to check a mutual fund and compare fund categories, using benchmarks, risk metrics and returns data.';
+const graph = reportsIndexSchemaGraph(
+  pageTitle,
+  pageDescription,
+  sortedReports.map((report) => ({ path: `/reports/${report.slug}/`, title: report.data.title })),
+  Astro.site,
+);
 ---
 
-<Layout title="Investigation Reports - Fund Investigator" description="Fact-based mutual fund and category analysis with benchmark comparisons, risk metrics, and clear evidence.">
+<Layout ogPage="reports" title={pageTitle} description={pageDescription} graph={graph}>
 
   <!-- Single Hero section: clears fixed header, owns all vertical rhythm -->
   <Hero size="sm" background="dark" centered={false} containerClass="max-w-6xl mx-auto">
@@ -73,46 +80,45 @@ const showFilters = presentCategories.size > 1;
       </div>
     )}
 
-    <!-- Card grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="reports-grid">
-      {sortedReports.map((report) => (
-        <div
-          class="report-item"
-          data-category={report.data.category}
-        >
-          <ReportCard report={report} href={`/reports/${report.slug}/`} />
+    {/* With no report left (every one is held for AMC approval or a generic rewrite, COM-001/002,
+        src/content-held/reports/), the subscription is the page's one action. */}
+    {sortedReports.length > 0 ? (
+      <>
+        <!-- Card grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="reports-grid">
+          {sortedReports.map((report) => (
+            <div
+              class="report-item"
+              data-category={report.data.category}
+            >
+              <ReportCard report={report} href={`/reports/${report.slug}/`} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
 
-    <!-- Empty state -->
-    <div id="empty-state" class="hidden py-16 text-center">
-      <p class="text-heading-sm font-semibold text-fi-ink-inv mb-2">No investigations in this category yet.</p>
-      <p class="text-body-md text-fi-muted-inv">Check back soon — more are in progress.</p>
-    </div>
+        <!-- Empty state -->
+        <div id="empty-state" class="hidden py-16 text-center">
+          <p class="text-heading-sm font-semibold text-fi-ink-inv mb-2">No investigations in this category yet.</p>
+          <p class="text-body-md text-fi-muted-inv">Check back soon — more are in progress.</p>
+        </div>
+      </>
+    ) : (
+      <div class="py-8 text-center">
+        <p class="text-heading-sm font-semibold text-fi-ink-inv mb-2">New investigations are on the way.</p>
+        <p class="text-body-md text-fi-muted-inv mb-8">Subscribers get every new investigation by email.</p>
+        <Button
+          href={SUBSCRIBE_PAGE}
+          icon="arrow-right"
+          track={{ event: 'subscribe_click', placement: 'reports_index' }}
+        >
+          Subscribe
+        </Button>
+      </div>
+    )}
 
   </Hero>
 
-  <!-- Readers here already want to check funds themselves, so Deepdive is this
-       section's gold action. No /invest/ link: most cards on this page name a fund. -->
-  <Section background="light" spacing="md" maxWidth="2xl">
-    <DeepdiveSnapshot>
-      <Badge class="mb-6">Deepdive</Badge>
-      <h2 class:list={[responsive.h2, 'font-bold text-fi-ink mb-4 leading-tight tracking-tight']}>Check any fund yourself.</h2>
-      <p class="text-body-md text-fi-muted leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
-        Run the same checks as our investigations on any fund: against a fair benchmark, through market falls, and for return against risk.
-      </p>
-      <Button
-        href={deepdiveUrl('reports_deepdive')}
-        target="_blank"
-        rel="noopener noreferrer"
-        icon="external"
-        track={{ event: 'deepdive_click', placement: 'reports_deepdive' }}
-      >
-        Open Deepdive
-      </Button>
-    </DeepdiveSnapshot>
-  </Section>
+  {/* No Deepdive promotion until the tool's outputs are cleared (COM-022, 2026-10-19). */}
 
 </Layout>
 
