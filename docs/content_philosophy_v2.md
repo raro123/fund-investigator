@@ -1,6 +1,6 @@
 # Content Philosophy — v2
 
-**Status:** Latest (2026-10-14). Replaces v1 (`docs/content_philosophy.md`) for the MF distribution pivot.
+**Status:** Latest (2026-10-14). Replaces v1 (now `docs/archive/content_philosophy_v1.md`) for the MF distribution pivot.
 
 **Goal:** Establish authority with clients. Every page shows that we know mutual funds, and that this knowledge helps the reader. Content informs first, then persuades. It promotes our services, our advantages and what makes us different.
 
