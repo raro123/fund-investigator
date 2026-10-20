@@ -55,6 +55,13 @@ const ORG_DESCRIPTION =
 
 type SchemaObject = Record<string, unknown>;
 
+/** Who signs a report: the ARN holder, or the brand (see `byline` in content.config.ts). */
+export type Byline = 'owner' | 'brand';
+
+/** Visible and machine-readable author name, so the byline, the schema and the .md copy agree. */
+export const reportAuthorName = (byline: Byline = 'owner'): string =>
+  byline === 'owner' ? REGISTERED_NAME : 'Fund Investigator';
+
 export interface ArticleFrontmatter {
   title: string;
   description: string;
@@ -62,6 +69,7 @@ export interface ArticleFrontmatter {
   updated?: string;
   category?: string;
   tags?: string[];
+  byline?: Byline;
   seo?: {
     title?: string;
     description?: string;
@@ -130,10 +138,12 @@ export const resolveArticleMetadata = (
 /**
  * Who is credited as author on reports.
  *
- * The site speaks as "we" and names no individual, so the Organization is the
- * author. Swapping to a named Person belongs alongside a visible byline.
+ * The ARN holder by default: a named, verifiable author is a trust signal on a
+ * finance site, and ArticleMetadata shows the same name in the visible byline.
+ * The Organization stays the publisher either way.
  */
-export const authorRef = (site?: URL): SchemaObject => ({ '@id': orgId(site) });
+export const authorRef = (site?: URL, byline: Byline = 'owner'): SchemaObject =>
+  ({ '@id': byline === 'owner' ? personId(site) : orgId(site) });
 
 /**
  * Resolves an image path to an absolute URL. Social platforms and Google both
@@ -222,7 +232,7 @@ export const articleSchema = (
     keywords: frontmatter.tags,
     inLanguage: LANGUAGE,
     isAccessibleForFree: true,
-    author: authorRef(site),
+    author: authorRef(site, frontmatter.byline),
     publisher: { '@id': orgId(site) },
     ...(normalizedArticleBody
       ? {
@@ -301,6 +311,8 @@ export const reportSchemaPieces = (
   return [
     organizationSchema(site),
     websiteSchema(site),
+    // The author entity must be in the same graph, or its reference dangles.
+    ...((frontmatter.byline ?? 'owner') === 'owner' ? [personSchema(site)] : []),
     image,
     page,
     articleSchema(frontmatter, pageUrl, site, articleBody),

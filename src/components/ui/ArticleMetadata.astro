@@ -4,6 +4,8 @@ import {
   type ReportCategory,
 } from '../../lib/report-categories';
 import { formatDate } from '../../lib/format';
+import { ARN } from '../../lib/distributor';
+import { reportAuthorName, type Byline } from '../../lib/schema';
 
 interface Props {
   published: string;
@@ -11,9 +13,12 @@ interface Props {
   readTime: string;
   category?: ReportCategory;
   status?: 'current' | 'archived';
+  /** 'owner' names the ARN holder; the name links to the distributor section of /about/. */
+  byline?: Byline;
 }
 
-const { published, updated, readTime, category, status = 'current' } = Astro.props;
+const { published, updated, readTime, category, status = 'current', byline = 'owner' } = Astro.props;
+const authorHref = byline === 'owner' ? '/about/#distributor' : '/about/';
 const showUpdated = Boolean(updated && updated !== published);
 const displayDate = showUpdated && updated ? updated : published;
 const displayReadTime = readTime.replace(/\s+read$/i, '');
@@ -46,14 +51,17 @@ const displayReadTime = readTime.replace(/\s+read$/i, '');
     </dl>
 
     <dl class="mt-3" aria-label="Article byline">
-      <div class="inline-flex items-baseline gap-1.5 whitespace-nowrap">
+      <div class="inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
         <dt class="text-fi-subtle">By</dt>
-        <dd>
+        <dd class="whitespace-nowrap">
           <a
-            href="/about/"
+            href={authorHref}
             class="rounded-sm font-semibold text-fi-muted-inv transition-colors hover:text-fi-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-gold focus-visible:ring-offset-2 focus-visible:ring-offset-fi-dark"
-          >Fund Investigator</a>
+          >{reportAuthorName(byline)}</a>
         </dd>
+        {byline === 'owner' && (
+          <dd class="whitespace-nowrap text-fi-subtle"><span aria-hidden="true" class="mr-1.5">·</span>{ARN}</dd>
+        )}
       </div>
     </dl>
 </div>

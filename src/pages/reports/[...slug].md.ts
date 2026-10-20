@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import { createMarkdownEndpoint } from '@jdevalk/astro-seo-graph';
 import { SITE_URL } from '../../lib/site-urls';
+import { reportAuthorName } from '../../lib/schema';
 
 const getReports = async () =>
   (await getCollection('reports')).filter((report) => !report.id.startsWith('_'));
@@ -24,7 +25,7 @@ export const GET = createMarkdownEndpoint({
       canonical: new URL(`/reports/${report.slug}/`, SITE_URL),
       pubDate: report.data.date,
       updatedDate: report.data.updated,
-      author: 'Fund Investigator',
+      author: reportAuthorName(report.data.byline),
       description: report.data.seo?.description ?? report.data.description,
       tags: report.data.tags,
       categories: [report.data.category],

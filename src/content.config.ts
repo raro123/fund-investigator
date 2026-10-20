@@ -12,6 +12,10 @@ const reports = defineCollection({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
+    /** Who signs the report. 'owner' credits the ARN holder (visible byline + Person author in JSON-LD).
+     *  A fund analysis that names a scheme decides case by case (content_philosophy_v2.md, bylines):
+     *  set 'brand' there to sign as Fund Investigator. */
+    byline: z.enum(['owner', 'brand']).optional().default('owner'),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
     //   1. this enum (the gate — an unlisted value fails the build)
     //   2. `categoryLabels` in src/lib/report-categories.ts (display label + pill order)
