@@ -1,0 +1,30 @@
+---
+/**
+ * SubstackEmbed Component
+ *
+ * Substack's signup form in an iframe, so a reader subscribes without leaving
+ * the site. Substack still handles confirmation and unsubscribe. The form's
+ * inside can't be styled; it is a white box, so place it on a light or white
+ * surface only. Submissions inside the frame can't be tracked from here.
+ *
+ * @example
+ * <SubstackEmbed />
+ */
+import { SUBSTACK_EMBED_URL } from '../../lib/substack';
+
+interface Props {
+  /** Accessible name for the frame */
+  title?: string;
+  class?: string;
+}
+
+const { title = 'Subscribe to Fund Investigator by email', class: className } = Astro.props;
+---
+
+<iframe
+  src={SUBSTACK_EMBED_URL}
+  title={title}
+  loading="lazy"
+  scrolling="no"
+  class:list={['block w-full max-w-md h-80 bg-white border border-fi-border rounded-lg', className]}
+></iframe>

@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/ui/Section.astro';
+import Hero from '../components/ui/Hero.astro';
+import SubstackEmbed from '../components/ui/SubstackEmbed.astro';
+import Button from '../components/ui/Button.astro';
+import { responsive } from '../lib/responsive';
+
+// The in-site subscription: Substack's embedded form, so readers don't leave for
+// substack.com. The report takeaways prompt links here (remark-investigation-brief-cta.mjs).
+---
+
+<Layout
+  title="Subscribe - Fund Investigator"
+  description="Get new Fund Investigator guides and investigations by email."
+>
+  <Hero size="sm" background="light">
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink mb-4 leading-tight']}>
+      Subscribe
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted']}>
+      New guides and investigations by email, when they're published.
+    </p>
+  </Hero>
+
+  <Section background="light" spacing="sm" maxWidth="md">
+    <div class="flex flex-col items-center gap-6">
+      <SubstackEmbed />
+      <p class="text-body-sm text-fi-muted text-center">
+        After you subscribe, check your inbox for a confirmation email from Substack.
+        Sign-up is handled by Substack. You can unsubscribe from any email.
+        See our <a href="/privacy/" class="text-fi-link underline">privacy policy</a>.
+      </p>
+      <!-- Shown only when the reader came from a page on this site; the script fills in the target. -->
+      <div data-subscribe-back hidden>
+        <Button href="/reports/" variant="tertiary" surface="light" icon="none">
+          <span data-subscribe-back-label>Back</span>
+        </Button>
+      </div>
+    </div>
+  </Section>
+</Layout>
+
+<script>
+  // The form runs in Substack's frame, so the page can't see a signup; it offers the way back
+  // instead. Only a same-origin referrer is used, so the link can never point off the site.
+  const back = document.querySelector<HTMLElement>('[data-subscribe-back]');
+  const link = back?.querySelector<HTMLAnchorElement>('a');
+  const label = back?.querySelector<HTMLElement>('[data-subscribe-back-label]');
+
+  try {
+    const from = document.referrer ? new URL(document.referrer) : null;
+    if (back && link && label && from && from.origin === location.origin && from.pathname !== location.pathname) {
+      link.href = from.pathname + from.search + from.hash;
+      label.textContent = from.pathname.startsWith('/reports/') && from.pathname !== '/reports/'
+        ? 'Back to the article'
+        : 'Back to where you were';
+      back.hidden = false;
+    }
+  } catch {
+    // A malformed referrer leaves the link hidden.
+  }
+</script>

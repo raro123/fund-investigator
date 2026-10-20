@@ -25,7 +25,6 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/styleguide') &&
         !page.includes('/404') &&
-        !page.includes('/subscribe') &&
         !page.includes('/_TEMPLATE'),
       chunks: {
         reports: (item) => reportSourcePath(item.url) ? item : undefined,

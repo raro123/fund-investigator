@@ -22,6 +22,9 @@ export type SubstackPlacement =
   | 'article_takeaways'
   | 'footer';
 
+/** Substack's own signup form, framed on /subscribe/ so readers stay on the site. */
+export const SUBSTACK_EMBED_URL = new URL('/embed', SUBSTACK_BASE_URL).toString();
+
 export function substackWelcomeUrl(utmContent: SubstackPlacement): string {
   const url = new URL(SUBSTACK_WELCOME_PATH, SUBSTACK_BASE_URL);
   url.searchParams.set('utm_source', 'fundinvestigator');
