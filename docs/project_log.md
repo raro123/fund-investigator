@@ -80,9 +80,11 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 | 91 | **Deepdive — high priority (owner): email-based access before deploy.** The homepage subscribe strip promises "Access to Deepdive". Then point the remaining open Deepdive links (footer, `/reports/`, `/about/`, articles) at the access flow | 2026-10-14 | S49 | 🟡 Parked (S63, COM-022 — all Deepdive promotion and the subscriber promise removed until the tool's outputs are cleared) |
 | 105 | **Website — low priority: hairline dividers between white and `fi-light` sections.** Check on a real phone whether the boundary is visible. If not, add a `divider` prop to `Section.astro`, not page-level borders | 2026-10-15 | S52 | 🟡 Open |
 | 117 | **Owner — high priority: outside setup** (bundle of #60, #88, #90, #100, #101). WhatsApp Business profile, kit approval and the transaction route (#60). Zoho Bookings: title for both visitor groups, host name, required "First investment / Existing portfolio" question, confirmation email saying what to share, how (never WhatsApp) and when the brief arrives (#88). Photo for `OWNER_PHOTO` (#90). The SIF tagline in WhatsApp, Zoho, emails and signature; the shorter-tagline question waits on AMFI (#100). How clients send their CAS (#101; feeds #118's privacy copy) | 2026-10-20 | S66 (from S40–S66) | 🟡 Open |
-| 118 | **Release — high priority: release blockers** (bundle of #114, #65, #78, #115; `docs/production-readiness-review-2026-10-20.md`). Done in S65: phone tables, article CTA, benchmark accuracy. Done in S67 (drafts, facts confirmed by the owner): privacy covers Zoho, WhatsApp/email, CAS (partner platform or email, never WhatsApp), client records (partner platform, RTAs), 12-month deletion for non-clients (#78); terms and disclaimer scope "information only" to public content and describe the distribution service (#65); first-call labels (#115). Left: compliance sign-off of the S67 privacy/terms/disclaimer wording; then the acceptance checks: one test booking end to end, one test WhatsApp enquiry, analytics receipt in production. Then the PR `dev` → `main` | 2026-10-20 | S67 (from S41–S67) | 🟡 Open — owner checks only |
-| 119 | **Compliance — high priority: copy check** (bundle of #94, #80, #83, #98). Site copy against the AMFI MFD FAQ PDF (#94). "Regular plans cost more than direct" on `/about/` and `/disclaimer/`: same-fund comparison only (#80). The homepage `SampleBrief` illustrative values (#83). Content-guide v2 calls: "partner"/"wealth" as tone, bylines case by case (#98). "Improve" in the hero subhead (S62; fallback "Build or review"). Clearance of the two generic guides (COM-002, COM-014) | 2026-10-20 | S66 (from S45–S64) | 🟡 Open |
+| 118 | **Release — high priority: release blockers** (bundle of #114, #65, #78, #115; `docs/production-readiness-review-2026-10-20.md`). Done in S65: phone tables, article CTA, benchmark accuracy. Done in S67 (drafts, facts confirmed by the owner): privacy covers Zoho, WhatsApp/email, CAS (partner platform or email, never WhatsApp), client records (partner platform, RTAs), 12-month deletion for non-clients (#78); terms and disclaimer scope "information only" to public content and describe the distribution service (#65); first-call labels (#115). Left: compliance sign-off of the S67 privacy/terms/disclaimer wording; then the acceptance checks: one test booking end to end, one test WhatsApp enquiry, analytics receipt in production. Then the PR `dev` → `main` | 2026-10-20 | S67 (from S41–S67) | 🟡 Open — owner checks only → S68: PR #6 merged, so the site is live before these checks; do the test booking, WhatsApp enquiry and analytics receipt on production now |
+| 119 | **Compliance — high priority: copy check** (bundle of #94, #80, #83, #98). Site copy against the AMFI MFD FAQ PDF (#94). "Regular plans cost more than direct" on `/about/` and `/disclaimer/`: same-fund comparison only (#80). The homepage `SampleBrief` illustrative values (#83). Content-guide v2 calls: "partner"/"wealth" as tone, bylines case by case (#98; S68: owner byline on reports by default, scheme-naming analyses still case by case). "Improve" in the hero subhead (S62; fallback "Build or review"). Clearance of the two generic guides (COM-002, COM-014) | 2026-10-20 | S66 (from S45–S64) | 🟡 Open |
 | 120 | **Analytics — medium priority: PostHog** (bundle of #62, #113). Internal-user filter (project setting). Update filters on `article_end` to `guide_end` and `report_end`; `article_takeaways` is now a `subscribe_click` placement. Compare `subscribe_click` with Substack's signup counts monthly. Clicks aren't bookings: record completed calls by hand in the client sheet | 2026-10-20 | S66 (from S40–S66) | 🟡 Open |
+| 122 | **Platform — medium priority: Astro 7 upgrade** (with the S67 `npm audit` findings). `@jdevalk/astro-seo-graph` 2.x needs Astro 6+; 1.4.1 is the last release for Astro 5. The move needs Tailwind 4 (`@astrojs/tailwind` stops at Astro 5), the content-layer collections (`type: 'content'` is removed; `report.slug` → `report.id`) and Zod 4. About half a day; separate branch with its own checks | 2026-10-20 | S68 | 🟡 Open |
+| 123 | **SEO — high priority (owner): post-deploy checks.** `INDEXNOW_KEY` in the Cloudflare Pages production variables (the live key file is served; submission not confirmed). Rich Results Test and Schema Markup Validator on a report, `/about/`, `/invest/`. Submit `sitemap-index.xml` in Search Console and Bing Webmaster Tools. Refresh social previews (LinkedIn Post Inspector, Facebook Sharing Debugger) | 2026-10-20 | S68 | 🟡 Open |
 | 121 | **Landing pages — parked on the `landing-pages` branch** (bundle of #107, #108, #109, #110, #112). Before they return: owner copy check of the four pages and their FAQs (#107); Zoho measurement per landing page (#108); PostHog funnels and the UTM convention (#109); SIF promotion rules, GIFT City tax/LRS/TCS copy and the transaction route (#110); extract `LandingHero`, `LandingCosts` and `FactGrid` (#112). Bring back as a PR after the release, by reverting `0382349` and the S67 cleanup (merging the branch restores nothing) | 2026-10-20 | S66 (from S55–S62) | 🟡 Parked |
 
 ---
@@ -90,6 +92,31 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 ## Session Log
 
 <!-- Sessions in reverse chronological order (newest first) -->
+
+---
+
+### 📅 Date: 2026-10-20 | Session: S68 — SEO audit and fixes, owner byline, release to `main`
+
+**What was done:**
+We audited SEO with the astro-seo skill: 72/90 before, 80/90 after. The About, Invest and Reports pages now describe themselves to search engines (who we are, the service, the list of guides), with the owner's ARN and credentials. Pages use Indian English, titles share one format, and five snippets are sharper. Five pages have their own share images, all pages have a "last changed" date in the sitemap, and the body font loads earlier. Reports now carry the owner's byline. The content guide allows the owner's name wherever relevant. The old analytics site is kept as tag `analytics-site-final`, and `dev` went to `main` (PR #6), which is live.
+
+**Why:**
+Google gives more weight to finance content when a named, registered person stands behind it. The ARN is a check anyone can do. The site now sells a distribution service, so the old analytics version needed a permanent backup before the merge.
+
+**How:**
+Schema builders in `src/lib/schema.ts` (`aboutSchemaGraph`, `investSchemaGraph`, `reportsIndexSchemaGraph`, `personSchema`). One social-card renderer in `src/lib/og-card.ts` (satori + sharp, 1200×675, tagline + ARN) and an `ogPage` prop on `Layout`. Sitemap dates from git, skipping bulk commits (`LASTMOD_EXCLUDE_COMMITS`). A `byline` field in the report schema ('owner' by default, 'brand' option). Build validators, design lint and contrast pass; the byline was checked at 375px and 1280px.
+
+**Decisions made:**
+- Owner holds the AMFI certificate: use the name wherever relevant; the brand still leads; claim the registration only, never "adviser" or "analyst". The 2026-10-15 rule "no owner name in links to `/about/`" is retired.
+- Homepage stays brand-only, for privacy (confirmed again).
+- Report byline: "By Ishpreet Singh Modi · ARN-370951", linking to `/about/#distributor`. JSON-LD author = Person, publisher = Organization. Scheme-naming analyses: byline case by case (#119).
+- No FAQPage schema on `/invest/`: Google shows FAQ results only for government and health sites, and some answers are drafts.
+- Stay on `@jdevalk/astro-seo-graph` 1.4.1 for the release; 2.x needs Astro 6+ (#122).
+- Backup of the old `main` as an annotated tag, not a branch: a tag cannot move. Merge commit, not squash, to keep the 59 commits.
+- Commits: `6835eed`, `a7e7107`, `8d67afd`, `d7c4758`, `ed7bc64`, `739aac5`; merge `53857b2`.
+
+**Pending decisions:**
+- #122 Astro 7 upgrade; #123 post-deploy SEO checks (owner); #118 acceptance checks now on production.
 
 ---
 
