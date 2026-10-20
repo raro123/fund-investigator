@@ -7,8 +7,8 @@
  * right), an optional title in Courier Prime capitals, then the facts as form
  * fields (mono label, typed value, a rule under each), two to a row at every
  * width unless a field is `wide`, so keep half-row values short (about 12
- * characters on a 375px phone). A field can carry a link on the right of its
- * label. Optional `notes` add a captioned agenda of typed items with empty
+ * characters on a 375px phone). A field can carry a short link inline after
+ * its value. Optional `notes` add a captioned agenda of typed items with empty
  * boxes (things still to happen, e.g. "On the first call"), and the default
  * slot sits at the foot, for the actions. Light surfaces only.
  *
@@ -45,7 +45,7 @@ interface Field {
   wide?: boolean;
   /** Type the value out behind a caret on reveal (one short line) */
   typed?: boolean;
-  /** A short link on the right of the label; `ariaLabel` names it out of context */
+  /** A short link inline after the value; `ariaLabel` names it out of context */
   link?: { label: string; href: string; ariaLabel?: string };
 }
 
@@ -85,16 +85,15 @@ const caption = 'font-mono text-caption uppercase text-fi-muted';
     <dl class="mt-5 grid grid-cols-2 gap-x-8 gap-y-3">
       {fields.map((field) => (
         <div class:list={['border-b border-fi-border pb-3', field.wide && 'col-span-2']}>
-          <div class="flex items-baseline justify-between gap-4">
-            <dt class={caption}>{field.label}</dt>
-            {field.link && (
-              <a href={field.link.href} aria-label={field.link.ariaLabel} class="font-mono text-caption uppercase whitespace-nowrap text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link">{field.link.label}</a>
-            )}
-          </div>
+          <dt class={caption}>{field.label}</dt>
           <dd class="mt-1 font-typewriter text-body-md text-fi-ink leading-relaxed">
             {field.typed ? (
               <span class="whitespace-nowrap"><span class="fi-typed" style={`--fi-chars: ${field.value.length}`}>{field.value}</span><span class="fi-caret" aria-hidden="true"></span></span>
             ) : field.value}
+            {/* Inline after the value; nowrap keeps the link whole when the line wraps. */}
+            {field.link && (
+              <a href={field.link.href} aria-label={field.link.ariaLabel} class="ml-2 font-mono text-caption uppercase whitespace-nowrap text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link">{field.link.label}</a>
+            )}
           </dd>
         </div>
       ))}
@@ -104,7 +103,7 @@ const caption = 'font-mono text-caption uppercase text-fi-muted';
     {notes && (
       <div class="mt-6">
         <div class:list={[caption, 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3']}>
-          <h4 class="whitespace-nowrap">{notes.label}</h4>
+          <h4>{notes.label}</h4>
           {notes.aside && <span class="whitespace-nowrap">{notes.aside}</span>}
         </div>
         <ul class="space-y-1.5">
