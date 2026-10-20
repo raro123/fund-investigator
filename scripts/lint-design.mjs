@@ -34,7 +34,7 @@ const extensions = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs', '.md', '.mdx
 const allow = {
   'raw-hex': new Set([
     'src/components/Logo.astro', // brand SVG fills
-    'src/pages/og/reports/[...slug].jpg.ts', // satori social card — rendered outside Tailwind
+    'src/lib/og-card.ts', // satori social cards — rendered outside Tailwind
   ]),
   'date-format': new Set([
     'src/lib/format.ts', // the one shared formatter
