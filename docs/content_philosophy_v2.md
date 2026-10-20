@@ -56,7 +56,7 @@ Do:
 - [ ] **Show the answer as a process**, not a promise ("We check overlap, benchmark, costs and fit").
 - [ ] **Name the difference directly.** Contrast with common practice: funds sold on returns, on launches or on commission.
 - [ ] **Use proof:** numbers, the sample brief, the review checklist, the ARN, the owner's credentials.
-- [ ] **Use the owner's name and expertise** on service pages. "Expertise" and "expert" are allowed.
+- [ ] **Use the owner's name and expertise** where they add trust (see *Owner name* below). "Expertise" and "expert" are allowed.
 - [ ] **End with one clear action** (book a call, or WhatsApp). Say what happens next.
 - [ ] **Write benefits in the second person** ("You see your whole portfolio on one page").
 
@@ -83,12 +83,22 @@ Legal limits are fixed. Tone choices are ours to change.
 - Registered name and ARN appear on every service page (footer covers this).
 - Never say "no documents needed" for a portfolio review. The detailed review needs holding details after the first call.
 
+**Owner name (changed 2026-10-20):** the owner holds the AMFI certificate (ARN-370951). Use the name wherever it is relevant.
+
+- Use the name where it adds trust or answers "who do I deal with?". Do not add it to every page.
+- The brand leads. The person must not overshadow it.
+- The homepage stays brand-only, for privacy. The only exceptions are the footer disclosure and the WhatsApp greeting.
+- Claim the registration only: "AMFI Registered Mutual Fund Distributor & SIF Distributor" and the ARN. Never say "adviser" or "analyst".
+- Reports carry the owner byline by default. Set `byline: 'brand'` in frontmatter to sign as Fund Investigator.
+- A fund analysis that names a scheme: decide the byline case by case. A personal byline can read as named research.
+- Link labels may use the name (for example, the report byline links to `/about/#distributor`).
+
 **Tone choices (changed 2026-10-14):**
 
 | Old rule | New rule |
 |---|---|
 | Not a salesperson; no pitch | Promote the service with confidence on service pages |
-| No byline or owner name until SEBI RA | Name, photo and credentials allowed on service pages. Fund analyses: decide case by case |
+| No byline or owner name until SEBI RA | 2026-10-20: name wherever relevant; owner byline on reports; homepage brand-only. Fund analyses: decide case by case |
 | Avoid "expertise" | "Expertise" and "expert" are allowed |
 | Avoid all superlatives | Avoid unprovable superlatives; proven comparisons are fine |
 | Understate when unsure | Prove when unsure. If you cannot prove it, cut it |
