@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import SubstackEmbed from '../components/ui/SubstackEmbed.astro';
 import Button from '../components/ui/Button.astro';
@@ -21,24 +20,23 @@ import { responsive } from '../lib/responsive';
     <p class:list={[responsive.subtitle, 'text-fi-muted']}>
       New guides and investigations by email, when they're published.
     </p>
-  </Hero>
 
-  <Section background="light" spacing="sm" maxWidth="md">
-    <div class="flex flex-col items-center gap-6">
+    <!-- The form sits in the hero, not a Section below it: the two paddings stacked left a
+         128px gap above the frame. Order: form, the way back, then the note. -->
+    <div class="mt-8 flex flex-col items-center gap-4">
       <SubstackEmbed />
-      <p class="text-body-sm text-fi-muted text-center">
-        After you subscribe, check your inbox for a confirmation email from Substack.
-        Sign-up is handled by Substack. You can unsubscribe from any email.
-        See our <a href="/privacy/" class="text-fi-link underline">privacy policy</a>.
-      </p>
       <!-- Shown only when the reader came from a page on this site; the script fills in the target. -->
       <div data-subscribe-back hidden>
         <Button href="/reports/" variant="tertiary" surface="light" icon="none">
           <span data-subscribe-back-label>Back</span>
         </Button>
       </div>
+      <p class="text-body-sm text-fi-muted text-center max-w-md">
+        After you subscribe, check your inbox for a confirmation email from Substack.
+        Sign-up is handled by Substack. You can unsubscribe from any email.
+      </p>
     </div>
-  </Section>
+  </Hero>
 </Layout>
 
 <script>
