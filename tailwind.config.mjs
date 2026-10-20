@@ -144,6 +144,9 @@ export default {
       },
 
       // Max-width tokens
+      minWidth: {
+        'fi-table-cell': '10rem',  // readable columns in wide article tables on phones
+      },
       maxWidth: {
         'fi-content': '65ch',       // article prose reading width
         'fi-disclaimer': '60ch',    // compact legal copy below reports

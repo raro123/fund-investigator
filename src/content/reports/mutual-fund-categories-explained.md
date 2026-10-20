@@ -44,7 +44,7 @@ The practical implication is simple: a fund's category sets the baseline for its
 
 Equity, debt and alternatives such as commodities, gold, and InvITs have different risk and return profiles. A fund's asset allocation within each asset class can change its behaviour during different market cycles. Clearly defined rules help keep a fund aligned with its stated objectives. Without them, a portfolio could gradually drift from the holdings investors expect.
 
-SEBI updated the mutual-fund categorisation framework in February 2026.[^sebi-circular] Existing schemes must align their names, objectives, strategies and benchmarks with the updated framework by 26 August 2026.[^deadline]
+SEBI updated the mutual-fund categorisation framework in February 2026.[^sebi-circular] For the categories discussed here, the circular gave existing schemes six months to align their names, objectives, strategies and benchmarks where applicable: a deadline of 26 August 2026.[^deadline]
 
 ## What does each mutual fund category require?
 
@@ -67,7 +67,7 @@ The same rules allow very different portfolios. These are the boundaries each ca
 |---|---|---|---|
 | **Flexi Cap** | 65% to 100% | Any split. A fund can sit almost entirely in large caps, or lean heavily into mid and small caps | Optional, within the residual |
 | **Multi Cap** | 75% to 100% | At least 25% each in large, mid and small caps, so at least 50% sits outside large caps | Optional, within the residual |
-| **Dynamic Asset Allocation** | No fixed floor or ceiling; set by the scheme's own framework | Not mandated | Debt is a core holding; the split moves with the manager's model |
+| **Dynamic Asset Allocation** | No fixed category-level floor or ceiling; set by the scheme's own framework | Not mandated | The equity–debt split moves within the scheme's stated framework |
 | **Multi Asset Allocation** | At least 10% if equity is one of the three chosen classes | Not mandated | At least 10% in each chosen class, for example debt and gold |
 
 Two funds in different categories can therefore look alike on one date and still be built on different rules. A Flexi Cap fund holding 90% in large caps and a Multi Cap fund holding the 25% minimum in each bucket are both following their mandates, but their exposure to smaller companies differs by a wide margin.
@@ -76,15 +76,15 @@ Two funds in different categories can therefore look alike on one date and still
 
 Residual assets are the part of a portfolio not invested in its core asset classes. This is where differences between equity and hybrid funds become visible.
 
-Flexi Cap and Multi Cap funds may use residual assets for equity-related instruments, money-market and other liquid instruments, permitted gold or silver instruments, and InvITs. Hybrid funds have a narrower list of permitted residual holdings, including InvITs, commodity derivatives (ETCDs)[^etcd], Gold ETFs, and Silver ETFs.
+Flexi Cap and Multi Cap funds may use residual assets for equity-related instruments, money-market and other liquid instruments, permitted gold or silver instruments, and InvITs. Hybrid funds may invest residual assets in InvITs, commodity derivatives (ETCDs)[^etcd], Gold ETFs, and Silver ETFs, subject to the applicable limits.
 
 REITs are counted within equity and equity-related instruments because SEBI reclassified them from 1 January 2026.[^equity-related] InvITs remain classified separately as hybrid instruments.[^invit]
 
 ## Category characteristics
 
-Each category is measured against a benchmark that reflects its rules. Compare a fund with its category peers and the benchmark that matches its category and strategy, not with whichever index makes its returns look most favourable.
+A fund's stated benchmark should reflect its category and strategy. The examples below are not mandatory benchmarks for every scheme. Compare a fund with its category peers and stated benchmark, not with whichever index makes its returns look most favourable.
 
-| Category | Characteristics | Typical benchmark |
+| Category | Characteristics | Example benchmark |
 |---|---|---|
 | **Flexi Cap** | An equity fund where the manager decides the market-cap mix and can change it over time | Nifty 500 TRI[^tri] |
 | **Multi Cap** | An equity fund with a fixed minimum in each of large, mid and small caps | Nifty 500 Multicap 50:25:25 TRI |
@@ -104,7 +104,7 @@ These descriptions are a starting point, not a substitute for the scheme documen
 
 ## Conclusion: compare like with like
 
-In short, category rules come before return comparisons. Flexi Cap, Multi Cap, Dynamic Asset Allocation, and Multi Asset Allocation funds can all look diversified while carrying different asset mixes and risks. When you compare funds, compare each one with its category peers and stated benchmark. This helps separate the effect of category rules from the fund manager's skill.
+Category rules come before return comparisons. Flexi Cap, Multi Cap, Dynamic Asset Allocation, and Multi Asset Allocation funds can all look diversified while carrying different asset mixes and risks. When you compare funds, compare each one with its category peers and stated benchmark. This helps separate the effect of category rules from the fund manager's skill.
 
 Suitability depends on your goals, time horizon, risk profile and existing portfolio. Category labels alone are not a basis for choosing a fund.
 
@@ -112,7 +112,7 @@ Suitability depends on your goals, time horizon, risk profile and existing portf
 
 [^sebi]: SEBI is India's capital-markets regulator. See the [SEBI website](https://www.sebi.gov.in/).
 [^sebi-circular]: [SEBI Circular No. HO/24/13/15(2)2026-IMD-RAC4/I/5764/2026](https://www.sebi.gov.in/sebi_data/attachdocs/feb-2026/1772079826878.pdf), “Categorization and Rationalization of Mutual Fund Schemes,” dated 26 February 2026. It supersedes the earlier categorisation provisions consolidated in the 27 June 2024 Master Circular.
-[^deadline]: The circular states that existing schemes must comply with the updated provisions no later than 26 August 2026.
+[^deadline]: Paragraph 2.6.7 of the February 2026 circular gave existing schemes six months from issuance to comply, corresponding to 26 August 2026. The circular sets a separate transition period for sectoral/thematic portfolio overlap, which is outside this article's four-category comparison.
 [^equity-related]: SEBI reclassified REIT units as equity-related instruments from 1 January 2026, while InvIT units remained classified as hybrid instruments. See the [28 November 2025 SEBI circular](https://www.sebi.gov.in/legal/circulars/nov-2025/reclassification-of-real-estate-investment-trusts-reits-as-equity-related-instruments-for-facilitating-enhanced-participation-by-mutual-funds-and-specialized-investment-funds-sifs-_98031.html).
 [^tri]: TRI means Total Return Index. It includes both price movement and reinvested dividends, unlike a plain price index.
 [^etcd]: ETCD means Exchange Traded Commodity Derivatives: exchange-listed futures contracts on commodities such as gold, silver and crude oil.

@@ -16,22 +16,30 @@ function containsSubscribeLink(node) {
 function ctaNode() {
   return {
     type: 'paragraph',
+    data: {
+      hName: 'aside',
+      hProperties: {
+        className: ['article-subscribe-note'],
+        ariaLabel: 'New guides by email',
+      },
+    },
     children: [
       {
-        type: 'emphasis',
-        children: [
-          {
-            type: 'text',
-            value: 'Finding this useful? Get notified when we publish new guides and investigations. ',
+        type: 'strong',
+        children: [{ type: 'text', value: 'Get more guides like this' }],
+      },
+      { type: 'text', value: 'Subscribe for new fund-evaluation guides and investigations. ' },
+      {
+        type: 'link',
+        url: SUBSCRIBE_PATH,
+        title: null,
+        data: {
+          hProperties: {
+            dataTrack: 'subscribe_click',
+            dataPlacement: 'article_takeaways',
           },
-          {
-            type: 'link',
-            url: SUBSCRIBE_PATH,
-            title: null,
-            children: [{ type: 'text', value: 'Subscribe' }],
-          },
-          { type: 'text', value: '.' },
-        ],
+        },
+        children: [{ type: 'text', value: 'Subscribe →' }],
       },
     ],
   };
@@ -85,6 +93,11 @@ export default function remarkInvestigationBriefCta() {
     const sectionNodes = tree.children.slice(headingIndex + 1, sectionEnd);
     if (sectionNodes.some(containsSubscribeLink)) return;
 
-    tree.children.splice(sectionEnd, 0, ctaNode());
+    // Keep a closing transition next to the section it introduces.
+    const lastNode = tree.children[sectionEnd - 1];
+    const insertionIndex = lastNode?.type === 'paragraph' && /^Next[,\s]/i.test(nodeText(lastNode).trim())
+      ? sectionEnd - 1
+      : sectionEnd;
+    tree.children.splice(insertionIndex, 0, ctaNode());
   };
 }

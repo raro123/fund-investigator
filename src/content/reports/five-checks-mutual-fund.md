@@ -25,11 +25,11 @@ With thousands of mutual funds to choose from, finding the right fund can be dif
 
 ## The five questions
 
-1. Did the Fund beat a fair benchmark?
-2. Was the Fund's performance consistent, or just a lucky year?
-3. Did the Fund's return justify the Fund's risk?
-4. How far did the Fund fall when the market turned?
-5. How long did the Fund take to recover from drawdown?
+1. Did the fund beat a fair benchmark?
+2. Was the fund's performance consistent, or just a lucky year?
+3. Did the fund's return justify its risk?
+4. How far did the fund fall when the market turned?
+5. How long did the fund take to recover from drawdown?
 
 The first two questions examine a fund’s returns and consistency. The third asks whether those returns justified the risk taken. The fourth and fifth focus on downside risk: how far the fund fell and how long it took to recover. Together, they give you a fuller picture than returns alone.
 
@@ -37,7 +37,7 @@ Now let’s apply these questions to a worked example. The goal is not to label 
 
 ## The worked example
 
-> **Hypothetical example.** “Fund A” is not a real fund. Its figures are illustrative, chosen to show how each question works. They are not the results of any actual scheme and do not indicate typical or future returns.
+> **Hypothetical example.** “Fund A” is not a real fund. Its summary figures are separate illustrations, not calculations from a shared NAV series. They show how each question works, are not the results of any actual scheme, and do not indicate typical or future returns.
 
 - Fund: Fund A, a hypothetical flexi-cap fund
 - Period: six and a half years, including a sharp market crash in the first year
@@ -51,13 +51,13 @@ Now let’s apply these questions to a worked example. The goal is not to label 
 | Was the fund’s performance consistent? | Ahead in 4 of 7 calendar years<br>60% rolling win rate[^rolling] | The lead came from several years, not one. It still lost in 40% of rolling 3-year periods. |
 | Did the extra return justify the extra risk? | Sharpe ratio[^sharpe]: 0.69 vs 0.47<br>Volatility: 16% vs 17% | Similar volatility with more return, so a higher Sharpe ratio. |
 | How far did the fund fall? | Maximum drawdown: -36% vs -34% | The fund fell slightly more than the benchmark in the crash. |
-| How long did recovery take? | Days to recover: 280 vs 240 | Both took under a year. A fast rebound is not a forecast for the next downturn. |
+| How long did recovery take? | Days from trough to recovery: 280 vs 240 | Both took under a year. A fast rebound is not a forecast for the next downturn. |
 
 Next, we examine each question in detail.
 
 ## Question 1: Did the fund beat a fair benchmark?
 
-A flexi-cap fund can invest across large-, mid-, and small-cap companies. Under [SEBI’s](https://www.sebi.gov.in/) category rules, the Nifty 500 TRI is the benchmark for this category because it covers the same broad range of companies. Compare a fund with the benchmark that matches its category, not with whichever index makes its returns look best.
+A flexi-cap fund can invest across large-, mid-, and small-cap companies. For this hypothetical example, we use Nifty 500 TRI as a broad-market benchmark. It is not the only benchmark used by flexi-cap funds.[^benchmark] When assessing an actual fund, check its stated benchmark and whether it matches the strategy, rather than choosing whichever index makes its returns look best.
 
 We use two metrics:
 
@@ -79,7 +79,7 @@ After comparing returns, the next question is consistency. Did one successful ye
 
 ### Assessment: a steady lead with clear losing stretches
 
-Fund A beat the benchmark in 4 of 7 calendar years, counting the current year to date. Its rolling win rate was 60%: a 3-year holding beat the benchmark in 60% of the starting points, and trailed it in the other 40%.
+Fund A beat the benchmark in 4 of 7 calendar years, counting the partial final year. Its rolling win rate was 60%: a 3-year holding beat the benchmark in 60% of the starting points, and trailed it in the other 40%.
 
 That is a useful reality check. A higher CAGR over the full period can still mean several years of trailing the index. Ask whether you would have held on through those years.
 
@@ -92,7 +92,7 @@ Beating an index means less if a fund takes much more risk to do it. We examine 
 
 ### Assessment: more return for similar risk
 
-Fund A’s volatility was 16%, close to the benchmark’s 17%. With a 6% risk-free rate, its Sharpe ratio was 0.69 against 0.47: (17% − 6%) ÷ 16% for the fund, and (14% − 6%) ÷ 17% for the benchmark. Fund A earned more return without taking more measured risk.
+Fund A’s illustrative annualised volatility was 16%, close to the benchmark’s 17%. Its illustrative annualised Sharpe ratio was 0.69 against 0.47. This comparison shows more excess return per unit of volatility; it does not mean the fund had less risk in every sense. These ratios are separate example inputs, not calculated by substituting the CAGR figures into a Sharpe formula.[^sharpe]
 
 ## Question 4: How far did the fund fall?
 
@@ -104,7 +104,7 @@ Fund A fell 36% at the worst point of the period, against 34% for the Nifty 500 
 
 ## Question 5: How long did it take to recover?
 
-Recovery time is how long a fund takes to return to its previous peak after a drawdown. It helps you judge whether a fund’s losses fit your risk tolerance and time horizon.
+Recovery time here is the number of calendar days from the drawdown trough until a fund returns to its previous peak. It excludes the earlier fall from peak to trough; total time below the peak would be longer. It helps you judge whether a fund’s losses fit your risk tolerance and time horizon.
 
 ### Assessment: recovery took under a year
 
@@ -118,7 +118,7 @@ By themselves, they do not explain which holdings produced the result, whether t
 
 Ultimately, past performance is evidence, not a forecast. Use these questions to look beyond the headline return in a sales pitch and identify what deserves a closer look.
 
-[^benchmark]: Nifty 500 TRI is the broad-market reference for flexi-cap funds. TRI means Total Return Index: it includes price movement and reinvested dividends.
+[^benchmark]: Nifty 500 TRI is the benchmark chosen for this example; [Nifty Indices describes Nifty 500 as a broad-market index](https://www.niftyindices.com/indices/equity/broad-based-indices/nifty-500). Check an actual fund's current factsheet for its stated benchmark. TRI means Total Return Index: it includes price movement and reinvested dividends.
 [^sip]: SIP IRR assumes an equal amount invested at the beginning of each month.
 [^rolling]: The rolling win rate is the share of overlapping three-year periods in which the fund's annualised return exceeded the benchmark's.
-[^sharpe]: Sharpe ratios in this example use a 6.0% annual risk-free rate, applied consistently to the fund and benchmark over the same six-and-a-half-year period.
+[^sharpe]: For actual data, the historical Sharpe ratio uses the arithmetic mean of periodic excess returns over a risk-free reference, divided by their standard deviation, with consistent observation frequency and annualisation. CAGR is a compounded growth rate and is not that arithmetic mean. See [William F. Sharpe, “The Sharpe Ratio” (1994)](https://web.stanford.edu/~wfsharpe/art/sr/SR.htm). The ratios shown here are illustrative rather than estimates from a return series.

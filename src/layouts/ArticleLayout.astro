@@ -214,6 +214,45 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
     cursor: zoom-in;
   }
 
+  .article-prose :global(.article-subscribe-note) {
+    @apply my-8 rounded-lg border border-fi-border bg-fi-light p-4 font-sans text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-subscribe-note > strong) {
+    @apply mb-1 block font-semibold text-fi-ink;
+  }
+
+  .article-prose :global(.article-subscribe-note > a) {
+    @apply rounded-sm border-b-0 font-semibold text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
+  }
+
+  .article-prose :global(.article-table) {
+    @apply my-8;
+    min-width: 0;
+  }
+
+  .article-prose :global(.article-table-hint) {
+    @apply mb-2 mt-0 font-sans text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-table-scroll) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .article-prose :global(.article-table-scroll:focus-visible) {
+    @apply rounded outline outline-2 outline-offset-2 outline-fi-link;
+  }
+
+  .article-prose :global(.article-table-scroll table) {
+    @apply my-0;
+  }
+
+  .article-prose :global(table[data-wide-table] th),
+  .article-prose :global(table[data-wide-table] td) {
+    @apply min-w-fi-table-cell sm:min-w-0;
+  }
+
   .article-prose :global(a[data-footnote-ref]) {
     @apply border-b-0 font-bold text-fi-muted no-underline;
   }
@@ -240,6 +279,30 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
 </style>
 
 <script>
+  document.querySelectorAll<HTMLElement>('[data-article-table]').forEach((region) => {
+    const table = region.querySelector('table');
+    const hint = document.getElementById(region.dataset.tableHint ?? '');
+    if (!table || !hint) return;
+
+    const syncOverflow = () => {
+      const overflowing = region.scrollWidth > region.clientWidth + 1;
+      hint.hidden = !overflowing;
+      // Only tables that need horizontal navigation add a keyboard stop.
+      if (overflowing) {
+        region.tabIndex = 0;
+        region.setAttribute('aria-describedby', hint.id);
+      } else {
+        region.removeAttribute('tabindex');
+        region.removeAttribute('aria-describedby');
+      }
+    };
+
+    const observer = new ResizeObserver(syncOverflow);
+    observer.observe(region);
+    observer.observe(table);
+    syncOverflow();
+  });
+
   const articleHero = document.querySelector<HTMLElement>('[data-article-hero]');
   const progressTrack = document.querySelector<HTMLElement>('[data-article-progress]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');

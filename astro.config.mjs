@@ -5,6 +5,7 @@ import seoGraph from '@jdevalk/astro-seo-graph/integration';
 import { gitLastmod } from '@jdevalk/astro-seo-graph';
 import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
 import rehypeSplitFootnotes from './src/lib/rehype-split-footnotes.mjs';
+import rehypeScrollableTables from './src/lib/rehype-scrollable-tables.mjs';
 
 const INDEXNOW_KEY = '14a30902d8a12fd849ea16a55b53e034';
 const isProductionBuild =
@@ -61,7 +62,7 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [remarkInvestigationBriefCta],
-    rehypePlugins: [rehypeSplitFootnotes]
+    rehypePlugins: [rehypeScrollableTables, rehypeSplitFootnotes]
   },
 
   // Image optimization settings
