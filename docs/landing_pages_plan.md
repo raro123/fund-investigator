@@ -11,7 +11,7 @@
 - **Keep the promise; test who responds.** One brand, one service, one booking. The pages change the reader, the proof and the questions, not the offer.
 - **Start from the reader's situation, not a demographic.** "I have savings and want to start in the markets" tells us why they need help now.
 - **Every product gets its own way in.** SIF and GIFT City funds get separate pages from the start. Readers arrive with different questions ("Should I invest in a SIF?" vs "How do I hold US dollars from India?"). A combined "beyond mutual funds" page matches neither search and hides which product drew the interest.
-- **Content that feeds a page is a generic guide** (names no fund), written for the reader's question in plain words. Fund analyses that name a scheme never link to these pages (content guide, "Two Modes").
+- **Content that feeds a page is a generic guide** (names no fund), written for the reader's question in plain words. No page names a scheme or an AMC (house rule H-05, decision D4, 2026-10-21).
 
 ## 2. Pages and slugs
 
@@ -77,8 +77,7 @@ Path: content → landing view → click → booking or WhatsApp → call → cl
 
 These are backlog items, not findings resolved by the copy implementation:
 
-- Review the shared header/footer links on named-fund analyses against the content-mode rule. No shared navigation changes were made here.
-- Both guides currently featured on the homepage still name schemes in their body; they must not be treated as generic landing-page feeders merely because their card copy is generic. Review/replace that feeder content separately.
+- Closed (S69): the header and footer links on named-fund analyses, and the two homepage guides that named schemes. The guides became generic rewrites (S64), and the named-fund analyses were deleted (decision D4).
 - Complete SIF promotion and GIFT City tax/LRS/TCS, eligibility and transaction-readiness checks (#110, #60) before merging to `main`. Since S60 the pages are indexable, so this check is the only gate.
 - Extract the repeated landing-page markup into components (#112).
 - Confirm suitability boundaries and the service's deliverables/limits before release; this copy edit is not a suitability-policy review.

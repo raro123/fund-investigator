@@ -12,14 +12,15 @@ const reports = defineCollection({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
-    /** Who signs the report. 'owner' credits the ARN holder (visible byline + Person author in JSON-LD).
-     *  A fund analysis that names a scheme decides case by case (content guidelines in fund_distribution_business, bylines):
-     *  set 'brand' there to sign as Fund Investigator. */
+    /** Who signs the report. 'owner' (default) credits the ARN holder (visible byline + Person author in JSON-LD),
+     *  as the content guidelines ask (fund_distribution_business, identity). 'brand' signs as Fund Investigator,
+     *  when the owner chooses that for a piece. */
     byline: z.enum(['owner', 'brand']).optional().default('owner'),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
     //   1. this enum (the gate — an unlisted value fails the build)
     //   2. `categoryLabels` in src/lib/report-categories.ts (display label + pill order)
-    category: z.enum(['Fund Analysis', 'Category Comparison', 'Methodology']),
+    // No category names a scheme: no page names a scheme or an AMC (house rule H-05, decision D4).
+    category: z.enum(['Category Comparison', 'Methodology']),
     tags: z.array(z.string()),
     /** Lifecycle is separate from topical category: archived reports remain public historical snapshots. */
     status: z.enum(['current', 'archived']).optional().default('current'),
@@ -27,8 +28,8 @@ const reports = defineCollection({
     analysisThrough: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     /** Current report readers should visit from an archived snapshot. */
     supersededBy: z.string().startsWith('/reports/').optional(),
-    /** Service invite above the notes. Only for guides that name no scheme: a fund
-     *  analysis never links to the service (content guidelines in fund_distribution_business, page modes).
+    /** Service invite above the notes: the one short invite of the "Teach, then invite" mode
+     *  (content guidelines in fund_distribution_business, two modes).
      *  Without it, the report ends with the subscription card. */
     serviceInvite: z.object({
       heading: z.string().max(80),
@@ -36,12 +37,12 @@ const reports = defineCollection({
     }).optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),
-    /** Report card record, max 3. With values (fund analyses): "Key figures CAGR 25.0% · …".
-     *  Labels only (guides): "Covers Returns · Risk · Consistency". */
+    /** Report card record, max 3 topic labels: "Covers Returns · Risk · Consistency".
+     *  Labels only: a figure on a card reads as a performance claim (rulebook R-07).
+     *  `.strict()` fails the build if a `value` comes back. */
     keyMetrics: z.array(z.object({
       label: z.string(),
-      value: z.string().optional(),
-    })).max(3).optional(),
+    }).strict()).max(3).optional(),
   }).superRefine((report, ctx) => {
     if (report.status === 'archived' && !report.analysisThrough) {
       ctx.addIssue({
