@@ -37,7 +37,8 @@ Architecture, tech stack, and file locations: see [README.md](README.md).
 
 ## 2. Content & Tone Guidelines
 
-- **Source:** `docs/content_philosophy_v2.md` (latest, 2026-10-14; v1 retired to `docs/archive/content_philosophy_v1.md`)
+- **Source:** the content guidelines moved to the business repo on 2026-10-21. Content Boss owns them: `../fund_distribution_business/content/guidelines.md` (voice, page modes, legal limits). Compliance rules: `../fund_distribution_business/compliance/rulebook.md`.
+- **Frontmatter:** `title` is for both humans and machines; `description` is for machines only (never rendered, ~155 chars); `hook` is for humans only (subtitle and card teaser). Full reference: `docs/templates/report-template.md`.
 - **Adding a report category?** Update it in both `src/content.config.ts` (the enum — the build gate) and `categoryLabels` in `src/pages/reports.astro` (display label + pill order). The schema alone won't catch a missed second update: the build still passes, but the filter pill for that category silently never appears on `/reports`.
 
 ## 3. Development Workflow

@@ -4,7 +4,7 @@
  * Each button placement has its own prefilled text. The visitor only taps
  * Send, so the texts are friendly, name no fund and carry no tracking code:
  * the `conversation_request` PostHog event records the placement
- * (docs/mfd_whatsapp_kit.md §4).
+ * (fund_distribution_business/content/whatsapp_kit.md §4).
  */
 
 import { FIRST_NAME, WHATSAPP_NUMBER } from './distributor';

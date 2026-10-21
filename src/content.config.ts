@@ -13,7 +13,7 @@ const reports = defineCollection({
     updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),  // Feeds dateModified in Article JSON-LD; defaults to `date`
     readTime: z.string(),
     /** Who signs the report. 'owner' credits the ARN holder (visible byline + Person author in JSON-LD).
-     *  A fund analysis that names a scheme decides case by case (content_philosophy_v2.md, bylines):
+     *  A fund analysis that names a scheme decides case by case (content guidelines in fund_distribution_business, bylines):
      *  set 'brand' there to sign as Fund Investigator. */
     byline: z.enum(['owner', 'brand']).optional().default('owner'),
     // Adding a category? Add it in BOTH places, or the filter pill silently never appears:
@@ -28,7 +28,7 @@ const reports = defineCollection({
     /** Current report readers should visit from an archived snapshot. */
     supersededBy: z.string().startsWith('/reports/').optional(),
     /** Service invite above the notes. Only for guides that name no scheme: a fund
-     *  analysis never links to the service (content_philosophy_v2.md, Two Modes).
+     *  analysis never links to the service (content guidelines in fund_distribution_business, page modes).
      *  Without it, the report ends with the subscription card. */
     serviceInvite: z.object({
       heading: z.string().max(80),
