@@ -21,7 +21,7 @@ Cloudflare Pages, connected to this GitHub repo.
 | `PUBLIC_CF_PROJECT_NAME` | Production only | Same as above |
 | `MAILERLITE_API_KEY` | Preview only (secret) | Leftover from the deleted MailerLite subscribe function |
 | `PUBLIC_POSTHOG_KEY` | **Set on both Production and Preview** | PostHog project API key, read by `src/layouts/Layout.astro`. No-ops (with a console warning) if set without `PUBLIC_POSTHOG_HOST` |
-| `PUBLIC_POSTHOG_HOST` | **Set on both Production and Preview** | PostHog Cloud region host (`https://us.i.posthog.com` or `https://eu.i.posthog.com`) — must match the region the existing Deepdive PostHog project uses. No silent fallback |
+| `PUBLIC_POSTHOG_HOST` | **Set on both Production and Preview** | PostHog Cloud region host (`https://us.i.posthog.com` or `https://eu.i.posthog.com`) — must match the region the existing Deepdive PostHog project uses. No silent fallback. Since T-24 (2026-10-31) it sets only `ui_host`: events go to `/ingest` on our domain, and `functions/ingest/[[path]].js` forwards them to the US region (change its hosts if the project region changes). PostHog runs only on `fundinvestigator.com`, so Preview builds send nothing; the owner's browsers opt out with `/?fi_internal=1` |
 | `INDEXNOW_KEY` | Production only | Must equal `14a30902d8a12fd849ea16a55b53e034`. Enables IndexNow only on the `main` Cloudflare Pages build after the public key route has been deployed and verified |
 
 **Needs addressing:**

@@ -177,9 +177,30 @@ const defaultLinks = [
       const posthogKey = import.meta.env.PUBLIC_POSTHOG_KEY;
       const posthogHost = import.meta.env.PUBLIC_POSTHOG_HOST;
 
-      if (posthogKey && posthogHost) {
+      // Clean visitor counts (backlog T-24).
+      // 1. Track only the live site. Preview and dev hosts (*.pages.dev,
+      //    localhost) were about 40% of all page views in October.
+      // 2. The owner opens /?fi_internal=1 once on each own browser to stop
+      //    tracking there (/?fi_internal=0 turns it back on). Stored in
+      //    localStorage, so it holds on any network, unlike an IP filter.
+      const isLiveSite = window.location.hostname === 'fundinvestigator.com';
+      let isInternal = false;
+      try {
+        const internalParam = new URLSearchParams(window.location.search).get('fi_internal');
+        if (internalParam === '1') localStorage.setItem('fi_internal', '1');
+        if (internalParam === '0') localStorage.removeItem('fi_internal');
+        isInternal = localStorage.getItem('fi_internal') === '1';
+      } catch {
+        // Storage blocked (private mode): treat as a normal visitor.
+      }
+
+      if (posthogKey && posthogHost && isLiveSite && !isInternal) {
         posthog.init(posthogKey, {
-          api_host: posthogHost,
+          // Sent through our own domain (functions/ingest), so ad blockers
+          // that block *.posthog.com do not hide these visitors.
+          api_host: '/ingest',
+          // Links into the PostHog app (toolbar) still go to the right region.
+          ui_host: posthogHost.replace('.i.posthog.com', '.posthog.com'),
           person_profiles: 'identified_only',
           // Cross-subdomain tracking: fundinvestigator.com and
           // deepdive.fundinvestigator.com share a top-level domain, so
@@ -215,7 +236,7 @@ const defaultLinks = [
             channel: tracked.dataset.channel,
           });
         });
-      } else if (posthogKey || posthogHost) {
+      } else if (isLiveSite && Boolean(posthogKey) !== Boolean(posthogHost)) {
         // One var set without the other is almost certainly a misconfig —
         // PostHog Cloud has separate US/EU regions, so we never guess a host.
         console.warn(
