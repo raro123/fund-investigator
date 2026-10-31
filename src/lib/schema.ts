@@ -47,11 +47,16 @@ export const HOME_DESCRIPTION =
 export const reportOgImagePath = (slug: string): string =>
   `/og/reports/${slug}.jpg`;
 
-/** Matches the entity description in llms.txt.ts so both machine-readable surfaces agree. */
-const ORG_DESCRIPTION =
-  'Data-driven mutual fund analysis for Indian investors. We investigate fund performance using ' +
-  'risk-adjusted metrics, rolling returns, and benchmark comparisons. Fund Investigator is run by an ' +
-  `${TAGLINE} (${ARN}).`;
+/**
+ * Site description for machines: the Organization and WebSite JSON-LD and the
+ * llms.txt summary read this one string, so both surfaces agree. Category-level
+ * evidence only: no scheme-level analysis (decision 8). Wording: decision 50
+ * (backlog T-04).
+ */
+export const SITE_DESCRIPTION =
+  'Fund Investigator publishes category-level evidence on Indian mutual funds and offers portfolio reviews. ' +
+  `${REGISTERED_NAME}, ${TAGLINE}, ${ARN}.`;
+const ORG_DESCRIPTION = SITE_DESCRIPTION;
 
 type SchemaObject = Record<string, unknown>;
 
@@ -70,6 +75,13 @@ export interface ArticleFrontmatter {
   category?: string;
   tags?: string[];
   byline?: Byline;
+  faq?: ReadonlyArray<{ question: string; answer: string }>;
+  dataset?: {
+    name: string;
+    description: string;
+    temporalCoverage: string;
+    file: string;
+  };
   seo?: {
     title?: string;
     description?: string;
@@ -272,6 +284,47 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   ]);
 };
 
+/** FAQPage main entity: one Question per `faq` item. */
+const faqQuestions = (faq: NonNullable<ArticleFrontmatter['faq']>): SchemaObject[] =>
+  faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  }));
+
+/**
+ * The report's data download as a schema.org Dataset, so answer engines and
+ * dataset search can cite the numbers with their source and period.
+ */
+export const datasetSchema = (
+  frontmatter: ArticleFrontmatter,
+  pageUrl: string,
+  site?: URL,
+): SchemaObject => {
+  const dataset = frontmatter.dataset!;
+  return buildPiece({
+    '@type': 'Dataset',
+    '@id': `${pageUrl}#dataset`,
+    name: dataset.name,
+    description: dataset.description,
+    url: pageUrl,
+    temporalCoverage: dataset.temporalCoverage,
+    spatialCoverage: { '@type': 'Country', name: 'India' },
+    creator: { '@id': orgId(site) },
+    publisher: { '@id': orgId(site) },
+    isAccessibleForFree: true,
+    inLanguage: LANGUAGE,
+    keywords: frontmatter.tags,
+    datePublished: asDate(frontmatter.date),
+    dateModified: asDate(frontmatter.updated ?? frontmatter.date),
+    distribution: [{
+      '@type': 'DataDownload',
+      encodingFormat: 'text/csv',
+      contentUrl: new URL(dataset.file, `${origin(site)}/`).toString(),
+    }],
+  });
+};
+
 export const reportSchemaPieces = (
   frontmatter: ArticleFrontmatter,
   pageUrl: string,
@@ -296,7 +349,7 @@ export const reportSchemaPieces = (
     { name: 'Investigations', path: '/reports/' },
     { name: frontmatter.title, path: new URL(pageUrl).pathname },
   ], site);
-  const page = buildWebPage({
+  const builtPage = buildWebPage({
     url: pageUrl,
     name: frontmatter.title,
     description: frontmatter.description,
@@ -307,6 +360,10 @@ export const reportSchemaPieces = (
     datePublished: asDate(frontmatter.date),
     dateModified: asDate(frontmatter.updated ?? frontmatter.date),
   }, ids);
+  // A report with a `faq` list is also an FAQPage: the questions become its main entity.
+  const page = frontmatter.faq?.length
+    ? { ...builtPage, '@type': ['WebPage', 'FAQPage'], mainEntity: faqQuestions(frontmatter.faq) }
+    : builtPage;
 
   return [
     organizationSchema(site),
@@ -317,6 +374,7 @@ export const reportSchemaPieces = (
     page,
     articleSchema(frontmatter, pageUrl, site, articleBody),
     breadcrumb,
+    ...(frontmatter.dataset ? [datasetSchema(frontmatter, pageUrl, site)] : []),
   ] as GraphEntity[];
 };
 

@@ -53,6 +53,8 @@ Now let’s apply these questions to a worked example. The goal is not to label 
 | How far did the fund fall? | Maximum drawdown: -36% vs -34% | The fund fell slightly more than the benchmark in the crash. |
 | How long did recovery take? | Days from trough to recovery: 280 vs 240 | Both took under a year. A fast rebound is not a forecast for the next downturn. |
 
+<!-- subscribe -->
+
 Next, we examine each question in detail.
 
 ## Question 1: Did the fund beat a fair benchmark?

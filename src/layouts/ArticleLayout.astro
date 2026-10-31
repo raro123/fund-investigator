@@ -127,6 +127,8 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
             <ArticleServiceInvite
               heading={frontmatter.serviceInvite.heading}
               line={frontmatter.serviceInvite.line}
+              report={reportSlug}
+              campaign={frontmatter.serviceInvite.campaign}
             />
           </div>
           {footnotesHtml && <div class={proseClasses} set:html={footnotesHtml} />}
@@ -141,7 +143,7 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
                 <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Subscribe for Investigation Briefs</h3>
                 <p class="text-fi-muted-inv">Get notified when we publish new fund research or update an existing investigation.</p>
               </div>
-              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end' }}>Subscribe</Button>
+              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end', report: reportSlug }}>Subscribe</Button>
             </div>
           </div>
         </>
@@ -215,16 +217,24 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
     cursor: zoom-in;
   }
 
-  .article-prose :global(.article-subscribe-note) {
-    @apply my-8 rounded-lg border border-fi-border bg-fi-light p-4 font-sans text-sm leading-relaxed text-fi-muted;
+  /* Mid-article subscribe box (remark-investigation-brief-cta.mjs, T-37).
+     A light card, so it does not compete with the dark end invite. The button
+     matches Button variant="secondary" surface="light": no gold here, the gold
+     is the booking button at the end. */
+  .article-prose :global(.article-subscribe-box) {
+    @apply my-10 rounded-lg border border-fi-border bg-fi-light p-6 font-sans;
   }
 
-  .article-prose :global(.article-subscribe-note > strong) {
-    @apply mb-1 block font-semibold text-fi-ink;
+  .article-prose :global(.article-subscribe-box-heading) {
+    @apply mb-2 text-lg font-bold leading-snug text-fi-ink;
   }
 
-  .article-prose :global(.article-subscribe-note > a) {
-    @apply rounded-sm border-b-0 font-semibold text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
+  .article-prose :global(.article-subscribe-box-line) {
+    @apply mb-4 text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-subscribe-box-button) {
+    @apply inline-flex items-center justify-center gap-2 rounded-fi-btn border-2 border-fi-ink bg-transparent px-fi-btn-x py-fi-btn-y text-sm font-bold text-fi-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-fi-ink hover:text-fi-ink-inv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
   }
 
   .article-prose :global(.article-table) {
