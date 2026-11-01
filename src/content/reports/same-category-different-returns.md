@@ -35,7 +35,7 @@ Mutual funds in the same category can give very different returns. Over five yea
 
 *A case study. Meera and Rohan are an illustration, built on real fund data.*
 
-## Why did two colleagues end ₹5 lakh apart?
+## How far apart can two funds in the same category end?
 
 In October 2021, two colleagues, Meera and Rohan, each got a bonus. Each put ₹10 lakh into a flexi cap fund. They did not pick the same fund, but they made the same choice: same category, same amount, same day.
 
@@ -67,7 +67,7 @@ In **mid cap**, it was ₹16.1 lakh to ₹21.4 lakh, a gap of about ₹5.3 lakh.
 
 The pattern is simple. The more choice a category gives its funds, the further apart they end.
 
-## Was it the cost?
+## Is the gap because of cost?
 
 Meera's first thought is that her fund must charge more. It is a fair guess, but it is not the main reason.
 
@@ -75,7 +75,7 @@ Inside one category, some funds cost more than others. But the difference is sma
 
 The bigger reason is the choices each fund makes. The category sets the rules. Inside those rules, each fund makes its own choices. It decides how many stocks to hold and which sectors to favour. It leans to value or to growth. It keeps more or less cash. Two funds with the same label can end up holding quite different things.
 
-## Would Meera have known?
+## Why is the gap hard to see on your own?
 
 This is the hard part. For five years, Meera's statements looked fine. Her money grew by about 37%. Nothing on the statement told her that something was off.
 
@@ -89,7 +89,7 @@ To see this for yourself, you need three things:
 
 That needs data for every fund in the category, checked over the same period. And the right answer for one fund depends on everything else you hold.
 
-## Should Meera worry?
+## When is a gap a reason to worry?
 
 Not about one number. A gap with a friend's fund, or one weak year, is not a reason to act. Funds take turns, and past results do not tell us which fund will lead next. That is true for Rohan's fund too.
 
