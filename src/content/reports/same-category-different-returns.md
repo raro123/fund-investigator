@@ -3,7 +3,7 @@ title: "Same Category, Different Returns: How Far Apart Can Two Mutual Funds Be?
 description: "Two people put ₹10 lakh each into flexi cap funds. Five years later, one had ₹13.7 lakh and the other ₹18.8 lakh. Why mutual funds in the same category differ."
 seo:
   title: "Same Category, Different Mutual Fund Returns"
-hook: "Two colleagues put ₹10 lakh each into flexi cap funds. Five years later, they were about ₹5 lakh apart. Same label, same market."
+hook: "A case study: two colleagues put ₹10 lakh each into flexi cap funds. Five years later, they were about ₹5 lakh apart, and both asked us why."
 date: "2026-11-08"
 readTime: "5 min read"
 byline: owner
@@ -33,6 +33,8 @@ dataset:
 
 Mutual funds in the same category can give very different returns. Over five years, two funds with the same label can end about ₹5 lakh apart on ₹10 lakh. Here is how that looks for two colleagues.
 
+*A case study. Meera and Rohan are an illustration, built on real fund data.*
+
 ## Why did two colleagues end ₹5 lakh apart?
 
 In October 2021, two colleagues, Meera and Rohan, each got a bonus. Each put ₹10 lakh into a flexi cap fund. They did not pick the same fund, but they made the same choice: same category, same amount, same day.
@@ -41,11 +43,13 @@ Five years later, in October 2026, they compare notes over lunch. Meera's ₹10 
 
 Same label. Same market. Same five years. About ₹5 lakh apart.
 
+So both of them asked us two questions. Is this normal? And should Meera worry?
+
 ![Bar chart. ₹10 lakh in a flexi cap fund for five years to 19 October 2026. A fund near the bottom of the category: ₹13.7 lakh. A fund near the top: ₹18.8 lakh. Nifty 500 total return index: ₹14.7 lakh.](../../assets/images/reports/same-category-different-returns/two-funds.png)
 
-Meera and Rohan are an illustration. Their numbers are not. They are the real five-year results of two flexi cap funds: one near the bottom of the category and one near the top.
+Their numbers are real. They are the five-year results of two flexi cap funds: one near the bottom of the category and one near the top.
 
-So the short answer is yes: funds in the same category can end very far apart. In flexi cap, the gap was about ₹5 lakh on every ₹10 lakh over five years. Cost explains only a small part of it. Most of it comes from what each fund chose to hold.
+Our short answer to the first question was yes: funds in the same category can end very far apart. In flexi cap, the gap was about ₹5 lakh on every ₹10 lakh over five years. Cost explains only a small part of it. Most of it comes from what each fund chose to hold.
 
 <!-- subscribe -->
 
@@ -85,17 +89,27 @@ To see this for yourself, you need three things:
 
 That needs data for every fund in the category, checked over the same period. And the right answer for one fund depends on everything else you hold.
 
-## What would a review check for Meera?
+## Should Meera worry?
 
-So, if Meera came to us, we would not start with her flexi cap fund. We would start with her whole portfolio.
+Not about one number. A gap with a friend's fund, or one weak year, is not a reason to act. Funds take turns, and past results do not tell us which fund will lead next. That is true for Rohan's fund too.
 
-1. **Each fund against its category** and its stated benchmark index, over three and five years.
-2. **The whole mix first.** How her funds work together, before any single fund. Fewer funds can be the right result.
-3. **Cost and overlap.** What each fund costs her, and whether two funds do the same job.
+A gap is worth a closer look when it shows up in more than one place:
 
-We would run these checks on her own funds, by name. First, we would understand her goals and how much risk she can take. Then she decides what happens next.
+- the fund trails both its category and its stated benchmark index, over three and five years, not only one;
+- two of your funds move alike, so the second one adds cost but little else;
+- the fund no longer fits what the money is for.
 
-*Next: why five funds can still fall together.*
+So we told Meera that her flexi cap fund alone could not answer her question. The answer depends on her whole portfolio. In a review, we would:
+
+1. **Check each fund against its category** and its stated benchmark index, over three and five years.
+2. **Look at the whole mix first.** How her funds work together, before any single fund. Fewer funds can be the right result.
+3. **Check cost and overlap.** What each fund costs her, and whether two funds do the same job.
+
+We run these checks on a person's own funds, by name, after we understand their goals and how much risk they can take. Then they decide what happens next.
+
+Meera asked us to look at her whole portfolio. She holds five funds, and in a weak month all five fell together. That is the next part of this story.
+
+*Next: Meera's five funds, and why they fell together.*
 
 <!-- notes -->
 
@@ -112,7 +126,7 @@ It depends on what they hold and how they move together. In a review, we check t
 
 ## Notes, sources and disclaimers
 
-**About the story.** Meera and Rohan are an illustration, not real investors. Their results are the real five-year results of a flexi cap fund near the bottom and one near the top of the category.
+**About the story.** This is a case study. Meera and Rohan are an illustration, not real investors or clients. Their results are the real five-year results of a flexi cap fund near the bottom and one near the top of the category.
 
 **What "near the top" and "near the bottom" mean.** We line up all the funds in a category by their five-year result. "Near the top" is the fund that did better than 9 in 10 funds in its category (the 90th percentile). "Near the bottom" did better than only 1 in 10 (the 10th percentile). We do not use the single best or worst fund, so one unusual fund does not change the result.
 
