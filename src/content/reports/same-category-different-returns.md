@@ -1,27 +1,29 @@
 ---
 title: "Same Category, Different Returns: How Far Apart Can Two Mutual Funds Be?"
-description: "Mutual funds in the same SEBI category returned about 13 points apart in a typical year (2021–2025). The gap by category, in rupees, and why."
-hook: "Same label, same market, same year. One fund lost 5.5% and another gained 9.4%. We measured the gap in 11 categories."
+description: "Two people put ₹10 lakh each into flexi cap funds. Five years later, one had ₹13.7 lakh and the other ₹18.8 lakh. Why mutual funds in the same category differ."
+seo:
+  title: "Same Category, Different Mutual Fund Returns"
+hook: "Two colleagues put ₹10 lakh each into flexi cap funds. Five years later, they were about ₹5 lakh apart. Same label, same market."
 date: "2026-11-08"
-readTime: "7 min read"
+readTime: "5 min read"
 byline: owner
 category: "Category Comparison"
 tags: ["Fund Categories", "Return Dispersion", "Fund Costs", "Portfolio Review"]
 keyMetrics:
-  - label: "Return gap"
-  - label: "Cost"
-  - label: "11 categories"
+  - label: "Five years"
+  - label: "Three categories"
+  - label: "In rupees"
 serviceInvite:
   heading: "See where each of your funds stands"
-  line: "In a portfolio review, we check every fund you hold against its category and a fair benchmark, and we look at the whole mix before any single fund."
+  line: "In a portfolio review, we check every fund you hold against its category and its stated benchmark index, and we look at the whole mix before any single fund."
   campaign: "c01"
 faq:
-  - question: "Is a 10-point gap between two funds in the same category unusual?"
-    answer: "No. From 2021 to 2025, the gap between the 90th and the 10th percentile fund was 10 points or more in 40 of 55 category-years."
+  - question: "Is it normal for two funds in the same category to give very different returns?"
+    answer: "Yes. Over the five years to 19 October 2026, ₹10 lakh in a flexi cap fund near the top of its category ended about ₹5 lakh ahead of one near the bottom."
   - question: "Does a lower cost explain a better result?"
-    answer: "Only in part. Inside one category, direct-plan costs typically differ by 0.4 to 1.1 points a year. The typical return gap is about 13 points."
+    answer: "Only a small part. Inside one category, the cost of direct plans typically differs by 0.4 to 1.1 points a year. The five-year return gap was about 4 to 7 points a year."
   - question: "Should I hold two funds from the same category?"
-    answer: "It depends on what they hold. Check whether the two funds behave alike and hold the same stocks. If they do, the second fund adds cost and little else."
+    answer: "It depends on what they hold and how they move together. In a review, we check this for every pair of funds you hold. Fewer funds can be the right result."
 dataset:
   name: "Return spread inside SEBI mutual fund categories, India, 2021–2026"
   description: "Yearly and five-year returns at the 10th, 25th, 50th, 75th and 90th percentile of 11 SEBI equity and hybrid mutual fund categories (direct growth plans), with the category index total return. Category-level percentiles only: no single-fund values. Source: Fund Investigator analysis of AMFI daily NAVs and Nifty total return indices."
@@ -29,100 +31,105 @@ dataset:
   file: "/data/reports/c01_category_spread.csv"
 ---
 
-**Short answer.** Funds with the same SEBI category label can give very different results. From 2021 to 2025, in a typical year, a fund near the top of its category (the 90th percentile) did about 13 percentage points better than a fund near the bottom (the 10th percentile). Over the five years to 19 October 2026, ₹10 lakh in a flexi cap fund grew to about ₹13.7 lakh near the bottom of the category and about ₹18.8 lakh near the top. Differences in cost explain less than 1 point a year of this gap. Most of it comes from what each fund holds.
+Mutual funds in the same category can give very different returns. Over five years, two funds with the same label can end about ₹5 lakh apart on ₹10 lakh. Here is how that looks for two colleagues.
 
-*Source: Fund Investigator analysis of AMFI daily NAVs (direct growth plans, 11 categories), AMFI TER disclosures and Nifty total return indices. Data as of 19 October 2026. Past performance does not indicate future results.*
+## Why did two colleagues end ₹5 lakh apart?
 
-## The numbers at a glance
+In October 2021, two colleagues, Meera and Rohan, each got a bonus. Each put ₹10 lakh into a flexi cap fund. They did not pick the same fund, but they made the same choice: same category, same amount, same day.
 
-| What we measured | Result |
-|---|---|
-| Typical yearly gap between a fund near the top and a fund near the bottom of the same category, 2021–2025 | **12.8 percentage points** |
-| Category-years in which that gap was 10 points or more | **40 of 55** (73%) |
-| Widest typical gap | Small cap: **19.1 points** |
-| Narrowest typical gap | Balanced advantage: **6.8 points**; large cap: **9.1 points** |
-| Typical difference in yearly cost (direct plans) inside one category | **0.4 to 1.1 points** |
+Five years later, in October 2026, they compare notes over lunch. Meera's ₹10 lakh has grown to about ₹13.7 lakh. Rohan's has grown to about ₹18.8 lakh.
 
-"Near the top" is the 90th percentile of the category. "Near the bottom" is the 10th percentile. We use percentiles, not the one fund with the highest return and the one with the lowest, so that one unusual fund does not drive the result.
+Same label. Same market. Same five years. About ₹5 lakh apart.
 
-## How big is the gap, category by category?
+![Bar chart. ₹10 lakh in a flexi cap fund for five years to 19 October 2026. A fund near the bottom of the category: ₹13.7 lakh. A fund near the top: ₹18.8 lakh. Nifty 500 total return index: ₹14.7 lakh.](../../assets/images/reports/same-category-different-returns/two-funds.png)
 
-The typical yearly gap between the 90th and the 10th percentile fund, 2021–2025:
+Meera and Rohan are an illustration. Their numbers are not. They are the real five-year results of two flexi cap funds: one near the bottom of the category and one near the top.
 
-| Category | Typical yearly gap (points) |
-|---|---|
-| Small cap | 19.1 |
-| Mid cap | 15.0 |
-| Flexi cap | 14.8 |
-| Multi cap | 13.4 |
-| Focused | 13.3 |
-| Large & mid cap | 12.9 |
-| ELSS | 12.8 |
-| Value / contra | 12.4 |
-| Aggressive hybrid | 10.6 |
-| Large cap | 9.1 |
-| Balanced advantage | 6.8 |
-
-*Median of the five calendar years 2021–2025. Source and date as above.*
-
-![Bar chart: typical yearly return gap between funds near the top and near the bottom of the same category, 2021–2025. Small cap 19.1 points, mid cap 15.0, flexi cap 14.8, large cap 9.1, balanced advantage 6.8.](../../assets/images/reports/same-category-different-returns/gap-by-category.png)
-
-**Same year, opposite results.** In 2022, a flexi cap fund at the 10th percentile lost 5.5%. A flexi cap fund at the 90th percentile gained 9.4%. The Nifty 500 total return index gained 4.2%. Both funds had the same label and the same market.
+So the short answer is yes: funds in the same category can end very far apart. In flexi cap, the gap was about ₹5 lakh on every ₹10 lakh over five years. Cost explains only a small part of it. Most of it comes from what each fund chose to hold.
 
 <!-- subscribe -->
 
-## What the gap means in rupees
+## Is this gap normal in every category?
 
-₹10 lakh invested for five years, to 19 October 2026:
+Yes. Meera's result was not a rare one. We looked at three popular [fund categories](/reports/mutual-fund-categories-explained/), and the same story shows in each of them.
 
-| Category | Near the bottom (10th percentile) | Middle (median) | Near the top (90th percentile) | Gap |
-|---|---|---|---|---|
-| Large cap | ₹13.0 lakh | ₹14.4 lakh | ₹15.6 lakh | ₹2.7 lakh |
-| Flexi cap | ₹13.7 lakh | ₹15.4 lakh | ₹18.8 lakh | ₹5.1 lakh |
-| Mid cap | ₹16.1 lakh | ₹18.7 lakh | ₹21.4 lakh | ₹5.3 lakh |
-| Small cap | ₹17.4 lakh | ₹19.3 lakh | ₹22.7 lakh | ₹5.3 lakh |
+![Range chart. ₹10 lakh after five years to 19 October 2026. Large cap: ₹13.0 lakh to ₹15.6 lakh, index ₹13.6 lakh. Flexi cap: ₹13.7 lakh to ₹18.8 lakh, index ₹14.7 lakh. Mid cap: ₹16.1 lakh to ₹21.4 lakh, index ₹18.6 lakh.](../../assets/images/reports/same-category-different-returns/three-categories.png)
 
-*Before tax. Direct growth plans. Source and date as above. Past performance does not indicate future results.*
+In **large cap**, ₹10 lakh ended anywhere from about ₹13.0 lakh to ₹15.6 lakh. Large cap funds must hold mostly the 100 largest companies, so they have less room to differ. Even so, the gap was about ₹2.7 lakh.
 
-The gap also shows in the middle of the category. In flexi cap, the fund at the 75th percentile ended about ₹2.2 lakh ahead of the fund at the 25th percentile.
+In **flexi cap**, Meera's category, the range was ₹13.7 lakh to ₹18.8 lakh.
 
-## Why do funds with the same label differ so much?
+In **mid cap**, it was ₹16.1 lakh to ₹21.4 lakh, a gap of about ₹5.3 lakh.
 
-**1. The rules leave more room in some categories.** SEBI rules keep large cap funds mostly in the 100 largest companies. Flexi cap, mid cap and small cap funds choose from a much larger set of stocks. The data matches this. The narrowest gaps are in large cap and balanced advantage funds. The widest gap is in small cap.
+The pattern is simple. The more choice a category gives its funds, the further apart they end.
 
-**2. Each fund makes different choices.** Inside the same rules, funds differ in how many stocks they hold, in style (value or growth), in sector weights and in how much cash they keep. A focused fund, for example, can hold at most 30 stocks.
+## Was it the cost?
 
-**3. Cost is only a small part.** Inside one category, the yearly cost of a direct plan near the top of the cost range is typically 0.4 to 1.1 points higher than one near the bottom. The return gap is about 13 points. Cost matters, because it adds up over many years. But cost alone does not explain why two funds in the same category end so far apart.
+Meera's first thought is that her fund must charge more. It is a fair guess, but it is not the main reason.
 
-## What to check in your own portfolio
+Inside one category, some funds cost more than others. But the difference is small: typically 0.4 to 1.1 percentage points a year. Over these five years, the return gap between Meera's fund and Rohan's was about 7 points a year. Cost adds up, and it matters. But it explains only a small part of a gap that size.
 
-Choosing the category is only half of the decision. Inside a category, the fund matters. Four checks help:
+The bigger reason is the choices each fund makes. The category sets the rules. Inside those rules, each fund makes its own choices. It decides how many stocks to hold and which sectors to favour. It leans to value or to growth. It keeps more or less cash. Two funds with the same label can end up holding quite different things.
 
-1. **Compare each fund with its own category and with a fair benchmark,** not only with the market or with a friend's fund.
-2. **Look at three and five years, not one.** One year can mislead in both directions. The five-year gaps above are smaller per year than the one-year gaps, but they add up in rupees.
-3. **Check the cost, but do not stop there.** A low cost helps every year. It does not tell you what the fund holds.
-4. **If you hold two funds from the same category, check whether they behave alike.** If they do, you pay for two funds and get one.
+## Would Meera have known?
 
-Does a fund near the bottom of its category catch up later? That is our next evidence piece.
+This is the hard part. For five years, Meera's statements looked fine. Her money grew by about 37%. Nothing on the statement told her that something was off.
 
-## How we measured
+It only shows when you compare. The Nifty 500 index tracks the wider market that flexi cap funds invest in. Over the same five years, it turned ₹10 lakh into about ₹14.7 lakh. Meera's fund ended below it. She was not alone: in large cap and flexi cap, up to about 1 in 4 funds ended below their category index. In mid cap, close to half did.
 
-- **Funds:** open-ended equity and hybrid funds in 11 SEBI categories, direct growth plans only, so the cost of commission does not affect the comparison. Sectoral and thematic funds are not included, because each follows a different theme by design.
-- **Period:** calendar years 2021 to 2025, and the five years to 19 October 2026. The period starts after SEBI's 2018 category rules and the 2020–21 changes to flexi cap and multi cap funds, so each fund's category is valid for the whole period.
-- **Closed and merged funds are included,** so the results are not limited to the funds that survived.
-- **Data checks:** a fund needs a full year of daily NAVs. We removed funds with stale NAVs, and we skipped NAV days flagged as data errors.
-- **Sources:** AMFI daily NAVs, AMFI TER disclosures (latest, October 2026), Nifty total return indices. Fund Investigator analysis, as of 19 October 2026.
-- **Limits:** these are past results for categories. They do not rank or name any fund, and they do not predict future results. Multi cap has fewer funds (7 to 28 in a year), so its figures move more.
+To see this for yourself, you need three things:
 
-[Download the data (CSV)](/data/reports/c01_category_spread.csv)
+- where your fund stands among **all** the funds in its category, not only next to a friend's fund;
+- how it did against **its stated benchmark index**, over three and five years, not only last year (our [five checks for a mutual fund](/reports/five-checks-mutual-fund/) explain why);
+- how it fits with **the rest of your portfolio**. If you hold two funds that behave alike, you pay for two funds and get the result of one.
+
+That needs data for every fund in the category, checked over the same period. And the right answer for one fund depends on everything else you hold.
+
+## What would a review check for Meera?
+
+So, if Meera came to us, we would not start with her flexi cap fund. We would start with her whole portfolio.
+
+1. **Each fund against its category** and its stated benchmark index, over three and five years.
+2. **The whole mix first.** How her funds work together, before any single fund. Fewer funds can be the right result.
+3. **Cost and overlap.** What each fund costs her, and whether two funds do the same job.
+
+We would run these checks on her own funds, by name. First, we would understand her goals and how much risk she can take. Then she decides what happens next.
+
+*Next: why five funds can still fall together.*
+
+<!-- notes -->
 
 ## Questions
 
-**Is a 10-point gap between two funds in the same category unusual?**
-No. From 2021 to 2025, the gap between the 90th and the 10th percentile fund was 10 points or more in 40 of 55 category-years.
+**Is it normal for two funds in the same category to give very different returns?**
+Yes. Over the five years to 19 October 2026, ₹10 lakh in a flexi cap fund near the top of its category ended about ₹5 lakh ahead of one near the bottom.
 
 **Does a lower cost explain a better result?**
-Only in part. Inside one category, direct-plan costs typically differ by 0.4 to 1.1 points a year. The typical return gap is about 13 points.
+Only a small part. Inside one category, the cost of direct plans typically differs by 0.4 to 1.1 points a year. The five-year return gap was about 4 to 7 points a year.
 
 **Should I hold two funds from the same category?**
-It depends on what they hold. Check whether the two funds behave alike and hold the same stocks. If they do, the second fund adds cost and little else.
+It depends on what they hold and how they move together. In a review, we check this for every pair of funds you hold. Fewer funds can be the right result.
+
+## Notes, sources and disclaimers
+
+**About the story.** Meera and Rohan are an illustration, not real investors. Their results are the real five-year results of a flexi cap fund near the bottom and one near the top of the category.
+
+**What "near the top" and "near the bottom" mean.** We line up all the funds in a category by their five-year result. "Near the top" is the fund that did better than 9 in 10 funds in its category (the 90th percentile). "Near the bottom" did better than only 1 in 10 (the 10th percentile). We do not use the single best or worst fund, so one unusual fund does not change the result.
+
+**The numbers.** ₹10 lakh invested for five years to 19 October 2026, before tax, direct growth plans.
+
+| Category | Near the bottom | Middle fund | Near the top | Gap | Category index |
+|---|---|---|---|---|---|
+| Large cap | ₹13.0 lakh | ₹14.4 lakh | ₹15.6 lakh | ₹2.7 lakh | ₹13.6 lakh (Nifty 100 TRI) |
+| Flexi cap | ₹13.7 lakh | ₹15.4 lakh | ₹18.8 lakh | ₹5.1 lakh | ₹14.7 lakh (Nifty 500 TRI) |
+| Mid cap | ₹16.1 lakh | ₹18.7 lakh | ₹21.4 lakh | ₹5.3 lakh | ₹18.6 lakh (Nifty Midcap 150 TRI) |
+
+**How we measured.**
+- Funds: all open-ended large cap, flexi cap and mid cap funds with five full years of data (22 to 27 funds in each category). Direct growth plans only, so commission does not affect the comparison. Closed and merged funds are included.
+- Period: five years to 19 October 2026.
+- Cost: AMFI TER disclosures, latest values (October 2026).
+- The download has the same figures for 11 categories, year by year from 2021: [download the data (CSV)](/data/reports/c01_category_spread.csv).
+
+**Sources.** Fund Investigator analysis of AMFI daily NAVs, AMFI TER disclosures and Nifty total return indices. Data as of 19 October 2026.
+
+**Limits.** These are past results for categories. We do not rank or name any fund. They do not predict future returns.

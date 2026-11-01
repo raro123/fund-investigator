@@ -29,6 +29,7 @@ const { Content, headings, remarkPluginFrontmatter } = await render(report);
   reportSlug={report.slug}
   articleBody={report.body}
   footnotesHtml={remarkPluginFrontmatter.footnotesHtml}
+  notesHtml={remarkPluginFrontmatter.notesHtml}
 >
   <Content />
 </ArticleLayout>
