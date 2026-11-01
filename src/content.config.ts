@@ -33,6 +33,23 @@ const reports = defineCollection({
     serviceInvite: z.object({
       heading: z.string().max(80),
       line: z.string().max(220),
+      /** utm_campaign on the booking link, e.g. 'c01'. Defaults to the report slug. */
+      campaign: z.string().regex(/^[a-z0-9_-]+$/).optional(),
+    }).optional(),
+    /** Questions answered in the body ("## Questions"), as FAQPage JSON-LD for
+     *  answer engines. The visible text stays in the body: keep the two the same. */
+    faq: z.array(z.object({
+      question: z.string().min(5),
+      answer: z.string().min(5),
+    })).optional(),
+    /** The report's data download, as Dataset JSON-LD. The file lives in
+     *  public/data/reports/ and holds category-level percentiles only (H-05, R-09). */
+    dataset: z.object({
+      name: z.string().min(5),
+      description: z.string().min(50).max(5000),
+      /** ISO 8601 interval, e.g. 2021-01-01/2026-10-19 */
+      temporalCoverage: z.string().regex(/^\d{4}-\d{2}-\d{2}\/\d{4}-\d{2}-\d{2}$/),
+      file: z.string().regex(/^\/data\/reports\/[a-z0-9_-]+\.csv$/),
     }).optional(),
     /** Optional per-report overrides validated by astro-seo-graph. */
     seo: seoSchema(image).optional(),

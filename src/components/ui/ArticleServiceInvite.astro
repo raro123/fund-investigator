@@ -2,14 +2,16 @@
 /**
  * ArticleServiceInvite Component
  *
- * The one invite in a generic guide, after the article and above its notes
- * ("teach, then invite": content_philosophy_v2.md). The heading and line come
- * from the report's `serviceInvite` frontmatter so they follow the article's
- * topic. Booking is the gold action; WhatsApp and the subscription support it.
- * Never used on a report that names a scheme.
+ * The one invite in a "teach, then invite" article, after the article and above
+ * its notes (content_philosophy_v2.md; article template, backlog T-37). The
+ * heading and line come from the report's `serviceInvite` frontmatter so they
+ * follow the article's topic. The call line is fixed here, the same on every
+ * article: change it only with the owner's yes. Booking is the gold action;
+ * WhatsApp and the subscription support it. Never used on a report that names
+ * a scheme.
  *
  * @example
- * <ArticleServiceInvite heading="Want these questions answered for your funds?" line="In a portfolio review, …" />
+ * <ArticleServiceInvite heading="See where each of your funds stands" line="In a portfolio review, …" report="same-category-different-returns" campaign="c01" />
  */
 import Button from './Button.astro';
 import { BOOKING_URL } from '../../lib/distributor';
@@ -19,22 +21,35 @@ import { whatsappUrl } from '../../lib/whatsapp';
 interface Props {
   heading: string;
   line: string;
+  /** Report slug: sent with every click event as `report`. */
+  report: string;
+  /** utm_campaign on the booking link. Defaults to the report slug. */
+  campaign?: string;
 }
 
-const { heading, line } = Astro.props;
+const { heading, line, report, campaign } = Astro.props;
+
+/** Fixed call line for every article (article template §2, decision 63). */
+const CALL_LINE =
+  'Start with a 30-minute first call. No charge · No obligation. We learn your goals and what you hold today. On your request, we then prepare a full review report of your portfolio.';
+
+const bookingUrl = new URL(BOOKING_URL);
+bookingUrl.searchParams.set('utm_source', 'website');
+bookingUrl.searchParams.set('utm_medium', 'evidence');
+bookingUrl.searchParams.set('utm_campaign', campaign ?? report);
 ---
 
 <aside class="rounded-lg bg-fi-dark p-8" aria-label="Portfolio review">
   <h2 class="font-serif text-2xl font-bold text-fi-ink-inv mb-3">{heading}</h2>
   <p class="text-fi-muted-inv leading-relaxed mb-3">{line}</p>
-  <p class="text-fi-muted-inv leading-relaxed mb-6">Start with a 30-minute introductory call to discuss your goals and how a portfolio review works. No charge.</p>
+  <p class="text-fi-muted-inv leading-relaxed mb-6">{CALL_LINE}</p>
   <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
     <Button
-      href={BOOKING_URL}
+      href={bookingUrl.toString()}
       target="_blank"
       rel="noopener noreferrer"
       icon="external"
-      track={{ event: 'review_booking_click', placement: 'article_end' }}
+      track={{ event: 'review_booking_click', placement: 'article_end', report }}
     >Book a first call</Button>
     <Button
       variant="secondary"
@@ -43,7 +58,7 @@ const { heading, line } = Astro.props;
       target="_blank"
       rel="noopener noreferrer"
       icon="whatsapp"
-      track={{ event: 'conversation_request', placement: 'article_end', channel: 'whatsapp' }}
+      track={{ event: 'conversation_request', placement: 'article_end', channel: 'whatsapp', report }}
     >Contact on WhatsApp</Button>
   </div>
   <div class="mt-4">
@@ -52,7 +67,7 @@ const { heading, line } = Astro.props;
       surface="dark"
       href={SUBSCRIBE_PAGE}
       icon="arrow-right"
-      track={{ event: 'subscribe_click', placement: 'guide_end' }}
+      track={{ event: 'subscribe_click', placement: 'guide_end', report }}
     >Subscribe for new guides</Button>
   </div>
 </aside>
