@@ -91,7 +91,7 @@ That needs data for every fund in the category, checked over the same period. An
 
 ## When is a gap a reason to worry?
 
-Not about one number. A gap with a friend's fund, or one weak year, is not a reason to act. Funds take turns, and past results do not tell us which fund will lead next. That is true for Rohan's fund too.
+One number alone is not a reason to worry. A gap with a friend's fund, or one weak year, is not a reason to act. Funds lead in some years and trail in others, and past results do not tell us which fund will lead next. That is true for Rohan's fund too.
 
 A gap is worth a closer look when it shows up in more than one place:
 
