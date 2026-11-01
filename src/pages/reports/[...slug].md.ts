@@ -2,12 +2,13 @@ import { getCollection } from 'astro:content';
 import { createMarkdownEndpoint } from '@jdevalk/astro-seo-graph';
 import { SITE_URL } from '../../lib/site-urls';
 import { reportAuthorName } from '../../lib/schema';
+import { stripSubscribeMarker } from '../../lib/remark-investigation-brief-cta.mjs';
 
 const getReports = async () =>
   (await getCollection('reports')).filter((report) => !report.id.startsWith('_'));
 
 const preserveLocalImageContext = (body: string): string =>
-  body.replace(
+  stripSubscribeMarker(body).replace(
     /!\[([^\]]*)\]\(\.\.\/\.\.\/assets\/images\/[^)]+\)/g,
     (_image, alt: string) => alt ? `*Figure: ${alt}*` : '',
   );
