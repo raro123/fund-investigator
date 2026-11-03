@@ -517,6 +517,45 @@ export const investSchemaGraph = (name: string, description: string, site?: URL)
   }, site);
 };
 
+/**
+ * A service page under /invest/ (T-59): one service, its questions as the FAQPage
+ * main entity, and a breadcrumb through /invest/. Same FAQ text as the visible
+ * list, as Google requires. `serviceType` names the product in distributor words.
+ */
+export const servicePageSchemaGraph = (
+  input: {
+    path: string;
+    name: string;
+    description: string;
+    breadcrumbName: string;
+    serviceName: string;
+    serviceType: string;
+    faq: ReadonlyArray<{ question: string; answer: string }>;
+  },
+  site?: URL,
+): SchemaObject => {
+  const serviceId = `${origin(site)}${input.path}#service`;
+  const graph = staticPageGraph({
+    path: input.path,
+    name: input.name,
+    description: input.description,
+    type: ['WebPage', 'FAQPage'],
+    breadcrumbName: input.breadcrumbName,
+    mainEntity: faqQuestions(input.faq),
+    about: { '@id': serviceId },
+    entities: [buildPiece({
+      '@type': 'Service',
+      '@id': serviceId,
+      name: input.serviceName,
+      serviceType: input.serviceType,
+      description: input.description,
+      provider: { '@id': orgId(site) },
+      areaServed: { '@type': 'Country', name: 'India' },
+    })],
+  }, site);
+  return graph;
+};
+
 /** @param reports Current reports in display order, as path + title. */
 export const reportsIndexSchemaGraph = (
   name: string,

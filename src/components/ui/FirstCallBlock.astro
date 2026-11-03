@@ -1,0 +1,60 @@
+---
+/**
+ * FirstCallBlock Component
+ *
+ * The shared booking block of the service pages (Phase 2 item G): what the
+ * 30-minute first call covers, what to have ready, and what happens after,
+ * placed right before the booking buttons. Then the "ask one question first"
+ * WhatsApp line and the one-line fee statement with its link. Copy v2.0
+ * (fund_distribution_business content/pieces/p2_service_pages/service_pages_copy.md).
+ *
+ * Holds the section's gold button (ContactActions), so use it in its own
+ * Section. Light surfaces only.
+ *
+ * @example
+ * <Section background="light"><FirstCallBlock placement="lp_review_call" /></Section>
+ *
+ * @param placement - WhatsApp and PostHog placement of both buttons (`lp_<page>_call`)
+ * @param feeHref - where "How we are paid" links (default /invest/#costs)
+ * @param class - extra classes for the wrapper
+ */
+import Card from './Card.astro';
+import ContactActions from './ContactActions.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { WhatsappPlacement } from '../../lib/whatsapp';
+
+interface Props {
+  placement: WhatsappPlacement;
+  feeHref?: string;
+  class?: string;
+}
+
+const { placement, feeHref = '/invest/#costs', class: className = '' } = Astro.props;
+
+const parts = [
+  { title: 'What we cover', body: 'Your goals, your time frame and what you hold. How the review works. How we are paid.' },
+  { title: 'What to have ready', body: 'A rough idea of your funds is enough. You do not need your statement for the call.' },
+  { title: 'What happens after', body: 'If you want the full review, ask us and share your Consolidated Account Statement (CAS). We send you a short written brief and go through it with you. You decide what happens next.' },
+];
+
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<div class={className}>
+  <SectionHeading title="What happens on the first call?" />
+  <ol class="grid md:grid-cols-3 gap-5 text-left">
+    {parts.map((part, index) => (
+      <li data-reveal={index}>
+        <Card padding="lg" hover={false} class="h-full">
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{part.title}</h3>
+          <p class="text-body-sm text-fi-muted leading-relaxed">{part.body}</p>
+        </Card>
+      </li>
+    ))}
+  </ol>
+  <ContactActions placement={placement} surface="light" note="Not ready to book? Ask us one question on WhatsApp first." class="mt-10" />
+  <p class="mt-6 text-center text-body-sm text-fi-muted max-w-2xl mx-auto">
+    No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.
+    <a href={feeHref} class={lightLink}>How we are paid →</a>
+  </p>
+</div>

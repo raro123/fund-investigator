@@ -25,6 +25,8 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
     `- [Invest with support](${base}/invest/): 30-minute introductory call, then help to choose and invest in suitable funds, from an ${TAGLINE}.`,
+    `- [Mutual fund portfolio review](${base}/invest/portfolio-review/): The 3-question portfolio check (overlap, each fund against its stated benchmark index and its costs, fit to your risk profile), then a written brief.`,
+    `- [What is a SIF? SIF vs PMS vs AIF](${base}/invest/sif/): Specialised Investment Funds explained, how they differ from PMS and AIF, and what to check first, from a registered SIF Distributor.`,
     // No Deepdive entry until the tool's outputs are cleared (COM-022, 2026-10-19).
     '',
     ...(sorted.length > 0
