@@ -21,6 +21,7 @@ import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
 import { AMFI_VERIFY_URL, ARN, CREDENTIALS, REGISTERED_NAME, TAGLINE } from './distributor';
 import { services } from './services';
+import { investFaq } from './faq';
 
 /** BCP 47 tag for schema.org `inLanguage` and `<html lang>`: the audience reads Indian English. */
 export const LANGUAGE = 'en-IN';
@@ -285,7 +286,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
 };
 
 /** FAQPage main entity: one Question per `faq` item. */
-const faqQuestions = (faq: NonNullable<ArticleFrontmatter['faq']>): SchemaObject[] =>
+const faqQuestions = (faq: ReadonlyArray<{ question: string; answer: string }>): SchemaObject[] =>
   faq.map((item) => ({
     '@type': 'Question',
     name: item.question,
@@ -403,9 +404,11 @@ interface PageGraphInput {
   name: string;
   description: string;
   /** schema.org page type; AboutPage is not in the core builder's union, so it is set after building. */
-  type?: 'WebPage' | 'AboutPage' | 'CollectionPage';
+  type?: 'WebPage' | 'AboutPage' | 'CollectionPage' | ReadonlyArray<'WebPage' | 'FAQPage'>;
   breadcrumbName: string;
-  mainEntity?: SchemaObject;
+  mainEntity?: SchemaObject | SchemaObject[];
+  /** What the page is about, when its main entity is something else (an FAQ list). */
+  about?: SchemaObject;
   /** Entities the page describes, added to the graph after the page itself. */
   entities?: SchemaObject[];
 }
@@ -415,7 +418,7 @@ interface PageGraphInput {
  * so every indexable page carries a complete, linked graph.
  */
 const staticPageGraph = (
-  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, entities = [] }: PageGraphInput,
+  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, about, entities = [] }: PageGraphInput,
   site?: URL,
 ): SchemaObject => {
   const ids = idsFor(site);
@@ -428,12 +431,13 @@ const staticPageGraph = (
     breadcrumb: { '@id': ids.breadcrumb(pageUrl) },
     inLanguage: LANGUAGE,
     ...(mainEntity ? { mainEntity } : {}),
+    ...(about ? { about } : {}),
   }, ids);
 
   return assemble([
     organizationSchema(site),
     websiteSchema(site),
-    { ...page, '@type': type },
+    { ...page, '@type': type } as SchemaObject,
     breadcrumbSchema([{ name: 'Home', path: '/' }, { name: breadcrumbName, path }], site),
     ...entities,
   ]);
@@ -448,6 +452,8 @@ export const personSchema = (site?: URL): SchemaObject => buildPiece({
   '@id': personId(site),
   name: REGISTERED_NAME,
   url: `${origin(site)}/about/`,
+  // One plain line that answer engines can quote: who, the registration, and the work.
+  description: `${REGISTERED_NAME} is an ${TAGLINE} (${ARN}) and runs Fund Investigator: portfolio reviews and help for Indian investors to choose and invest in mutual funds.`,
   jobTitle: TAGLINE,
   worksFor: { '@id': orgId(site) },
   identifier: {
@@ -475,15 +481,22 @@ export const aboutSchemaGraph = (name: string, description: string, site?: URL):
     entities: [personSchema(site)],
   }, site);
 
-/** The /invest/ page describes one service with four stages, provided by the Organization. */
+/**
+ * The /invest/ page describes one service with four stages, provided by the
+ * Organization. It also shows the prospect FAQ (/invest/#faq), so the page is
+ * an FAQPage too: the questions are its main entity and the Service is what it
+ * is about. Same text as the visible list (src/lib/faq.ts), as Google requires.
+ */
 export const investSchemaGraph = (name: string, description: string, site?: URL): SchemaObject => {
   const serviceId = `${origin(site)}/invest/#service`;
   return staticPageGraph({
     path: '/invest/',
     name,
     description,
+    type: ['WebPage', 'FAQPage'],
     breadcrumbName: 'Invest with support',
-    mainEntity: { '@id': serviceId },
+    mainEntity: faqQuestions(investFaq),
+    about: { '@id': serviceId },
     entities: [buildPiece({
       '@type': 'Service',
       '@id': serviceId,

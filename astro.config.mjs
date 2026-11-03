@@ -6,6 +6,7 @@ import { gitLastmod } from '@jdevalk/astro-seo-graph';
 import remarkInvestigationBriefCta from './src/lib/remark-investigation-brief-cta.mjs';
 import rehypeSplitFootnotes from './src/lib/rehype-split-footnotes.mjs';
 import rehypeScrollableTables from './src/lib/rehype-scrollable-tables.mjs';
+import indexNowRedirects from './src/lib/indexnow-redirects.mjs';
 
 const INDEXNOW_KEY = '14a30902d8a12fd849ea16a55b53e034';
 const isProductionBuild =
@@ -71,7 +72,15 @@ export default defineConfig({
             },
           }
         : {}),
-    })
+    }),
+    // The seo-graph step above sends only built URLs; this one sends the old
+    // URLs in _redirects, so engines drop them sooner (backlog T-11).
+    indexNowRedirects({
+      enabled: isProductionBuild && process.env.INDEXNOW_KEY === INDEXNOW_KEY,
+      key: INDEXNOW_KEY,
+      host: 'fundinvestigator.com',
+      siteUrl: 'https://fundinvestigator.com',
+    }),
   ],
   site: 'https://fundinvestigator.com',
 
