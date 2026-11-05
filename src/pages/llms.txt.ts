@@ -27,7 +27,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Invest with support](${base}/invest/): 30-minute introductory call, then help to choose and invest in suitable funds, from an ${TAGLINE}.`,
     `- [Mutual fund portfolio review](${base}/invest/portfolio-review/): The 3-question portfolio check (overlap, each fund against its stated benchmark index and its costs, fit to your risk profile), then a written brief.`,
     `- [Where to invest a lump sum](${base}/invest/where-to-invest-lump-sum/): How to approach investing ₹10 lakh, ₹50 lakh or ₹1 crore: when you need the money, the risk you can accept, at once or in stages, and monthly income through an SWP.`,
-    `- [What is a SIF? SIF vs PMS vs AIF](${base}/invest/sif/): Specialised Investment Funds explained, how they differ from PMS and AIF, and what to check first, from a registered SIF Distributor.`,
+    `- [What is a SIF in mutual funds?](${base}/invest/sif/): Specialised Investment Funds explained: the ₹10 lakh minimum, the main risks, redemption terms and what to check first, from a registered SIF Distributor.`,
     // No Deepdive entry until the tool's outputs are cleared (COM-022, 2026-10-19).
     '',
     ...(sorted.length > 0
