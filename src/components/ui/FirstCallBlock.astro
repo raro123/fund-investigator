@@ -15,6 +15,7 @@
  * <Section background="light"><FirstCallBlock placement="lp_review_call" /></Section>
  *
  * @param placement - WhatsApp and PostHog placement of both buttons (`lp_<page>_call`)
+ * @param parts - optional override of the three parts (default: the review version)
  * @param feeHref - where "How we are paid" links (default /invest/#costs)
  * @param class - extra classes for the wrapper
  */
@@ -23,19 +24,27 @@ import ContactActions from './ContactActions.astro';
 import SectionHeading from './SectionHeading.astro';
 import type { WhatsappPlacement } from '../../lib/whatsapp';
 
+interface Part {
+  title: string;
+  body: string;
+}
+
 interface Props {
   placement: WhatsappPlacement;
+  /** Override the three parts (same titles), e.g. for a page about a first investment */
+  parts?: Part[];
   feeHref?: string;
   class?: string;
 }
 
-const { placement, feeHref = '/invest/#costs', class: className = '' } = Astro.props;
+const { placement, parts: suppliedParts, feeHref = '/invest/#costs', class: className = '' } = Astro.props;
 
-const parts = [
+const defaultParts: Part[] = [
   { title: 'What we cover', body: 'Your goals, your time frame and what you hold. How the review works. How we are paid.' },
   { title: 'What to have ready', body: 'A rough idea of your funds is enough. You do not need your statement for the call.' },
   { title: 'What happens after', body: 'If you want the full review, ask us and share your Consolidated Account Statement (CAS). We send you a short written brief and go through it with you. You decide what happens next.' },
 ];
+const parts = suppliedParts ?? defaultParts;
 
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---

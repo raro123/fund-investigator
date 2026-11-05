@@ -157,3 +157,33 @@ export const sifFaq: FaqItem[] = [
   sharedAnswer('Do you choose funds by the commission they pay you?'),
   sharedAnswer('Who holds my money?'),
 ];
+
+/**
+ * /invest/where-to-invest-lump-sum/ (T-59, Phase 2 item B, decision 87). The
+ * first answer is new (copy v1.0); the next four are the approved start-investing
+ * answers (v1.4, decision 28); the last two are the /invest/ answers, word for word.
+ */
+export const lumpSumFaq: FaqItem[] = [
+  {
+    question: 'Should I invest a lump sum at once or in stages?',
+    answer: 'It depends on how much you have and when you need it. A large amount can move in stages, for example through a systematic transfer plan (STP). Each transfer is a sale of units, so tax and exit loads can apply. Investing in stages does not remove market risk. We explain the options on the call.',
+  },
+  {
+    question: 'What if I need some of the money soon?',
+    answer: 'Some mutual funds are built for short periods, such as overnight and liquid funds. They carry lower risk than equity funds, but every fund carries some risk. We match each part of your money to when you need it.',
+  },
+  {
+    question: 'What if markets fall after I invest?',
+    answer: 'Markets fall at times, and equity funds can fall sharply in the short term. That is why we discuss your time frame, risk profile and cash needs before we choose funds. We can discuss investing in stages, but it does not remove market risk. You can talk to us before you decide what to do.',
+  },
+  {
+    question: 'Do I need to break my FDs?',
+    answer: 'No. We look at your goals and when you need the money. Then you decide how much, if any, goes into mutual funds, and when. FDs can remain part of your savings.',
+  },
+  {
+    question: 'Do I need a demat account?',
+    answer: 'No. Mutual fund units are held in your name with each fund house. You need KYC, and we help you complete it.',
+  },
+  sharedAnswer('What is the difference between a direct plan and a regular plan?'),
+  sharedAnswer('Who holds my money?'),
+];

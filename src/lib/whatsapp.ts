@@ -27,6 +27,10 @@ export type WhatsappPlacement =
   | 'lp_start_hero'
   | 'lp_start_cta'
   | 'lp_start_final'
+  | 'lp_lump_sum_hero'
+  | 'lp_lump_sum_cta'
+  | 'lp_lump_sum_final'
+  | 'lp_lump_sum_call'
   | 'lp_sif_hero'
   | 'lp_sif_cta'
   | 'lp_sif_final'
@@ -55,6 +59,10 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   lp_start_hero: `Hi ${FIRST_NAME}, I have savings and want to start investing in mutual funds.`,
   lp_start_cta: `Hi ${FIRST_NAME}, I have savings and want to start investing in mutual funds.`,
   lp_start_final: `Hi ${FIRST_NAME}, I have a question about starting to invest.`,
+  lp_lump_sum_hero: `Hi ${FIRST_NAME}, I have a lump sum to invest and would like to talk it through.`,
+  lp_lump_sum_cta: `Hi ${FIRST_NAME}, I have a lump sum to invest and would like to talk it through.`,
+  lp_lump_sum_final: `Hi ${FIRST_NAME}, I have a question about investing a lump sum.`,
+  lp_lump_sum_call: `Hi ${FIRST_NAME}, I have a question before I book a call about investing a lump sum.`,
   lp_sif_hero: `Hi ${FIRST_NAME}, I'd like to know if a SIF suits me.`,
   lp_sif_cta: `Hi ${FIRST_NAME}, I'd like to know if a SIF suits me.`,
   lp_sif_final: `Hi ${FIRST_NAME}, I have a question about SIFs.`,
