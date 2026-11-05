@@ -19,6 +19,7 @@ import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import OwnerIntro from '../components/ui/OwnerIntro.astro';
 import AssessmentPreview from '../components/ui/AssessmentPreview.astro';
+import FirstCallBlock from '../components/ui/FirstCallBlock.astro';
 import ContactActions from '../components/ui/ContactActions.astro';
 import FitCards from '../components/ui/FitCards.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
@@ -347,6 +348,13 @@ import { responsive } from '../lib/responsive';
 <AssessmentPreview variant="sif" />
 <AssessmentPreview variant="gift-city" />`}</code></pre>
     <p class="text-body-sm text-fi-muted mt-4">OwnerIntro reads the name and first available credential from distributor.ts and links to the owner's story. AssessmentPreview shows what the written assessment covers, not a completed client result. Both accept a class prop.</p>
+  </Section>
+
+  <!-- Service pages (T-59): the shared first-call block -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <FirstCallBlock placement="lp_review_call" />
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-white p-4 text-body-sm text-fi-muted"><code>{`<FirstCallBlock placement="lp_review_call" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-4">FirstCallBlock: what the first call covers, what to have ready and what happens after, then the booking buttons and the fee line. It holds the section's gold button. Light surfaces only.</p>
   </Section>
 
   <!-- Color Palette -->

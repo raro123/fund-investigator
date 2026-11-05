@@ -10,11 +10,13 @@ interface Props {
 
 const { variant, class: className = '' } = Astro.props;
 const items = {
+  // Copy v2.0 (T-59): strategy · main risks · redemption terms · costs · how it changes your whole portfolio.
   sif: [
-    'The role a SIF would play in your existing portfolio.',
-    'Whether its strategy adds useful exposure beyond the funds you hold.',
-    'The risks, redemption conditions and costs you would accept.',
-    'Our conclusion and the reasons, including when a SIF adds little.',
+    'The strategy and what it adds beyond the funds you hold.',
+    'Its main risks.',
+    'Its redemption terms: when you can take your money out.',
+    'Its costs, including our commission.',
+    'How it changes your whole portfolio.',
   ],
   'gift-city': [
     'Your purpose for holding dollar investments and their role in your portfolio.',
@@ -27,6 +29,6 @@ const items = {
 
 <Card padding="lg" hover={false} class:list={['max-w-3xl mx-auto text-left', className]}>
   <h3 class="text-body-lg font-bold text-fi-ink mb-2">{variant === 'sif' ? 'What your SIF assessment covers' : 'Your assessment checklist'}</h3>
-  <p class="text-body-sm text-fi-muted mb-4">A preview of your written brief, with reasons for the conclusion.</p>
+  <p class="text-body-sm text-fi-muted mb-4">{variant === 'sif' ? 'What the written assessment covers. Not a client result.' : 'A preview of your written brief, with reasons for the conclusion.'}</p>
   <CheckList items={items[variant]} />
 </Card>

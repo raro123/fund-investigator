@@ -1,0 +1,228 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+import CheckList from '../../components/ui/CheckList.astro';
+import ContactActions from '../../components/ui/ContactActions.astro';
+import FirstCallBlock from '../../components/ui/FirstCallBlock.astro';
+import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
+import SplitRows from '../../components/ui/SplitRows.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import { lumpSumFaq } from '../../lib/faq';
+import { responsive } from '../../lib/responsive';
+import { formatDate } from '../../lib/format';
+import { ARN } from '../../lib/distributor';
+import { servicePageSchemaGraph } from '../../lib/schema';
+
+// Service page B of Phase 2 (T-59, decision 87): replaces the approved "start
+// investing" page. For readers who search "where to invest 10 lakh" and the
+// like. Copy v1.0, word for word: content/pieces/p2_service_pages/service_pages_copy.md
+// in fund_distribution_business. Names no fund and shows no return figures. The
+// cash-reserve line is decision 26's wording (no advice on the reserve's size).
+// Tax points stay general and point to the reader's tax professional.
+// Placements start with `lp_lump_sum_`.
+
+const pageTitle = 'Where to invest a lump sum: ₹10 lakh to ₹1 crore';
+const pageDescription = 'Have ₹10 lakh, ₹50 lakh or ₹1 crore to invest? Start with when you need it and the risk you can accept. A 30-minute call, then a short brief with the costs in writing.';
+const factsAsOf = '2026-11-05';
+
+const briefContents = [
+  'Your cash needs',
+  'Your risk profile',
+  'The types of funds and why',
+  'Costs and our commission',
+  'How to invest',
+];
+
+const questions = [
+  {
+    title: 'When do you need the money?',
+    body: 'Some mutual funds are built for short periods, such as overnight and liquid funds. Equity funds are for money you can leave invested for years. Every fund carries some risk. We match each part of your money to when you need it.',
+  },
+  {
+    title: 'How much of a fall can you accept?',
+    body: 'Equity funds can fall sharply in the short term. We discuss your risk profile before we choose any fund.',
+  },
+  {
+    title: 'What do you already hold?',
+    body: 'A new sum changes your whole mix. We look at your FDs, funds and other savings first, so the new money fits with them.',
+  },
+];
+
+const amounts = [
+  { name: '₹10 lakh', body: 'Often the first large sum. How much to keep for cash needs, and whether it goes in at once or in stages.' },
+  { name: '₹50 lakh', body: 'Spread across fund types and fund houses starts to matter. Costs over the years add up, so you get them in writing before you choose.' },
+  { name: '₹1 crore', body: 'The whole mix matters more than any one fund. Some investors at this size also ask about a Specialised Investment Fund (SIF). A SIF has a ₹10 lakh minimum per investor, across one fund house\'s SIF investment strategies, and higher risks (source: SEBI circular on Specialised Investment Funds, 27 February 2025).' },
+];
+
+const sources = [
+  { title: 'A matured FD', body: 'Your fixed deposits can stay where they are. If you move some of the money, we start with when you need it. A mutual fund is not a fixed deposit: its value can fall.' },
+  { title: 'A bonus or an RSU sale', body: 'We look at what the money is for before it goes in. Tax on the bonus or the RSUs is separate from the investment. Please confirm it with your tax professional.' },
+  { title: 'An inheritance or a property sale', body: 'You do not need to decide quickly. We look at your goals and your whole portfolio first.' },
+  { title: 'A return to India', body: 'Your residential status changes which accounts you use and how your income is taxed. We go through the account points with you before you invest. Please confirm the tax points with your tax professional.' },
+  { title: 'A retirement corpus', body: 'Many people want a monthly income from it. See the next question.' },
+];
+
+const steps = [
+  {
+    name: 'First conversation',
+    left: 'Tell us what your savings are for and when you may need them.',
+    right: 'Discuss your risk profile, your cash needs and the main types of funds.',
+  },
+  {
+    name: 'Your starting brief',
+    left: 'Read the brief and ask questions before you choose.',
+    right: 'Explain the mix and how to invest. Give you the reasons, costs and our commission in writing.',
+  },
+  {
+    name: 'Setup and support',
+    left: 'Complete KYC with our help. Approve each transaction by OTP and pay the fund house directly.',
+    right: 'Help set up your investments and review them at regular intervals.',
+  },
+];
+
+const firstCallParts = [
+  { title: 'What we cover', body: 'Your goals, when you need the money and what you already hold. How a first investment works. How we are paid.' },
+  { title: 'What to have ready', body: 'The amount, and a rough idea of when you may need it. You do not need any documents for the call.' },
+  { title: 'What happens after', body: 'If you want to go ahead, ask us for a starting brief. We send it to you and go through it with you. You decide what happens next.' },
+];
+
+const callDetails = '30-minute call · You decide what happens next';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogPage="lump_sum"
+  graph={servicePageSchemaGraph({
+    path: '/invest/where-to-invest-lump-sum/',
+    name: pageTitle,
+    description: pageDescription,
+    breadcrumbName: 'Where to invest a lump sum',
+    serviceName: 'Help to invest a lump sum in mutual funds',
+    serviceType: 'Mutual fund distribution by an AMFI-registered mutual fund distributor',
+    faq: lumpSumFaq,
+  }, Astro.site)}
+  trackView="landing_view"
+  trackLanding="lump_sum"
+>
+  <Hero size="md" background="dark">
+    <Badge variant="dark" class="mb-6">Where to invest a lump sum</Badge>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      Have a lump sum to invest?
+      <span class="block text-fi-gold">Start with when you need it.</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      Where to invest ₹10 lakh, ₹50 lakh or ₹1 crore depends on three things: when you need the money, how much risk you can accept and what you already hold. On the first call, we start with these, not with a fund. We ask about your cash needs, so that you invest only money you will not need soon. Then you get a short starting brief: a mix chosen for your risk profile, and how to invest.
+    </p>
+    <ContactActions placement="lp_lump_sum_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-10 max-w-2xl mx-auto">
+      <p class="text-caption uppercase tracking-fi-label font-bold text-fi-subtle mb-3">What the starting brief covers</p>
+      <CheckList items={briefContents} surface="dark" layout="inline" />
+    </div>
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, '12 years in financial services (as of October 2026)', 'Commission in writing before you choose']} />
+    </div>
+  </Hero>
+
+  <Section id="where" background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Where should I invest a lump sum?" lead="Start with three questions. The fund comes after the answers." />
+    <ol class="grid md:grid-cols-3 gap-5 text-left">
+      {questions.map((question, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <p class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-2">Question {index + 1}</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{question.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{question.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="stages" background="light" spacing="md" maxWidth="lg">
+    <SectionHeading title="At once or in stages?" />
+    <p class="text-body-md text-fi-ink leading-relaxed max-w-2xl mx-auto text-left">
+      A large amount can go in at once or in stages, for example through a systematic transfer plan (STP). An STP keeps the money in one fund and moves a set amount into another fund of the same fund house at set intervals, for example each month. Each transfer is a sale of units, so tax and exit loads can apply. A monthly SIP is a way to invest money that you save each month. Investing in stages does not remove market risk. We discuss the options for your situation.
+    </p>
+  </Section>
+
+  <Section id="amounts" background="white" spacing="md" maxWidth="2xl">
+    <SectionHeading title="What changes with the amount?" />
+    <dl class="grid md:grid-cols-3 gap-5 text-left">
+      {amounts.map((amount) => (
+        <Card padding="lg" hover={false} class="h-full">
+          <dt class="text-heading-sm font-bold text-fi-ink mb-2">{amount.name}</dt>
+          <dd class="text-body-sm text-fi-muted leading-relaxed">{amount.body}</dd>
+        </Card>
+      ))}
+    </dl>
+    <p class="text-center text-body-sm text-fi-muted mt-8">
+      <a href="/invest/sif/" class={lightLink}>What is a SIF? →</a>
+    </p>
+  </Section>
+
+  <Section id="sources" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="Where is the money from?" />
+    <ul class="grid md:grid-cols-2 gap-5 text-left">
+      {sources.map((source, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{source.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{source.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="monthly-income" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="Can a lump sum give me a monthly income?" />
+    <p class="text-body-md text-fi-ink leading-relaxed max-w-2xl mx-auto text-left">
+      A systematic withdrawal plan (SWP) pays you a set amount each month by selling some of your units. Each withdrawal is a sale of units, so tax and exit loads can apply. It does not promise an income. If markets fall, or if you withdraw too much, your money can run out sooner than you planned. We discuss how much to withdraw and from which types of funds on the call.
+    </p>
+    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto text-left mt-8">
+      <h3 class="text-heading-sm font-bold text-fi-ink mb-2">A mutual fund is not a fixed deposit</h3>
+      <p class="text-body-sm text-fi-muted leading-relaxed">The value of a mutual fund can fall. You can get back less than you invest. Equity funds can fall sharply in the short term. We show you these risks before you choose.</p>
+    </Card>
+  </Section>
+
+  <Section id="costs" background="light" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How we are paid"
+      lead="No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. The commission comes from the regular plan's yearly expense ratio. Your units stay in your name."
+    />
+    <ContactActions placement="lp_lump_sum_cta" surface="light" identity class="mt-4" />
+  </Section>
+
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="From the first call to your first investment" lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <Section id="first-call" background="light" spacing="md" maxWidth="2xl">
+    <FirstCallBlock placement="lp_lump_sum_call" parts={firstCallParts} />
+  </Section>
+
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions about investing a lump sum" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={lumpSumFaq} />
+    </div>
+  </Section>
+
+  <Section background="light" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Start with a 30-minute call."
+      lead="Tell us how much you have and when you may need it. We explain how a first investment works. You decide what happens next."
+    />
+    <ContactActions placement="lp_lump_sum_final" surface="light" />
+    <p class="text-center text-caption text-fi-muted mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
+  </Section>
+</Layout>
