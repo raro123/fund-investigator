@@ -1,7 +1,8 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { SITE_URL } from '../lib/site-urls';
-import { ARN, TAGLINE } from '../lib/distributor';
+import { TAGLINE } from '../lib/distributor';
+import { SITE_DESCRIPTION } from '../lib/schema';
 
 export const GET: APIRoute = async ({ site }) => {
   const reports = await getCollection('reports');
@@ -18,7 +19,7 @@ export const GET: APIRoute = async ({ site }) => {
   const lines: string[] = [
     '# Fund Investigator',
     '',
-    `> Data-driven mutual fund analysis for Indian investors. We investigate fund performance using risk-adjusted metrics, rolling returns, and benchmark comparisons. Fund Investigator is run by an ${TAGLINE} (${ARN}).`,
+    `> ${SITE_DESCRIPTION}`,
     '',
     '## About',
     '',

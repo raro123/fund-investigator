@@ -21,6 +21,7 @@ import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
 import { AMFI_VERIFY_URL, ARN, CREDENTIALS, REGISTERED_NAME, TAGLINE } from './distributor';
 import { services } from './services';
+import { investFaq } from './faq';
 
 /** BCP 47 tag for schema.org `inLanguage` and `<html lang>`: the audience reads Indian English. */
 export const LANGUAGE = 'en-IN';
@@ -39,19 +40,27 @@ const KNOWS_ABOUT = [
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
-export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
+/** Home page title and meta description: decision 86. */
+export const HOME_TITLE = 'AMFI Registered Mutual Fund Distributor in India | Fund Investigator';
 export const HOME_DESCRIPTION =
-  `Expert-led, analysis-driven help for Indian investors to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
+  `${TAGLINE}, ${ARN}. Portfolio reviews and help to invest in MFs, SIFs, GIFT City funds, FDs.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
   `/og/reports/${slug}.jpg`;
 
-/** Matches the entity description in llms.txt.ts so both machine-readable surfaces agree. */
-const ORG_DESCRIPTION =
-  'Data-driven mutual fund analysis for Indian investors. We investigate fund performance using ' +
-  'risk-adjusted metrics, rolling returns, and benchmark comparisons. Fund Investigator is run by an ' +
-  `${TAGLINE} (${ARN}).`;
+/**
+ * Site description for machines: the Organization and WebSite JSON-LD and the
+ * llms.txt summary read this one string, so both surfaces agree. Wording:
+ * decision 85 (backlog T-04, replaces decision 50). The owner approved this
+ * text for machine summaries; llms.txt carries no risk lines (decision 85).
+ */
+export const SITE_DESCRIPTION =
+  `Fund Investigator is an investment distribution practice in India, run by ${REGISTERED_NAME}, ${TAGLINE}, ${ARN}. ` +
+  'We help clients and new investors choose and invest in mutual funds, Specialized Investment Funds (SIFs), ' +
+  'GIFT City funds and fixed deposits. We provide portfolio reviews, risk assessment and analysis-based ' +
+  'recommendations to our clients. No separate fee from you: we earn a commission from the product provider.';
+const ORG_DESCRIPTION = SITE_DESCRIPTION;
 
 type SchemaObject = Record<string, unknown>;
 
@@ -70,6 +79,13 @@ export interface ArticleFrontmatter {
   category?: string;
   tags?: string[];
   byline?: Byline;
+  faq?: ReadonlyArray<{ question: string; answer: string }>;
+  dataset?: {
+    name: string;
+    description: string;
+    temporalCoverage: string;
+    file: string;
+  };
   seo?: {
     title?: string;
     description?: string;
@@ -272,6 +288,47 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   ]);
 };
 
+/** FAQPage main entity: one Question per `faq` item. */
+const faqQuestions = (faq: ReadonlyArray<{ question: string; answer: string }>): SchemaObject[] =>
+  faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  }));
+
+/**
+ * The report's data download as a schema.org Dataset, so answer engines and
+ * dataset search can cite the numbers with their source and period.
+ */
+export const datasetSchema = (
+  frontmatter: ArticleFrontmatter,
+  pageUrl: string,
+  site?: URL,
+): SchemaObject => {
+  const dataset = frontmatter.dataset!;
+  return buildPiece({
+    '@type': 'Dataset',
+    '@id': `${pageUrl}#dataset`,
+    name: dataset.name,
+    description: dataset.description,
+    url: pageUrl,
+    temporalCoverage: dataset.temporalCoverage,
+    spatialCoverage: { '@type': 'Country', name: 'India' },
+    creator: { '@id': orgId(site) },
+    publisher: { '@id': orgId(site) },
+    isAccessibleForFree: true,
+    inLanguage: LANGUAGE,
+    keywords: frontmatter.tags,
+    datePublished: asDate(frontmatter.date),
+    dateModified: asDate(frontmatter.updated ?? frontmatter.date),
+    distribution: [{
+      '@type': 'DataDownload',
+      encodingFormat: 'text/csv',
+      contentUrl: new URL(dataset.file, `${origin(site)}/`).toString(),
+    }],
+  });
+};
+
 export const reportSchemaPieces = (
   frontmatter: ArticleFrontmatter,
   pageUrl: string,
@@ -296,7 +353,7 @@ export const reportSchemaPieces = (
     { name: 'Investigations', path: '/reports/' },
     { name: frontmatter.title, path: new URL(pageUrl).pathname },
   ], site);
-  const page = buildWebPage({
+  const builtPage = buildWebPage({
     url: pageUrl,
     name: frontmatter.title,
     description: frontmatter.description,
@@ -307,6 +364,10 @@ export const reportSchemaPieces = (
     datePublished: asDate(frontmatter.date),
     dateModified: asDate(frontmatter.updated ?? frontmatter.date),
   }, ids);
+  // A report with a `faq` list is also an FAQPage: the questions become its main entity.
+  const page = frontmatter.faq?.length
+    ? { ...builtPage, '@type': ['WebPage', 'FAQPage'], mainEntity: faqQuestions(frontmatter.faq) }
+    : builtPage;
 
   return [
     organizationSchema(site),
@@ -317,6 +378,7 @@ export const reportSchemaPieces = (
     page,
     articleSchema(frontmatter, pageUrl, site, articleBody),
     breadcrumb,
+    ...(frontmatter.dataset ? [datasetSchema(frontmatter, pageUrl, site)] : []),
   ] as GraphEntity[];
 };
 
@@ -345,9 +407,11 @@ interface PageGraphInput {
   name: string;
   description: string;
   /** schema.org page type; AboutPage is not in the core builder's union, so it is set after building. */
-  type?: 'WebPage' | 'AboutPage' | 'CollectionPage';
+  type?: 'WebPage' | 'AboutPage' | 'CollectionPage' | ReadonlyArray<'WebPage' | 'FAQPage'>;
   breadcrumbName: string;
-  mainEntity?: SchemaObject;
+  mainEntity?: SchemaObject | SchemaObject[];
+  /** What the page is about, when its main entity is something else (an FAQ list). */
+  about?: SchemaObject;
   /** Entities the page describes, added to the graph after the page itself. */
   entities?: SchemaObject[];
 }
@@ -357,7 +421,7 @@ interface PageGraphInput {
  * so every indexable page carries a complete, linked graph.
  */
 const staticPageGraph = (
-  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, entities = [] }: PageGraphInput,
+  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, about, entities = [] }: PageGraphInput,
   site?: URL,
 ): SchemaObject => {
   const ids = idsFor(site);
@@ -370,12 +434,13 @@ const staticPageGraph = (
     breadcrumb: { '@id': ids.breadcrumb(pageUrl) },
     inLanguage: LANGUAGE,
     ...(mainEntity ? { mainEntity } : {}),
+    ...(about ? { about } : {}),
   }, ids);
 
   return assemble([
     organizationSchema(site),
     websiteSchema(site),
-    { ...page, '@type': type },
+    { ...page, '@type': type } as SchemaObject,
     breadcrumbSchema([{ name: 'Home', path: '/' }, { name: breadcrumbName, path }], site),
     ...entities,
   ]);
@@ -390,6 +455,8 @@ export const personSchema = (site?: URL): SchemaObject => buildPiece({
   '@id': personId(site),
   name: REGISTERED_NAME,
   url: `${origin(site)}/about/`,
+  // One plain line that answer engines can quote: who, the registration, and the work.
+  description: `${REGISTERED_NAME} is an ${TAGLINE} (${ARN}) and runs Fund Investigator: portfolio reviews and help for Indian investors to choose and invest in mutual funds.`,
   jobTitle: TAGLINE,
   worksFor: { '@id': orgId(site) },
   identifier: {
@@ -417,15 +484,22 @@ export const aboutSchemaGraph = (name: string, description: string, site?: URL):
     entities: [personSchema(site)],
   }, site);
 
-/** The /invest/ page describes one service with four stages, provided by the Organization. */
+/**
+ * The /invest/ page describes one service with four stages, provided by the
+ * Organization. It also shows the prospect FAQ (/invest/#faq), so the page is
+ * an FAQPage too: the questions are its main entity and the Service is what it
+ * is about. Same text as the visible list (src/lib/faq.ts), as Google requires.
+ */
 export const investSchemaGraph = (name: string, description: string, site?: URL): SchemaObject => {
   const serviceId = `${origin(site)}/invest/#service`;
   return staticPageGraph({
     path: '/invest/',
     name,
     description,
+    type: ['WebPage', 'FAQPage'],
     breadcrumbName: 'Invest with support',
-    mainEntity: { '@id': serviceId },
+    mainEntity: faqQuestions(investFaq),
+    about: { '@id': serviceId },
     entities: [buildPiece({
       '@type': 'Service',
       '@id': serviceId,

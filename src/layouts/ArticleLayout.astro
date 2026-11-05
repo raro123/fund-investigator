@@ -22,9 +22,11 @@ interface Props {
   reportSlug: string;
   /** The report's footnotes, lifted out of the body by rehype-split-footnotes. */
   footnotesHtml?: string;
+  /** Everything after a `<!-- notes -->` marker, lifted out by rehype-split-footnotes. */
+  notesHtml?: string;
 }
 
-const { frontmatter, headings, articleBody, reportSlug, footnotesHtml } = Astro.props;
+const { frontmatter, headings, articleBody, reportSlug, footnotesHtml, notesHtml } = Astro.props;
 // Shared by the article body and its notes, which render apart so the service
 // invite can sit between them.
 const proseClasses = 'article-prose prose prose-lg prose-slate prose-headings:text-fi-ink prose-headings:font-bold prose-headings:font-serif prose-p:font-serif prose-p:text-fi-muted prose-p:leading-loose prose-a:text-fi-ink prose-a:font-semibold prose-a:no-underline prose-a:border-b-2 prose-a:border-fi-gold/30 hover:prose-a:border-fi-gold hover:prose-a:text-fi-link prose-a:transition-colors prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:border-l-fi-gold prose-blockquote:bg-fi-light prose-blockquote:py-2 prose-blockquote:px-6 prose-img:rounded-lg prose-img:border prose-img:border-fi-border prose-img:shadow-fi-card prose-li:font-serif prose-li:marker:text-fi-muted prose-table:font-serif prose-td:tabular-nums';
@@ -127,12 +129,16 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
             <ArticleServiceInvite
               heading={frontmatter.serviceInvite.heading}
               line={frontmatter.serviceInvite.line}
+              report={reportSlug}
+              campaign={frontmatter.serviceInvite.campaign}
             />
           </div>
+          {notesHtml && <div class:list={[proseClasses, 'mt-16']} set:html={notesHtml} />}
           {footnotesHtml && <div class={proseClasses} set:html={footnotesHtml} />}
         </>
       ) : (
         <>
+          {notesHtml && <div class={proseClasses} set:html={notesHtml} />}
           {footnotesHtml && <div class={proseClasses} set:html={footnotesHtml} />}
           <div class="mt-16 pt-8 border-t border-fi-border">
             <!-- One clear parting action after the report has delivered its evidence. -->
@@ -141,7 +147,7 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
                 <h3 class="text-xl font-bold text-fi-ink-inv mb-2">Subscribe for Investigation Briefs</h3>
                 <p class="text-fi-muted-inv">Get notified when we publish new fund research or update an existing investigation.</p>
               </div>
-              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end' }}>Subscribe</Button>
+              <Button href={SUBSCRIBE_PAGE} variant="primary" size="md" icon="arrow-right" track={{ event: 'subscribe_click', placement: 'report_end', report: reportSlug }}>Subscribe</Button>
             </div>
           </div>
         </>
@@ -215,16 +221,24 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
     cursor: zoom-in;
   }
 
-  .article-prose :global(.article-subscribe-note) {
-    @apply my-8 rounded-lg border border-fi-border bg-fi-light p-4 font-sans text-sm leading-relaxed text-fi-muted;
+  /* Mid-article subscribe box (remark-investigation-brief-cta.mjs, T-37).
+     A light card, so it does not compete with the dark end invite. The button
+     matches Button variant="secondary" surface="light": no gold here, the gold
+     is the booking button at the end. */
+  .article-prose :global(.article-subscribe-box) {
+    @apply my-10 rounded-lg border border-fi-border bg-fi-light p-6 font-sans;
   }
 
-  .article-prose :global(.article-subscribe-note > strong) {
-    @apply mb-1 block font-semibold text-fi-ink;
+  .article-prose :global(.article-subscribe-box-heading) {
+    @apply mb-2 text-lg font-bold leading-snug text-fi-ink;
   }
 
-  .article-prose :global(.article-subscribe-note > a) {
-    @apply rounded-sm border-b-0 font-semibold text-fi-link underline decoration-fi-link/40 underline-offset-4 hover:decoration-fi-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
+  .article-prose :global(.article-subscribe-box-line) {
+    @apply mb-4 text-sm leading-relaxed text-fi-muted;
+  }
+
+  .article-prose :global(.article-subscribe-box-button) {
+    @apply inline-flex items-center justify-center gap-2 rounded-fi-btn border-2 border-fi-ink bg-transparent px-fi-btn-x py-fi-btn-y text-sm font-bold text-fi-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-fi-ink hover:text-fi-ink-inv focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fi-link;
   }
 
   .article-prose :global(.article-table) {

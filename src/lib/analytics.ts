@@ -29,12 +29,14 @@ export type LandingId = 'review' | 'start' | 'sif' | 'gift_city';
  * @param event - Event name sent to PostHog.
  * @param placement - Where the element sits, e.g. `invest_hero`.
  * @param channel - Contact channel for `conversation_request` (e.g. `whatsapp`).
+ * @param report - Report slug, for clicks inside an article (sent as `report`).
  * @returns Attributes to spread onto the element.
  */
-export function trackAttrs(event: TrackEvent, placement: string, channel?: string) {
+export function trackAttrs(event: TrackEvent, placement: string, channel?: string, report?: string) {
   return {
     'data-track': event,
     'data-placement': placement,
     ...(channel ? { 'data-channel': channel } : {}),
+    ...(report ? { 'data-report': report } : {}),
   };
 }

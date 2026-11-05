@@ -234,6 +234,7 @@ const defaultLinks = [
           posthog.capture(tracked.dataset.track, {
             placement: tracked.dataset.placement,
             channel: tracked.dataset.channel,
+            report: tracked.dataset.report,
           });
         });
       } else if (isLiveSite && Boolean(posthogKey) !== Boolean(posthogHost)) {
