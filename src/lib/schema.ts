@@ -40,9 +40,10 @@ const KNOWS_ABOUT = [
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
-export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
+/** Home page title and meta description: decision 86. */
+export const HOME_TITLE = 'AMFI Registered Mutual Fund Distributor in India | Fund Investigator';
 export const HOME_DESCRIPTION =
-  `Expert-led, analysis-driven help for Indian investors to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
+  `${TAGLINE}, ${ARN}. Portfolio reviews and help to invest in MFs, SIFs, GIFT City funds, FDs.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
