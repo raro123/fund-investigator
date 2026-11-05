@@ -40,9 +40,10 @@ const KNOWS_ABOUT = [
 
 const DEFAULT_OG_IMAGE = '/images/fundinvestigator-og-default.jpg';
 
-export const HOME_TITLE = 'Mutual Fund & SIF Investing, Expert-Led | Fund Investigator';
+/** Home page title and meta description: decision 86. */
+export const HOME_TITLE = 'AMFI Registered Mutual Fund Distributor in India | Fund Investigator';
 export const HOME_DESCRIPTION =
-  `Expert-led, analysis-driven help for Indian investors to choose, invest in and review mutual funds and SIFs. AMFI-registered distributor, ${ARN}.`;
+  `${TAGLINE}, ${ARN}. Portfolio reviews and help to invest in MFs, SIFs, GIFT City funds, FDs.`;
 
 /** Deterministic build-time social card path for a report. */
 export const reportOgImagePath = (slug: string): string =>
@@ -50,13 +51,15 @@ export const reportOgImagePath = (slug: string): string =>
 
 /**
  * Site description for machines: the Organization and WebSite JSON-LD and the
- * llms.txt summary read this one string, so both surfaces agree. Category-level
- * evidence only: no scheme-level analysis (decision 8). Wording: decision 50
- * (backlog T-04).
+ * llms.txt summary read this one string, so both surfaces agree. Wording:
+ * decision 85 (backlog T-04, replaces decision 50). The owner approved this
+ * text for machine summaries; llms.txt carries no risk lines (decision 85).
  */
 export const SITE_DESCRIPTION =
-  'Fund Investigator publishes category-level evidence on Indian mutual funds and offers portfolio reviews. ' +
-  `${REGISTERED_NAME}, ${TAGLINE}, ${ARN}.`;
+  `Fund Investigator is an investment distribution practice in India, run by ${REGISTERED_NAME}, ${TAGLINE}, ${ARN}. ` +
+  'We help clients and new investors choose and invest in mutual funds, Specialized Investment Funds (SIFs), ' +
+  'GIFT City funds and fixed deposits. We provide portfolio reviews, risk assessment and analysis-based ' +
+  'recommendations to our clients. No separate fee from you: we earn a commission from the product provider.';
 const ORG_DESCRIPTION = SITE_DESCRIPTION;
 
 type SchemaObject = Record<string, unknown>;
