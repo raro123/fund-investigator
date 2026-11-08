@@ -46,8 +46,10 @@ export const investFaqGroups: FaqGroup[] = [
         answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
       {
+        // GIFT City promotional copy: needs an explicit compliance PASS (rulebook H-08).
+        // Risk lines in our words: IFSCA, not SEBI; market and currency risk (decision 23). T-06.
         question: 'Who can invest in GIFT City funds?',
-        answer: 'Residents of India invest under the Liberalised Remittance Scheme (LRS), in US dollars. NRIs can also invest. We explain the tax and reporting rules before you decide.',
+        answer: 'Residents of India invest under the Liberalised Remittance Scheme (LRS), in US dollars. NRIs can also invest. GIFT City funds are regulated by the IFSCA, not by SEBI. They carry market risk and currency risk, and you can lose money. Read the offer documents before you invest. We explain the tax and reporting rules before you decide.',
       },
     ],
   },
@@ -80,7 +82,8 @@ export const investFaqGroups: FaqGroup[] = [
         answer: 'You pay the fund house directly, and the units are in your name. We never receive your money.',
       },
       {
-        question: 'Can I stop at any time?',
+        // "Working with you": the bare question reads as "I can redeem at any time" (R-13, R-15). T-06.
+        question: 'Can I stop working with you at any time?',
         answer: 'Yes. Your investments stay in your name with each fund house.',
       },
     ],
@@ -122,11 +125,7 @@ export const reviewFaq: FaqItem[] = [
   sharedAnswer('What is the difference between a direct plan and a regular plan?'),
   sharedAnswer('Do you choose funds by the commission they pay you?'),
   sharedAnswer('Who holds my money?'),
-  // "Working with you": the bare question reads as "I can redeem at any time" (R-13, R-15).
-  {
-    question: 'Can I stop working with you at any time?',
-    answer: 'Yes. Your investments stay in your name with each fund house.',
-  },
+  sharedAnswer('Can I stop working with you at any time?'),
 ];
 
 /**
