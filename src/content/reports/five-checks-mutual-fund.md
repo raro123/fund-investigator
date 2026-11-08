@@ -25,7 +25,7 @@ With thousands of mutual funds to choose from, finding the right fund can be dif
 
 ## The five questions
 
-1. Did the fund beat a fair benchmark?
+1. Did the fund beat its stated benchmark index?
 2. Was the fund's performance consistent, or just a lucky year?
 3. Did the fund's return justify its risk?
 4. How far did the fund fall when the market turned?
@@ -47,15 +47,17 @@ Now let’s apply these questions to a worked example. The goal is not to label 
 
 | Question | Fund A vs Nifty 500 TRI | What does it show? |
 |---|---|---|
-| Did the fund beat a fair benchmark? | CAGR: 17% vs 14%<br>SIP IRR: 16% vs 13%[^sip] | Both a lump-sum investment and a SIP beat the benchmark. |
+| Did the fund beat its stated benchmark index? | CAGR: 17% vs 14%<br>SIP IRR: 16% vs 13%[^sip] | Both a lump-sum investment and a SIP beat the benchmark. |
 | Was the fund’s performance consistent? | Ahead in 4 of 7 calendar years<br>60% rolling win rate[^rolling] | The lead came from several years, not one. It still lost in 40% of rolling 3-year periods. |
 | Did the extra return justify the extra risk? | Sharpe ratio[^sharpe]: 0.69 vs 0.47<br>Volatility: 16% vs 17% | Similar volatility with more return, so a higher Sharpe ratio. |
 | How far did the fund fall? | Maximum drawdown: -36% vs -34% | The fund fell slightly more than the benchmark in the crash. |
 | How long did recovery take? | Days from trough to recovery: 280 vs 240 | Both took under a year. A fast rebound is not a forecast for the next downturn. |
 
+<!-- subscribe -->
+
 Next, we examine each question in detail.
 
-## Question 1: Did the fund beat a fair benchmark?
+## Question 1: Did the fund beat its stated benchmark index?
 
 A flexi-cap fund can invest across large-, mid-, and small-cap companies. For this hypothetical example, we use Nifty 500 TRI as a broad-market benchmark. It is not the only benchmark used by flexi-cap funds.[^benchmark] When assessing an actual fund, check its stated benchmark and whether it matches the strategy, rather than choosing whichever index makes its returns look best.
 

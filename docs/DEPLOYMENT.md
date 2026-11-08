@@ -22,7 +22,7 @@ Cloudflare Pages, connected to this GitHub repo.
 | `MAILERLITE_API_KEY` | Preview only (secret) | Leftover from the deleted MailerLite subscribe function |
 | `PUBLIC_POSTHOG_KEY` | **Set on both Production and Preview** | PostHog project API key, read by `src/layouts/Layout.astro`. No-ops (with a console warning) if set without `PUBLIC_POSTHOG_HOST` |
 | `PUBLIC_POSTHOG_HOST` | **Set on both Production and Preview** | PostHog Cloud region host (`https://us.i.posthog.com` or `https://eu.i.posthog.com`) — must match the region the existing Deepdive PostHog project uses. No silent fallback. Since T-24 (2026-10-31) it sets only `ui_host`: events go to `/ingest` on our domain, and `functions/ingest/[[path]].js` forwards them to the US region (change its hosts if the project region changes). PostHog runs only on `fundinvestigator.com`, so Preview builds send nothing; the owner's browsers opt out with `/?fi_internal=1` |
-| `INDEXNOW_KEY` | Production only | Must equal `14a30902d8a12fd849ea16a55b53e034`. Enables IndexNow only on the `main` Cloudflare Pages build after the public key route has been deployed and verified |
+| `INDEXNOW_KEY` | Production only | Must equal `14a30902d8a12fd849ea16a55b53e034`. Enables IndexNow only on the `main` Cloudflare Pages build after the public key route has been deployed and verified. The same build also sends the old URLs in `_redirects` (`src/lib/indexnow-redirects.mjs`, T-11) |
 
 **Needs addressing:**
 - `PUBLIC_CF_ACCOUNT_ID` / `PUBLIC_CF_PROJECT_NAME` are now fully dead (the beacon that read them was deleted) — remove them from Cloudflare Pages.

@@ -40,6 +40,8 @@ Each category sets a core allocation rule and gives the manager a different amou
 
 The practical implication is simple: a fund's category sets the baseline for its risk, return and diversification. Therefore, a return ranking that combines categories may compare different asset mixes rather than the manager's skill.
 
+<!-- subscribe -->
+
 ## Why do mutual fund categories matter?
 
 Equity, debt and alternatives such as commodities, gold, and InvITs have different risk and return profiles. A fund's asset allocation within each asset class can change its behaviour during different market cycles. Clearly defined rules help keep a fund aligned with its stated objectives. Without them, a portfolio could gradually drift from the holdings investors expect.
