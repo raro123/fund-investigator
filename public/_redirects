@@ -8,3 +8,27 @@
 /reports/ppfas-flexicap-five-checks/ /reports/five-checks-mutual-fund/ 301
 /reports/icici-largecap-five-checks /reports/five-checks-mutual-fund/ 301
 /reports/icici-largecap-five-checks/ /reports/five-checks-mutual-fund/ 301
+
+# T-56 (2026-11-08): real old or guessed URLs that gave crawlers a 404
+# (Cloudflare, 7 days to 8 Nov). Probes for files we never had are ignored.
+# Sitemap names crawlers guess; ours is /sitemap-index.xml.
+/sitemap.xml /sitemap-index.xml 301
+/sitemap_index.xml /sitemap-index.xml 301
+/sitemap.xml.gz /sitemap-index.xml 301
+/sitemap.txt /sitemap-index.xml 301
+/sitemap-0.xml /sitemap-index.xml 301
+# Old share images and Markdown copies of the held reports (COM-001/COM-002).
+/og/reports/hdfc-flexicap-performance.jpg /og/reports/five-checks-mutual-fund.jpg 301
+/og/reports/ppfas-flexicap-performance.jpg /og/reports/five-checks-mutual-fund.jpg 301
+/og/reports/ppfas-flexicap-five-checks.jpg /og/reports/five-checks-mutual-fund.jpg 301
+/og/reports/icici-largecap-five-checks.jpg /og/reports/five-checks-mutual-fund.jpg 301
+/reports/hdfc-flexicap-performance.md /reports/five-checks-mutual-fund.md 301
+/reports/ppfas-flexicap-performance.md /reports/five-checks-mutual-fund.md 301
+/reports/ppfas-flexicap-five-checks.md /reports/five-checks-mutual-fund.md 301
+/reports/icici-largecap-five-checks.md /reports/five-checks-mutual-fund.md 301
+# Common guesses for pages we have under another name.
+/about-us /about/ 301
+/about-us/ /about/ 301
+/feed /feed.xml 301
+/feed/ /feed.xml 301
+/rss.xml /feed.xml 301
