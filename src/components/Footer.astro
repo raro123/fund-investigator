@@ -30,7 +30,7 @@ const year = new Date().getFullYear();
         <nav aria-label="Footer navigation" class="flex flex-col gap-3">
           <a href="/invest/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Invest with support</a>
         <a href="/reports/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Investigations</a>
-          {/* No Deepdive link until the tool's outputs are cleared (COM-022, 2026-10-19). */}
+          {/* No Deepdive link: the app is internal (decision 69, T-48). Masked screenshots only, after a compliance pass. */}
         <a href="/about/" class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">About</a>
           <a href={SUBSCRIBE_PAGE} {...trackAttrs('subscribe_click', 'footer')} class="text-fi-muted-inv hover:text-fi-ink-inv transition-colors text-body-sm">Subscribe</a>
         </nav>
