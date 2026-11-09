@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/ui/Hero.astro';
 import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
-import Badge from '../../components/ui/Badge.astro';
+import Kicker from '../../components/ui/Kicker.astro';
 import Button from '../../components/ui/Button.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
 import SampleBrief from '../../components/ui/SampleBrief.astro';
@@ -36,7 +36,7 @@ import { servicePageSchemaGraph } from '../../lib/schema';
 const pageTitle = 'Mutual fund portfolio review';
 const pageDescription = 'A mutual fund portfolio review that looks at all your funds together: stock and sector overlap, performance, risk and costs. From an AMFI-registered mutual fund distributor.';
 const factsAsOf = '2026-11-09';
-const whatsappLabel = 'WhatsApp us for a portfolio review';
+const whatsappLabel = 'WhatsApp us';
 
 // What we look at: overlap first (biggest search, the USP), then performance,
 // risk and costs (owner, 9 Nov). Each heading is a searched question.
@@ -109,7 +109,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
        text, button, then the sample. The old section 2 ("A portfolio review and a walkthrough")
        is gone: the How it works lead and step 3 say the same. -->
   <Hero size="md" background="dark">
-    <Badge variant="dark" class="mb-6">Mutual fund portfolio review</Badge>
+    <Kicker class="mb-6">Mutual fund portfolio review</Kicker>
     <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words']}>
       Do your funds still
       <span class="block text-fi-gold">make sense together?</span>
