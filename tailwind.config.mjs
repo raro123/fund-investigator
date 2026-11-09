@@ -81,15 +81,15 @@ export default {
       // Serif: Newsreader — report article content: h1, deck, all heading levels, body
       //   copy, lists, pull-quotes, and markdown tables (see src/layouts/ArticleLayout.astro).
       //   Loaded via @fontsource/newsreader in Layout.astro. Weights: 400 · 700 only.
-      // Mono: for tabular financial data
-      // Typewriter: Courier Prime — homepage typed text only: the client's problem in the case files
-      //   (CaseFile), the fee memo (Memo) and the first-call dossier (Dossier). Loaded via @fontsource/courier-prime
-      //   in Layout.astro. Weights: 400 · 700 (dossier titles).
+      // Mono: Courier Prime — small uppercase labels, codes and tabular data. The same font
+      //   as Typewriter, so the site loads three families only (owner, 9 Nov 2026).
+      // Typewriter: Courier Prime — typed text: CaseFile, Memo, StepMemos, IdCard, Dossier,
+      //   PlanCompare. Loaded via @fontsource/courier-prime in Layout.astro. Weights: 400 · 700.
       // ─────────────────────────────────────────
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         serif: ['Newsreader', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        mono: ['Courier Prime', 'Courier New', 'Courier', 'monospace'],
         typewriter: ['Courier Prime', 'Courier New', 'Courier', 'monospace'],
       },
 
