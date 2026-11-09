@@ -112,7 +112,7 @@ function sharedAnswer(question: string): FaqItem {
 export const reviewFaq: FaqItem[] = [
   {
     question: 'Is the first call a sales call?',
-    answer: 'No. It is a short conversation at a time that suits you. We introduce ourselves as an AMFI-registered mutual fund distributor and explain how we are paid. Then we ask about your goals and any concerns with your funds, and answer your questions. There is no pressure, and you decide if you want to go ahead.',
+    answer: 'No. It is a short conversation at a time that works for you. We introduce ourselves as an AMFI-registered mutual fund distributor and explain how we are paid. Then we ask about your goals and any concerns with your funds, and answer your questions. There is no pressure, and you decide if you want to go ahead.',
   },
   {
     question: 'Why do I need a mutual fund distributor?',
