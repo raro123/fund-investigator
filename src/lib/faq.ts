@@ -128,7 +128,7 @@ export const reviewFaq: FaqItem[] = [
   },
   {
     question: 'How do I check my mutual fund portfolio?',
-    answer: 'Your investing app shows each fund and its value. A Consolidated Account Statement (CAS) from CAMS or KFintech lists all your funds in one place. To see if the portfolio works, check five things: how each fund has done against its stated benchmark index over several years, fund overlap, sector overlap, your mix of equity, debt and gold against your goals, and your total costs. A portfolio review from Fund Investigator checks all five and explains what they mean.',
+    answer: 'Your investing app shows each fund and its value. A Consolidated Account Statement (CAS) from CAMS or KFintech lists all your funds in one place. To see if the portfolio works, check five things: how each fund has done against its stated benchmark index over several years, stock overlap, sector overlap, your mix of equity, debt and gold against your goals, and your total costs. A portfolio review from Fund Investigator checks all five and explains what they mean.',
   },
 ];
 
