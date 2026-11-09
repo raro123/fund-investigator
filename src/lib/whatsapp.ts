@@ -37,7 +37,11 @@ export type WhatsappPlacement =
   | 'lp_sif_call'
   | 'lp_gift_city_hero'
   | 'lp_gift_city_cta'
-  | 'lp_gift_city_final';
+  | 'lp_gift_city_final'
+  | 'lp_local_ncr_hero'
+  | 'lp_local_ncr_cta'
+  | 'lp_local_ncr_call'
+  | 'lp_local_ncr_final';
 
 const prefilledText: Record<WhatsappPlacement, string> = {
   homepage_hero: `Hi ${FIRST_NAME}, I'd like to know how you can help with my investments.`,
@@ -70,6 +74,11 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   lp_gift_city_hero: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
   lp_gift_city_cta: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
   lp_gift_city_final: `Hi ${FIRST_NAME}, I have a question about GIFT City funds.`,
+  // Page E, Delhi NCR (T-97). Location in the text, so the owner sees a local enquiry at once.
+  lp_local_ncr_hero: `Hi ${FIRST_NAME}, I am in Delhi NCR and would like help with my mutual funds.`,
+  lp_local_ncr_cta: `Hi ${FIRST_NAME}, I am in Delhi NCR and would like help with my mutual funds.`,
+  lp_local_ncr_call: `Hi ${FIRST_NAME}, I am in Delhi NCR and have a question before I book a call.`,
+  lp_local_ncr_final: `Hi ${FIRST_NAME}, I am in Delhi NCR and have a question about my mutual funds.`,
 };
 
 /**
