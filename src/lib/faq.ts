@@ -103,9 +103,11 @@ function sharedAnswer(question: string): FaqItem {
  * /invest/portfolio-review/, rebuilt from the agreed demo (owner, 9 Nov 2026).
  * The five answers were locked one by one with the owner; copy them word for
  * word. Goal: clear the doubts that stop a reader from sending the WhatsApp
- * message. Never "free" about the review (R-17, H-03): "No separate fee from
- * you", with the commission in the same answer. Q2, Q3 and Q4 wait for the
- * weekly compliance review (Fri 13 Nov 2026) before release.
+ * message. Never "free" about the review (R-17, H-03): the exact fee line
+ * (L1 appendix), with the commission in the same answer. Q4: a change of
+ * distributor is the investor's choice (R-20, AMFI MC 6.1). Cleared in the
+ * same-day compliance check of 9 Nov 2026 with these fixes; any change to an
+ * answer needs a new check.
  * Q2 ends with "Our comparison explains when each one fits.", linked to K02,
  * once K02 is live: add it then (FaqList answers are plain text today).
  */
@@ -120,11 +122,11 @@ export const reviewFaq: FaqItem[] = [
   },
   {
     question: 'Do I pay for a mutual fund portfolio review?',
-    answer: 'No separate fee from you. On your request, Fund Investigator prepares your portfolio review and walks you through it. When you invest through us, the fund house pays us a commission from the fund\'s yearly expense ratio, and we give you the rates in writing before you invest. Your ongoing reviews come with no separate fee either.',
+    answer: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. On your request, Fund Investigator prepares your portfolio review and walks you through it. The commission comes from the yearly expense ratio of the funds you invest in through us. Your ongoing reviews come with no separate fee either.',
   },
   {
     question: 'Will you ask me to sell or move my funds?',
-    answer: "Only when the analysis says so, and you decide based on our recommendations. We never ask you to sell a good fund to bring it to us. Any sale or purchase comes from the analysis, with the tax and exit load explained clearly. If you're happy with us, we may ask to become the distributor on your regular plans. There is no sale, so no tax and no exit load. A direct plan that fits your portfolio stays direct.",
+    answer: "Only when the analysis says so, and you decide based on our recommendations. We never ask you to sell a good fund to bring it to us. Any sale or purchase comes from the analysis, with the tax and exit load explained clearly. If you're happy with us, you can choose to make us the distributor on your regular plans. You sign the change request yourself. There is no sale, so no tax and no exit load. A direct plan that fits your portfolio stays direct.",
   },
   {
     question: 'How do I check my mutual fund portfolio?',
