@@ -20,7 +20,7 @@ import { formatDate } from '../../lib/format';
 import { trackAttrs } from '../../lib/analytics';
 import { whatsappUrl } from '../../lib/whatsapp';
 import { SUBSCRIBE_PAGE } from '../../lib/substack';
-import { ARN, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
+import { ARN, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
 // Service page A (T-59), rebuilt from the agreed demo v32 (owner, 9 Nov 2026,
@@ -173,7 +173,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
         track={{ event: 'conversation_request', placement: 'lp_review_cta', channel: 'whatsapp' }}
         class="w-full max-w-80 sm:w-auto sm:max-w-none"
       >
-        Message {FIRST_NAME} on WhatsApp
+        WhatsApp us
       </Button>
       <a href="/reports/" class:list={[lightLink, 'py-2']}>Read our investigations →</a>
     </div>
