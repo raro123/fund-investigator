@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     `- [About Fund Investigator](${base}/about/): Why we exist, how we work, and how we are paid.`,
     `- [Invest with support](${base}/invest/): 30-minute introductory call, then help to choose and invest in suitable funds, from an ${TAGLINE}.`,
-    // No Deepdive entry until the tool's outputs are cleared (COM-022, 2026-10-19).
+    // No Deepdive entry: the app is internal (decision 69, T-48). Masked screenshots only, after a compliance pass.
     '',
     ...(sorted.length > 0
       ? [

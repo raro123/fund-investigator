@@ -207,6 +207,8 @@ const defaultLinks = [
           // identity carries across via a shared top-level cookie. The
           // Deepdive app (separate repo) needs matching config for the
           // stitching to actually work end-to-end — see project_log.md #44.
+          // Deepdive is internal now (T-48), so this matters only for
+          // clients who open it after sign-in.
           cross_subdomain_cookie: true,
           persistence: 'localStorage+cookie',
           // Autocapture (on by default) is intentionally left enabled and

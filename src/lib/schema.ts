@@ -277,7 +277,7 @@ export const homeSchemaGraph = (site?: URL): SchemaObject => {
   return assemble([
     organizationSchema(site),
     websiteSchema(site),
-    // No Deepdive entity until the tool's outputs are cleared (COM-022, 2026-10-19).
+    // No Deepdive entity: the app is internal (decision 69, T-48). Masked screenshots only, after a compliance pass.
     buildWebPage({
       url: pageUrl,
       name: HOME_TITLE,

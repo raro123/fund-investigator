@@ -2,13 +2,13 @@
 
 FundInvestigator.com — a distribution-led website for an AMFI-registered Mutual Fund Distributor.
 Its main goal is booked first calls for the "Invest with support" service. Free investigations of Indian
-mutual funds, and the Deepdive app for email subscribers, build authority.
+mutual funds build authority.
 
 ## Architecture
 
 **Hub + Spoke:**
 - **Hub:** `fundinvestigator.com` (Marketing/Content) — static Astro site on Cloudflare Pages.
-- **Spoke:** `deepdive.fundinvestigator.com` (Analytics tool) — Streamlit app on Railway, **separate codebase, not part of this repo**.
+- **Spoke:** `deepdive.fundinvestigator.com` (Deepdive data app) — Streamlit app on Railway, **separate codebase, not part of this repo**. Internal only (decision 69, T-48): behind Cloudflare Access, never linked from this site. Clients see results for their own funds on request.
 
 Subdomains separate the fast, SEO-optimized content layer from the compute-heavy application layer.
 
