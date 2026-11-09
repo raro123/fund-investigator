@@ -45,12 +45,9 @@ export const investFaqGroups: FaqGroup[] = [
         question: 'What is a SIF?',
         answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
-      {
-        // GIFT City promotional copy: needs an explicit compliance PASS (rulebook H-08).
-        // Risk lines in our words: IFSCA, not SEBI; market and currency risk (decision 23). T-06.
-        question: 'Who can invest in GIFT City funds?',
-        answer: 'Residents of India invest under the Liberalised Remittance Scheme (LRS), in US dollars. NRIs can also invest. GIFT City funds are regulated by the IFSCA, not by SEBI. They carry market risk and currency risk, and you can lose money. Read the offer documents before you invest. We explain the tax and reporting rules before you decide.',
-      },
+      // "Who can invest in GIFT City funds?" removed (owner, 9 Nov 2026, T-130): it
+      // comes back only after an IFSCA source is in compliance/sources and the
+      // answer gets an explicit H-08 PASS.
     ],
   },
   {
