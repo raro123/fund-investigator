@@ -93,6 +93,12 @@ subscribers, build authority. Success = low-ops, solo-friendly delivery that ear
 
 ---
 
+### 📅 Date: 2026-11-09 | Session: S69 — Portfolio review page rebuilt from the agreed demo
+
+Owner flow: Brand compared demo v32 with the dev page, the owner said go, Tech built it (no separate spec). `/invest/portfolio-review/` now follows the demo: hero with one action ("WhatsApp us for a portfolio review", decision 121) and the exact identity line; "A portfolio review and a walkthrough" with a light `SampleBrief`; four checks (C01 linked from the performance card); four `StepMemos`; `IdCard` with the owner photo, a secondary WhatsApp button and /reports/; the homepage "How we are paid" memo word for word; five locked FAQs (`reviewFaq`, FAQPage schema); dark close with the monthly note. New: `ContactActions` `whatsappOnly`/`whatsappLabel`; `SampleBrief` `surface="light"` and the demo's findings (also on the homepage: drops "2 of 5 funds have not beaten their market index" and "Moderate risk", H-17); `OWNER_PHOTO` set (IdCard on /invest/, /about/ and this page; `Person.image`); `OptimizedImage` `avatar` preset. Held until K02 and C07 are live: FAQ Q2's "Our comparison" link and the C07 link on the overlap card. Not released: the Fri 13 Nov compliance review comes first.
+
+---
+
 ### 📅 Date: 2026-10-31 | Session: S68 — Article template (T-37), C01 report (T-01), site description (T-04)
 
 Backlog rows live in fund_distribution_business `docs/backlog.csv`. **Article template (T-37):** the mid-article subscribe box is now placed by the marker `<!-- subscribe -->` (fixed text, light card, secondary button, `subscribe_click` placement `article_mid`). It replaces the automatic Key Takeaways prompt (`article_takeaways`), so `## Key takeaways` is no longer a build gate; the two guides carry the marker where the prompt used to be. The end invite has the new fixed call line ("…No charge · No obligation."). Its booking link carries `utm_source=website&utm_medium=evidence&utm_campaign=<serviceInvite.campaign or slug>`. Every article click event now also sends `report` (the slug). **C01 (T-01):** `/reports/same-category-different-returns/` with the gap chart, the CSV at `/data/reports/c01_category_spread.csv`, and new optional `faq` (FAQPage) and `dataset` (Dataset) frontmatter. Date set to the 8 Nov target; change it on release day if go-live moves. **Site description (T-04):** `SITE_DESCRIPTION` in `schema.ts` feeds the Organization, WebSite and `llms.txt`.

@@ -9,6 +9,10 @@
  * prefilled text (src/lib/whatsapp.ts). It holds the section's gold button,
  * so use it once per section.
  *
+ * `whatsappOnly` drops the booking button and makes WhatsApp the gold button,
+ * with its own label (decision 121: on the portfolio review page a message is
+ * the only action; the call is set up in the chat).
+ *
  * `note` adds a small line under the buttons (the call details). `identity`
  * adds who the client works with, the registration and the ARN validity
  * (light surfaces only), for the section that answers "how are you paid?".
@@ -16,9 +20,12 @@
  * @example
  * <ContactActions placement="lp_review_hero" surface="dark" note="30-minute call · No charge · No obligation" />
  * <ContactActions placement="lp_review_cta" surface="light" identity />
+ * <ContactActions placement="lp_review_hero" surface="dark" whatsappOnly whatsappLabel="WhatsApp us for a portfolio review" />
  *
  * @param placement - WhatsApp placement; also the PostHog placement of both buttons
  * @param surface - 'light' or 'dark' (the section background)
+ * @param whatsappOnly - WhatsApp as the only (gold) button, no booking link
+ * @param whatsappLabel - the WhatsApp button text (default 'Contact on WhatsApp')
  * @param note - optional line under the buttons
  * @param identity - show the registered name, email, tagline and ARN (light only)
  * @param class - extra classes for the wrapper
@@ -31,12 +38,22 @@ import { formatDate } from '../../lib/format';
 interface Props {
   placement: WhatsappPlacement;
   surface: 'light' | 'dark';
+  whatsappOnly?: boolean;
+  whatsappLabel?: string;
   note?: string;
   identity?: boolean;
   class?: string;
 }
 
-const { placement, surface, note, identity = false, class: className = '' } = Astro.props;
+const {
+  placement,
+  surface,
+  whatsappOnly = false,
+  whatsappLabel = 'Contact on WhatsApp',
+  note,
+  identity = false,
+  class: className = '',
+} = Astro.props;
 
 const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
 const noteColour = { light: 'text-fi-muted', dark: 'text-fi-subtle' }[surface];
@@ -45,29 +62,31 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
 
 <div class:list={['text-center', className]}>
   <div class={ctaRow}>
-    <Button
-      href={BOOKING_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      icon="external"
-      size="lg"
-      track={{ event: 'review_booking_click', placement }}
-      class="w-full sm:w-auto min-w-0"
-    >
-      Book a first call
-    </Button>
+    {!whatsappOnly && (
+      <Button
+        href={BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="external"
+        size="lg"
+        track={{ event: 'review_booking_click', placement }}
+        class="w-full sm:w-auto min-w-0"
+      >
+        Book a first call
+      </Button>
+    )}
     <Button
       href={whatsappUrl(placement)}
       target="_blank"
       rel="noopener noreferrer"
       icon="whatsapp"
-      variant="secondary"
+      variant={whatsappOnly ? 'primary' : 'secondary'}
       surface={surface}
       size="lg"
       track={{ event: 'conversation_request', placement, channel: 'whatsapp' }}
       class="w-full sm:w-auto min-w-0"
     >
-      Contact on WhatsApp
+      {whatsappLabel}
     </Button>
   </div>
 

@@ -53,7 +53,7 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   // Landing pages: the text names the reader's topic, so the chat shows why they wrote.
   lp_review_hero: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
   lp_review_cta: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
-  lp_review_final: `Hi ${FIRST_NAME}, I have a question about a portfolio review.`,
+  lp_review_final: `Hi ${FIRST_NAME}, I'd like a review of my mutual fund portfolio.`,
   // The first-call block ("Ask us one question on WhatsApp first"): a question before booking.
   lp_review_call: `Hi ${FIRST_NAME}, I have a question before I book a portfolio review call.`,
   lp_start_hero: `Hi ${FIRST_NAME}, I have savings and want to start investing in mutual funds.`,

@@ -100,32 +100,36 @@ function sharedAnswer(question: string): FaqItem {
 }
 
 /**
- * /invest/portfolio-review/ (T-59, Phase 2 item A). Copy v2.0:
- * fund_distribution_business content/pieces/p2_service_pages/service_pages_copy.md.
- * The first two questions come from "People also ask"; the next two are the
- * approved wave 1 answers (v1.4); the rest are the /invest/ answers, word for word.
+ * /invest/portfolio-review/, rebuilt from the agreed demo (owner, 9 Nov 2026).
+ * The five answers were locked one by one with the owner; copy them word for
+ * word. Goal: clear the doubts that stop a reader from sending the WhatsApp
+ * message. Never "free" about the review (R-17, H-03): "No separate fee from
+ * you", with the commission in the same answer. Q2, Q3 and Q4 wait for the
+ * weekly compliance review (Fri 13 Nov 2026) before release.
+ * Q2 ends with "Our comparison explains when each one fits.", linked to K02,
+ * once K02 is live: add it then (FaqList answers are plain text today).
  */
 export const reviewFaq: FaqItem[] = [
   {
-    question: 'How many mutual funds should I hold?',
-    answer: 'There is no right number for everyone. What matters is what each fund adds to your mix. Several funds in one category can hold many of the same stocks, so more funds do not always mean more spread.',
+    question: 'Is the first call a sales call?',
+    answer: 'No. It is a short conversation at a time that suits you. We introduce ourselves as an AMFI-registered mutual fund distributor and explain how we are paid. Then we ask about your goals and any concerns with your funds, and answer your questions. There is no pressure, and you decide if you want to go ahead.',
   },
   {
-    question: 'How often should I review my mutual fund portfolio?',
-    answer: 'Once a year is a common rhythm. Review sooner when your goals, income or time frame change. If you invest through us, we agree how often on the call.',
+    question: 'Why do I need a mutual fund distributor?',
+    answer: "You don't need one to invest. Apps and direct plans let you do it yourself, if you have the time and the knowledge. An AMFI-registered mutual fund distributor helps when you want someone to look at all your funds together, explain what the numbers mean and keep reviewing them as markets and your plans change. Our recommendations for clients come with the what, the why and the trade-offs. We are paid by the fund house through regular plans, which have higher expense ratios than direct plans. A SEBI-registered investment adviser is another route: you pay the adviser a fee and invest in direct plans on their advice.",
   },
   {
-    question: 'What do I need to share?',
-    answer: 'For the call, your goals and a rough idea of what you hold. For the full review, we ask for your Consolidated Account Statement (CAS) after the call. It lists every fund you hold, across fund houses, and we help you download it.',
+    question: 'Do I pay for a mutual fund portfolio review?',
+    answer: 'No separate fee from you. On your request, Fund Investigator prepares your portfolio review and walks you through it. When you invest through us, the fund house pays us a commission from the fund\'s yearly expense ratio, and we give you the rates in writing before you invest. Your ongoing reviews come with no separate fee either.',
   },
   {
-    question: 'Will you ask me to sell my funds?',
-    answer: 'Not by default. Selling can mean tax and exit loads, so we weigh each change against its cost. The brief says what to keep, what to watch and what to change, with the reasons. You decide, and nothing moves without your approval.',
+    question: 'Will you ask me to sell or move my funds?',
+    answer: "Only when the analysis says so, and you decide based on our recommendations. We never ask you to sell a good fund to bring it to us. Any sale or purchase comes from the analysis, with the tax and exit load explained clearly. If you're happy with us, we may ask to become the distributor on your regular plans. There is no sale, so no tax and no exit load. A direct plan that fits your portfolio stays direct.",
   },
-  sharedAnswer('What is the difference between a direct plan and a regular plan?'),
-  sharedAnswer('Do you choose funds by the commission they pay you?'),
-  sharedAnswer('Who holds my money?'),
-  sharedAnswer('Can I stop working with you at any time?'),
+  {
+    question: 'How do I check my mutual fund portfolio?',
+    answer: 'Your investing app shows each fund and its value. A Consolidated Account Statement (CAS) from CAMS or KFintech lists all your funds in one place. To see if the portfolio works, check five things: how each fund has done against its stated benchmark index over several years, fund overlap, sector overlap, your mix of equity, debt and gold against your goals, and your total costs. A portfolio review from Fund Investigator checks all five and explains what they mean.',
+  },
 ];
 
 /**
