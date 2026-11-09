@@ -109,7 +109,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
        is gone: the How it works lead and step 3 say the same. -->
   <Hero size="md" background="dark">
     <Kicker class="mb-6">Mutual fund portfolio review</Kicker>
-    <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words']}>
+    <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words text-balance']}>
       Do your funds still
       <span class="block text-fi-gold">make sense together?</span>
     </h1>
@@ -151,7 +151,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
       title="How does a mutual fund portfolio review work?"
       lead="A Fund Investigator portfolio review takes four steps. You get your written brief within 3 to 5 working days of signing up."
     />
-    <StepMemos steps={steps} />
+    <StepMemos steps={steps} layout="pairs" />
   </Section>
 
   <!-- 4. Who you speak to, and how we are paid. The gold button stays in the hero and the
