@@ -21,6 +21,15 @@
  *   <h1>Left-Aligned Title</h1>
  *   <p>Supporting text</p>
  * </Hero>
+ *
+ * <!-- Split hero: text left, a visual right (stacked on phones, side by side from lg).
+ *      The text column is centred on phones and left-aligned from lg. The footer slot
+ *      runs full width under both columns. -->
+ * <Hero background="dark">
+ *   <h1>Title</h1>
+ *   <SampleBrief slot="aside" />
+ *   <p slot="footer">Identity line</p>
+ * </Hero>
  */
 
 interface Props {
@@ -68,13 +77,28 @@ const alignStyles = centered ? 'text-center' : '';
 
 // Combined classes
 const sectionClasses = `relative overflow-hidden ${backgroundStyles[background]} ${sizeStyles[size]} px-4 sm:px-6 lg:px-10 ${className}`.trim();
-const containerClasses = `relative z-10 max-w-5xl mx-auto min-w-0 max-w-full ${alignStyles} ${containerClass}`.trim();
+// A split hero (an "aside" slot) needs more width for two columns.
+const split = Astro.slots.has('aside');
+const containerWidth = split ? 'max-w-6xl' : 'max-w-5xl';
+const containerClasses = `relative z-10 ${containerWidth} mx-auto min-w-0 ${alignStyles} ${containerClass}`.trim();
 ---
 
 <section class={sectionClasses}>
   {background === 'dark' && <div class="fi-hero-glow pointer-events-none" aria-hidden="true"></div>}
   <div class={containerClasses}>
-    <slot />
+    {split ? (
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="min-w-0 lg:text-left">
+          <slot />
+        </div>
+        <div class="min-w-0">
+          <slot name="aside" />
+        </div>
+      </div>
+    ) : (
+      <slot />
+    )}
+    <slot name="footer" />
   </div>
 </section>
 
