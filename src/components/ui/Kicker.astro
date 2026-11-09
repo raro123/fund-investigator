@@ -1,0 +1,29 @@
+---
+/**
+ * Kicker Component
+ *
+ * A quiet label above a hero H1: mono, uppercase, after a short gold rule.
+ * Flat, not a pill, so the H1 leads (agreed portfolio review demo v32, owner, 9 Nov 2026).
+ * Inline, so it follows the parent's text alignment (centred, or left in a split Hero).
+ *
+ * @example
+ * <Kicker>Mutual fund portfolio review</Kicker>
+ * <Kicker surface="light">Mutual fund portfolio review</Kicker>
+ *
+ * @param surface - 'dark' (default) or 'light'
+ * @param class - extra classes
+ */
+
+interface Props {
+  surface?: 'dark' | 'light';
+  class?: string;
+}
+
+const { surface = 'dark', class: className = '' } = Astro.props;
+const colour = { dark: 'text-fi-muted-inv', light: 'text-fi-muted' }[surface];
+---
+
+<p class:list={['inline-flex items-center gap-3 font-mono text-caption uppercase tracking-widest', colour, className]}>
+  <span class="w-7 h-0.5 bg-fi-gold shrink-0" aria-hidden="true"></span>
+  <span><slot /></span>
+</p>

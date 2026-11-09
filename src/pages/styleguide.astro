@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
+import Kicker from '../components/ui/Kicker.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
@@ -693,6 +694,15 @@ import { responsive } from '../lib/responsive';
         <div class="flex flex-wrap gap-3">
           <Badge variant="dark" rounded={true}>Pill Shape</Badge>
           <Badge variant="dark" rounded={false}>Rounded Corners</Badge>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-2">Kicker</h3>
+        <p class="text-fi-muted-inv text-body-sm mb-4">A flat label above a hero H1, after a short gold rule (<code class="text-fi-gold font-mono">/invest/portfolio-review/</code>). Quieter than a badge, so the H1 leads.</p>
+        <div class="flex flex-col gap-4">
+          <Kicker>Mutual fund portfolio review</Kicker>
+          <div class="bg-fi-light rounded-xl p-6"><Kicker surface="light">Light surface</Kicker></div>
         </div>
       </div>
     </div>
