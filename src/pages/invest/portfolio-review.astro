@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import Section from '../../components/ui/Section.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+import CheckList from '../../components/ui/CheckList.astro';
+import ContactActions from '../../components/ui/ContactActions.astro';
+import FirstCallBlock from '../../components/ui/FirstCallBlock.astro';
+import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
+import SplitRows from '../../components/ui/SplitRows.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import { reviewFaq } from '../../lib/faq';
+import { responsive } from '../../lib/responsive';
+import { formatDate } from '../../lib/format';
+import { ARN } from '../../lib/distributor';
+import { servicePageSchemaGraph } from '../../lib/schema';
+
+// Service page A of Phase 2 (T-59; fund_distribution_business strategy/phase2_proposal.md).
+// For readers who already invest and search "mutual fund portfolio review".
+// Copy v2.0, word for word: content/pieces/p2_service_pages/service_pages_copy.md
+// in fund_distribution_business. We are a distributor: no adviser words for us in
+// the title, headings, meta or alt text (rule R-02, decision 78). The one
+// "advisor" below names the reader's search word, in the passage that says we
+// are a distributor. Placements start with `lp_review_`, so PostHog splits this page.
+
+const pageTitle = 'Mutual fund portfolio review';
+const pageDescription = 'Do your mutual funds still work together? A 30-minute call, then a written review of overlap, costs and fit from an AMFI-registered mutual fund distributor.';
+const factsAsOf = '2026-11-03';
+
+const briefContents = [
+  'Overlap',
+  'Each fund against its stated benchmark index',
+  'Yearly costs',
+  'Fit to your risk profile',
+  'What to keep, watch or change',
+];
+
+const signs = [
+  'You hold several funds and are not sure what each one adds.',
+  'You want to know the overlap, how each fund did against its stated benchmark index, and what you pay each year.',
+  'Your goals or income changed, but your funds did not.',
+];
+
+// The 3-question portfolio check, defined once on the site (here). It covers the
+// four checks in the brief: overlap, benchmark and costs, fit.
+const questions = [
+  {
+    title: 'Do my funds repeat each other?',
+    body: 'We check how many of your stocks repeat across your funds. Several funds in one category can hold many of the same companies.',
+  },
+  {
+    title: 'Is each fund worth what it costs?',
+    body: 'We compare each fund with its stated benchmark index over time, not only with funds like it. Then we show what your funds cost each year and what that means for your money over time.',
+  },
+  {
+    title: 'Does the mix still fit me?',
+    body: 'We check whether your mix of equity, debt and gold matches your goals, time frame and risk profile.',
+  },
+];
+
+const steps = [
+  {
+    name: 'First conversation',
+    left: 'Tell us your goals, time frame and a rough idea of your funds.',
+    right: 'Discuss your risk profile and explain what the review checks.',
+  },
+  {
+    name: 'Review and brief',
+    left: 'Share your Consolidated Account Statement (CAS) after the call. Read the brief and ask questions.',
+    right: 'Help you download your CAS. Check your holdings and send the brief within 3 to 5 working days: what to keep, watch or change, with reasons.',
+  },
+  {
+    name: 'Your decision and support',
+    left: 'Choose any changes. Approve each transaction by OTP and pay the fund house directly.',
+    right: 'Give you the options and our commission in writing. Help with setup and review your funds at regular intervals.',
+  },
+];
+
+// Not "No charge · No obligation": next to review wording it reads as a free review (H-03).
+const callDetails = '30-minute call · You decide what happens next';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogPage="review"
+  graph={servicePageSchemaGraph({
+    path: '/invest/portfolio-review/',
+    name: pageTitle,
+    description: pageDescription,
+    breadcrumbName: 'Mutual fund portfolio review',
+    serviceName: 'Mutual fund portfolio review',
+    serviceType: 'Mutual fund portfolio review by an AMFI-registered mutual fund distributor',
+    faq: reviewFaq,
+  }, Astro.site)}
+  trackView="landing_view"
+  trackLanding="review"
+>
+  <Hero size="md" background="dark">
+    <Badge variant="dark" class="mb-6">Mutual fund portfolio review</Badge>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      Do your funds still
+      <span class="block text-fi-gold">make sense together?</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      On your request, we review your whole mutual fund portfolio, not one fund at a time: overlap, each fund against its stated benchmark index, yearly costs and fit to your risk profile. It covers every fund in your Consolidated Account Statement (CAS), with any fund house or app. You get the findings in a short written brief within 3 to 5 working days of your CAS. You do not need to move your holdings to start.
+    </p>
+    <ContactActions placement="lp_review_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-10 max-w-2xl mx-auto">
+      <p class="text-caption uppercase tracking-fi-label font-bold text-fi-subtle mb-3">What the brief covers</p>
+      <CheckList items={briefContents} surface="dark" layout="inline" />
+    </div>
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, 'Mutual fund distributor', 'Commission in writing before you choose']} />
+    </div>
+  </Hero>
+
+  <Section id="when" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="When does a portfolio need a review?" lead="A review helps most when you hold several funds and cannot say what each one adds." />
+    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto">
+      <CheckList items={signs} />
+    </Card>
+  </Section>
+
+  <Section id="check" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading title="The 3-question portfolio check" lead="Every review starts with three questions. Together they cover the four checks in your brief." />
+    <ol class="grid md:grid-cols-3 gap-5 text-left">
+      {questions.map((question, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <p class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-2">Question {index + 1}</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{question.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{question.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+    <p class="text-center text-body-sm text-fi-muted mt-8">
+      Read how two funds in the same category can end up far apart:
+      <a href="/reports/same-category-different-returns/" class={lightLink}>Same category, different returns</a>
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-5 text-left mt-12 max-w-4xl mx-auto">
+      <Card padding="lg" hover={false}>
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">Adding new money too?</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">Check what you hold before you add more. The brief also shows where new investments can go in your mix, after we discuss your risk profile.</p>
+      </Card>
+      <Card padding="lg" hover={false}>
+        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">The risk stays</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">A review does not remove market risk. Mutual fund values move with markets, and equity funds can fall sharply in the short term. The review shows what you hold, what it costs and how it matches your goals.</p>
+      </Card>
+    </div>
+  </Section>
+
+  <Section id="costs" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How is a mutual fund distributor paid?"
+      lead="No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. The commission comes from the regular plan's yearly expense ratio."
+    />
+    <div class="max-w-2xl mx-auto space-y-5 text-left">
+      <p class="text-body-md text-fi-ink leading-relaxed">
+        Many people search for a "mutual fund advisor". We are an AMFI-registered mutual fund distributor ({ARN}), not a SEBI-registered investment adviser. We earn a commission from the fund house and work with regular plans.
+        <a href="/invest/#costs" class={lightLink}>Compare direct and regular plans →</a>
+      </p>
+      <Card variant="subtle" padding="md" hover={false}>
+        <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans?</h3>
+        <p class="text-body-sm text-fi-muted leading-relaxed">
+          We discuss them on the first call. You can keep them direct. If you invest through us, we use regular plans only. Nothing moves without your approval.
+        </p>
+      </Card>
+    </div>
+    <ContactActions placement="lp_review_cta" surface="light" identity class="mt-12" />
+  </Section>
+
+  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="From the first call to your brief" lead="What you do, and what we do, at each stage." />
+    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  </Section>
+
+  <Section id="first-call" background="white" spacing="md" maxWidth="2xl">
+    <FirstCallBlock placement="lp_review_call" />
+  </Section>
+
+  <Section id="faq" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions about a portfolio review" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={reviewFaq} />
+    </div>
+  </Section>
+
+  <Section background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Start with a 30-minute call."
+      lead="Tell us what you hold and what concerns you about it. We explain what the review checks, if you ask for one. You decide what happens next."
+    />
+    <ContactActions placement="lp_review_final" surface="light" />
+    <p class="text-center text-caption text-fi-muted mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
+  </Section>
+</Layout>
