@@ -21,7 +21,7 @@ export type TrackView = 'invest_view' | 'landing_view';
  * `landing_view` through Layout's `trackLanding` prop. One id per reader
  * situation, so a PostHog funnel can be broken down by page.
  */
-export type LandingId = 'review' | 'start' | 'lump_sum' | 'sif' | 'gift_city';
+export type LandingId = 'review' | 'start' | 'lump_sum' | 'sif' | 'gift_city' | 'local_ncr';
 
 /**
  * Data attributes for a tracked element.

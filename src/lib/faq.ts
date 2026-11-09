@@ -186,3 +186,43 @@ export const lumpSumFaq: FaqItem[] = [
   sharedAnswer('What is the difference between a direct plan and a regular plan?'),
   sharedAnswer('Who holds my money?'),
 ];
+
+/**
+ * /mutual-fund-distributor-delhi-ncr/ (T-97, page E, decision 117). Copy v1.1:
+ * fund_distribution_business content/pieces/p2e_local_delhi_ncr/p2e_local_page.md.
+ * The first seven answers are the page's own; the last three are the /invest/
+ * answers, word for word.
+ */
+export const localNcrFaq: FaqItem[] = [
+  {
+    question: 'Do you have an office I can visit?',
+    answer: 'No, we do not run a walk-in office. We meet at a place we agree in Delhi NCR, or we talk online.',
+  },
+  {
+    question: 'Do I have to meet in person?',
+    answer: 'No. Most first calls are online. We meet in person in Delhi NCR when you ask, for example to go through your review.',
+  },
+  {
+    question: 'Do you sell insurance or loans?',
+    answer: 'No. We do not sell insurance or loans.',
+  },
+  {
+    question: 'Can you help if I live outside Delhi NCR?',
+    answer: 'Yes. The call, the review and each investment work online, anywhere in India.',
+  },
+  {
+    question: 'I am an NRI. Can you help?',
+    answer: 'Yes. NRIs can invest in Indian mutual funds, but some fund houses limit investments from some countries. We check what applies to you on the first call.',
+  },
+  {
+    question: 'How do I check that you are registered?',
+    answer: 'Search ARN-370951 on the AMFI website (amfiindia.com). It shows our ARN, its validity and our SIF registration.',
+  },
+  {
+    question: 'Do you charge a fee?',
+    answer: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
+  },
+  sharedAnswer('Do you choose funds by the commission they pay you?'),
+  sharedAnswer('Who holds my money?'),
+  sharedAnswer('Can I stop working with you at any time?'),
+];

@@ -1,0 +1,207 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import CheckList from '../components/ui/CheckList.astro';
+import ContactActions from '../components/ui/ContactActions.astro';
+import FirstCallBlock from '../components/ui/FirstCallBlock.astro';
+import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import { localNcrFaq } from '../lib/faq';
+import { responsive } from '../lib/responsive';
+import { formatDate } from '../lib/format';
+import { ARN, ARN_VALID_UNTIL, REGISTERED_NAME, TAGLINE } from '../lib/distributor';
+import { localPageSchemaGraph } from '../lib/schema';
+
+// Page E of Phase 2: the Delhi NCR local page (T-97, package P-03).
+// Copy v1.1, word for word: content/pieces/p2e_local_delhi_ncr/p2e_local_page.md
+// in fund_distribution_business (decision 117). It matches the Business Profile
+// fields (tech/gbp_setup.md there): the same six areas, no street address, the
+// same review turnaround and commission wording. We are a distributor: no
+// adviser, advisor, planner or consultant words for us (rule R-02). Not in the
+// main nav: the footer and /about/ link here. Placements start with `lp_local_ncr_`.
+
+const pageTitle = 'Mutual fund distributor in Delhi NCR';
+const pageDescription = 'AMFI-registered mutual fund distributor in Delhi NCR. Meet in Delhi, Gurugram or Noida, or talk online. Our commission in writing before you choose.';
+const factsAsOf = '2026-11-08';
+
+/** The service area: the same six places as the Business Profile, and the schema's areaServed. */
+const areas = ['Delhi', 'Gurugram', 'Noida', 'Greater Noida', 'Faridabad', 'Ghaziabad'];
+
+const meeting = [
+  { title: 'Most people start online.', body: 'The first call is 30 minutes on video or phone. It saves you a drive across NCR.' },
+  { title: 'We meet in person when you ask,', body: 'for example to go through your written review together.' },
+  { title: 'Outside Delhi NCR?', body: 'Everything works online: the call, the review and each investment. You approve each transaction by OTP and pay the fund house directly.' },
+];
+
+const services = [
+  {
+    title: 'Review the funds you hold.',
+    body: 'On your request, we check your whole portfolio: overlap between funds, each fund against its stated benchmark index, yearly costs and fit to your risk profile. You get a written review within 3 to 5 working days of your documents.',
+    link: { label: 'Mutual fund portfolio review', href: '/invest/portfolio-review/' },
+  },
+  {
+    title: 'Invest a lump sum.',
+    body: 'A bonus, a maturing FD or a property sale. We start with when you need the money and the risk you can accept, not with a fund.',
+    link: { label: 'Where to invest a lump sum', href: '/invest/where-to-invest-lump-sum/' },
+  },
+  {
+    title: 'Ask about a SIF.',
+    body: 'We are a registered SIF distributor. A Specialised Investment Fund starts at ₹10 lakh and carries higher risks, so we look at your whole portfolio first.',
+    link: { label: 'What is a SIF?', href: '/invest/sif/' },
+  },
+  {
+    title: 'Stay on track.',
+    body: 'We help with set-up and review your funds at regular intervals. One person from the first call to every review.',
+  },
+];
+
+const checks = [
+  {
+    title: 'The registration.',
+    body: `Every mutual fund distributor needs an ARN from AMFI. Search the ARN or the name on the AMFI website (amfiindia.com). Check that the name matches and that the ARN is valid today. Ours is ${ARN}, valid to ${formatDate(ARN_VALID_UNTIL, 'month')}.`,
+  },
+  { title: 'How they are paid.', body: 'Ask for the commission on each fund in writing, before you invest.' },
+  { title: 'Where your money goes.', body: 'Your payment goes to the fund house, and the units are in your name. A distributor does not receive your money.' },
+];
+
+// The H-03 call note: not "No charge · No obligation", which next to review wording reads as a free review.
+const callDetails = '30-minute call · You decide what happens next';
+const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogPage="local_ncr"
+  graph={localPageSchemaGraph({
+    path: '/mutual-fund-distributor-delhi-ncr/',
+    name: pageTitle,
+    description: pageDescription,
+    breadcrumbName: 'Delhi NCR',
+    areas,
+    faq: localNcrFaq,
+  }, Astro.site)}
+  trackView="landing_view"
+  trackLanding="local_ncr"
+>
+  <Hero size="md" background="dark">
+    <p class="text-caption uppercase tracking-fi-label font-bold text-fi-subtle mb-6 text-balance">
+      Delhi NCR · {areas.join(', ')}
+    </p>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+      AMFI-registered mutual fund distributor
+      <span class="block text-fi-gold">in Delhi NCR</span>
+    </h1>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
+      Fund Investigator helps you choose and look after your mutual funds. We meet in person across Delhi NCR when it helps, and we talk online with investors anywhere in India. On your request, we review your whole portfolio and give you the findings in writing. You see our commission in writing before you choose.
+    </p>
+    <ContactActions placement="lp_local_ncr_hero" surface="dark" note={callDetails} />
+
+    <div class="mt-10 border-t border-fi-border-dark">
+      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, 'Mutual fund and SIF distributor', 'Commission in writing before you choose']} />
+    </div>
+  </Hero>
+
+  <Section id="meet" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="Where do we meet in Delhi NCR?" lead="We meet at a time and place we agree, for example your office or a café near you. We do not run a walk-in office." />
+    <div class="max-w-2xl mx-auto">
+      <p class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-3 text-center">Areas we serve</p>
+      <CheckList items={areas} layout="inline" />
+    </div>
+    <ul class="grid md:grid-cols-3 gap-5 text-left mt-10">
+      {meeting.map((item, index) => (
+        <li data-reveal={index}>
+          <Card variant="subtle" padding="lg" hover={false} class="h-full">
+            <p class="text-body-sm text-fi-muted leading-relaxed">
+              <strong class="text-fi-ink">{item.title}</strong> {item.body}
+            </p>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="services" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="What can we help you with?" />
+    <ul class="grid md:grid-cols-2 gap-5 text-left max-w-4xl mx-auto">
+      {services.map((service, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{service.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{service.body}</p>
+            {service.link && (
+              <p class="mt-4 text-body-sm"><a href={service.link.href} class={lightLink}>{service.link.label} →</a></p>
+            )}
+          </Card>
+        </li>
+      ))}
+    </ul>
+    <p class="text-center text-body-md text-fi-ink mt-10">We do not sell insurance or loans. Our work is your investments.</p>
+  </Section>
+
+  <Section id="costs" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="How is a mutual fund distributor paid?"
+      lead="No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest."
+    />
+    <div class="max-w-2xl mx-auto space-y-5 text-left">
+      <p class="text-body-md text-fi-ink leading-relaxed">
+        The commission comes from the regular plan's yearly expense ratio. A direct plan has no distributor commission, so it costs less each year. If you do not want help, a direct plan is cheaper. If you invest through us, we use regular plans only. If you already hold direct plans, you can keep them.
+      </p>
+      <p class="text-body-md text-fi-ink leading-relaxed">
+        We are an AMFI-registered mutual fund distributor ({ARN}), not a SEBI-registered investment adviser.
+        <a href="/invest/#costs" class={lightLink}>Compare direct and regular plans →</a>
+      </p>
+    </div>
+    <ContactActions placement="lp_local_ncr_cta" surface="light" class="mt-12" />
+  </Section>
+
+  <Section id="check" background="light" spacing="md" maxWidth="2xl">
+    <SectionHeading
+      title="How do you check a mutual fund distributor near you?"
+      lead="Before you work with any mutual fund distributor, in Delhi NCR or anywhere else, check three things."
+    />
+    <ol class="grid md:grid-cols-3 gap-5 text-left">
+      {checks.map((check, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <p class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-2">Check {index + 1}</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{check.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{check.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="who" background="white" spacing="md" maxWidth="lg">
+    <SectionHeading title="Who will you work with?" />
+    <p class="max-w-2xl mx-auto text-center text-body-md text-fi-ink leading-relaxed">
+      One person, from the first call to every review: <strong>{REGISTERED_NAME}</strong>, {TAGLINE}, {ARN}. 12 years in financial services (as of October 2026).
+      <a href="/about/" class={lightLink}>About Fund Investigator →</a>
+    </p>
+  </Section>
+
+  <Section id="first-call" background="light" spacing="md" maxWidth="2xl">
+    <FirstCallBlock placement="lp_local_ncr_call" />
+  </Section>
+
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions about a mutual fund distributor in Delhi NCR" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={localNcrFaq} />
+    </div>
+  </Section>
+
+  <Section background="light" spacing="md" maxWidth="lg">
+    <SectionHeading
+      title="Start with a 30-minute call, online or in Delhi NCR."
+      lead="Tell us what you hold and what you want help with. You decide what happens next."
+    />
+    <ContactActions placement="lp_local_ncr_final" surface="light" />
+    <p class="text-center text-caption text-fi-muted mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
+  </Section>
+</Layout>

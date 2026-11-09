@@ -559,6 +559,57 @@ export const servicePageSchemaGraph = (
   return graph;
 };
 
+/**
+ * The Delhi NCR local page (T-97, page E). The practice as a FinancialService
+ * with its service area and no street address (a service-area business, like
+ * the Business Profile), run by the distributor. The visible FAQ is the page's
+ * main entity. Add the Business Profile URL to `sameAs` once it is live (T-105).
+ * The service's name is the brand: the same name as the Business Profile.
+ */
+export const localPageSchemaGraph = (
+  input: {
+    path: string;
+    name: string;
+    description: string;
+    breadcrumbName: string;
+    areas: ReadonlyArray<string>;
+    faq: ReadonlyArray<{ question: string; answer: string }>;
+  },
+  site?: URL,
+): SchemaObject => {
+  const pageUrl = `${origin(site)}${input.path}`;
+  const serviceId = `${pageUrl}#localbusiness`;
+  return staticPageGraph({
+    path: input.path,
+    name: input.name,
+    description: input.description,
+    type: ['WebPage', 'FAQPage'],
+    breadcrumbName: input.breadcrumbName,
+    mainEntity: faqQuestions(input.faq),
+    about: { '@id': serviceId },
+    entities: [
+      personSchema(site),
+      buildPiece({
+        '@type': 'FinancialService',
+        '@id': serviceId,
+        name: 'Fund Investigator',
+        url: pageUrl,
+        description: input.description,
+        parentOrganization: { '@id': orgId(site) },
+        founder: { '@id': personId(site) },
+        employee: { '@id': personId(site) },
+        areaServed: input.areas.map((area) => ({ '@type': 'City', name: area })),
+        identifier: {
+          '@type': 'PropertyValue',
+          propertyID: 'AMFI Registration Number (ARN)',
+          value: ARN,
+          url: AMFI_VERIFY_URL,
+        },
+      }),
+    ],
+  }, site);
+};
+
 /** @param reports Current reports in display order, as path + title. */
 export const reportsIndexSchemaGraph = (
   name: string,
