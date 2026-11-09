@@ -133,7 +133,7 @@ const pageDescription = 'How investing with support works: a 30-minute introduct
     <div class="flex flex-col items-center gap-4 mt-10">
       <div class={ctaRow}>
         <Button {...booking('invest_hero')} size="lg">Book a first call</Button>
-        <Button {...whatsapp('invest_hero')} variant="secondary" surface="dark" size="lg">Contact on WhatsApp</Button>
+        <Button {...whatsapp('invest_hero')} variant="secondary" surface="dark" size="lg">WhatsApp us</Button>
       </div>
       <p class="text-body-sm text-fi-subtle">{callDetails}</p>
     </div>
@@ -149,7 +149,7 @@ const pageDescription = 'How investing with support works: a 30-minute introduct
 
     <div class:list={[ctaRow, 'mt-12']}>
       <Button {...booking('invest_review')} size="lg">Book a first call</Button>
-      <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
+      <Button {...whatsapp('invest_review')} variant="secondary" surface="light" size="lg">WhatsApp us</Button>
     </div>
     <p class="mt-4 text-center text-body-sm text-fi-muted">We confirm your booking at once, and reply on WhatsApp within 1 business day.</p>
   </Section>
@@ -163,7 +163,7 @@ const pageDescription = 'How investing with support works: a 30-minute introduct
     <SectionHeading title="Same fund. More support." />
     <PlanCompare featured={plans.featured} other={plans.other} rows={routes}>
       <Button {...booking('invest_cta')} size="lg">Book a first call</Button>
-      <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">Contact on WhatsApp</Button>
+      <Button {...whatsapp('invest_cta')} variant="secondary" surface="light" size="lg">WhatsApp us</Button>
     </PlanCompare>
     <!-- The note for direct-plan holders, as a typed memo addressed to them: it is the main
          reassurance for this group, and something we would put in writing. One highlight, on

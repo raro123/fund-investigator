@@ -12,6 +12,9 @@ export const responsive = {
   /** Hero H1: 36px -> 48px -> 60px -> 72px */
   display: 'text-4xl sm:text-5xl md:text-6xl lg:text-display-xl',
 
+  /** Hero H1 in a split hero's half-width text column: 36px -> 48px -> 60px (stacked) -> 48px (lg, split) -> 60px */
+  displaySplit: 'text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl',
+
   /** Section H2 (large): 30px -> 36px -> 48px */
   h2Large: 'text-heading-lg sm:text-heading-xl lg:text-display-md',
 

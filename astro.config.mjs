@@ -22,7 +22,8 @@ const reportSourcePath = (url) => {
 const pageSourcePath = (url) => {
   const pathname = new URL(url).pathname;
   if (pathname === '/') return 'src/pages/index.astro';
-  const match = pathname.match(/^\/([^/]+)\/$/);
+  // One or two levels: /about/ -> about.astro, /invest/sif/ -> invest/sif.astro
+  const match = pathname.match(/^\/((?:[^/]+\/)?[^/]+)\/$/);
   return match ? `src/pages/${match[1]}.astro` : null;
 };
 

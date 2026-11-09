@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Badge from '../components/ui/Badge.astro';
+import Kicker from '../components/ui/Kicker.astro';
 import Section from '../components/ui/Section.astro';
 import Hero from '../components/ui/Hero.astro';
 import CredibilityStrip from '../components/ui/CredibilityStrip.astro';
@@ -19,6 +20,7 @@ import StatRow from '../components/ui/StatRow.astro';
 import SampleBrief from '../components/ui/SampleBrief.astro';
 import OwnerIntro from '../components/ui/OwnerIntro.astro';
 import AssessmentPreview from '../components/ui/AssessmentPreview.astro';
+import FirstCallBlock from '../components/ui/FirstCallBlock.astro';
 import ContactActions from '../components/ui/ContactActions.astro';
 import FitCards from '../components/ui/FitCards.astro';
 import CaseFile from '../components/ui/CaseFile.astro';
@@ -264,7 +266,7 @@ import { responsive } from '../lib/responsive';
       <code class="font-mono">Memo</code>: a typed note (mono label over a dashed rule, bold title, Courier Prime body, an optional <code class="font-mono">Stamp</code> at the bottom right, the same stamp as "Case solved"). For a fact the reader should see in writing; the homepage uses it for how we are paid. <code class="font-mono">Highlight</code>: the gold highlighter stroke, one per block of text, drawn in on scroll reveal. Light surfaces only.
     </p>
     <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
-      The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.
+      We earn a commission from the fund house, and we give you the rates <Highlight>in writing before you invest</Highlight>. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns.
     </Memo>
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<div data-reveal={0}>
   <Memo label="…" title="…" stamp="Disclosed">… <Highlight>…</Highlight> …</Memo>
@@ -305,11 +307,12 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Contact Actions</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      "Book a first call" (gold) and "Contact on WhatsApp", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
+      "Book a first call" (gold) and "WhatsApp us", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
     </p>
     <ContactActions placement="invest_cta" surface="light" note="30-minute call · No charge · No obligation" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ContactActions placement="lp_review_hero" surface="dark" note="…" />
-<ContactActions placement="lp_review_cta" surface="light" identity />`}</code></pre>
+<ContactActions placement="lp_review_cta" surface="light" identity />
+<ContactActions placement="lp_review_hero" surface="dark" whatsappOnly whatsappLabel="WhatsApp us for a portfolio review" />  <!-- message as the only action (decision 121) -->`}</code></pre>
 
     <h2 class:list={[responsive.h2, 'text-fi-ink mt-12 mb-3']}>Fit Cards</h2>
     <p class="text-body-sm text-fi-muted mb-6">
@@ -325,14 +328,18 @@ import { responsive } from '../lib/responsive';
   <Section background="dark" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink-inv mb-3']}>Sample Brief</h2>
     <p class="text-body-sm text-fi-muted-inv mb-8">
-      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start investing page). Dark surfaces only. Names no fund and shows no returns; every value is illustrative. The review includes a practical discussion point. The starting mix excludes the emergency reserve, and its amount, fund count and timing are examples rather than minimums or requirements.
+      A preview of the brief a client receives: a portfolio review (homepage, review page) or a starting brief (start investing page). Dark surfaces by default; <code class="font-mono">surface="light"</code> on white or fi-light sections (review page). Names no fund and shows no returns; every value is illustrative. The review ends with the example gap against its target. The starting mix excludes the emergency reserve, and its amount, fund count and timing are examples rather than minimums or requirements.
     </p>
     <div class="grid lg:grid-cols-2 gap-12">
       <SampleBrief />
       <SampleBrief variant="start" />
     </div>
     <pre class="mt-8 overflow-x-auto rounded-lg bg-fi-mid p-4 text-body-sm text-fi-muted-inv"><code>{`<SampleBrief />                  <!-- portfolio review (default) -->
-<SampleBrief variant="start" />  <!-- starting brief, for savings moving into funds -->`}</code></pre>
+<SampleBrief variant="start" />  <!-- starting brief, for savings moving into funds -->
+<SampleBrief surface="light" />  <!-- on a light section -->`}</code></pre>
+  </Section>
+  <Section background="light" spacing="sm" maxWidth="md">
+    <SampleBrief surface="light" />
   </Section>
 
   <!-- Landing-page trust and tangible service proof -->
@@ -347,6 +354,13 @@ import { responsive } from '../lib/responsive';
 <AssessmentPreview variant="sif" />
 <AssessmentPreview variant="gift-city" />`}</code></pre>
     <p class="text-body-sm text-fi-muted mt-4">OwnerIntro reads the name and first available credential from distributor.ts and links to the owner's story. AssessmentPreview shows what the written assessment covers, not a completed client result. Both accept a class prop.</p>
+  </Section>
+
+  <!-- Service pages (T-59): the shared first-call block -->
+  <Section background="light" spacing="md" maxWidth="2xl">
+    <FirstCallBlock placement="lp_review_call" />
+    <pre class="mt-8 overflow-x-auto rounded-lg bg-white p-4 text-body-sm text-fi-muted"><code>{`<FirstCallBlock placement="lp_review_call" />`}</code></pre>
+    <p class="text-body-sm text-fi-muted mt-4">FirstCallBlock: what the first call covers, what to have ready and what happens after, then the booking buttons and the fee line. It holds the section's gold button. Light surfaces only.</p>
   </Section>
 
   <!-- Color Palette -->
@@ -621,7 +635,7 @@ import { responsive } from '../lib/responsive';
           <Button icon="arrow-right">Launch Tool</Button>
           <Button variant="secondary" surface="light" icon="external">View Report</Button>
           <Button variant="tertiary" surface="light" icon="arrow-right">Read More</Button>
-          <Button variant="secondary" surface="light" icon="whatsapp">Contact on WhatsApp</Button>
+          <Button variant="secondary" surface="light" icon="whatsapp">WhatsApp us</Button>
         </div>
       </div>
 
@@ -680,6 +694,15 @@ import { responsive } from '../lib/responsive';
         <div class="flex flex-wrap gap-3">
           <Badge variant="dark" rounded={true}>Pill Shape</Badge>
           <Badge variant="dark" rounded={false}>Rounded Corners</Badge>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-heading-md text-fi-ink-inv mb-2">Kicker</h3>
+        <p class="text-fi-muted-inv text-body-sm mb-4">A flat label above a hero H1, after a short gold rule (<code class="text-fi-gold font-mono">/invest/portfolio-review/</code>). Quieter than a badge, so the H1 leads.</p>
+        <div class="flex flex-col gap-4">
+          <Kicker>Mutual fund portfolio review</Kicker>
+          <div class="bg-fi-light rounded-xl p-6"><Kicker surface="light">Light surface</Kicker></div>
         </div>
       </div>
     </div>

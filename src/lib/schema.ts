@@ -19,7 +19,7 @@ import {
 } from '@jdevalk/seo-graph-core';
 import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
-import { AMFI_VERIFY_URL, ARN, CREDENTIALS, REGISTERED_NAME, TAGLINE } from './distributor';
+import { AMFI_VERIFY_URL, ARN, CREDENTIALS, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from './distributor';
 import { services } from './services';
 import { investFaq } from './faq';
 
@@ -458,6 +458,8 @@ export const personSchema = (site?: URL): SchemaObject => buildPiece({
   // One plain line that answer engines can quote: who, the registration, and the work.
   description: `${REGISTERED_NAME} is an ${TAGLINE} (${ARN}) and runs Fund Investigator: portfolio reviews and help for Indian investors to choose and invest in mutual funds.`,
   jobTitle: TAGLINE,
+  // The same photo as the IdCard; its built URL is hashed, so it follows the file.
+  ...(OWNER_PHOTO ? { image: `${origin(site)}${OWNER_PHOTO.src}` } : {}),
   worksFor: { '@id': orgId(site) },
   identifier: {
     '@type': 'PropertyValue',
@@ -518,6 +520,45 @@ export const investSchemaGraph = (name: string, description: string, site?: URL)
       },
     })],
   }, site);
+};
+
+/**
+ * A service page under /invest/ (T-59): one service, its questions as the FAQPage
+ * main entity, and a breadcrumb through /invest/. Same FAQ text as the visible
+ * list, as Google requires. `serviceType` names the product in distributor words.
+ */
+export const servicePageSchemaGraph = (
+  input: {
+    path: string;
+    name: string;
+    description: string;
+    breadcrumbName: string;
+    serviceName: string;
+    serviceType: string;
+    faq: ReadonlyArray<{ question: string; answer: string }>;
+  },
+  site?: URL,
+): SchemaObject => {
+  const serviceId = `${origin(site)}${input.path}#service`;
+  const graph = staticPageGraph({
+    path: input.path,
+    name: input.name,
+    description: input.description,
+    type: ['WebPage', 'FAQPage'],
+    breadcrumbName: input.breadcrumbName,
+    mainEntity: faqQuestions(input.faq),
+    about: { '@id': serviceId },
+    entities: [buildPiece({
+      '@type': 'Service',
+      '@id': serviceId,
+      name: input.serviceName,
+      serviceType: input.serviceType,
+      description: input.description,
+      provider: { '@id': orgId(site) },
+      areaServed: { '@type': 'Country', name: 'India' },
+    })],
+  }, site);
+  return graph;
 };
 
 /** @param reports Current reports in display order, as path + title. */
