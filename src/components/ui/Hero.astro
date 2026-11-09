@@ -76,10 +76,12 @@ const backgroundStyles = {
 const alignStyles = centered ? 'text-center' : '';
 
 // Combined classes
-const sectionClasses = `relative overflow-hidden ${backgroundStyles[background]} ${sizeStyles[size]} px-4 sm:px-6 lg:px-10 ${className}`.trim();
-// A split hero (an "aside" slot) needs more width for two columns.
+// A split hero (an "aside" slot) needs more width for two columns. It takes the header's
+// container (max-w-7xl with the padding inside), so its text lines up with the logo.
 const split = Astro.slots.has('aside');
-const containerWidth = split ? 'max-w-6xl' : 'max-w-5xl';
+const gutter = 'px-4 sm:px-6 lg:px-10';
+const sectionClasses = `relative overflow-hidden ${backgroundStyles[background]} ${sizeStyles[size]} ${split ? '' : gutter} ${className}`.replace(/\s+/g, ' ').trim();
+const containerWidth = split ? `max-w-7xl ${gutter}` : 'max-w-5xl';
 const containerClasses = `relative z-10 ${containerWidth} mx-auto min-w-0 ${alignStyles} ${containerClass}`.trim();
 ---
 

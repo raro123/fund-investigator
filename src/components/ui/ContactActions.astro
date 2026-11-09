@@ -3,7 +3,7 @@
  * ContactActions Component
  *
  * The two contact actions of a service page: "Book a first call" (the gold
- * button) and "Contact on WhatsApp" (secondary). Both are tracked by one
+ * button) and "WhatsApp us" (secondary). Both are tracked by one
  * placement, because Zoho and WhatsApp report no placement back
  * (src/lib/analytics.ts). The WhatsApp link opens with the placement's
  * prefilled text (src/lib/whatsapp.ts). It holds the section's gold button,
@@ -25,7 +25,7 @@
  * @param placement - WhatsApp placement; also the PostHog placement of both buttons
  * @param surface - 'light' or 'dark' (the section background)
  * @param whatsappOnly - WhatsApp as the only (gold) button, no booking link
- * @param whatsappLabel - the WhatsApp button text (default 'Contact on WhatsApp')
+ * @param whatsappLabel - the WhatsApp button text (default 'WhatsApp us')
  * @param note - optional line under the buttons
  * @param identity - show the registered name, email, tagline and ARN (light only)
  * @param class - extra classes for the wrapper
@@ -51,7 +51,7 @@ const {
   placement,
   surface,
   whatsappOnly = false,
-  whatsappLabel = 'Contact on WhatsApp',
+  whatsappLabel = 'WhatsApp us',
   note,
   identity = false,
   align = 'center',
