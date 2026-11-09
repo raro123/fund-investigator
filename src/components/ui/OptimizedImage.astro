@@ -10,7 +10,7 @@ interface Props {
   sizes?: string;
   class?: string;
   caption?: string;
-  preset?: 'hero' | 'cover' | 'chart' | 'inline';
+  preset?: 'hero' | 'cover' | 'chart' | 'inline' | 'avatar';
   width?: number;
   height?: number;
 }
@@ -49,10 +49,18 @@ const presets = {
     widths: [400, 800],
     sizes: '(max-width: 768px) 100vw, 800px',
     formats: ['avif', 'webp'] as const
+  },
+  // A small round portrait (IdCard): 80px on phones, 112px from sm, at 2x.
+  avatar: {
+    widths: [160, 240],
+    sizes: '(min-width: 640px) 112px, 80px',
+    formats: ['avif', 'webp'] as const
   }
 };
 
 const config = presets[preset];
+// The avatar takes its size and shape from the caller (a circle); the card look would override them.
+const baseClass = preset === 'avatar' ? '' : 'rounded-lg shadow-fi-card w-full h-auto';
 const loadingAttr = priority ? 'eager' : loading;
 const fetchpriorityAttr = priority ? 'high' : 'auto';
 const decodingAttr = priority ? 'sync' : 'async';
@@ -88,7 +96,7 @@ const decodingAttr = priority ? 'sync' : 'async';
     loading={loadingAttr}
     decoding={decodingAttr}
     fetchpriority={fetchpriorityAttr}
-    class={`rounded-lg shadow-fi-card w-full h-auto ${className || ''}`}
+    class={`${baseClass} ${className || ''}`.trim()}
     width={width}
     height={height}
     {...rest}

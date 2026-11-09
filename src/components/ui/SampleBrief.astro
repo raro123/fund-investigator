@@ -4,8 +4,8 @@
  *
  * A sample brief, shown as a white document on a dark hero. It previews what
  * a client receives after the first call: their mix against a target, and
- * headline points in plain words. Sits on dark surfaces only (the caption uses
- * fi-subtle).
+ * headline points in plain words. Dark surfaces by default (homepage hero);
+ * pass `surface="light"` on a white or fi-light section (portfolio review page).
  *
  * Two variants:
  *   - `review` (default): a portfolio review, for existing investors (homepage,
@@ -21,19 +21,22 @@
  * @example
  * <SampleBrief />
  * <SampleBrief variant="start" />
+ * <SampleBrief surface="light" />
  *
  * @param variant - 'review' (default) or 'start'
+ * @param surface - 'dark' (default) or 'light': the back sheet, shadow and caption colour
  * @param class - extra classes for the figure
  */
 
 interface Props {
   variant?: 'review' | 'start';
+  surface?: 'dark' | 'light';
   class?: string;
 }
 
 import Badge from './Badge.astro';
 
-const { variant = 'review', class: className = '' } = Astro.props;
+const { variant = 'review', surface = 'dark', class: className = '' } = Astro.props;
 
 // Illustrative values only. Each mix sums to 100.
 // Each point reads as one plain sentence: the value, then what it means.
@@ -41,22 +44,26 @@ const { variant = 'review', class: className = '' } = Astro.props;
 // because the client does not need the term to act on the point.
 // Review: correlation is left out: most Indian equity funds move together
 // (0.9+), so it is not a finding on its own, and overlap already shows the cause.
+// Review copy from the agreed portfolio review demo (owner, 9 Nov 2026): no age
+// or risk label (open question T-115), overlap "by weight", sector overlap in
+// place of a benchmark claim (H-17 wants "its stated benchmark index").
+// The summary line states the gap only, as an example, not advice.
 // Start: the points describe the process (a safety net, few funds, investing in
 // stages), never a return.
 const briefs = {
   review: {
     title: 'Portfolio review',
-    profile: 'Age 34 · Moderate risk · 5 funds',
-    mixLabel: 'Your mix against your target',
+    profile: 'Illustrative portfolio · 5 funds',
+    mixLabel: 'Current mix against an example target',
     mixes: [
-      { label: 'Now', equity: 82, debt: 14, gold: 4 },
+      { label: 'Current', equity: 82, debt: 14, gold: 4 },
       { label: 'Target', equity: 65, debt: 28, gold: 7 },
     ],
-    pointsLabel: 'What we found',
+    pointsLabel: 'Example findings',
     points: [
-      { value: '41%', text: 'of the stocks in your 3 equity funds are the same' },
-      { value: '2 of 5', text: 'funds have not beaten their market index over 5 years' },
-      { value: '1.6%', text: 'a year goes to fund costs, on average' },
+      { value: '41%', text: 'of the stocks in the three equity funds overlap, by weight' },
+      { value: '32%', text: 'of the money invested in stocks is in financial services' },
+      { value: '1.6%', text: 'in yearly fund costs, on average' },
     ],
     caption: 'Illustrative portfolio review brief.',
   },
@@ -82,6 +89,12 @@ const { title, profile, mixLabel, mixes, pointsLabel, points, caption } = briefs
 // The value column fits the longest value, so the sentences start in one line.
 const valueWidth = { review: 'w-16', start: 'w-28' }[variant];
 
+// Back sheet, shadow and caption follow the surface the brief sits on.
+const look = {
+  dark: { sheet: 'bg-fi-mid border-fi-border-dark', shadow: 'shadow-fi-card-dark', caption: 'text-fi-subtle' },
+  light: { sheet: 'bg-fi-border border-fi-border', shadow: 'shadow-fi-card', caption: 'text-fi-muted' },
+}[surface];
+
 const assetClasses = [
   { key: 'equity', name: 'Equity', fill: 'bg-fi-mid' },
   { key: 'debt', name: 'Debt', fill: 'bg-fi-link' },
@@ -102,9 +115,9 @@ const segmentTextClass = (value: number) => (value >= 20 ? '' : 'hidden sm:inlin
 <figure class:list={['w-full max-w-lg mx-auto', className]}>
   <div class="relative">
     <!-- Second sheet behind, so the card reads as a document -->
-    <div class="absolute inset-0 rounded-xl bg-fi-mid border border-fi-border-dark rotate-3 translate-x-2 translate-y-1.5" aria-hidden="true"></div>
+    <div class:list={['absolute inset-0 rounded-xl border rotate-3 translate-x-2 translate-y-1.5', look.sheet]} aria-hidden="true"></div>
 
-    <div class="relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 shadow-fi-card-dark transition-transform duration-300 hover:-translate-y-1">
+    <div class:list={['relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 transition-transform duration-300 hover:-translate-y-1', look.shadow]}>
       <!-- A quiet "Sample" box, not a stamp: it must say "this is an example" without
            pulling the eye from the brief. It shares the title's row; the profile runs full
            width below, so it stays on one line. -->
@@ -119,7 +132,7 @@ const segmentTextClass = (value: number) => (value >= 20 ? '' : 'hidden sm:inlin
         <div class="space-y-2">
           {mixes.map((mix) => (
             <div class="flex items-center gap-2">
-              <span class="w-14 shrink-0 text-body-sm text-fi-muted">{mix.label}</span>
+              <span class="w-16 shrink-0 text-body-sm text-fi-muted">{mix.label}</span>
               <div
                 class="flex h-6 flex-1 overflow-hidden rounded-md bg-fi-light"
                 role="img"
@@ -154,12 +167,12 @@ const segmentTextClass = (value: number) => (value >= 20 ? '' : 'hidden sm:inlin
       </div>
       {variant === 'review' && (
         <div class="mt-4 border-t border-dashed border-fi-border pt-4">
-          <p class="text-body-sm text-fi-muted"><strong class="text-fi-ink">What this means:</strong> You hold more equity than your target, and much of it is the same stocks. We'd talk it through with you before changing anything.</p>
+          <p class="text-body-sm text-fi-muted">In this example, the share invested in stocks is 17 percentage points above the target.</p>
         </div>
       )}
     </div>
   </div>
-  <figcaption class="mt-6 text-body-sm text-fi-subtle text-center">
+  <figcaption class:list={['mt-6 text-body-sm text-center', look.caption]}>
     {caption}
   </figcaption>
 </figure>

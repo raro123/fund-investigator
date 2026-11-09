@@ -19,7 +19,7 @@ import {
 } from '@jdevalk/seo-graph-core';
 import type { GraphEntity } from '@jdevalk/seo-graph-core';
 import { SITE_URL, TWITTER_URL, YOUTUBE_URL } from './site-urls';
-import { AMFI_VERIFY_URL, ARN, CREDENTIALS, REGISTERED_NAME, TAGLINE } from './distributor';
+import { AMFI_VERIFY_URL, ARN, CREDENTIALS, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from './distributor';
 import { services } from './services';
 import { investFaq } from './faq';
 
@@ -458,6 +458,8 @@ export const personSchema = (site?: URL): SchemaObject => buildPiece({
   // One plain line that answer engines can quote: who, the registration, and the work.
   description: `${REGISTERED_NAME} is an ${TAGLINE} (${ARN}) and runs Fund Investigator: portfolio reviews and help for Indian investors to choose and invest in mutual funds.`,
   jobTitle: TAGLINE,
+  // The same photo as the IdCard; its built URL is hashed, so it follows the file.
+  ...(OWNER_PHOTO ? { image: `${origin(site)}${OWNER_PHOTO.src}` } : {}),
   worksFor: { '@id': orgId(site) },
   identifier: {
     '@type': 'PropertyValue',

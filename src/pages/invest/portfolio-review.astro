@@ -4,83 +4,88 @@ import Hero from '../../components/ui/Hero.astro';
 import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
 import Badge from '../../components/ui/Badge.astro';
-import CheckList from '../../components/ui/CheckList.astro';
+import Button from '../../components/ui/Button.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
-import FirstCallBlock from '../../components/ui/FirstCallBlock.astro';
-import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
-import SplitRows from '../../components/ui/SplitRows.astro';
+import SampleBrief from '../../components/ui/SampleBrief.astro';
+import StepMemos from '../../components/ui/StepMemos.astro';
+import IdCard from '../../components/ui/IdCard.astro';
+import Memo from '../../components/ui/Memo.astro';
+import Highlight from '../../components/ui/Highlight.astro';
+import Fn from '../../components/ui/Fn.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import FaqList from '../../components/ui/FaqList.astro';
 import { reviewFaq } from '../../lib/faq';
 import { responsive } from '../../lib/responsive';
 import { formatDate } from '../../lib/format';
-import { ARN } from '../../lib/distributor';
+import { trackAttrs } from '../../lib/analytics';
+import { whatsappUrl } from '../../lib/whatsapp';
+import { SUBSCRIBE_PAGE } from '../../lib/substack';
+import { ARN, FIRST_NAME, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
-// Service page A of Phase 2 (T-59; fund_distribution_business strategy/phase2_proposal.md).
-// For readers who already invest and search "mutual fund portfolio review".
-// Copy v2.0, word for word: content/pieces/p2_service_pages/service_pages_copy.md
-// in fund_distribution_business. We are a distributor: no adviser words for us in
-// the title, headings, meta or alt text (rule R-02, decision 78). The one
-// "advisor" below names the reader's search word, in the passage that says we
-// are a distributor. Placements start with `lp_review_`, so PostHog splits this page.
+// Service page A (T-59), rebuilt from the agreed demo v32 (owner, 9 Nov 2026,
+// thread "Build portfolio review page from demo"; Brand review, then Tech build).
+// Copy word for word from the demo: https://claude.ai/artifact/NGM5YJ7tXdewdwrvcgHHyx
+// Page goal: the reader sends a WhatsApp message. It is the only action
+// (decision 121): no booking link; the call is set up in the chat.
+// Copy rules: never "free" about the review (R-17, H-03): "No separate fee from
+// you", with the commission in the same place. Performance is against "its
+// stated benchmark index" (H-17). We are a distributor: no adviser words for us
+// (R-02). Placements start with `lp_review_`, so PostHog splits this page.
 
 const pageTitle = 'Mutual fund portfolio review';
-const pageDescription = 'Do your mutual funds still work together? A 30-minute call, then a written review of overlap, costs and fit from an AMFI-registered mutual fund distributor.';
-const factsAsOf = '2026-11-03';
+const pageDescription = 'A mutual fund portfolio review that looks at all your funds together: fund and sector overlap, performance, risk and costs. From an AMFI-registered mutual fund distributor.';
+const factsAsOf = '2026-11-09';
+const whatsappLabel = 'WhatsApp us for a portfolio review';
 
-const briefContents = [
-  'Overlap',
-  'Each fund against its stated benchmark index',
-  'Yearly costs',
-  'Fit to your risk profile',
-  'What to keep, watch or change',
-];
-
-const signs = [
-  'You hold several funds and are not sure what each one adds.',
-  'You want to know the overlap, how each fund did against its stated benchmark index, and what you pay each year.',
-  'Your goals or income changed, but your funds did not.',
-];
-
-// The 3-question portfolio check, defined once on the site (here). It covers the
-// four checks in the brief: overlap, benchmark and costs, fit.
-const questions = [
+// What we look at: overlap first (biggest search, the USP), then performance,
+// risk and costs (owner, 9 Nov). Each heading is a searched question.
+const checks = [
   {
-    title: 'Do my funds repeat each other?',
-    body: 'We check how many of your stocks repeat across your funds. Several funds in one category can hold many of the same companies.',
+    eyebrow: 'Overlap and diversification',
+    title: 'Am I really diversified?',
+    body: 'Mutual fund overlap is the share of your money in stocks and sectors that more than one of your funds hold. We measure it across your whole portfolio. More funds do not always mean more diversification.',
   },
   {
-    title: 'Is each fund worth what it costs?',
-    body: 'We compare each fund with its stated benchmark index over time, not only with funds like it. Then we show what your funds cost each year and what that means for your money over time.',
+    eyebrow: 'Performance analysis',
+    title: 'Are any of my funds underperforming?',
+    body: "We check each fund's performance against its stated benchmark index over several years, not just its recent returns.",
+    link: { label: 'Same category, different returns →', href: '/reports/same-category-different-returns/' },
   },
   {
-    title: 'Does the mix still fit me?',
-    body: 'We check whether your mix of equity, debt and gold matches your goals, time frame and risk profile.',
+    eyebrow: 'Risk',
+    title: 'Is my mutual fund portfolio right for me?',
+    body: "We check your asset allocation, the mix of equity, debt and gold, against your goals, when you'll need the money and your risk profile.",
+  },
+  {
+    eyebrow: 'Costs',
+    title: 'What are my mutual fund expenses?',
+    body: "We show each fund's expense ratio (TER) and what your whole portfolio costs you each year, in rupees.",
   },
 ];
 
+// Four even steps: two-word titles, about 20 words each (owner, 9 Nov).
 const steps = [
   {
-    name: 'First conversation',
-    left: 'Tell us your goals, time frame and a rough idea of your funds.',
-    right: 'Discuss your risk profile and explain what the review checks.',
+    title: 'Message us',
+    body: 'Send us a WhatsApp message. We reach out and set up a first conversation at a time that suits you.',
   },
   {
-    name: 'Review and brief',
-    left: 'Share your Consolidated Account Statement (CAS) after the call. Read the brief and ask questions.',
-    right: 'Help you download your CAS. Check your holdings and send the brief within 3 to 5 working days: what to keep, watch or change, with reasons.',
+    title: 'Sign up',
+    body: 'If you want the review, a short sign-up makes you our client. With your consent, we fetch your whole mutual fund portfolio.',
   },
   {
-    name: 'Your decision and support',
-    left: 'Choose any changes. Approve each transaction by OTP and pay the fund house directly.',
-    right: 'Give you the options and our commission in writing. Help with setup and review your funds at regular intervals.',
+    title: 'Brief and walkthrough',
+    body: 'We send the written brief and walk you through it. Our recommendations come with the what, the why and the trade-offs.',
+  },
+  {
+    title: 'Ongoing reviews',
+    body: 'When you invest through us, we review your portfolio regularly and when markets or your plans change, and tell you when to rebalance.',
   },
 ];
 
-// Not "No charge · No obligation": next to review wording it reads as a free review (H-03).
-const callDetails = '30-minute call · You decide what happens next';
-const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
+const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decoration-fi-gold/40 hover:decoration-fi-gold';
 ---
 
 <Layout
@@ -99,6 +104,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
   trackView="landing_view"
   trackLanding="review"
 >
+  <!-- 1. Hero: the USP in one paragraph, one action. "See a sample review" only scrolls. -->
   <Hero size="md" background="dark">
     <Badge variant="dark" class="mb-6">Mutual fund portfolio review</Badge>
     <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
@@ -106,99 +112,113 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
       <span class="block text-fi-gold">make sense together?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      On your request, we review your whole mutual fund portfolio, not one fund at a time: overlap, each fund against its stated benchmark index, yearly costs and fit to your risk profile. It covers every fund in your Consolidated Account Statement (CAS), with any fund house or app. You get the findings in a short written brief within 3 to 5 working days of your CAS. You do not need to move your holdings to start.
+      Fund Investigator's mutual fund portfolio review looks at all your funds together. It shows fund and sector overlap, performance, risk and costs. We walk you through what it means for you. <strong class="font-semibold text-fi-ink-inv">Our recommendations for clients come with the what, the why and the trade-offs.</strong>
     </p>
-    <ContactActions placement="lp_review_hero" surface="dark" note={callDetails} />
+    <ContactActions placement="lp_review_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} />
+    <p class="mt-5 text-body-sm">
+      <a href="#sample" class={darkLink}>See a sample review ↓</a>
+    </p>
 
-    <div class="mt-10 max-w-2xl mx-auto">
-      <p class="text-caption uppercase tracking-fi-label font-bold text-fi-subtle mb-3">What the brief covers</p>
-      <CheckList items={briefContents} surface="dark" layout="inline" />
-    </div>
-
-    <div class="mt-10 border-t border-fi-border-dark">
-      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, 'Mutual fund distributor', 'Commission in writing before you choose']} />
+    <!-- The identity line, exact (L1): name, AMFI tagline, ARN. -->
+    <div class="mt-10 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto">
+      <p class="text-caption text-fi-subtle text-balance">{REGISTERED_NAME} · {TAGLINE} · {ARN}</p>
     </div>
   </Hero>
 
-  <Section id="when" background="white" spacing="md" maxWidth="lg">
-    <SectionHeading title="When does a portfolio need a review?" lead="A review helps most when you hold several funds and cannot say what each one adds." />
-    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto">
-      <CheckList items={signs} />
-    </Card>
+  <!-- 2. What you get: the brief, then the walkthrough, beside the sample. -->
+  <Section id="sample" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading title="A portfolio review and a walkthrough" />
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5 text-left text-body-lg text-fi-muted leading-relaxed max-w-xl mx-auto">
+        <p>A mutual fund portfolio review from Fund Investigator is a written brief on your whole portfolio: fund overlap, sector overlap, performance, asset allocation and costs. We send it within <strong class="text-fi-ink">3 to 5 working days</strong> after you sign up.</p>
+        <p>Then {FIRST_NAME} walks you through it on a call. He explains the results and answers your questions.</p>
+      </div>
+      <!-- pr-2: room for the tilted back sheet on phones -->
+      <div data-reveal={0} class="pr-2 sm:pr-0">
+        <SampleBrief surface="light" />
+      </div>
+    </div>
   </Section>
 
-  <Section id="check" background="light" spacing="md" maxWidth="2xl">
-    <SectionHeading title="The 3-question portfolio check" lead="Every review starts with three questions. Together they cover the four checks in your brief." />
-    <ol class="grid md:grid-cols-3 gap-5 text-left">
-      {questions.map((question, index) => (
-        <li data-reveal={index}>
+  <!-- 3. What we look at: four checks, two by two. -->
+  <Section id="covers" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="What does a mutual fund portfolio review check?" />
+    <div class="grid sm:grid-cols-2 gap-5 text-left max-w-4xl mx-auto">
+      {checks.map((check, index) => (
+        <div data-reveal={index}>
           <Card padding="lg" hover={false} class="h-full">
-            <p class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-2">Question {index + 1}</p>
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{question.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{question.body}</p>
+            <p class="font-mono text-caption uppercase text-fi-muted mb-3">{check.eyebrow}</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{check.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{check.body}</p>
+            {check.link && (
+              <p class="mt-3 text-body-sm">
+                <a href={check.link.href} class={lightLink}>{check.link.label}</a>
+              </p>
+            )}
           </Card>
-        </li>
+        </div>
       ))}
-    </ol>
-    <p class="text-center text-body-sm text-fi-muted mt-8">
-      Read how two funds in the same category can end up far apart:
-      <a href="/reports/same-category-different-returns/" class={lightLink}>Same category, different returns</a>
-    </p>
-
-    <div class="grid md:grid-cols-2 gap-5 text-left mt-12 max-w-4xl mx-auto">
-      <Card padding="lg" hover={false}>
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">Adding new money too?</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">Check what you hold before you add more. The brief also shows where new investments can go in your mix, after we discuss your risk profile.</p>
-      </Card>
-      <Card padding="lg" hover={false}>
-        <h3 class="text-heading-sm font-bold text-fi-ink mb-2">The risk stays</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">A review does not remove market risk. Mutual fund values move with markets, and equity funds can fall sharply in the short term. The review shows what you hold, what it costs and how it matches your goals.</p>
-      </Card>
     </div>
   </Section>
 
-  <Section id="costs" background="white" spacing="md" maxWidth="lg">
-    <SectionHeading
-      title="How is a mutual fund distributor paid?"
-      lead="No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. The commission comes from the regular plan's yearly expense ratio."
-    />
-    <div class="max-w-2xl mx-auto space-y-5 text-left">
-      <p class="text-body-md text-fi-ink leading-relaxed">
-        Many people search for a "mutual fund advisor". We are an AMFI-registered mutual fund distributor ({ARN}), not a SEBI-registered investment adviser. We earn a commission from the fund house and work with regular plans.
-        <a href="/invest/#costs" class={lightLink}>Compare direct and regular plans →</a>
-      </p>
-      <Card variant="subtle" padding="md" hover={false}>
-        <h3 class="text-body-md font-bold text-fi-ink mb-1">Already in direct plans?</h3>
-        <p class="text-body-sm text-fi-muted leading-relaxed">
-          We discuss them on the first call. You can keep them direct. If you invest through us, we use regular plans only. Nothing moves without your approval.
-        </p>
-      </Card>
-    </div>
-    <ContactActions placement="lp_review_cta" surface="light" identity class="mt-12" />
-  </Section>
-
+  <!-- 4. How it works: the answer-first lead names Fund Investigator (AEO). -->
   <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="From the first call to your brief" lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+    <SectionHeading
+      title="How does a mutual fund portfolio review work?"
+      lead="With Fund Investigator, a mutual fund portfolio review starts with a WhatsApp message. After a short sign-up, we fetch your whole portfolio, send a written brief within 3 to 5 working days and walk you through it."
+    />
+    <StepMemos steps={steps} />
   </Section>
 
-  <Section id="first-call" background="white" spacing="md" maxWidth="2xl">
-    <FirstCallBlock placement="lp_review_call" />
+  <!-- 5. Who you speak to, and how we are paid. The gold button stays in the hero and the
+       close; here WhatsApp is secondary. The memo is the homepage text, word for word (H-03). -->
+  <Section id="who" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Your Fund Investigator, from the first call to regular reviews" />
+    <div data-reveal={0}>
+      <IdCard class="mx-auto w-full max-w-2xl" />
+    </div>
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+      <Button
+        href={whatsappUrl('lp_review_cta')}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="whatsapp"
+        variant="secondary"
+        surface="light"
+        size="lg"
+        track={{ event: 'conversation_request', placement: 'lp_review_cta', channel: 'whatsapp' }}
+        class="w-full max-w-80 sm:w-auto sm:max-w-none"
+      >
+        Message {FIRST_NAME} on WhatsApp
+      </Button>
+      <a href="/reports/" class:list={[lightLink, 'py-2']}>Read our investigations →</a>
+    </div>
+    <div data-reveal={1} class="mt-12">
+      <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
+        The fund house pays us a commission. It comes from the fund's yearly expense ratio, which is already deducted from the fund's returns. We disclose it <Highlight>in writing, before you select your funds</Highlight>.<Fn id="how-we-are-paid" />
+      </Memo>
+    </div>
   </Section>
 
+  <!-- 6. FAQ: the doubts that stop the message. FAQPage schema comes from reviewFaq. -->
   <Section id="faq" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Questions about a portfolio review" />
+    <SectionHeading title="Questions about a mutual fund portfolio review" />
     <div class="max-w-3xl mx-auto text-left">
       <FaqList items={reviewFaq} />
     </div>
   </Section>
 
-  <Section background="white" spacing="md" maxWidth="lg">
+  <!-- 7. Close: one action, as in the hero; the monthly note is the exit for readers who are not ready. -->
+  <Section background="dark" spacing="md" maxWidth="lg" glow>
     <SectionHeading
-      title="Start with a 30-minute call."
-      lead="Tell us what you hold and what concerns you about it. We explain what the review checks, if you ask for one. You decide what happens next."
+      title="Start with a message"
+      lead="Tell us what you hold and what you want from it. If it helps, we set up a short call at a time that suits you."
+      surface="dark"
     />
-    <ContactActions placement="lp_review_final" surface="light" />
-    <p class="text-center text-caption text-fi-muted mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
+    <ContactActions placement="lp_review_final" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} />
+    <p class="mt-6 text-center text-body-sm">
+      <a href={SUBSCRIBE_PAGE} class={darkLink} {...trackAttrs('subscribe_click', 'lp_review_final')}>Not ready? Get the monthly note</a>
+    </p>
+    <p class="text-center text-caption text-fi-subtle mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
   </Section>
 </Layout>
