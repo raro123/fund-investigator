@@ -34,7 +34,7 @@ import { servicePageSchemaGraph } from '../../lib/schema';
 // (R-02). Placements start with `lp_review_`, so PostHog splits this page.
 
 const pageTitle = 'Mutual fund portfolio review';
-const pageDescription = 'A mutual fund portfolio review that looks at all your funds together: fund and sector overlap, performance, risk and costs. From an AMFI-registered mutual fund distributor.';
+const pageDescription = 'A mutual fund portfolio review that looks at all your funds together: stock and sector overlap, performance, risk and costs. From an AMFI-registered mutual fund distributor.';
 const factsAsOf = '2026-11-09';
 const whatsappLabel = 'WhatsApp us for a portfolio review';
 
@@ -104,43 +104,33 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
   trackView="landing_view"
   trackLanding="review"
 >
-  <!-- 1. Hero: the USP in one paragraph, one action. "See a sample review" only scrolls. -->
+  <!-- 1. Hero: split. The USP and one action on the left, the sample brief (the proof) on the
+       right, so both are on the first screen on desktop (owner, 9 Nov). On phones it stacks:
+       text, button, then the sample. The old section 2 ("A portfolio review and a walkthrough")
+       is gone: the How it works lead and step 3 say the same. -->
   <Hero size="md" background="dark">
     <Badge variant="dark" class="mb-6">Mutual fund portfolio review</Badge>
-    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
+    <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words']}>
       Do your funds still
       <span class="block text-fi-gold">make sense together?</span>
     </h1>
-    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      Fund Investigator's mutual fund portfolio review looks at all your funds together. It shows fund and sector overlap, performance, risk and costs. We walk you through what it means for you. <strong class="font-semibold text-fi-ink-inv">Our recommendations for clients come with the what, the why and the trade-offs.</strong>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed mb-8']}>
+      Get your mutual fund portfolio reviewed by Fund Investigator. We look at all your funds together and show stock and sector overlap, performance, risk and costs. Then we walk you through what it means for you.
     </p>
-    <ContactActions placement="lp_review_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} />
-    <p class="mt-5 text-body-sm">
-      <a href="#sample" class={darkLink}>See a sample review ↓</a>
-    </p>
+    <ContactActions placement="lp_review_hero" surface="dark" align="split" whatsappOnly whatsappLabel={whatsappLabel} />
+
+    <!-- pr-2: room for the tilted back sheet on phones -->
+    <div slot="aside" id="sample" class="pr-2 sm:pr-0">
+      <SampleBrief />
+    </div>
 
     <!-- The identity line, exact (L1): name, AMFI tagline, ARN. -->
-    <div class="mt-10 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto">
+    <div slot="footer" class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto text-center">
       <p class="text-caption text-fi-subtle text-balance">{REGISTERED_NAME} · {TAGLINE} · {ARN}</p>
     </div>
   </Hero>
 
-  <!-- 2. What you get: the brief, then the walkthrough, beside the sample. -->
-  <Section id="sample" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="A portfolio review and a walkthrough" />
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="space-y-5 text-left text-body-lg text-fi-muted leading-relaxed max-w-xl mx-auto">
-        <p>A mutual fund portfolio review from Fund Investigator is a written brief on your whole portfolio: fund overlap, sector overlap, performance, asset allocation and costs. We send it within <strong class="text-fi-ink">3 to 5 working days</strong> after you sign up.</p>
-        <p>Then {FIRST_NAME} walks you through it on a call. He explains the results and answers your questions.</p>
-      </div>
-      <!-- pr-2: room for the tilted back sheet on phones -->
-      <div data-reveal={0} class="pr-2 sm:pr-0">
-        <SampleBrief surface="light" />
-      </div>
-    </div>
-  </Section>
-
-  <!-- 3. What we look at: four checks, two by two. -->
+  <!-- 2. What we look at: four checks, two by two. -->
   <Section id="covers" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="What does a mutual fund portfolio review check?" />
     <div class="grid sm:grid-cols-2 gap-5 text-left max-w-4xl mx-auto">
@@ -161,7 +151,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
     </div>
   </Section>
 
-  <!-- 4. How it works: the answer-first lead names Fund Investigator (AEO). -->
+  <!-- 3. How it works: the answer-first lead names Fund Investigator (AEO). -->
   <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
     <SectionHeading
       title="How does a mutual fund portfolio review work?"
@@ -170,7 +160,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
     <StepMemos steps={steps} />
   </Section>
 
-  <!-- 5. Who you speak to, and how we are paid. The gold button stays in the hero and the
+  <!-- 4. Who you speak to, and how we are paid. The gold button stays in the hero and the
        close; here WhatsApp is secondary. The memo is the homepage text, word for word (H-03). -->
   <Section id="who" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Your Fund Investigator, from the first call to regular reviews" />
@@ -200,7 +190,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
     </div>
   </Section>
 
-  <!-- 6. FAQ: the doubts that stop the message. FAQPage schema comes from reviewFaq. -->
+  <!-- 5. FAQ: the doubts that stop the message. FAQPage schema comes from reviewFaq. -->
   <Section id="faq" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about a mutual fund portfolio review" />
     <div class="max-w-3xl mx-auto text-left">
@@ -208,7 +198,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
     </div>
   </Section>
 
-  <!-- 7. Close: one action, as in the hero; the monthly note is the exit for readers who are not ready. -->
+  <!-- 6. Close: one action, as in the hero; the monthly note is the exit for readers who are not ready. -->
   <Section background="dark" spacing="md" maxWidth="lg" glow>
     <SectionHeading
       title="Start with a message"

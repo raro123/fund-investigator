@@ -42,6 +42,8 @@ interface Props {
   whatsappLabel?: string;
   note?: string;
   identity?: boolean;
+  /** 'center' (default), or 'split': centred on phones, left-aligned from lg (text column of a split Hero) */
+  align?: 'center' | 'split';
   class?: string;
 }
 
@@ -52,15 +54,18 @@ const {
   whatsappLabel = 'Contact on WhatsApp',
   note,
   identity = false,
+  align = 'center',
   class: className = '',
 } = Astro.props;
 
-const ctaRow = 'flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-80 sm:max-w-none mx-auto';
+const alignRow = { center: 'justify-center mx-auto', split: 'justify-center lg:justify-start mx-auto lg:mx-0' }[align];
+const alignText = { center: 'text-center', split: 'text-center lg:text-left' }[align];
+const ctaRow = `flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-80 sm:max-w-none ${alignRow}`;
 const noteColour = { light: 'text-fi-muted', dark: 'text-fi-subtle' }[surface];
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
-<div class:list={['text-center', className]}>
+<div class:list={[alignText, className]}>
   <div class={ctaRow}>
     {!whatsappOnly && (
       <Button
