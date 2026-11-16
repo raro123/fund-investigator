@@ -5,15 +5,18 @@ import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
 import Kicker from '../../components/ui/Kicker.astro';
 import Memo from '../../components/ui/Memo.astro';
+import Highlight from '../../components/ui/Highlight.astro';
 import RiskDisclosures from '../../components/ui/RiskDisclosures.astro';
 import StepMemos from '../../components/ui/StepMemos.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
+import Button from '../../components/ui/Button.astro';
 import IdCard from '../../components/ui/IdCard.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import FaqList from '../../components/ui/FaqList.astro';
 import { sifFaq } from '../../lib/faq';
 import { responsive } from '../../lib/responsive';
 import { trackAttrs } from '../../lib/analytics';
+import { whatsappUrl } from '../../lib/whatsapp';
 import { SUBSCRIBE_PAGE } from '../../lib/substack';
 import { ARN, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
@@ -33,7 +36,8 @@ import { servicePageSchemaGraph } from '../../lib/schema';
 
 const pageTitle = 'Is a SIF right for my portfolio?';
 const pageDescription = 'Specialised Investment Funds start at ₹10 lakh and carry higher risk. See the risks and how Fund Investigator helps you decide if one fits your portfolio.';
-const whatsappLabel = 'WhatsApp us';
+// Every WhatsApp button uses the same label, so the one action reads the same (review brief, 17 Nov).
+const whatsappLabel = 'Ask Ishpreet on WhatsApp';
 
 // Block 2: what we do for you. Three cards; after-care lives in step 4 only.
 const helps = [
@@ -74,31 +78,32 @@ const features = [
   },
 ];
 
-// Block 4: four steps. The fee line is step 4's fact line (exact, L1 appendix).
-// Titles and the step 1 and 2 bodies changed from v1.2.1 (owner, 16 Nov): reader-side
-// titles from a reference, with the fee, no-sign-up and no-commitment facts kept.
+// Block 4: four steps. The fee line moved to its own memo under the ID card (owner, 17 Nov).
+// Headings say what happens and which decisions stay with the reader, one short
+// sentence each (review brief, 17 Nov). Kept: how we are paid and no sign-up at the
+// first conversation; sign-up and consent before the detailed review; no commitment.
 // Not yet in the copy doc; needs the H-08 PASS with the rest of the page.
 const steps = [
   {
-    title: 'Start with your question',
-    body: 'Send a WhatsApp message with the SIF you are looking at, or what interests you about SIFs. Ishpreet replies himself. We talk through your portfolio mix and time frame, and explain how we are paid. You do not sign up for this.',
+    title: 'Ishpreet answers your first question personally',
+    body: 'He answers your SIF questions and explains how we are paid, with no sign-up.',
   },
   {
-    title: 'Choose whether to go further',
-    body: 'If you want a detailed look, a short sign-up makes you our client. With your consent, we fetch your mutual fund holdings to assess the SIF alongside them. Nothing you hold changes, and signing up does not commit you to invest.',
+    title: 'You choose whether to share your holdings',
+    body: 'For a detailed review, you sign up as our client and, with your consent, we fetch your mutual fund holdings; nothing you hold changes and you are not committed to invest.',
   },
   {
-    title: 'We walk you through it',
-    body: "We show you whether a SIF adds anything to your portfolio, and why or why not. If it does, you get a shortlist across fund houses, with each strategy's risks, redemption terms and costs in writing.",
+    title: 'You get the risks and costs in writing',
+    body: "If a SIF adds something to your portfolio, you get a shortlist across fund houses with each strategy's risks, redemption terms and costs; if not, we tell you why.",
   },
   {
-    title: 'You stay in control',
-    body: 'You approve each transaction yourself. If you invest through us, we review the SIF with your other funds at regular intervals, send you performance updates, and explain any change in its risk level or terms.',
-    fact: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
+    title: 'You approve every investment',
+    body: 'Nothing is invested without your approval, and if you invest through us, we review the SIF with your other funds at regular intervals.',
   },
 ];
 
 const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decoration-fi-gold/40 hover:decoration-fi-gold';
+const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
 <Layout
@@ -128,9 +133,10 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
       <span class="block text-fi-gold">your portfolio?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      A SIF needs at least ₹10 lakh. We see how a SIF strategy fits your portfolio, the risks you would take, and the reasons to invest, or to wait.
+      A SIF needs at least ₹10 lakh. We compare strategies across fund houses, show how one would fit your portfolio and the risks you would take, and tell you when it makes more sense to wait.
     </p>
-    <ContactActions placement="lp_sif_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} note="Seen a SIF you are unsure about? Send us its name. No obligation to invest." />
+    <!-- The note works for both readers: one with a SIF in mind, one still exploring (review brief, 17 Nov). -->
+    <ContactActions placement="lp_sif_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} note="Send me the name of a SIF you’re considering, or ask, ‘What would a SIF add to the funds I already own?’ I reply personally. No sign-up for the first conversation." />
 
     <!-- The identity line, exact (L1): name, AMFI tagline, ARN. -->
     <div class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto">
@@ -177,35 +183,61 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
   <!-- 4. What happens after you message us: four steps, four across from lg (owner, 16 Nov), no lead. -->
   <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="What happens after you message us?" />
-    <StepMemos steps={steps} />
+    <StepMemos steps={steps} bodyFont="sans" />
   </Section>
 
-  <!-- 5. Who you talk to: the ID card, as on the portfolio review page (owner, 17 Nov). -->
+  <!-- 5. Who you talk to, and how we are paid: the ID card and the fee memo, as on the
+       portfolio review page (owner, 17 Nov). The fee line is the exact L1 line. Unlike the
+       review page, no expense-ratio sentence and no footnote: the SIF sources say nothing
+       about SIF plans or expense ratios (compliance E-C2). -->
   <Section id="who" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Who will you talk to?" />
+    <SectionHeading title="Ask us about a SIF with one message" />
     <div data-reveal={0}>
       <IdCard class="mx-auto w-full max-w-2xl" />
     </div>
+    <div data-reveal={1} class="mt-12">
+      <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
+        We earn a commission from the fund house, and we give you the rates <Highlight>in writing before you invest</Highlight>.
+      </Memo>
+    </div>
+
+    <!-- The ask, right after who replies and how we are paid (owner, 17 Nov; it was the dark
+         close after the FAQ). The section's one gold button; the monthly note is the exit for
+         readers who are not ready. -->
+    <!-- The section heading carries the ask (owner, 17 Nov), so no second heading here. -->
+    <div class="mt-12 text-center max-w-2xl mx-auto">
+      <p class="text-body-md text-fi-muted leading-relaxed text-balance mb-8">
+        Send the message. We ask the rest. If it helps, we set up a short call at a time that works for you.
+      </p>
+      <ContactActions placement="lp_sif_cta" surface="light" whatsappOnly whatsappLabel={whatsappLabel} />
+      <p class="mt-6 text-body-sm">
+        <a href={SUBSCRIBE_PAGE} class:list={[lightLink, 'inline-block py-2']} {...trackAttrs('subscribe_click', 'lp_sif_cta')}>Not ready? Get the monthly note</a>
+      </p>
+    </div>
   </Section>
 
-  <!-- 6. FAQ: the doubts that stop the message. FAQPage schema comes from sifFaq. -->
+  <!-- 6. FAQ: the doubts that stop the message. FAQPage schema comes from sifFaq. It ends with a
+       second, quieter chance to ask, so a reader persuaded by an answer need not scroll back up. -->
   <Section id="faq" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about SIFs" />
     <div class="max-w-3xl mx-auto text-left">
       <FaqList items={sifFaq} />
     </div>
-  </Section>
-
-  <!-- 7. Close: one action, as in the hero; the monthly note is the exit for readers who are not ready. -->
-  <Section background="dark" spacing="md" maxWidth="lg" glow>
-    <SectionHeading
-      title="Ask about a SIF with one message"
-      lead="Send the message. We ask the rest. If it helps, we set up a short call at a time that works for you."
-      surface="dark"
-    />
-    <ContactActions placement="lp_sif_final" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} />
-    <p class="mt-6 text-center text-body-sm">
-      <a href={SUBSCRIBE_PAGE} class={darkLink} {...trackAttrs('subscribe_click', 'lp_sif_final')}>Not ready? Get the monthly note</a>
-    </p>
+    <div class="mt-12 flex flex-col items-center gap-4 text-center">
+      <p class="text-body-md font-semibold text-fi-ink">Still have a question?</p>
+      <Button
+        href={whatsappUrl('lp_sif_final')}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="whatsapp"
+        variant="secondary"
+        surface="light"
+        size="lg"
+        track={{ event: 'conversation_request', placement: 'lp_sif_final', channel: 'whatsapp' }}
+        class="w-full max-w-80 sm:w-auto sm:max-w-none"
+      >
+        {whatsappLabel}
+      </Button>
+    </div>
   </Section>
 </Layout>

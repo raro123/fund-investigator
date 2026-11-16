@@ -29,6 +29,8 @@
  * @param steps - [{ title, body, mark?, fact?, links? }] in order; three or four
  * @param label - word before each number (default 'Step')
  * @param layout - 'row' (default: four across from lg) or 'pairs' (two by two, max-w-4xl)
+ * @param bodyFont - 'typewriter' (default) or 'sans': the body in the regular font
+ *   for easier reading; the step label and fact line stay typed (SIF page)
  * @param class - extra classes for the list
  */
 import Highlight from './Highlight.astro';
@@ -47,10 +49,11 @@ interface Props {
   steps: Step[];
   label?: string;
   layout?: 'row' | 'pairs';
+  bodyFont?: 'typewriter' | 'sans';
   class?: string;
 }
 
-const { steps, label = 'Step', layout = 'row', class: className = '' } = Astro.props;
+const { steps, label = 'Step', layout = 'row', bodyFont = 'typewriter', class: className = '' } = Astro.props;
 
 const columns =
   layout === 'pairs' ? 'sm:grid-cols-2 max-w-4xl mx-auto'
@@ -75,26 +78,28 @@ const parts = steps.map(({ body, mark }) => {
         {label} {String(index + 1).padStart(2, '0')}
       </p>
       <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{step.title}</h3>
-      <p class="font-typewriter text-body-md text-fi-ink leading-relaxed text-pretty">
+      <p class:list={[bodyFont === 'typewriter' && 'font-typewriter', 'text-body-md text-fi-ink leading-relaxed text-pretty']}>
         {parts[index].before}{parts[index].mark && <Highlight>{parts[index].mark}</Highlight>}{parts[index].after}
       </p>
-      <div class="mt-auto pt-5">
-        <div class="border-t border-dashed border-fi-border pt-3">
-          {step.fact && <p class="font-mono text-caption uppercase text-fi-muted">{step.fact}</p>}
-          {step.links && (
-            <p class="flex flex-wrap gap-x-6 -my-2">
-              {step.links.map((item) => (
-                <a
-                  href={item.href}
-                  class={link}
-                  {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  {...(item.track ?? {})}
-                >{item.label}</a>
-              ))}
-            </p>
-          )}
+      {(step.fact || step.links) && (
+        <div class="mt-auto pt-5">
+          <div class="border-t border-dashed border-fi-border pt-3">
+            {step.fact && <p class="font-mono text-caption uppercase text-fi-muted">{step.fact}</p>}
+            {step.links && (
+              <p class="flex flex-wrap gap-x-6 -my-2">
+                {step.links.map((item) => (
+                  <a
+                    href={item.href}
+                    class={link}
+                    {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    {...(item.track ?? {})}
+                  >{item.label}</a>
+                ))}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </li>
   ))}
 </ol>
