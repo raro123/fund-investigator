@@ -48,7 +48,7 @@ interface Props {
   /** Icon to display: after the text, except brand icons (whatsapp), which lead */
   icon?: 'arrow-right' | 'external' | 'download' | 'whatsapp' | 'none';
   /** PostHog click event for funnel tracking (src/lib/analytics.ts) */
-  track?: { event: TrackEvent; placement: string; channel?: string };
+  track?: { event: TrackEvent; placement: string; channel?: string; report?: string };
   /** Additional CSS classes */
   class?: string;
 }
@@ -108,7 +108,7 @@ const classes = `${baseStyles} ${variantStyles[surface][variant]} ${sizeStyles[s
 const Element = href ? 'a' : 'button';
 const elementProps = {
   ...(href ? { href, target, rel } : { type, disabled }),
-  ...(track ? trackAttrs(track.event, track.placement, track.channel) : {}),
+  ...(track ? trackAttrs(track.event, track.placement, track.channel, track.report) : {}),
 };
 
 // Icon SVGs

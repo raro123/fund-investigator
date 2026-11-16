@@ -11,6 +11,8 @@
  * section ("You speak with…"), read from here (owner decision 2026-10-14).
  */
 
+import ownerPhoto from '../assets/images/owner/ishpreet.jpg';
+
 /** Name registered against the ARN with AMFI. */
 export const REGISTERED_NAME = 'Ishpreet Singh Modi';
 
@@ -44,12 +46,13 @@ export const CREDENTIALS: Credential[] = [
 ];
 
 /**
- * Owner photo for the homepage final section; hidden while null. When the photo
- * exists, add it to src/assets/ and assign the import here:
- *   import ownerPhoto from '../assets/owner.jpg';
- *   export const OWNER_PHOTO: ImageMetadata | null = ownerPhoto;
+ * Owner photo: the circle on the IdCard (/invest/, /about/, the portfolio review
+ * page) and the Person schema image. The light retouched cut-out from the brand
+ * assets (brand/assets/photo/ in fund_distribution_business, T-124). Not on the
+ * homepage: the brand leads there (owner, 16 Oct). Set to null to show the
+ * monogram again.
  */
-export const OWNER_PHOTO: ImageMetadata | null = null;
+export const OWNER_PHOTO: ImageMetadata | null = ownerPhoto;
 
 export const ARN = 'ARN-370951';
 

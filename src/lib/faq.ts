@@ -45,10 +45,9 @@ export const investFaqGroups: FaqGroup[] = [
         question: 'What is a SIF?',
         answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
-      {
-        question: 'Who can invest in GIFT City funds?',
-        answer: 'Residents of India invest under the Liberalised Remittance Scheme (LRS), in US dollars. NRIs can also invest. We explain the tax and reporting rules before you decide.',
-      },
+      // "Who can invest in GIFT City funds?" removed (owner, 9 Nov 2026, T-130): it
+      // comes back only after an IFSCA source is in compliance/sources and the
+      // answer gets an explicit H-08 PASS.
     ],
   },
   {
@@ -80,7 +79,8 @@ export const investFaqGroups: FaqGroup[] = [
         answer: 'You pay the fund house directly, and the units are in your name. We never receive your money.',
       },
       {
-        question: 'Can I stop at any time?',
+        // "Working with you": the bare question reads as "I can redeem at any time" (R-13, R-15). T-06.
+        question: 'Can I stop working with you at any time?',
         answer: 'Yes. Your investments stay in your name with each fund house.',
       },
     ],
@@ -88,3 +88,104 @@ export const investFaqGroups: FaqGroup[] = [
 ];
 
 export const investFaq: FaqItem[] = investFaqGroups.flatMap((group) => group.items);
+
+/** One shared answer by its question, so a service page reuses it word for word. */
+function sharedAnswer(question: string): FaqItem {
+  const item = investFaq.find((faq) => faq.question === question);
+  if (!item) throw new Error(`FAQ not found: ${question}`);
+  return item;
+}
+
+/**
+ * /invest/portfolio-review/, rebuilt from the agreed demo (owner, 9 Nov 2026).
+ * The five answers were locked one by one with the owner; copy them word for
+ * word. Goal: clear the doubts that stop a reader from sending the WhatsApp
+ * message. Never "free" about the review (R-17, H-03): the exact fee line
+ * (L1 appendix), with the commission in the same answer. Q4: a change of
+ * distributor is the investor's choice (R-20, AMFI MC 6.1). Cleared in the
+ * same-day compliance check of 9 Nov 2026 with these fixes; any change to an
+ * answer needs a new check.
+ * Q2 ends with "Our comparison explains when each one fits.", linked to K02,
+ * once K02 is live: add it then (FaqList answers are plain text today).
+ */
+export const reviewFaq: FaqItem[] = [
+  {
+    question: 'Is the first call a sales call?',
+    answer: 'No. It is a short conversation at a time that works for you. We introduce ourselves as an AMFI-registered mutual fund distributor and explain how we are paid. Then we ask about your goals and any concerns with your funds, and answer your questions. There is no pressure, and you decide if you want to go ahead.',
+  },
+  {
+    question: 'Why do I need a mutual fund distributor?',
+    answer: "You don't need one to invest. Apps and direct plans let you do it yourself, if you have the time and the knowledge. An AMFI-registered mutual fund distributor helps when you want someone to look at all your funds together, explain what the numbers mean and keep reviewing them as markets and your plans change. Our recommendations for clients come with the what, the why and the trade-offs. We are paid by the fund house through regular plans, which have higher expense ratios than direct plans. A SEBI-registered investment adviser is another route: you pay the adviser a fee and invest in direct plans on their advice.",
+  },
+  {
+    question: 'Do I pay for a mutual fund portfolio review?',
+    answer: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. On your request, Fund Investigator prepares your portfolio review and walks you through it. The commission comes from the yearly expense ratio of the funds you invest in through us. Your ongoing reviews come with no separate fee either.',
+  },
+  {
+    question: 'Will you ask me to sell or move my funds?',
+    answer: "Only when the analysis says so, and you decide based on our recommendations. We never ask you to sell a good fund to bring it to us. Any sale or purchase comes from the analysis, with the tax and exit load explained clearly. If you're happy with us, you can choose to make us the distributor on your regular plans. You sign the change request yourself. There is no sale, so no tax and no exit load. A direct plan that fits your portfolio stays direct.",
+  },
+  {
+    question: 'How do I check my mutual fund portfolio?',
+    answer: 'Your investing app shows each fund and its value. A Consolidated Account Statement (CAS) from CAMS or KFintech lists all your funds in one place. To see if the portfolio works, check five things: how each fund has done against its stated benchmark index over several years, stock overlap, sector overlap, your mix of equity, debt and gold against your goals, and your total costs. A portfolio review from Fund Investigator checks all five and explains what they mean.',
+  },
+];
+
+/**
+ * /invest/sif/ (T-59, Phase 2 item C). SIF promotional copy: every change needs
+ * the compliance officer's PASS (rulebook H-08). Copy v2.0, as for reviewFaq.
+ */
+export const sifFaq: FaqItem[] = [
+  {
+    question: 'How is a SIF different from a mutual fund?',
+    answer: 'A SIF is run by a mutual fund house under SEBI rules for SIFs. It can use investment strategies that a mutual fund cannot, such as limited short positions through derivatives. The minimum is higher, and some SIF investment strategies limit when you can redeem. Because of this, a SIF carries relatively higher risk, and you can lose money.',
+  },
+  {
+    question: 'Is the ₹10 lakh minimum per investment strategy?',
+    answer: 'No. It applies per investor, across all the SIF investment strategies of one fund house (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
+  },
+  {
+    question: 'Do I need a distributor to invest in a SIF?',
+    answer: 'No. You can invest with the fund house directly. We earn a commission from the fund house when you invest through us, and we give you the rate in writing before you invest. We review your whole portfolio first and give you the risks and redemption terms in writing.',
+  },
+  {
+    question: 'Can I take my money out at any time?',
+    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part. Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
+  },
+  {
+    question: 'Should I sell my mutual funds to invest in a SIF?',
+    answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
+  },
+  sharedAnswer('Do you choose funds by the commission they pay you?'),
+  sharedAnswer('Who holds my money?'),
+];
+
+/**
+ * /invest/where-to-invest-lump-sum/ (T-59, Phase 2 item B, decision 87). The
+ * first answer is new (copy v1.0); the next four are the approved start-investing
+ * answers (v1.4, decision 28); the last two are the /invest/ answers, word for word.
+ */
+export const lumpSumFaq: FaqItem[] = [
+  {
+    question: 'Should I invest a lump sum at once or in stages?',
+    answer: 'It depends on how much you have and when you need it. A large amount can move in stages, for example through a systematic transfer plan (STP). Each transfer is a sale of units, so tax and exit loads can apply. Investing in stages does not remove market risk. We explain the options on the call.',
+  },
+  {
+    question: 'What if I need some of the money soon?',
+    answer: 'Some mutual funds are built for short periods, such as overnight and liquid funds. They carry lower risk than equity funds, but every fund carries some risk. We match each part of your money to when you need it.',
+  },
+  {
+    question: 'What if markets fall after I invest?',
+    answer: 'Markets fall at times, and equity funds can fall sharply in the short term. That is why we discuss your time frame, risk profile and cash needs before we choose funds. We can discuss investing in stages, but it does not remove market risk. You can talk to us before you decide what to do.',
+  },
+  {
+    question: 'Do I need to break my FDs?',
+    answer: 'No. We look at your goals and when you need the money. Then you decide how much, if any, goes into mutual funds, and when. FDs can remain part of your savings.',
+  },
+  {
+    question: 'Do I need a demat account?',
+    answer: 'No. Mutual fund units are held in your name with each fund house. You need KYC, and we help you complete it.',
+  },
+  sharedAnswer('What is the difference between a direct plan and a regular plan?'),
+  sharedAnswer('Who holds my money?'),
+];

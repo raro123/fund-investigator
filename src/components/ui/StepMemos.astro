@@ -15,7 +15,9 @@
  * at that step, in a few words that fit one line at four columns.
  *
  * Three steps sit in one column until lg, then three across, so no memo is left
- * alone on a row. `label` renames "Step" (e.g. "Principle" on /about/). A step
+ * alone on a row. `layout="pairs"` keeps four steps two by two at every width from
+ * sm, in a max-w-4xl block, to match a 2 by 2 card grid above it (portfolio review
+ * page). `label` renames "Step" (e.g. "Principle" on /about/). A step
  * can carry `links` in its foot, in place of or after the fact line.
  *
  * @example
@@ -26,6 +28,7 @@
  *
  * @param steps - [{ title, body, mark?, fact?, links? }] in order; three or four
  * @param label - word before each number (default 'Step')
+ * @param layout - 'row' (default: four across from lg) or 'pairs' (two by two, max-w-4xl)
  * @param class - extra classes for the list
  */
 import Highlight from './Highlight.astro';
@@ -43,12 +46,16 @@ interface Step {
 interface Props {
   steps: Step[];
   label?: string;
+  layout?: 'row' | 'pairs';
   class?: string;
 }
 
-const { steps, label = 'Step', class: className = '' } = Astro.props;
+const { steps, label = 'Step', layout = 'row', class: className = '' } = Astro.props;
 
-const columns = steps.length === 3 ? 'lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4';
+const columns =
+  layout === 'pairs' ? 'sm:grid-cols-2 max-w-4xl mx-auto'
+  : steps.length === 3 ? 'lg:grid-cols-3'
+  : 'sm:grid-cols-2 lg:grid-cols-4';
 // py-2 gives each small link a taller tap area on touch screens; the row's -my-2 takes it back.
 const link = 'inline-block py-2 font-semibold text-body-sm text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
 

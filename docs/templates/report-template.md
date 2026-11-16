@@ -99,11 +99,19 @@ STRUCTURE RULES
 - Do NOT add a manual promo section at the end. ArticleLayout.astro already
   renders the subscription band and disclaimer. Link Deepdive contextually in
   the investigation settings and where its evidence is discussed.
-- DO include an `## Key takeaways` section. The Markdown build automatically
-  closes it with the Investigation Brief subscription prompt, so authors must
-  not add a manual `/subscribe` link. Current reports without this heading fail
-  the build. `/subscribe` remains a site redirect to Substack (defined in
-  astro.config.mjs), keeping published content independent of the provider URL.
+- DO put the marker `<!-- subscribe -->` on its own line right after the main
+  finding. The build swaps it for the mid-article subscribe box (fixed text,
+  `src/lib/remark-investigation-brief-cta.mjs`). One marker per report; more
+  than one fails the build; no marker, no box. Do not add a manual `/subscribe`
+  link. Article template: fund_distribution_business `content/article_template.md` (T-37).
+- For a "teach, then invite" article, set `serviceInvite.heading` and
+  `serviceInvite.line` in the frontmatter (and `campaign`, the booking link's
+  utm_campaign, e.g. `c01`). The call line under them is fixed in
+  `ArticleServiceInvite.astro`.
+- Optional for answer engines: `faq` (question, answer; the same text as the
+  visible "Questions" section) adds FAQPage JSON-LD; `dataset` (name,
+  description, temporalCoverage, file under `/data/reports/`) adds Dataset
+  JSON-LD for the CSV download. Category-level percentiles only.
 - DO begin fund investigations with an `## Investigation settings` block containing
   exactly `Mutual Fund`, `Data Period`, and `Benchmark`. Put source links and
   calculation assumptions in numbered Markdown footnotes, and define recurring
@@ -154,6 +162,8 @@ Start with a brief overview of what this investigation covers and key findings. 
 Provide context about the fund(s) or category being analyzed. What makes this investigation relevant?
 
 ## Key takeaways
+
+<!-- subscribe -->
 
 ### Performance Metrics
 
