@@ -101,7 +101,7 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Disclosures and Footnotes</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      RiskDisclosures shows the regulators' exact warnings (AMFI's mutual-fund warning and SEBI's SIF warning) in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it; pages never do, and the wording comes from distributor.ts. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+      RiskDisclosures shows the regulators' exact warnings (AMFI's mutual-fund warning and SEBI's SIF warning) in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it, and the wording comes from distributor.ts. One exception: the SIF page shows it under its features with <code class="font-mono">inline</code> and turns off the footer card, so it still shows once. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
     </p>
     <p class="mt-6 text-body-md text-fi-ink max-w-2xl">
       We disclose our commission in writing before you choose.<Fn id="how-we-are-paid" />

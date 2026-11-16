@@ -2,11 +2,17 @@
 /**
  * RiskDisclosures Component
  *
- * The mandatory warnings for every product we promote, in one quiet card above
- * the footer on every page: AMFI's mutual-fund warning and SEBI's SIF warning
- * (COM-015), one paragraph each. Placed by Layout.astro, never under each
+ * The mandatory warnings for every product we promote, in one quiet card: AMFI's
+ * mutual-fund warning and SEBI's SIF warning (COM-015), one paragraph each.
+ * Layout.astro places it above the footer on every page, never under each
  * button (owner review, 2026-10-19). Articles drop it and show the same two
  * warnings in their own disclaimer, so a reader sees them once.
+ *
+ * `inline`: the card without its band, for a page that shows the warnings in
+ * its own content instead (the SIF page, under its features; owner, 17 Nov).
+ * That page passes `riskDisclosures={false}` to Layout, so the warnings still
+ * show once. The text is body size there, not smaller than the page's body
+ * text (SIF circular 13.4, "legible fonts").
  *
  * The wording comes from `src/lib/distributor.ts` and cannot be passed in, so
  * no page can reword a regulator's text. No links: the fuller notes are on
@@ -14,17 +20,38 @@
  *
  * @example
  * <RiskDisclosures />
+ * <RiskDisclosures inline class="max-w-4xl" />
+ *
+ * @param inline - card only, no Section band (default false)
+ * @param class - extra classes for the inline card, e.g. a max width
  */
 import Section from './Section.astro';
 import { RISK_WARNING, SIF_WARNING } from '../../lib/distributor';
+
+interface Props {
+  inline?: boolean;
+  class?: string;
+}
+
+const { inline = false, class: className = '' } = Astro.props;
 ---
 
-<Section background="light" spacing="xs" class="border-t border-fi-border">
-  <aside class="rounded-lg border border-dashed border-fi-border bg-white px-6 py-4 text-left" aria-label="Risk disclosures">
+{inline ? (
+  <aside class:list={['mx-auto rounded-lg border border-dashed border-fi-border bg-white px-6 py-5 lg:px-10 text-left', className]} aria-label="Risk disclosures">
     <p class="font-mono text-caption uppercase text-fi-muted pb-2 mb-3 border-b border-dashed border-fi-border">Risk disclosures</p>
-    <div class="space-y-2 text-body-sm leading-relaxed text-fi-ink">
+    <div class="space-y-2 text-body-md leading-relaxed text-fi-ink">
       <p>{RISK_WARNING}</p>
       <p>{SIF_WARNING}</p>
     </div>
   </aside>
-</Section>
+) : (
+  <Section background="light" spacing="xs" class="border-t border-fi-border">
+    <aside class="rounded-lg border border-dashed border-fi-border bg-white px-6 py-4 text-left" aria-label="Risk disclosures">
+      <p class="font-mono text-caption uppercase text-fi-muted pb-2 mb-3 border-b border-dashed border-fi-border">Risk disclosures</p>
+      <div class="space-y-2 text-body-sm leading-relaxed text-fi-ink">
+        <p>{RISK_WARNING}</p>
+        <p>{SIF_WARNING}</p>
+      </div>
+    </aside>
+  </Section>
+)}
