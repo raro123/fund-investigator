@@ -113,7 +113,7 @@ export const OG_PAGES = {
   review: { eyebrow: 'Mutual fund portfolio review', title: 'Do your funds still make sense together?' },
   lump_sum: { eyebrow: 'Where to invest a lump sum', title: 'Have a lump sum to invest? Start with when you need it.' },
   sif: { eyebrow: 'Specialised Investment Funds (SIF)', title: 'Thinking about a SIF? Check your whole portfolio first.' },
-  reports: { eyebrow: 'Research and guides', title: 'Mutual fund research and guides' },
+  reports: { eyebrow: 'Guides and investigations', title: 'Mutual fund guides and investigations' },
   subscribe: { eyebrow: 'Newsletter', title: 'New guides and investigations, by email' },
 } as const satisfies Record<string, { eyebrow: string; title: string }>;
 
