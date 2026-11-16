@@ -3,68 +3,95 @@ import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/ui/Hero.astro';
 import Section from '../../components/ui/Section.astro';
 import Card from '../../components/ui/Card.astro';
-import Badge from '../../components/ui/Badge.astro';
-import CheckList from '../../components/ui/CheckList.astro';
+import Kicker from '../../components/ui/Kicker.astro';
+import Memo from '../../components/ui/Memo.astro';
+import StepMemos from '../../components/ui/StepMemos.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
-import FirstCallBlock from '../../components/ui/FirstCallBlock.astro';
-import AssessmentPreview from '../../components/ui/AssessmentPreview.astro';
-import CredibilityStrip from '../../components/ui/CredibilityStrip.astro';
-import SplitRows from '../../components/ui/SplitRows.astro';
+import OptimizedImage from '../../components/ui/OptimizedImage.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import FaqList from '../../components/ui/FaqList.astro';
 import { sifFaq } from '../../lib/faq';
 import { responsive } from '../../lib/responsive';
 import { formatDate } from '../../lib/format';
-import { ARN } from '../../lib/distributor';
+import { trackAttrs } from '../../lib/analytics';
+import { SUBSCRIBE_PAGE } from '../../lib/substack';
+import { ARN, OWNER_PHOTO, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
-// Service page C of Phase 2 (T-59; fund_distribution_business strategy/phase2_proposal.md).
-// For readers who search "what is SIF in mutual funds". PMS and AIF are out of
-// our scope (decision 88), so the page compares a SIF only with mutual funds.
-// SIF promotional copy: every change needs the compliance officer's PASS (rulebook
-// H-08). Copy v2.0, word for word: content/pieces/p2_service_pages/service_pages_copy.md.
-// SEBI's SIF warning shows on every page in the site-wide Risk disclosures card
-// (decision 25). Names no fund house, SIF brand or strategy (H-05) and makes no
-// return claims. Placements start with `lp_sif_`.
+// Service page C (/invest/sif/), rebuilt goal-first from SIF page copy v1.2.1
+// (owner-locked 11 and 16 Nov 2026; fund_distribution_business project files
+// content/sif_page/sif_page_copy_draft.md, Brand's 6 blocks, demo
+// https://claude.ai/artifact/Ace5ZpFyVhREcoHxbyT6vU). Copy word for word.
+// Page goal: an interested investor sends one WhatsApp message. It is the only
+// action (decision 121), as on the portfolio review page.
+// SIF promotional copy: needs the compliance officer's H-08 PASS before release.
+// SEBI's SIF warning shows in the site-wide Risk disclosures card (decision 25),
+// so the page has no warnings block. Names no fund house, SIF brand or strategy
+// (H-05) and makes no return claims. No exam names (owner, 11 Nov). A "facts as
+// of" date sits next to the facts it dates, never as a page-level line (owner,
+// 11 Nov). Placements start with `lp_sif_`.
 
-const pageTitle = 'What is a SIF in mutual funds?';
-const pageDescription = 'Specialised Investment Funds start at ₹10 lakh and carry higher risks. See how a SIF works and what to check, then review your whole portfolio first.';
-const factsAsOf = '2026-11-03';
-const sifSource = 'source: SEBI circular on Specialised Investment Funds, 27 February 2025';
+const pageTitle = 'Is a SIF right for my portfolio?';
+const pageDescription = 'Specialised Investment Funds start at ₹10 lakh and carry higher risk. See the risks and how Fund Investigator helps you decide if one fits your portfolio.';
+const sifFactsAsOf = '2026-11-11';
+const whatsappLabel = 'WhatsApp us';
 
-const glance = [
-  { label: 'What it is', value: 'A SEBI product category, run by mutual fund houses. It sits between mutual funds and portfolio management services.' },
-  { label: 'Minimum', value: `₹10 lakh per investor, across one fund house's SIF investment strategies (${sifSource}).` },
-  { label: 'Main risks', value: 'Derivatives can increase losses. Some SIF investment strategies limit when you can redeem. A SIF can do worse than a plain mutual fund for long periods. You can lose money.' },
+// Block 2: what we do for you. Three cards; after-care lives in step 4 only.
+const helps = [
+  {
+    title: 'We explain the whole product.',
+    body: 'How the strategy uses derivatives, how it can make and lose money, its Risk-Band, its redemption terms and its costs, including our commission, in writing.',
+  },
+  {
+    title: 'We check how it fits your portfolio.',
+    body: "What it adds to the stocks and sectors you already hold, and whether you can keep ₹10 lakh invested for as long as the strategy needs. If a SIF doesn't fit, we say so and tell you why.",
+  },
+  {
+    title: 'We compare across fund houses.',
+    body: 'Each fund house explains only its own SIF. We are not tied to one. We compare the options across fund houses, shortlist the strategies that fit you, and show what each one costs.',
+  },
 ];
 
-const checks = [
-  'Is your current portfolio already spread across asset types?',
-  'Can you leave ₹10 lakh invested without needing it soon?',
-  'Do you understand the strategy, its risks and when you can redeem?',
-  'Can you accept long periods of weak results?',
+// Block 3: feature and value side by side, then the risks in one memo.
+const parts = [
+  {
+    title: 'What it does',
+    body: 'A SIF can take short positions through derivatives, up to 25% of its value. That lets the fund manager act on a view that a stock, sector or bond will fall. A mutual fund cannot take short positions like this.',
+  },
+  {
+    title: 'What it can add',
+    body: 'Because it can act on falls as well as rises, a SIF can behave differently from the mutual funds you already hold. It sits beside them, not in place of them.',
+  },
 ];
 
+const risks = [
+  { title: 'Wrong calls', body: "If the fund manager's view is wrong, short positions add to losses." },
+  { title: 'Liquidity', body: "Some strategies let you redeem only on set days, and you must keep ₹10 lakh in that fund house's SIF." },
+  { title: 'Higher risk overall', body: "Each investment strategy carries a Risk-Band from level 1 to 5. SEBI's warning says SIFs involve relatively higher risk, including loss of capital." },
+];
+
+// Block 4: four steps. The fee line is step 4's fact line (exact, L1 appendix).
 const steps = [
   {
-    name: 'First conversation',
-    left: 'Tell us your goals, time frame and what you hold.',
-    right: 'Discuss your risk profile and explain how SIFs work.',
+    title: 'Message us',
+    body: 'Send a WhatsApp message. Ishpreet replies himself. We set up a first conversation at a time that works for you. We answer your questions about SIFs and explain how we are paid. You do not sign up for this.',
   },
   {
-    name: 'Portfolio assessment',
-    left: 'Share your holdings or CAS after the call. Read the assessment and ask questions.',
-    right: 'Review your portfolio. Then explain whether a SIF adds anything, with the risks, redemption terms and costs in writing.',
+    title: 'Sign up',
+    body: 'If you want us to look further, a short sign-up makes you our client. With your consent, we fetch your whole mutual fund portfolio. Nothing in your current holdings changes, and signing up does not commit you to invest.',
   },
   {
-    name: 'Your decision and support',
-    left: 'Decide whether to go ahead. Approve each transaction by OTP and pay the fund house directly.',
-    right: 'Give you our commission in writing before you choose. Help with setup and review any SIF with your other funds.',
+    title: 'We walk you through it',
+    body: "We show you whether a SIF adds anything to your portfolio, and why or why not. If it does, you get a shortlist across fund houses, with each strategy's risks, redemption terms and costs in writing.",
+  },
+  {
+    title: 'You decide',
+    body: 'You approve each transaction yourself. If you invest through us, we review the SIF with your other funds at regular intervals, send you performance updates, and explain any change in its risk level or terms.',
+    fact: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
   },
 ];
 
-// Not "No charge · No obligation": next to review wording it reads as a free review (H-03).
-const callDetails = '30-minute call · You decide what happens next';
+const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decoration-fi-gold/40 hover:decoration-fi-gold';
 ---
 
 <Layout
@@ -83,68 +110,77 @@ const callDetails = '30-minute call · You decide what happens next';
   trackView="landing_view"
   trackLanding="sif"
 >
+  <!-- 1. Hero: one column, centred (owner, 11 Nov). The question, the answer line, one action,
+       and who the reader messages: photo and name (linked to /about/) with the exact identity line. -->
   <Hero size="md" background="dark">
-    <Badge variant="dark" class="mb-6">Specialised Investment Funds (SIF)</Badge>
-    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words max-w-4xl mx-auto']}>
-      Thinking about a SIF?
-      <span class="block text-fi-gold">Check your whole portfolio first.</span>
+    <Kicker class="mb-6">Specialised Investment Funds (SIF)</Kicker>
+    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words text-balance max-w-4xl mx-auto']}>
+      Is a SIF right for
+      <span class="block text-fi-gold">your portfolio?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      A Specialised Investment Fund (SIF) can use strategies that a mutual fund cannot, such as limited short positions through derivatives. The minimum is ₹10 lakh, and the risks are higher. On your request, we review what you already hold before you decide whether a SIF has a place in it.
+      A SIF needs at least ₹10 lakh. We see how a SIF strategy fits your portfolio, the risks you would take, and the reasons to invest, or to wait.
     </p>
-    <ContactActions placement="lp_sif_hero" surface="dark" note={callDetails} />
+    <ContactActions placement="lp_sif_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} note="Seen a SIF you are unsure about? Send us its name. No obligation to invest." />
 
-    <div class="mt-10 border-t border-fi-border-dark">
-      <CredibilityStrip markers={[`AMFI-registered (${ARN})`, 'Registered SIF Distributor (NISM Series-XIII)', 'Commission in writing before you choose']} />
+    <!-- The identity line, exact (L1): name, AMFI tagline, ARN. -->
+    <div class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+      {OWNER_PHOTO && (
+        <OptimizedImage src={OWNER_PHOTO} alt={REGISTERED_NAME} preset="avatar" class="w-12 h-12 shrink-0 rounded-full object-cover" />
+      )}
+      <p class="text-caption text-fi-subtle text-balance text-center sm:text-left">
+        <a href="/about/" class={darkLink}>{REGISTERED_NAME}</a> · {TAGLINE} · {ARN}
+      </p>
     </div>
   </Hero>
 
-  <Section id="what-is-a-sif" background="white" spacing="md" maxWidth="2xl">
+  <!-- 2. How we help: the USP first, because the reader has heard of SIFs and wants help. -->
+  <Section id="how-we-help" background="white" spacing="md" maxWidth="xl">
     <SectionHeading
-      title="What is a SIF in mutual funds?"
-      lead="A SIF is a SEBI product category, run by mutual fund houses. It sits between mutual funds and portfolio management services."
+      title="How does Fund Investigator help you decide on a SIF?"
+      lead="As a registered SIF Distributor, we are trained in how SIF strategies work. Here is what that means for you."
     />
-    <dl class="grid md:grid-cols-3 gap-5 text-left">
-      {glance.map((fact) => (
-        <Card padding="lg" hover={false} class="h-full">
-          <dt class="text-caption uppercase tracking-fi-label font-bold text-fi-muted mb-2">{fact.label}</dt>
-          <dd class="text-body-sm text-fi-ink leading-relaxed">{fact.value}</dd>
-        </Card>
+    <div class="grid md:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
+      {helps.map((help, index) => (
+        <div data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{help.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed">{help.body}</p>
+          </Card>
+        </div>
       ))}
-    </dl>
+    </div>
   </Section>
 
-  <Section id="checks" background="light" spacing="md" maxWidth="lg">
-    <SectionHeading title="What should I check before a SIF?" />
-    <Card variant="subtle" padding="lg" hover={false} class="max-w-2xl mx-auto">
-      <CheckList items={checks} />
-    </Card>
-    <AssessmentPreview variant="sif" class="mt-8" />
-  </Section>
-
-  <Section id="costs" background="white" spacing="md" maxWidth="lg">
+  <!-- 3. What is a SIF: feature, value, risk. The answer-first lead is the AEO definition. -->
+  <Section id="what-is-a-sif" background="light" spacing="md" maxWidth="xl">
     <SectionHeading
-      title="How we are paid"
-      lead="No separate fee from you. We earn a commission from the fund house, and when you invest through us, and we give you the rate in writing before you invest."
+      title="What is a SIF?"
+      lead="A Specialised Investment Fund (SIF) is a SEBI product category, run by mutual fund houses. Each fund house's SIF offers one or more investment strategies. The minimum is ₹10 lakh per investor, per fund house."
     />
-    <Card padding="md" hover={false} class="max-w-2xl mx-auto text-left">
-      <h3 class="text-body-md font-bold text-fi-ink mb-1">Everything in writing first</h3>
-      <p class="text-body-sm text-fi-muted leading-relaxed">
-        Before you invest, you get the strategy, its main risks, when you can redeem and our commission, in writing. Nothing moves without your approval.
-      </p>
-    </Card>
-    <ContactActions placement="lp_sif_cta" surface="light" identity class="mt-12" />
+    <div class="grid sm:grid-cols-2 gap-8 text-left max-w-4xl mx-auto mb-10">
+      {parts.map((part) => (
+        <div>
+          <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{part.title}</h3>
+          <p class="text-body-md text-fi-muted leading-relaxed">{part.body}</p>
+        </div>
+      ))}
+    </div>
+    <div data-reveal={0}>
+      <Memo label="What can go wrong" items={risks} class="max-w-4xl" />
+    </div>
+    <p class="mt-6 text-center text-caption text-fi-muted">
+      Source: SEBI circular on Specialised Investment Funds, 27 February 2025. Facts as of {formatDate(sifFactsAsOf)}.
+    </p>
   </Section>
 
-  <Section id="how-it-works" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Your portfolio first. Then the SIF question." lead="What you do, and what we do, at each stage." />
-    <SplitRows rows={steps} rowLabel="Stage" columns={[{ label: 'You' }, { label: 'We' }]} numbered />
+  <!-- 4. What happens after you message us: four steps, two by two, no lead. -->
+  <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="What happens after you message us?" />
+    <StepMemos steps={steps} layout="pairs" />
   </Section>
 
-  <Section id="first-call" background="white" spacing="md" maxWidth="2xl">
-    <FirstCallBlock placement="lp_sif_call" />
-  </Section>
-
+  <!-- 5. FAQ: the doubts that stop the message. FAQPage schema comes from sifFaq. -->
   <Section id="faq" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about SIFs" />
     <div class="max-w-3xl mx-auto text-left">
@@ -152,12 +188,16 @@ const callDetails = '30-minute call · You decide what happens next';
     </div>
   </Section>
 
-  <Section background="white" spacing="md" maxWidth="lg">
+  <!-- 6. Close: one action, as in the hero; the monthly note is the exit for readers who are not ready. -->
+  <Section background="dark" spacing="md" maxWidth="lg" glow>
     <SectionHeading
-      title="Ask about a SIF on a 30-minute call."
-      lead="We look at what you hold first. You decide what happens next."
+      title="Ask about a SIF with one message"
+      lead="Send the message. We ask the rest. If it helps, we set up a short call at a time that works for you."
+      surface="dark"
     />
-    <ContactActions placement="lp_sif_final" surface="light" />
-    <p class="text-center text-caption text-fi-muted mt-10">Page facts as of {formatDate(factsAsOf)}.</p>
+    <ContactActions placement="lp_sif_final" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} />
+    <p class="mt-6 text-center text-body-sm">
+      <a href={SUBSCRIBE_PAGE} class={darkLink} {...trackAttrs('subscribe_click', 'lp_sif_final')}>Not ready? Get the monthly note</a>
+    </p>
   </Section>
 </Layout>
