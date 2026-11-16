@@ -135,20 +135,21 @@ export const reviewFaq: FaqItem[] = [
 
 /**
  * /invest/sif/ (T-59, Phase 2 item C). SIF promotional copy: every change needs
- * the compliance officer's PASS (rulebook H-08). Copy v2.0, as for reviewFaq.
+ * the compliance officer's PASS (rulebook H-08). SIF page copy v1.2.1 (16 Nov): the
+ * five FAQs, word for word; the shared answers are no longer on this page.
  */
 export const sifFaq: FaqItem[] = [
   {
-    question: 'How is a SIF different from a mutual fund?',
-    answer: 'A SIF is run by a mutual fund house under SEBI rules for SIFs. It can use investment strategies that a mutual fund cannot, such as limited short positions through derivatives. The minimum is higher, and some SIF investment strategies limit when you can redeem. Because of this, a SIF carries relatively higher risk, and you can lose money.',
-  },
-  {
-    question: 'Is the ₹10 lakh minimum per investment strategy?',
-    answer: 'No. It applies per investor, across all the SIF investment strategies of one fund house (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
+    question: 'Is the first conversation a sales call?',
+    answer: 'No. It is a short conversation at a time that works for you. We explain how we are paid, ask what you hold and why a SIF interests you, and answer your questions. You decide if you want to go ahead. After that, we message you only if you ask us to.',
   },
   {
     question: 'Do I need a distributor to invest in a SIF?',
-    answer: 'No. You can invest with the fund house directly. No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest. We review your whole portfolio first and give you the risks and redemption terms in writing.',
+    answer: 'No. You can invest with the fund house directly. A distributor helps when you want the SIF question answered against your whole portfolio: what you already hold, when you need the money and what it costs. No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
+  },
+  {
+    question: 'Is the ₹10 lakh minimum per investment strategy?',
+    answer: 'No. It applies per investor (PAN), across all the SIF strategies of one fund house. Your other mutual fund holdings do not count towards it (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
   },
   {
     question: 'Can I take my money out at any time?',
@@ -158,8 +159,6 @@ export const sifFaq: FaqItem[] = [
     question: 'Should I sell my mutual funds to invest in a SIF?',
     answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
   },
-  sharedAnswer('Do you choose funds by the commission they pay you?'),
-  sharedAnswer('Who holds my money?'),
 ];
 
 /**
