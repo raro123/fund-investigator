@@ -75,8 +75,9 @@ const steps = [
 // sits in its header, so readers place themselves first. Four short rows: the
 // step memos above carry the detail (KYC, SIPs, benchmarks, overlap), so this
 // only makes the contrast scannable. Value before price: the support rows, then
-// cost. The cost cells state the expense-ratio difference both ways, and the FAQ
-// and the homepage fee memo explain it.
+// cost. The "With us" cost cell is the L1 fee line word for word (T-139); the
+// Direct cell states the expense-ratio difference, and the FAQ and the homepage
+// fee memo explain it.
 const plans = {
   featured: { label: 'Regular plan', title: 'With us', suits: 'An expert helps you invest' },
   other: { label: 'Direct plan', title: 'Do it yourself', suits: 'You have the expertise and the time' },
@@ -101,7 +102,7 @@ const routes = [
   },
   {
     name: 'Cost',
-    featured: 'No separate fee from you. The Regular Plan has a higher expense ratio that includes distributor commission. We disclose our commission before you decide.',
+    featured: 'No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
     other: 'The Direct Plan has a lower expense ratio because it does not include distributor commission. Any separately arranged advice may involve a separate fee.',
   },
 ];
