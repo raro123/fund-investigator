@@ -61,44 +61,56 @@ const look = {
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
         <p class="font-mono text-caption uppercase text-fi-muted mb-3">Portfolio fit check</p>
-        <ul class="space-y-2">
+        <ul role="list" class="space-y-2">
           {fitChecks.map((item) => (
             <li class="flex items-baseline gap-3 text-body-sm">
               <span class="w-16 shrink-0 font-semibold text-fi-ink">{item.label}</span>
-              <span class="text-fi-muted leading-snug">{item.note}</span>
+              <span class="text-fi-muted leading-snug text-pretty">{item.note}</span>
             </li>
           ))}
         </ul>
       </div>
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
-        <p class="font-mono text-caption uppercase text-fi-muted mb-3">Cross-fund-house shortlist</p>
-        <table class="w-full text-left border-collapse text-body-sm">
-          <thead>
-            <tr class="border-b border-fi-border font-mono text-caption uppercase text-fi-muted">
-              <th scope="col" class="pb-2 pr-2 font-bold">Check</th>
-              <th scope="col" class="pb-2 px-2 font-bold">Strategy A</th>
-              <th scope="col" class="pb-2 pl-2 font-bold">Strategy B</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-dashed divide-fi-border">
-            {comparisonRows.map((row) => (
-              <tr>
-                <th scope="row" class="py-2 pr-2 font-medium text-fi-ink">{row.metric}</th>
-                <td class="py-2 px-2 text-fi-muted tabular-nums">{row.a}</td>
-                <td class="py-2 pl-2 text-fi-muted tabular-nums">{row.b}</td>
+        <div
+          tabindex="0"
+          role="region"
+          aria-labelledby="sif-sample-shortlist-caption"
+          class="overflow-x-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link rounded-sm"
+        >
+          <table class="w-full text-left border-collapse text-body-sm">
+            <caption
+              id="sif-sample-shortlist-caption"
+              class="caption-top text-left font-mono text-caption uppercase text-fi-muted mb-3"
+            >
+              Cross-fund-house shortlist
+            </caption>
+            <thead>
+              <tr class="border-b border-fi-border text-body-sm font-semibold text-fi-muted">
+                <th scope="col" class="pb-2 pr-2 font-semibold text-balance">Check</th>
+                <th scope="col" class="pb-2 px-2 font-semibold text-balance">Strategy A</th>
+                <th scope="col" class="pb-2 pl-2 font-semibold text-balance">Strategy B</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="divide-y divide-fi-border">
+              {comparisonRows.map((row) => (
+                <tr>
+                  <th scope="row" class="py-2 pr-2 font-medium text-fi-ink">{row.metric}</th>
+                  <td class="py-2 px-2 text-fi-muted tabular-nums">{row.a}</td>
+                  <td class="py-2 pl-2 text-fi-muted tabular-nums">{row.b}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
-        <p class="text-body-sm text-fi-muted">Every trade-off, redemption term and commission is shared in writing before you decide.</p>
+        <p class="text-body-sm text-fi-muted text-pretty">Every trade-off, redemption term and commission is shared in writing before you decide.</p>
       </div>
     </div>
   </div>
-  <figcaption class:list={['mt-6 text-body-sm text-center', look.caption]}>
+  <figcaption class:list={['mt-6 text-body-sm text-center text-pretty', look.caption]}>
     Illustration with made-up data. Not a real fund or recommendation.
   </figcaption>
 </figure>

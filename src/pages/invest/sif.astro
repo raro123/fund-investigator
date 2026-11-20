@@ -22,11 +22,13 @@ import { SUBSCRIBE_PAGE } from '../../lib/substack';
 import { ARN, CONTACT_EMAIL, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
-// Service page C (/invest/sif/): goal-first, WhatsApp primary (decision 121),
+// Service page C (/invest/sif/): brand-led ("we" by default, writing_rules §3),
+// with the owner's name in the mandatory R-01 identity line and a brief signed
+// personal note inside the Section 5 IdCard. WhatsApp primary (decision 121),
 // with a quiet email fallback near the Section 5 CTA for privacy-conscious
 // readers. SIF promotional copy: needs the compliance officer's H-08 PASS
 // before release. Risk disclosures sit inline at body size in Section 3 so
-// warnings show once and the white FAQ section stays separated from the dark
+// warnings show once and the white FAQ band stays separated from the dark
 // footer. Names no fund house, SIF brand or SEBI strategy category (H-05),
 // makes no PMS/AIF comparison (decision 88), makes no return or safety claims
 // (R-10, R-13), avoids H-01 banned terms, and cites the SEBI circular inline
@@ -34,8 +36,8 @@ import { servicePageSchemaGraph } from '../../lib/schema';
 
 const pageTitle = 'Is a SIF right for your portfolio?';
 const pageDescription = 'Specialized Investment Funds (SIF) start at ₹10 lakh and carry higher risk. See the rules most investors miss and how Fund Investigator helps you decide.';
-// Every WhatsApp button uses the same label, so the one action reads the same.
-const whatsappLabel = 'Ask Ishpreet on WhatsApp';
+// Brand-led, consistent button label across all four placements on this page.
+const whatsappLabel = 'Ask us on WhatsApp';
 
 // Block 2: what we do for you. Three cards; after-care lives in step 4 only.
 const helps = [
@@ -76,32 +78,32 @@ const features = [
 ];
 
 // Block 3b: the fine-print rules that most ₹10L+ investors miss before buying
-// a SIF — surfaced prominently instead of buried in collapsed FAQs. Facts only;
-// SEBI circular source sits directly below.
+// a SIF — surfaced cleanly in editorial sans (reserving mono/dashed chrome for
+// dedicated stylistic elements like the sample card, ID card and fee memo).
 const finePrintChecks = [
   {
-    number: '01',
+    number: '1',
     title: 'The ₹10 lakh breach and 30-day freeze rule',
     body: 'The ₹10 lakh minimum is tracked per investor (PAN) across one fund house’s SIF strategies, and regular mutual funds do not count towards it. If a withdrawal takes you below ₹10 lakh, your remaining units are frozen and sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything — not a part.',
   },
   {
-    number: '02',
+    number: '2',
     title: 'Restricted redemption windows and notice periods',
     body: 'Unlike standard open-ended mutual funds, a SIF strategy may allow redemptions only on set days, require advance notice, or carry lock-ins and exit loads. Checking exit terms before committing ₹10 lakh prevents surprises when you need liquidity.',
   },
   {
-    number: '03',
+    number: '3',
     title: 'Overlap with the mutual funds you already own',
     body: 'A SIF does not sit in isolation. If its long book holds the same stocks or sectors as your existing mutual funds, putting ₹10 lakh into it can concentrate your portfolio instead of adding something new.',
   },
 ];
 
-// Block 4: four steps in 2x2 pairs (sans body), each with a mono fact line
-// answering the reader's primary objection at that step.
+// Block 4: four steps in 2x2 pairs (sans body), brand-led voice throughout,
+// each with a mono fact line answering the reader's primary objection.
 const steps = [
   {
-    title: 'Personal reply from Ishpreet',
-    body: 'Ishpreet answers your SIF questions and explains how we are paid, with no sign-up.',
+    title: 'A personal reply, no sign-up',
+    body: 'We answer your SIF questions personally and explain how we are paid, with no sign-up.',
     fact: 'No sign-up · No follow-up spam',
   },
   {
@@ -151,7 +153,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       Is a SIF right for
       <span class="block text-fi-gold">your portfolio?</span>
     </h1>
-    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-xl mx-auto lg:mx-0 font-light leading-relaxed mb-8']}>
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-xl mx-auto lg:mx-0 font-light leading-relaxed text-pretty mb-8']}>
       A SIF needs at least ₹10 lakh and carries higher risk than a regular mutual fund. Whether you have a specific SIF in mind or are just exploring, we compare strategies across fund houses, check how one fits your existing portfolio, and tell you when it makes more sense to wait.
     </p>
     <ContactActions
@@ -160,7 +162,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       align="split"
       whatsappOnly
       whatsappLabel={whatsappLabel}
-      note="Ishpreet replies personally · No sign-up · No unsolicited follow-ups"
+      note="Personal reply · No sign-up · No unsolicited follow-ups"
     />
 
     <!-- pr-2: room for the tilted back sheet on phones -->
@@ -171,7 +173,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     <!-- The identity line, exact (R-01 / L1): name, AMFI tagline, ARN. -->
     <div slot="footer" class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto text-center">
       <p class="text-caption text-fi-subtle text-balance">
-        <a href="/about/" class={darkLink}>{REGISTERED_NAME}</a> · {TAGLINE} · {ARN}
+        <a href="/about/" class:list={[darkLink, 'inline-block py-1']}>{REGISTERED_NAME}</a> · {TAGLINE} · {ARN}
       </p>
     </div>
   </Hero>
@@ -182,59 +184,62 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       title="How does Fund Investigator help you decide on a SIF?"
       lead="As a registered SIF Distributor, we are trained in how SIF strategies work. Here is what that means for you."
     />
-    <div class="grid lg:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
+    <ul role="list" class="grid lg:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
       {helps.map((help, index) => (
-        <div data-reveal={index}>
+        <li data-reveal={index}>
           <Card padding="lg" hover={false} class="h-full">
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{help.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed">{help.body}</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{help.title}</h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{help.body}</p>
           </Card>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   </Section>
 
-  <!-- 3. What is a SIF: crisp definition, 2x2 sans features, the 3 fine-print rules most
-       investors miss, SEBI circular source, and the inline regulators' warnings at body size. -->
+  <!-- 3. What is a SIF: crisp definition, 2x2 sans features, clean editorial callout for the
+       3 fine-print rules most investors miss, SEBI circular source, and inline risk warnings. -->
   <Section id="what-is-a-sif" background="light" spacing="md" maxWidth="xl">
     <SectionHeading
       title="What is a SIF?"
       lead="A Specialized Investment Fund (SIF) is a SEBI product category run by mutual fund houses. Unlike regular mutual funds, a SIF can take unhedged short positions up to 25% of its value — bringing different return drivers, higher risk and stricter rules."
     />
     <div class="space-y-6 max-w-4xl mx-auto">
-      <div class="grid sm:grid-cols-2 gap-5 text-left">
+      <ul role="list" class="grid sm:grid-cols-2 gap-5 text-left">
         {features.map((feature, index) => (
-          <div data-reveal={index}>
+          <li data-reveal={index}>
             <Card padding="lg" hover={false} class="h-full">
-              <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{feature.title}</h3>
-              <p class="text-body-sm text-fi-muted leading-relaxed">{feature.body}</p>
+              <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{feature.title}</h3>
+              <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{feature.body}</p>
             </Card>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
-      <!-- High-trust domain proof: the 3 rules investors commonly overlook before committing ₹10L+. -->
-      <div data-reveal={0} class="rounded-lg border border-fi-border bg-white shadow-fi-card px-6 py-6 lg:px-10 lg:py-8 text-left">
-        <p class="font-mono text-caption uppercase text-fi-muted pb-3 mb-5 border-b border-dashed border-fi-border">
-          Before you commit ₹10 lakh
-        </p>
-        <h3 class="text-heading-md font-bold text-fi-ink mb-5">
-          Three rules most investors miss about SIFs
-        </h3>
-        <ol class="divide-y divide-dashed divide-fi-border">
-          {finePrintChecks.map((check) => (
-            <li class="py-4 first:pt-0 last:pb-0 flex items-start gap-4">
-              <span class="font-mono text-caption font-bold text-fi-link pt-1 shrink-0 tabular-nums">{check.number}</span>
-              <div>
-                <h4 class="text-body-md font-bold text-fi-ink mb-1">{check.title}</h4>
-                <p class="text-body-sm text-fi-muted leading-relaxed">{check.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-        <p class="mt-5 pt-4 border-t border-dashed border-fi-border font-mono text-caption text-fi-muted">
-          Source: SEBI circular on Specialized Investment Funds, 27 February 2025 (₹10 lakh PAN-level minimum per fund house, breach/30-day rule, and 25% unhedged short-exposure limit).
-        </p>
+      <!-- Editorial sans callout (solid hairlines, 65ch line length) so mono/dashed chrome stays
+           sparing and distinct for the Sample brief, Risk disclosures, ID card and Fee memo. -->
+      <div data-reveal={0}>
+        <Card variant="elevated" padding="lg" hover={false} class="text-left">
+          <p class="text-body-sm font-semibold text-fi-link mb-2">
+            Before you commit ₹10 lakh
+          </p>
+          <h3 class="text-heading-md font-bold text-fi-ink text-balance mb-6">
+            Three rules most investors miss about SIFs
+          </h3>
+          <ol role="list" class="divide-y divide-fi-border">
+            {finePrintChecks.map((check) => (
+              <li class="py-5 first:pt-0 last:pb-0 flex items-start gap-4">
+                <span class="w-7 h-7 rounded-full bg-fi-light text-fi-ink text-body-sm font-bold flex items-center justify-center shrink-0 tabular-nums" aria-hidden="true">{check.number}</span>
+                <div class="min-w-0 max-w-fi-content">
+                  <h4 class="text-body-md font-bold text-fi-ink mb-1.5 text-balance">{check.title}</h4>
+                  <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{check.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p class="mt-6 pt-4 border-t border-fi-border text-body-sm text-fi-muted max-w-fi-content text-pretty">
+            <strong class="font-semibold text-fi-ink">Source:</strong> SEBI circular on Specialized Investment Funds, 27 February 2025 (₹10 lakh PAN-level minimum per fund house, breach and 30-day freeze rule, and 25% unhedged short-exposure limit).
+          </p>
+        </Card>
       </div>
 
       <RiskDisclosures inline class="max-w-4xl" />
@@ -260,16 +265,18 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       >
         {whatsappLabel}
       </Button>
-      <p class="text-body-sm text-fi-muted">Have a SIF in mind, or just exploring? One message is enough.</p>
+      <p class="text-body-sm text-fi-muted text-pretty">Have a SIF in mind, or just exploring? One message is enough.</p>
     </div>
   </Section>
 
-  <!-- 5. Who you speak to, how we are paid, and the primary CTA with a quiet email fallback
-       for privacy-conscious investors who prefer not to share WhatsApp first. -->
+  <!-- 5. Who you speak to, how we are paid, and the primary CTA. The IdCard carries the one
+       brief personal note in the owner's voice; the rest of the section stays brand-led. -->
   <Section id="who" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Who you speak to, and how we are paid" />
     <div data-reveal={0}>
-      <IdCard class="mx-auto w-full max-w-2xl" />
+      <IdCard class="mx-auto w-full max-w-2xl">
+        <p>You speak directly with me from your first message to every portfolio review. If a SIF does not fit what you already hold, I will tell you.</p>
+      </IdCard>
     </div>
     <p class="mt-6 text-center text-body-sm">
       <a href="/reports/" class:list={[lightLink, 'inline-block py-2']}>Read our investigations →</a>
@@ -281,15 +288,15 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     </div>
 
     <div class="mt-12 text-center max-w-2xl mx-auto">
-      <h3 class:list={[responsive.h3, 'font-bold text-fi-ink mb-3']}>Ask us about a SIF with one message</h3>
-      <p class="text-body-md text-fi-muted leading-relaxed text-balance mb-8">
+      <h3 class:list={[responsive.h3, 'font-bold text-fi-ink text-balance mb-3']}>Ask us about a SIF with one message</h3>
+      <p class="text-body-md text-fi-muted leading-relaxed text-pretty mb-8">
         Send a message with a SIF you are considering, or simply ask what a SIF would add to the funds you already own. If it helps, we set up a short call at a time that works for you.
       </p>
       <ContactActions placement="lp_sif_cta" surface="light" whatsappOnly whatsappLabel={whatsappLabel} />
-      <p class="mt-4 text-body-sm text-fi-muted text-balance">
-        We reply within 1 business day, and only follow up if you ask. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class={lightLink}>{CONTACT_EMAIL}</a>
+      <p class="mt-4 text-body-sm text-fi-muted text-pretty">
+        We reply within 1 business day, and only follow up if you ask. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'inline-block py-1']}>{CONTACT_EMAIL}</a>
       </p>
-      <p class="mt-4 text-body-sm">
+      <p class="mt-3 text-body-sm">
         <a href={SUBSCRIBE_PAGE} class:list={[lightLink, 'inline-block py-2']} {...trackAttrs('subscribe_click', 'lp_sif_cta')}>Not ready? Get the monthly note</a>
       </p>
     </div>
