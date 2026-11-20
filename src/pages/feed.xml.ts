@@ -128,7 +128,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   return rss({
     title: 'Fund Investigator Investigations',
-    description: 'Mutual fund research with benchmark comparisons, risk-adjusted metrics, and historical evidence.',
+    description: 'Mutual fund guides and investigations with benchmark comparisons, risk-adjusted metrics, and historical evidence.',
     site: siteUrl,
     items,
     customData: '<language>en-IN</language>',
