@@ -156,8 +156,8 @@ export const sifFaq: FaqItem[] = [
     answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part (source: SEBI circular on Specialized Investment Funds, 27 February 2025). Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
   },
   {
-    question: 'Should I sell my mutual funds to invest in a SIF?',
-    answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
+    question: 'Should I sell or move my existing mutual funds to invest in a SIF?',
+    answer: 'Not by default. We start from your whole portfolio, and any direct mutual funds you already hold can stay direct. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling existing funds can also mean tax and exit loads.',
   },
   {
     question: 'Who holds my money if I invest in a SIF through you?',

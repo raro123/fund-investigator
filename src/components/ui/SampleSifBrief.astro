@@ -30,9 +30,9 @@ interface Props {
 const { surface = 'dark', class: className = '' } = Astro.props;
 
 const fitChecks = [
-  { label: 'Overlap', note: 'Checked against the stocks and sectors you already hold' },
-  { label: 'Horizon', note: 'Can ₹10 lakh stay invested through lock-ins and falls?' },
-  { label: 'Role', note: 'What a SIF adds — or when it makes more sense to wait' },
+  { label: 'Overlap', note: 'Stocks and sectors shared with your current funds' },
+  { label: 'Liquidity', note: 'Lock-in, notice period and ₹10 lakh breach threshold' },
+  { label: 'Verdict', note: 'What a SIF adds — or why it makes sense to wait' },
 ] as const;
 
 const comparisonRows = [
