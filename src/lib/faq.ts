@@ -149,15 +149,19 @@ export const sifFaq: FaqItem[] = [
   },
   {
     question: 'Is the ₹10 lakh minimum per investment strategy?',
-    answer: 'No. It applies per investor (PAN), across all the SIF strategies of one fund house. Your other mutual fund holdings do not count towards it (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
+    answer: 'No. It applies per investor (PAN), across all the SIF strategies of one fund house. Your other mutual fund holdings do not count towards it (source: SEBI circular on Specialized Investment Funds, 27 February 2025).',
   },
   {
     question: 'Can I take my money out at any time?',
-    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part. Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
+    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part (source: SEBI circular on Specialized Investment Funds, 27 February 2025). Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
   },
   {
     question: 'Should I sell my mutual funds to invest in a SIF?',
     answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
+  },
+  {
+    question: 'Who holds my money if I invest in a SIF through you?',
+    answer: 'You pay the fund house directly, and the units stay in your name. Fund Investigator never receives or holds your money.',
   },
 ];
 

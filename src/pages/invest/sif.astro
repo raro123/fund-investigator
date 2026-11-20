@@ -6,6 +6,7 @@ import Card from '../../components/ui/Card.astro';
 import Kicker from '../../components/ui/Kicker.astro';
 import Memo from '../../components/ui/Memo.astro';
 import Highlight from '../../components/ui/Highlight.astro';
+import SampleSifBrief from '../../components/ui/SampleSifBrief.astro';
 import RiskDisclosures from '../../components/ui/RiskDisclosures.astro';
 import StepMemos from '../../components/ui/StepMemos.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
@@ -21,29 +22,25 @@ import { SUBSCRIBE_PAGE } from '../../lib/substack';
 import { ARN, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
-// Service page C (/invest/sif/), rebuilt goal-first from SIF page copy v1.2.1
-// (owner-locked 11 and 16 Nov 2026; fund_distribution_business project files
-// content/sif_page/sif_page_copy_draft.md, Brand's 6 blocks, demo
-// https://claude.ai/artifact/Ace5ZpFyVhREcoHxbyT6vU). Copy word for word.
-// Page goal: an interested investor sends one WhatsApp message. It is the only
-// action (decision 121), as on the portfolio review page.
+// Service page C (/invest/sif/): goal-first, WhatsApp only (decision 121).
 // SIF promotional copy: needs the compliance officer's H-08 PASS before release.
 // The Risk disclosures card (AMFI and SEBI warnings) sits under the features in
-// "What is a SIF?" instead of above the footer (owner, 17 Nov), so it shows once. Names no fund house, SIF brand or strategy
-// (H-05) and makes no return claims. No exam names (owner, 11 Nov). A "facts as
-// of" date sits next to the facts it dates, never as a page-level line (owner,
-// 11 Nov). Placements start with `lp_sif_`.
+// "What is a SIF?" instead of above the footer, so it shows once and keeps the
+// white FAQ band separated from the dark footer. Names no fund house, SIF brand
+// or SEBI strategy category (H-05), makes no return claims (R-10), and avoids
+// H-01 banned terms. Regulatory facts cite the SEBI circular inline (H-10).
+// Placements start with `lp_sif_`.
 
-const pageTitle = 'Is a SIF right for my portfolio?';
-const pageDescription = 'Specialised Investment Funds start at ₹10 lakh and carry higher risk. See the risks and how Fund Investigator helps you decide if one fits your portfolio.';
-// Every WhatsApp button uses the same label, so the one action reads the same (review brief, 17 Nov).
+const pageTitle = 'Is a SIF right for your portfolio?';
+const pageDescription = 'Specialized Investment Funds (SIF) start at ₹10 lakh and carry higher risk. See how Fund Investigator helps you decide if a SIF fits your portfolio.';
+// Every WhatsApp button uses the same label, so the one action reads the same.
 const whatsappLabel = 'Ask Ishpreet on WhatsApp';
 
 // Block 2: what we do for you. Three cards; after-care lives in step 4 only.
 const helps = [
   {
     title: 'We explain the whole product.',
-    body: 'How the strategy uses derivatives, how it can make and lose money, its Risk-Band, its redemption terms and its costs, including our commission, in writing.',
+    body: 'How the strategy uses derivatives, how it can make and lose money, its SEBI Risk-Band, its redemption terms and its costs, including our commission, in writing.',
   },
   {
     title: 'We check how it fits your portfolio.',
@@ -55,14 +52,14 @@ const helps = [
   },
 ];
 
-// Block 3: four features in one memo, then the Risk disclosures card (owner, 17 Nov). Facts only: no return, protection or "safety" claims, no PMS or
-// AIF comparison (decision 88), and no SEBI strategy category names (H-05).
-// Needs a source quote before the H-08 check: debt and multi-asset strategies
-// (SIF circular, investment strategies) and the custodian.
+// Block 3: four factual features in clean sans cards, followed by the SEBI
+// source, decision bridge, and inline Risk disclosures card. No return,
+// protection or safety claims, no PMS/AIF comparison (decision 88), no SEBI
+// strategy category names (H-05), and no H-01 "independent" wording.
 const features = [
   {
-    title: 'Can act on falls as well as rises',
-    body: 'Through short positions, the fund manager can act on a view that a stock or sector will fall, not only that it will rise. A mutual fund cannot take short positions like this.',
+    title: 'Can take unhedged short positions (up to 25%)',
+    body: 'Unlike a regular mutual fund, which uses derivatives only to hedge or rebalance, a SIF can take unhedged short positions up to 25% of its value when the manager expects a stock or sector to fall.',
   },
   {
     title: 'Bond strategies can short too',
@@ -74,23 +71,21 @@ const features = [
   },
   {
     title: 'Runs under mutual fund rules',
-    body: "A SIF is run by a mutual fund house under SEBI's rules. An independent custodian holds the assets. Each strategy's lock-in, exit load and redemption terms are in its documents.",
+    body: "A SIF is run by a mutual fund house under SEBI's rules. A separate custodian holds the assets. Each strategy's lock-in, exit load and redemption terms are in its documents.",
   },
 ];
 
-// Block 4: four steps. The fee line moved to its own memo under the ID card (owner, 17 Nov).
-// Headings say what happens and which decisions stay with the reader, one short
-// sentence each (review brief, 17 Nov). Kept: how we are paid and no sign-up at the
-// first conversation; sign-up and consent before the detailed review; no commitment.
-// Not yet in the copy doc; needs the H-08 PASS with the rest of the page.
+// Block 4: four steps in a 2x2 grid (pairs layout, sans body). Consistent brand
+// "we" voice naming Ishpreet cleanly, with direct payment and client control
+// made explicit. Needs the H-08 PASS with the rest of the page.
 const steps = [
   {
-    title: 'Ishpreet answers your first question personally',
-    body: 'He answers your SIF questions and explains how we are paid, with no sign-up.',
+    title: 'Personal reply from Ishpreet',
+    body: 'Ishpreet answers your SIF questions and explains how we are paid, with no sign-up.',
   },
   {
     title: 'You choose whether to share your holdings',
-    body: 'For a detailed review, you sign up as our client and, with your consent, we fetch your mutual fund holdings; nothing you hold changes and you are not committed to invest.',
+    body: 'For a detailed review, you complete a short client registration and, with your consent, we fetch your mutual fund holdings. Nothing you hold changes, and you are not committed to invest.',
   },
   {
     title: 'You get the risks and costs in writing',
@@ -98,7 +93,7 @@ const steps = [
   },
   {
     title: 'You approve every investment',
-    body: 'Nothing is invested without your approval, and if you invest through us, we review the SIF with your other funds at regular intervals.',
+    body: 'You pay the fund house directly, units stay in your name, and nothing moves without your approval. If you invest through us, we review the SIF with your other funds at regular intervals.',
   },
 ];
 
@@ -116,43 +111,54 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     description: pageDescription,
     breadcrumbName: 'SIF',
     serviceName: 'SIF distribution',
-    serviceType: 'Specialised Investment Fund (SIF) distribution by a registered SIF Distributor',
+    serviceType: 'Specialized Investment Fund (SIF) distribution by a registered SIF Distributor',
     faq: sifFaq,
   }, Astro.site)}
   trackView="landing_view"
   trackLanding="sif"
   riskDisclosures={false}
 >
-  <!-- 1. Hero: one column, centred (owner, 11 Nov). The question, the answer line, one action,
-       and who the reader messages: the name (linked to /about/) in the exact identity line. The photo
-       moved to the ID card above the FAQ (owner, 17 Nov). -->
+  <!-- 1. Hero: split, matching /invest/portfolio-review/. Question, qualification and one action
+       on the left; the illustrative SIF fit assessment on the right so proof is visible above
+       the fold on desktop. Exact identity line (R-01) spans full width in the footer slot. -->
   <Hero size="md" background="dark">
-    <Kicker class="mb-6">Specialised Investment Funds (SIF)</Kicker>
-    <h1 class:list={[responsive.display, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words text-balance max-w-4xl mx-auto']}>
+    <Kicker class="mb-6">Specialized Investment Funds (SIF)</Kicker>
+    <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words text-balance']}>
       Is a SIF right for
       <span class="block text-fi-gold">your portfolio?</span>
     </h1>
-    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-72 sm:max-w-2xl mx-auto font-light leading-relaxed mb-8']}>
-      A SIF needs at least ₹10 lakh. We compare strategies across fund houses, show how one would fit your portfolio and the risks you would take, and tell you when it makes more sense to wait.
+    <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-xl mx-auto lg:mx-0 font-light leading-relaxed mb-8']}>
+      A SIF needs at least ₹10 lakh. Whether you have a specific SIF in mind or are just exploring, we compare strategies across fund houses, check how one fits your portfolio and its risks, and tell you when it makes more sense to wait.
     </p>
-    <!-- The note works for both readers: one with a SIF in mind, one still exploring (review brief, 17 Nov). -->
-    <ContactActions placement="lp_sif_hero" surface="dark" whatsappOnly whatsappLabel={whatsappLabel} note="Send me the name of a SIF you’re considering, or ask, ‘What would a SIF add to the funds I already own?’ I reply personally. No sign-up for the first conversation." />
+    <ContactActions
+      placement="lp_sif_hero"
+      surface="dark"
+      align="split"
+      whatsappOnly
+      whatsappLabel={whatsappLabel}
+      note="Ishpreet replies personally · No sign-up for the first conversation"
+    />
 
-    <!-- The identity line, exact (L1): name, AMFI tagline, ARN. -->
-    <div class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto">
-      <p class="text-caption text-fi-subtle text-balance text-center">
+    <!-- pr-2: room for the tilted back sheet on phones -->
+    <div slot="aside" id="sample" class="pr-2 sm:pr-0">
+      <SampleSifBrief />
+    </div>
+
+    <!-- The identity line, exact (R-01 / L1): name, AMFI tagline, ARN. -->
+    <div slot="footer" class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto text-center">
+      <p class="text-caption text-fi-subtle text-balance">
         <a href="/about/" class={darkLink}>{REGISTERED_NAME}</a> · {TAGLINE} · {ARN}
       </p>
     </div>
   </Hero>
 
-  <!-- 2. How we help: the USP first, because the reader has heard of SIFs and wants help. -->
+  <!-- 2. How we help: the USP first. Stacks until lg so three cards never cramp on tablets. -->
   <Section id="how-we-help" background="white" spacing="md" maxWidth="xl">
     <SectionHeading
       title="How does Fund Investigator help you decide on a SIF?"
       lead="As a registered SIF Distributor, we are trained in how SIF strategies work. Here is what that means for you."
     />
-    <div class="grid md:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
+    <div class="grid lg:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
       {helps.map((help, index) => (
         <div data-reveal={index}>
           <Card padding="lg" hover={false} class="h-full">
@@ -164,50 +170,80 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     </div>
   </Section>
 
-  <!-- 3. What is a SIF: features, then the regulators' warnings. The answer-first lead is the AEO definition. -->
+  <!-- 3. What is a SIF: crisp 2-line definition, 2x2 sans feature cards, SEBI source and
+       decision bridge, then the inline regulators' warnings at body size. -->
   <Section id="what-is-a-sif" background="light" spacing="md" maxWidth="xl">
     <SectionHeading
       title="What is a SIF?"
-      lead="A Specialised Investment Fund (SIF) is a SEBI product category, run by mutual fund houses, that sits between mutual funds and portfolio management services (PMS). A mutual fund can use derivatives only to hedge or rebalance. A SIF can also take unhedged short positions, up to 25% of its value. The minimum is ₹10 lakh per investor, per fund house."
+      lead="A Specialized Investment Fund (SIF) is a SEBI product category run by mutual fund houses, sitting between mutual funds and PMS, with a ₹10 lakh minimum per investor, per fund house."
     />
-    <!-- The warnings sit directly under the features, at the same width (owner, 17 Nov),
-         in place of the page-end card (riskDisclosures={false} on Layout). -->
-    <div class="space-y-6">
-      <div data-reveal={0}>
-        <Memo label="What a SIF can do" items={features} class="max-w-4xl" />
+    <div class="space-y-6 max-w-4xl mx-auto">
+      <div class="grid sm:grid-cols-2 gap-5 text-left">
+        {features.map((feature, index) => (
+          <div data-reveal={index}>
+            <Card padding="lg" hover={false} class="h-full">
+              <h3 class="text-heading-sm font-bold text-fi-ink mb-2">{feature.title}</h3>
+              <p class="text-body-sm text-fi-muted leading-relaxed">{feature.body}</p>
+            </Card>
+          </div>
+        ))}
       </div>
+
+      <div class="text-left space-y-2 pt-1">
+        <p class="text-body-sm text-fi-ink leading-relaxed">
+          Because short limits, asset mixes, lock-ins and redemption windows vary by strategy, picking a SIF means checking how it behaves alongside the funds you already hold.
+        </p>
+        <p class="font-mono text-caption text-fi-muted">
+          Source: SEBI circular on Specialized Investment Funds, 27 February 2025 (₹10 lakh PAN-level minimum per fund house; 25% unhedged short-exposure limit).
+        </p>
+      </div>
+
       <RiskDisclosures inline class="max-w-4xl" />
     </div>
   </Section>
 
-  <!-- 4. What happens after you message us: four steps, four across from lg (owner, 16 Nov), no lead. -->
+  <!-- 4. What happens after you message us: four steps in 2x2 pairs for readability, followed
+       by a quiet secondary CTA so convinced readers can act without scrolling past the ID card. -->
   <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="What happens after you message us?" />
-    <StepMemos steps={steps} bodyFont="sans" />
+    <StepMemos steps={steps} layout="pairs" bodyFont="sans" />
+    <div class="mt-10 flex justify-center">
+      <Button
+        href={whatsappUrl('lp_sif_steps')}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="whatsapp"
+        variant="secondary"
+        surface="light"
+        size="lg"
+        track={{ event: 'conversation_request', placement: 'lp_sif_steps', channel: 'whatsapp' }}
+        class="w-full max-w-80 sm:w-auto sm:max-w-none"
+      >
+        {whatsappLabel}
+      </Button>
+    </div>
   </Section>
 
-  <!-- 5. Who you talk to, and how we are paid: the ID card and the fee memo, as on the
-       portfolio review page (owner, 17 Nov). The fee line is the exact L1 line. Unlike the
-       review page, no expense-ratio sentence and no footnote: the SIF sources say nothing
-       about SIF plans or expense ratios (compliance E-C2). -->
+  <!-- 5. Who you speak to, how we are paid, and the primary mid/late CTA. Heading matches the
+       trust cards immediately below; the CTA block carries its own sub-heading. -->
   <Section id="who" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading title="Ask us about a SIF with one message" />
+    <SectionHeading title="Who you speak to, and how we are paid" />
     <div data-reveal={0}>
       <IdCard class="mx-auto w-full max-w-2xl" />
     </div>
-    <div data-reveal={1} class="mt-12">
+    <p class="mt-6 text-center text-body-sm">
+      <a href="/reports/" class:list={[lightLink, 'inline-block py-2']}>Read our investigations →</a>
+    </p>
+    <div data-reveal={1} class="mt-8">
       <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
         We earn a commission from the fund house, and we give you the rates <Highlight>in writing before you invest</Highlight>.
       </Memo>
     </div>
 
-    <!-- The ask, right after who replies and how we are paid (owner, 17 Nov; it was the dark
-         close after the FAQ). The section's one gold button; the monthly note is the exit for
-         readers who are not ready. -->
-    <!-- The section heading carries the ask (owner, 17 Nov), so no second heading here. -->
     <div class="mt-12 text-center max-w-2xl mx-auto">
+      <h3 class:list={[responsive.h3, 'font-bold text-fi-ink mb-3']}>Ask us about a SIF with one message</h3>
       <p class="text-body-md text-fi-muted leading-relaxed text-balance mb-8">
-        Send the message. We ask the rest. If it helps, we set up a short call at a time that works for you.
+        Send a message with a SIF you are considering, or simply ask what a SIF would add to the funds you already own. If it helps, we set up a short call at a time that works for you.
       </p>
       <ContactActions placement="lp_sif_cta" surface="light" whatsappOnly whatsappLabel={whatsappLabel} />
       <p class="mt-6 text-body-sm">
@@ -216,8 +252,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     </div>
   </Section>
 
-  <!-- 6. FAQ: the doubts that stop the message. FAQPage schema comes from sifFaq. It ends with a
-       second, quieter chance to ask, so a reader persuaded by an answer need not scroll back up. -->
+  <!-- 6. FAQ: the doubts that stop the message. White section stays above the dark footer. -->
   <Section id="faq" background="white" spacing="md" maxWidth="xl">
     <SectionHeading title="Questions about SIFs" />
     <div class="max-w-3xl mx-auto text-left">

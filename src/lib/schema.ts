@@ -409,6 +409,8 @@ interface PageGraphInput {
   /** schema.org page type; AboutPage is not in the core builder's union, so it is set after building. */
   type?: 'WebPage' | 'AboutPage' | 'CollectionPage' | ReadonlyArray<'WebPage' | 'FAQPage'>;
   breadcrumbName: string;
+  /** Optional full breadcrumb trail; defaults to Home -> breadcrumbName. */
+  breadcrumbs?: BreadcrumbItem[];
   mainEntity?: SchemaObject | SchemaObject[];
   /** What the page is about, when its main entity is something else (an FAQ list). */
   about?: SchemaObject;
@@ -421,7 +423,7 @@ interface PageGraphInput {
  * so every indexable page carries a complete, linked graph.
  */
 const staticPageGraph = (
-  { path, name, description, type = 'WebPage', breadcrumbName, mainEntity, about, entities = [] }: PageGraphInput,
+  { path, name, description, type = 'WebPage', breadcrumbName, breadcrumbs, mainEntity, about, entities = [] }: PageGraphInput,
   site?: URL,
 ): SchemaObject => {
   const ids = idsFor(site);
@@ -441,7 +443,7 @@ const staticPageGraph = (
     organizationSchema(site),
     websiteSchema(site),
     { ...page, '@type': type } as SchemaObject,
-    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: breadcrumbName, path }], site),
+    breadcrumbSchema(breadcrumbs ?? [{ name: 'Home', path: '/' }, { name: breadcrumbName, path }], site),
     ...entities,
   ]);
 };
@@ -546,6 +548,11 @@ export const servicePageSchemaGraph = (
     description: input.description,
     type: ['WebPage', 'FAQPage'],
     breadcrumbName: input.breadcrumbName,
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Invest with support', path: '/invest/' },
+      { name: input.breadcrumbName, path: input.path },
+    ],
     mainEntity: faqQuestions(input.faq),
     about: { '@id': serviceId },
     entities: [buildPiece({

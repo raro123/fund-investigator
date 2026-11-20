@@ -1,0 +1,104 @@
+---
+/**
+ * SampleSifBrief Component
+ *
+ * An illustrative SIF fit assessment card, shown as a white document on the
+ * dark /invest/sif/ hero (matching SampleBrief.astro's visual language). It
+ * previews what a client receives in writing: portfolio-fit checks and a
+ * side-by-side comparison across fund houses before deciding on a ₹10 lakh+
+ * allocation.
+ *
+ * Compliance guardrails (SIF promotional page — R-10, R-22, H-04, H-05, H-15):
+ *   - names no fund house, SIF brand, or SEBI strategy category name
+ *   - shows no returns, yields, or commission rates
+ *   - labelled "Sample" with the H-15 made-up data notice in the caption
+ *
+ * @example
+ * <SampleSifBrief />
+ * <SampleSifBrief surface="light" />
+ *
+ * @param surface - 'dark' (default) or 'light': back sheet, shadow and caption colour
+ * @param class - extra classes for the figure
+ */
+import Badge from './Badge.astro';
+
+interface Props {
+  surface?: 'dark' | 'light';
+  class?: string;
+}
+
+const { surface = 'dark', class: className = '' } = Astro.props;
+
+const fitChecks = [
+  { label: 'Overlap', note: 'Checked against the stocks and sectors you already hold' },
+  { label: 'Horizon', note: 'Can ₹10 lakh stay invested through lock-ins and falls?' },
+  { label: 'Role', note: 'What a SIF adds — or when it makes more sense to wait' },
+] as const;
+
+const comparisonRows = [
+  { metric: 'SEBI Risk-Band', a: 'Band 4', b: 'Band 5' },
+  { metric: 'Short exposure', a: 'Equity', b: 'Equity + debt' },
+  { metric: 'Redemption', a: 'Set days + notice', b: 'Daily, exit load' },
+  { metric: 'Commission', a: 'In writing', b: 'In writing' },
+] as const;
+
+const look = {
+  dark: { sheet: 'bg-fi-mid border-fi-border-dark', shadow: 'shadow-fi-card-dark', caption: 'text-fi-subtle' },
+  light: { sheet: 'bg-fi-border border-fi-border', shadow: 'shadow-fi-card', caption: 'text-fi-muted' },
+}[surface];
+---
+
+<figure class:list={['w-full max-w-lg mx-auto', className]}>
+  <div class="relative">
+    <div class:list={['absolute inset-0 rounded-xl border rotate-3 translate-x-2 translate-y-1.5', look.sheet]} aria-hidden="true"></div>
+
+    <div class:list={['relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 transition-transform duration-300 hover:-translate-y-1', look.shadow]}>
+      <div class="flex items-center justify-between gap-3">
+        <p class="text-body-lg font-bold leading-snug">SIF fit assessment</p>
+        <Badge size="sm" rounded={false} class="shrink-0">Sample</Badge>
+      </div>
+      <p class="mt-2 text-body-sm text-fi-muted tabular-nums">Illustrative brief · ₹10 lakh+ allocation</p>
+
+      <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+        <p class="font-mono text-caption uppercase text-fi-muted mb-3">Portfolio fit check</p>
+        <ul class="space-y-2">
+          {fitChecks.map((item) => (
+            <li class="flex items-baseline gap-3 text-body-sm">
+              <span class="w-16 shrink-0 font-semibold text-fi-ink">{item.label}</span>
+              <span class="text-fi-muted leading-snug">{item.note}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+        <p class="font-mono text-caption uppercase text-fi-muted mb-3">Cross-fund-house shortlist</p>
+        <table class="w-full text-left border-collapse text-body-sm">
+          <thead>
+            <tr class="border-b border-fi-border font-mono text-caption uppercase text-fi-muted">
+              <th scope="col" class="pb-2 pr-2 font-bold">Check</th>
+              <th scope="col" class="pb-2 px-2 font-bold">Strategy A</th>
+              <th scope="col" class="pb-2 pl-2 font-bold">Strategy B</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dashed divide-fi-border">
+            {comparisonRows.map((row) => (
+              <tr>
+                <th scope="row" class="py-2 pr-2 font-medium text-fi-ink">{row.metric}</th>
+                <td class="py-2 px-2 text-fi-muted tabular-nums">{row.a}</td>
+                <td class="py-2 pl-2 text-fi-muted tabular-nums">{row.b}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 border-t border-dashed border-fi-border pt-4">
+        <p class="text-body-sm text-fi-muted">Every trade-off, redemption term and commission is shared in writing before you decide.</p>
+      </div>
+    </div>
+  </div>
+  <figcaption class:list={['mt-6 text-body-sm text-center', look.caption]}>
+    Illustration with made-up data. Not a real fund or recommendation.
+  </figcaption>
+</figure>
