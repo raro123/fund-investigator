@@ -18,7 +18,7 @@ export async function GET({ props }) {
   return renderOgCard({
     eyebrow: category,
     title,
-    footerLeft: 'Benchmark-led fund research.',
+    footerLeft: 'Benchmark-led fund investigations.',
     footerRight: formatDate(date, 'month'),
   });
 }
