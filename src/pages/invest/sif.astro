@@ -35,7 +35,7 @@ import { servicePageSchemaGraph } from '../../lib/schema';
 // SEBI circular inline next to regulatory figures (H-10). Placements: `lp_sif_`.
 
 const pageTitle = 'Specialized Investment Funds (SIF)';
-const pageDescription = 'Specialized Investment Funds (SIF) start at ₹10 lakh and carry higher risk. See the rules most investors miss and how Fund Investigator helps you decide.';
+const pageDescription = 'Specialized Investment Funds (SIF) unlock flexible strategies with a ₹10 lakh minimum and higher risk. See how Fund Investigator checks portfolio fit.';
 const whatsappLabel = 'Ask us on WhatsApp';
 
 // Block 2: USP first — cross-fund-house comparison, portfolio fit & sizing, written clarity.
@@ -57,38 +57,9 @@ const helps = [
   },
 ];
 
-// Block 3a: elevated first so already-interested ₹10L+ investors immediately see the
-// non-obvious regulatory and portfolio fine print that separates careful analysis from hype.
-const finePrintChecks = [
-  {
-    number: '1',
-    title: 'The ₹10 lakh breach and 30-day freeze rule',
-    points: [
-      "The ₹10 lakh minimum is tracked per investor (PAN) across one fund house's SIF strategies — regular mutual funds do not count towards it.",
-      'If a withdrawal takes you below ₹10 lakh, remaining units are frozen and redeemed after 30 days unless you top up.',
-      'If market falls take you below ₹10 lakh, you can only redeem everything — not a part.',
-    ],
-  },
-  {
-    number: '2',
-    title: 'Restricted redemption windows and notice periods',
-    points: [
-      'Unlike standard open-ended mutual funds, a SIF strategy may allow redemptions only on set days, require advance notice, or carry lock-ins and exit loads.',
-      'Checking exit terms before committing ₹10 lakh prevents surprises when you need liquidity.',
-    ],
-  },
-  {
-    number: '3',
-    title: 'Overlap and sizing inside your existing portfolio',
-    points: [
-      'A SIF rarely replaces your core mutual funds. If its long book holds the same stocks or sectors you already own — or if ₹10 lakh is too large a share of your portfolio — it can add concentration instead of diversification.',
-    ],
-  },
-];
-
-// Block 3b: compact 2x2 factual differences from regular mutual funds. No return,
+// Block 3: compact 2x2 factual differences from regular mutual funds. No return,
 // protection or safety claims, no PMS/AIF comparison (decision 88), no SEBI
-// strategy category names (H-05), and no H-01 "independent" wording.
+// strategy category names (H-02), and no "independent" wording (H-04).
 const features = [
   {
     title: 'Unhedged short positions (up to 25%)',
@@ -221,58 +192,24 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
     </p>
   </Section>
 
-  <!-- 3. Before you commit ₹10 lakh: high-value fine-print rules elevated first, followed by
-       compact 2x2 strategy differences and inline body-size risk disclosures. -->
+  <!-- 3. How a SIF differs from a regular mutual fund: answer-first AEO lead, compact 2x2
+       strategy differences, and inline body-size risk disclosures. -->
   <Section id="what-is-a-sif" background="light" spacing="md" maxWidth="xl">
     <SectionHeading
-      title="Before you commit ₹10 lakh: what a SIF changes"
-      lead="A Specialized Investment Fund (SIF) is a SEBI category run by mutual fund houses. It allows more flexible strategies than regular mutual funds — along with higher risk and stricter liquidity rules."
+      title="How a SIF differs from a regular mutual fund"
+      lead="A Specialized Investment Fund (SIF) is a SEBI category run by mutual fund houses. It allows more flexible strategies than regular mutual funds, with a ₹10 lakh minimum per fund house, higher risk and stricter redemption rules."
     />
     <div class="space-y-8 max-w-4xl mx-auto">
-      <div data-reveal={0}>
-        <Card variant="elevated" padding="lg" hover={false} class="text-left">
-          <p class="text-body-sm font-semibold text-fi-link mb-2">
-            The fine print
-          </p>
-          <h3 class="text-heading-md font-bold text-fi-ink text-balance mb-6">
-            Three rules most investors miss about SIFs
-          </h3>
-          <ol role="list" class="divide-y divide-fi-border">
-            {finePrintChecks.map((check) => (
-              <li class="py-5 first:pt-0 last:pb-0 flex items-start gap-4">
-                <span class="w-7 h-7 rounded-full bg-fi-light text-fi-ink text-body-sm font-bold flex items-center justify-center shrink-0 tabular-nums" aria-hidden="true">{check.number}</span>
-                <div class="min-w-0 max-w-fi-content">
-                  <h4 class="text-body-md font-bold text-fi-ink mb-2 text-balance">{check.title}</h4>
-                  <div class="space-y-2">
-                    {check.points.map((point) => (
-                      <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{point}</p>
-                    ))}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <p class="mt-6 pt-4 border-t border-fi-border text-body-sm text-fi-muted max-w-fi-content text-pretty">
-            <strong class="font-semibold text-fi-ink">Source:</strong> SEBI circular on Specialized Investment Funds, 27 February 2025 (₹10 lakh PAN-level minimum per fund house, breach and 30-day freeze rule, and 25% unhedged short-exposure limit).
-          </p>
-        </Card>
-      </div>
-
-      <div>
-        <h3 class:list={[responsive.h3, 'font-bold text-fi-ink text-center text-balance mb-5']}>
-          How SIF strategies differ from regular mutual funds
-        </h3>
-        <ul role="list" class="grid sm:grid-cols-2 gap-5 text-left">
-          {features.map((feature, index) => (
-            <li data-reveal={index}>
-              <Card padding="lg" hover={false} class="h-full">
-                <h4 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{feature.title}</h4>
-                <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{feature.body}</p>
-              </Card>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul role="list" class="grid sm:grid-cols-2 gap-5 text-left">
+        {features.map((feature, index) => (
+          <li data-reveal={index}>
+            <Card padding="lg" hover={false} class="h-full">
+              <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{feature.title}</h3>
+              <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{feature.body}</p>
+            </Card>
+          </li>
+        ))}
+      </ul>
 
       <RiskDisclosures inline class="max-w-4xl" />
     </div>
