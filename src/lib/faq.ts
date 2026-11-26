@@ -135,33 +135,34 @@ export const reviewFaq: FaqItem[] = [
 
 /**
  * /invest/sif/ (T-59, Phase 2 item C). SIF promotional copy: every change needs
- * the compliance officer's PASS (rulebook H-08). SIF page copy v1.2.1 (16 Nov): the
- * five FAQs, word for word; the shared answers are no longer on this page.
+ * the compliance officer's PASS (rulebook H-08). Six FAQs covering first-contact
+ * pressure, direct vs. regular plans, tax structure, liquidity/breach rules,
+ * existing funds and custody.
  */
 export const sifFaq: FaqItem[] = [
   {
     question: 'Is the first conversation a sales call?',
-    answer: 'No. It is a short conversation at a time that works for you. We explain how we are paid, ask what you hold and why a SIF interests you, and answer your questions. You decide if you want to go ahead. After that, we message you only if you ask us to.',
+    answer: 'No. Whether you message us on WhatsApp or book a short call, we explain how we are paid, answer your questions on SIF rules and strategies, and learn what you are trying to solve. Asking questions does not commit you to investing through us, and we follow up only if you ask.',
   },
   {
-    question: 'Do I need a distributor to invest in a SIF?',
-    answer: 'No. You can invest with the fund house directly. A distributor helps when you want the SIF question answered against your whole portfolio: what you already hold, when you need the money and what it costs. No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
+    question: 'Direct plan vs. investing through a distributor — what is the difference?',
+    answer: 'You can invest in a SIF directly with the fund house through a direct plan, which carries a lower yearly expense ratio because it excludes distributor commission. Investing through a registered distributor like us uses a regular plan with a higher expense ratio — there is no separate fee from you, and we share our commission rates in writing before you decide. In return, we compare strategies across fund houses, check overlap and liquidity against your existing portfolio, and review the SIF alongside your other funds over time.',
   },
   {
-    question: 'Is the ₹10 lakh minimum per investment strategy?',
-    answer: 'No. It applies per investor (PAN), across all the SIF strategies of one fund house. Your other mutual fund holdings do not count towards it (source: SEBI circular on Specialized Investment Funds, 27 February 2025).',
+    question: 'How are SIFs taxed?',
+    answer: "Tax treatment depends on each investment strategy's asset mix (such as its equity or debt allocation) and how long you hold units, as set out in its strategy document and prevailing tax rules. We highlight the structure for every shortlisted strategy in your written brief so you can confirm the impact with your tax adviser before investing.",
   },
   {
-    question: 'Can I take my money out at any time?',
-    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part (source: SEBI circular on Specialized Investment Funds, 27 February 2025). Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
+    question: 'Can I redeem my money whenever I want?',
+    answer: 'Not necessarily. Unlike standard open-ended mutual funds, a SIF strategy may restrict redemptions to set days, require advance notice, or apply lock-ins and exit loads. Because the ₹10 lakh minimum applies at the investor (PAN) level per fund house, a partial withdrawal that takes you below ₹10 lakh freezes your remaining units for 30 days before forced redemption unless you top up; if market falls take you below ₹10 lakh, only a full redemption is allowed (source: SEBI circular on Specialized Investment Funds, 27 February 2025). We lay out every exit term before you commit.',
   },
   {
     question: 'Should I sell or move my existing mutual funds to invest in a SIF?',
-    answer: 'Not by default. We start from your whole portfolio, and any direct mutual funds you already hold can stay direct. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling existing funds can also mean tax and exit loads.',
+    answer: 'Not by default. We start from your whole portfolio, and any direct mutual funds you already hold can stay direct. A SIF is typically evaluated as one part of a broader portfolio rather than a replacement for it, and selling existing funds can trigger tax and exit loads.',
   },
   {
     question: 'Who holds my money if I invest in a SIF through you?',
-    answer: 'You pay the fund house directly, and the units stay in your name. Fund Investigator never receives or holds your money.',
+    answer: "You pay the fund house directly, and the units remain in your name with the fund house's custodian. Fund Investigator never receives or holds your money.",
   },
 ];
 
