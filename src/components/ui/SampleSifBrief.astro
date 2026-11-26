@@ -39,7 +39,6 @@ const comparisonRows = [
   { metric: 'SEBI Risk-Band', a: 'Band 4', b: 'Band 5' },
   { metric: 'Short exposure', a: 'Equity', b: 'Equity + debt' },
   { metric: 'Redemption', a: 'Set days · 15d notice', b: 'Daily · exit load' },
-  { metric: 'Tax structure', a: 'Per asset mix', b: 'Per asset mix' },
   { metric: 'Commission', a: 'In writing', b: 'In writing' },
 ] as const;
 
@@ -108,7 +107,7 @@ const look = {
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
         <p class="text-body-sm text-fi-muted text-pretty">
-          <strong class="font-semibold text-fi-ink">Example verdict:</strong> Strategy A overlaps heavily with current equity holdings; Strategy B adds lower overlap at a higher risk band. Trade-offs and commission are shared in writing before you decide.
+          <strong class="font-semibold text-fi-ink">Example verdict:</strong> Strategy A overlaps heavily with current equity holdings; Strategy B has lower overlap at a higher risk band. Trade-offs and commission are shared in writing before you decide.
         </p>
       </div>
     </div>

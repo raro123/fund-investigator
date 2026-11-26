@@ -154,7 +154,7 @@ export const sifFaq: FaqItem[] = [
   },
   {
     question: 'Can I redeem my money whenever I want?',
-    answer: 'Not necessarily. Unlike standard open-ended mutual funds, a SIF strategy may restrict redemptions to set days, require advance notice, or apply lock-ins and exit loads. Because the ₹10 lakh minimum applies at the investor (PAN) level per fund house, a partial withdrawal that takes you below ₹10 lakh freezes your remaining units for 30 days before forced redemption unless you top up; if market falls take you below ₹10 lakh, only a full redemption is allowed (source: SEBI circular on Specialized Investment Funds, 27 February 2025). We lay out every exit term before you commit.',
+    answer: 'Not necessarily. Unlike standard open-ended mutual funds, a SIF strategy may restrict redemptions to set days, require advance notice, or apply lock-ins and exit loads. Because the ₹10 lakh minimum applies at the investor (PAN) level per fund house, a partial withdrawal that takes you below ₹10 lakh freezes your remaining units for 30 days before forced redemption unless you top up; if market falls take you below ₹10 lakh, only a full redemption is allowed. We lay out every exit term before you commit.',
   },
   {
     question: 'Should I sell or move my existing mutual funds to invest in a SIF?',
