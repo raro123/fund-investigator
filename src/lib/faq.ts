@@ -146,15 +146,15 @@ export const sifFaq: FaqItem[] = [
   },
   {
     question: 'Can I redeem my money from a SIF whenever I want?',
-    answer: "Not always. Unlike daily-liquidity mutual funds, equity SIFs may allow daily or periodic exits, while debt SIFs allow redemptions at most once a week and hybrid SIFs at most twice a week (or at longer intervals), with notice periods up to 15 working days as stated in the strategy's ISID. Because the ₹10 lakh minimum applies per fund house, a partial withdrawal that takes you below ₹10 lakh freezes remaining units for 30 days unless you top up (or may be rejected in SoA mode); if market falls take you below ₹10 lakh, you can stay invested, but only a full redemption is allowed. We lay out every exit rule before you commit.",
+    answer: "Not always. Unlike daily-liquidity mutual funds, equity SIFs allow daily or periodic exits, debt SIFs at most once a week, and hybrid SIFs at most twice a week (or less often), with notice periods of up to 15 working days set in the strategy document (ISID). Because the ₹10 lakh minimum applies per fund house, a partial withdrawal that takes you below ₹10 lakh freezes remaining units for 30 days unless you top up (or may be rejected in non-demat Statement of Account mode). If market falls take you below ₹10 lakh, you can stay invested, but only a full redemption is allowed. We lay out every exit rule before you commit.",
   },
   {
     question: 'How are SIFs taxed?',
-    answer: 'Under Indian tax rules, SIF gains follow the strategy\'s underlying asset mix (equity-oriented, debt-oriented, or hybrid) and how long you hold units, as set out in its strategy document (ISID) and prevailing tax law. We highlight each shortlisted strategy\'s tax classification in your written brief so you can confirm the exact impact with your tax adviser before investing.',
+    answer: "Under Indian tax rules, SIF gains follow the strategy's underlying asset mix (equity-oriented, debt-oriented, or hybrid) and holding period, as set out in its ISID and prevailing tax law. We highlight each shortlisted strategy's tax classification in your written brief so you can confirm the exact impact with your tax adviser before investing.",
   },
   {
     question: 'Why invest in a SIF through Fund Investigator instead of going direct?',
-    answer: 'Direct plans carry a lower expense ratio and suit investors who are comfortable researching SIFs and making investment decisions on their own. Investing through us uses a regular plan, with no separate fee from you and our commission shared in writing before you decide. Our role is to evaluate your situation first: checking whether a SIF fits both your financial capacity and willingness for volatility, sizing it as a satellite slice alongside your core mutual funds, comparing options across fund houses, and supporting ongoing operations, including tracking the ₹10 lakh PAN threshold, exit windows, and STP or SWP setup.',
+    answer: 'Direct plans carry a lower expense ratio and suit investors comfortable researching SIFs and tracking exit rules on their own. Through Fund Investigator, we first check whether a SIF fits your financial capacity and tolerance for volatility, size it as a satellite slice alongside your core mutual funds, compare options across fund houses, and support ongoing operations, including tracking the ₹10 lakh PAN threshold, exit windows, and STP or SWP setup. We earn a commission from the fund house on regular plans, shared in writing before you decide.',
   },
 ];
 
