@@ -135,29 +135,26 @@ export const reviewFaq: FaqItem[] = [
 
 /**
  * /invest/sif/ (T-59, Phase 2 item C). SIF promotional copy: every change needs
- * the compliance officer's PASS (rulebook H-08). SIF page copy v1.2.1 (16 Nov): the
- * five FAQs, word for word; the shared answers are no longer on this page.
+ * the compliance officer's PASS (rulebook H-08). Four SIF-focused FAQs covering
+ * the ₹10 lakh PAN-level minimum, redemption/liquidity rules, taxation, and
+ * investing through Fund Investigator vs. direct plans.
  */
 export const sifFaq: FaqItem[] = [
   {
-    question: 'Is the first conversation a sales call?',
-    answer: 'No. It is a short conversation at a time that works for you. We explain how we are paid, ask what you hold and why a SIF interests you, and answer your questions. You decide if you want to go ahead. After that, we message you only if you ask us to.',
+    question: 'Is the ₹10 lakh minimum per SIF strategy, or across strategies?',
+    answer: 'The ₹10 lakh minimum applies at the PAN level across all SIF strategies of one fund house, not per strategy. For example, you can split ₹6 lakh and ₹4 lakh across two SIF strategies of the same fund house. Mutual fund holdings with that fund house do not count toward this ₹10 lakh threshold. Accredited investors are exempt.',
   },
   {
-    question: 'Do I need a distributor to invest in a SIF?',
-    answer: 'No. You can invest with the fund house directly. A distributor helps when you want the SIF question answered against your whole portfolio: what you already hold, when you need the money and what it costs. No separate fee from you. We earn a commission from the fund house, and we give you the rates in writing before you invest.',
+    question: 'Can I redeem my money from a SIF whenever I want?',
+    answer: "Not always. Unlike daily-liquidity mutual funds, equity SIFs allow daily or periodic exits, debt SIFs at most once a week, and hybrid SIFs at most twice a week (or less often), with notice periods of up to 15 working days set in the strategy document (ISID). Because the ₹10 lakh minimum applies per fund house, a partial withdrawal that takes you below ₹10 lakh freezes remaining units for 30 days unless you top up (or may be rejected in non-demat Statement of Account mode). If market falls take you below ₹10 lakh, you can stay invested, but only a full redemption is allowed. We lay out every exit rule before you commit.",
   },
   {
-    question: 'Is the ₹10 lakh minimum per investment strategy?',
-    answer: 'No. It applies per investor (PAN), across all the SIF strategies of one fund house. Your other mutual fund holdings do not count towards it (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
+    question: 'How are SIFs taxed?',
+    answer: "Under Indian tax rules, SIF gains follow the strategy's underlying asset mix (equity-oriented, debt-oriented, or hybrid) and holding period, as set out in its ISID and prevailing tax law. We highlight each shortlisted strategy's tax classification in your written brief so you can confirm the exact impact with your tax adviser before investing.",
   },
   {
-    question: 'Can I take my money out at any time?',
-    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part. Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
-  },
-  {
-    question: 'Should I sell my mutual funds to invest in a SIF?',
-    answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
+    question: 'Why invest in a SIF through Fund Investigator instead of going direct?',
+    answer: 'Direct plans carry a lower expense ratio and suit investors comfortable researching SIFs and tracking exit rules on their own. Through Fund Investigator, we first check whether a SIF fits your financial capacity and tolerance for volatility, size it as a satellite slice alongside your core mutual funds, compare options across fund houses, and support ongoing operations, including tracking the ₹10 lakh PAN threshold, exit windows, and STP or SWP setup. We earn a commission from the fund house on regular plans, shared in writing before you decide.',
   },
 ];
 

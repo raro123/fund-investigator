@@ -13,6 +13,10 @@
  * with its own label (decision 121: on the portfolio review page a message is
  * the only action; the call is set up in the chat).
  *
+ * `whatsappPrimary` keeps both actions but makes WhatsApp the gold button and
+ * "Book a first call" the secondary outline button, for WhatsApp-first pages
+ * that still offer a non-WhatsApp path (desktop or privacy-conscious visitors).
+ *
  * `note` adds a small line under the buttons (the call details). `identity`
  * adds who the client works with, the registration and the ARN validity
  * (light surfaces only), for the section that answers "how are you paid?".
@@ -21,10 +25,12 @@
  * <ContactActions placement="lp_review_hero" surface="dark" note="30-minute call · No charge · No obligation" />
  * <ContactActions placement="lp_review_cta" surface="light" identity />
  * <ContactActions placement="lp_review_hero" surface="dark" whatsappOnly whatsappLabel="WhatsApp us for a portfolio review" />
+ * <ContactActions placement="lp_sif_hero" surface="dark" whatsappPrimary whatsappLabel="Ask us on WhatsApp" />
  *
  * @param placement - WhatsApp placement; also the PostHog placement of both buttons
  * @param surface - 'light' or 'dark' (the section background)
  * @param whatsappOnly - WhatsApp as the only (gold) button, no booking link
+ * @param whatsappPrimary - WhatsApp as the gold button with booking as secondary
  * @param whatsappLabel - the WhatsApp button text (default 'WhatsApp us')
  * @param note - optional line under the buttons
  * @param identity - show the registered name, email, tagline and ARN (light only)
@@ -39,6 +45,7 @@ interface Props {
   placement: WhatsappPlacement;
   surface: 'light' | 'dark';
   whatsappOnly?: boolean;
+  whatsappPrimary?: boolean;
   whatsappLabel?: string;
   note?: string;
   identity?: boolean;
@@ -51,6 +58,7 @@ const {
   placement,
   surface,
   whatsappOnly = false,
+  whatsappPrimary = false,
   whatsappLabel = 'WhatsApp us',
   note,
   identity = false,
@@ -63,11 +71,12 @@ const alignText = { center: 'text-center', split: 'text-center lg:text-left' }[a
 const ctaRow = `flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-80 sm:max-w-none ${alignRow}`;
 const noteColour = { light: 'text-fi-muted', dark: 'text-fi-subtle' }[surface];
 const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 hover:decoration-fi-link';
+const whatsappIsGold = whatsappOnly || whatsappPrimary;
 ---
 
 <div class:list={[alignText, className]}>
   <div class={ctaRow}>
-    {!whatsappOnly && (
+    {!whatsappOnly && !whatsappPrimary && (
       <Button
         href={BOOKING_URL}
         target="_blank"
@@ -85,7 +94,7 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
       target="_blank"
       rel="noopener noreferrer"
       icon="whatsapp"
-      variant={whatsappOnly ? 'primary' : 'secondary'}
+      variant={whatsappIsGold ? 'primary' : 'secondary'}
       surface={surface}
       size="lg"
       track={{ event: 'conversation_request', placement, channel: 'whatsapp' }}
@@ -93,6 +102,21 @@ const lightLink = 'font-semibold text-fi-link underline decoration-fi-link/40 ho
     >
       {whatsappLabel}
     </Button>
+    {!whatsappOnly && whatsappPrimary && (
+      <Button
+        href={BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        icon="external"
+        variant="secondary"
+        surface={surface}
+        size="lg"
+        track={{ event: 'review_booking_click', placement }}
+        class="w-full sm:w-auto min-w-0"
+      >
+        Book a first call
+      </Button>
+    )}
   </div>
 
   {note && <p class:list={['mt-4 text-body-sm text-balance', noteColour]}>{note}</p>}
