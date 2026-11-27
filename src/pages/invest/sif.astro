@@ -7,8 +7,6 @@ import Kicker from '../../components/ui/Kicker.astro';
 import Memo from '../../components/ui/Memo.astro';
 import Highlight from '../../components/ui/Highlight.astro';
 import SampleSifBrief from '../../components/ui/SampleSifBrief.astro';
-import RiskDisclosures from '../../components/ui/RiskDisclosures.astro';
-import StepMemos from '../../components/ui/StepMemos.astro';
 import ContactActions from '../../components/ui/ContactActions.astro';
 import Button from '../../components/ui/Button.astro';
 import IdCard from '../../components/ui/IdCard.astro';
@@ -19,100 +17,110 @@ import { responsive } from '../../lib/responsive';
 import { trackAttrs } from '../../lib/analytics';
 import { whatsappUrl } from '../../lib/whatsapp';
 import { SUBSCRIBE_PAGE } from '../../lib/substack';
-import { ARN, CONTACT_EMAIL, CREDENTIALS, REGISTERED_NAME, TAGLINE } from '../../lib/distributor';
+import { ARN, CONTACT_EMAIL, TAGLINE } from '../../lib/distributor';
 import { servicePageSchemaGraph } from '../../lib/schema';
 
 // Service page C (/invest/sif/): brand-led ("we" by default, writing_rules §3),
-// with the owner's name in the mandatory R-01 identity line and a brief signed
-// personal note inside the Section 5 IdCard. WhatsApp stays primary (gold),
-// paired with a secondary "Book a first call" option and email fallback for
-// desktop and privacy-conscious ₹10L+ readers. SIF promotional copy: needs the
-// compliance officer's H-08 PASS before release. Risk disclosures sit inline at
-// body size in Section 3 so warnings show once and the white FAQ band stays
-// separated from the dark footer. Names no fund house, SIF brand or SEBI
-// strategy category (H-05), makes no PMS/AIF comparison (decision 88), makes no
-// return or safety claims (R-10, R-13), avoids H-01 banned terms, and cites the
-// SEBI circular inline next to regulatory figures (H-10). Placements: `lp_sif_`.
+// with a 1-line regulatory footer in the Hero and a brief signed personal note
+// inside the Section 5 IdCard. Seven sections alternating dark/white/light:
+// 1. Hero (dark) + SampleSifBrief, 2. What a SIF adds (white), 3. How we help
+// (light), 4. How it works (white), 5. Who you work with + how we are paid
+// (light), 6. FAQ (white), 7. Start with a question close (light) with
+// clickable WhatsApp starter prompts and ContactActions, followed by Layout's
+// standard RiskDisclosures band above the dark footer. SIF promotional copy:
+// needs the compliance officer's H-08 PASS before release. Names no fund house,
+// SIF brand or SEBI strategy category (H-05), makes no PMS/AIF comparison
+// (decision 88), makes no return or safety claims (R-10, R-13), and avoids
+// H-01 banned terms. Placements: `lp_sif_`.
 
 const pageTitle = 'Specialized Investment Funds (SIF)';
 const pageDescription = 'Specialized Investment Funds (SIF) unlock flexible strategies with a ₹10 lakh minimum and higher risk. See how Fund Investigator checks portfolio fit.';
-const whatsappLabel = 'Ask us on WhatsApp';
+const whatsappLabel = 'WhatsApp us';
 
-// Block 2: USP first — cross-fund-house comparison, portfolio fit & sizing, written clarity.
+// Block 2: what a SIF adds beyond a mutual fund — 3 strategy cards + full-width risks & restrictions card.
+// No return, protection or safety claims, no PMS/AIF comparison (decision 88),
+// no SEBI strategy category names (H-02), and no "independent" wording (H-04).
+const strategies = [
+  {
+    title: 'Equity long-short strategies',
+    focus: 'Stock- and sector-level directional flexibility.',
+    points: [
+      'Take up to 25% unhedged short positions in individual stocks or up to 4 sectors.',
+      'Invest across broad equities (80%+ floor) or stocks outside the top 100 (65%+ floor).',
+      'Open-ended or interval structure, with daily or periodic exits set by the fund house.',
+    ],
+  },
+  {
+    title: 'Debt & rate-cycle strategies',
+    focus: 'Active interest-rate and credit-cycle positioning.',
+    points: [
+      'Take up to 25% unhedged short positions in bond derivatives when interest rates rise.',
+      'Manage duration directly or spread across 2+ debt sectors (capped at 75% in one).',
+      'Interval structure with redemptions at most once a week, or less often.',
+    ],
+  },
+  {
+    title: 'Hybrid & multi-asset strategies',
+    focus: 'Cross-asset shifts beyond rigid mutual fund buckets.',
+    points: [
+      'Combine equity, debt, commodity derivatives, REITs and InvITs in one strategy.',
+      'Use up to 25% combined unhedged short positions across equity and debt derivatives.',
+      'Shift dynamically across asset classes, with interval exits at most twice a week.',
+    ],
+  },
+] as const;
+
+const sifRisks = [
+  'Derivative and directional risk can amplify losses if markets move against short calls.',
+  'Liquidity windows and the ₹10 lakh threshold add strict restrictions on redemptions.',
+  "Higher risk profile across varied structures, monitored under SEBI's 5-level Risk-Band framework.",
+] as const;
+
+// Block 3: how we help — 3 two-panel split cards (4-col complexity -> 8-col How we help).
 const helps = [
   {
-    eyebrow: 'Cross-fund-house view',
-    title: 'Compare across fund houses',
-    body: "Each fund house explains only its own SIF. We are not tied to one — we shortlist options across fund houses and lay out each strategy's risks, redemption terms and costs side by side.",
+    complexity: 'Layered derivative, exit, notice and tax rules across every strategy.',
+    title: 'Product expertise, explained plainly',
+    body: 'We decode how each strategy actually makes and loses money, map every exit and tax rule upfront, and explain your real options in plain English before you commit.',
   },
   {
-    eyebrow: 'Portfolio fit & sizing',
-    title: 'Check fit against what you hold',
-    body: "We measure stock and sector overlap with your existing mutual funds and check whether ₹10 lakh is a sensible slice of your overall portfolio. If a SIF doesn't fit, we say why.",
+    complexity: 'A ₹10 lakh ticket can easily oversize risk or duplicate your existing mutual funds.',
+    title: 'Your portfolio and suitability first',
+    body: 'We study your existing mutual funds, measure stock and sector overlap, and assess suitability against your goals, cash needs and risk profile. If a SIF does not fit what you hold, we say why.',
   },
   {
-    eyebrow: 'Everything in writing',
-    title: 'See every trade-off upfront',
-    body: 'How the strategy uses derivatives, how it can make and lose money, its SEBI Risk-Band, tax structure and our commission — all shared in writing before you decide.',
+    complexity: 'Each fund house only pitches its own SIF, leaving you to compare structures alone.',
+    title: 'Cross-fund-house research and recommendation',
+    body: 'We access SIFs across fund houses, research and compare suitable options side by side, and give you a written recommendation with the reasons, trade-offs and our commission before you decide.',
   },
-];
+] as const;
 
-// Block 3: compact 2x2 factual differences from regular mutual funds. No return,
-// protection or safety claims, no PMS/AIF comparison (decision 88), no SEBI
-// strategy category names (H-02), and no "independent" wording (H-04).
-const features = [
-  {
-    title: 'Unhedged short positions (up to 25%)',
-    body: 'Regular mutual funds use derivatives mainly to hedge or rebalance. A SIF can take unhedged short positions up to 25% of its value when the manager expects a stock or sector to fall.',
-  },
-  {
-    title: 'Bond strategies can short too',
-    body: 'In a debt strategy, the manager can short bond derivatives — for example, when expecting interest rates to rise and bond prices to fall.',
-  },
-  {
-    title: 'Multi-asset and commodity derivatives',
-    body: 'Some strategies spread across equity, bonds, REITs and InvITs, and use derivatives across those assets and commodities.',
-  },
-  {
-    title: 'Mutual fund custody under SEBI rules',
-    body: "A SIF is run by a mutual fund house under SEBI's framework, with assets held by a separate custodian.",
-  },
-];
-
-// Block 4: four clear steps separating zero-paperwork Q&A (Step 1) from optional
-// portfolio overlap analysis (Step 2).
+// Block 4: four compact steps — simple conversation first, portfolio data only if proceeding.
 const steps = [
   {
-    title: 'Ask anything first',
-    body: 'Message us on WhatsApp or book a short call. We answer your questions on SIF rules, strategy structures and how we are paid — without needing your portfolio data.',
-    fact: 'No sign-up · No follow-up spam',
+    title: 'Start with a question',
+    body: 'Message us on WhatsApp or book a short call. Ask anything about SIFs. No sign-up and no portfolio data needed.',
   },
   {
-    title: 'Optional portfolio fit check',
-    body: 'Only if you want an overlap and sizing check, you complete a quick onboarding (no fee, no lock-in) and, with your consent, we fetch your mutual fund holdings. Your existing direct or regular funds stay untouched.',
-    fact: 'Direct funds stay untouched',
+    title: 'Understand your needs',
+    body: 'We talk through your goals, time frame and what you want from a SIF, explain the rules and how we are paid, and share how we can help. You decide whether to proceed.',
   },
   {
-    title: 'Written shortlist and costs',
-    body: 'You get a written brief comparing suitable strategies across fund houses — covering risk band, redemption terms, tax structure and our commission — or clear reasons to wait.',
-    fact: 'Shortlist + commission in writing',
+    title: 'Portfolio check & written brief',
+    body: 'If you go ahead, we study your risk profile and existing funds (left untouched), research SIFs across fund houses, and walk you through our written recommendation and commission, or clear reasons to wait.',
   },
   {
-    title: 'You approve every transaction',
-    body: 'You pay the fund house directly, units stay in your name, and nothing moves without your approval. If you invest through us, we keep reviewing the SIF alongside your other funds.',
-    fact: 'Paid to fund house · Units in your name',
+    title: 'Execution & ongoing support',
+    body: 'You approve every transaction and pay the fund house directly, with units in your name. We handle the paperwork and stay with you: reviewing, rebalancing, and helping you stay disciplined through market cycles.',
   },
-];
+] as const;
 
-// Concrete starter prompts so visitors never face a blank chat box.
 const starterPrompts = [
-  'Check a specific SIF strategy you are considering',
-  'Ask how notice periods, lock-ins or the ₹10 lakh rule work',
-  'See whether a SIF overlaps with the mutual funds you already own',
+  { label: "Check a specific SIF strategy I'm considering", placement: 'lp_sif_prompt_strategy' as const },
+  { label: 'Ask how exit rules or the ₹10 lakh minimum work', placement: 'lp_sif_prompt_rules' as const },
+  { label: 'See if a SIF overlaps with my existing mutual funds', placement: 'lp_sif_prompt_overlap' as const },
 ];
 
-const credentialSummary = CREDENTIALS.map((item) => item.text).join(' · ');
-const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decoration-fi-gold/40 hover:decoration-fi-gold';
 const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decoration-fi-link/40 hover:decoration-fi-link';
 ---
 
@@ -131,11 +139,10 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
   }, Astro.site)}
   trackView="landing_view"
   trackLanding="sif"
-  riskDisclosures={false}
 >
   <!-- 1. Hero: split. Question, qualification, WhatsApp-primary + call-booking option on the left;
-       concrete illustrative SIF fit assessment on the right. Mandatory R-01 identity line plus
-       compact credentials span the footer slot so expertise is visible above the fold. -->
+       concrete illustrative SIF fit brief on the right. Clean 1-line brand-led regulatory
+       footer spans the footer slot above the fold. -->
   <Hero size="md" background="dark">
     <Kicker class="mb-6">Specialized Investment Funds (SIF)</Kicker>
     <h1 class:list={[responsive.displaySplit, 'font-bold text-fi-ink-inv mb-6 leading-fi-display tracking-fi-display break-words text-balance']}>
@@ -143,7 +150,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       <span class="block text-fi-gold">your portfolio?</span>
     </h1>
     <p class:list={[responsive.subtitle, 'text-fi-muted-inv max-w-xl mx-auto lg:mx-0 font-light leading-relaxed text-pretty mb-8']}>
-      SIFs unlock strategies that mutual funds cannot use. We explain the product, its risks and limits, check fit for your portfolio, and help you decide among different options.
+      SIFs unlock strategies that mutual funds cannot use. We explain the product and its rules, check fit for your portfolio, and analyse options across fund houses so you can decide clearly.
     </p>
     <ContactActions
       placement="lp_sif_hero"
@@ -151,7 +158,7 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       align="split"
       whatsappPrimary
       whatsappLabel={whatsappLabel}
-      note="Personal reply within 1 business day · No sign-up · No unsolicited follow-ups"
+      note="Reply in 1 business day · No unsolicited calls or messages"
     />
 
     <!-- pr-2: room for the tilted back sheet on phones -->
@@ -159,131 +166,171 @@ const lightLink = 'font-semibold text-fi-link underline underline-offset-4 decor
       <SampleSifBrief />
     </div>
 
-    <!-- Exact R-01 identity line + compact background credentials above the fold. -->
-    <div slot="footer" class="mt-12 pt-6 border-t border-fi-border-dark max-w-4xl mx-auto text-center space-y-1.5">
-      <p class="text-caption text-fi-subtle text-balance">
-        <a href="/about/" class:list={[darkLink, 'inline-block py-1']}>{REGISTERED_NAME}</a> · {TAGLINE} · {ARN}
-      </p>
-      <p class="text-caption text-fi-muted-inv text-balance">
-        {credentialSummary}
-      </p>
+    <!-- Clean 1-line brand-led regulatory line above the fold. -->
+    <div slot="footer" class="mt-12 pt-6 border-t border-fi-border-dark max-w-3xl mx-auto text-center">
+      <p class="text-caption text-fi-subtle text-balance">{TAGLINE} · {ARN}</p>
     </div>
   </Hero>
 
-  <!-- 2. How we help: USP first (cross-fund-house comparison, portfolio fit & sizing, written clarity). -->
-  <Section id="how-we-help" background="white" spacing="md" maxWidth="xl">
+  <!-- 2. What a SIF adds beyond a mutual fund: 3 strategy cards + full-width risks & restrictions card. -->
+  <Section id="what-is-a-sif" background="white" spacing="md" maxWidth="xl">
     <SectionHeading
-      title="How Fund Investigator helps you decide on a SIF"
-      lead="As a registered SIF Distributor, we evaluate SIF strategies across fund houses against the portfolio you already hold."
+      title="What a SIF adds beyond a mutual fund"
+      lead="Regulated by SEBI and starting at ₹10 lakh per fund house, Specialized Investment Funds (SIF) unlock derivative and asset-allocation tools that mutual funds cannot use."
     />
     <ul role="list" class="grid lg:grid-cols-3 gap-5 text-left max-w-5xl mx-auto">
-      {helps.map((help, index) => (
+      {strategies.map((item, index) => (
         <li data-reveal={index}>
-          <Card padding="lg" hover={false} class="h-full">
-            <p class="font-mono text-caption uppercase text-fi-muted mb-2">{help.eyebrow}</p>
-            <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{help.title}</h3>
-            <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{help.body}</p>
+          <Card padding="lg" hover={false} class="h-full flex flex-col">
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-1 text-balance">{item.title}</h3>
+            <p class="text-body-sm text-fi-muted mb-4 pb-3.5 border-b border-fi-border text-pretty">{item.focus}</p>
+            <ul role="list" class="space-y-2.5 text-body-sm text-fi-ink leading-relaxed">
+              {item.points.map((point) => (
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-2 h-1.5 w-1.5 rounded-full bg-fi-muted/60 shrink-0" aria-hidden="true"></span>
+                  <span class="text-pretty">{point}</span>
+                </li>
+              ))}
+            </ul>
           </Card>
         </li>
       ))}
     </ul>
-    <p class="mt-8 text-center text-body-sm">
-      <a href="/reports/" class:list={[lightLink, 'inline-block py-2']}>See how we analyse funds →</a>
-    </p>
-  </Section>
-
-  <!-- 3. How a SIF differs from a regular mutual fund: answer-first AEO lead, compact 2x2
-       strategy differences, and inline body-size risk disclosures. -->
-  <Section id="what-is-a-sif" background="light" spacing="md" maxWidth="xl">
-    <SectionHeading
-      title="How a SIF differs from a regular mutual fund"
-      lead="A Specialized Investment Fund (SIF) is a SEBI category run by mutual fund houses. It allows more flexible strategies than regular mutual funds, with a ₹10 lakh minimum per fund house, higher risk and stricter redemption rules."
-    />
-    <div class="space-y-8 max-w-4xl mx-auto">
-      <ul role="list" class="grid sm:grid-cols-2 gap-5 text-left">
-        {features.map((feature, index) => (
-          <li data-reveal={index}>
-            <Card padding="lg" hover={false} class="h-full">
-              <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{feature.title}</h3>
-              <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{feature.body}</p>
-            </Card>
+    <div data-reveal={3} class="max-w-5xl mx-auto mt-5 rounded-lg border border-fi-border bg-fi-light p-6 lg:p-7 text-left">
+      <h3 class="text-heading-sm font-bold text-fi-ink mb-1 text-balance">Risks &amp; restrictions that come with SIFs</h3>
+      <p class="text-body-sm text-fi-muted mb-4 pb-3.5 border-b border-fi-border text-pretty">Extra tools carry stricter rules and higher downside than standard mutual funds.</p>
+      <ul role="list" class="grid lg:grid-cols-3 gap-x-6 gap-y-3 text-body-sm text-fi-ink leading-relaxed">
+        {sifRisks.map((risk) => (
+          <li class="flex items-start gap-2.5">
+            <span class="mt-2 h-1.5 w-1.5 rounded-full bg-fi-muted/60 shrink-0" aria-hidden="true"></span>
+            <span class="text-pretty">{risk}</span>
           </li>
         ))}
       </ul>
-
-      <RiskDisclosures inline class="max-w-4xl" />
     </div>
   </Section>
 
-  <!-- 4. What happens after you reach out: clear boundary between zero-paperwork Q&A (Step 1)
-       and optional portfolio fit check (Step 2), flowing directly into Section 5. -->
+  <!-- 3. How we help (3 stacked two-panel split cards: The complexity -> How we help). -->
+  <Section id="how-we-help" background="light" spacing="md" maxWidth="xl">
+    <SectionHeading
+      title="How Fund Investigator helps you invest in SIFs"
+      lead="With higher minimums and risks, picking a SIF on a headline alone can be costly. We bring product expertise and objective portfolio assessment so you take on only the complexity your portfolio actually needs."
+    />
+    <ul role="list" class="space-y-4 max-w-5xl mx-auto text-left">
+      {helps.map((help, index) => (
+        <li
+          data-reveal={index}
+          class="overflow-hidden rounded-lg border border-fi-border bg-white shadow-fi-card grid lg:grid-cols-12"
+        >
+          <div class="lg:col-span-4 bg-fi-light p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-fi-border">
+            <p class="font-mono text-caption uppercase text-fi-muted mb-1.5">The complexity</p>
+            <p class="text-body-sm text-fi-muted leading-snug text-pretty">{help.complexity}</p>
+          </div>
+          <div class="lg:col-span-8 bg-white p-6 lg:p-7">
+            <p class="font-mono text-caption uppercase text-fi-link mb-2">How we help</p>
+            <h3 class="text-heading-sm font-bold text-fi-ink mb-2 text-balance">{help.title}</h3>
+            <p class="text-body-sm text-fi-ink/90 leading-relaxed text-pretty">{help.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <!-- 4. What happens after you reach out: compact 2x2 numbered step cards. -->
   <Section id="how-it-works" background="white" spacing="md" maxWidth="xl">
     <SectionHeading
       title="What happens after you reach out?"
-      lead="Start with a quick question — zero paperwork unless you want a full portfolio fit check."
+      lead="Start with a simple conversation. You only share your portfolio if you choose to go ahead."
     />
-    <StepMemos steps={steps} layout="pairs" bodyFont="sans" />
+    <ol class="grid sm:grid-cols-2 gap-5 text-left max-w-4xl mx-auto">
+      {steps.map((step, index) => (
+        <li data-reveal={index}>
+          <Card padding="lg" hover={false} class="h-full">
+            <h3 class="flex items-baseline gap-3 text-heading-sm font-bold text-fi-ink mb-2.5 text-balance">
+              <span class="font-mono text-body-sm font-bold text-fi-link shrink-0 tabular-nums">{String(index + 1).padStart(2, '0')}</span>
+              <span>{step.title}</span>
+            </h3>
+            <p class="text-body-sm text-fi-muted leading-relaxed text-pretty">{step.body}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
   </Section>
 
-  <!-- 5. Who you work with, Direct vs Regular fee clarity, and main dual-path CTA. -->
+  <!-- 5. Who you work with and Direct vs Regular fee clarity. -->
   <Section id="who" background="light" spacing="md" maxWidth="xl">
     <SectionHeading title="Who you work with, and how we are paid" />
     <div data-reveal={0}>
       <IdCard class="mx-auto w-full max-w-2xl">
-        <p>You work directly with me from your first message to every portfolio review. I walk you through the numbers, the liquidity fine print and the trade-offs — and tell you plainly if a SIF does not fit what you already hold.</p>
+        <p>You work directly with me from your first message to every portfolio review. I walk you through the numbers, the liquidity fine print and the trade-offs, and tell you plainly if a SIF does not fit what you already hold.</p>
       </IdCard>
     </div>
-    <div data-reveal={1} class="mt-10">
+    <div data-reveal={1} class="mt-6">
       <Memo label="How we are paid" title="No separate fee from you." stamp="Disclosed">
-        We earn a commission from the fund house on regular plans, and share the rates <Highlight>in writing before you invest</Highlight>. Regular plans carry a higher expense ratio than direct plans, which covers our analysis and ongoing portfolio reviews.
+        We earn a commission from the fund house on regular plans, and share the rates <Highlight>in writing before you invest</Highlight>. Regular plans carry a higher expense ratio than direct plans, which covers our product research, portfolio-fit analysis, ongoing reviews and rebalancing as markets or your plans change.
       </Memo>
     </div>
-
-    <div class="mt-12 text-center max-w-2xl mx-auto">
-      <h3 class:list={[responsive.h3, 'font-bold text-fi-ink text-balance mb-3']}>Start with a question</h3>
-      <p class="text-body-md text-fi-muted leading-relaxed text-pretty mb-5">
-        Not sure what to write? Here are three ways most investors start:
-      </p>
-      <ul role="list" class="mb-8 inline-block text-left space-y-2 text-body-sm text-fi-muted">
-        {starterPrompts.map((prompt) => (
-          <li class="flex items-start gap-2.5">
-            <span class="mt-2 h-1.5 w-1.5 rounded-full bg-fi-link shrink-0" aria-hidden="true"></span>
-            <span class="text-pretty">{prompt}</span>
-          </li>
-        ))}
-      </ul>
-      <ContactActions placement="lp_sif_cta" surface="light" whatsappPrimary whatsappLabel={whatsappLabel} />
-      <p class="mt-4 text-body-sm text-fi-muted text-pretty">
-        We reply within 1 business day, and only follow up if you ask. Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'inline-block py-1']}>{CONTACT_EMAIL}</a>
-      </p>
-      <p class="mt-3 text-body-sm">
-        <a href={SUBSCRIBE_PAGE} class:list={[lightLink, 'inline-block py-2']} {...trackAttrs('subscribe_click', 'lp_sif_cta')}>Not ready yet? Get the monthly note</a>
-      </p>
-    </div>
-  </Section>
-
-  <!-- 6. FAQ: direct vs regular, taxation, liquidity, existing funds & custody.
-       White section stays separated from the dark footer. -->
-  <Section id="faq" background="white" spacing="md" maxWidth="xl">
-    <SectionHeading title="Questions about SIFs" />
-    <div class="max-w-3xl mx-auto text-left">
-      <FaqList items={sifFaq} />
-    </div>
-    <div class="mt-12 flex flex-col items-center gap-4 text-center">
-      <p class="text-body-md font-semibold text-fi-ink">Still have a question?</p>
+    <div class="mt-8 flex justify-center">
       <Button
-        href={whatsappUrl('lp_sif_final')}
+        href={whatsappUrl('lp_sif_cta')}
         target="_blank"
         rel="noopener noreferrer"
         icon="whatsapp"
         variant="secondary"
         surface="light"
         size="lg"
-        track={{ event: 'conversation_request', placement: 'lp_sif_final', channel: 'whatsapp' }}
+        track={{ event: 'conversation_request', placement: 'lp_sif_cta', channel: 'whatsapp' }}
         class="w-full max-w-80 sm:w-auto sm:max-w-none"
       >
         {whatsappLabel}
       </Button>
+    </div>
+  </Section>
+
+  <!-- 6. FAQ: 4 SIF-focused Q&As on white. -->
+  <Section id="faq" background="white" spacing="md" maxWidth="xl">
+    <SectionHeading title="Questions about SIFs" />
+    <div class="max-w-3xl mx-auto text-left">
+      <FaqList items={sifFaq} />
+    </div>
+  </Section>
+
+  <!-- 7. Start with a question: compact close on light before the dark footer. -->
+  <Section id="start" background="light" spacing="sm" maxWidth="xl">
+    <SectionHeading
+      title="Start with a question"
+      lead="Not sure what to write? Tap a topic to open WhatsApp with it pre-filled, or book a short call."
+    />
+    <ul role="list" class="grid sm:grid-cols-3 gap-3 max-w-4xl mx-auto mb-8 text-left">
+      {starterPrompts.map((prompt) => (
+        <li>
+          <a
+            href={whatsappUrl(prompt.placement)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-full items-center justify-between gap-3 rounded-lg border border-fi-border bg-white px-4 py-3.5 text-body-sm font-medium text-fi-ink shadow-fi-card hover:border-fi-link hover:text-fi-link transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fi-link"
+            {...trackAttrs('conversation_request', prompt.placement, 'whatsapp')}
+          >
+            <span class="text-pretty">{prompt.label}</span>
+            <span class="text-fi-link shrink-0" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <ContactActions
+      placement="lp_sif_final"
+      surface="light"
+      whatsappPrimary
+      whatsappLabel={whatsappLabel}
+      note="Reply in 1 business day · No unsolicited calls or messages"
+    />
+    <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-body-sm text-fi-muted">
+      <p>
+        Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class:list={[lightLink, 'inline-block py-1']}>{CONTACT_EMAIL}</a>
+      </p>
+      <p>
+        <a href={SUBSCRIBE_PAGE} class:list={[lightLink, 'inline-block py-1']} {...trackAttrs('subscribe_click', 'lp_sif_final')}>Not ready yet? Get the monthly note</a>
+      </p>
     </div>
   </Section>
 </Layout>

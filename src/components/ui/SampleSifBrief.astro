@@ -2,9 +2,9 @@
 /**
  * SampleSifBrief Component
  *
- * An illustrative SIF fit assessment card, shown as a white document on the
+ * An illustrative SIF fit brief card, shown as a white document on the
  * dark /invest/sif/ hero (matching SampleBrief.astro's visual language). It
- * previews what a client receives in writing: portfolio-fit checks and a
+ * previews what a client receives in writing: portfolio slice sizing and a
  * side-by-side comparison across fund houses before deciding on a ₹10 lakh+
  * allocation.
  *
@@ -29,17 +29,15 @@ interface Props {
 
 const { surface = 'dark', class: className = '' } = Astro.props;
 
-const fitChecks = [
-  { value: '11%', note: 'Portfolio share if ₹10 lakh is added to ₹80 lakh in existing funds' },
-  { value: '38%', note: 'Illustrative stock overlap between Strategy A and current equity funds' },
-  { value: '15 days', note: 'Notice period on Strategy A; ₹10 lakh PAN breach buffer flagged' },
+const sliceParts = [
+  { label: 'Existing MFs', value: 89, fill: 'bg-fi-mid', showText: true },
+  { label: 'SIF', value: 11, fill: 'bg-fi-gold', showText: false },
 ] as const;
 
 const comparisonRows = [
+  { metric: 'Overlap with your MFs', a: '38%', b: '12%' },
   { metric: 'SEBI Risk-Band', a: 'Band 4', b: 'Band 5' },
-  { metric: 'Short exposure', a: 'Equity', b: 'Equity + debt' },
-  { metric: 'Redemption', a: 'Set days · 15d notice', b: 'Daily · exit load' },
-  { metric: 'Commission', a: 'In writing', b: 'In writing' },
+  { metric: 'Exit terms', a: 'Set days · 15d notice', b: 'Daily · exit load' },
 ] as const;
 
 const look = {
@@ -54,21 +52,39 @@ const look = {
 
     <div class:list={['relative rounded-xl bg-white text-fi-ink text-left p-5 sm:p-6 transition-transform duration-300 hover:-translate-y-1', look.shadow]}>
       <div class="flex items-center justify-between gap-3">
-        <p class="text-body-lg font-bold leading-snug">SIF fit assessment</p>
+        <p class="text-body-lg font-bold leading-snug">SIF fit brief</p>
         <Badge size="sm" rounded={false} class="shrink-0">Sample</Badge>
       </div>
-      <p class="mt-2 text-body-sm text-fi-muted tabular-nums">Illustrative portfolio · ₹80 lakh existing MFs · ₹10 lakh SIF check</p>
+      <p class="mt-2 text-body-sm text-fi-muted tabular-nums">Illustrative · ₹80 lakh in MFs · ₹10 lakh SIF check</p>
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
-        <p class="font-mono text-caption uppercase text-fi-muted mb-3">Example fit findings</p>
-        <ul role="list" class="space-y-2.5">
-          {fitChecks.map((item) => (
-            <li class="flex items-baseline gap-3">
-              <span class="w-16 shrink-0 text-heading-sm font-bold text-fi-ink tabular-nums whitespace-nowrap">{item.value}</span>
-              <span class="text-body-sm text-fi-muted leading-snug text-pretty">{item.note}</span>
-            </li>
+        <p class="font-mono text-caption uppercase text-fi-muted mb-3">Portfolio slice</p>
+        <div
+          class="h-6 overflow-hidden rounded-md bg-fi-light flex"
+          role="img"
+          aria-label="Illustrative portfolio slice: existing mutual funds 89%, SIF 11%"
+        >
+          {sliceParts.map((part) => (
+            <span
+              class:list={['flex items-center overflow-hidden border-r-2 border-white last:border-r-0', part.showText && 'pl-2', part.fill]}
+              style={`width: ${part.value}%`}
+            >
+              {part.showText && (
+                <span class="hidden sm:inline whitespace-nowrap text-xs font-semibold text-white tabular-nums">
+                  {`${part.label} ${part.value}%`}
+                </span>
+              )}
+            </span>
           ))}
-        </ul>
+        </div>
+        <div class="mt-2.5 flex gap-4 text-xs text-fi-muted" aria-hidden="true">
+          {sliceParts.map((part) => (
+            <span class="inline-flex items-center gap-1.5">
+              <span class:list={['w-2.5 h-2.5 rounded-sm', part.fill]}></span>
+              {`${part.label} (${part.value}%)`}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
@@ -83,7 +99,7 @@ const look = {
               id="sif-sample-shortlist-caption"
               class="caption-top text-left font-mono text-caption uppercase text-fi-muted mb-3"
             >
-              Cross-fund-house shortlist
+              Across fund houses
             </caption>
             <thead>
               <tr class="border-b border-fi-border text-body-sm font-semibold text-fi-muted">
@@ -107,7 +123,7 @@ const look = {
 
       <div class="mt-4 border-t border-dashed border-fi-border pt-4">
         <p class="text-body-sm text-fi-muted text-pretty">
-          <strong class="font-semibold text-fi-ink">Example verdict:</strong> Strategy A overlaps heavily with current equity holdings; Strategy B has lower overlap at a higher risk band. Trade-offs and commission are shared in writing before you decide.
+          Strategy A duplicates your equity funds; Strategy B adds less overlap at a higher risk band.
         </p>
       </div>
     </div>
