@@ -37,7 +37,7 @@ export type WhatsappPlacement =
   | 'lp_sif_final'
   | 'lp_sif_call'
   | 'lp_sif_prompt_strategy'
-  | 'lp_sif_prompt_rules'
+  | 'lp_sif_prompt_compare'
   | 'lp_sif_prompt_overlap'
   | 'lp_gift_city_hero'
   | 'lp_gift_city_cta'
@@ -73,8 +73,8 @@ const prefilledText: Record<WhatsappPlacement, string> = {
   lp_sif_final: `Hi, I have a question about SIFs.`,
   lp_sif_call: `Hi, I have a question about SIFs before I book a call.`,
   lp_sif_prompt_strategy: `Hi, I'd like to check a specific SIF strategy I'm considering.`,
-  lp_sif_prompt_rules: `Hi, I have a question about SIF exit rules and the ₹10 lakh minimum.`,
-  lp_sif_prompt_overlap: `Hi, I want to check whether a SIF overlaps with the mutual funds I already hold.`,
+  lp_sif_prompt_compare: `Hi, I'd like to compare SIF options across fund houses.`,
+  lp_sif_prompt_overlap: `Hi, I want to check if a SIF fits my existing mutual funds.`,
   lp_gift_city_hero: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
   lp_gift_city_cta: `Hi ${FIRST_NAME}, I'd like to know if GIFT City funds suit me.`,
   lp_gift_city_final: `Hi ${FIRST_NAME}, I have a question about GIFT City funds.`,

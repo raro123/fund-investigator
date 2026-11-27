@@ -112,8 +112,8 @@ const steps = [
 
 const starterPrompts = [
   { label: "Check a specific SIF strategy I'm considering", placement: 'lp_sif_prompt_strategy' as const },
-  { label: 'Ask how exit rules or the ₹10 lakh minimum work', placement: 'lp_sif_prompt_rules' as const },
-  { label: 'See if a SIF overlaps with my existing mutual funds', placement: 'lp_sif_prompt_overlap' as const },
+  { label: 'Compare SIF options across fund houses', placement: 'lp_sif_prompt_compare' as const },
+  { label: 'See if a SIF fits my existing mutual funds', placement: 'lp_sif_prompt_overlap' as const },
 ];
 
 const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decoration-fi-gold/40 hover:decoration-fi-gold';
@@ -287,10 +287,20 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
   <Section id="start" background="dark" spacing="md" maxWidth="xl" glow>
     <SectionHeading
       title="Start with a question"
-      lead="Not sure what to write? Tap a topic to open WhatsApp with it pre-filled, or reach out directly below."
+      lead="Tell us what you are considering, or what you want to check before committing ₹10 lakh."
       surface="dark"
     />
-    <ul role="list" class="grid sm:grid-cols-3 gap-3 max-w-4xl mx-auto mb-8 text-left">
+    <ContactActions
+      placement="lp_sif_final"
+      surface="dark"
+      whatsappPrimary
+      whatsappLabel={whatsappLabel}
+      note="Reply in 1 business day · No unsolicited calls or messages"
+    />
+    <p class="mt-9 mb-3 text-body-sm text-fi-subtle text-center">
+      Not sure what to write? Tap a topic to open WhatsApp pre-filled:
+    </p>
+    <ul role="list" class="grid sm:grid-cols-3 gap-3 max-w-4xl mx-auto text-left">
       {starterPrompts.map((prompt) => (
         <li>
           <a
@@ -306,14 +316,7 @@ const darkLink = 'font-semibold text-fi-gold underline underline-offset-4 decora
         </li>
       ))}
     </ul>
-    <ContactActions
-      placement="lp_sif_final"
-      surface="dark"
-      whatsappPrimary
-      whatsappLabel={whatsappLabel}
-      note="Reply in 1 business day · No unsolicited calls or messages"
-    />
-    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-body-sm text-fi-muted-inv">
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-body-sm text-fi-muted-inv">
       <p>
         Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} class:list={[darkLink, 'inline-block py-1']}>{CONTACT_EMAIL}</a>
       </p>
