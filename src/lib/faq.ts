@@ -32,9 +32,9 @@ export const investFaqGroups: FaqGroup[] = [
         answer: 'No. We review what you hold, and you decide what to keep. Nothing moves unless you approve it.',
       },
       {
-        // GIFT City sentence removed 16 Nov 2026 (T-138): no IFSCA source, no H-08 PASS.
+        // GIFT City sentence removed 16 Nov 2026 (T-138): no IFSCA source.
         question: 'Is there a minimum amount?',
-        answer: 'Each mutual fund sets its own minimum amount, stated in its scheme documents. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies (source: SEBI circular on Specialised Investment Funds, 27 February 2025); see "What is a SIF?" below.',
+        answer: 'Each mutual fund sets its own minimum amount, stated in its scheme documents. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies; see "What is a SIF?" below.',
       },
     ],
   },
@@ -42,10 +42,9 @@ export const investFaqGroups: FaqGroup[] = [
     title: 'Products',
     items: [
       {
-        // Compliance's conditional draft (COM-015). Source line added 16 Nov 2026 (T-138,
-        // weekly review 13 Nov); the H-08 PASS follows a confirm-check of the changed lines.
+        // Compliance's conditional draft (COM-015); inline circular citation dropped per Decision 135.
         question: 'What is a SIF?',
-        answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF (source: SEBI circular on Specialised Investment Funds, 27 February 2025). Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
+        answer: 'A Specialized Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
       // "Who can invest in GIFT City funds?" removed (owner, 9 Nov 2026, T-130): it
       // comes back only after an IFSCA source is in compliance/sources and the

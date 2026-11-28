@@ -101,7 +101,7 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Risk Disclosures and Footnotes</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      RiskDisclosures shows the regulators' exact warnings (AMFI's mutual-fund warning and SEBI's SIF warning) in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it, and the wording comes from distributor.ts. One exception: the SIF page shows it under its features with <code class="font-mono">inline</code> and turns off the footer card, so it still shows once. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
+      RiskDisclosures shows AMFI's exact mutual-fund warning in one card, once, above the footer on every page: see the bottom of this page. Layout.astro places it, and the wording comes from distributor.ts. Dedicated SIF pages pass <code class="font-mono">sifWarning</code> to Layout to include SEBI's SIF warning alongside it. Fn is a superscript marker that links to a numbered note on /disclosures/ by its id.
     </p>
     <p class="mt-6 text-body-md text-fi-ink max-w-2xl">
       We disclose our commission in writing before you choose.<Fn id="how-we-are-paid" />
@@ -200,7 +200,7 @@ import { responsive } from '../lib/responsive';
         { name: 'When markets fall', featured: 'You talk to a person before you act.', other: 'You decide alone.' },
       ]}
     >
-      <Button size="lg">Book a first call</Button>
+      <Button size="lg">Book a call</Button>
       <Fragment slot="note">Small print under the other plan.</Fragment>
     </PlanCompare>
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<PlanCompare featured={{ label, title, suits }} other={{ label, title, suits }} rows={[{ name, featured, other }, …]}>actions<Fragment slot="note">…</Fragment></PlanCompare>`}</code></pre>
@@ -307,7 +307,7 @@ import { responsive } from '../lib/responsive';
   <Section background="light" spacing="sm" maxWidth="2xl">
     <h2 class:list={[responsive.h2, 'text-fi-ink mb-3']}>Contact Actions</h2>
     <p class="text-body-sm text-fi-muted mb-6">
-      "Book a first call" (gold) and "WhatsApp us", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
+      "Book a call" (gold) and "WhatsApp us", tracked by one placement. Holds the section's gold button, so once per section. <code class="font-mono">identity</code> adds the registered name and ARN (light only).
     </p>
     <ContactActions placement="invest_cta" surface="light" note="30-minute call · No charge · No obligation" />
     <pre class="mt-6 overflow-x-auto rounded-lg bg-fi-dark p-4 text-body-sm text-fi-muted-inv"><code>{`<ContactActions placement="lp_review_hero" surface="dark" note="…" />

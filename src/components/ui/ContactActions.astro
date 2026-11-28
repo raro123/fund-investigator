@@ -2,7 +2,7 @@
 /**
  * ContactActions Component
  *
- * The two contact actions of a service page: "Book a first call" (the gold
+ * The two contact actions of a service page: "Book a call" (the gold
  * button) and "WhatsApp us" (secondary). Both are tracked by one
  * placement, because Zoho and WhatsApp report no placement back
  * (src/lib/analytics.ts). The WhatsApp link opens with the placement's
@@ -14,7 +14,7 @@
  * the only action; the call is set up in the chat).
  *
  * `whatsappPrimary` keeps both actions but makes WhatsApp the gold button and
- * "Book a first call" the secondary outline button, for WhatsApp-first pages
+ * "Book a call" the secondary outline button, for WhatsApp-first pages
  * that still offer a non-WhatsApp path (desktop or privacy-conscious visitors).
  *
  * `note` adds a small line under the buttons (the call details). `identity`
@@ -86,7 +86,7 @@ const whatsappIsGold = whatsappOnly || whatsappPrimary;
         track={{ event: 'review_booking_click', placement }}
         class="w-full sm:w-auto min-w-0"
       >
-        Book a first call
+        Book a call
       </Button>
     )}
     <Button
@@ -114,7 +114,7 @@ const whatsappIsGold = whatsappOnly || whatsappPrimary;
         track={{ event: 'review_booking_click', placement }}
         class="w-full sm:w-auto min-w-0"
       >
-        Book a first call
+        Book a call
       </Button>
     )}
   </div>
