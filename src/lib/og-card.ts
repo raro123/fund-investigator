@@ -111,7 +111,8 @@ export const OG_PAGES = {
   about: { eyebrow: 'About', title: 'Why Fund Investigator exists' },
   invest: { eyebrow: 'Invest with support', title: 'We do the investigation. You make the call.' },
   review: { eyebrow: 'Mutual fund portfolio review', title: 'Do your funds still make sense together?' },
-  reports: { eyebrow: 'Research and guides', title: 'Mutual fund research and guides' },
+  sif: { eyebrow: 'Specialized Investment Funds (SIF)', title: 'Is a SIF right for your portfolio?' },
+  reports: { eyebrow: 'Guides and investigations', title: 'Mutual fund guides and investigations' },
   subscribe: { eyebrow: 'Newsletter', title: 'New guides and investigations, by email' },
 } as const satisfies Record<string, { eyebrow: string; title: string }>;
 

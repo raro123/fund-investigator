@@ -48,6 +48,8 @@ interface Props {
   trackLanding?: LandingId;   // Optional: `landing` property of that event, on landing pages
   /** False only where the page shows the same warnings in its own disclaimer (articles). */
   riskDisclosures?: boolean;
+  /** True only on dedicated SIF pages so SEBI's SIF warning shows there and not on non-SIF pages. */
+  sifWarning?: boolean;
 }
 
 const {
@@ -69,6 +71,7 @@ const {
   trackView,
   trackLanding,
   riskDisclosures = true,
+  sifWarning = false,
 } = Astro.props;
 
 const resolvedTitle = title?.trim() || 'Fund Investigator';
@@ -136,7 +139,7 @@ const defaultLinks = [
     <main>
       <slot />
     </main>
-    {riskDisclosures && <RiskDisclosures />}
+    {riskDisclosures && <RiskDisclosures sif={sifWarning} />}
     <Footer />
 
     <script>

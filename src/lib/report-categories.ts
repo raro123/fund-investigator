@@ -1,6 +1,5 @@
 /** Display labels for report categories, in filter order. */
 export const categoryLabels = {
-  'Fund Analysis': 'Fund Analysis',
   'Category Comparison': 'Comparisons',
   'Methodology': 'Methodology',
 } as const;

@@ -80,8 +80,7 @@ const graph = reportsIndexSchemaGraph(
       </div>
     )}
 
-    {/* With no report left (every one is held for AMC approval or a generic rewrite, COM-001/002,
-        src/content-held/reports/), the subscription is the page's one action. */}
+    {/* With no current report (for example, all archived), the subscription is the page's one action. */}
     {sortedReports.length > 0 ? (
       <>
         <!-- Card grid -->

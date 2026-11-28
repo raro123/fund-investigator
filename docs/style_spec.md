@@ -221,10 +221,9 @@ The homepage's problems and services use one idea from the brand ("We investigat
 ### Report Cards (`ReportCard.astro`, homepage band and `/reports/`, S61)
 - Styled like a filed record without saying so. The category (`categoryLabels`) sits on a folder tab on the card's top edge: mono caption, same fill and border as the card, `-mb-px` so it covers the card's top border; the card's top-left corner is square under it.
 - Title and hook as before, then a dashed rule and a **typed record** in mono at the foot: a `fi-subtle` label column (`grid-cols-fi-record` from `sm`, label above value on phones) and `fi-ink-inv` values, each part `whitespace-nowrap`:
-  - `Key figures CAGR 25.0% · Sharpe 1.55 · Max DD -12.9%` when the report's `keyMetrics` carry values (fund analyses);
-  - `Covers Returns · Risk · Consistency` when they are labels only (guides);
+  - `Covers Returns · Risk · Consistency` from the report's `keyMetrics` (topic labels only);
   - `Updated` (or `Published`) with the date and the read time.
-- No icons (the `MetricIcon` row was removed), no stamps or verdicts: fund analyses are evidence only.
+- No icons (the `MetricIcon` row was removed), no stamps, verdicts or figures: a figure on a card reads as a performance claim (rulebook R-07). The "Key figures" row went with the scheme-naming mode (S69, decision D4).
 - Surfaces: `dark` (default, `fi-mid` on `fi-dark`, gold title hover and "Read Investigation") and `light` (white, `fi-link`, never gold on white).
 - The tab is `FolderTab.astro`, shared with the homepage subscribe card: a "Stay updated" tab on a `Card variant="dark"` (`rounded-tl-none`) with one sentence ("Every new investigation, by email." in `fi-ink-inv`, the Deepdive line in `fi-muted-inv`) and the secondary Subscribe button. No heading, no icons, never "free".
 

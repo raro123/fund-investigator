@@ -5,12 +5,10 @@
  * Editorial card for investigation reports, styled like a filed record without
  * saying so: the category sits on a folder tab on the card's top edge, then the
  * title and hook, a dashed rule, and a typed record in mono (what the report
- * covers, or its key figures, then the date and read time). No stamps or
- * verdicts: fund analyses are evidence only (content philosophy).
+ * covers, then the date and read time). No stamps, verdicts or figures: a
+ * figure on a card reads as a performance claim (rulebook R-07).
  *
- * Key metrics with a value (fund analyses: CAGR, Sharpe, max drawdown) read as
- * "Key figures CAGR 25.0% · Sharpe 1.55 · …"; metrics without one (guides) read
- * as "Covers Returns · Risk · Consistency".
+ * Key metrics are topic labels and read as "Covers Returns · Risk · Consistency".
  *
  * @example
  * <ReportCard report={report} href={`/reports/${report.slug}`} />
@@ -28,7 +26,6 @@ import { reportCategoryLabel, type ReportCategory } from '../lib/report-categori
 
 interface KeyMetric {
   label: string;
-  value?: string;
 }
 
 interface Props {
@@ -78,13 +75,11 @@ const styles = {
 
 const { title, category, readTime, date, updated, hook, keyMetrics = [], status = 'current' } = report.data;
 
-// Figures when the metrics carry values (fund analyses), topics when they do not (guides).
-// Each part stays on one line when the row wraps, so "Max DD -37.3%" never splits.
-const hasFigures = keyMetrics.some((metric) => metric.value);
+// Each part stays on one line when the row wraps, so a two-word topic never splits.
 const record = [
   keyMetrics.length > 0 && {
-    label: hasFigures ? 'Key figures' : 'Covers',
-    parts: keyMetrics.map((metric) => (metric.value ? `${metric.label} ${metric.value}` : metric.label)),
+    label: 'Covers',
+    parts: keyMetrics.map((metric) => metric.label),
   },
   {
     label: updated ? 'Updated' : 'Published',

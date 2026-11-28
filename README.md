@@ -108,12 +108,11 @@ Evidence → Analysis → Verdict), and stays in sync with the schema in `src/co
 ## Documentation
 
 - **[CLAUDE.md](CLAUDE.md)** - Design system rules and development workflow
-- **[docs/content_philosophy_v2.md](docs/content_philosophy_v2.md)** - Writing guidelines and tone reference
+- **Content guidelines** - moved to the business repo: `../fund_distribution_business/content/guidelines.md` (owned by Content Boss)
 - **[docs/style_spec.md](docs/style_spec.md)** - Design token values and rationale
 - **[docs/templates/report-template.md](docs/templates/report-template.md)** - Report authoring reference
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures and troubleshooting
-- **[docs/mfd_funnel_handoff.md](docs/mfd_funnel_handoff.md)** - Distribution funnel rules, compliance wording, build status
-- **[docs/mfd_whatsapp_kit.md](docs/mfd_whatsapp_kit.md)** - WhatsApp Business texts
+- **WhatsApp Business texts** - moved to the business repo: `../fund_distribution_business/content/whatsapp_kit.md`
 - **[docs/seo_audit.md](docs/seo_audit.md)** - SEO audit and checks
 - **[docs/project_log.md](docs/project_log.md)** - Session history and pending decisions
 - **Live Styleguide** - Visit `/styleguide` for component reference

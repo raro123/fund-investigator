@@ -2,11 +2,12 @@
 /**
  * RiskDisclosures Component
  *
- * The mandatory warnings for every product we promote, in one quiet card above
- * the footer on every page: AMFI's mutual-fund warning and SEBI's SIF warning
- * (COM-015), one paragraph each. Placed by Layout.astro, never under each
- * button (owner review, 2026-10-19). Articles drop it and show the same two
- * warnings in their own disclaimer, so a reader sees them once.
+ * The mandatory risk warning in one quiet card above the footer on every page:
+ * AMFI's mutual-fund warning by default, plus SEBI's SIF warning on dedicated
+ * SIF pages (`sif={true}`, per L1 compliance principles v2). Layout.astro
+ * places it above the footer, never under each button (owner review,
+ * 2026-10-19). Articles drop it and show the warning in their own disclaimer,
+ * so a reader sees it once.
  *
  * The wording comes from `src/lib/distributor.ts` and cannot be passed in, so
  * no page can reword a regulator's text. No links: the fuller notes are on
@@ -14,9 +15,18 @@
  *
  * @example
  * <RiskDisclosures />
+ * <RiskDisclosures sif />
+ *
+ * @param sif - also include SEBI's verbatim SIF warning (dedicated SIF pages only)
  */
 import Section from './Section.astro';
 import { RISK_WARNING, SIF_WARNING } from '../../lib/distributor';
+
+interface Props {
+  sif?: boolean;
+}
+
+const { sif = false } = Astro.props;
 ---
 
 <Section background="light" spacing="xs" class="border-t border-fi-border">
@@ -24,7 +34,7 @@ import { RISK_WARNING, SIF_WARNING } from '../../lib/distributor';
     <p class="font-mono text-caption uppercase text-fi-muted pb-2 mb-3 border-b border-dashed border-fi-border">Risk disclosures</p>
     <div class="space-y-2 text-body-sm leading-relaxed text-fi-ink">
       <p>{RISK_WARNING}</p>
-      <p>{SIF_WARNING}</p>
+      {sif && <p>{SIF_WARNING}</p>}
     </div>
   </aside>
 </Section>

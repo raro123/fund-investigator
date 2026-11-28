@@ -32,8 +32,9 @@ export const investFaqGroups: FaqGroup[] = [
         answer: 'No. We review what you hold, and you decide what to keep. Nothing moves unless you approve it.',
       },
       {
+        // GIFT City sentence removed 16 Nov 2026 (T-138): no IFSCA source.
         question: 'Is there a minimum amount?',
-        answer: 'Each mutual fund sets its own minimum, and most are small. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies; see "What is a SIF?" below. GIFT City funds set their minimum in US dollars.',
+        answer: 'Each mutual fund sets its own minimum amount, stated in its scheme documents. A SIF needs at least ₹10 lakh in total from each investor (PAN) across its strategies; see "What is a SIF?" below.',
       },
     ],
   },
@@ -41,9 +42,9 @@ export const investFaqGroups: FaqGroup[] = [
     title: 'Products',
     items: [
       {
-        // Compliance's conditional draft (COM-015), pending its source-backed clearance.
+        // Compliance's conditional draft (COM-015); inline circular citation dropped per Decision 135.
         question: 'What is a SIF?',
-        answer: 'A Specialised Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
+        answer: 'A Specialized Investment Fund (SIF) is a SEBI category offered by mutual fund houses. SIFs use investment strategies that may be more complex and carry relatively higher risks than traditional mutual funds; risks vary by strategy. The minimum investment is an aggregate ₹10 lakh at PAN level across all investment strategies of the particular SIF. Investments in regular mutual-fund schemes, including schemes of the same AMC, do not count towards this threshold. Accredited investors are exempt. Review the relevant strategy documents, eligibility conditions and risks before investing.',
       },
       // "Who can invest in GIFT City funds?" removed (owner, 9 Nov 2026, T-130): it
       // comes back only after an IFSCA source is in compliance/sources and the
@@ -133,31 +134,27 @@ export const reviewFaq: FaqItem[] = [
 
 /**
  * /invest/sif/ (T-59, Phase 2 item C). SIF promotional copy: every change needs
- * the compliance officer's PASS (rulebook H-08). Copy v2.0, as for reviewFaq.
+ * the compliance officer's PASS (rulebook H-08). Four SIF-focused FAQs covering
+ * the ₹10 lakh PAN-level minimum, redemption/liquidity rules, taxation, and
+ * investing through Fund Investigator vs. direct plans.
  */
 export const sifFaq: FaqItem[] = [
   {
-    question: 'How is a SIF different from a mutual fund?',
-    answer: 'A SIF is run by a mutual fund house under SEBI rules for SIFs. It can use investment strategies that a mutual fund cannot, such as limited short positions through derivatives. The minimum is higher, and some SIF investment strategies limit when you can redeem. Because of this, a SIF carries relatively higher risk, and you can lose money.',
+    question: 'Is the ₹10 lakh minimum per SIF strategy, or across strategies?',
+    answer: 'The ₹10 lakh minimum applies at the PAN level across all SIF strategies of one fund house, not per strategy. For example, you can split ₹6 lakh and ₹4 lakh across two SIF strategies of the same fund house. Mutual fund holdings with that fund house do not count toward this ₹10 lakh threshold. Accredited investors are exempt.',
   },
   {
-    question: 'Is the ₹10 lakh minimum per investment strategy?',
-    answer: 'No. It applies per investor, across all the SIF investment strategies of one fund house (source: SEBI circular on Specialised Investment Funds, 27 February 2025).',
+    question: 'Can I redeem my money from a SIF whenever I want?',
+    answer: "Not always. Unlike daily-liquidity mutual funds, equity SIFs allow daily or periodic exits, debt SIFs at most once a week, and hybrid SIFs at most twice a week (or less often), with notice periods of up to 15 working days set in the strategy document (ISID). Because the ₹10 lakh minimum applies per fund house, a partial withdrawal that takes you below ₹10 lakh freezes remaining units for 30 days unless you top up (or may be rejected in non-demat Statement of Account mode). If market falls take you below ₹10 lakh, you can stay invested, but only a full redemption is allowed. We lay out every exit rule before you commit.",
   },
   {
-    question: 'Do I need a distributor to invest in a SIF?',
-    answer: 'No. You can invest with the fund house directly. We earn a commission from the fund house when you invest through us, and we give you the rate in writing before you invest. We review your whole portfolio first and give you the risks and redemption terms in writing.',
+    question: 'How are SIFs taxed?',
+    answer: "Under Indian tax rules, SIF gains follow the strategy's underlying asset mix (equity-oriented, debt-oriented, or hybrid) and holding period, as set out in its ISID and prevailing tax law. We highlight each shortlisted strategy's tax classification in your written brief so you can confirm the exact impact with your tax adviser before investing.",
   },
   {
-    question: 'Can I take my money out at any time?',
-    answer: 'It depends on the investment strategy. Some allow redemptions only on set days, or need notice. You must also keep at least ₹10 lakh in that fund house\'s SIF. A redemption that takes you below ₹10 lakh freezes your units, and they are sold after 30 days unless you top up. If market falls take you below ₹10 lakh, you can only redeem everything, not a part. Lock-ins and exit loads also depend on the strategy. We show you the redemption terms of each investment strategy before you invest.',
+    question: 'Why invest in a SIF through Fund Investigator instead of going direct?',
+    answer: 'Direct plans carry a lower expense ratio and suit investors comfortable researching SIFs and tracking exit rules on their own. Through Fund Investigator, we first check whether a SIF fits your financial capacity and tolerance for volatility, size it as a satellite slice alongside your core mutual funds, compare options across fund houses, and support ongoing operations, including tracking the ₹10 lakh PAN threshold, exit windows, and STP or SWP setup. We earn a commission from the fund house on regular plans, shared in writing before you decide.',
   },
-  {
-    question: 'Should I sell my mutual funds to invest in a SIF?',
-    answer: 'Not by default. We start from your whole portfolio. If you invest in a SIF, it is usually one part of your portfolio, not a replacement for it. Selling can also mean tax and exit loads.',
-  },
-  sharedAnswer('Do you choose funds by the commission they pay you?'),
-  sharedAnswer('Who holds my money?'),
 ];
 
 /**

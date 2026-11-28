@@ -3,9 +3,9 @@
  * ArticleServiceInvite Component
  *
  * The one invite in a "teach, then invite" article, after the article and above
- * its notes (content_philosophy_v2.md; article template, backlog T-37). The
- * heading and line come from the report's `serviceInvite` frontmatter so they
- * follow the article's topic. The call line is fixed here, the same on every
+ * its notes (content guidelines in fund_distribution_business; article template,
+ * backlog T-37). The heading and line come from the report's `serviceInvite`
+ * frontmatter so they follow the article's topic. The call line is fixed here, the same on every
  * article: change it only with the owner's yes. Booking is the gold action;
  * WhatsApp and the subscription support it. Never used on a report that names
  * a scheme.
@@ -50,7 +50,7 @@ bookingUrl.searchParams.set('utm_campaign', campaign ?? report);
       rel="noopener noreferrer"
       icon="external"
       track={{ event: 'review_booking_click', placement: 'article_end', report }}
-    >Book a first call</Button>
+    >Book a call</Button>
     <Button
       variant="secondary"
       surface="dark"

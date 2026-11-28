@@ -48,6 +48,7 @@ const breadcrumbs = [
   { label: 'Investigations', href: '/reports/' },
 ];
 import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
+const isSifArticle = frontmatter.tags.some((tag) => tag.toLowerCase() === 'sif');
 ---
 
 <Layout
@@ -159,7 +160,7 @@ import { ARN, RISK_WARNING, SIF_WARNING, TAGLINE } from '../lib/distributor';
                sitewide RiskDisclosures card on these pages. -->
           <h4 class="font-semibold text-fi-ink mb-3">Disclaimer</h4>
           <p class="mb-3">{RISK_WARNING}</p>
-          <p class="mb-3">{SIF_WARNING}</p>
+          {isSifArticle && <p class="mb-3">{SIF_WARNING}</p>}
           <p class="mb-3">
             This article is general information. It does not consider your personal circumstances and is not a recommendation to invest in any fund or category. Past performance does not guarantee future results.
           </p>
